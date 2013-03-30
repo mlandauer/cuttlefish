@@ -24,4 +24,8 @@ Cuttlefish::Application.configure do
 
   # Debug mode disables concatenation and preprocessing of assets.
   config.assets.debug = true
+
+  # Use mailcatcher in development
+  #config.action_mailer.delivery_method = :smtp # so is queued, rather than giving immediate errors
+  config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
 end
