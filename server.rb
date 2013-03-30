@@ -11,19 +11,16 @@ class CuttlefishSmtpServer < MiniSmtpServer
   end
 end
 
-activerecord_config = YAML.load(File.read(File.join(File.dirname(__FILE__), 'config', 'database.yml')))
-
 # Hardcoded to the development environment for the time being
-ActiveRecord::Base.establish_connection(activerecord_config["development"])
-
+environment = "development"
 host = "127.0.0.1"
 port = 2525
+number_of_connections = 4
 
-# Create a new server instance listening at 127.0.0.1:2525
-# and accepting a maximum of 4 simultaneous connections
-server = CuttlefishSmtpServer.new(port, host, 4)
+activerecord_config = YAML.load(File.read(File.join(File.dirname(__FILE__), 'config', 'database.yml')))
+ActiveRecord::Base.establish_connection(activerecord_config[environment])
 
-# Start the server
+server = CuttlefishSmtpServer.new(port, host, number_of_connections)
 server.start
 
 puts "My eight arms and two tentacles are quivering in anticipation."
