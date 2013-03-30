@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# If you need a bit of debugging output in the threads add -d to the line above
 
 # For the benefit of foreman
 $stdout.sync = true
@@ -12,6 +13,13 @@ class CuttlefishSmtpServer < MiniSmtpServer
   def new_message_event(message_hash)
     Delayed::Job.enqueue MailJob.new(message_hash)
   end
+
+  def connecting(client)
+    # Only accept local connections
+    # We're currently only listening on the local address so this extra check is not
+    # strictly necessary
+    client.peeraddr[3] == "127.0.0.1"
+  end
 end
 
 # Hardcoded to the development environment for the time being
@@ -24,6 +32,7 @@ activerecord_config = YAML.load(File.read(File.join(File.dirname(__FILE__), 'con
 ActiveRecord::Base.establish_connection(activerecord_config[environment])
 
 server = CuttlefishSmtpServer.new(port, host, number_of_connections)
+server.audit = true
 server.start
 
 puts "My eight arms and two tentacles are quivering in anticipation."
