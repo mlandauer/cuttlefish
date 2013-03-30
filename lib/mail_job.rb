@@ -13,7 +13,12 @@ class MailJob
     puts "-- " + message_hash[:data].gsub(/\r\n/, "\r\n-- ")
     puts
 
+    record
     forward('localhost', 1025)
+  end
+
+  def record
+    Email.create!(:from => message_hash[:from], :to => message_hash[:to])
   end
 
   # Send this mail to another smtp server

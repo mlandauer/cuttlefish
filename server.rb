@@ -11,6 +11,7 @@ require File.join(File.dirname(__FILE__), 'lib', 'mail_job')
 
 class CuttlefishSmtpServer < MiniSmtpServer
   def new_message_event(message_hash)
+    # This doesn't currently correctly capture emails sent to multiple recipients
     Delayed::Job.enqueue MailJob.new(message_hash)
   end
 
