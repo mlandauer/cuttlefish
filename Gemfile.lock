@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/mlandauer/mini-smtp-server.git
+  revision: 0a6378295fe0157351f9a8ab4aa591e879f64291
+  branch: support_multiple_recipients
+  specs:
+    mini-smtp-server (0.0.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -59,7 +66,6 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.21)
-    mini-smtp-server (0.0.2)
     minitest (4.7.0)
     multi_json (1.7.2)
     polyglot (0.3.3)
@@ -133,7 +139,7 @@ DEPENDENCIES
   foreman
   jbuilder (~> 1.0.1)
   jquery-rails
-  mini-smtp-server
+  mini-smtp-server!
   rails (= 4.0.0.beta1)
   rspec-rails
   sass-rails (~> 4.0.0.beta1)

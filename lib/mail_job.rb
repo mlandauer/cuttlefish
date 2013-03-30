@@ -1,3 +1,22 @@
+class RawEmail
+  attr_reader :from, :to, :data
+
+  def initialize(from, to, data)
+    @from, @to, @data = from, to, data
+  end
+
+  def record
+    Email.create!(:from => from, :to => to.join(', '))
+  end
+
+  # Send this mail to another smtp server
+  def forward(server, port)
+    Net::SMTP.start(server, port) do |smtp|
+      smtp.send_message(data, from, to)
+    end    
+  end
+end
+
 class MailJob
   attr_reader :message_hash
 
@@ -6,27 +25,12 @@ class MailJob
   end
 
   def perform
-    puts "# New email received:"
-    puts "-- From: #{message_hash[:from]}"
-    puts "-- To:   #{message_hash[:to]}"
-    puts "--"
-    puts "-- " + message_hash[:data].gsub(/\r\n/, "\r\n-- ")
-    puts
+    email = RawEmail.new(message_hash[:from].match("<(.*)>")[1],
+      message_hash[:to].map{|t| t.match("<(.*)>")[1]},
+      message_hash[:data])
 
-    record
-    forward('localhost', 1025)
-  end
-
-  def record
-    Email.create!(:from => message_hash[:from], :to => message_hash[:to])
-  end
-
-  # Send this mail to another smtp server
-  def forward(server, port)
+    email.record
     # Simple pass the message to a local SMTP server (mailcatcher for the time being)
-    Net::SMTP.start(server, port) do |smtp|
-      # Use the SMTP object smtp only in this block.
-      smtp.send_message(message_hash[:data], message_hash[:from], message_hash[:to])
-    end    
+    email.forward('localhost', 1025)
   end
 end
