@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+# For the benefit of foreman
+$stdout.sync = true
+
 require 'mini-smtp-server'
 require 'net/smtp'
 require 'delayed_job_active_record'
