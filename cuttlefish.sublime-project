@@ -1,0 +1,10 @@
+{
+ "folders": [
+  {
+   "path": "/Users/matthew/git/cuttlefish", 
+   "file_exclude_patterns": [
+    "cuttlefish.sublime-workspace"
+   ]
+  }
+ ]
+}
