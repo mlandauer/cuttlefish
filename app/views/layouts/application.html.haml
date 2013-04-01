@@ -1,0 +1,13 @@
+!!!
+%html
+  %head
+    %title Cuttlefish
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    - if flash[:notice]
+      %p.notice= flash[:notice]
+    - if flash[:error]
+      %p.error= flash[:error]
+    = yield

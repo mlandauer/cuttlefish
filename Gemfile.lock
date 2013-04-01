@@ -53,6 +53,8 @@ GEM
       multi_json (~> 1.0)
     foreman (0.62.0)
       thor (>= 0.13.6)
+    haml (4.0.1)
+      tilt
     hike (1.2.1)
     i18n (0.6.4)
     jbuilder (1.0.2)
@@ -137,6 +139,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0.beta1)
   delayed_job_active_record (~> 4.0.0.beta1)
   foreman
+  haml
   jbuilder (~> 1.0.1)
   jquery-rails
   mini-smtp-server!
