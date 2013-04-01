@@ -16,7 +16,7 @@ describe RawEmail do
     end
 
     it "should record the to addresses in the database" do
-      saved.to.should == "mlandauer@foo.org, matthew@bar.com"
+      saved.to.should == ["mlandauer@foo.org", "matthew@bar.com"]
       a1 = EmailAddress.find_by_address("mlandauer@foo.org")
       a2 = EmailAddress.find_by_address("matthew@bar.com")
       a1.should_not be_nil

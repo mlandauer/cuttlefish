@@ -5,8 +5,12 @@ class Email < ActiveRecord::Base
     from_address.address
   end
 
+  def to
+    read_attribute(:to).split(", ")
+  end
+
   # Doing this in the dumbest way to start with
   def to_addresses
-    to.split(", ").map{|t| EmailAddress.find_by_address(t)}
+    to.map{|t| EmailAddress.find_by_address(t)}
   end
 end
