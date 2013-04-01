@@ -6,7 +6,7 @@ class RawEmail
   end
 
   def record
-    from_address = EmailAddress.find_or_create_by_address(from)
+    from_address = EmailAddress.find_or_create_by(address: from)
     Email.create!(:from_address => from_address, :to => to.join(', '))
   end
 

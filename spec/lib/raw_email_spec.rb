@@ -7,6 +7,9 @@ describe RawEmail do
 
     saved = Email.first
     saved.from.should == "matthew@foo.org"
+    a1 = EmailAddress.find_by_address("matthew@foo.org")
+    a1.should_not be_nil
+    saved.from_address.should == a1
     saved.to.should == "mlandauer@foo.org, matthew@bar.com"
   end
 end
