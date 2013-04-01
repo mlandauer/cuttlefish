@@ -6,9 +6,8 @@ class RawEmail
   end
 
   def record
-    from_address = EmailAddress.find_or_create_by(address: from)
     to_addresses = to.map{|t| EmailAddress.find_or_create_by(address: t)}
-    Email.create!(:from_address => from_address, :to => to.join(', '))
+    Email.create!(:from => from, :to => to.join(', '))
   end
 
   # Send this mail to another smtp server

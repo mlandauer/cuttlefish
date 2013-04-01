@@ -5,6 +5,10 @@ class Email < ActiveRecord::Base
     from_address.address
   end
 
+  def from=(a)
+    self.from_address = EmailAddress.find_or_create_by(address: a)
+  end
+
   def to
     read_attribute(:to).split(", ")
   end
