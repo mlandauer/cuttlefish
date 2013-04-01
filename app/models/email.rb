@@ -13,6 +13,10 @@ class Email < ActiveRecord::Base
     read_attribute(:to).split(", ")
   end
 
+  def to=(a)
+    write_attribute(:to, a.join(", "))
+  end
+
   # Doing this in the dumbest way to start with
   def to_addresses
     to.map{|t| EmailAddress.find_by_address(t)}
