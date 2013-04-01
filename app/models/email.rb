@@ -18,6 +18,7 @@ class Email < ActiveRecord::Base
   end
 
   def to=(a)
+    a = [a] unless a.respond_to?(:map)
     self.to_addresses = a.map{|t| EmailAddress.find_or_create_by(address: t)}
   end
 

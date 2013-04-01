@@ -27,6 +27,11 @@ describe Email do
       email = Email.create!(:to => ["mlandauer@foo.org", "matthew@bar.com"])
       email.to.should == ["mlandauer@foo.org", "matthew@bar.com"]
     end
+
+    it "should be able to give just a single recipient" do
+      email = Email.new(:to => "mlandauer@foo.org")
+      email.to.should == ["mlandauer@foo.org"]
+    end
   end
 
   describe ".to_addresses" do
