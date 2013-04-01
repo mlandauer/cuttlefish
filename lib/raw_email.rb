@@ -1,18 +1,25 @@
 class RawEmail
-  attr_reader :from, :to, :data
-
   def initialize(from, to, data)
-    @from, @to, @data = from, to, data
+    @e = Email.new(from: from, to: to, data: data)
+  end
+
+  def from
+    e.from
+  end
+
+  def to
+    e.to
+  end
+
+  def data
+    e.data
   end
 
   def record
-    Email.create!(:from => from, :to => to)
+    @e.save!
   end
 
-  # Send this mail to another smtp server
   def forward(server, port)
-    Net::SMTP.start(server, port) do |smtp|
-      smtp.send_message(data, from, to)
-    end    
+    @e.forward(server, port)
   end
 end
