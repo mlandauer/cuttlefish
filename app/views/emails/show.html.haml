@@ -1,0 +1,11 @@
+- model_class = Email
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human
+
+%p
+  %strong= model_class.human_attribute_name(:from_address_id) + ':'
+  %br
+  = @email.from_address_id
+
+.form-actions
+  = link_to t('.back', :default => t("helpers.links.back")), emails_path, :class => 'btn'
