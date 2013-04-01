@@ -24,9 +24,7 @@ describe Email do
 
   describe ".to" do
     it "should return an array for all the email addresses" do
-      Email.create!(:to => ["mlandauer@foo.org", "matthew@bar.com"])
-
-      email = Email.find_by_to("mlandauer@foo.org, matthew@bar.com")
+      email = Email.create!(:to => ["mlandauer@foo.org", "matthew@bar.com"])
       email.to.should == ["mlandauer@foo.org", "matthew@bar.com"]
     end
   end

@@ -1,5 +1,7 @@
 class Email < ActiveRecord::Base
   belongs_to :from_address, :class_name => "EmailAddress"
+  has_and_belongs_to_many :to_addresses, :class_name => "EmailAddress", :join_table => "to_addresses_emails"
+
   # Note that currently the data (the main bit of the email) isn't persisted
   attr_accessor :data
 
@@ -12,17 +14,11 @@ class Email < ActiveRecord::Base
   end
 
   def to
-    read_attribute(:to).split(", ")
+    to_addresses.map{|t| t.address}
   end
 
   def to=(a)
-    a.map{|t| EmailAddress.find_or_create_by(address: t)}
-    write_attribute(:to, a.join(", "))
-  end
-
-  # Doing this in the dumbest way to start with
-  def to_addresses
-    to.map{|t| EmailAddress.find_by_address(t)}
+    self.to_addresses = a.map{|t| EmailAddress.find_or_create_by(address: t)}
   end
 
   # Send this mail to another smtp server

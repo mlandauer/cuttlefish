@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130330230840) do
+ActiveRecord::Schema.define(version: 20130401040355) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
@@ -35,11 +35,24 @@ ActiveRecord::Schema.define(version: 20130330230840) do
     t.datetime "updated_at"
   end
 
+  create_table "email_recipients", force: true do |t|
+    t.integer  "email_id"
+    t.integer  "email_address_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "emails", force: true do |t|
-    t.string   "to"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "from_address_id"
+  end
+
+  create_table "to_addresses_emails", force: true do |t|
+    t.integer  "email_id"
+    t.integer  "email_address_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
