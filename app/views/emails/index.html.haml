@@ -4,13 +4,10 @@
 %table.table.table-striped
   %thead
     %tr
-      %th= model_class.human_attribute_name(:id)
-      %th= model_class.human_attribute_name(:from_address_id)
+      %th To
       %th= model_class.human_attribute_name(:created_at)
-      %th=t '.actions', :default => t("helpers.actions")
-  %tbody
+  %tbody(data-provides="rowlink")
     - @emails.each do |email|
       %tr
-        %td= link_to email.id, email_path(email)
-        %td= email.from_address_id
+        %td= link_to email.to_as_string, email_path(email), :class => "rowlink"
         %td=l email.created_at

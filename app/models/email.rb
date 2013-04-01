@@ -22,6 +22,10 @@ class Email < ActiveRecord::Base
     self.to_addresses = a.map{|t| EmailAddress.find_or_create_by(address: t)}
   end
 
+  def to_as_string
+    to.join(", ")
+  end
+
   # Send this mail to another smtp server
   def forward(server, port)
     Net::SMTP.start(server, port) do |smtp|
