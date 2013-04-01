@@ -44,4 +44,11 @@ describe Email do
       email.to_addresses.should == [a1, a2]
     end
   end
+
+  describe "#data" do
+    it "should persist the main part of the email in the filesystem" do
+      Email.create!(id:10, data: "This is a main data section")
+      File.read("db/emails/10.txt").should == "This is a main data section"
+    end
+  end
 end

@@ -1,6 +1,8 @@
 class Email < ActiveRecord::Base
   belongs_to :from_address, :class_name => "EmailAddress"
   has_and_belongs_to_many :to_addresses, :class_name => "EmailAddress", :join_table => "to_addresses_emails"
+  after_save :save_data_to_filesystem
+
   # TODO Add validations
 
   # Note that currently the data (the main bit of the email) isn't persisted
@@ -26,6 +28,14 @@ class Email < ActiveRecord::Base
 
   def to_as_string
     to.join(", ")
+  end
+
+  def save_data_to_filesystem
+    # Save the data part of the email to the filesystem
+    FileUtils::mkdir_p("db/emails")
+    File.open("db/emails/#{id}.txt", "w") do |f|
+      f.write(data)
+    end
   end
 
   # Send this mail to another smtp server
