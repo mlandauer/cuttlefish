@@ -1,5 +1,6 @@
 class MainController < ApplicationController
   def index
+    @no_emails_sent_today = Email.where('created_at > ?', Date.today.beginning_of_day).count
   end
 
   # Send a test email
