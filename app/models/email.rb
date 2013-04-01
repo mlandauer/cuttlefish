@@ -1,12 +1,14 @@
 class Email < ActiveRecord::Base
   belongs_to :from_address, :class_name => "EmailAddress"
   has_and_belongs_to_many :to_addresses, :class_name => "EmailAddress", :join_table => "to_addresses_emails"
+  # TODO Add validations
 
   # Note that currently the data (the main bit of the email) isn't persisted
   attr_accessor :data
 
   def from
-    from_address.address
+    # TODO: Remove the "if" once we've added validations
+    from_address.address if from_address
   end
 
   def from=(a)
