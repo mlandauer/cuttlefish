@@ -21,6 +21,7 @@ describe RawEmail do
       a2 = EmailAddress.find_by_address("matthew@bar.com")
       a1.should_not be_nil
       a2.should_not be_nil
+      saved.to_addresses.should == [a1, a2]
     end
   end
 end
