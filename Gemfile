@@ -30,7 +30,7 @@ gem 'mini-smtp-server',
   :branch => "support_multiple_recipients"
 gem 'delayed_job_active_record', "~> 4.0.0.beta1"
 gem 'foreman'
-gem 'haml'
+gem 'haml-rails'
 gem "twitter-bootstrap-rails"
 
 # To use ActiveModel has_secure_password
