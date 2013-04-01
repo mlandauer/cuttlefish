@@ -1,7 +1,8 @@
 class EmailsController < ApplicationController
 
   def index
-    @emails = Email.all
+    # Only show the most recent 10 for the time being
+    @emails = Email.order("created_at DESC").limit(10).all
   end
 
   def show
