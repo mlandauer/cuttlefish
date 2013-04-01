@@ -12,4 +12,11 @@ describe Email do
       email.from.should == "matthew@foo.com"
     end
   end
+
+  describe ".to" do
+    it "should return an array for all the email addresses" do
+      email = Email.create!(:to => "mlandauer@foo.org, matthew@bar.com")
+      email.to.should == ["mlandauer@foo.org", "matthew@bar.com"]
+    end
+  end
 end
