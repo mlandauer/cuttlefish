@@ -6,7 +6,6 @@ class RawEmail
   end
 
   def record
-    to_addresses = to.map{|t| EmailAddress.find_or_create_by(address: t)}
     Email.create!(:from => from, :to => to)
   end
 

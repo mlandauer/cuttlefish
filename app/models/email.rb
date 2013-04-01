@@ -14,6 +14,7 @@ class Email < ActiveRecord::Base
   end
 
   def to=(a)
+    a.map{|t| EmailAddress.find_or_create_by(address: t)}
     write_attribute(:to, a.join(", "))
   end
 
