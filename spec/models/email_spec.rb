@@ -47,8 +47,8 @@ describe Email do
 
   describe "#data" do
     it "should persist the main part of the email in the filesystem" do
-      Email.create!(id:10, data: "This is a main data section")
-      File.read("db/emails/10.txt").should == "This is a main data section"
+      email = Email.create!(id:10, data: "This is a main data section")
+      File.read(email.data_filesystem_path).should == "This is a main data section"
     end
   end
 end

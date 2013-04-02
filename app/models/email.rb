@@ -32,10 +32,14 @@ class Email < ActiveRecord::Base
 
   def save_data_to_filesystem
     # Save the data part of the email to the filesystem
-    FileUtils::mkdir_p("db/emails")
-    File.open("db/emails/#{id}.txt", "w") do |f|
+    FileUtils::mkdir_p(File.dirname(data_filesystem_path))
+    File.open(data_filesystem_path, "w") do |f|
       f.write(data)
     end
+  end
+
+  def data_filesystem_path
+    "db/emails/#{id}.txt"
   end
 
   # Send this mail to another smtp server
