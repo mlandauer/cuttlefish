@@ -30,7 +30,7 @@ class Email < ActiveRecord::Base
   end
 
   def data
-    @data ||= File.read(data_filesystem_path)
+    @data ||= File.read(data_filesystem_path) if is_data_on_filesystem?
   end
 
   def save_data_to_filesystem
@@ -39,6 +39,10 @@ class Email < ActiveRecord::Base
     File.open(data_filesystem_path, "w") do |f|
       f.write(data)
     end
+  end
+
+  def is_data_on_filesystem?
+    File.exists?(data_filesystem_path)
   end
 
   def self.data_filesystem_directory
