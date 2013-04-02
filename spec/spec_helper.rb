@@ -39,4 +39,8 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  config.after :each do
+    FileUtils.rm_rf Email.data_filesystem_directory
+  end
 end
