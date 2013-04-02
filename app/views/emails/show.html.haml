@@ -11,5 +11,9 @@
 %p
   %strong Received:
   = @email.created_at
+%hr
+%p
+  = @email.data.gsub("\r\n", "<br\>").html_safe if @email.data
+
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), emails_path, :class => 'btn'
