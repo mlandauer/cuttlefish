@@ -5,8 +5,7 @@ class Email < ActiveRecord::Base
 
   # TODO Add validations
 
-  # Note that currently the data (the main bit of the email) isn't persisted
-  attr_accessor :data
+  attr_writer :data
 
   def from
     # TODO: Remove the "if" once we've added validations
@@ -28,6 +27,10 @@ class Email < ActiveRecord::Base
 
   def to_as_string
     to.join(", ")
+  end
+
+  def data
+    @data ||= File.read(data_filesystem_path)
   end
 
   def save_data_to_filesystem

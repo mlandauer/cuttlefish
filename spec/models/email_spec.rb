@@ -46,9 +46,16 @@ describe Email do
   end
 
   describe "#data" do
+    before :each do
+      @email = Email.create!(id: 10, data: "This is a main data section")
+    end
+    
     it "should persist the main part of the email in the filesystem" do
-      email = Email.create!(id:10, data: "This is a main data section")
-      File.read(email.data_filesystem_path).should == "This is a main data section"
+      File.read(@email.data_filesystem_path).should == "This is a main data section"
+    end
+
+    it "should be able to read in the data again" do
+      Email.find(10).data.should == "This is a main data section"
     end
   end
 end
