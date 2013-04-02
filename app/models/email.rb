@@ -46,7 +46,7 @@ class Email < ActiveRecord::Base
   end
 
   def self.data_filesystem_directory
-    File.join("db", "emails")
+    File.join("db", "emails", Rails.env)
   end
 
   def data_filesystem_path
