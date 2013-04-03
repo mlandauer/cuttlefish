@@ -1,7 +1,7 @@
 class Email < ActiveRecord::Base
   belongs_to :from_address, :class_name => "EmailAddress"
   has_and_belongs_to_many :to_addresses, :class_name => "EmailAddress", :join_table => "to_addresses_emails"
-  after_save :save_data_to_filesystem
+  after_save :save_data_to_filesystem, :cleanup_filesystem_data_store
 
   # TODO Add validations
 
@@ -31,6 +31,22 @@ class Email < ActiveRecord::Base
 
   def data
     @data ||= File.read(data_filesystem_path) if is_data_on_filesystem?
+  end
+
+  def self.max_no_emails_to_store_data
+    # By default keep the full content of the last 100 emails
+    100
+  end
+
+  def cleanup_filesystem_data_store
+    # If there are more than a certain number of stored emails on the filesystem
+    # remove the oldest ones
+    entries = Dir.glob(File.join(Email.data_filesystem_directory, "*"))
+    no_to_remove = entries.count - Email.max_no_emails_to_store_data
+    if no_to_remove > 0
+      # Oldest first
+      entries.sort_by {|f| File.mtime f}[0...no_to_remove].each {|f| File.delete f}
+    end
   end
 
   def save_data_to_filesystem
