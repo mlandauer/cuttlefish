@@ -1,6 +1,6 @@
 require 'mini-smtp-server'
 require 'delayed_job_active_record'
-require 'mail_job'
+require File.expand_path File.join(File.dirname(__FILE__), 'mail_job')
 
 class CuttlefishSmtpServer < MiniSmtpServer
   def new_message_event(message_hash)

@@ -1,4 +1,4 @@
-require 'cuttlefish_smtp_server'
+require File.expand_path File.join(File.dirname(__FILE__), 'cuttlefish_smtp_server')
 
 module CuttlefishControl
   def self.smtp_start
