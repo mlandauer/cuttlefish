@@ -7,7 +7,10 @@ $stdout.sync = true
 require 'mini-smtp-server'
 require 'net/smtp'
 require 'delayed_job_active_record'
-require File.join(File.dirname(__FILE__), 'lib', 'mail_job')
+
+$: << File.join(File.dirname(__FILE__), "..", "lib")
+
+require 'mail_job'
 
 class CuttlefishSmtpServer < MiniSmtpServer
   def new_message_event(message_hash)
@@ -29,7 +32,7 @@ host = "127.0.0.1"
 port = 2525
 number_of_connections = 4
 
-activerecord_config = YAML.load(File.read(File.join(File.dirname(__FILE__), 'config', 'database.yml')))
+activerecord_config = YAML.load(File.read(File.join(File.dirname(__FILE__), '..', 'config', 'database.yml')))
 ActiveRecord::Base.establish_connection(activerecord_config[environment])
 
 server = CuttlefishSmtpServer.new(port, host, number_of_connections)
