@@ -1,3 +1,3 @@
-cuttlefish_smtp: bundle exec bin/cuttlefish_smtp_server.rb
+cuttlefish_smtp: bundle exec rake cuttlefish:smtp
 delayed_job: bundle exec rake jobs:work
 web: bundle exec rails s

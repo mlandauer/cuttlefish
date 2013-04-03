@@ -1,0 +1,2 @@
+cuttlefish_smtp: bundle exec rake cuttlefish:smtp RAILS_ENV=production
+delayed_job: bundle exec rake jobs:work RAILS_ENV=production
