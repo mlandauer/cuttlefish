@@ -1,7 +1,8 @@
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "cuttlefish_control"))
+
 namespace :cuttlefish do
   desc "Start the Cuttlefish SMTP server"
   task :smtp do
-    # Eek
-    require File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "bin", "cuttlefish_smtp_server"))
+    CuttlefishControl.smtp_start
   end
 end
