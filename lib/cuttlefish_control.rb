@@ -2,8 +2,7 @@ require File.expand_path File.join(File.dirname(__FILE__), 'cuttlefish_smtp_serv
 
 module CuttlefishControl
   def self.smtp_start
-    # Hardcoded to the development environment for the time being
-    environment = "development"
+    environment = ENV["RAILS_ENV"] || "development"
     host = "127.0.0.1"
     port = 2525
     number_of_connections = 4
@@ -19,7 +18,8 @@ module CuttlefishControl
     server.start
 
     puts "My eight arms and two tentacles are quivering in anticipation."
-    puts "I'm listening for emails via SMTP on #{host} port #{port}" 
+    puts "I'm listening for emails via SMTP on #{host} port #{port}"
+    puts "I'm in the #{environment} environment" 
 
     server.join
   end
