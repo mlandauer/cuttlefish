@@ -123,6 +123,8 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    rvm-capistrano (1.2.7)
+      capistrano (>= 2.0.0)
     sass (3.2.7)
     sass-rails (4.0.0.beta1)
       railties (>= 4.0.0.beta, < 5.0)
@@ -174,6 +176,7 @@ DEPENDENCIES
   mini-smtp-server!
   rails (= 4.0.0.beta1)
   rspec-rails
+  rvm-capistrano
   sass-rails (~> 4.0.0.beta1)
   sqlite3
   therubyracer
