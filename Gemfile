@@ -32,6 +32,7 @@ gem 'delayed_job_active_record', "~> 4.0.0.beta1"
 gem 'foreman'
 gem 'haml-rails'
 gem "twitter-bootstrap-rails"
+gem "capistrano"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
