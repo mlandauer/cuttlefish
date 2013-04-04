@@ -9,7 +9,6 @@ class TestMailer < ActionMailer::Base
   def test
     mail subject: "This is a test email from Cuttlefish",
       to: ["Matthew Landauer <matthew@openaustralia.org>", "mlandauer@yahoo.com"],
-      cc: "kat@openaustralia.org",
-      bcc: "matthew@planningalerts.org.au"
+      cc: "matthew@planningalerts.org.au"
   end
 end
