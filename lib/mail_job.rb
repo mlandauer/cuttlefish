@@ -6,11 +6,17 @@ class MailJob
   end
 
   def perform
+    # TODO: Put this in a transaction so if the forwarding fails it doesn't save the email
     email = Email.create!(from: message_hash[:from].match("<(.*)>")[1],
       to: message_hash[:to].map{|t| t.match("<(.*)>")[1]},
       data: message_hash[:data])
 
-    # Simple pass the message to a local SMTP server (mailcatcher for the time being)
-    email.forward('localhost', 1025)
+    if Rails.env == "development"
+      # In development send the mails to mailcatcher
+      email.forward('localhost', 1025)
+    else
+      # Otherwise use whatever the local smtp server is
+      email.forward('localhost', 25)
+    end
   end
 end
