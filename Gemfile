@@ -36,7 +36,6 @@ gem "twitter-bootstrap-rails"
 # Deployment bits and bobs
 gem "capistrano"
 gem 'rvm-capistrano'
-gem 'capistrano-foreman'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
