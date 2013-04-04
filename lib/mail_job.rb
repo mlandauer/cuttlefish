@@ -7,7 +7,6 @@ class MailJob
 
   def perform
     ActiveRecord::Base.transaction do
-      # TODO: Put this in a transaction so if the forwarding fails it doesn't save the email
       email = Email.create!(from: message_hash[:from].match("<(.*)>")[1],
         to: message_hash[:to].map{|t| t.match("<(.*)>")[1]},
         data: message_hash[:data])
