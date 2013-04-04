@@ -7,3 +7,15 @@ bundle install
 
 To run:
 bundle exec foreman start
+
+
+To install on your server:
+Edit config/deploy.rb
+
+Run:
+cap deploy:setup
+cap deploy:cold (the first time)
+
+And on the server
+cd /srv/www/cuttlefish.openaustraliafoundation.org.au/current
+sudo foreman export upstart /etc/init -u deploy -a cuttlefish -f Procfile.production -l /srv/www/cuttlefish.openaustraliafoundation.org.au/shared/log --root /srv/www/cuttlefish.openaustraliafoundation.org.au/current
