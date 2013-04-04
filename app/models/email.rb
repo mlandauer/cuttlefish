@@ -50,6 +50,7 @@ class Email < ActiveRecord::Base
   end
 
   def save_data_to_filesystem
+    puts "Path to data area: #{File.expand_path Email.data_filesystem_directory}"
     # Save the data part of the email to the filesystem
     FileUtils::mkdir_p(Email.data_filesystem_directory)
     File.open(data_filesystem_path, "w") do |f|
