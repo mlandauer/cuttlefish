@@ -15,6 +15,7 @@ set :deploy_to, "/srv/www/cuttlefish.openaustraliafoundation.org.au"
 # after "deploy:restart", "deploy:cleanup"
 
 before 'deploy:setup', 'rvm:install_ruby'  # install Ruby and create gemset, or:
+after "deploy:update", "foreman:restart"
 
 namespace :deploy do
   task :start do ; end
@@ -36,4 +37,26 @@ namespace :deploy do
     run links.map {|a| "ln -sf #{a.last} #{a.first}"}.join(";")
   end
 
+end
+
+namespace :foreman do
+  desc "Export the Procfile to Ubuntu's upstart scripts"
+  task :export, roles: :app do
+    run "cd #{current_path} && sudo bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log -f Procfile.production"
+  end
+
+  desc "Start the application services"
+  task :start, roles: :app do
+    sudo "service #{application} start"
+  end
+
+  desc "Stop the application services"
+  task :stop, roles: :app do
+    sudo "service #{application} stop"
+  end
+
+  desc "Restart the application services"
+  task :restart, roles: :app do
+    run "sudo service #{application} start || sudo service #{application} restart"
+  end
 end
