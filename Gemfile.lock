@@ -83,6 +83,7 @@ GEM
     mime-types (1.21)
     minitest (4.7.0)
     multi_json (1.7.2)
+    mysql2 (0.3.11)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -174,6 +175,7 @@ DEPENDENCIES
   jbuilder (~> 1.0.1)
   jquery-rails
   mini-smtp-server!
+  mysql2
   rails (= 4.0.0.beta1)
   rspec-rails
   rvm-capistrano

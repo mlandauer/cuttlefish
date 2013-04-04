@@ -22,4 +22,15 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
+
+  desc "After a code update, we link additional config and the scrapers"
+  before "deploy:assets:precompile" do
+    links = {
+            "#{release_path}/config/database.yml"           => "#{shared_path}/database.yml",
+    }
+
+    # "ln -sf <a> <b>" creates a symbolic link but deletes <b> if it already exists
+    run links.map {|a| "ln -sf #{a.last} #{a.first}"}.join(";")
+  end
+
 end
