@@ -15,4 +15,14 @@ describe MailJob, '#perform' do
 
     MailJob.new(:from => "<matthew@foo.com>", :to => ["<foo@bar.com>"], :data => "message").perform
   end
+
+  it "should not save the email information if the forwarding fails" do
+    Email.any_instance.stub(:forward).and_raise("I can't contact the mail server")
+
+    expect {
+      MailJob.new(:from => "<matthew@foo.com>", :to => ["<foo@bar.com>"], :data => "message").perform
+    }.to raise_error
+    
+    Email.count.should == 0
+  end
 end
