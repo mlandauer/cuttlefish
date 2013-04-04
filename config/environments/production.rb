@@ -77,4 +77,7 @@ Cuttlefish::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # Send our own outgoing email through Cuttlefish
+  config.action_mailer.smtp_settings = { :address => "localhost", :port => 2525 }
 end
