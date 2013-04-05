@@ -31,12 +31,9 @@ module PostfixLog
     queue_id = extract_postfix_queue_id_from_line(line)
     email = Email.find_by_postfix_queue_id(queue_id)
     if email
-      text = extract_main_content_postfix_log_line(line)
-      time = extract_time_from_postfix_log_line(line)
       # Don't resave duplicates
-      unless email.postfix_log_lines.find_by(time: time, text: text)
-        email.postfix_log_lines.create(text: text, time: time)
-      end
+      email.postfix_log_lines.find_or_create_by(time: extract_time_from_postfix_log_line(line),
+        text: extract_main_content_postfix_log_line(line))
     else
       puts "Skipping postfix queue id #{queue_id} - it's not recognised"
     end
