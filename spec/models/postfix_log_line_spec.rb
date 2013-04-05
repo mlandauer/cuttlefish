@@ -37,14 +37,14 @@ describe PostfixLogLine do
     end
   end
 
-  describe ".extract_postfix_queue_id_from_line" do
-    it { PostfixLogLine.extract_postfix_queue_id_from_line(line1).should == "39D9336AFA81" }
-    it { PostfixLogLine.extract_postfix_queue_id_from_line(line2).should == "E69DB36D4A2B" }
-    it { PostfixLogLine.extract_postfix_queue_id_from_line(line3).should be_nil }
+  describe ".queue_id" do
+    it { PostfixLogLine.queue_id(line1).should == "39D9336AFA81" }
+    it { PostfixLogLine.queue_id(line2).should == "E69DB36D4A2B" }
+    it { PostfixLogLine.queue_id(line3).should be_nil }
   end
 
-  describe ".extract_time_from_postfix_log_line" do
-    it { PostfixLogLine.extract_time_from_postfix_log_line(line1).should == Time.local(2013,4,5,16,41,54) }
-    it { PostfixLogLine.extract_time_from_postfix_log_line(line2).should == Time.local(2013,4,5,18,41,58) }
+  describe ".time" do
+    it { PostfixLogLine.time(line1).should == Time.local(2013,4,5,16,41,54) }
+    it { PostfixLogLine.time(line2).should == Time.local(2013,4,5,18,41,58) }
   end
 end
