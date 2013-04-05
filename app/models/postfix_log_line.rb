@@ -36,12 +36,8 @@ class PostfixLogLine < ActiveRecord::Base
 
   private
 
-  def self.main_content(line)
-    parse_postfix_log_line(line).content
-  end
-
   def self.match_main_content(line)
-    m = main_content(line).match /^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)/
+    m = parse_postfix_log_line(line).content.match /^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)/
     {:program => m[1], :pid => m[2], :queue_id => m[4], :program_content => m[5]}
   end
 
