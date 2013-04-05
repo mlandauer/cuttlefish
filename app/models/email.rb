@@ -1,8 +1,8 @@
 class Email < ActiveRecord::Base
   belongs_to :from_address, :class_name => "EmailAddress"
   has_and_belongs_to_many :to_addresses, :class_name => "EmailAddress", :join_table => "to_addresses_emails"
-  has_many :postfix_log_lines
-  
+  has_many :postfix_log_lines, -> { order :time }
+
   after_save :save_data_to_filesystem, :cleanup_filesystem_data_store
 
   # TODO Add validations
