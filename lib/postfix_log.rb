@@ -29,6 +29,7 @@ module PostfixLog
 
   def self.process(line)
     queue_id = extract_postfix_queue_id_from_line(line)
+    # TODO: Should find the most recent email with the queue ID (as there may be several)
     email = Email.find_by_postfix_queue_id(queue_id)
     if email
       # Don't resave duplicates
