@@ -24,6 +24,10 @@ module PostfixLog
     m[1] if m
   end
 
+  def self.extract_time_from_postfix_log_line(line)
+    SyslogProtocol.parse("<13>" + line).time
+  end
+
   def self.process(line)
     postfix_queue_id = extract_postfix_queue_id_from_line(line)
     email = Email.find_by_postfix_queue_id(postfix_queue_id)
