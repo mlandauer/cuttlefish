@@ -28,9 +28,8 @@ module PostfixLog
   end
 
   def self.process(line)
-    postfix_queue_id = extract_postfix_queue_id_from_line(line)
-    email = Email.find_by_postfix_queue_id(postfix_queue_id)
-    email.postfix_log_lines.create(text: line)
+    email = Email.find_by_postfix_queue_id(extract_postfix_queue_id_from_line(line))
+    email.postfix_log_lines.create(text: line, time: extract_time_from_postfix_log_line(line))
   end
 
   private
