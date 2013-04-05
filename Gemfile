@@ -39,6 +39,7 @@ gem 'delayed_job_active_record', "~> 4.0.0.beta1"
 gem 'foreman'
 gem 'haml-rails'
 gem "twitter-bootstrap-rails"
+gem "file-tail"
 
 # Deployment bits and bobs
 gem "capistrano"
