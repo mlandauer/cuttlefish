@@ -25,6 +25,11 @@ class PostfixLogLine < ActiveRecord::Base
     parse_postfix_log_line(line).time
   end
 
+  def self.program(line)
+    m = main_content(line).match /^postfix\/(\w+)\[/
+    m[1] if m
+  end
+
   def self.main_content(line)
     parse_postfix_log_line(line).content
   end
