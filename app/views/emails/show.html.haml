@@ -20,7 +20,7 @@
   = @email.postfix_queue_id
 
 - unless @email.postfix_log_lines.empty?
-  %pre= @email.postfix_log_lines.map{|l| l.text}.join("\n")
+  %pre= @email.postfix_log_lines.map{|l| l.text}.join
 
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), emails_path, :class => 'btn'
