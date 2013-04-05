@@ -19,7 +19,7 @@ module PostfixLog
   end
 
   def self.extract_postfix_queue_id_from_line(line)
-    m = parse_postfix_log_line(line).content.match(/^\S+: (\S+):/)
+    m = extract_main_content_postfix_log_line(line).match(/^\S+: (\S+):/)
     m[1] if m
   end
 
@@ -29,10 +29,15 @@ module PostfixLog
 
   def self.process(line)
     email = Email.find_by_postfix_queue_id(extract_postfix_queue_id_from_line(line))
-    email.postfix_log_lines.create(text: line, time: extract_time_from_postfix_log_line(line))
+    email.postfix_log_lines.create(text: extract_main_content_postfix_log_line(line),
+      time: extract_time_from_postfix_log_line(line))
   end
 
   private
+
+  def self.extract_main_content_postfix_log_line(line)
+    parse_postfix_log_line(line).content
+  end
 
   def self.parse_postfix_log_line(line)
     # Assume the log file was written using syslog and parse accordingly
