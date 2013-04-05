@@ -14,6 +14,10 @@
 %hr
 %p
   = @email.data.gsub("\r\n", "<br\>").html_safe if @email.data
+%hr
+%p
+  %strong Postfix queue id:
+  = @email.postfix_queue_id
 
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), emails_path, :class => 'btn'
