@@ -1,6 +1,15 @@
 %h1 Welcome to Cuttlefish!
 
 %p
+  Cuttlefish is an easy to setup open source transactional email server
+
+%p
+  It ensures that your emails arrive at their destination by continuously monitoring the deliverability
+  of your emails.
+
+%p
+  To send an email via Cuttlefish simply point your application to send emails via SMTP to port 2525 on this machine.
+%p
   Number of emails sent today: #{@no_emails_sent_today}
 
 = render "test_email_form"
