@@ -61,4 +61,10 @@ describe PostfixLogLine do
     it { PostfixLogLine.program(line1).should == "smtp" }
     it { PostfixLogLine.program(line2).should == "qmgr" }
   end
+
+  describe ".program_content" do
+    it { PostfixLogLine.program_content(line1).should == "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))" }
+    it { PostfixLogLine.program_content(line2).should == "removed" }
+    it { PostfixLogLine.program_content(line3).should == "connect from unknown[111.142.251.143]"}
+  end
 end
