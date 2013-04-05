@@ -31,6 +31,7 @@ describe PostfixLog do
     end
 
     it "should not produce any log lines if the queue id is not recognised" do
+      PostfixLog.should_receive(:puts).with("Skipping postfix queue id 39D9336AFA81 - it's not recognised")
       PostfixLog.process(line1)
       PostfixLogLine.count.should == 0
     end
