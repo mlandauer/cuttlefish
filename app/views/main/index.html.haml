@@ -3,30 +3,4 @@
 %p
   Number of emails sent today: #{@no_emails_sent_today}
 
-= form_tag test_email_path, :class => "form-horizontal" do
-  %fieldset
-    %legend Send test email
-    .control-group
-      %label.control-label(for="inputFrom") From
-      .controls
-        = text_field_tag :from, @from, class: "span6", id: "inputFrom", placeholder: "From"
-    .control-group
-      %label.control-label(for="inputTo") To
-      .controls
-        = text_field_tag :to, @to, class: "span6", id: "inputTo", placeholder: "To"
-    .control-group
-      %label.control-label(for="inputCc") Cc
-      .controls
-        = text_field_tag :cc, @cc, class: "span6", id: "inputCc", placeholder: "Cc"
-    .control-group
-      %label.control-label(for="inputSubject") Subject
-      .controls
-        = text_field_tag :subject, @subject, class: "span6", id: "inputSubject", placeholder: "Subject"
-    .control-group
-      %label.control-label(for="inputText") Your message
-      .controls
-        = text_area_tag :text, @text, class: "span6", id: "inputText", placeholder: "Your message", rows: 8 do
-          = @text
-  .control-group
-    .controls
-      %button.btn(type="submit") Send test email
+= render "test_email_form"
