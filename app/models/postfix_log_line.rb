@@ -2,17 +2,19 @@ class PostfixLogLine < ActiveRecord::Base
   belongs_to :email
 
   def self.create_from_line(line)
-    queue_id = queue_id(line)
-    time = time(line)
-    text = main_content(line)
-
-    # TODO: Should find the most recent email with the queue ID (as there may be several)
-    email = Email.find_by_postfix_queue_id(queue_id)
-    if email
-      # Don't resave duplicates
-      find_or_create_by(time: time, text: text, email: email)
-    else
-      puts "Skipping postfix queue id #{queue_id} - it's not recognised"
+    # Only log delivery attempts
+    if program(line) == "smtp"
+      queue_id = queue_id(line)
+      time = time(line)
+      text = main_content(line)
+      # TODO: Should find the most recent email with the queue ID (as there may be several)
+      email = Email.find_by_postfix_queue_id(queue_id)
+      if email
+        # Don't resave duplicates
+        find_or_create_by(time: time, text: text, email: email)
+      else
+        puts "Skipping postfix queue id #{queue_id} - it's not recognised"
+      end
     end
   end
 
