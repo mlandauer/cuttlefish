@@ -19,8 +19,7 @@ class PostfixLogLine < ActiveRecord::Base
   end
 
   def self.queue_id(line)
-    m = main_content(line).match(/^\S+: (\S+):/)
-    m[1] if m
+    match_main_content(line)[:queue_id]
   end
 
   def self.time(line)
@@ -28,13 +27,11 @@ class PostfixLogLine < ActiveRecord::Base
   end
 
   def self.program(line)
-    m = main_content(line).match /^postfix\/(\w+)\[/
-    m[1] if m
+    match_main_content(line)[:program]
   end
 
   def self.program_content(line)
-    m = main_content(line).match /^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)/
-    m[5] if m
+    match_main_content(line)[:program_content]
   end
 
   def self.main_content(line)
@@ -42,6 +39,11 @@ class PostfixLogLine < ActiveRecord::Base
   end
 
   private
+
+  def self.match_main_content(line)
+    m = main_content(line).match /^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)/
+    {:program => m[1], :pid => m[2], :queue_id => m[4], :program_content => m[5]}
+  end
 
   def self.parse_postfix_log_line(line)
     # Assume the log file was written using syslog and parse accordingly
