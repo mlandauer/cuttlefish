@@ -8,7 +8,7 @@ namespace :cuttlefish do
   end
 
   desc "Start the Postfix mail log sucker"
-  task :log do
+  task :log => :environment do
     PostfixLog::tail
   end
 end

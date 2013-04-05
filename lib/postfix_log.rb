@@ -5,11 +5,6 @@ module PostfixLog
     # For the benefit of foreman
     $stdout.sync = true
 
-    environment = ENV["RAILS_ENV"] || "development"
-
-    activerecord_config = YAML.load(File.read(File.join(File.dirname(__FILE__), '..', 'config', 'database.yml')))
-    ActiveRecord::Base.establish_connection(activerecord_config[environment])
-
     file = "/var/log/mail/mail.log"
     puts "Sucking up log entries in #{file}..."
     while true
