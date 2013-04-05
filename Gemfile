@@ -40,6 +40,7 @@ gem 'foreman'
 gem 'haml-rails'
 gem "twitter-bootstrap-rails"
 gem "file-tail"
+gem 'syslog_protocol'
 
 # Deployment bits and bobs
 gem "capistrano"
