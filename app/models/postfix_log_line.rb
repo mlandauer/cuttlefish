@@ -6,7 +6,7 @@ class PostfixLogLine < ActiveRecord::Base
     if program(line) == "smtp"
       queue_id = queue_id(line)
       time = time(line)
-      text = main_content(line)
+      text = program_content(line)
       # TODO: Should find the most recent email with the queue ID (as there may be several)
       email = Email.find_by_postfix_queue_id(queue_id)
       if email
