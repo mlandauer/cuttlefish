@@ -69,6 +69,13 @@ class Email < ActiveRecord::Base
     File.join(Email.data_filesystem_directory, "#{id}.txt")
   end
 
+  # When a message is sent via the Postfix MTA it returns the queue id
+  # in the SMTP message. Extract this
+  def self.extract_postfix_queue_id_from_smtp_message(message)
+    m = message.match(/250 2.0.0 Ok: queued as (\w+)/)
+    m[1] if m
+  end
+
   # Send this mail to another smtp server
   def forward(server, port)
     Net::SMTP.start(server, port) do |smtp|

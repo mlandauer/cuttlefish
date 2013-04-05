@@ -71,4 +71,14 @@ describe Email do
       Dir.glob(File.join(Email.data_filesystem_directory, "*")).count.should == 2
     end
   end
+
+  describe ".extract_postfix_queue_id_from_smtp_message" do
+    it "should extract the queue id" do
+      Email.extract_postfix_queue_id_from_smtp_message("250 2.0.0 Ok: queued as 2F63736D4A27\n").should == "2F63736D4A27"
+    end
+
+    it "should ignore any other form" do
+      Email.extract_postfix_queue_id_from_smtp_message("250 250 Message accepted").should be_nil
+    end
+  end
 end
