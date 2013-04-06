@@ -89,27 +89,23 @@ describe Email do
       it "should have an unknown delivery status before anything is done" do
         email.postfix_log_lines.create(:text => "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
         email.delivered.should be_nil
-        email.not_delivered.should be_nil
       end
 
       it "should be delivered if the status is sent" do
         email.postfix_log_lines.create(:text => "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
         email.update_delivery_status!
         email.delivered.should == true
-        email.not_delivered.should == false
       end
 
       it "should not be delivered if the status is deferred" do
         email.postfix_log_lines.create(text: "to=<matthew@foo.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
         email.update_delivery_status!
         email.delivered.should == false
-        email.not_delivered.should == true
       end
 
       it "should not update the delivery status if there are no log lines" do
         email.update_delivery_status!
         email.delivered.should be_nil
-        email.not_delivered.should be_nil
       end
     end
 
@@ -120,7 +116,6 @@ describe Email do
         email.postfix_log_lines.create(:text => "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
         email.update_delivery_status!
         email.delivered.should be_nil
-        email.not_delivered.should be_nil
       end
 
       it "should know it's delivered if there are two succesful deliveries in the logs" do
@@ -128,7 +123,6 @@ describe Email do
         email.postfix_log_lines.create(:text => "to=<greg@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
         email.update_delivery_status!
         email.delivered.should == true
-        email.not_delivered.should == false 
       end
     end
   end
