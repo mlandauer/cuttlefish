@@ -81,4 +81,13 @@ describe Email do
       Email.extract_postfix_queue_id_from_smtp_message("250 250 Message accepted").should be_nil
     end
   end
+
+  describe "#update_delivery_status" do
+    it "should have an unknown delivery status before anything is done" do
+      email = Email.create!(:to => "matthew@foo.com")
+      email.postfix_log_lines.create(:text => "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
+      email.delivered.should be_nil
+      email.not_delivered.should be_nil
+    end
+  end
 end
