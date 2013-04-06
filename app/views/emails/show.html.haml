@@ -4,10 +4,10 @@
 
 %p
   %strong From:
-  = @email.from
+  = link_to @email.from, emails_path(:from => @email.from)
 %p
   %strong To:
-  = @email.to_as_string
+  = @email.to.map{|e| link_to e, emails_path(to: e)}.join(", ").html_safe
 %hr
 %p
   = @email.data.gsub("\r\n", "<br\>").html_safe if @email.data
