@@ -41,7 +41,7 @@ class Email < ActiveRecord::Base
 
   def update_delivery_status!
     if postfix_log_lines.count == to.count
-      if postfix_log_lines.all? {|l| l.text =~ /dsn=2.0.0/}
+      if postfix_log_lines.all? {|l| l.delivered?}
         update_attributes(delivered: true, not_delivered: false)
       else
         update_attributes(delivered: false, not_delivered: true)

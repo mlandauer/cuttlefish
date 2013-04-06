@@ -1,6 +1,10 @@
 class PostfixLogLine < ActiveRecord::Base
   belongs_to :email
 
+  def delivered?
+    text =~ /dsn=2.0.0/
+  end
+
   def self.create_from_line(line)
     values = match_main_content(line)
 
