@@ -42,25 +42,27 @@ describe PostfixLogLine do
     end
   end
 
-  describe ".queue_id" do
-    it { PostfixLogLine.queue_id(line1).should == "39D9336AFA81" }
-    it { PostfixLogLine.queue_id(line2).should == "E69DB36D4A2B" }
-    it { PostfixLogLine.queue_id(line3).should be_nil }
-  end
-
-  describe ".time" do
-    it { PostfixLogLine.time(line1).should == Time.local(2013,4,5,16,41,54) }
-    it { PostfixLogLine.time(line2).should == Time.local(2013,4,5,18,41,58) }
-  end
-
-  describe ".program" do
-    it { PostfixLogLine.program(line1).should == "smtp" }
-    it { PostfixLogLine.program(line2).should == "qmgr" }
-  end
-
-  describe ".program_content" do
-    it { PostfixLogLine.program_content(line1).should == "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))" }
-    it { PostfixLogLine.program_content(line2).should == "removed" }
-    it { PostfixLogLine.program_content(line3).should == "connect from unknown[111.142.251.143]"}
+  describe ".match_main_content" do
+    it { PostfixLogLine.match_main_content(line1).should == {
+      time: Time.local(2013,4,5,16,41,54),
+      program: "smtp",
+      pid: "18733",
+      queue_id: "39D9336AFA81",
+      program_content: "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
+    }}
+    it { PostfixLogLine.match_main_content(line2).should == {
+      time: Time.local(2013,4,5,18,41,58),
+      program: "qmgr",
+      pid: "2638",
+      queue_id: "E69DB36D4A2B",
+      program_content: "removed"
+    }}
+    it { PostfixLogLine.match_main_content(line3).should == {
+      time: Time.local(2013,4,5,17,11,7),
+      program: "smtpd",
+      pid: "7453",
+      queue_id: nil,
+      program_content: "connect from unknown[111.142.251.143]"
+    }}
   end
 end

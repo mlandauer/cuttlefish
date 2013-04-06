@@ -34,8 +34,6 @@ class PostfixLogLine < ActiveRecord::Base
     match_main_content(line)[:program_content]
   end
 
-  private
-
   def self.match_main_content(line)
     # Assume the log file was written using syslog and parse accordingly
     p = SyslogProtocol.parse("<13>" + line)
