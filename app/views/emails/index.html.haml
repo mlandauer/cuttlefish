@@ -5,9 +5,11 @@
   %thead
     %tr
       %th To
-      %th= model_class.human_attribute_name(:created_at)
+      %th Received
   %tbody(data-provides="rowlink")
     - @emails.each do |email|
       %tr
         %td= link_to email.to_as_string, email_path(email), :class => "rowlink"
-        %td=l email.created_at
+        %td
+          = time_ago_in_words(email.created_at)
+          ago

@@ -8,16 +8,14 @@
 %p
   %strong To:
   = @email.to_as_string
-%p
-  %strong Received:
-  = @email.created_at
 %hr
 %p
   = @email.data.gsub("\r\n", "<br\>").html_safe if @email.data
 %hr
 %p
-  %strong Postfix queue id:
-  = @email.postfix_queue_id
+  %strong Received:
+  = time_ago_in_words(@email.created_at)
+  ago (#{@email.created_at})
 
 - unless @email.postfix_log_lines.empty?
   %pre= @email.postfix_log_lines.map{|l| l.text}.join
