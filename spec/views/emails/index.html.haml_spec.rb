@@ -2,10 +2,12 @@ require 'spec_helper'
 
 describe "emails/index" do
   before(:each) do
-    assign(:emails, [
+    emails = [
       stub_model(Email, :created_at => Time.now),
       stub_model(Email, :created_at => Time.now)
-    ])
+    ]
+    emails.stub!(:total_pages).and_return(1)
+    assign(:emails, emails)
   end
 
   it "renders a list of emails" do
