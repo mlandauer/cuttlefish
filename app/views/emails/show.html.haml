@@ -16,6 +16,13 @@
   %strong Received:
   = time_ago_in_words(@email.created_at)
   ago (#{@email.created_at})
+%p
+  - if @email.delivered == true
+    %strong Delivered succesfully
+  - elsif @email.delivered == false
+    %strong Not delivered
+  - else
+    %strong Delivery status unknown
 
 - unless @email.postfix_log_lines.empty?
   %pre= @email.postfix_log_lines.map{|l| l.text}.join
