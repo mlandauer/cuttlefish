@@ -40,14 +40,12 @@ class Email < ActiveRecord::Base
   end
 
   def update_delivery_status!
-    if postfix_log_lines.count == 1
-      if postfix_log_lines.first.text =~ /dsn=2.0.0/
+    if postfix_log_lines.count == to.count
+      if postfix_log_lines.all? {|l| l.text =~ /dsn=2.0.0/}
         update_attributes(delivered: true, not_delivered: false)
       else
         update_attributes(delivered: false, not_delivered: true)
       end
-    elsif postfix_log_lines.count > 1
-      raise "Not supported yet"
     end
   end
 
