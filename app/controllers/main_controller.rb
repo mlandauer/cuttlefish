@@ -1,6 +1,5 @@
 class MainController < ApplicationController
   def index
-    @no_emails_sent_today = Email.where('created_at > ?', Date.today.beginning_of_day).count
     @from = "contact@openaustraliafoundation.org.au"
     @to = "Matthew Landauer <matthew@openaustralia.org>"
     @subject = "This is a test email from Cuttlefish"

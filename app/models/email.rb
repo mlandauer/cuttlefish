@@ -9,6 +9,10 @@ class Email < ActiveRecord::Base
 
   attr_writer :data
 
+  def self.no_emails_sent_today
+    where('created_at > ?', Date.today.beginning_of_day).count
+  end
+
   def from
     # TODO: Remove the "if" once we've added validations
     from_address.address if from_address
