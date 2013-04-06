@@ -39,6 +39,18 @@ class Email < ActiveRecord::Base
     @data ||= File.read(data_filesystem_path) if is_data_on_filesystem?
   end
 
+  def update_delivery_status!
+    if postfix_log_lines.count == 1
+      if postfix_log_lines.first.text =~ /dsn=2.0.0/
+        update_attributes(delivered: true, not_delivered: false)
+      else
+        update_attributes(delivered: false, not_delivered: true)
+      end
+    elsif postfix_log_lines.count > 1
+      raise "Not supported yet"
+    end
+  end
+
   def self.max_no_emails_to_store_data
     # By default keep the full content of the last 100 emails
     100
