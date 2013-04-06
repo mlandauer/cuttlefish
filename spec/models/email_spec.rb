@@ -88,7 +88,6 @@ describe Email do
 
     it "should be delivered if the status is sent" do
       email.postfix_log_lines.create(:text => "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
-      email.update_delivery_status!
       email.delivery_status("matthew@foo.com").should == true
     end
 

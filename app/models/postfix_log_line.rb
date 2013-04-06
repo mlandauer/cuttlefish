@@ -15,6 +15,8 @@ class PostfixLogLine < ActiveRecord::Base
       if email
         # Don't resave duplicates
         find_or_create_by(time: values[:time], text: values[:program_content], email: email)
+        email.reload
+        email.update_delivery_status!
       else
         puts "Skipping postfix queue id #{values[:queue_id]} - it's not recognised"
       end
