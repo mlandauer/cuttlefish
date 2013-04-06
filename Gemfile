@@ -41,6 +41,7 @@ gem 'haml-rails'
 gem "twitter-bootstrap-rails"
 gem "file-tail"
 gem 'syslog_protocol'
+gem "will_paginate"
 
 # Deployment bits and bobs
 gem "capistrano"

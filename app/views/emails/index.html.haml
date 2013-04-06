@@ -1,15 +1,16 @@
 - model_class = Email
 .page-header
-  %h1 Most recent 10 emails
-%table.table.table-striped
-  %thead
-    %tr
-      %th To
-      %th Received
-  %tbody(data-provides="rowlink")
-    - @emails.each do |email|
+  %h1 Recent emails
+= paginated_section @emails do
+  %table.table.table-striped
+    %thead
       %tr
-        %td= link_to email.to_as_string, email_path(email), :class => "rowlink"
-        %td
-          = time_ago_in_words(email.created_at)
-          ago
+        %th To
+        %th Received
+    %tbody(data-provides="rowlink")
+      - @emails.each do |email|
+        %tr
+          %td= link_to email.to_as_string, email_path(email), :class => "rowlink"
+          %td
+            = time_ago_in_words(email.created_at)
+            ago
