@@ -2,6 +2,7 @@ class Email < ActiveRecord::Base
   belongs_to :from_address, :class_name => "Address"
   has_and_belongs_to_many :to_addresses, :class_name => "Address", :join_table => "deliveries"
   has_many :postfix_log_lines, -> { order :time }
+  has_many :deliveries
 
   after_save :save_data_to_filesystem, :cleanup_filesystem_data_store
 
@@ -40,8 +41,8 @@ class Email < ActiveRecord::Base
   end
 
   # Check the delivery status for a particular destination
-  def delivery_status(text_address)
-    lines = postfix_log_lines_for_email(text_address)
+  def delivery_status(address)
+    lines = postfix_log_lines_for_email(address.address)
     unless lines.empty?
       lines.any? {|l| l.delivered? }
     end
@@ -52,8 +53,8 @@ class Email < ActiveRecord::Base
   end
 
   def overall_delivery_status
-    if to.all? {|email| !delivery_status(email).nil? }
-      to.all? {|email| delivery_status(email) }
+    if deliveries.all? {|delivery| !delivery_status(delivery.address).nil? }
+      deliveries.all? {|delivery| delivery_status(delivery.address) }
     end
   end
 
