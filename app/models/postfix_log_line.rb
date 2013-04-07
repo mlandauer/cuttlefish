@@ -35,7 +35,9 @@ class PostfixLogLine < ActiveRecord::Base
       email = Email.find_by_postfix_queue_id(values[:queue_id])
       if email
         # Don't resave duplicates
-        find_or_create_by(email: email, time: values[:time], text: values[:program_content])
+        find_or_create_by(email: email, time: values[:time], text: values[:program_content],
+          to: values[:to], relay: values[:relay], delay: values[:delay], delays: values[:delays],
+          dsn: values[:dsn], status: values[:status])
         email.reload
         email.update_delivery_status!
       else
