@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130407025045) do
+ActiveRecord::Schema.define(version: 20130407044432) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
@@ -28,6 +28,13 @@ ActiveRecord::Schema.define(version: 20130407025045) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+
+  create_table "deliveries", force: true do |t|
+    t.integer  "email_id"
+    t.integer  "email_address_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "email_addresses", force: true do |t|
     t.string   "address"
@@ -62,13 +69,6 @@ ActiveRecord::Schema.define(version: 20130407025045) do
     t.string   "delays"
     t.string   "dsn"
     t.text     "status"
-  end
-
-  create_table "to_addresses_emails", force: true do |t|
-    t.integer  "email_id"
-    t.integer  "email_address_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
 end
