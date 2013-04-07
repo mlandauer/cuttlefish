@@ -5,7 +5,7 @@ class Email < ActiveRecord::Base
   has_many :deliveries
 
   after_save :save_data_to_filesystem, :cleanup_filesystem_data_store
-  before_save :update_message_id
+  before_save :update_message_id, :update_data_hash
 
   # TODO Add validations
 
@@ -125,11 +125,17 @@ class Email < ActiveRecord::Base
     end    
   end
 
+  private
+
   def update_message_id
     # Just need to extract the Message-ID header. Could do this by parsing the whole email using
     # the Mail gem but this seems wasteful.
     match = data.match(/Message-ID: <([^>]+)>/) if data
     # Would expect there always to be a message id but we will be more lenient for the time being
     self.message_id = match[1] if match
+  end
+
+  def update_data_hash
+    self.data_hash = Digest::SHA1.hexdigest(data) if data
   end
 end

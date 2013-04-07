@@ -2,14 +2,34 @@ require 'spec_helper'
 
 describe Email do
   describe "create!" do
-    it "should set the message-id based on the email content" do
-      email = Email.create!(
-        :from => "matthew@foo.com",
-        :to => "foo@bar.com",
-        :data => "From: contact@openaustraliafoundation.org.au\nTo: Matthew Landauer\nMessage-ID: <5161ba1c90b10_7837557029c754c8@kedumba.mail>\n\nHello!"
-      )
+    context "One email is created" do
+      before :each do
+        Email.create!(
+          :from => "matthew@foo.com",
+          :to => "foo@bar.com",
+          :data => "From: contact@openaustraliafoundation.org.au\nTo: Matthew Landauer\nMessage-ID: <5161ba1c90b10_7837557029c754c8@kedumba.mail>\n\nHello!"
+        )
+      end
 
-      Email.first.message_id.should == "5161ba1c90b10_7837557029c754c8@kedumba.mail"
+      it "should set the message-id based on the email content" do
+        Email.first.message_id.should == "5161ba1c90b10_7837557029c754c8@kedumba.mail"
+      end
+
+      it "should set a hash of the full email content" do
+        Email.first.data_hash.should == "8807e1b5f635e050b5d84634cfb9a37f9c1bd2e4"
+      end
+
+      it "should have an identical hash to another email with identical content" do
+        first_email = Email.first
+        email = Email.create!(from: "geoff@foo.com", to: "people@bar.com", data: first_email.data)
+        email.data_hash.should == first_email.data_hash
+      end
+
+      it "should have a different hash to another email with different content" do
+        first_email = Email.first
+        email = Email.create!(from: "geoff@foo.com", to: "people@bar.com", data: "Something else")
+        email.data_hash.should_not == first_email.data_hash
+      end
     end
   end
 
