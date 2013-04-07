@@ -15,6 +15,10 @@ set :deploy_to, "/srv/www/cuttlefish.openaustraliafoundation.org.au"
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
 
+# IMPORTANT: this needs fixing
+# TODO: deploy:update doesn't get called when running deploy:migrations
+# So, background servers won't get restarted in that situation. This is very bad.
+
 before 'deploy:setup', 'rvm:install_ruby'  # install Ruby and create gemset, or:
 after "deploy:update", "foreman:restart"
 
