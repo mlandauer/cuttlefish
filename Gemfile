@@ -9,9 +9,6 @@ gem 'rails', '4.0.0.beta1'
 gem 'sqlite3'
 gem 'mysql2'
 
-# Webrick gives us annoying warnings "could not determine content-length of response body"
-gem "thin"
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -60,6 +57,11 @@ gem 'newrelic_rpm'
 
 # To use debugger
 # gem 'debugger'
+
+group :development do
+  # Webrick gives us annoying warnings "could not determine content-length of response body"
+  gem "thin"
+end
 
 group :development, :test do
   gem 'rspec-rails'
