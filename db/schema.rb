@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130407053630) do
+ActiveRecord::Schema.define(version: 20130407185455) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20130407053630) do
     t.integer  "from_address_id"
     t.string   "postfix_queue_id"
     t.boolean  "delivered"
+    t.string   "message_id"
   end
 
   create_table "postfix_log_lines", force: true do |t|
