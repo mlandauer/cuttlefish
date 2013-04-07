@@ -24,6 +24,12 @@
   %strong Received:
   = time_ago_in_words(@email.created_at)
   ago (#{@email.created_at})
+%p
+  %strong Message ID:
+  = @email.message_id
+%p
+  %strong Content hash:
+  = @email.data_hash
 
 - unless @email.postfix_log_lines.empty?
   %table.table.table-condensed
