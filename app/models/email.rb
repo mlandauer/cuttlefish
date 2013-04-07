@@ -42,10 +42,7 @@ class Email < ActiveRecord::Base
 
   # Check the delivery status for a particular destination
   def delivery_status(delivery)
-    lines = postfix_log_lines.select{|l| l.to == delivery.address.address}
-    unless lines.empty?
-      lines.any? {|l| l.delivered? }
-    end
+    delivery.delivered
   end
 
   def overall_delivery_status
