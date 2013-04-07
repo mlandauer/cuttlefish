@@ -26,4 +26,8 @@ The Awesome Cuttlefish
     flash[:notice] = "Test email sent"
     redirect_to :root
   end
+
+  def status_counts
+    render :partial => "status_counts"
+  end
 end

@@ -7,6 +7,7 @@ Cuttlefish::Application.routes.draw do
   root to: 'main#index'
 
   post 'test_email' => 'main#test_email'
+  get 'status_counts' => 'main#status_counts'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
