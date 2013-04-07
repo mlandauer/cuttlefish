@@ -13,7 +13,11 @@
   = link_to @email.from, emails_path(:from => @email.from)
 %p
   %strong To:
-  = @email.to.map{|e| link_to e, emails_path(to: e)}.join(", ").html_safe
+  %ul
+    - @email.to.each do |e|
+      %li
+        = link_to e, emails_path(to: e)
+
 %hr
 - if @email.data.nil?
   %em
