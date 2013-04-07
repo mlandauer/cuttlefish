@@ -7,7 +7,7 @@ describe Address do
       email2 = Email.create!(:from => "matthew@foo.com")
       email3 = Email.create!(:from => "peter@bar.com")
 
-      Address.find_by_address("matthew@foo.com").emails_sent.should == [email1, email2]
+      Address.find_by_text("matthew@foo.com").emails_sent.should == [email1, email2]
     end
   end
 
@@ -17,7 +17,7 @@ describe Address do
       email2 = Email.create!(:to => "matthew@foo.com")
       email3 = Email.create!(:to => "peter@bar.com")
 
-      Address.find_by_address("matthew@foo.com").emails_received.should == [email1, email2]
+      Address.find_by_text("matthew@foo.com").emails_received.should == [email1, email2]
     end
   end
 end

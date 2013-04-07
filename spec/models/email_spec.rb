@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Email do
   describe "#from" do
     it "should return a string for the from email address" do
-      email = Email.create!(:from_address => Address.create!(address: "matthew@foo.com"))
+      email = Email.create!(:from_address => Address.create!(text: "matthew@foo.com"))
       email.from.should == "matthew@foo.com"
     end
 
@@ -16,7 +16,7 @@ describe Email do
   describe "#from_address" do
     it "should return an Address object" do
       email = Email.create!(from: "matthew@foo.org")
-      a1 = Address.find_by_address("matthew@foo.org")
+      a1 = Address.find_by_text("matthew@foo.org")
       a1.should_not be_nil
       email.from_address.should == a1
     end
@@ -37,8 +37,8 @@ describe Email do
   describe "#to_addresses" do
     it "should return an array of Address objects" do
       email = Email.create!(to: ["mlandauer@foo.org", "matthew@bar.com"])
-      a1 = Address.find_by_address("mlandauer@foo.org")
-      a2 = Address.find_by_address("matthew@bar.com")
+      a1 = Address.find_by_text("mlandauer@foo.org")
+      a2 = Address.find_by_text("matthew@bar.com")
       a1.should_not be_nil
       a2.should_not be_nil
       email.to_addresses.should == [a1, a2]

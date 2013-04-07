@@ -9,6 +9,6 @@ class Delivery < ActiveRecord::Base
   end
 
   def postfix_log_lines
-    email.postfix_log_lines.select{|l| l.to == address.address}
+    email.postfix_log_lines.select{|l| l.to == address.text}
   end
 end

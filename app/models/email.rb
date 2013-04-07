@@ -16,20 +16,20 @@ class Email < ActiveRecord::Base
 
   def from
     # TODO: Remove the "if" once we've added validations
-    from_address.address if from_address
+    from_address.text if from_address
   end
 
   def from=(a)
-    self.from_address = Address.find_or_create_by(address: a)
+    self.from_address = Address.find_or_create_by(text: a)
   end
 
   def to
-    to_addresses.map{|t| t.address}
+    to_addresses.map{|t| t.text}
   end
 
   def to=(a)
     a = [a] unless a.respond_to?(:map)
-    self.to_addresses = a.map{|t| Address.find_or_create_by(address: t)}
+    self.to_addresses = a.map{|t| Address.find_or_create_by(text: t)}
   end
 
   def to_as_string
