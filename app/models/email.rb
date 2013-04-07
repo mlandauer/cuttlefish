@@ -87,10 +87,13 @@ class Email < ActiveRecord::Base
   end
 
   def save_data_to_filesystem
-    # Save the data part of the email to the filesystem
-    FileUtils::mkdir_p(Email.data_filesystem_directory)
-    File.open(data_filesystem_path, "w") do |f|
-      f.write(data)
+    # Don't overwrite the data that's already on the filesystem
+    unless is_data_on_filesystem?
+      # Save the data part of the email to the filesystem
+      FileUtils::mkdir_p(Email.data_filesystem_directory)
+      File.open(data_filesystem_path, "w") do |f|
+        f.write(data)
+      end
     end
   end
 

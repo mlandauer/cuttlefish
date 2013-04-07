@@ -59,6 +59,12 @@ describe Email do
         Email.find(10).data.should == "This is a main data section"
       end
 
+      it "should be able to read in the data again even after being saved again" do
+        email = Email.find(10)
+        email.save!
+        email.data.should == "This is a main data section"
+      end
+
       it "should return nil if nothing is stored on the filesystem" do
         FileUtils::rm_rf(Email.data_filesystem_directory)
         Email.find(10).data.should be_nil
