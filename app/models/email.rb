@@ -10,8 +10,28 @@ class Email < ActiveRecord::Base
 
   attr_writer :data
 
-  def self.no_emails_sent_today
-    where('created_at > ?', Date.today.beginning_of_day).count
+  def self.sent_today
+    where('created_at > ?', Date.today.beginning_of_day)
+  end
+
+  def self.sent_this_week
+    where('created_at > ?', 7.days.ago)
+  end
+
+  def self.delivered_today
+    sent_today.where(:delivered => true)
+  end
+
+  def self.not_delivered_today
+    sent_today.where(:delivered => false)
+  end
+
+  def self.delivered_this_week
+    sent_this_week.where(:delivered => true)
+  end
+
+  def self.not_delivered_this_week
+    sent_this_week.where(:delivered => false)
   end
 
   def from
