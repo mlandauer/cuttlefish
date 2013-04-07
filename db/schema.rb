@@ -42,13 +42,6 @@ ActiveRecord::Schema.define(version: 20130407044432) do
     t.datetime "updated_at"
   end
 
-  create_table "email_recipients", force: true do |t|
-    t.integer  "email_id"
-    t.integer  "email_address_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "emails", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
