@@ -4,5 +4,5 @@
 
 $ ->
   setInterval(->
-    $("#status-counts").load "status_counts"
+    $("#status-counts").load "/status_counts"
   , 1000)
