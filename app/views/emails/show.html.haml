@@ -1,6 +1,5 @@
 .page-header
   %h1 Email
-  %p= delivered_label(@email.delivered)
 
 %p
   %strong From:
@@ -8,9 +7,10 @@
 %p
   %strong To:
   %ul
-    - @email.to.each do |e|
+    - @email.deliveries.each do |delivery|
       %li
-        = link_to e, emails_path(to: e)
+        = link_to delivery.address.text, emails_path(to: delivery.address.text)
+        = delivered_label(delivery.delivered)
 
 %hr
 - if @email.data.nil?
