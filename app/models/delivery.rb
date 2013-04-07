@@ -3,9 +3,12 @@ class Delivery < ActiveRecord::Base
   belongs_to :address
 
   def delivered
-    lines = email.postfix_log_lines.select{|l| l.to == address.address}
-    unless lines.empty?
-      lines.any? {|l| l.delivered? }
+    unless postfix_log_lines.empty?
+      postfix_log_lines.any? {|l| l.delivered? }
     end
+  end
+
+  def postfix_log_lines
+    email.postfix_log_lines.select{|l| l.to == address.address}
   end
 end
