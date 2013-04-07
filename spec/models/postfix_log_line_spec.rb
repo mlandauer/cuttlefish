@@ -10,7 +10,14 @@ describe PostfixLogLine do
     it "should extract the some more information from the main program section of the log line" do
       email = Email.create!(postfix_queue_id: "39D9336AFA81")
       PostfixLogLine.create_from_line(line1)
-      PostfixLogLine.first.main_content_info.should == {dsn: "4.3.0", to: "foo@bar.com"}
+      PostfixLogLine.first.main_content_info.should == {
+        to: "foo@bar.com",
+        relay: "foo.bar.com[1.2.3.4]:25",
+        delay: "92780",
+        delays: "92777/0.03/1.6/0.91",
+        dsn: "4.3.0",
+        status: "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
+      }
     end
   end
 

@@ -7,8 +7,12 @@ class PostfixLogLine < ActiveRecord::Base
 
   def main_content_info
     {
+      to: text.match(/to=<([^>]+)>/)[1],
+      relay: text.match(/relay=([^,]+)/)[1],
+      delay: text.match(/delay=([^,]+)/)[1],
+      delays: text.match(/delays=([^,]+)/)[1],
       dsn: text.match(/dsn=([^,]+)/)[1],
-      to: text.match(/to=<([^>]+)>/)[1]
+      status: text.match(/status=(.*)$/)[1]
     }
   end
 
