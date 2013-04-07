@@ -1,6 +1,6 @@
 class Email < ActiveRecord::Base
-  belongs_to :from_address, :class_name => "EmailAddress"
-  has_and_belongs_to_many :to_addresses, :class_name => "EmailAddress", :join_table => "deliveries"
+  belongs_to :from_address, :class_name => "Address"
+  has_and_belongs_to_many :to_addresses, :class_name => "Address", :join_table => "deliveries"
   has_many :postfix_log_lines, -> { order :time }
 
   after_save :save_data_to_filesystem, :cleanup_filesystem_data_store
@@ -19,7 +19,7 @@ class Email < ActiveRecord::Base
   end
 
   def from=(a)
-    self.from_address = EmailAddress.find_or_create_by(address: a)
+    self.from_address = Address.find_or_create_by(address: a)
   end
 
   def to
@@ -28,7 +28,7 @@ class Email < ActiveRecord::Base
 
   def to=(a)
     a = [a] unless a.respond_to?(:map)
-    self.to_addresses = a.map{|t| EmailAddress.find_or_create_by(address: t)}
+    self.to_addresses = a.map{|t| Address.find_or_create_by(address: t)}
   end
 
   def to_as_string

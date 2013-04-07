@@ -1,4 +1,4 @@
 class Delivery < ActiveRecord::Base
   belongs_to :email
-  belongs_to :email_address
+  belongs_to :address
 end
