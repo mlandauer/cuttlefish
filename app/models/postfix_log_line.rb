@@ -9,6 +9,10 @@ class PostfixLogLine < ActiveRecord::Base
     text.match(/dsn=([^,]+)/)[1]
   end
 
+  def to
+    text.match(/to=<([^>]+)>/)[1]
+  end
+
   def self.create_from_line(line)
     values = match_main_content(line)
 

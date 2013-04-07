@@ -14,6 +14,14 @@ describe PostfixLogLine do
     end
   end
 
+  describe ".to" do
+    it "should extract the destination email address from the log line" do
+      email = Email.create!(postfix_queue_id: "39D9336AFA81")
+      PostfixLogLine.create_from_line(line1)
+      PostfixLogLine.first.to.should == "foo@bar.com"      
+    end
+  end
+
   describe ".create_from_line" do
     it "should extract and save relevant parts of the line" do
       email = Email.create!(postfix_queue_id: "39D9336AFA81")
