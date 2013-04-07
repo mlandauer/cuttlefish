@@ -88,17 +88,17 @@ describe Email do
 
     it "should be delivered if the status is sent" do
       email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
-      email.delivery_status(Address.new(:address => "matthew@foo.com")).should == true
+      email.delivery_status(email.deliveries.first).should == true
     end
 
     it "should not be delivered if the status is deferred" do
       email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0")
-      email.delivery_status(Address.new(:address => "matthew@foo.com")).should == false
+      email.delivery_status(email.deliveries.first).should == false
     end
   
     it "should be nil if there is no log line with matching email address" do
       email.postfix_log_lines.create(to: "geoff@foo.com", dsn: "4.3.0")
-      email.delivery_status(Address.new(:address => "matthew@foo.com")).should be_nil
+      email.delivery_status(email.deliveries.first).should be_nil
     end
   end
 
