@@ -2,15 +2,14 @@ class PostfixLogLine < ActiveRecord::Base
   belongs_to :email
 
   def delivered?
-    dsn == "2.0.0"
+    main_content_info[:dsn] == "2.0.0"
   end
 
-  def dsn
-    text.match(/dsn=([^,]+)/)[1]
-  end
-
-  def to
-    text.match(/to=<([^>]+)>/)[1]
+  def main_content_info
+    {
+      dsn: text.match(/dsn=([^,]+)/)[1],
+      to: text.match(/to=<([^>]+)>/)[1]
+    }
   end
 
   def self.create_from_line(line)

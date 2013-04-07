@@ -6,19 +6,11 @@ describe PostfixLogLine do
   let(:line3) { "Apr  5 17:11:07 kedumba postfix/smtpd[7453]: connect from unknown[111.142.251.143]" }
   let(:line4) { "Apr  5 14:21:51 kedumba postfix/smtp[2500]: 39D9336AFA81: to=<anincorrectemailaddress@openaustralia.org>, relay=aspmx.l.google.com[173.194.79.27]:25, delay=1, delays=0.08/0/0.58/0.34, dsn=5.1.1, status=bounced (host aspmx.l.google.com[173.194.79.27] said: 550-5.1.1 The email account that you tried to reach does not exist. zb4si15321910pbb.132 - gsmtp (in reply to RCPT TO command))" }
 
-  describe ".dsn" do
-    it "should extract the dsn from the line" do
+  describe ".main_content_info" do
+    it "should extract the some more information from the main program section of the log line" do
       email = Email.create!(postfix_queue_id: "39D9336AFA81")
       PostfixLogLine.create_from_line(line1)
-      PostfixLogLine.first.dsn.should == "4.3.0"      
-    end
-  end
-
-  describe ".to" do
-    it "should extract the destination email address from the log line" do
-      email = Email.create!(postfix_queue_id: "39D9336AFA81")
-      PostfixLogLine.create_from_line(line1)
-      PostfixLogLine.first.to.should == "foo@bar.com"      
+      PostfixLogLine.first.main_content_info.should == {dsn: "4.3.0", to: "foo@bar.com"}
     end
   end
 
