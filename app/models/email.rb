@@ -39,15 +39,16 @@ class Email < ActiveRecord::Base
     @data ||= File.read(data_filesystem_path) if is_data_on_filesystem?
   end
 
-  # Check the delivery status for a particular email
-  def delivery_status(email)
-    unless postfix_log_lines_for_email(email).empty?
-      postfix_log_lines_for_email(email).any? {|l| l.delivered? }
+  # Check the delivery status for a particular destination
+  def delivery_status(text_address)
+    lines = postfix_log_lines_for_email(text_address)
+    unless lines.empty?
+      lines.any? {|l| l.delivered? }
     end
   end
 
-  def postfix_log_lines_for_email(email)
-    postfix_log_lines.select{|l| l.to == email}
+  def postfix_log_lines_for_email(text_address)
+    postfix_log_lines.select{|l| l.to == text_address}
   end
 
   def overall_delivery_status
