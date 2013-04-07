@@ -9,12 +9,12 @@ class AddStructuredDataInPostfixLogLines < ActiveRecord::Migration
     PostfixLogLine.reset_column_information
     PostfixLogLine.all.each do |l|
       l.update_attributes!(
-        to: text.match(/to=<([^>]+)>/)[1],
-        relay: text.match(/relay=([^,]+)/)[1],
-        delay: text.match(/delay=([^,]+)/)[1],
-        delays: text.match(/delays=([^,]+)/)[1],
-        dsn: text.match(/dsn=([^,]+)/)[1],
-        status: text.match(/status=(.*)$/)[1]
+        to: l.text.match(/to=<([^>]+)>/)[1],
+        relay: l.text.match(/relay=([^,]+)/)[1],
+        delay: l.text.match(/delay=([^,]+)/)[1],
+        delays: l.text.match(/delays=([^,]+)/)[1],
+        dsn: l.text.match(/dsn=([^,]+)/)[1],
+        status: l.text.match(/status=(.*)$/)[1]
       )
     end
   end
