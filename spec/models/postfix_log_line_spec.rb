@@ -6,18 +6,30 @@ describe PostfixLogLine do
   let(:line3) { "Apr  5 17:11:07 kedumba postfix/smtpd[7453]: connect from unknown[111.142.251.143]" }
   let(:line4) { "Apr  5 14:21:51 kedumba postfix/smtp[2500]: 39D9336AFA81: to=<anincorrectemailaddress@openaustralia.org>, relay=aspmx.l.google.com[173.194.79.27]:25, delay=1, delays=0.08/0/0.58/0.34, dsn=5.1.1, status=bounced (host aspmx.l.google.com[173.194.79.27] said: 550-5.1.1 The email account that you tried to reach does not exist. zb4si15321910pbb.132 - gsmtp (in reply to RCPT TO command))" }
 
-  describe ".main_content_info" do
-    it "should extract the some more information from the main program section of the log line" do
+  context "one log line" do
+    let (:l) do
       email = Email.create!(postfix_queue_id: "39D9336AFA81")
       PostfixLogLine.create_from_line(line1)
-      PostfixLogLine.first.main_content_info.should == {
-        to: "foo@bar.com",
-        relay: "foo.bar.com[1.2.3.4]:25",
-        delay: "92780",
-        delays: "92777/0.03/1.6/0.91",
-        dsn: "4.3.0",
-        status: "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
-      }
+      PostfixLogLine.first
+    end
+
+    describe ".to" do
+      it { l.to.should == "foo@bar.com" }
+    end
+    describe ".relay" do
+      it { l.relay.should == "foo.bar.com[1.2.3.4]:25" }
+    end
+    describe ".delay" do
+      it { l.delay.should == "92780" }
+    end
+    describe ".delays" do
+      it { l.delays.should == "92777/0.03/1.6/0.91" }
+    end
+    describe ".dsn" do
+      it { l.dsn.should == "4.3.0" }
+    end
+    describe ".status" do
+      it { l.status.should == "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))" }
     end
   end
 

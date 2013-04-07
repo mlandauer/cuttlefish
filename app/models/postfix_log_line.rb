@@ -2,11 +2,7 @@ class PostfixLogLine < ActiveRecord::Base
   belongs_to :email
 
   def delivered?
-    main_content_info[:dsn] == "2.0.0"
-  end
-
-  def main_content_info
-    PostfixLogLine.extract_main_content_info(text)
+    dsn == "2.0.0"
   end
 
   def self.extract_main_content_info(program_content)

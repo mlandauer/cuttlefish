@@ -87,17 +87,17 @@ describe Email do
     let(:email) { Email.create!(:to => "matthew@foo.com") }
 
     it "should be delivered if the status is sent" do
-      email.postfix_log_lines.create(:text => "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
+      email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
       email.delivery_status("matthew@foo.com").should == true
     end
 
     it "should not be delivered if the status is deferred" do
-      email.postfix_log_lines.create(text: "to=<matthew@foo.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
+      email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0")
       email.delivery_status("matthew@foo.com").should == false
     end
   
     it "should be nil if there is no log line with matching email address" do
-      email.postfix_log_lines.create(text: "to=<geoff@foo.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
+      email.postfix_log_lines.create(to: "geoff@foo.com", dsn: "4.3.0")
       email.delivery_status("matthew@foo.com").should be_nil
     end
   end
@@ -107,18 +107,18 @@ describe Email do
       let(:email) { Email.create!(:to => "matthew@foo.com") }
 
       it "should have an unknown delivery status before anything is done" do
-        email.postfix_log_lines.create(:text => "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
+        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
         email.delivered.should be_nil
       end
 
       it "should be delivered if the status is sent" do
-        email.postfix_log_lines.create(:text => "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
+        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
         email.update_delivery_status!
         email.delivered.should == true
       end
 
       it "should not be delivered if the status is deferred" do
-        email.postfix_log_lines.create(text: "to=<matthew@foo.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
+        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0")
         email.update_delivery_status!
         email.delivered.should == false
       end
@@ -133,21 +133,21 @@ describe Email do
       let(:email) { Email.create!(:to => ["matthew@foo.com", "greg@foo.com"]) }
 
       it "should have an unknown delivery status if we only have one log entry" do
-        email.postfix_log_lines.create(:text => "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
+        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
         email.update_delivery_status!
         email.delivered.should be_nil
       end
 
       it "should know it's delivered if there are two succesful deliveries in the logs" do
-        email.postfix_log_lines.create(:text => "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
-        email.postfix_log_lines.create(:text => "to=<greg@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
+        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
+        email.postfix_log_lines.create(to: "greg@foo.com", dsn: "2.0.0")
         email.update_delivery_status!
         email.delivered.should == true
       end
 
       it "should be in an unknown state if there are two log entries from the same email address" do
-        email.postfix_log_lines.create(text: "to=<matthew@foo.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
-        email.postfix_log_lines.create(text: "to=<matthew@foo.com>, relay=aspmx.l.google.com[74.125.129.27]:25, delay=2.8, delays=0.07/0.02/1.3/1.5, dsn=2.0.0, status=sent (250 2.0.0 OK 1365207357 ed2si16066733pbb.305 - gsmtp)")
+        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0")
+        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
         email.update_delivery_status!
         email.delivered.should be_nil
       end

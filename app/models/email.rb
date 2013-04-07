@@ -47,7 +47,7 @@ class Email < ActiveRecord::Base
   end
 
   def postfix_log_lines_for_email(email)
-    postfix_log_lines.select{|l| l.text =~ /to=<#{email}>/}
+    postfix_log_lines.select{|l| l.to == email}
   end
 
   def overall_delivery_status
