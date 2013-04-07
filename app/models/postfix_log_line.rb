@@ -10,14 +10,20 @@ class PostfixLogLine < ActiveRecord::Base
   end
 
   def self.extract_main_content_info(program_content)
-    {
-      to: program_content.match(/to=<([^>]+)>/)[1],
-      relay: program_content.match(/relay=([^,]+)/)[1],
-      delay: program_content.match(/delay=([^,]+)/)[1],
-      delays: program_content.match(/delays=([^,]+)/)[1],
-      dsn: program_content.match(/dsn=([^,]+)/)[1],
-      status: program_content.match(/status=(.*)$/)[1]
-    }
+    to_match = program_content.match(/to=<([^>]+)>/)
+    relay_match = program_content.match(/relay=([^,]+)/)
+    delay_match = program_content.match(/delay=([^,]+)/)
+    delays_match = program_content.match(/delays=([^,]+)/)
+    dsn_match = program_content.match(/dsn=([^,]+)/)
+    status_match = program_content.match(/status=(.*)$/)
+    result = {}
+    result[:to] = to_match[1] if to_match
+    result[:relay] = relay_match[1] if relay_match
+    result[:delay] = delay_match[1] if delay_match
+    result[:delays] = delays_match[1] if delays_match
+    result[:dsn] = dsn_match[1] if dsn_match
+    result[:status] = status_match[1] if status_match
+    result
   end
 
   def self.create_from_line(line)
@@ -29,7 +35,7 @@ class PostfixLogLine < ActiveRecord::Base
       email = Email.find_by_postfix_queue_id(values[:queue_id])
       if email
         # Don't resave duplicates
-        find_or_create_by(time: values[:time], text: values[:program_content], email: email)
+        find_or_create_by(email: email, time: values[:time], text: values[:program_content])
         email.reload
         email.update_delivery_status!
       else
@@ -42,7 +48,7 @@ class PostfixLogLine < ActiveRecord::Base
     # Assume the log file was written using syslog and parse accordingly
     p = SyslogProtocol.parse("<13>" + line)
     m = p.content.match /^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)/
-    {:time => p.time, :program => m[1], :pid => m[2], :queue_id => m[4], :program_content => m[5]}
+    {:time => p.time, :program => m[1], :pid => m[2], :queue_id => m[4], :program_content => m[5]}.merge(extract_main_content_info(m[5]))
   end
   
 end

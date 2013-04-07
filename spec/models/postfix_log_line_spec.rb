@@ -63,7 +63,13 @@ describe PostfixLogLine do
       program: "smtp",
       pid: "18733",
       queue_id: "39D9336AFA81",
-      program_content: "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
+      program_content: "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))",
+      to: "foo@bar.com",
+      relay: "foo.bar.com[1.2.3.4]:25",
+      delay: "92780",
+      delays: "92777/0.03/1.6/0.91",
+      dsn: "4.3.0",
+      status: "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
     }}
     it { PostfixLogLine.match_main_content(line2).should == {
       time: Time.local(2013,4,5,18,41,58),
