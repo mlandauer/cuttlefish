@@ -29,7 +29,19 @@
     %strong Delivery status unknown
 
 - unless @email.postfix_log_lines.empty?
-  %pre= @email.postfix_log_lines.map{|l| l.text}.join("\n")
+  %table.table.table-condensed
+    %caption Delivery Logs
+    %thead
+      %tr
+        %th To
+        %th DSN
+        %th Status
+    %tbody
+      - @email.postfix_log_lines.each do |line|
+        %tr
+          %td= line.to
+          %td= line.dsn
+          %td.status{title: line.status}= truncate(line.status)
 
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), emails_path, :class => 'btn'
