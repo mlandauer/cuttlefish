@@ -50,14 +50,14 @@ class Email < ActiveRecord::Base
     postfix_log_lines.select{|l| l.text =~ /to=<#{email}>/}
   end
 
-  def update_delivery_status!
+  def overall_delivery_status
     if to.all? {|email| !delivery_status(email).nil? }
-      if to.all? {|email| delivery_status(email) }
-        update_attribute(:delivered, true)
-      else
-        update_attribute(:delivered, false)
-      end
+      to.all? {|email| delivery_status(email) }
     end
+  end
+
+  def update_delivery_status!
+    update_attribute(:delivered, overall_delivery_status)
   end
 
   def self.max_no_emails_to_store_data
