@@ -29,7 +29,7 @@
     %strong Delivery status unknown
 
 - unless @email.postfix_log_lines.empty?
-  %pre= @email.postfix_log_lines.map{|l| l.text}.join
+  %pre= @email.postfix_log_lines.map{|l| l.text}.join("\n")
 
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), emails_path, :class => 'btn'
