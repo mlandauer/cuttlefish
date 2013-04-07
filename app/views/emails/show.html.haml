@@ -9,8 +9,12 @@
   %strong To:
   = @email.to.map{|e| link_to e, emails_path(to: e)}.join(", ").html_safe
 %hr
-%p
-  = @email.data.gsub("\r\n", "<br\>").html_safe if @email.data
+- if @email.data.nil?
+  %em
+    Full text of email is not available
+- else
+  %p
+    = @email.data.gsub("\r\n", "<br\>").html_safe if @email.data
 %hr
 %p
   %strong Received:
