@@ -1,6 +1,18 @@
 require 'spec_helper'
 
 describe Email do
+  describe "create!" do
+    it "should set the message-id based on the email content" do
+      email = Email.create!(
+        :from => "matthew@foo.com",
+        :to => "foo@bar.com",
+        :data => "From: contact@openaustraliafoundation.org.au\nTo: Matthew Landauer\nMessage-ID: <5161ba1c90b10_7837557029c754c8@kedumba.mail>\n\nHello!"
+      )
+
+      Email.first.message_id.should == "5161ba1c90b10_7837557029c754c8@kedumba.mail"
+    end
+  end
+
   describe "#from" do
     it "should return a string for the from email address" do
       email = Email.create!(:from_address => Address.create!(text: "matthew@foo.com"))
