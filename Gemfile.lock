@@ -97,6 +97,7 @@ GEM
     net-ssh (2.6.2)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
+    newrelic_rpm (3.6.0.78)
     polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -191,6 +192,7 @@ DEPENDENCIES
   jquery-rails
   mini-smtp-server!
   mysql2
+  newrelic_rpm
   rails (= 4.0.0.beta1)
   rspec-rails
   rvm-capistrano

@@ -47,6 +47,7 @@ gem 'bootstrap-will_paginate'
 # Deployment bits and bobs
 gem "capistrano"
 gem 'rvm-capistrano'
+gem 'newrelic_rpm'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
