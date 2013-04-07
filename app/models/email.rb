@@ -57,7 +57,7 @@ class Email < ActiveRecord::Base
   end
 
   def data
-    @data ||= File.read(data_filesystem_path) if is_data_on_filesystem?
+    @data ||= (File.read(data_filesystem_path) if is_data_on_filesystem?)
   end
 
   def overall_delivery_status
