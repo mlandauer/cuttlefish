@@ -8,6 +8,10 @@ class Delivery < ActiveRecord::Base
     end
   end
 
+  def delivered_status_known?
+    !delivered.nil?
+  end
+
   def postfix_log_lines
     email.postfix_log_lines.select{|l| l.to == address.text}
   end

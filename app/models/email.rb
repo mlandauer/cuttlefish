@@ -41,7 +41,7 @@ class Email < ActiveRecord::Base
   end
 
   def overall_delivery_status
-    if deliveries.all? {|delivery| !delivery.delivered.nil? }
+    if deliveries.all? {|delivery| delivery.delivered_status_known? }
       deliveries.all? {|delivery| delivery.delivered }
     end
   end
