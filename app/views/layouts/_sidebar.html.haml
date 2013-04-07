@@ -1,29 +1,5 @@
-%h3 Today
-%p
-  Sent
-  %span.badge
-    = Email.sent_today.count
-%p
-  Delivered
-  %span.badge.badge-success
-    = Email.delivered_today.count
-%p
-  Not delivered
-  %span.badge.badge-warning
-    = Email.not_delivered_today.count
-%h3 Last 7 days
-%p
-  Sent
-  %span.badge
-    = Email.sent_this_week.count
-%p
-  Delivered
-  %span.badge.badge-success
-    = Email.delivered_this_week.count
-%p
-  Not delivered
-  %span.badge.badge-warning
-    = Email.not_delivered_this_week.count
+#status-counts
+  = render "main/status_counts"
 
 -#
   %ul.nav.nav-list
