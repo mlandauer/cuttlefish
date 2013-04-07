@@ -40,14 +40,9 @@ class Email < ActiveRecord::Base
     @data ||= File.read(data_filesystem_path) if is_data_on_filesystem?
   end
 
-  # Check the delivery status for a particular destination
-  def delivery_status(delivery)
-    delivery.delivered
-  end
-
   def overall_delivery_status
-    if deliveries.all? {|delivery| !delivery_status(delivery).nil? }
-      deliveries.all? {|delivery| delivery_status(delivery) }
+    if deliveries.all? {|delivery| !delivery.delivered.nil? }
+      deliveries.all? {|delivery| delivery.delivered }
     end
   end
 
