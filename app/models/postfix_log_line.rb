@@ -6,13 +6,17 @@ class PostfixLogLine < ActiveRecord::Base
   end
 
   def main_content_info
+    PostfixLogLine.extract_main_content_info(text)
+  end
+
+  def self.extract_main_content_info(program_content)
     {
-      to: text.match(/to=<([^>]+)>/)[1],
-      relay: text.match(/relay=([^,]+)/)[1],
-      delay: text.match(/delay=([^,]+)/)[1],
-      delays: text.match(/delays=([^,]+)/)[1],
-      dsn: text.match(/dsn=([^,]+)/)[1],
-      status: text.match(/status=(.*)$/)[1]
+      to: program_content.match(/to=<([^>]+)>/)[1],
+      relay: program_content.match(/relay=([^,]+)/)[1],
+      delay: program_content.match(/delay=([^,]+)/)[1],
+      delays: program_content.match(/delays=([^,]+)/)[1],
+      dsn: program_content.match(/dsn=([^,]+)/)[1],
+      status: program_content.match(/status=(.*)$/)[1]
     }
   end
 
