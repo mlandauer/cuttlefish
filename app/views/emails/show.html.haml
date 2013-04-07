@@ -1,12 +1,6 @@
 .page-header
   %h1 Email
-  %p
-  - if @email.delivered == true
-    %span.label.label-success Delivered
-  - elsif @email.delivered == false
-    %span.label.label-warning Not delivered
-  - else
-    %span.label Delivery status unknown
+  %p= delivered_label(@email.delivered)
 
 %p
   %strong From:
