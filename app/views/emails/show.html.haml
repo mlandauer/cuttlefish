@@ -35,18 +35,18 @@
     Full text of email is not available
 - else
   - if @email.html_part
-    %ul.nav.nav-tabs
-      %li.active= link_to "HTML", "#html", data: {toggle: "tab"}
-      %li= link_to "Text", "#text", data: {toggle: "tab"}
-      %li= link_to "Source", "#source", data: {toggle: "tab"}
+    %ul.nav.nav-pills
+      %li.active= link_to "HTML", "#html", data: {toggle: "pill"}
+      %li= link_to "Text", "#text", data: {toggle: "pill"}
+      %li= link_to "Source", "#source", data: {toggle: "pill"}
     .tab-content
       %div.tab-pane.active#html= @email.html_part.html_safe
       %div.tab-pane#text= @email.text_part.gsub("\n", "<br\>").html_safe
       %div.tab-pane#source= @email.data.gsub("\r\n", "<br\>").html_safe
   - else
-    %ul.nav.nav-tabs
-      %li.active= link_to "Text", "#text", data: {toggle: "tab"}
-      %li= link_to "Source", "#source", data: {toggle: "tab"}
+    %ul.nav.nav-pills
+      %li.active= link_to "Text", "#text", data: {toggle: "pill"}
+      %li= link_to "Source", "#source", data: {toggle: "pill"}
     .tab-content
       %div.tab-pane.active#text= @email.text_part.gsub("\n", "<br\>").html_safe
       %div.tab-pane#source= @email.data.gsub("\r\n", "<br\>").html_safe
