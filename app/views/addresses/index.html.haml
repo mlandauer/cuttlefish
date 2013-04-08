@@ -1,0 +1,22 @@
+.page-header
+  %h1 Addresses
+= paginated_section @addresses do
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Email
+        %th Last received
+        %th Last sent
+    %tbody
+      - @addresses.each do |address|
+        %tr
+          %td= address.text
+          %td
+            - if address.time_last_received
+              = time_ago_in_words(address.time_last_received)
+              ago
+          %td
+            - if address.time_last_sent
+              = time_ago_in_words(address.time_last_sent)
+              ago
+  
