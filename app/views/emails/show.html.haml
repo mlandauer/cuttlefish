@@ -17,13 +17,17 @@
             %table.table.table-condensed.collapse
               %thead
                 %tr
+                  %th Time
                   %th DSN
                   %th Status
               %tbody
                 - delivery.postfix_log_lines.each do |line|
                   %tr
+                    %td
+                      = time_ago_in_words(line.time)
+                      ago
                     %td= line.dsn
-                    %td.status{title: line.status}= truncate(line.status)
+                    %td.status= line.status
 
 %hr
 - if @email.data.nil?
