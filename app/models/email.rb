@@ -71,6 +71,24 @@ class Email < ActiveRecord::Base
     update_attribute(:delivered, overall_delivery_status)
   end
 
+  def text_part
+    if part("text/plain")
+      part("text/plain")
+    else
+      Mail.new(data).body.to_s
+    end
+  end
+
+  def html_part
+    part("text/html")
+  end
+
+  # First part with a particular mime type
+  def part(mime_type)
+    part = Mail.new(data).parts.find{|p| p.mime_type == mime_type}
+    part.body.to_s if part
+  end
+
   def self.max_no_emails_to_store_data
     # By default keep the full content of the last 100 emails
     100
