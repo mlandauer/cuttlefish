@@ -57,6 +57,7 @@ GEM
       activerecord (>= 3.0, < 4.1)
       delayed_job (~> 4.0.0.beta1)
     diff-lcs (1.2.1)
+    dnsbl-client (0.4.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (1.4.0)
@@ -185,6 +186,7 @@ DEPENDENCIES
   capistrano
   coffee-rails (~> 4.0.0.beta1)
   delayed_job_active_record (~> 4.0.0.beta1)
+  dnsbl-client
   file-tail
   foreman
   haml-rails

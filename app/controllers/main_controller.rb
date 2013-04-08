@@ -30,4 +30,7 @@ The Awesome Cuttlefish
   def status_counts
     render :partial => "status_counts"
   end
+
+  def reputation
+  end
 end
