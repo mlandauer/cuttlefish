@@ -1,0 +1,28 @@
+.page-header
+  %h3= @address.text
+
+- if @address.emails_received.count > 0
+  %p
+    = pluralize(@address.emails_received.count, "email")
+    sent to this address, most recently
+    = time_ago_in_words(@address.time_last_received)
+    ago.
+  %p
+    Delivered: 
+    = @address.emails_received.where(delivered: true).count
+  %p
+    Not delivered:
+    = @address.emails_received.where(delivered: false).count
+
+- if @address.emails_sent.count > 0
+  %p
+    = @address.emails_sent.count
+    emails sent from this address, most recently
+    = time_ago_in_words(@address.time_last_sent)
+    ago.
+  %p
+    Delivered: 
+    = @address.emails_sent.where(delivered: true).count
+  %p
+    Not delivered:
+    = @address.emails_sent.where(delivered: false).count

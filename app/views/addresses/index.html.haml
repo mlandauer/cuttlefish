@@ -10,7 +10,7 @@
     %tbody
       - @addresses.each do |address|
         %tr
-          %td= address.text
+          %td= link_to address.text, address
           %td
             - if address.time_last_received
               = time_ago_in_words(address.time_last_received)
