@@ -40,7 +40,8 @@
       %li= link_to "Text", "#text", data: {toggle: "pill"}
       %li= link_to "Source", "#source", data: {toggle: "pill"}
     .tab-content
-      %div.tab-pane.active#html= @email.html_part.html_safe
+      %div.tab-pane.active#html
+        .well= @email.html_part.html_safe
       %div.tab-pane#text
         %pre= @email.text_part
       %div.tab-pane#source
