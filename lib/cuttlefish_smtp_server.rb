@@ -8,10 +8,10 @@ class CuttlefishSmtpServer < MiniSmtpServer
     Delayed::Job.enqueue MailJob.new(message_hash)
   end
 
-  #def connecting(client)
+  def connecting(client)
     # Only accept local connections
     # We're currently only listening on the local address so this extra check is not
     # strictly necessary
-    #client.peeraddr[3] == "127.0.0.1"
-  #end
+    client.peeraddr[3] == "127.0.0.1"
+  end
 end
