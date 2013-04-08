@@ -7,12 +7,15 @@
   %table.table
     %thead
       %tr
-        %th dnsbl
-        %th result
-        %th meaning
+        %th Blacklist
+        %th Result
     %tbody
       - listings.each do |listing|
         %tr
           %td= listing.dnsbl
-          %td= listing.result
           %td= listing.meaning
+  %p
+    Your server IP address
+    %strong= Reputation.local_ip
+  %p
+    (You will need this if you want to check things by hand)
