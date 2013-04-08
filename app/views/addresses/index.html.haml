@@ -7,7 +7,7 @@
         %th Email
         %th Last received
         %th Last sent
-    %tbody
+    %tbody(data-provides="rowlink")
       - @addresses.each do |address|
         %tr
           %td= link_to address.text, address
