@@ -1,18 +1,4 @@
-- listings = DNSBL::Client.new.lookup(Reputation.local_ip)
-
-- if listings.empty?
-  %p This server is not listed on any known blacklists
-- else
-  %p.text-error Unfortunately, this server is listed on some blacklists. That will likely severely impact your ability to send email.
-  %table.table
-    %thead
-      %tr
-        %th dnsbl
-        %th result
-        %th meaning
-    %tbody
-      - listings.each do |listing|
-        %tr
-          %td= listing.dnsbl
-          %td= listing.result
-          %td= listing.meaning
+#reputation
+  %p
+    <i class='icon-spinner icon-spin icon-large'></i>
+    Looking up whether this server is blacklisted anywhere...

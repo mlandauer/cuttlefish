@@ -6,3 +6,6 @@ $ ->
   setInterval(->
     $("#status-counts").load "/status_counts"
   , 1000)
+
+$ ->
+  $("#reputation").load("/reputation")

@@ -32,5 +32,10 @@ The Awesome Cuttlefish
   end
 
   def reputation
+    if request.xhr?
+      render :partial => "reputation"
+      return
+    end
   end
+
 end
