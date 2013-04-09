@@ -11,6 +11,14 @@ class CuttlefishSmtpServer
   end
 
   def start(host = 'localhost', port = 1025)
+    trap("TERM") {
+      puts "Received SIGTERM!"
+      stop
+    }
+    trap("INT") {
+      puts "Received SIGINT"
+      stop!
+    }
     @server = EM.start_server host, port, CuttlefishSmtpConnection do |connection|
       connection.server = self
       @connections << connection
@@ -18,11 +26,35 @@ class CuttlefishSmtpServer
     end
   end
 
+  # Gracefull shutdown
   def stop
+    puts "Stopping server gracefully..."
+    EM.stop_server @server
+    
+    unless wait_for_connections_and_stop
+      # Still some connections running, schedule a check later
+      EventMachine.add_periodic_timer(1) { wait_for_connections_and_stop }
+    end
+  end
+
+  def wait_for_connections_and_stop
+    if @connections.empty?
+      EventMachine.stop
+      true
+    else
+      puts "Waiting for #{@connections.size} connection(s) to finish ..."
+      false
+    end
+  end
+
+  # Forceful shutdown
+  def stop!
+    puts "Stopping server ungracefully..."
     if @server
       EM.stop_server @server
       @server = nil
     end
+    exit
   end
 
   def running?
