@@ -3,7 +3,24 @@ require File.expand_path File.join(File.dirname(__FILE__), 'mail_job')
 require 'ostruct'
 require 'eventmachine'
 
-class CuttlefishSmtpServer < EM::P::SmtpServer
+class CuttlefishSmtpServer
+  def start(host = 'localhost', port = 1025)
+    @server = EM.start_server host, port, CuttlefishSmtpConnection
+  end
+
+  def stop
+    if @server
+      EM.stop_server @server
+      @server = nil
+    end
+  end
+
+  def running?
+    !!@server
+  end
+end
+
+class CuttlefishSmtpConnection < EM::P::SmtpServer
   def receive_plain_auth(user, pass)
     true
   end
@@ -62,21 +79,6 @@ class CuttlefishSmtpServer < EM::P::SmtpServer
 
   def current
     @current ||= OpenStruct.new
-  end
-
-  def self.start(host = 'localhost', port = 1025)
-    @server = EM.start_server host, port, self
-  end
-
-  def self.stop
-    if @server
-      EM.stop_server @server
-      @server = nil
-    end
-  end
-
-  def self.running?
-    !!@server
   end
 end
 

@@ -13,7 +13,7 @@ module CuttlefishControl
     ActiveRecord::Base.establish_connection(activerecord_config[environment])
 
     EM.run {
-      CuttlefishSmtpServer.start(host, port)
+      CuttlefishSmtpServer.new.start(host, port)
 
       puts "My eight arms and two tentacles are quivering in anticipation."
       puts "I'm listening for emails via SMTP on #{host} port #{port}"
