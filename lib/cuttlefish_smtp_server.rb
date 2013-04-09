@@ -12,7 +12,7 @@ class CuttlefishSmtpServer
 
   def start(host = 'localhost', port = 1025)
     trap("TERM") {
-      puts "Received SIGTERM!"
+      puts "Received SIGTERM"
       stop
     }
     trap("INT") {
@@ -22,7 +22,6 @@ class CuttlefishSmtpServer
     @server = EM.start_server host, port, CuttlefishSmtpConnection do |connection|
       connection.server = self
       @connections << connection
-      puts "There are now #{@connections.size} open connections..."
     end
   end
 
@@ -42,14 +41,13 @@ class CuttlefishSmtpServer
       EventMachine.stop
       true
     else
-      puts "Waiting for #{@connections.size} connection(s) to finish ..."
       false
     end
   end
 
   # Forceful shutdown
   def stop!
-    puts "Stopping server ungracefully..."
+    puts "Stopping server quickly..."
     if @server
       EM.stop_server @server
       @server = nil
@@ -67,7 +65,6 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
   def unbind
     server.connections.delete(self)
-    puts "There are now #{server.connections.size} open connections..."
   end
 
   def receive_plain_auth(user, pass)
