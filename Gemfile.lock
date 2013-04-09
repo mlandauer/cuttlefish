@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/mlandauer/mini-smtp-server.git
-  revision: 0a6378295fe0157351f9a8ab4aa591e879f64291
-  branch: support_multiple_recipients
-  specs:
-    mini-smtp-server (0.0.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -187,12 +180,12 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0.beta1)
   delayed_job_active_record (~> 4.0.0.beta1)
   dnsbl-client
+  eventmachine
   file-tail
   foreman
   haml-rails
   jbuilder (~> 1.0.1)
   jquery-rails
-  mini-smtp-server!
   mysql2
   newrelic_rpm
   rails (= 4.0.0.beta1)

@@ -1,15 +1,15 @@
 class MailJob
-  attr_reader :message_hash
+  attr_reader :message
 
-  def initialize(message_hash)
-    @message_hash = message_hash
+  def initialize(message)
+    @message = message
   end
 
   def perform
     ActiveRecord::Base.transaction do
-      email = Email.create!(from: message_hash[:from].match("<(.*)>")[1],
-        to: message_hash[:to].map{|t| t.match("<(.*)>")[1]},
-        data: message_hash[:data])
+      email = Email.create!(from: message.sender.match("<(.*)>")[1],
+        to: message.recipients.map{|t| t.match("<(.*)>")[1]},
+        data: message.data)
 
       if Rails.env == "development"
         # In development send the mails to mailcatcher
