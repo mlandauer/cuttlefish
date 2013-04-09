@@ -4,8 +4,18 @@ require 'ostruct'
 require 'eventmachine'
 
 class CuttlefishSmtpServer
+  attr_accessor :connections
+
+  def initialize
+    @connections = []
+  end
+
   def start(host = 'localhost', port = 1025)
-    @server = EM.start_server host, port, CuttlefishSmtpConnection
+    @server = EM.start_server host, port, CuttlefishSmtpConnection do |connection|
+      connection.server = self
+      @connections << connection
+      puts "There are now #{@connections.size} open connections..."
+    end
   end
 
   def stop
@@ -21,6 +31,13 @@ class CuttlefishSmtpServer
 end
 
 class CuttlefishSmtpConnection < EM::P::SmtpServer
+  attr_accessor :server
+
+  def unbind
+    server.connections.delete(self)
+    puts "There are now #{server.connections.size} open connections..."
+  end
+
   def receive_plain_auth(user, pass)
     true
   end
