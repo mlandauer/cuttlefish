@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130407192417) do
+ActiveRecord::Schema.define(version: 20130410000152) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 20130407192417) do
     t.string   "data_hash"
   end
 
+  add_index "emails", ["postfix_queue_id"], name: "index_emails_on_postfix_queue_id"
+
   create_table "postfix_log_lines", force: true do |t|
     t.text     "text"
     t.integer  "email_id"
@@ -65,5 +67,7 @@ ActiveRecord::Schema.define(version: 20130407192417) do
     t.string   "dsn"
     t.text     "status"
   end
+
+  add_index "postfix_log_lines", ["time"], name: "index_postfix_log_lines_on_time"
 
 end
