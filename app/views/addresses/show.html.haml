@@ -9,13 +9,13 @@
     ago.
   %p
     Delivered: 
-    = @address.emails_received.where(delivery_status: "delivered").count
+    = @address.emails_received.where(status: "delivered").count
   %p
     Soft bounces:
-    = @address.emails_received.where(delivery_status: "soft_bounce").count
+    = @address.emails_received.where(status: "soft_bounce").count
   %p
     Hard bounces:
-    = @address.emails_received.where(delivery_status: "hard_bounce").count
+    = @address.emails_received.where(status: "hard_bounce").count
 
 - if @address.emails_sent.count > 0
   %p
@@ -25,13 +25,13 @@
     ago.
   %p
     Delivered: 
-    = @address.emails_sent.where(delivery_status: "delivered").count
+    = @address.emails_sent.where(status: "delivered").count
   %p
     Soft bounces:
-    = @address.emails_sent.where(delivery_status: "soft_bounce").count
+    = @address.emails_sent.where(status: "soft_bounce").count
   %p
     Hard bounces:
-    = @address.emails_sent.where(delivery_status: "hard_bounce").count
+    = @address.emails_sent.where(status: "hard_bounce").count
 
 = paginated_section @emails do
   %table.table.table-striped

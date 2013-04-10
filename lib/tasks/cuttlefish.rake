@@ -11,8 +11,8 @@ namespace :cuttlefish do
     CuttlefishControl.log_start
   end
 
-  desc "Update delivery status of email (if it is out of sync)"
-  task :update_delivery_status => :environment do
-    Email.all.each {|email| email.update_delivery_status! }
+  desc "Update status of email (if it is out of sync)"
+  task :update_status => :environment do
+    Email.all.each {|email| email.update_status! }
   end
 end

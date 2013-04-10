@@ -39,7 +39,7 @@ class PostfixLogLine < ActiveRecord::Base
           delivery.postfix_log_lines.find_or_create_by(time: values[:time],
             relay: values[:relay], delay: values[:delay], delays: values[:delays],
             dsn: values[:dsn], extended_status: values[:status])
-          email.update_delivery_status!
+          email.update_status!
         else
           puts "Skipping address #{values[:to]} from postfix queue id #{values[:queue_id]} - it's not recognised"
         end

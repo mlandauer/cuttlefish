@@ -20,27 +20,27 @@ class Email < ActiveRecord::Base
 
   # TODO: Combine all of these below into a single db query
   def self.delivered_today
-    sent_today.where(delivery_status: "delivered")
+    sent_today.where(status: "delivered")
   end
 
   def self.soft_bounces_today
-    sent_today.where(delivery_status: "soft_bounce")
+    sent_today.where(status: "soft_bounce")
   end
 
   def self.hard_bounces_today
-    sent_today.where(delivery_status: "hard_bounce")
+    sent_today.where(status: "hard_bounce")
   end
 
   def self.delivered_this_week
-    sent_this_week.where(delivery_status: "delivered")
+    sent_this_week.where(status: "delivered")
   end
 
   def self.soft_bounces_this_week
-    sent_this_week.where(delivery_status: "soft_bounce")
+    sent_this_week.where(status: "soft_bounce")
   end
 
   def self.hard_bounces_this_week
-    sent_this_week.where(delivery_status: "hard_bounce")
+    sent_this_week.where(status: "hard_bounce")
   end
 
   def from
@@ -69,7 +69,7 @@ class Email < ActiveRecord::Base
     @data ||= (File.read(data_filesystem_path) if is_data_on_filesystem?)
   end
 
-  def calculated_delivery_status
+  def calculated_status
     if deliveries.any? {|delivery| delivery.status == "unknown" }
       "unknown"
     elsif deliveries.any? {|delivery| delivery.status == "hard_bounce" }
@@ -83,8 +83,8 @@ class Email < ActiveRecord::Base
     end
   end
 
-  def update_delivery_status!
-    update_attribute(:delivery_status, calculated_delivery_status)
+  def update_status!
+    update_attribute(:status, calculated_status)
   end
 
   def text_part
