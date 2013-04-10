@@ -3,35 +3,43 @@
   %tr
     %td Sent
     %td
-      %span.badge.pull-right= Email.sent_today.count
+      = link_to emails_path do
+        %span.badge.pull-right= Email.sent_today.count
   %tr
     %td Delivered
     %td 
-      %span.badge.badge-success.pull-right= Email.delivered_today.count
+      = link_to emails_path(status: "delivered") do
+        %span.badge.badge-success.pull-right= Email.delivered_today.count
   %tr
     %td Soft bounces
     %td
-      %span.badge.badge-warning.pull-right= Email.soft_bounces_today.count
+      = link_to emails_path(status: "soft_bounce") do
+        %span.badge.badge-warning.pull-right= Email.soft_bounces_today.count
   %tr
     %td Hard bounces
     %td
-      %span.badge.badge-important.pull-right= Email.hard_bounces_today.count
+      = link_to emails_path(status: "hard_bounce") do
+        %span.badge.badge-important.pull-right= Email.hard_bounces_today.count
 
 %h3 Last 7 days
 %table.table.table-condensed
   %tr
     %td Sent
     %td
-      %span.badge.pull-right= Email.sent_this_week.count
+      = link_to emails_path do
+        %span.badge.pull-right= Email.sent_this_week.count
   %tr
     %td Delivered
     %td 
-      %span.badge.badge-success.pull-right= Email.delivered_this_week.count
+      = link_to emails_path(status: "delivered") do
+        %span.badge.badge-success.pull-right= Email.delivered_this_week.count
   %tr
     %td Soft bounces
     %td
-      %span.badge.badge-warning.pull-right= Email.soft_bounces_this_week.count
+      = link_to emails_path(status: "soft_bounce") do
+        %span.badge.badge-warning.pull-right= Email.soft_bounces_this_week.count
   %tr
     %td Hard bounces
     %td
-      %span.badge.badge-important.pull-right= Email.hard_bounces_this_week.count
+      = link_to emails_path(status: "hard_bounce") do
+        %span.badge.badge-important.pull-right= Email.hard_bounces_this_week.count
