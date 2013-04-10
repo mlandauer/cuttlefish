@@ -120,33 +120,36 @@ describe Email do
     end
   end
 
-  describe "#update_status!" do
+  describe "#update_status" do
+    it "should set the attribute based on calculated_status" do
+      email = Email.new
+      calculated_status = mock
+      email.should_receive(:calculated_status).and_return(calculated_status)
+      email.should_receive(:update_attribute).with(:status, calculated_status)
+
+      email.update_status!
+    end
+  end
+
+  describe "#calculated_status" do
     context "an email with one recipient" do
       # TODO: It's time to start using factories
       let(:address) { Address.create!(text: "matthew@foo.com")}
       let(:email) { Email.create!(:to_addresses => [address]) }
       let(:delivery) { Delivery.find_by(email: email, address: address)}
 
-      it "should have an unknown delivery status before anything is done" do
-        delivery.postfix_log_lines.create(dsn: "2.0.0")
-        email.status.should == "unknown"
-      end
-
       it "should be delivered if the status is sent" do
         delivery.postfix_log_lines.create(dsn: "2.0.0")
-        email.update_status!
-        email.status.should == "delivered"
+        email.calculated_status.should == "delivered"
       end
 
       it "should not be delivered if the status is deferred" do
         delivery.postfix_log_lines.create(dsn: "4.3.0")
-        email.update_status!
-        email.status.should == "soft_bounce"
+        email.calculated_status.should == "soft_bounce"
       end
 
       it "should not update the delivery status if there are no log lines" do
-        email.update_status!
-        email.status.should == "unknown"
+        email.calculated_status.should == "unknown"
       end
     end
 
@@ -159,22 +162,19 @@ describe Email do
 
       it "should have an unknown delivery status if we only have one log entry" do
         delivery_matthew.postfix_log_lines.create(dsn: "2.0.0")
-        email.update_status!
-        email.status.should == "unknown"
+        email.calculated_status.should == "unknown"
       end
 
       it "should know it's delivered if there are two succesful deliveries in the logs" do
         delivery_matthew.postfix_log_lines.create(dsn: "2.0.0")
         delivery_greg.postfix_log_lines.create(dsn: "2.0.0")
-        email.update_status!
-        email.status.should == "delivered"
+        email.calculated_status.should == "delivered"
       end
 
       it "should be in an unknown state if there are two log entries from the same email address" do
         delivery_matthew.postfix_log_lines.create(dsn: "4.3.0")
         delivery_matthew.postfix_log_lines.create(dsn: "2.0.0")
-        email.update_status!
-        email.status.should == "unknown"
+        email.calculated_status.should == "unknown"
       end
     end
   end
