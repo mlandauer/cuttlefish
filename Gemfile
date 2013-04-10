@@ -62,6 +62,10 @@ group :development do
   gem "thin"
 end
 
+group :test do
+  gem 'coveralls', require: false
+end
+
 group :development, :test do
   gem 'rspec-rails'
 end

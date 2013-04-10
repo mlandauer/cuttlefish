@@ -14,3 +14,4 @@
 cuttlefish.sublime-workspace
 db/emails/development
 config/newrelic.yml
+coverage
