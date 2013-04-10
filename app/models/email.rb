@@ -92,11 +92,7 @@ class Email < ActiveRecord::Base
   end
 
   def text_part
-    if part("text/plain")
-      part("text/plain")
-    else
-      mail.body.to_s
-    end
+    part("text/plain") || mail.body.to_s
   end
 
   def html_part
