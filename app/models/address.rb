@@ -13,4 +13,8 @@ class Address < ActiveRecord::Base
     a.created_at if a
   end
 
+  def emails
+    (emails_sent + emails_received).uniq
+  end
+
 end

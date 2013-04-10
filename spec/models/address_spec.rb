@@ -29,5 +29,15 @@ describe Address do
         address2.emails_received.should == [@email2, @email3]
       end
     end
+
+    describe "#emails" do
+      it "should be able to find all the emails that involved this email address" do
+        address1.emails.should =~ [@email1, @email2]
+      end
+
+      it "should be able to find all the emails that involved this email address" do
+        address2.emails.should =~ [@email2, @email3]
+      end
+    end
   end
 end
