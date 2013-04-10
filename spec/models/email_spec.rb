@@ -178,4 +178,49 @@ describe Email do
       end
     end
   end
+
+  context "an email with a text part and an html part" do
+    let(:mail) do
+      Mail.new do
+        text_part do
+          body 'This is plain text'
+        end
+
+        html_part do
+          content_type 'text/html; charset=UTF-8'
+          body '<h1>This is HTML</h1>'
+        end
+      end
+    end
+    let(:email) do
+      Email.new(data: mail.encoded)
+    end
+
+    describe "#html_part" do
+      it { email.html_part.should == "<h1>This is HTML</h1>" }
+    end
+
+    describe "#text_part" do
+      it { email.text_part.should == "This is plain text" }
+    end
+  end
+
+  context "an email with just consistents of a single text part" do
+    let(:mail) do
+      Mail.new do
+        body 'This is plain text'
+      end
+    end
+    let(:email) do
+      Email.new(data: mail.encoded)
+    end
+
+    describe "#html_part" do
+      it { email.html_part.should be_nil }
+    end
+
+    describe "#text_part" do
+      it { email.text_part.should == "This is plain text" }
+    end
+  end
 end
