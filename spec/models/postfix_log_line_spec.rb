@@ -56,11 +56,23 @@ describe PostfixLogLine do
       end
     end
 
-    it "should save two lines if two lines are processed" do
-      email = Email.create!(postfix_queue_id: "39D9336AFA81")
-      PostfixLogLine.create_from_line(line1)
-      PostfixLogLine.create_from_line(line4)
-      email.postfix_log_lines.count.should == 2
+    context "two log lines going to different destinations" do
+      let(:email) { Email.create!(postfix_queue_id: "39D9336AFA81",
+        :to => ["foo@bar.com", "anincorrectemailaddress@openaustralia.org"]) }
+      before :each do
+        email
+        PostfixLogLine.create_from_line(line1)
+        PostfixLogLine.create_from_line(line4)
+      end
+
+      it "should save two lines if two lines are processed" do
+        email.postfix_log_lines.count.should == 2
+      end
+
+      it "should attach it to the delivery" do
+        email.deliveries[0].postfix_log_lines.count.should == 1
+        email.deliveries[1].postfix_log_lines.count.should == 1
+      end
     end
 
     it "should not reprocess duplicate lines" do
