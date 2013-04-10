@@ -1,15 +1,11 @@
 .page-header
   %h1 Recent emails
 
-%ul.nav.nav-pills
-  %li{class: ("active" if @status.nil?)}
-    = link_to "All", emails_path
-  %li{class: ("active" if @status == "delivered")}
-    = link_to "Delivered", emails_path(status: "delivered")
-  %li{class: ("active" if @status == "soft_bounce")}
-    = link_to "Soft bounces", emails_path(status: "soft_bounce")
-  %li{class: ("active" if @status == "hard_bounce")}
-    = link_to "Hard bounces", emails_path(status: "hard_bounce")
+.btn-group
+  = link_to "All", emails_path, :class => ["btn", "btn-small", ("active" if @status.nil?)]
+  = link_to "Delivered", emails_path(status: "delivered"), :class => ["btn", "btn-small", ("active" if @status == "delivered")]
+  = link_to "Soft bounces", emails_path(status: "soft_bounce"), :class => ["btn", "btn-small", ("active" if @status == "soft_bounce")]
+  = link_to "Hard bounces", emails_path(status: "hard_bounce"), :class => ["btn", "btn-small", ("active" if @status == "hard_bounce")]
 
 = paginated_section @emails do
   %table.table.table-striped
