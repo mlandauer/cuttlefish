@@ -9,13 +9,17 @@ module EmailsHelper
     end
   end
 
-  def delivered_label(delivered)
-    if delivered == true
+  def delivered_label(status)
+    if status == "delivered"
       content_tag(:span, "Delivered", :class => "label label-success")
-    elsif delivered == false
-      content_tag(:span, "Not delivered", :class => "label label-warning")
+    elsif status == "soft_bounce"
+      content_tag(:span, "Soft bounce", :class => "label label-warning")
+    elsif status == "hard_bounce"
+      content_tag(:span, "Hard bounce", :class => "label label-warning")
+    elsif status == "unknown"
+      content_tag(:span, "Unknown", :class => "label")
     else
-      content_tag(:span, "Delivery status unknown", :class => "label")
+      raise "Unknown status"
     end
   end
 end
