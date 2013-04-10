@@ -6,9 +6,12 @@
   = link_to @email.from, address_path(@email.from_address)
 %p
   %strong To:
-  %ul
-    - @email.deliveries.each do |delivery|
-      %li= render delivery
+  - if @email.deliveries.count == 1
+    = render @email.deliveries.first
+  - elsif @email.deliveries.count > 1
+    %ul
+      - @email.deliveries.each do |delivery|
+        %li= render delivery
 
 %hr
 - if @email.data.nil?
