@@ -27,7 +27,7 @@
                       = time_ago_in_words(line.time)
                       ago
                     %td= line.dsn
-                    %td.status= line.status
+                    %td.status= line.extended_status
 
 %hr
 - if @email.data.nil?

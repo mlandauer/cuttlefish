@@ -36,9 +36,9 @@ class PostfixLogLine < ActiveRecord::Base
       if email
         if address && delivery
           # Don't resave duplicates
-          delivery.postfix_log_lines.find_or_create_by(time: values[:time], text: values[:program_content],
-            to: values[:to], relay: values[:relay], delay: values[:delay], delays: values[:delays],
-            dsn: values[:dsn], status: values[:status])
+          delivery.postfix_log_lines.find_or_create_by(time: values[:time],
+            relay: values[:relay], delay: values[:delay], delays: values[:delays],
+            dsn: values[:dsn], extended_status: values[:status])
           email.update_delivery_status!
         else
           puts "Skipping address #{values[:to]} from postfix queue id #{values[:queue_id]} - it's not recognised"

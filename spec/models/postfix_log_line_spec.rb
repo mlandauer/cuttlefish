@@ -13,9 +13,6 @@ describe PostfixLogLine do
       PostfixLogLine.first
     end
 
-    describe ".to" do
-      it { l.to.should == "foo@bar.com" }
-    end
     describe ".relay" do
       it { l.relay.should == "foo.bar.com[1.2.3.4]:25" }
     end
@@ -28,8 +25,8 @@ describe PostfixLogLine do
     describe ".dsn" do
       it { l.dsn.should == "4.3.0" }
     end
-    describe ".status" do
-      it { l.status.should == "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))" }
+    describe ".extended_status" do
+      it { l.extended_status.should == "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))" }
     end
   end
 
@@ -52,14 +49,22 @@ describe PostfixLogLine do
       it "should extract and save relevant parts of the line" do
         PostfixLogLine.count.should == 1
         line = delivery.postfix_log_lines.first
-        line.text.should == "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
+        line.relay.should == "foo.bar.com[1.2.3.4]:25"
+        line.delay.should == "92780"
+        line.delays.should == "92777/0.03/1.6/0.91"
+        line.dsn.should == "4.3.0"
+        line.extended_status.should == "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
         line.time.should == Time.local(2013,4,5,16,41,54)
       end
 
       it "should attach it to the delivery" do
         email.deliveries.first.postfix_log_lines.count.should == 1
         line = email.deliveries.first.postfix_log_lines.first
-        line.text.should == "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
+        line.relay.should == "foo.bar.com[1.2.3.4]:25"
+        line.delay.should == "92780"
+        line.delays.should == "92777/0.03/1.6/0.91"
+        line.dsn.should == "4.3.0"
+        line.extended_status.should == "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
         line.time.should == Time.local(2013,4,5,16,41,54)
       end
     end
