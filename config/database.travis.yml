@@ -1,0 +1,4 @@
+test:
+  adapter: mysql2
+  database: cuttlefish_test
+  username: root
