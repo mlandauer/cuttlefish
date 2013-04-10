@@ -15,16 +15,9 @@ set :deploy_to, "/srv/www/cuttlefish.openaustraliafoundation.org.au"
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
 
-# IMPORTANT: this needs fixing
-# TODO: deploy:update doesn't get called when running deploy:migrations
-# So, background servers won't get restarted in that situation. This is very bad.
-
 before 'deploy:setup', 'rvm:install_ruby'  # install Ruby and create gemset, or:
-after "deploy:update", "foreman:restart"
-
-# We need to run this after our collector mongrels are up and running
-# This goes out even if the deploy fails, sadly 
-after "deploy:update", "newrelic:notice_deployment"
+before "deploy:restart", "foreman:restart"
+after "deploy:restart", "newrelic:notice_deployment"
 
 namespace :deploy do
   task :start do ; end
