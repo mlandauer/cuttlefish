@@ -2,7 +2,7 @@ class PostfixLogLine < ActiveRecord::Base
   belongs_to :delivery
 
   def delivered?
-    dsn[0..1] == "2."
+    delivery_status == "delivered"
   end
 
   def dsn_class
