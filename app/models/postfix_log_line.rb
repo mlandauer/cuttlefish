@@ -2,7 +2,7 @@ class PostfixLogLine < ActiveRecord::Base
   belongs_to :email
 
   def delivered?
-    dsn == "2.0.0"
+    dsn[0..1] == "2."
   end
 
   def self.create_from_line(line)
