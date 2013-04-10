@@ -147,17 +147,17 @@ describe PostfixLogLine do
     }}
   end
 
-  describe "#delivery_status" do
+  describe "#status" do
     it "should see a dsn of 2.0.0 as delivered" do
-      PostfixLogLine.new(:dsn => "2.0.0").delivery_status.should == "delivered"
+      PostfixLogLine.new(:dsn => "2.0.0").status.should == "delivered"
     end
 
     it "should see a dsn of 5.1.1 as not delivered" do
-      PostfixLogLine.new(:dsn => "5.1.1").delivery_status.should == "hard_bounce"
+      PostfixLogLine.new(:dsn => "5.1.1").status.should == "hard_bounce"
     end
 
     it "should see a dsn of 4.4.1 as not delivered" do
-      PostfixLogLine.new(:dsn => "4.4.1").delivery_status.should == "soft_bounce"
+      PostfixLogLine.new(:dsn => "4.4.1").status.should == "soft_bounce"
     end
   end
 end

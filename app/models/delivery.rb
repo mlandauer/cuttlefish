@@ -5,6 +5,6 @@ class Delivery < ActiveRecord::Base
 
   def status
     last_line = postfix_log_lines.first
-    last_line ? last_line.delivery_status : "unknown"
+    last_line ? last_line.status : "unknown"
   end
 end

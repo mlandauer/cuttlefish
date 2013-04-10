@@ -10,7 +10,7 @@ class PostfixLogLine < ActiveRecord::Base
     end
   end
 
-  def delivery_status
+  def status
     case dsn_class
     when 2
       "delivered"
