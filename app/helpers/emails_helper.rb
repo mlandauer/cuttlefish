@@ -32,10 +32,7 @@ module EmailsHelper
   end
 
   def label_class(status)
-    a = ["label"]
-    b = label_class2(status)
-    a << b if b
-    a
+    ["label", label_class2(status)]
   end
 
   def status_name(status)

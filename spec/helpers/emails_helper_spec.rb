@@ -13,7 +13,7 @@ describe EmailsHelper do
     it { helper.delivered_label("delivered").should == '<span class="label label-success">Delivered</span>' }
     it { helper.delivered_label("soft_bounce").should == '<span class="label label-warning">Soft bounce</span>' }
     it { helper.delivered_label("hard_bounce").should == '<span class="label label-important">Hard bounce</span>' }
-    it { helper.delivered_label("unknown").should == '<span class="label">Unknown</span>' }
+    it { helper.delivered_label("unknown").should == '<span class="label ">Unknown</span>' }
     it { expect {helper.delivered_label("foo")}.to raise_error }
   end
 end
