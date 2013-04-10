@@ -1,5 +1,7 @@
 class PostfixLogLine < ActiveRecord::Base
   belongs_to :delivery
+  # TODO: Remove line below once the migration AddDeliveryIdToPostfixLogLines has completed
+  belongs_to :email
 
   def delivered?
     dsn[0..1] == "2."
