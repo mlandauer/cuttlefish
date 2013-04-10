@@ -8,7 +8,7 @@ describe PostfixLogLine do
 
   context "one log line" do
     let (:l) do
-      email = Email.create!(postfix_queue_id: "39D9336AFA81")
+      email = Email.create!(postfix_queue_id: "39D9336AFA81", to: "foo@bar.com")
       PostfixLogLine.create_from_line(line1)
       PostfixLogLine.first
     end
@@ -76,7 +76,7 @@ describe PostfixLogLine do
     end
 
     it "should not reprocess duplicate lines" do
-      email = Email.create!(postfix_queue_id: "39D9336AFA81")
+      email = Email.create!(postfix_queue_id: "39D9336AFA81", to: "foo@bar.com")
       PostfixLogLine.create_from_line(line1)
       PostfixLogLine.create_from_line(line1)
       email.postfix_log_lines.count.should == 1
