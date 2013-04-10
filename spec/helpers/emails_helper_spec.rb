@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe EmailsHelper do
   describe ".delivered_class" do
-    it { helper.delivered_class(mock(:status => "delivered")).should == "success"}
-    it { helper.delivered_class(mock(:status => "soft_bounce")).should == "warning"}
-    it { helper.delivered_class(mock(:status => "hard_bounce")).should == "error"}
-    it { helper.delivered_class(mock(:status => "unknown")).should be_nil}
-    it { expect {helper.delivered_class(mock(:status => "foo")) }.to raise_error }
+    it { helper.delivered_class("delivered").should == "success"}
+    it { helper.delivered_class("soft_bounce").should == "warning"}
+    it { helper.delivered_class("hard_bounce").should == "error"}
+    it { helper.delivered_class("unknown").should be_nil}
+    it { expect {helper.delivered_class("foo") }.to raise_error }
   end
 
   describe ".delivered_label" do
