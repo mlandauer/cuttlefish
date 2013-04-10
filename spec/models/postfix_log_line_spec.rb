@@ -156,4 +156,18 @@ describe PostfixLogLine do
       PostfixLogLine.new(:dsn => "2.6.0").delivered?.should be_true
     end
   end
+
+  describe "#delivery_status" do
+    it "should see a dsn of 2.0.0 as delivered" do
+      PostfixLogLine.new(:dsn => "2.0.0").delivery_status.should == "delivered"
+    end
+
+    it "should see a dsn of 5.1.1 as not delivered" do
+      PostfixLogLine.new(:dsn => "5.1.1").delivery_status.should == "permanent_failure"
+    end
+
+    it "should see a dsn of 4.4.1 as not delivered" do
+      PostfixLogLine.new(:dsn => "4.4.1").delivery_status.should == "transient_failure"
+    end
+  end
 end

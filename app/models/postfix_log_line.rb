@@ -5,6 +5,18 @@ class PostfixLogLine < ActiveRecord::Base
     dsn[0..1] == "2."
   end
 
+  def delivery_status
+    if dsn[0..1] == "2."
+      "delivered"
+    elsif dsn[0..1] == "4."
+      "transient_failure"
+    elsif dsn[0..1] == "5."
+      "permanent_failure"
+    else
+      raise "Unknown dsn major code"
+    end
+  end
+
   def self.create_from_line(line)
     values = match_main_content(line)
 
