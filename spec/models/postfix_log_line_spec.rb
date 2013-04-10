@@ -115,6 +115,24 @@ describe PostfixLogLine do
       PostfixLogLine.create_from_line(line2)
       PostfixLogLine.count.should == 0
     end
+
+    context "two emails with the same queue id" do
+      let(:address) { Address.create!(text: "foo@bar.com") }
+      let(:email1) { Email.create!(postfix_queue_id: "39D9336AFA81",
+        :to_addresses => [address], :created_at => 10.minutes.ago) }
+      let(:email2) { Email.create!(postfix_queue_id: "39D9336AFA81",
+        :to_addresses => [address], :created_at => 5.minutes.ago) }
+      let(:delivery1) { Delivery.find_by(email: email1, address: address) }
+      let(:delivery2) { Delivery.find_by(email: email2, address: address) }
+
+      it "should use the latest email" do
+        delivery1
+        delivery2
+        PostfixLogLine.create_from_line(line1)      
+        delivery1.postfix_log_lines.should be_empty
+        delivery2.postfix_log_lines.count.should == 1
+      end
+    end
   end
 
   describe ".match_main_content" do

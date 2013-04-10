@@ -35,8 +35,7 @@ class PostfixLogLine < ActiveRecord::Base
 
     # Only log delivery attempts
     if values[:program] == "smtp"
-      # TODO: Should find the most recent email with the queue ID (as there may be several)
-      email = Email.find_by_postfix_queue_id(values[:queue_id])
+      email = Email.order("created_at DESC").find_by_postfix_queue_id(values[:queue_id])
       address = Address.find_by_text(values[:to])
       delivery = Delivery.find_by(email_id: email.id, address_id: address.id) if email && address
 
