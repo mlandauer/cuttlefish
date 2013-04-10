@@ -66,6 +66,20 @@ class Email < ActiveRecord::Base
     end
   end
 
+  def calculated_delivery_status
+    if deliveries.any? {|delivery| delivery.status == "unknown" }
+      "unknown"
+    elsif deliveries.any? {|delivery| delivery.status == "hard_bounce" }
+      "hard_bounce"
+    elsif deliveries.any? {|delivery| delivery.status == "soft_bounce" }
+      "soft_bounce"
+    elsif deliveries.all? {|delivery| delivery.status == "delivered" }
+      "delivered"
+    else
+      raise "Unexpected situation"
+    end
+  end
+
   def update_delivery_status!
     update_attribute(:delivered, overall_delivery_status)
   end
