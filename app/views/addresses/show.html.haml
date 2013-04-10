@@ -26,3 +26,26 @@
   %p
     Not delivered:
     = @address.emails_sent.where(delivered: false).count
+
+= paginated_section @emails do
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Sent / Received
+        %th Created
+    %tbody(data-provides="rowlink")
+      - @emails.each do |email|
+        %tr{class: delivered_class(email)}
+          %td
+            - if email.to_addresses.include?(@address) && email.from_address == @address
+              Both
+            - elsif email.to_addresses.include?(@address)
+              Received
+            - elsif email.from_address == @address
+              Sent
+            - else
+              - raise "Unexpected"
+          %td
+            = link_to email_path(email), :class => "rowlink" do
+              = time_ago_in_words(email.created_at)
+              ago
