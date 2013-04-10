@@ -5,7 +5,8 @@ class Delivery < ActiveRecord::Base
 
   def delivered
     unless postfix_log_lines.empty?
-      postfix_log_lines.any? {|l| l.delivered? }
+      # Take the delivery status from the last delivery attempt
+      postfix_log_lines.first.delivered?
     end
   end
 
