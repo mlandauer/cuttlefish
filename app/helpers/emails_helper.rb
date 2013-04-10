@@ -16,19 +16,26 @@ module EmailsHelper
     end
   end
 
-  def label_class(status)
+  def label_class2(status)
     case status
     when "delivered"
-      "label label-success"
+      "label-success"
     when "soft_bounce"
-      "label label-warning"
+      "label-warning"
     when "hard_bounce"
-      "label label-important"
+      "label-important"
     when "unknown"
-      "label"
+      nil
     else
       raise "Unknown status"
     end
+  end
+
+  def label_class(status)
+    a = ["label"]
+    b = label_class2(status)
+    a << b if b
+    a
   end
 
   def status_name(status)
