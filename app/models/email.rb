@@ -18,20 +18,29 @@ class Email < ActiveRecord::Base
     where('created_at > ?', 7.days.ago)
   end
 
+  # TODO: Combine all of these below into a single db query
   def self.delivered_today
-    sent_today.where(:delivered => true)
+    sent_today.where(delivery_status: "delivered")
   end
 
-  def self.not_delivered_today
-    sent_today.where(:delivered => false)
+  def self.soft_bounces_today
+    sent_today.where(delivery_status: "soft_bounce")
+  end
+
+  def self.hard_bounces_today
+    sent_today.where(delivery_status: "hard_bounce")
   end
 
   def self.delivered_this_week
-    sent_this_week.where(:delivered => true)
+    sent_this_week.where(delivery_status: "delivered")
   end
 
-  def self.not_delivered_this_week
-    sent_this_week.where(:delivered => false)
+  def self.soft_bounces_this_week
+    sent_this_week.where(delivery_status: "soft_bounce")
+  end
+
+  def self.hard_bounces_this_week
+    sent_this_week.where(delivery_status: "hard_bounce")
   end
 
   def from
