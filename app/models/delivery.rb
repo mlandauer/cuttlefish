@@ -1,7 +1,7 @@
 class Delivery < ActiveRecord::Base
   belongs_to :email
   belongs_to :address
-  has_many :postfix_log_lines
+  has_many :postfix_log_lines, :order => "created_at DESC"
 
   def delivered
     unless postfix_log_lines.empty?
