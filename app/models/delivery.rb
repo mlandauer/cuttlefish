@@ -7,4 +7,8 @@ class Delivery < ActiveRecord::Base
     last_line = postfix_log_lines.first
     last_line ? last_line.status : "unknown"
   end
+
+  def update_status!
+    email.update_status!
+  end
 end

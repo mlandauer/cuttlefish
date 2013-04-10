@@ -1,6 +1,8 @@
 class PostfixLogLine < ActiveRecord::Base
   belongs_to :delivery
 
+  after_save :update_status!
+
   def dsn_class
     match = dsn.match(/^(\d)\.(\d+)\.(\d+)/)
     if match
@@ -23,6 +25,11 @@ class PostfixLogLine < ActiveRecord::Base
     end
   end
 
+  # My status has changed. Tell those effected.
+  def update_status!
+    delivery.update_status!
+  end
+
   def self.create_from_line(line)
     values = match_main_content(line)
 
@@ -39,7 +46,6 @@ class PostfixLogLine < ActiveRecord::Base
           delivery.postfix_log_lines.find_or_create_by(time: values[:time],
             relay: values[:relay], delay: values[:delay], delays: values[:delays],
             dsn: values[:dsn], extended_status: values[:status])
-          email.update_status!
         else
           puts "Skipping address #{values[:to]} from postfix queue id #{values[:queue_id]} - it's not recognised"
         end
