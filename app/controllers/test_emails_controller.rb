@@ -37,6 +37,6 @@ The Awesome Cuttlefish
     mail.deliver
 
     flash[:notice] = "Test email sent"
-    redirect_to :root
+    redirect_to new_test_email_path
   end
 end
