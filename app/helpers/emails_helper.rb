@@ -2,10 +2,17 @@ module EmailsHelper
   # Give a warning level (used for colouring things in Bootstrap) based on whether the email has
   # been delivered succesfully
   def delivered_class(email)
-    if email.delivered == true
+    case email.delivery_status
+    when "delivered"
       "success"
-    elsif email.delivered == false
+    when "soft_bounce"
       "warning"
+    when "hard_bounce"
+      "error"
+    when "unknown"
+      nil
+    else
+      raise "Unknown status"
     end
   end
 
@@ -15,7 +22,7 @@ module EmailsHelper
     elsif status == "soft_bounce"
       content_tag(:span, "Soft bounce", :class => "label label-warning")
     elsif status == "hard_bounce"
-      content_tag(:span, "Hard bounce", :class => "label label-warning")
+      content_tag(:span, "Hard bounce", :class => "label label-important")
     elsif status == "unknown"
       content_tag(:span, "Unknown", :class => "label")
     else
