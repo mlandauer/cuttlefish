@@ -34,6 +34,11 @@ describe PostfixLogLine do
   end
 
   describe ".create_from_line" do
+    it "should have an empty log lines on the delivery to start with" do
+      email = Email.create!(postfix_queue_id: "39D9336AFA81", to: "foo@bar.com")
+      email.deliveries.first.postfix_log_lines.should be_empty
+    end
+
     context "one log line" do
       let(:email) { Email.create!(postfix_queue_id: "39D9336AFA81", to: "foo@bar.com") }
       before :each do
