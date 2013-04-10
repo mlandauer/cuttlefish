@@ -82,6 +82,7 @@ class Email < ActiveRecord::Base
 
   def update_delivery_status!
     update_attribute(:delivered, overall_delivery_status)
+    update_attribute(:delivery_status, calculated_delivery_status)
   end
 
   def text_part
