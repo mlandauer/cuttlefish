@@ -3,13 +3,13 @@
 
 %p
   %strong From:
-  = link_to @email.from, emails_path(:from => @email.from)
+  = link_to @email.from, address_path(@email.from_address)
 %p
   %strong To:
   %ul
     - @email.deliveries.each do |delivery|
       %li
-        = link_to delivery.address.text, emails_path(to: delivery.address.text)
+        = link_to delivery.address.text, address_path(delivery.address)
         = link_to "#log-#{delivery.id}", "data-toggle" => "collapse" do
           = delivered_label(delivery.delivered)
         - unless delivery.postfix_log_lines.empty?
