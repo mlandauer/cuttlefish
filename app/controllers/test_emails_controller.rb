@@ -2,6 +2,19 @@ class TestEmailsController < ApplicationController
   # We're using the simple_format helper below. Ugly but quick by bringing it into the controller
   include ActionView::Helpers::TextHelper
 
+  def new
+    @from = "contact@openaustraliafoundation.org.au"
+    @to = "Matthew Landauer <matthew@openaustralia.org>"
+    @subject = "This is a test email from Cuttlefish"
+    @text = <<-EOF
+Hello folks. Hopefully this should have worked and you should
+be reading this. So, all is good.
+
+Love,
+The Awesome Cuttlefish
+    EOF
+  end
+
   # Send a test email
   def create
     mail = Mail.new
