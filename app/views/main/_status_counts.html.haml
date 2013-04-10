@@ -3,35 +3,35 @@
   %tr
     %td Sent
     %td
-      %span.badge= Email.sent_today.count
+      %span.badge.pull-right= Email.sent_today.count
   %tr
     %td Delivered
     %td 
-      %span.badge.badge-success= Email.delivered_today.count
+      %span.badge.badge-success.pull-right= Email.delivered_today.count
   %tr
     %td Soft bounces
     %td
-      %span.badge.badge-warning= Email.soft_bounces_today.count
+      %span.badge.badge-warning.pull-right= Email.soft_bounces_today.count
   %tr
     %td Hard bounces
     %td
-      %span.badge.badge-warning= Email.hard_bounces_today.count
+      %span.badge.badge-warning.pull-right= Email.hard_bounces_today.count
 
 %h3 Last 7 days
 %table.table.table-condensed
   %tr
     %td Sent
     %td
-      %span.badge= Email.sent_this_week.count
+      %span.badge.pull-right= Email.sent_this_week.count
   %tr
     %td Delivered
     %td 
-      %span.badge.badge-success= Email.delivered_this_week.count
+      %span.badge.badge-success.pull-right= Email.delivered_this_week.count
   %tr
     %td Soft bounces
     %td
-      %span.badge.badge-warning= Email.soft_bounces_this_week.count
+      %span.badge.badge-warning.pull-right= Email.soft_bounces_this_week.count
   %tr
     %td Hard bounces
     %td
-      %span.badge.badge-warning= Email.hard_bounces_this_week.count
+      %span.badge.badge-warning.pull-right= Email.hard_bounces_this_week.count
