@@ -88,6 +88,12 @@ describe PostfixLogLine do
       PostfixLogLine.count.should == 0
     end
 
+    it "should show a message if the address isn't recognised in a log line" do
+      PostfixLogLine.should_receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised")
+      email = Email.create!(postfix_queue_id: "39D9336AFA81")
+      PostfixLogLine.create_from_line(line1)      
+    end
+
     it "should only log lines that are delivery attempts" do
       PostfixLogLine.create_from_line(line2)
       PostfixLogLine.count.should == 0
