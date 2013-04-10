@@ -142,21 +142,6 @@ describe PostfixLogLine do
     }}
   end
 
-  describe ".delivered?" do
-    it "should see a dsn of 2.0.0 as delivered" do
-      PostfixLogLine.new(:dsn => "2.0.0").delivered?.should be_true
-    end
-
-    it "should see a dsn of 5.1.1 as not delivered" do
-      PostfixLogLine.new(:dsn => "5.1.1").delivered?.should be_false
-    end
-
-    # See https://github.com/mlandauer/cuttlefish/issues/30
-    it "should see a dsn of 2.6.0 as delivered" do
-      PostfixLogLine.new(:dsn => "2.6.0").delivered?.should be_true
-    end
-  end
-
   describe "#delivery_status" do
     it "should see a dsn of 2.0.0 as delivered" do
       PostfixLogLine.new(:dsn => "2.0.0").delivery_status.should == "delivered"

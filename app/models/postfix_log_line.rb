@@ -1,10 +1,6 @@
 class PostfixLogLine < ActiveRecord::Base
   belongs_to :delivery
 
-  def delivered?
-    delivery_status == "delivered"
-  end
-
   def dsn_class
     match = dsn.match(/^(\d)\.(\d+)\.(\d+)/)
     if match

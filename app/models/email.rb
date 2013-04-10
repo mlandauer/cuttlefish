@@ -69,12 +69,6 @@ class Email < ActiveRecord::Base
     @data ||= (File.read(data_filesystem_path) if is_data_on_filesystem?)
   end
 
-  def overall_delivery_status
-    if deliveries.all? {|delivery| delivery.delivered_status_known? }
-      deliveries.all? {|delivery| delivery.delivered }
-    end
-  end
-
   def calculated_delivery_status
     if deliveries.any? {|delivery| delivery.status == "unknown" }
       "unknown"
@@ -90,7 +84,6 @@ class Email < ActiveRecord::Base
   end
 
   def update_delivery_status!
-    update_attribute(:delivered, overall_delivery_status)
     update_attribute(:delivery_status, calculated_delivery_status)
   end
 

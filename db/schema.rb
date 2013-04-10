@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130410083333) do
+ActiveRecord::Schema.define(version: 20130410152558) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -47,14 +47,12 @@ ActiveRecord::Schema.define(version: 20130410083333) do
     t.datetime "updated_at"
     t.integer  "from_address_id"
     t.string   "postfix_queue_id"
-    t.boolean  "delivered"
     t.string   "message_id"
     t.string   "data_hash"
-    t.string   "delivery_status"
+    t.string   "delivery_status",  default: "unknown", null: false
   end
 
   add_index "emails", ["created_at"], name: "index_emails_on_created_at"
-  add_index "emails", ["delivered"], name: "index_emails_on_delivered"
   add_index "emails", ["delivery_status"], name: "index_emails_on_delivery_status"
   add_index "emails", ["postfix_queue_id"], name: "index_emails_on_postfix_queue_id"
 
