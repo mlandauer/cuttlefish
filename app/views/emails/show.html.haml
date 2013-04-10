@@ -12,6 +12,10 @@
     %ul
       - @email.deliveries.each do |delivery|
         %li= render delivery
+%p
+  %strong Created:
+  = time_ago_in_words(@email.created_at)
+  ago (#{@email.created_at})
 
 %hr
 - if @email.data.nil?
@@ -39,18 +43,6 @@
         %pre= @email.text_part
       %div.tab-pane#source
         %pre= @email.data
-
-%hr
-%p
-  %strong Received:
-  = time_ago_in_words(@email.created_at)
-  ago (#{@email.created_at})
-%p
-  %strong Message ID:
-  = @email.message_id
-%p
-  %strong Content hash:
-  = @email.data_hash
 
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), emails_path, :class => 'btn'
