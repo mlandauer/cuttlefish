@@ -13,7 +13,7 @@
     %thead
       %tr
         %th To
-        %th Received
+        %th Created
     %tbody(data-provides="rowlink")
       - @emails.each do |email|
         %tr{class: delivered_class(email)}
