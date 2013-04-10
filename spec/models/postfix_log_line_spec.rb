@@ -40,7 +40,10 @@ describe PostfixLogLine do
     end
 
     context "one log line" do
-      let(:email) { Email.create!(postfix_queue_id: "39D9336AFA81", to: "foo@bar.com") }
+      let(:address) { Address.create!(text: "foo@bar.com")}
+      let(:email) { Email.create!(postfix_queue_id: "39D9336AFA81", to_addresses: [address]) }
+      let(:delivery) { Delivery.find_by(email: email, address: address) }
+
       before :each do
         email
         PostfixLogLine.create_from_line(line1)
@@ -48,7 +51,7 @@ describe PostfixLogLine do
 
       it "should extract and save relevant parts of the line" do
         PostfixLogLine.count.should == 1
-        line = email.postfix_log_lines.first
+        line = delivery.postfix_log_lines.first
         line.text.should == "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
         line.time.should == Time.local(2013,4,5,16,41,54)
       end
@@ -62,29 +65,33 @@ describe PostfixLogLine do
     end
 
     context "two log lines going to different destinations" do
+      let(:address1) { Address.create!(text: "foo@bar.com") }
+      let(:address2) { Address.create!(text: "anincorrectemailaddress@openaustralia.org") }
       let(:email) { Email.create!(postfix_queue_id: "39D9336AFA81",
-        :to => ["foo@bar.com", "anincorrectemailaddress@openaustralia.org"]) }
+        :to_addresses => [address1, address2]) }
+      let(:delivery1) { Delivery.find_by(email: email, address: address1) }
+      let(:delivery2) { Delivery.find_by(email: email, address: address2) }
+
       before :each do
         email
         PostfixLogLine.create_from_line(line1)
         PostfixLogLine.create_from_line(line4)
       end
 
-      it "should save two lines if two lines are processed" do
-        email.postfix_log_lines.count.should == 2
-      end
-
       it "should attach it to the delivery" do
-        email.deliveries[0].postfix_log_lines.count.should == 1
-        email.deliveries[1].postfix_log_lines.count.should == 1
+        delivery1.postfix_log_lines.count.should == 1
+        delivery2.postfix_log_lines.count.should == 1
       end
     end
 
     it "should not reprocess duplicate lines" do
-      email = Email.create!(postfix_queue_id: "39D9336AFA81", to: "foo@bar.com")
+      address = Address.create!(text: "foo@bar.com")
+      email = Email.create!(postfix_queue_id: "39D9336AFA81", to_addresses: [address])
+      delivery = Delivery.find_by(email: email, address: address)
+
       PostfixLogLine.create_from_line(line1)
       PostfixLogLine.create_from_line(line1)
-      email.postfix_log_lines.count.should == 1
+      delivery.postfix_log_lines.count.should == 1
     end
 
     it "should not produce any log lines if the queue id is not recognised" do

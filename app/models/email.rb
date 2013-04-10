@@ -1,7 +1,6 @@
 class Email < ActiveRecord::Base
   belongs_to :from_address, :class_name => "Address"
   has_and_belongs_to_many :to_addresses, :class_name => "Address", :join_table => "deliveries"
-  has_many :postfix_log_lines, -> { order :time }
   has_many :deliveries
 
   after_save :save_data_to_filesystem, :cleanup_filesystem_data_store

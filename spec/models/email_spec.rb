@@ -122,21 +122,24 @@ describe Email do
 
   describe "#update_delivery_status!" do
     context "an email with one recipient" do
-      let(:email) { Email.create!(:to => "matthew@foo.com") }
+      # TODO: It's time to start using factories
+      let(:address) { Address.create!(text: "matthew@foo.com")}
+      let(:email) { Email.create!(:to_addresses => [address]) }
+      let(:delivery) { Delivery.find_by(email: email, address: address)}
 
       it "should have an unknown delivery status before anything is done" do
-        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
+        delivery.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
         email.delivered.should be_nil
       end
 
       it "should be delivered if the status is sent" do
-        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0", delivery: email.deliveries.first)
+        delivery.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0", delivery: email.deliveries.first)
         email.update_delivery_status!
         email.delivered.should == true
       end
 
       it "should not be delivered if the status is deferred" do
-        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0", delivery: email.deliveries.first)
+        delivery.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0", delivery: email.deliveries.first)
         email.update_delivery_status!
         email.delivered.should == false
       end
@@ -148,29 +151,28 @@ describe Email do
     end
 
     context "an email with two recipients" do
-      let(:email) { Email.create!(:to => ["matthew@foo.com", "greg@foo.com"]) }
+      let(:address_matthew) { Address.create!(text: "matthew@foo.com") }
+      let(:address_greg) { Address.create!(text: "greg@foo.com")}
+      let(:email) { Email.create!(:to_addresses => [address_matthew, address_greg]) }
+      let(:delivery_matthew) { Delivery.find_by(email: email, address: address_matthew) }
+      let(:delivery_greg) { Delivery.find_by(email: email, address: address_greg) }
 
       it "should have an unknown delivery status if we only have one log entry" do
-        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
+        delivery_matthew.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
         email.update_delivery_status!
         email.delivered.should be_nil
       end
 
       it "should know it's delivered if there are two succesful deliveries in the logs" do
-        email
-        address_matthew = Address.find_by_text("matthew@foo.com")
-        address_greg = Address.find_by_text("greg@foo.com")
-        delivery_matthew = Delivery.find_by_address_id(address_matthew.id)
-        delivery_greg = Delivery.find_by_address_id(address_greg.id)
-        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0", delivery: delivery_matthew)
-        email.postfix_log_lines.create(to: "greg@foo.com", dsn: "2.0.0", delivery: delivery_greg)
+        delivery_matthew.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0", delivery: delivery_matthew)
+        delivery_greg.postfix_log_lines.create(to: "greg@foo.com", dsn: "2.0.0", delivery: delivery_greg)
         email.update_delivery_status!
         email.delivered.should == true
       end
 
       it "should be in an unknown state if there are two log entries from the same email address" do
-        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0")
-        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
+        delivery_matthew.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0")
+        delivery_matthew.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
         email.update_delivery_status!
         email.delivered.should be_nil
       end
