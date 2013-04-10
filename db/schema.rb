@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130410032907) do
+ActiveRecord::Schema.define(version: 20130410043016) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20130410032907) do
     t.string   "data_hash"
   end
 
+  add_index "emails", ["created_at"], name: "index_emails_on_created_at"
   add_index "emails", ["postfix_queue_id"], name: "index_emails_on_postfix_queue_id"
 
   create_table "postfix_log_lines", force: true do |t|
