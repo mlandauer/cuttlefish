@@ -14,7 +14,7 @@ class Address < ActiveRecord::Base
   end
 
   def emails
-    (emails_sent + emails_received).uniq
+    Email.joins(:from_address, :to_addresses).where("addresses.id = ? OR deliveries.address_id = ?", id, id)
   end
 
 end
