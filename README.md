@@ -1,5 +1,7 @@
 # README
 
+[![Build Status](https://travis-ci.org/mlandauer/cuttlefish.png?branch=master)](https://travis-ci.org/mlandauer/cuttlefish)
+
 Dependencies: Ruby 1.9.3, bundler
 
 ##To install:
