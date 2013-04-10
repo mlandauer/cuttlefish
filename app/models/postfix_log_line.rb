@@ -1,5 +1,6 @@
 class PostfixLogLine < ActiveRecord::Base
   belongs_to :email
+  belongs_to :delivery
 
   def delivered?
     dsn[0..1] == "2."
@@ -12,18 +13,24 @@ class PostfixLogLine < ActiveRecord::Base
     if values[:program] == "smtp"
       # TODO: Should find the most recent email with the queue ID (as there may be several)
       email = Email.find_by_postfix_queue_id(values[:queue_id])
-      if email
-        if email.to.include?(values[:to])
+      address = Address.find_by_text(values[:to])
+      if email && address
+        delivery = email.deliveries.find_by_address_id(address.id)
+        if delivery
           # Don't resave duplicates
           email.postfix_log_lines.find_or_create_by(time: values[:time], text: values[:program_content],
             to: values[:to], relay: values[:relay], delay: values[:delay], delays: values[:delays],
-            dsn: values[:dsn], status: values[:status])
+            dsn: values[:dsn], status: values[:status], delivery: delivery)
           email.update_delivery_status!
         else
           puts "Skipping address #{values[:to]} from postfix queue id #{values[:queue_id]} - it's not recognised"
         end
       else
-        puts "Skipping postfix queue id #{values[:queue_id]} - it's not recognised"
+        if email.nil?
+          puts "Skipping postfix queue id #{values[:queue_id]} - it's not recognised"
+        elsif address.nil?
+          puts "Skipping address #{values[:to]} from postfix queue id #{values[:queue_id]} - it's not recognised"
+        end
       end
     end
   end

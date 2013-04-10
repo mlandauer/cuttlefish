@@ -130,13 +130,13 @@ describe Email do
       end
 
       it "should be delivered if the status is sent" do
-        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
+        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0", delivery: email.deliveries.first)
         email.update_delivery_status!
         email.delivered.should == true
       end
 
       it "should not be delivered if the status is deferred" do
-        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0")
+        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0", delivery: email.deliveries.first)
         email.update_delivery_status!
         email.delivered.should == false
       end
@@ -157,8 +157,13 @@ describe Email do
       end
 
       it "should know it's delivered if there are two succesful deliveries in the logs" do
-        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
-        email.postfix_log_lines.create(to: "greg@foo.com", dsn: "2.0.0")
+        email
+        address_matthew = Address.find_by_text("matthew@foo.com")
+        address_greg = Address.find_by_text("greg@foo.com")
+        delivery_matthew = Delivery.find_by_address_id(address_matthew.id)
+        delivery_greg = Delivery.find_by_address_id(address_greg.id)
+        email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0", delivery: delivery_matthew)
+        email.postfix_log_lines.create(to: "greg@foo.com", dsn: "2.0.0", delivery: delivery_greg)
         email.update_delivery_status!
         email.delivered.should == true
       end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130410000152) do
+ActiveRecord::Schema.define(version: 20130410021031) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20130410000152) do
     t.string   "delays"
     t.string   "dsn"
     t.text     "status"
+    t.integer  "delivery_id"
   end
 
   add_index "postfix_log_lines", ["time"], name: "index_postfix_log_lines_on_time"

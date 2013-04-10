@@ -5,12 +5,12 @@ describe Delivery do
     let(:email) { Email.create!(:to => "matthew@foo.com") }
 
     it "should be delivered if the status is sent" do
-      email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0")
+      email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "2.0.0", delivery: email.deliveries.first)
       email.deliveries.first.delivered.should == true
     end
 
     it "should not be delivered if the status is deferred" do
-      email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0")
+      email.postfix_log_lines.create(to: "matthew@foo.com", dsn: "4.3.0", delivery: email.deliveries.first)
       email.deliveries.first.delivered.should == false
     end
   
