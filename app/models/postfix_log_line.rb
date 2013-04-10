@@ -14,9 +14,10 @@ class PostfixLogLine < ActiveRecord::Base
       # TODO: Should find the most recent email with the queue ID (as there may be several)
       email = Email.find_by_postfix_queue_id(values[:queue_id])
       address = Address.find_by_text(values[:to])
-      if email && address
-        delivery = email.deliveries.find_by_address_id(address.id)
-        if delivery
+      delivery = email.deliveries.find_by_address_id(address.id) if email && address
+
+      if email
+        if address && delivery
           # Don't resave duplicates
           email.postfix_log_lines.find_or_create_by(time: values[:time], text: values[:program_content],
             to: values[:to], relay: values[:relay], delay: values[:delay], delays: values[:delays],
@@ -26,11 +27,7 @@ class PostfixLogLine < ActiveRecord::Base
           puts "Skipping address #{values[:to]} from postfix queue id #{values[:queue_id]} - it's not recognised"
         end
       else
-        if email.nil?
-          puts "Skipping postfix queue id #{values[:queue_id]} - it's not recognised"
-        elsif address.nil?
-          puts "Skipping address #{values[:to]} from postfix queue id #{values[:queue_id]} - it's not recognised"
-        end
+        puts "Skipping postfix queue id #{values[:queue_id]} - it's not recognised"
       end
     end
   end
