@@ -163,11 +163,11 @@ describe PostfixLogLine do
     end
 
     it "should see a dsn of 5.1.1 as not delivered" do
-      PostfixLogLine.new(:dsn => "5.1.1").delivery_status.should == "permanent_failure"
+      PostfixLogLine.new(:dsn => "5.1.1").delivery_status.should == "hard_bounce"
     end
 
     it "should see a dsn of 4.4.1 as not delivered" do
-      PostfixLogLine.new(:dsn => "4.4.1").delivery_status.should == "transient_failure"
+      PostfixLogLine.new(:dsn => "4.4.1").delivery_status.should == "soft_bounce"
     end
   end
 end

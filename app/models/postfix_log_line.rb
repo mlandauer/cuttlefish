@@ -5,15 +5,25 @@ class PostfixLogLine < ActiveRecord::Base
     dsn[0..1] == "2."
   end
 
-  def delivery_status
-    if dsn[0..1] == "2."
-      "delivered"
-    elsif dsn[0..1] == "4."
-      "transient_failure"
-    elsif dsn[0..1] == "5."
-      "permanent_failure"
+  def dsn_class
+    match = dsn.match(/^(\d)\.(\d+)\.(\d+)/)
+    if match
+      match[1].to_i
     else
-      raise "Unknown dsn major code"
+      raise "Unexpected form for dsn code"
+    end
+  end
+
+  def delivery_status
+    case dsn_class
+    when 2
+      "delivered"
+    when 4
+      "soft_bounce"
+    when 5
+      "hard_bounce"
+    else
+      raise "Unknown dsn class"
     end
   end
 
