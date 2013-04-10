@@ -1,15 +1,19 @@
 require 'spec_helper'
 
-# Specs in this file have access to a helper object that includes
-# the EmailsHelper. For example:
-#
-# describe EmailsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       helper.concat_strings("this","that").should == "this that"
-#     end
-#   end
-# end
 describe EmailsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe ".delivered_class" do
+    it { helper.delivered_class(mock(:status => "delivered")).should == "success"}
+    it { helper.delivered_class(mock(:status => "soft_bounce")).should == "warning"}
+    it { helper.delivered_class(mock(:status => "hard_bounce")).should == "error"}
+    it { helper.delivered_class(mock(:status => "unknown")).should be_nil}
+    it { expect {helper.delivered_class(mock(:status => "foo")) }.to raise_error }
+  end
+
+  describe ".delivered_label" do
+    it { helper.delivered_label("delivered").should == '<span class="label label-success">Delivered</span>' }
+    it { helper.delivered_label("soft_bounce").should == '<span class="label label-warning">Soft bounce</span>' }
+    it { helper.delivered_label("hard_bounce").should == '<span class="label label-important">Hard bounce</span>' }
+    it { helper.delivered_label("unknown").should == '<span class="label">Unknown</span>' }
+    it { expect {helper.delivered_label("foo")}.to raise_error }
+  end
 end
