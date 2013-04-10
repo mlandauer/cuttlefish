@@ -1,6 +1,14 @@
 .page-header
   %h1 Recent emails
 = paginated_section @emails do
+  %ul.nav.nav-pills
+    %li{class: ("active" if @delivered.nil?)}
+      = link_to "All", emails_path
+    %li{class: ("active" if @delivered == true)}
+      = link_to "Delivered", emails_path(:delivered => true)
+    %li{class: ("active" if @delivered == false)}
+      = link_to "Not delivered", emails_path(:delivered => false)
+
   %table.table.table-striped
     %thead
       %tr
