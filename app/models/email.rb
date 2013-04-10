@@ -87,11 +87,15 @@ class Email < ActiveRecord::Base
     update_attribute(:status, calculated_status)
   end
 
+  def mail
+    Mail.new(data)
+  end
+
   def text_part
     if part("text/plain")
       part("text/plain")
     else
-      Mail.new(data).body.to_s
+      mail.body.to_s
     end
   end
 
@@ -101,7 +105,7 @@ class Email < ActiveRecord::Base
 
   # First part with a particular mime type
   def part(mime_type)
-    part = Mail.new(data).parts.find{|p| p.mime_type == mime_type}
+    part = mail.parts.find{|p| p.mime_type == mime_type}
     part.body.to_s if part
   end
 
