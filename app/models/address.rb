@@ -17,4 +17,7 @@ class Address < ActiveRecord::Base
     Email.joins(:from_address, :to_addresses).where("addresses.id = ? OR deliveries.address_id = ?", id, id)
   end
 
+  def calculated_status
+    PostfixLogLine.joins(:delivery => :address).where("address_id = ?", id).order("time DESC").first.status
+  end
 end
