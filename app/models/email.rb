@@ -18,15 +18,9 @@ class Email < ActiveRecord::Base
     where('created_at > ?', 7.days.ago)
   end
 
-  def self.today_counts
-    sent_today.group(:status).count
-  end
-
-  def self.this_week_counts
-    sent_this_week.group(:status).count
-  end
-
   def self.stats
+    today_counts = sent_today.group(:status).count
+    this_week_counts = sent_this_week.group(:status).count
     {
       today: {
         total: today_counts.values.sum,
