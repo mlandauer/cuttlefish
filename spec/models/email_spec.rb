@@ -6,6 +6,16 @@ describe Email do
       Net::SMTP.should_receive(:start).with("localhost", 25)
       Email.new.forward
     end
+
+    it "should send an email to the list of addresses specified in to_to_forward" do
+      email = Email.new
+      to_to_forward = mock
+      email.should_receive(:to_to_forward).and_return(to_to_forward)    
+      smtp = mock
+      smtp.should_receive(:send_message).with(anything(), anything(), to_to_forward).and_return(mock(message: ""))
+      Net::SMTP.stub(:start).and_yield(smtp)
+      email.forward   
+    end
   end
 
   describe "create!" do
