@@ -23,6 +23,7 @@ class Email < ActiveRecord::Base
     counts = emails.group(:status).count
     {
       total: counts.values.sum,
+      not_sent: counts["not_sent"] || 0,
       delivered: counts["delivered"] || 0,
       soft_bounce: counts["soft_bounce"] || 0,
       hard_bounce: counts["hard_bounce"] || 0
