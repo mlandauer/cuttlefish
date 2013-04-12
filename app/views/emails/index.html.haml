@@ -16,7 +16,7 @@
         %th Created
     %tbody(data-provides="rowlink")
       - @emails.each do |email|
-        %tr{class: delivered_class(email.status)}
+        %tr{class: row_status_class(email.status)}
           %td= link_to truncate(email.to_as_string, length: 50), email_path(email), :class => "rowlink"
           %td
             = time_ago_in_words(email.created_at)

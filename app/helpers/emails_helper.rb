@@ -1,7 +1,7 @@
 module EmailsHelper
   # Give a warning level (used for colouring things in Bootstrap) based on whether the email has
   # been delivered succesfully
-  def delivered_class(status)
+  def row_status_class(status)
     case status
     when "delivered"
       "success"
