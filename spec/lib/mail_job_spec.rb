@@ -8,9 +8,9 @@ describe MailJob, '#perform' do
     Email.count.should == 1
   end
 
-  it "should forward the email information" do
+  it "should forward the email information to port 25 on the localhost" do
     email = mock_model(Email)
-    email.should_receive(:forward)
+    email.should_receive(:forward).with("localhost", 25)
     Email.stub(:create!).and_return(email)
 
     MailJob.new(OpenStruct.new(:sender => "<matthew@foo.com>", :recipients => ["<foo@bar.com>"], :data => "message")).perform

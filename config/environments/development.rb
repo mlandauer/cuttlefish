@@ -27,4 +27,12 @@ Cuttlefish::Application.configure do
 
   # Send our own outgoing email through Cuttlefish
   config.action_mailer.smtp_settings = { :address => "localhost", :port => 2525 }
+
+  #####################################################
+  # Cuttlefish specific configuration below here ONLY #
+  #####################################################
+
+  # In development send the mails to mailcatcher: http://mailcatcher.me/
+  config.postfix_smtp_host = "localhost"
+  config.postfix_smtp_port = 1025
 end

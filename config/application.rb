@@ -25,5 +25,12 @@ module Cuttlefish
     # config.i18n.default_locale = :de
 
     config.autoload_paths += %W(#{config.root}/lib)
+
+    #####################################################
+    # Cuttlefish specific configuration below here ONLY #
+    #####################################################
+
+    config.postfix_smtp_host = "localhost"
+    config.postfix_smtp_port = 25
   end
 end

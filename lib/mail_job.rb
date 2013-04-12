@@ -11,13 +11,7 @@ class MailJob
         to: message.recipients.map{|t| t.match("<(.*)>")[1]},
         data: message.data)
 
-      if Rails.env == "development"
-        # In development send the mails to mailcatcher
-        email.forward('localhost', 1025)
-      else
-        # Otherwise use whatever the local smtp server is
-        email.forward('localhost', 25)
-      end
+      email.forward(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port)
     end
   end
 end
