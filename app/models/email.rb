@@ -10,23 +10,15 @@ class Email < ActiveRecord::Base
 
   attr_writer :data
 
-  def self.sent_today
-    where('created_at > ?', Date.today.beginning_of_day)
-  end
-
-  def self.sent_this_week
-    where('created_at > ?', 7.days.ago)
-  end
-
   def self.stats
     {
-      today: stats2(sent_today),
-      this_week: stats2(sent_this_week)
+      today: stats_for_emails(where('created_at > ?', Date.today.beginning_of_day)),
+      this_week: stats_for_emails(where('created_at > ?', 7.days.ago))
     }
   end
 
   # Do a standard set of statistics over a set of emails
-  def self.stats2(emails)
+  def self.stats_for_emails(emails)
     counts = emails.group(:status).count
     {
       total: counts.values.sum,
