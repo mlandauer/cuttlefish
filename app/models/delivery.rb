@@ -3,6 +3,8 @@ class Delivery < ActiveRecord::Base
   belongs_to :address
   has_many :postfix_log_lines, -> { order "time DESC" }
 
+  after_save :update_status!
+  
   # Should this email be sent to this address?
   # If not it's because the email has bounced
   def forward?
