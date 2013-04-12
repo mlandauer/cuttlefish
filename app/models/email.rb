@@ -12,9 +12,17 @@ class Email < ActiveRecord::Base
 
   def self.stats
     {
-      today: stats_for_emails(where('created_at > ?', Date.today.beginning_of_day)),
-      this_week: stats_for_emails(where('created_at > ?', 7.days.ago))
+      today: stats_today,
+      this_week: stats_this_week
     }
+  end
+
+  def self.stats_today
+    stats_for_emails(where('created_at > ?', Date.today.beginning_of_day))
+  end
+
+  def self.stats_this_week
+    stats_for_emails(where('created_at > ?', 7.days.ago))
   end
 
   # Do a standard set of statistics over a set of emails
