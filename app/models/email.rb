@@ -152,8 +152,8 @@ class Email < ActiveRecord::Base
   end
 
   # Send this mail to another smtp server
-  def forward(server, port)
-    Net::SMTP.start(server, port) do |smtp|
+  def forward
+    Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
       response = smtp.send_message(data, from, to)
       update_attribute(:postfix_queue_id, Email.extract_postfix_queue_id_from_smtp_message(response.message)) 
     end    

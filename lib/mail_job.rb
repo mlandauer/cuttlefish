@@ -11,7 +11,7 @@ class MailJob
         to: message.recipients.map{|t| t.match("<(.*)>")[1]},
         data: message.data)
 
-      email.forward(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port)
+      email.forward
     end
   end
 end

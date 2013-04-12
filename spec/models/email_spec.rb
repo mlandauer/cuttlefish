@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe Email do
+  describe "#forward" do
+    it "should open an smtp connection to localhost port 25" do
+      Net::SMTP.should_receive(:start).with("localhost", 25)
+      Email.new.forward
+    end
+  end
+
   describe "create!" do
     context "One email is created" do
       before :each do
