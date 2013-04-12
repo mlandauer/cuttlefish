@@ -26,36 +26,21 @@ class Email < ActiveRecord::Base
     sent_this_week.group(:status).count
   end
 
-  def self.sent_today_count
-    today_counts.values.sum
-  end
-
-  def self.delivered_today_count
-    today_counts["delivered"] || 0
-  end
-
-  def self.soft_bounces_today_count
-    today_counts["soft_bounce"] || 0
-  end
-
-  def self.hard_bounces_today_count
-    today_counts["hard_bounce"] || 0
-  end
-
-  def self.sent_this_week_count
-    this_week_counts.values.sum
-  end
-
-  def self.delivered_this_week_count
-    this_week_counts["delivered"] || 0
-  end
-
-  def self.soft_bounces_this_week_count
-    this_week_counts["soft_bounce"] || 0
-  end
-
-  def self.hard_bounces_this_week_count
-    this_week_counts["hard_bounce"] || 0
+  def self.stats
+    {
+      today: {
+        total: today_counts.values.sum,
+        delivered: today_counts["delivered"] || 0,
+        soft_bounce: today_counts["soft_bounce"] || 0,
+        hard_bounce: today_counts["hard_bounce"] || 0
+      },
+      this_week: {
+        total: this_week_counts.values.sum,
+        delivered: this_week_counts["delivered"] || 0,
+        soft_bounce: this_week_counts["soft_bounce"] || 0,
+        hard_bounce: this_week_counts["hard_bounce"] || 0
+      }
+    }
   end
 
   def from
