@@ -3,6 +3,7 @@ module EmailsHelper
   # The naming of the bootstrap classes is not entirely consistent. There are two variants
   def bootstrap_status_class(status, variant = false)
     map = {
+      "not_sent" => "info",
       "delivered" => "success",
       "soft_bounce" => "warning",
       "unknown" => nil
@@ -19,6 +20,8 @@ module EmailsHelper
 
   def status_name(status)
     case status
+    when "not_sent"
+      "Held back"
     when "delivered"
       "Delivered"
     when "soft_bounce"
