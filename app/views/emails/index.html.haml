@@ -7,6 +7,7 @@
     = link_to "Delivered", emails_path(status: "delivered"), :class => ["btn", "btn-small", ("active" if @status == "delivered")]
     = link_to "Soft bounces", emails_path(status: "soft_bounce"), :class => ["btn", "btn-small", ("active" if @status == "soft_bounce")]
     = link_to "Hard bounces", emails_path(status: "hard_bounce"), :class => ["btn", "btn-small", ("active" if @status == "hard_bounce")]
+    = link_to "Held back", emails_path(status: "not_sent"), :class => ["btn", "btn-small", ("active" if @status == "not_sent")]
 
 = paginated_section(@emails, previous_label: "«", next_label: "»", class: "pagination pagination-centered pagination-small")  do
   %table.table.table-striped

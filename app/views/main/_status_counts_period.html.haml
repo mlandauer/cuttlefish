@@ -20,7 +20,7 @@
       = link_to emails_path(status: "hard_bounce") do
         %span.badge.badge-important.pull-right= stats[:hard_bounce]
   %tr
-    %td Not sent
+    %td Held back
     %td 
       = link_to emails_path(status: "not_sent") do
         %span.badge.badge-info.pull-right= stats[:not_sent]
