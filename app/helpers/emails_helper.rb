@@ -13,12 +13,6 @@ module EmailsHelper
     map[status]
   end
 
-  # Give a warning level (used for colouring things in Bootstrap) based on whether the email has
-  # been delivered succesfully
-  def row_status_class(status)
-    bootstrap_status_class(status)
-  end
-
   def status_class_category(status)
     bootstrap_status_class(status, true)
   end

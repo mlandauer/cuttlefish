@@ -9,7 +9,7 @@
         %th Last sent
     %tbody(data-provides="rowlink")
       - @addresses.each do |address|
-        %tr{class: row_status_class(address.status)}
+        %tr{class: bootstrap_status_class(address.status)}
           %td= link_to address.text, address
           %td
             - if address.time_last_received
