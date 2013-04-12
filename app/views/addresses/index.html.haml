@@ -1,5 +1,12 @@
 .page-header
   %h1 Addresses
+
+.filter-wrap
+  .btn-group
+    = link_to "All", addresses_path, :class => ["btn", "btn-small", ("active" if @status.nil?)]
+    = link_to "Sent from", addresses_path(status: "from"), :class => ["btn", "btn-small", ("active" if @status == "from")]
+    = link_to "Sent to", addresses_path(status: "to"), :class => ["btn", "btn-small", ("active" if @status == "to")]
+
 = paginated_section @addresses do
   %table.table.table-striped
     %thead

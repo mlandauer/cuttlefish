@@ -1,6 +1,14 @@
 class AddressesController < ApplicationController
   def index
-    @addresses = Address.order("text").paginate(:page => params[:page])
+    @status = params[:status]
+
+    if @status == "from"
+      @addresses = Address.all_sent_email.order("text").paginate(:page => params[:page])
+    elsif @status == "to"
+      @addresses = Address.all_received_email.order("text").paginate(:page => params[:page])
+    else
+      @addresses = Address.order("text").paginate(:page => params[:page])
+    end
   end
 
   def show
