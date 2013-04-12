@@ -2,33 +2,25 @@ module EmailsHelper
   # Give a warning level (used for colouring things in Bootstrap) based on whether the email has
   # been delivered succesfully
   def row_status_class(status)
-    case status
-    when "delivered"
-      "success"
-    when "soft_bounce"
-      "warning"
-    when "hard_bounce"
-      "error"
-    when "unknown"
-      nil
-    else
-      raise "Unknown status"
-    end
+    map = {
+      "delivered" => "success",
+      "soft_bounce" => "warning",
+      "hard_bounce" => "error",
+      "unknown" => nil
+    }
+    raise "Unknown status" unless map.has_key?(status)
+    map[status]
   end
 
   def status_class_category(status)
-    case status
-    when "delivered"
-      "success"
-    when "soft_bounce"
-      "warning"
-    when "hard_bounce"
-      "important"
-    when "unknown"
-      nil
-    else
-      raise "Unknown status"
-    end
+    map = {
+      "delivered" => "success",
+      "soft_bounce" => "warning",
+      "hard_bounce" => "important",
+      "unknown" => nil
+    }
+    raise "Unknown status" unless map.has_key?(status)
+    map[status]
   end
 
   def label_class(status)
