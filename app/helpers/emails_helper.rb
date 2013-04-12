@@ -1,26 +1,34 @@
 module EmailsHelper
+  # Mapping from status strings to bootstrap classes
+  # The naming of the classes is not entirely consistent. There are two variants
+  def bootstrap_status_mapping(variant = false)
+    if variant
+      {
+        "delivered" => "success",
+        "soft_bounce" => "warning",
+        "hard_bounce" => "important",
+        "unknown" => nil
+      }
+    else
+      {
+        "delivered" => "success",
+        "soft_bounce" => "warning",
+        "hard_bounce" => "error",
+        "unknown" => nil
+      }
+    end      
+  end
+
   # Give a warning level (used for colouring things in Bootstrap) based on whether the email has
   # been delivered succesfully
   def row_status_class(status)
-    map = {
-      "delivered" => "success",
-      "soft_bounce" => "warning",
-      "hard_bounce" => "error",
-      "unknown" => nil
-    }
-    raise "Unknown status" unless map.has_key?(status)
-    map[status]
+    raise "Unknown status" unless bootstrap_status_mapping.has_key?(status)
+    bootstrap_status_mapping[status]
   end
 
   def status_class_category(status)
-    map = {
-      "delivered" => "success",
-      "soft_bounce" => "warning",
-      "hard_bounce" => "important",
-      "unknown" => nil
-    }
-    raise "Unknown status" unless map.has_key?(status)
-    map[status]
+    raise "Unknown status" unless bootstrap_status_mapping(true).has_key?(status)
+    bootstrap_status_mapping(true)[status]
   end
 
   def label_class(status)
