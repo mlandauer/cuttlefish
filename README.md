@@ -39,3 +39,18 @@ This allows the deploy user to sudo just to manage the upstart processes
 ## New relic:
 If you use new relic just put your configuration file in shared/newrelic.yml on the server
 To record your deploys you will also need to add config/newrelic.yml on your local box. How annoying!
+
+## How to contribute
+
+If you find what looks like a bug:
+
+* Check the [GitHub issue tracker](http://github.com/mlandauer/cuttlefish/issues/)
+  to see if anyone else has reported issue.
+* If you don't see anything, create an issue with information on how to reproduce it.
+
+If you want to contribute an enhancement or a fix:
+
+* Fork the project on GitHub.
+* Make your changes with tests.
+* Commit the changes without making changes to any files that aren't related to your enhancement or fix.
+* Send a pull request.
