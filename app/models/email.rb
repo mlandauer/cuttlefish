@@ -18,29 +18,44 @@ class Email < ActiveRecord::Base
     where('created_at > ?', 7.days.ago)
   end
 
-  # TODO: Combine all of these below into a single db query
-  def self.delivered_today
-    sent_today.where(status: "delivered")
+  def self.today_counts
+    sent_today.group(:status).count
   end
 
-  def self.soft_bounces_today
-    sent_today.where(status: "soft_bounce")
+  def self.this_week_counts
+    sent_this_week.group(:status).count
   end
 
-  def self.hard_bounces_today
-    sent_today.where(status: "hard_bounce")
+  def self.sent_today_count
+    today_counts.values.sum
   end
 
-  def self.delivered_this_week
-    sent_this_week.where(status: "delivered")
+  def self.delivered_today_count
+    today_counts["delivered"] || 0
   end
 
-  def self.soft_bounces_this_week
-    sent_this_week.where(status: "soft_bounce")
+  def self.soft_bounces_today_count
+    today_counts["soft_bounce"] || 0
   end
 
-  def self.hard_bounces_this_week
-    sent_this_week.where(status: "hard_bounce")
+  def self.hard_bounces_today_count
+    today_counts["hard_bounce"] || 0
+  end
+
+  def self.sent_this_week_count
+    this_week_counts.values.sum
+  end
+
+  def self.delivered_this_week_count
+    this_week_counts["delivered"] || 0
+  end
+
+  def self.soft_bounces_this_week_count
+    this_week_counts["soft_bounce"] || 0
+  end
+
+  def self.hard_bounces_this_week_count
+    this_week_counts["hard_bounce"] || 0
   end
 
   def from
