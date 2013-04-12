@@ -1,6 +1,10 @@
-# README
+# Cuttlefish
 
 [![Build Status](https://travis-ci.org/mlandauer/cuttlefish.png?branch=master)](https://travis-ci.org/mlandauer/cuttlefish) [![Coverage Status](https://coveralls.io/repos/mlandauer/cuttlefish/badge.png?branch=master)](https://coveralls.io/r/mlandauer/cuttlefish) [![Code Climate](https://codeclimate.com/github/mlandauer/cuttlefish.png)](https://codeclimate.com/github/mlandauer/cuttlefish)
+
+Cuttlefish is an easy to setup and easy to use open source transactional email server
+
+It ensures that your emails arrive at their destination by continuously monitoring the deliverability of your emails.
 
 Dependencies: Ruby 1.9.3, bundler
 
