@@ -10,13 +10,6 @@ class Email < ActiveRecord::Base
 
   attr_writer :data
 
-  def self.stats
-    {
-      today: stats_today,
-      this_week: stats_this_week
-    }
-  end
-
   def self.stats_today
     stats_for_emails(where('created_at > ?', Date.today.beginning_of_day))
   end

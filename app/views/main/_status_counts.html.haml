@@ -4,22 +4,22 @@
     %td Sent
     %td
       = link_to emails_path do
-        %span.badge.pull-right= Email.stats[:today][:total]
+        %span.badge.pull-right= Email.stats_today[:total]
   %tr
     %td Delivered
     %td 
       = link_to emails_path(status: "delivered") do
-        %span.badge.badge-success.pull-right= Email.stats[:today][:delivered]
+        %span.badge.badge-success.pull-right= Email.stats_today[:delivered]
   %tr
     %td Soft bounces
     %td
       = link_to emails_path(status: "soft_bounce") do
-        %span.badge.badge-warning.pull-right= Email.stats[:today][:soft_bounce]
+        %span.badge.badge-warning.pull-right= Email.stats_today[:soft_bounce]
   %tr
     %td Hard bounces
     %td
       = link_to emails_path(status: "hard_bounce") do
-        %span.badge.badge-important.pull-right= Email.stats[:today][:hard_bounce]
+        %span.badge.badge-important.pull-right= Email.stats_today[:hard_bounce]
 
 %h3 Last 7 days
 %table.table.table-condensed
@@ -27,19 +27,19 @@
     %td Sent
     %td
       = link_to emails_path do
-        %span.badge.pull-right= Email.stats[:this_week][:total]
+        %span.badge.pull-right= Email.stats_this_week[:total]
   %tr
     %td Delivered
     %td 
       = link_to emails_path(status: "delivered") do
-        %span.badge.badge-success.pull-right= Email.stats[:this_week][:delivered]
+        %span.badge.badge-success.pull-right= Email.stats_this_week[:delivered]
   %tr
     %td Soft bounces
     %td
       = link_to emails_path(status: "soft_bounce") do
-        %span.badge.badge-warning.pull-right= Email.stats[:this_week][:soft_bounce]
+        %span.badge.badge-warning.pull-right= Email.stats_this_week[:soft_bounce]
   %tr
     %td Hard bounces
     %td
       = link_to emails_path(status: "hard_bounce") do
-        %span.badge.badge-important.pull-right= Email.stats[:this_week][:hard_bounce]
+        %span.badge.badge-important.pull-right= Email.stats_this_week[:hard_bounce]
