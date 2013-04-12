@@ -154,7 +154,7 @@ class Email < ActiveRecord::Base
   # The list of email addresses we will actually forward this to
   # This list could be smaller than "to" if some of the email addresses have hard bounced
   def deliveries_to_forward
-    deliveries
+    deliveries.select{|delivery| delivery.forward?}
   end
 
   # Send this mail to another smtp server
