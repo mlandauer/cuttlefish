@@ -2,9 +2,22 @@ require 'spec_helper'
 
 describe Email do
   describe "#forward" do
-    it "should open an smtp connection to localhost port 25" do
-      Net::SMTP.should_receive(:start).with("localhost", 25)
-      Email.new(:to => "foo@bar.com").forward
+    context "an email with one recipient" do
+      before :each do
+        @email = Email.create!(:to => "foo@bar.com")
+      end
+
+      it "should open an smtp connection to localhost port 25" do
+        Net::SMTP.should_receive(:start).with("localhost", 25)
+        @email.forward
+      end
+
+      it "should send an email to foo@bar.com" do
+        smtp = mock
+        smtp.should_receive(:send_message).with(anything(), anything(), ["foo@bar.com"]).and_return(mock(message: ""))
+        Net::SMTP.should_receive(:start).and_yield(smtp)
+        @email.forward
+      end
     end
 
     it "should send an email to the list of addresses specified in to_to_forward" do
@@ -28,6 +41,24 @@ describe Email do
         email.forward
       end
     end
+
+    context "an email with one destination" do
+      before :each do
+        @email = Email.create!(to: "foo@bar.com")
+        # Don't want to actually send anything
+        Net::SMTP.stub(:start)
+      end
+
+      it "should record to which destinations the email has been sent" do
+        @email.deliveries.first.sent?.should be_false
+      end
+
+      it "should record to which destinations the email has been sent" do
+        @email.forward
+        @email.deliveries.first.sent?.should be_true
+      end
+    end
+
   end
 
   describe "create!" do

@@ -154,7 +154,11 @@ class Email < ActiveRecord::Base
   # The list of email addresses we will actually forward this to
   # This list could be smaller than "to" if some of the email addresses have hard bounced
   def to_to_forward
-    to
+    deliveries.map{|d| d.address.text}
+  end
+
+  def deliveries_to_forward
+    deliveries
   end
 
   # Send this mail to another smtp server
@@ -164,6 +168,7 @@ class Email < ActiveRecord::Base
         response = smtp.send_message(data, from, to_to_forward)
         update_attribute(:postfix_queue_id, Email.extract_postfix_queue_id_from_smtp_message(response.message)) 
       end
+      deliveries_to_forward.each {|delivery| delivery.update_attribute(:sent, true) }
     end
   end
 
