@@ -192,6 +192,10 @@ describe Email do
     end
   end
 
+  describe "#status" do
+    it { Email.create!.status.should == "not_sent" }
+  end
+
   describe "#calculated_status" do
     context "an email with one recipient" do
       # TODO: It's time to start using factories
