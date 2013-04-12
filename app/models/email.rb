@@ -19,21 +19,20 @@ class Email < ActiveRecord::Base
   end
 
   def self.stats
-    today_counts = sent_today.group(:status).count
-    this_week_counts = sent_this_week.group(:status).count
     {
-      today: {
-        total: today_counts.values.sum,
-        delivered: today_counts["delivered"] || 0,
-        soft_bounce: today_counts["soft_bounce"] || 0,
-        hard_bounce: today_counts["hard_bounce"] || 0
-      },
-      this_week: {
-        total: this_week_counts.values.sum,
-        delivered: this_week_counts["delivered"] || 0,
-        soft_bounce: this_week_counts["soft_bounce"] || 0,
-        hard_bounce: this_week_counts["hard_bounce"] || 0
-      }
+      today: stats2(sent_today),
+      this_week: stats2(sent_this_week)
+    }
+  end
+
+  # Do a standard set of statistics over a set of emails
+  def self.stats2(emails)
+    counts = emails.group(:status).count
+    {
+      total: counts.values.sum,
+      delivered: counts["delivered"] || 0,
+      soft_bounce: counts["soft_bounce"] || 0,
+      hard_bounce: counts["hard_bounce"] || 0
     }
   end
 
