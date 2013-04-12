@@ -56,6 +56,10 @@ describe Address do
         delivery3.postfix_log_lines.create!(dsn: "2.0.0", time: 10.minutes.ago)
         address2.status.should == "soft_bounce"
       end
+
+      it "should be unknown if there are no delivery attempts" do
+        address2.status.should == "unknown"
+      end
     end
   end
 end
