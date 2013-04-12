@@ -11,16 +11,19 @@ module EmailsHelper
     map
   end
 
+  def bootstrap_status_class(status, variant = false)
+    raise "Unknown status" unless bootstrap_status_mapping(variant).has_key?(status)
+    bootstrap_status_mapping(variant)[status]
+  end
+
   # Give a warning level (used for colouring things in Bootstrap) based on whether the email has
   # been delivered succesfully
   def row_status_class(status)
-    raise "Unknown status" unless bootstrap_status_mapping.has_key?(status)
-    bootstrap_status_mapping[status]
+    bootstrap_status_class(status)
   end
 
   def status_class_category(status)
-    raise "Unknown status" unless bootstrap_status_mapping(true).has_key?(status)
-    bootstrap_status_mapping(true)[status]
+    bootstrap_status_class(status, true)
   end
 
   def label_class(status)
