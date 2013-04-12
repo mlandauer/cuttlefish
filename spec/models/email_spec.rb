@@ -199,18 +199,24 @@ describe Email do
       let(:email) { Email.create!(:to_addresses => [address]) }
       let(:delivery) { Delivery.find_by(email: email, address: address)}
 
-      it "should be delivered if the status is sent" do
-        delivery.postfix_log_lines.create(dsn: "2.0.0")
-        email.calculated_status.should == "delivered"
+      context "email is sent" do
+        before :each do
+          delivery.update_attribute(:sent, true)
+        end
+
+        it "should be delivered if the status is sent" do
+          delivery.postfix_log_lines.create(dsn: "2.0.0")
+          email.calculated_status.should == "delivered"
+        end
+
+        it "should not be delivered if the status is deferred" do
+          delivery.postfix_log_lines.create(dsn: "4.3.0")
+          email.calculated_status.should == "soft_bounce"
+        end
       end
 
-      it "should not be delivered if the status is deferred" do
-        delivery.postfix_log_lines.create(dsn: "4.3.0")
-        email.calculated_status.should == "soft_bounce"
-      end
-
-      it "should not update the delivery status if there are no log lines" do
-        email.calculated_status.should == "unknown"
+      it "should start in a state of not sent" do
+        email.calculated_status.should == "not_sent"
       end
     end
 
@@ -220,6 +226,10 @@ describe Email do
       let(:email) { Email.create!(:to_addresses => [address_matthew, address_greg]) }
       let(:delivery_matthew) { Delivery.find_by(email: email, address: address_matthew) }
       let(:delivery_greg) { Delivery.find_by(email: email, address: address_greg) }
+      before :each do
+        delivery_matthew.update_attribute(:sent, true)
+        delivery_greg.update_attribute(:sent, true)
+      end
 
       it "should have an unknown delivery status if we only have one log entry" do
         delivery_matthew.postfix_log_lines.create(dsn: "2.0.0")

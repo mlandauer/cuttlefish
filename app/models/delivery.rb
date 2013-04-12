@@ -10,8 +10,12 @@ class Delivery < ActiveRecord::Base
   end
 
   def status
-    last_line = postfix_log_lines.first
-    last_line ? last_line.status : "unknown"
+    if sent?
+      last_line = postfix_log_lines.first
+      last_line ? last_line.status : "unknown"
+    else
+      "not_sent"
+    end
   end
 
   def update_status!
