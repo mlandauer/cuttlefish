@@ -1,19 +1,16 @@
 module EmailsHelper
   # Mapping from status strings to bootstrap classes
-  # The naming of the classes is not entirely consistent. There are two variants
-  def bootstrap_status_mapping(variant = false)
+  # The naming of the bootstrap classes is not entirely consistent. There are two variants
+  def bootstrap_status_class(status, variant = false)
     map = {
       "delivered" => "success",
       "soft_bounce" => "warning",
       "unknown" => nil
     }
     map["hard_bounce"] = variant ? "important" : "error"
-    map
-  end
 
-  def bootstrap_status_class(status, variant = false)
-    raise "Unknown status" unless bootstrap_status_mapping(variant).has_key?(status)
-    bootstrap_status_mapping(variant)[status]
+    raise "Unknown status" unless map.has_key?(status)
+    map[status]
   end
 
   # Give a warning level (used for colouring things in Bootstrap) based on whether the email has
