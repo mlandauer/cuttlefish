@@ -4,17 +4,29 @@ describe Email do
   describe "#forward" do
     it "should open an smtp connection to localhost port 25" do
       Net::SMTP.should_receive(:start).with("localhost", 25)
-      Email.new.forward
+      Email.new(:to => "foo@bar.com").forward
     end
 
     it "should send an email to the list of addresses specified in to_to_forward" do
       email = Email.new
-      to_to_forward = mock
-      email.should_receive(:to_to_forward).and_return(to_to_forward)    
+      to_to_forward = mock(:empty? => false)
+      email.should_receive(:to_to_forward).at_least(:once).and_return(to_to_forward)    
       smtp = mock
       smtp.should_receive(:send_message).with(anything(), anything(), to_to_forward).and_return(mock(message: ""))
       Net::SMTP.stub(:start).and_yield(smtp)
       email.forward   
+    end
+
+    context "to_to_forward is empty" do
+      let(:email) { Email.new }
+      before :each do
+        email.stub(:to_to_forward).and_return([])
+      end
+
+      it "should send no emails" do
+        Net::SMTP.should_not_receive(:start)
+        email.forward
+      end
     end
   end
 
