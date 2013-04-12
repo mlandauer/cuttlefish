@@ -13,12 +13,8 @@ module EmailsHelper
     map[status]
   end
 
-  def status_class_category(status)
-    bootstrap_status_class(status, true)
-  end
-
   def label_class(status)
-    ["label", ("label-#{status_class_category(status)}" if status_class_category(status))]
+    ["label", ("label-#{bootstrap_status_class(status, true)}" if bootstrap_status_class(status, true))]
   end
 
   def status_name(status)
