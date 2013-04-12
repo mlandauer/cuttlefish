@@ -40,13 +40,13 @@ describe Address do
       end
     end
 
-    describe "#calculated_status" do
+    describe "#status" do
       it "should take the most recent delivery attempt to this address as the status" do
         delivery2 = Delivery.find_by(email: @email2, address: address2)
         delivery3 = Delivery.find_by(email: @email3, address: address2)
         delivery2.postfix_log_lines.create!(dsn: "4.5.0", time: 10.minutes.ago)
         delivery3.postfix_log_lines.create!(dsn: "2.0.0", time: 5.minutes.ago)
-        address2.calculated_status.should == "delivered"
+        address2.status.should == "delivered"
       end
 
       it "should take the most recent delivery attempt to this address as the status" do
@@ -54,7 +54,7 @@ describe Address do
         delivery3 = Delivery.find_by(email: @email3, address: address2)
         delivery2.postfix_log_lines.create!(dsn: "4.5.0", time: 5.minutes.ago)
         delivery3.postfix_log_lines.create!(dsn: "2.0.0", time: 10.minutes.ago)
-        address2.calculated_status.should == "soft_bounce"
+        address2.status.should == "soft_bounce"
       end
     end
   end
