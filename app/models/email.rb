@@ -153,19 +153,16 @@ class Email < ActiveRecord::Base
 
   # The list of email addresses we will actually forward this to
   # This list could be smaller than "to" if some of the email addresses have hard bounced
-  def to_to_forward
-    deliveries.map{|d| d.address.text}
-  end
-
   def deliveries_to_forward
     deliveries
   end
 
   # Send this mail to another smtp server
   def forward
-    unless to_to_forward.empty?
+    unless deliveries_to_forward.empty?
       Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
-        response = smtp.send_message(data, from, to_to_forward)
+        response = smtp.send_message(data, from,
+          deliveries_to_forward.map{|d| d.address.text})
         update_attribute(:postfix_queue_id, Email.extract_postfix_queue_id_from_smtp_message(response.message)) 
       end
       deliveries_to_forward.each {|delivery| delivery.update_attribute(:sent, true) }
