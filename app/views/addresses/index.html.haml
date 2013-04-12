@@ -12,18 +12,8 @@
     %thead
       %tr
         %th Email
-        %th Last received
-        %th Last sent
     %tbody(data-provides="rowlink")
       - @addresses.each do |address|
         %tr{class: bootstrap_status_class(address.status)}
           %td= link_to address.text, address
-          %td
-            - if address.time_last_received
-              = time_ago_in_words(address.time_last_received)
-              ago
-          %td
-            - if address.time_last_sent
-              = time_ago_in_words(address.time_last_sent)
-              ago
   
