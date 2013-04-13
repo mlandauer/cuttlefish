@@ -56,6 +56,7 @@ class Email < ActiveRecord::Base
     @data ||= (File.read(data_filesystem_path) if is_data_on_filesystem?)
   end
 
+  # TODO Extract status out into a value object
   def calculated_status
     if deliveries.any? {|delivery| delivery.status == "not_sent" }
       "not_sent"
