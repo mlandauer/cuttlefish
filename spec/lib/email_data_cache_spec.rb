@@ -5,7 +5,7 @@ describe EmailDataCache do
     it "should persist the main part of the email in the filesystem" do
       cache = EmailDataCache.new(mock(id: 10, data: "This is a main data section"))
       cache.update
-      File.read(cache.data_filesystem_path).should == "This is a main data section"
+      File.read(File.join(EmailDataCache.data_filesystem_directory, "10.txt")).should == "This is a main data section"
     end
 
     it "should only keep the full data of a certain number of the emails around" do

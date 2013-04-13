@@ -23,11 +23,11 @@ class EmailDataCache
     File.join("db", "emails", Rails.env)
   end
 
+  private
+
   def data_filesystem_path
     File.join(EmailDataCache.data_filesystem_directory, "#{email.id}.txt")
   end
-
-  private
 
   def is_data_on_filesystem?
     File.exists?(data_filesystem_path)
