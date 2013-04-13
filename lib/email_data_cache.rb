@@ -5,12 +5,12 @@ class EmailDataCache
     @email = email
   end
 
-  def update
+  def set
     save_data_to_filesystem
     cleanup_filesystem_data_store
   end
 
-  def data
+  def get
     File.read(data_filesystem_path) if is_data_on_filesystem?
   end
 

@@ -58,7 +58,7 @@ class Email < ActiveRecord::Base
   end
 
   def data
-    @data ||= @cache.data
+    @data ||= @cache.get
   end
 
   # TODO Extract status out into a value object
@@ -101,7 +101,7 @@ class Email < ActiveRecord::Base
   end
 
   def update_cache
-    @cache.update
+    @cache.set
   end
 
   private
