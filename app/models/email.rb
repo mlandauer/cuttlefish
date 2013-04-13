@@ -146,11 +146,17 @@ class Email < ActiveRecord::Base
     deliveries.select{|delivery| delivery.forward?}
   end
 
+  # This is the raw email data that we will send out
+  # It can be different than the original
+  def data_to_forward
+    data
+  end
+
   # Send this mail to another smtp server
   def forward
     unless deliveries_to_forward.empty?
       Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
-        response = smtp.send_message(data, from,
+        response = smtp.send_message(data_to_forward, from,
           deliveries_to_forward.map{|d| d.address.text})
         update_attribute(:postfix_queue_id, Email.extract_postfix_queue_id_from_smtp_message(response.message)) 
       end

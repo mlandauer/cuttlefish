@@ -18,6 +18,22 @@ describe Email do
         Net::SMTP.should_receive(:start).and_yield(smtp)
         @email.forward
       end
+
+      it "should use data_forward to figure out what to send" do
+        smtp = mock
+        @email.should_receive(:data_to_forward).and_return("My altered data")
+        smtp.should_receive(:send_message).with("My altered data", anything(), anything()).and_return(mock(message: ""))
+        Net::SMTP.should_receive(:start).and_yield(smtp)
+        @email.forward        
+      end
+
+      it "should use data by default to figure out what to send" do
+        smtp = mock
+        @email.should_receive(:data).at_least(:once).and_return("My original data")
+        smtp.should_receive(:send_message).with("My original data", anything(), anything()).and_return(mock(message: ""))
+        Net::SMTP.should_receive(:start).and_yield(smtp)
+        @email.forward        
+      end
     end
 
     it "should send an email to the list of addresses specified in deliveries_to_forward" do
