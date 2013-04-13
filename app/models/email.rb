@@ -3,12 +3,17 @@ class Email < ActiveRecord::Base
   has_and_belongs_to_many :to_addresses, :class_name => "Address", :join_table => "deliveries"
   has_many :deliveries
 
-  after_save :save_data_to_filesystem, :cleanup_filesystem_data_store
+  after_save :update_cache
   before_save :update_message_id, :update_data_hash
+  after_initialize :setup_cache
 
   # TODO Add validations
 
   attr_writer :data
+
+  def setup_cache
+    @cache = EmailDataCache.new(self)
+  end
 
   def self.stats_today
     stats_for_emails(where('created_at > ?', Date.today.beginning_of_day))
@@ -53,7 +58,7 @@ class Email < ActiveRecord::Base
   end
 
   def data
-    @data ||= (File.read(data_filesystem_path) if is_data_on_filesystem?)
+    @data ||= @cache.data
   end
 
   # TODO Extract status out into a value object
@@ -95,43 +100,8 @@ class Email < ActiveRecord::Base
     part.body.to_s if part
   end
 
-  def self.max_no_emails_to_store_data
-    # By default keep the full content of the last 100 emails
-    100
-  end
-
-  def cleanup_filesystem_data_store
-    # If there are more than a certain number of stored emails on the filesystem
-    # remove the oldest ones
-    entries = Dir.glob(File.join(Email.data_filesystem_directory, "*"))
-    no_to_remove = entries.count - Email.max_no_emails_to_store_data
-    if no_to_remove > 0
-      # Oldest first
-      entries.sort_by {|f| File.mtime f}[0...no_to_remove].each {|f| File.delete f}
-    end
-  end
-
-  def save_data_to_filesystem
-    # Don't overwrite the data that's already on the filesystem
-    unless is_data_on_filesystem?
-      # Save the data part of the email to the filesystem
-      FileUtils::mkdir_p(Email.data_filesystem_directory)
-      File.open(data_filesystem_path, "w") do |f|
-        f.write(data)
-      end
-    end
-  end
-
-  def is_data_on_filesystem?
-    File.exists?(data_filesystem_path)
-  end
-
-  def self.data_filesystem_directory
-    File.join("db", "emails", Rails.env)
-  end
-
-  def data_filesystem_path
-    File.join(Email.data_filesystem_directory, "#{id}.txt")
+  def update_cache
+    @cache.update
   end
 
   private
@@ -146,5 +116,61 @@ class Email < ActiveRecord::Base
 
   def update_data_hash
     self.data_hash = Digest::SHA1.hexdigest(data) if data
+  end
+end
+
+class EmailDataCache
+  attr_reader :email
+  
+  def initialize(email)
+    @email = email
+  end
+
+  def update
+    save_data_to_filesystem
+    cleanup_filesystem_data_store
+  end
+
+  def data
+    File.read(data_filesystem_path) if is_data_on_filesystem?
+  end
+
+  def save_data_to_filesystem
+    # Don't overwrite the data that's already on the filesystem
+    unless is_data_on_filesystem?
+      # Save the data part of the email to the filesystem
+      FileUtils::mkdir_p(EmailDataCache.data_filesystem_directory)
+      File.open(data_filesystem_path, "w") do |f|
+        f.write(email.data)
+      end
+    end
+  end
+
+  def cleanup_filesystem_data_store
+    # If there are more than a certain number of stored emails on the filesystem
+    # remove the oldest ones
+    entries = Dir.glob(File.join(EmailDataCache.data_filesystem_directory, "*"))
+    no_to_remove = entries.count - EmailDataCache.max_no_emails_to_store_data
+    if no_to_remove > 0
+      # Oldest first
+      entries.sort_by {|f| File.mtime f}[0...no_to_remove].each {|f| File.delete f}
+    end
+  end
+
+  def data_filesystem_path
+    File.join(EmailDataCache.data_filesystem_directory, "#{email.id}.txt")
+  end
+
+  def is_data_on_filesystem?
+    File.exists?(data_filesystem_path)
+  end
+
+  def self.max_no_emails_to_store_data
+    # By default keep the full content of the last 100 emails
+    100
+  end
+
+  def self.data_filesystem_directory
+    File.join("db", "emails", Rails.env)
   end
 end

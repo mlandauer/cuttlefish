@@ -84,7 +84,8 @@ describe Email do
       end
       
       it "should persist the main part of the email in the filesystem" do
-        File.read(@email.data_filesystem_path).should == "This is a main data section"
+        cache = EmailDataCache.new(@email)
+        File.read(cache.data_filesystem_path).should == "This is a main data section"
       end
 
       it "should be able to read in the data again" do
@@ -98,15 +99,15 @@ describe Email do
       end
 
       it "should return nil if nothing is stored on the filesystem" do
-        FileUtils::rm_rf(Email.data_filesystem_directory)
+        FileUtils::rm_rf(EmailDataCache.data_filesystem_directory)
         Email.find(10).data.should be_nil
       end
     end
 
     it "should only keep the full data of a certain number of the emails around" do
-      Email.stub!(:max_no_emails_to_store_data).and_return(2)
+      EmailDataCache.stub!(:max_no_emails_to_store_data).and_return(2)
       4.times { Email.create!(data: "This is a main section") }
-      Dir.glob(File.join(Email.data_filesystem_directory, "*")).count.should == 2
+      Dir.glob(File.join(EmailDataCache.data_filesystem_directory, "*")).count.should == 2
     end
   end
 
