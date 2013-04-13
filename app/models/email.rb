@@ -134,11 +134,6 @@ class Email < ActiveRecord::Base
     File.join(Email.data_filesystem_directory, "#{id}.txt")
   end
 
-  # Send this mail to another smtp server
-  def forward
-    OutgoingEmail.new(self).send
-  end
-
   private
 
   def update_message_id

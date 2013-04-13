@@ -11,7 +11,7 @@ class MailJob
         to: message.recipients.map{|t| t.match("<(.*)>")[1]},
         data: message.data)
 
-      email.forward
+      OutgoingEmail.new(email).send
     end
   end
 end
