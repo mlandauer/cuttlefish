@@ -1,17 +1,11 @@
 class EmailDataCache
-  attr_reader :email
-  
-  def initialize(email)
-    @email = email
-  end
-
-  def set
-    save_data_to_filesystem
+  def self.set(id, data)
+    save_data_to_filesystem(id, data)
     cleanup_filesystem_data_store
   end
 
-  def get
-    File.read(data_filesystem_path) if is_data_on_filesystem?
+  def self.get(id)
+    File.read(data_filesystem_path(id)) if is_data_on_filesystem?(id)
   end
 
   def self.max_no_emails_to_store_data
@@ -25,30 +19,30 @@ class EmailDataCache
 
   private
 
-  def data_filesystem_path
-    File.join(EmailDataCache.data_filesystem_directory, "#{email.id}.txt")
+  def self.data_filesystem_path(id)
+    File.join(data_filesystem_directory, "#{id}.txt")
   end
 
-  def is_data_on_filesystem?
-    File.exists?(data_filesystem_path)
+  def self.is_data_on_filesystem?(id)
+    File.exists?(data_filesystem_path(id))
   end
 
-  def save_data_to_filesystem
+  def self.save_data_to_filesystem(id, data)
     # Don't overwrite the data that's already on the filesystem
-    unless is_data_on_filesystem?
+    unless is_data_on_filesystem?(id)
       # Save the data part of the email to the filesystem
-      FileUtils::mkdir_p(EmailDataCache.data_filesystem_directory)
-      File.open(data_filesystem_path, "w") do |f|
-        f.write(email.data)
+      FileUtils::mkdir_p(data_filesystem_directory)
+      File.open(data_filesystem_path(id), "w") do |f|
+        f.write(data)
       end
     end
   end
 
-  def cleanup_filesystem_data_store
+  def self.cleanup_filesystem_data_store
     # If there are more than a certain number of stored emails on the filesystem
     # remove the oldest ones
-    entries = Dir.glob(File.join(EmailDataCache.data_filesystem_directory, "*"))
-    no_to_remove = entries.count - EmailDataCache.max_no_emails_to_store_data
+    entries = Dir.glob(File.join(data_filesystem_directory, "*"))
+    no_to_remove = entries.count - max_no_emails_to_store_data
     if no_to_remove > 0
       # Oldest first
       entries.sort_by {|f| File.mtime f}[0...no_to_remove].each {|f| File.delete f}

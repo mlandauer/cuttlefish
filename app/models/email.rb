@@ -5,15 +5,10 @@ class Email < ActiveRecord::Base
 
   after_save :update_cache
   before_save :update_message_id, :update_data_hash
-  after_initialize :setup_cache
 
   # TODO Add validations
 
   attr_writer :data
-
-  def setup_cache
-    @cache = EmailDataCache.new(self)
-  end
 
   def self.stats_today
     stats_for_emails(where('created_at > ?', Date.today.beginning_of_day))
@@ -58,7 +53,7 @@ class Email < ActiveRecord::Base
   end
 
   def data
-    @data ||= @cache.get
+    @data ||= EmailDataCache.get(id)
   end
 
   # TODO Extract status out into a value object
@@ -101,7 +96,7 @@ class Email < ActiveRecord::Base
   end
 
   def update_cache
-    @cache.set
+    EmailDataCache.set(id, data)
   end
 
   private
