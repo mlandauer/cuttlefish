@@ -3,7 +3,7 @@
   = delivered_label(delivery.status)
 - unless delivery.postfix_log_lines.empty?
   .collapse{id: "log-#{delivery.id}"}
-    %table.table.table-condensed.collapse
+    %table.table.table-condensed
       %thead
         %tr
           %th Time

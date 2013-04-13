@@ -1,21 +1,27 @@
 .page-header
   %h1 Email
 
-%p
-  %strong From:
-  = link_to @email.from, address_path(@email.from_address)
-%p
-  %strong To:
-  - if @email.deliveries.count == 1
-    = render @email.deliveries.first
-  - elsif @email.deliveries.count > 1
-    %ul
-      - @email.deliveries.each do |delivery|
-        %li= render delivery
-%p
-  %strong Created:
-  = time_ago_in_words(@email.created_at)
-  ago (#{@email.created_at})
+%table
+  %tr
+    %td
+      %strong From
+    %td= link_to @email.from, address_path(@email.from_address)
+  %tr
+    %td
+      %strong To
+    %td
+      - if @email.deliveries.count == 1
+        = render @email.deliveries.first
+      - elsif @email.deliveries.count > 1
+        %ul
+          - @email.deliveries.each do |delivery|
+            %li= render delivery
+  %tr
+    %td
+      %strong Created
+    %td
+      = time_ago_in_words(@email.created_at)
+      ago (#{@email.created_at})
 
 %hr
 - if @email.data.nil?

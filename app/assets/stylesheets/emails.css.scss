@@ -12,3 +12,11 @@
       display: inline-block;
   }
 }
+
+table td {
+  vertical-align: top;
+  ul {
+    list-style-type: none;
+    margin-left: 0;
+  }
+}
