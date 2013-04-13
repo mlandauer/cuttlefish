@@ -14,6 +14,25 @@ class EmailDataCache
     File.read(data_filesystem_path) if is_data_on_filesystem?
   end
 
+  def self.max_no_emails_to_store_data
+    # By default keep the full content of the last 100 emails
+    100
+  end
+
+  def self.data_filesystem_directory
+    File.join("db", "emails", Rails.env)
+  end
+
+  def data_filesystem_path
+    File.join(EmailDataCache.data_filesystem_directory, "#{email.id}.txt")
+  end
+
+  private
+
+  def is_data_on_filesystem?
+    File.exists?(data_filesystem_path)
+  end
+
   def save_data_to_filesystem
     # Don't overwrite the data that's already on the filesystem
     unless is_data_on_filesystem?
@@ -34,22 +53,5 @@ class EmailDataCache
       # Oldest first
       entries.sort_by {|f| File.mtime f}[0...no_to_remove].each {|f| File.delete f}
     end
-  end
-
-  def data_filesystem_path
-    File.join(EmailDataCache.data_filesystem_directory, "#{email.id}.txt")
-  end
-
-  def is_data_on_filesystem?
-    File.exists?(data_filesystem_path)
-  end
-
-  def self.max_no_emails_to_store_data
-    # By default keep the full content of the last 100 emails
-    100
-  end
-
-  def self.data_filesystem_directory
-    File.join("db", "emails", Rails.env)
   end
 end
