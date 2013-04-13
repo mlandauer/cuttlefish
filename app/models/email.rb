@@ -53,7 +53,7 @@ class Email < ActiveRecord::Base
   end
 
   def data
-    @data ||= EmailDataCache.get(id)
+    @data ||= EmailDataCache[id]
   end
 
   # TODO Extract status out into a value object
@@ -96,7 +96,7 @@ class Email < ActiveRecord::Base
   end
 
   def update_cache
-    EmailDataCache.set(id, data)
+    EmailDataCache[id] = data
   end
 
   private

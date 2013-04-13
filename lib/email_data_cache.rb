@@ -1,10 +1,10 @@
 class EmailDataCache
-  def self.set(id, data)
+  def self.[]=(id, data)
     save_data_to_filesystem(id, data)
     cleanup_filesystem_data_store
   end
 
-  def self.get(id)
+  def self.[](id)
     File.read(data_filesystem_path(id)) if is_data_on_filesystem?(id)
   end
 
