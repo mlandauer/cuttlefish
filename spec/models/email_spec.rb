@@ -80,27 +80,17 @@ describe Email do
   describe "#data" do
     context "one email" do
       before :each do
-        @email = Email.create!(id: 10, data: "This is a main data section")
+        Email.create!(id: 10, data: "This is a main data section")
       end
+      let(:email) { Email.find(10) }
       
-      it "should persist the main part of the email in the filesystem" do
-        cache = EmailDataCache.new(@email)
-        File.read(cache.data_filesystem_path).should == "This is a main data section"
-      end
-
       it "should be able to read in the data again" do
-        Email.find(10).data.should == "This is a main data section"
-      end
-
-      it "should be able to read in the data again even after being saved again" do
-        email = Email.find(10)
-        email.save!
         email.data.should == "This is a main data section"
       end
 
-      it "should return nil if nothing is stored on the filesystem" do
-        FileUtils::rm_rf(EmailDataCache.data_filesystem_directory)
-        Email.find(10).data.should be_nil
+      it "should be able to read in the data again even after being saved again" do
+        email.save!
+        email.data.should == "This is a main data section"
       end
     end
 
