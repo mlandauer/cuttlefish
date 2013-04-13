@@ -21,7 +21,7 @@ describe Email do
 
       it "should use data_forward to figure out what to send" do
         smtp = mock
-        @email.should_receive(:data_to_forward).and_return("My altered data")
+        OutgoingEmail.any_instance.should_receive(:data_to_forward).and_return("My altered data")
         smtp.should_receive(:send_message).with("My altered data", anything(), anything()).and_return(mock(message: ""))
         Net::SMTP.should_receive(:start).and_yield(smtp)
         @email.forward        
@@ -40,7 +40,7 @@ describe Email do
       email = Email.new
       delivery_to_forward = mock(:update_attribute => nil)
       delivery_to_forward.stub_chain(:address, :text).and_return("foo@foo.com")
-      email.should_receive(:deliveries_to_forward).at_least(:once).and_return([delivery_to_forward])    
+      OutgoingEmail.any_instance.should_receive(:deliveries_to_forward).at_least(:once).and_return([delivery_to_forward])    
       smtp = mock
       smtp.should_receive(:send_message).with(anything(), anything(), ["foo@foo.com"]).and_return(mock(message: ""))
       Net::SMTP.stub(:start).and_yield(smtp)
@@ -50,7 +50,7 @@ describe Email do
     context "deliveries_to_forward is empty" do
       let(:email) { Email.create!(to: "foo@bar.com") }
       before :each do
-        email.stub(:deliveries_to_forward).and_return([])
+        OutgoingEmail.any_instance.stub(:deliveries_to_forward).and_return([])
       end
 
       it "should send no emails" do
@@ -189,11 +189,11 @@ describe Email do
 
   describe ".extract_postfix_queue_id_from_smtp_message" do
     it "should extract the queue id" do
-      Email.extract_postfix_queue_id_from_smtp_message("250 2.0.0 Ok: queued as 2F63736D4A27\n").should == "2F63736D4A27"
+      OutgoingEmail.extract_postfix_queue_id_from_smtp_message("250 2.0.0 Ok: queued as 2F63736D4A27\n").should == "2F63736D4A27"
     end
 
     it "should ignore any other form" do
-      Email.extract_postfix_queue_id_from_smtp_message("250 250 Message accepted").should be_nil
+      OutgoingEmail.extract_postfix_queue_id_from_smtp_message("250 250 Message accepted").should be_nil
     end
   end
 
