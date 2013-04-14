@@ -45,6 +45,15 @@ describe OutgoingEmail do
         @outgoing.send
       end
 
+      it "should set the postfix queue id on the email based on the response from the server" do
+        response = mock(:message => "250 2.0.0 Ok: queued as A123")
+        smtp = mock(:send_message => response)
+        Net::SMTP.stub(:start).and_yield(smtp)
+        OutgoingEmail.should_receive(:extract_postfix_queue_id_from_smtp_message).with("250 2.0.0 Ok: queued as A123").and_return("A123")
+        @outgoing.send
+        @email.postfix_queue_id.should == "A123"
+      end
+
       context "deliveries is empty" do
         before :each do
           @outgoing.stub(:deliveries).and_return([])
