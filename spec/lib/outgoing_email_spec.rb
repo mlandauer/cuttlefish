@@ -2,6 +2,21 @@ require "spec_helper"
 
 describe OutgoingEmail do
   describe "#send" do
+    context "an email with two recipients" do
+      it "should only send out a single email" do
+        email = Email.create!
+        Delivery.create!(email: email, address: Address.create!(text: "foo@bar.com"))
+        Delivery.create!(email: email, address: Address.create!(text: "peter@bar.com"))
+        email.reload
+        
+        outgoing = OutgoingEmail.new(email)
+        smtp = mock
+        smtp.should_receive(:send_message).and_return(mock(:message => ""))
+        Net::SMTP.stub(:start).and_yield(smtp)
+        outgoing.send
+      end
+    end
+
     context "an email with one recipient" do
       before :each do
         @email = Email.create!(:to => "foo@bar.com", :data => "My original data")
