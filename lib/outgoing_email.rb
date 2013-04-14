@@ -8,7 +8,7 @@ class OutgoingEmail
   def send
     unless deliveries.empty?
       Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
-        response = smtp.send_message(data, from, to)
+        response = smtp.send_message(data, from, deliveries.map{|d| d.address.text})
         postfix_queue_id = OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message)
         deliveries.each do |delivery|
           delivery.update_attributes(postfix_queue_id: postfix_queue_id, sent: true)
@@ -42,9 +42,5 @@ class OutgoingEmail
   # This list could be smaller than "to" if some of the email addresses have hard bounced
   def deliveries
     email.deliveries.select{|delivery| delivery.forward?}
-  end
-
-  def to
-    deliveries.map{|d| d.address.text}
   end
 end
