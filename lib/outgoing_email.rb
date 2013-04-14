@@ -8,7 +8,7 @@ class OutgoingEmail
   def send
     unless deliveries.empty?
       Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
-        response = smtp.send_message(data, email.from, to)
+        response = smtp.send_message(data, from, to)
         email.update_attribute(:postfix_queue_id, OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message)) 
       end
       deliveries.each {|delivery| delivery.update_attribute(:sent, true) }
@@ -23,6 +23,10 @@ class OutgoingEmail
   end
 
   private
+
+  def from
+    email.from
+  end
 
   # This is the raw email data that we will send out
   # It can be different than the original
