@@ -11,13 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130414051352) do
+ActiveRecord::Schema.define(version: 20130414064809) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "addresses", ["text"], name: "index_addresses_on_text"
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
