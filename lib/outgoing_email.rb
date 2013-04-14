@@ -5,22 +5,6 @@ class OutgoingEmail
     @email = email
   end
 
-  # This is the raw email data that we will send out
-  # It can be different than the original
-  def data
-    email.data
-  end
-
-  # The list of email addresses we will actually forward this to
-  # This list could be smaller than "to" if some of the email addresses have hard bounced
-  def deliveries
-    email.deliveries.select{|delivery| delivery.forward?}
-  end
-
-  def to
-    deliveries.map{|d| d.address.text}
-  end
-
   def send
     unless deliveries.empty?
       Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
@@ -36,5 +20,23 @@ class OutgoingEmail
   def self.extract_postfix_queue_id_from_smtp_message(message)
     m = message.match(/250 2.0.0 Ok: queued as (\w+)/)
     m[1] if m
+  end
+
+  private
+
+  # This is the raw email data that we will send out
+  # It can be different than the original
+  def data
+    email.data
+  end
+
+  # The list of email addresses we will actually forward this to
+  # This list could be smaller than "to" if some of the email addresses have hard bounced
+  def deliveries
+    email.deliveries.select{|delivery| delivery.forward?}
+  end
+
+  def to
+    deliveries.map{|d| d.address.text}
   end
 end
