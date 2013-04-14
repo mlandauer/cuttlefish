@@ -10,9 +10,10 @@ class OutgoingEmail
       Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
         response = smtp.send_message(data, from, to)
         postfix_queue_id = OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message)
-        deliveries.each {|delivery| delivery.update_attribute(:postfix_queue_id, postfix_queue_id)}
+        deliveries.each do |delivery|
+          delivery.update_attributes(postfix_queue_id: postfix_queue_id, sent: true)
+        end
       end
-      deliveries.each {|delivery| delivery.update_attribute(:sent, true) }
     end
   end
 
