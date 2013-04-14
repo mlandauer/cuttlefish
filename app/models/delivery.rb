@@ -28,6 +28,10 @@ class Delivery < ActiveRecord::Base
     email.from
   end
 
+  def to
+    address.text
+  end
+
   def data
     email.data
   end

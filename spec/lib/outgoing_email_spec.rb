@@ -39,7 +39,7 @@ describe OutgoingEmail do
 
       it "should use data to figure out what to send" do
         smtp = mock
-        @outgoing.should_receive(:data).and_return("My altered data")
+        DeliveryFilter.any_instance.should_receive(:data).and_return("My altered data")
         smtp.should_receive(:send_message).with("My altered data", anything(), anything()).and_return(mock(message: ""))
         Net::SMTP.should_receive(:start).and_yield(smtp)
         @outgoing.send
@@ -53,8 +53,8 @@ describe OutgoingEmail do
       end
 
       it "should send an email to the list of addresses specified in deliveries" do
-        delivery_to_forward = mock(:update_attributes => nil, :data => nil, :from => nil)
-        delivery_to_forward.stub_chain(:address, :text).and_return("foo@foo.com")
+        delivery_to_forward = mock(:update_attributes => nil, :data => nil, :from => nil,
+          :to => "foo@foo.com")
         @outgoing.should_receive(:deliveries).at_least(:once).and_return([delivery_to_forward])    
         smtp = mock
         smtp.should_receive(:send_message).with(anything(), anything(), ["foo@foo.com"]).and_return(mock(message: ""))
