@@ -8,7 +8,8 @@ describe PostfixLogLine do
 
   context "one log line" do
     let (:l) do
-      email = Email.create!(postfix_queue_id: "39D9336AFA81", to: "foo@bar.com")
+      email = Email.create!(to: "foo@bar.com")
+      email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
       PostfixLogLine.create_from_line(line1)
       PostfixLogLine.first
     end
@@ -32,13 +33,18 @@ describe PostfixLogLine do
 
   describe ".create_from_line" do
     it "should have an empty log lines on the delivery to start with" do
-      email = Email.create!(postfix_queue_id: "39D9336AFA81", to: "foo@bar.com")
+      email = Email.create!(to: "foo@bar.com")
+      email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
       email.deliveries.first.postfix_log_lines.should be_empty
     end
 
     context "one log line" do
       let(:address) { Address.create!(text: "foo@bar.com")}
-      let(:email) { Email.create!(postfix_queue_id: "39D9336AFA81", to_addresses: [address]) }
+      let(:email) do
+        email = Email.create!(to_addresses: [address])
+        email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
+        email
+      end
       let(:delivery) { Delivery.find_by(email: email, address: address) }
 
       before :each do
@@ -72,8 +78,11 @@ describe PostfixLogLine do
     context "two log lines going to different destinations" do
       let(:address1) { Address.create!(text: "foo@bar.com") }
       let(:address2) { Address.create!(text: "anincorrectemailaddress@openaustralia.org") }
-      let(:email) { Email.create!(postfix_queue_id: "39D9336AFA81",
-        :to_addresses => [address1, address2]) }
+      let(:email) do
+        email = Email.create!(:to_addresses => [address1, address2])
+        email.deliveries.each {|d| d.update_attribute(:postfix_queue_id, "39D9336AFA81")}
+        email
+      end
       let(:delivery1) { Delivery.find_by(email: email, address: address1) }
       let(:delivery2) { Delivery.find_by(email: email, address: address2) }
 
@@ -91,8 +100,9 @@ describe PostfixLogLine do
 
     it "should not reprocess duplicate lines" do
       address = Address.create!(text: "foo@bar.com")
-      email = Email.create!(postfix_queue_id: "39D9336AFA81", to_addresses: [address])
+      email = Email.create!(to_addresses: [address])
       delivery = Delivery.find_by(email: email, address: address)
+      delivery.update_attribute(:postfix_queue_id, "39D9336AFA81")
 
       PostfixLogLine.create_from_line(line1)
       PostfixLogLine.create_from_line(line1)
@@ -100,14 +110,14 @@ describe PostfixLogLine do
     end
 
     it "should not produce any log lines if the queue id is not recognised" do
-      PostfixLogLine.should_receive(:puts).with("Skipping postfix queue id 39D9336AFA81 - it's not recognised")
+      PostfixLogLine.should_receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised")
       PostfixLogLine.create_from_line(line1)
       PostfixLogLine.count.should == 0
     end
 
     it "should show a message if the address isn't recognised in a log line" do
       PostfixLogLine.should_receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised")
-      email = Email.create!(postfix_queue_id: "39D9336AFA81")
+      email = Email.create!
       PostfixLogLine.create_from_line(line1)      
     end
 
@@ -118,10 +128,16 @@ describe PostfixLogLine do
 
     context "two emails with the same queue id" do
       let(:address) { Address.create!(text: "foo@bar.com") }
-      let(:email1) { Email.create!(postfix_queue_id: "39D9336AFA81",
-        :to_addresses => [address], :created_at => 10.minutes.ago) }
-      let(:email2) { Email.create!(postfix_queue_id: "39D9336AFA81",
-        :to_addresses => [address], :created_at => 5.minutes.ago) }
+      let(:email1) do
+        email = Email.create!(:to_addresses => [address], :created_at => 10.minutes.ago)
+        email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
+        email
+      end
+      let(:email2) do
+        email = Email.create!(:to_addresses => [address], :created_at => 5.minutes.ago)
+        email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
+        email
+      end
       let(:delivery1) { Delivery.find_by(email: email1, address: address) }
       let(:delivery2) { Delivery.find_by(email: email2, address: address) }
 
