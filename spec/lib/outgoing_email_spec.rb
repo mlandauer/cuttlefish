@@ -52,16 +52,6 @@ describe OutgoingEmail do
         @outgoing.send
       end
 
-      it "should send an email to the list of addresses specified in deliveries" do
-        delivery_to_forward = mock(:update_attributes => nil, :data => nil, :from => nil,
-          :to => "foo@foo.com")
-        @outgoing.should_receive(:deliveries).at_least(:once).and_return([delivery_to_forward])    
-        smtp = mock
-        smtp.should_receive(:send_message).with(anything(), anything(), ["foo@foo.com"]).and_return(mock(message: ""))
-        Net::SMTP.stub(:start).and_yield(smtp)
-        @outgoing.send
-      end
-
       it "should set the postfix queue id on the deliveries based on the response from the server" do
         response = mock(:message => "250 2.0.0 Ok: queued as A123")
         smtp = mock(:send_message => response)
@@ -73,7 +63,7 @@ describe OutgoingEmail do
 
       context "deliveries is empty" do
         before :each do
-          @outgoing.stub(:deliveries).and_return([])
+          Delivery.any_instance.stub(:forward?).and_return(false)
         end
 
         it "should send no emails" do

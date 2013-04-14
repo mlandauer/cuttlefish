@@ -8,14 +8,16 @@ class OutgoingEmail
   def send
     # TODO If no emails are sent out don't open connection to smtp server
     Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
-      deliveries.each do |delivery|
-        # TODO: Optimise so that if data is the same for multiple recipients then they
-        # are sent in one go
-        filtered = DeliveryFilter.new(delivery)
-        response = smtp.send_message(filtered.data, filtered.from, [filtered.to])
-        delivery.update_attributes(
-          postfix_queue_id: OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message),
-          sent: true)
+      email.deliveries.each do |delivery|
+        if delivery.forward?
+          # TODO: Optimise so that if data is the same for multiple recipients then they
+          # are sent in one go
+          filtered = DeliveryFilter.new(delivery)
+          response = smtp.send_message(filtered.data, filtered.from, [filtered.to])
+          delivery.update_attributes(
+            postfix_queue_id: OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message),
+            sent: true)
+        end
       end
     end
   end
@@ -25,14 +27,6 @@ class OutgoingEmail
   def self.extract_postfix_queue_id_from_smtp_message(message)
     m = message.match(/250 2.0.0 Ok: queued as (\w+)/)
     m[1] if m
-  end
-
-  private
-
-  # The list of email addresses we will actually forward this to
-  # This list could be smaller than "to" if some of the email addresses have hard bounced
-  def deliveries
-    email.deliveries.select{|delivery| delivery.forward?}
   end
 end
 
