@@ -6,17 +6,16 @@ class OutgoingEmail
   end
 
   def send
-    unless deliveries.empty?
-      Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
-        deliveries.each do |delivery|
-          # TODO: Optimise so that if data is the same for multiple recipients then they
-          # are sent in one go
-          filtered = DeliveryFilter.new(delivery)
-          response = smtp.send_message(filtered.data, filtered.from, [filtered.to])
-          delivery.update_attributes(
-            postfix_queue_id: OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message),
-            sent: true)
-        end
+    # TODO If no emails are sent out don't open connection to smtp server
+    Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
+      deliveries.each do |delivery|
+        # TODO: Optimise so that if data is the same for multiple recipients then they
+        # are sent in one go
+        filtered = DeliveryFilter.new(delivery)
+        response = smtp.send_message(filtered.data, filtered.from, [filtered.to])
+        delivery.update_attributes(
+          postfix_queue_id: OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message),
+          sent: true)
       end
     end
   end

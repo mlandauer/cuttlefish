@@ -77,7 +77,10 @@ describe OutgoingEmail do
         end
 
         it "should send no emails" do
-          Net::SMTP.should_not_receive(:start)
+          # TODO Ideally it shouldn't open a connection to the smtp server at all
+          smtp = mock
+          smtp.should_not_receive(:send_message)
+          Net::SMTP.stub(:start).and_yield(smtp)
           @outgoing.send
         end
       end
