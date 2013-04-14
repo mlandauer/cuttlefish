@@ -63,7 +63,7 @@ describe OutgoingEmail do
 
       context "deliveries is empty" do
         before :each do
-          Delivery.any_instance.stub(:forward?).and_return(false)
+          Delivery.any_instance.stub(:send?).and_return(false)
         end
 
         it "should send no emails" do
