@@ -3,7 +3,9 @@ require "spec_helper"
 describe OutgoingEmail do
   describe "#send" do
     context "an email with two recipients" do
-      it "should only send out a single email" do
+      # TODO This should be optimised in future so that if the content is the same
+      # it's sent out in one go
+      it "should only send out two emails" do
         email = Email.create!
         Delivery.create!(email: email, address: Address.create!(text: "foo@bar.com"))
         Delivery.create!(email: email, address: Address.create!(text: "peter@bar.com"))
@@ -11,7 +13,7 @@ describe OutgoingEmail do
         
         outgoing = OutgoingEmail.new(email)
         smtp = mock
-        smtp.should_receive(:send_message).and_return(mock(:message => ""))
+        smtp.should_receive(:send_message).twice.and_return(mock(:message => ""))
         Net::SMTP.stub(:start).and_yield(smtp)
         outgoing.send
       end
