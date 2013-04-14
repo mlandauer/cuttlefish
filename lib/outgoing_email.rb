@@ -17,11 +17,14 @@ class OutgoingEmail
     email.deliveries.select{|delivery| delivery.forward?}
   end
 
+  def to_to_forward
+    deliveries_to_forward.map{|d| d.address.text}
+  end
+
   def send
     unless deliveries_to_forward.empty?
       Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
-        response = smtp.send_message(data_to_forward, email.from,
-          deliveries_to_forward.map{|d| d.address.text})
+        response = smtp.send_message(data_to_forward, email.from, to_to_forward)
         email.update_attribute(:postfix_queue_id, OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message)) 
       end
       deliveries_to_forward.each {|delivery| delivery.update_attribute(:sent, true) }
