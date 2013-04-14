@@ -11,7 +11,7 @@ class OutgoingEmail
         deliveries.each do |delivery|
           # TODO: Optimise so that if data is the same for multiple recipients then they
           # are sent in one go
-          response = smtp.send_message(data(delivery), from, [delivery.address.text])
+          response = smtp.send_message(data(delivery), from(delivery), [delivery.address.text])
           delivery.update_attributes(
             postfix_queue_id: OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message),
             sent: true)
@@ -29,8 +29,8 @@ class OutgoingEmail
 
   private
 
-  def from
-    email.from
+  def from(delivery)
+    DeliveryFilter.new(delivery).from
   end
 
   # This is the raw email data that we will send out
@@ -52,6 +52,10 @@ class DeliveryFilter
 
   def initialize(delivery)
     @delivery = delivery
+  end
+
+  def from
+    delivery.from
   end
 
   def data

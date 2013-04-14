@@ -24,6 +24,10 @@ class Delivery < ActiveRecord::Base
     email.update_status!
   end
 
+  def from
+    email.from
+  end
+
   def data
     email.data
   end
