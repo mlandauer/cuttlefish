@@ -32,18 +32,19 @@ class PostfixLogLine < ActiveRecord::Base
 
   def self.create_from_line(line)
     values = match_main_content(line)
+    program = values.delete(:program)
+    to = values.delete(:to)
+    queue_id = values.delete(:queue_id)
 
     # Only log delivery attempts
-    if values[:program] == "smtp"
-      delivery = Delivery.joins(:email, :address).order("emails.created_at DESC").find_by("addresses.text" => values[:to], postfix_queue_id: values[:queue_id])
+    if program == "smtp"
+      delivery = Delivery.joins(:email, :address).order("emails.created_at DESC").find_by("addresses.text" => to, postfix_queue_id: queue_id)
 
       if delivery
           # Don't resave duplicates
-          delivery.postfix_log_lines.find_or_create_by(time: values[:time],
-            relay: values[:relay], delay: values[:delay], delays: values[:delays],
-            dsn: values[:dsn], extended_status: values[:extended_status])
+          delivery.postfix_log_lines.find_or_create_by(values)
       else
-        puts "Skipping address #{values[:to]} from postfix queue id #{values[:queue_id]} - it's not recognised"
+        puts "Skipping address #{to} from postfix queue id #{queue_id} - it's not recognised"
       end
     end
   end
