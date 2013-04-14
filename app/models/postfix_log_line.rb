@@ -41,7 +41,7 @@ class PostfixLogLine < ActiveRecord::Base
           # Don't resave duplicates
           delivery.postfix_log_lines.find_or_create_by(time: values[:time],
             relay: values[:relay], delay: values[:delay], delays: values[:delays],
-            dsn: values[:dsn], extended_status: values[:status])
+            dsn: values[:dsn], extended_status: values[:extended_status])
       else
         puts "Skipping address #{values[:to]} from postfix queue id #{values[:queue_id]} - it's not recognised"
       end
@@ -63,16 +63,14 @@ class PostfixLogLine < ActiveRecord::Base
     result = {
       :time => p.time,
       :program => content_match[1],
-      :pid => content_match[2],
       :queue_id => content_match[4],
-      :program_content => program_content
     }
     result[:to] = to_match[1] if to_match
     result[:relay] = relay_match[1] if relay_match
     result[:delay] = delay_match[1] if delay_match
     result[:delays] = delays_match[1] if delays_match
     result[:dsn] = dsn_match[1] if dsn_match
-    result[:status] = status_match[1] if status_match
+    result[:extended_status] = status_match[1] if status_match
 
     result
   end
