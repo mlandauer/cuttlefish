@@ -53,7 +53,7 @@ describe OutgoingEmail do
       end
 
       it "should send an email to the list of addresses specified in deliveries" do
-        delivery_to_forward = mock(:update_attributes => nil)
+        delivery_to_forward = mock(:update_attributes => nil, :data => nil)
         delivery_to_forward.stub_chain(:address, :text).and_return("foo@foo.com")
         @outgoing.should_receive(:deliveries).at_least(:once).and_return([delivery_to_forward])    
         smtp = mock

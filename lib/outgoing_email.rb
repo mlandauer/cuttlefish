@@ -37,12 +37,24 @@ class OutgoingEmail
   # It can be different than the original
   # TODO: It has the potential to be different for each delivery
   def data(delivery)
-    email.data
+    DeliveryFilter.new(delivery).data
   end
 
   # The list of email addresses we will actually forward this to
   # This list could be smaller than "to" if some of the email addresses have hard bounced
   def deliveries
     email.deliveries.select{|delivery| delivery.forward?}
+  end
+end
+
+class DeliveryFilter
+  attr_reader :delivery
+
+  def initialize(delivery)
+    @delivery = delivery
+  end
+
+  def data
+    delivery.data
   end
 end
