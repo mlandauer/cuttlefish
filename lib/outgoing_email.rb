@@ -24,12 +24,14 @@ class OutgoingEmail
 
   private
 
+  # TODO: It has the potential to be different for each delivery
   def from
     email.from
   end
 
   # This is the raw email data that we will send out
   # It can be different than the original
+  # TODO: It has the potential to be different for each delivery
   def data
     email.data
   end
