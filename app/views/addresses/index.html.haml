@@ -14,9 +14,10 @@
         %th Email
         %th Sent from
         %th Sent to
+        %th Most recently
     %tbody(data-provides="rowlink")
       - @addresses.each do |address|
-        %tr{class: bootstrap_status_class(address.status)}
+        %tr
           %td= link_to address.text, address
           %td
             - if address.emails_sent.count > 0
@@ -24,3 +25,4 @@
           %td
             - if address.emails_received.count > 0
               = address.emails_received.count
+          %td= delivered_label(address.status)
