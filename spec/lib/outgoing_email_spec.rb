@@ -39,7 +39,7 @@ describe OutgoingEmail do
 
       it "should use data to figure out what to send" do
         smtp = mock
-        DeliveryFilter.any_instance.should_receive(:data).and_return("My altered data")
+        HoldBackHardBounceFilter.any_instance.should_receive(:data).and_return("My altered data")
         smtp.should_receive(:send_message).with("My altered data", anything(), anything()).and_return(mock(message: ""))
         Net::SMTP.should_receive(:start).and_yield(smtp)
         @outgoing.send
@@ -63,7 +63,7 @@ describe OutgoingEmail do
 
       context "deliveries is empty" do
         before :each do
-          DeliveryFilter.any_instance.stub(:send?).and_return(false)
+          HoldBackHardBounceFilter.any_instance.stub(:send?).and_return(false)
         end
 
         it "should send no emails" do

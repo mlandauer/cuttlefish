@@ -1,4 +1,4 @@
-class DeliveryFilter
+class HoldBackHardBounceFilter
   attr_reader :delivery
 
   def initialize(delivery)

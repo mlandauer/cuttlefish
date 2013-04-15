@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe DeliveryFilter do
+describe HoldBackHardBounceFilter do
   let(:delivery) { mock }
 
   describe "#send?" do
@@ -8,14 +8,14 @@ describe DeliveryFilter do
       before :each do
         delivery.stub_chain(:address, :status).and_return("delivered")
       end
-      it { DeliveryFilter.new(delivery).send?.should be_true }
+      it { HoldBackHardBounceFilter.new(delivery).send?.should be_true }
     end
 
     context "an address where an email hard_bounced most recently" do
       before :each do
         delivery.stub_chain(:address, :status).and_return("hard_bounce")
       end
-      it { DeliveryFilter.new(delivery).send?.should be_false }
+      it { HoldBackHardBounceFilter.new(delivery).send?.should be_false }
     end
   end
 
