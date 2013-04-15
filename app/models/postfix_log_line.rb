@@ -44,7 +44,7 @@ class PostfixLogLine < ActiveRecord::Base
           # Don't resave duplicates
           delivery.postfix_log_lines.find_or_create_by(values)
       else
-        puts "Skipping address #{to} from postfix queue id #{queue_id} - it's not recognised"
+        puts "Skipping address #{to} from postfix queue id #{queue_id} - it's not recognised: #{line}"
       end
     end
   end
