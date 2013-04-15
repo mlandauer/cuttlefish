@@ -61,6 +61,10 @@ gem 'newrelic_rpm'
 group :development do
   # Webrick gives us annoying warnings "could not determine content-length of response body"
   gem "thin"
+  gem 'guard'
+  gem 'rb-inotify', :require => false
+  gem 'rb-fsevent', :require => false
+  gem 'rb-fchange', :require => false
 end
 
 group :test do
