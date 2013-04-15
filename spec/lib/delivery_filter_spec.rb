@@ -18,6 +18,11 @@ describe DeliveryFilter do
 
   describe "#send?" do
     it { filter.send?.should be_true}
+
+    it "should be composable" do
+      delivery.stub(:send?).and_return(false)
+      filter.send?.should be_false
+    end
   end
 
 end

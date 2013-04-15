@@ -18,6 +18,6 @@ class DeliveryFilter
   end
 
   def send?
-    true
+    delivery.respond_to?(:send?) ? delivery.send? : true
   end
 end
