@@ -9,7 +9,7 @@
     = link_to "Hard bounces", emails_path(status: "hard_bounce"), :class => ["btn", "btn-small", ("active" if @status == "hard_bounce")]
     = link_to "Held back", emails_path(status: "not_sent"), :class => ["btn", "btn-small", ("active" if @status == "not_sent")]
 
-= paginated_section(@emails, previous_label: "«", next_label: "»", class: "pagination pagination-centered pagination-small")  do
+= paginated_section(@emails, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, :class => "pagination pagination-centered pagination-small")  do
   %table.table.table-striped
     %thead
       %tr

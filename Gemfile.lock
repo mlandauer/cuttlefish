@@ -29,8 +29,6 @@ GEM
     atomic (1.0.2)
     bootstrap-sass (2.2.2.0)
       sass (~> 3.2)
-    bootstrap-will_paginate (0.0.9)
-      will_paginate
     builder (3.1.4)
     capistrano (2.13.5)
       highline
@@ -196,7 +194,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-will_paginate
   capistrano
   coffee-rails (~> 4.0.0.beta1)
   coveralls

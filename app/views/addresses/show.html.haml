@@ -33,7 +33,7 @@
     Hard bounces:
     = @address.emails_sent.where(status: "hard_bounce").count
 
-= paginated_section @emails do
+= paginated_section(@emails, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, :class => "pagination pagination-centered pagination-small") do
   %table.table.table-striped
     %thead
       %tr

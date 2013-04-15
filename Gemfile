@@ -38,7 +38,6 @@ gem 'flatui-rails'
 gem "file-tail"
 gem 'syslog_protocol'
 gem "will_paginate"
-gem 'bootstrap-will_paginate'
 gem "dnsbl-client"
 
 # Deployment bits and bobs
