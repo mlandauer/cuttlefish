@@ -28,9 +28,18 @@
           = link_to "Cuttlefish", root_path, :class => "brand"
           .container.nav-collapse
             %ul.nav
-              %li= link_to "Emails", emails_path
-              %li= link_to "Addresses", addresses_path
-              %li= link_to "Reputation", reputation_path
+              %li
+                = link_to emails_path do
+                  Emails
+                  %span.fui-mail-24
+              %li
+                = link_to addresses_path do
+                  Addresses
+                  %span.fui-menu-24
+              %li
+                = link_to reputation_path do
+                  Reputation
+                  %span.fui-heart-24
               %li.divider-vertical
               %li= link_to "Test email", new_test_email_path
 
