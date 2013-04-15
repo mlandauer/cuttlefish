@@ -1,5 +1,13 @@
 body {
-  padding-top: 60px;
+  padding-top: 80px;
 }
 
 @import "bootstrap-responsive";
+
+@import url(http://fonts.googleapis.com/css?family=Leckerli+One);
+
+.navbar .brand {
+  font-family: 'Leckerli One', cursive;
+  text-decoration: none;
+  font-size: 30px;
+}
