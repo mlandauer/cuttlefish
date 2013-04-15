@@ -9,8 +9,8 @@ class EmailDataCache
   end
 
   def self.max_no_emails_to_store_data
-    # By default keep the full content of the last 100 emails
-    100
+    # By default keep the full content of the last 1000 emails
+    1000
   end
 
   def self.data_filesystem_directory
