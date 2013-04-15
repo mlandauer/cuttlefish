@@ -11,23 +11,11 @@ class Email < ActiveRecord::Base
   attr_writer :data
 
   def self.stats_today
-    stats_for_emails(where('created_at > ?', Date.today.beginning_of_day))
+    where('created_at > ?', Date.today.beginning_of_day).group(:status).count
   end
 
   def self.stats_this_week
-    stats_for_emails(where('created_at > ?', 7.days.ago))
-  end
-
-  # Do a standard set of statistics over a set of emails
-  def self.stats_for_emails(emails)
-    counts = emails.group(:status).count
-    {
-      total: counts.values.sum,
-      not_sent: counts["not_sent"] || 0,
-      delivered: counts["delivered"] || 0,
-      soft_bounce: counts["soft_bounce"] || 0,
-      hard_bounce: counts["hard_bounce"] || 0
-    }
+    where('created_at > ?', 7.days.ago).group(:status).count
   end
 
   def from
