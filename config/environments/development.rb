@@ -28,6 +28,8 @@ Cuttlefish::Application.configure do
   # Send our own outgoing email through Cuttlefish
   config.action_mailer.smtp_settings = { :address => "localhost", :port => 2525 }
 
+  config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
+
   #####################################################
   # Cuttlefish specific configuration below here ONLY #
   #####################################################
