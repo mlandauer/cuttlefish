@@ -3,11 +3,11 @@
 
 .filter-wrap
   .btn-group
-    = link_to "All", addresses_path, :class => ["btn", "btn-small", ("active" if @status.nil?)]
-    = link_to "Sent from", addresses_path(status: "from"), :class => ["btn", "btn-small", ("active" if @status == "from")]
-    = link_to "Sent to", addresses_path(status: "to"), :class => ["btn", "btn-small", ("active" if @status == "to")]
+    = link_to "All", addresses_path, :class => ["btn", ("active" if @status.nil?)]
+    = link_to "Sent from", addresses_path(status: "from"), :class => ["btn", ("active" if @status == "from")]
+    = link_to "Sent to", addresses_path(status: "to"), :class => ["btn", ("active" if @status == "to")]
 
-= paginated_section @addresses do
+= paginated_section(@emails, inner_window: 2, outer_window: 0, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, :class => "pagination pagination-centered pagination-small")  do
   %table.table.table-striped
     %thead
       %tr
