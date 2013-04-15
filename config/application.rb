@@ -26,6 +26,9 @@ module Cuttlefish
 
     config.autoload_paths += %W(#{config.root}/lib)
 
+    # For bootstrap-sass gem
+    config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
     #####################################################
     # Cuttlefish specific configuration below here ONLY #
     #####################################################
