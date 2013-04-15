@@ -2,36 +2,12 @@
   %h3= @address.text
 
 - if @address.emails_received.count > 0
-  %p
-    = pluralize(@address.emails_received.count, "email")
-    sent to this address, most recently
-    = time_ago_in_words(@address.time_last_received)
-    ago.
-  %p
-    Delivered: 
-    = @address.emails_received.where(status: "delivered").count
-  %p
-    Soft bounces:
-    = @address.emails_received.where(status: "soft_bounce").count
-  %p
-    Hard bounces:
-    = @address.emails_received.where(status: "hard_bounce").count
+  %h4 To
+  = render "main/status_counts_period", stats: @address.emails_received.group(:status).count
 
 - if @address.emails_sent.count > 0
-  %p
-    = @address.emails_sent.count
-    emails sent from this address, most recently
-    = time_ago_in_words(@address.time_last_sent)
-    ago.
-  %p
-    Delivered: 
-    = @address.emails_sent.where(status: "delivered").count
-  %p
-    Soft bounces:
-    = @address.emails_sent.where(status: "soft_bounce").count
-  %p
-    Hard bounces:
-    = @address.emails_sent.where(status: "hard_bounce").count
+  %h4 From
+  = render "main/status_counts_period", stats: @address.emails_sent.group(:status).count
 
 = paginated_section(@emails, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, :class => "pagination pagination-centered pagination-small") do
   %table.table.table-striped
