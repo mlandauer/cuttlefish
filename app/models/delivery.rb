@@ -5,12 +5,6 @@ class Delivery < ActiveRecord::Base
 
   after_save :update_status!
   
-  # Should this email be sent to this address?
-  # If not it's because the email has bounced
-  def send?
-    address.status != "hard_bounce"
-  end
-
   def status
     if sent?
       last_line = postfix_log_lines.first

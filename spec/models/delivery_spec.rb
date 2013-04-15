@@ -36,21 +36,4 @@ describe Delivery do
       delivery.status.should == "not_sent"
     end
   end
-
-  describe "#send?" do
-    context "an address where an email was succesfully sent before" do
-      before :each do
-        Address.any_instance.stub(:status).and_return("delivered")
-      end
-      it { delivery.send?.should be_true }
-    end
-
-    context "an address where an email hard_bounced most recently" do
-      before :each do
-        Address.any_instance.stub(:status).and_return("hard_bounce")
-      end
-      it { delivery.send?.should be_false }
-    end
-  end
-
 end
