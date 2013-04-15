@@ -67,6 +67,7 @@ group :development do
   gem 'rb-fchange', :require => false
   gem 'guard-livereload'
   gem "rack-livereload"
+  gem "guard-rspec"
 end
 
 group :test do
