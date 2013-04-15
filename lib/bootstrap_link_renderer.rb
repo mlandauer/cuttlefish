@@ -14,7 +14,6 @@ class BootstrapLinkRenderer < WillPaginate::ActionView::LinkRenderer
   end
 
   def previous_or_next_page(page, text, classname)
-    puts "classname: #{classname}"
     tag :li, link(text, page || '#'),
       :class => [(classname.split("_").first if  @options[:page_links]), ('disabled' unless page)].join(' ')
   end
