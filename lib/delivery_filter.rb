@@ -20,4 +20,8 @@ class DeliveryFilter
   def send?
     delivery.respond_to?(:send?) ? delivery.send? : true
   end
+
+  def original
+    delivery.respond_to?(:original) ? delivery.original : delivery
+  end
 end

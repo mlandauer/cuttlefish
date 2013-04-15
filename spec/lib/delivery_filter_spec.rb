@@ -25,4 +25,18 @@ describe DeliveryFilter do
     end
   end
 
+  describe "#original" do
+    it "should return the original input" do
+      a = mock
+      b = DeliveryFilter.new(a)
+      b.original.should == a
+    end
+
+    it "should return the original input even when several filters are chained together" do
+      a = mock
+      b = DeliveryFilter.new(a)
+      c = DeliveryFilter.new(b)
+      c.original.should == a
+    end
+  end
 end
