@@ -14,19 +14,21 @@
     %thead
       %tr
         %th Sent / Received
+        %th
         %th Created
     %tbody(data-provides="rowlink")
       - @emails.each do |email|
         %tr
           %td
-            - if email.to_addresses.include?(@address) && email.from_address == @address
-              Both
-            - elsif email.to_addresses.include?(@address)
-              Received
-            - elsif email.from_address == @address
+            - if email.from_address == @address
               Sent
             - else
-              - raise "Unexpected"
+              Received
+          %td
+            - if email.from_address == @address
+              = truncate(email.to_as_string, length: 50)
+            - else
+              = email.from          
           %td
             = link_to email_path(email), :class => "rowlink" do
               = time_ago_in_words(email.created_at)
