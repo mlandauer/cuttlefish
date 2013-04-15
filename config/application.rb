@@ -28,6 +28,7 @@ module Cuttlefish
 
     # For bootstrap-sass gem
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+    config.assets.precompile += %w(*.woff *.svg *.eot *.ttf)
 
     #####################################################
     # Cuttlefish specific configuration below here ONLY #
