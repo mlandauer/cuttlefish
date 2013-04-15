@@ -35,6 +35,7 @@ gem 'delayed_job_active_record', "~> 4.0.0.beta1"
 gem 'foreman'
 gem 'haml-rails'
 gem 'flatui-rails'
+gem 'font-awesome-sass-rails'
 gem "file-tail"
 gem 'syslog_protocol'
 gem "will_paginate"
