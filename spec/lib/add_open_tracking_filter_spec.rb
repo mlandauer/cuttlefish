@@ -36,5 +36,41 @@ describe AddOpenTrackingFilter do
         filter.data.should == mail.encoded
       end
     end
+
+    context "a text email with a single part" do
+      let(:mail) do
+        Mail.new do
+          body 'Some plain text'
+        end
+      end
+      let(:filter) { AddOpenTrackingFilter.new(mock(:data => mail.encoded, :id => "673")) }
+
+      it "should do nothing to the content of the email" do
+        filter.data.should == mail.encoded
+      end
+    end
+
+    context "an email with a text part and an html part" do
+        let(:mail) do
+          Mail.new do
+            text_part do
+              body 'Some plain text'
+            end
+            html_part do
+              content_type 'text/html; charset=UTF-8'
+              body '<table>I like css</table>'
+            end
+          end
+        end
+        let(:filter) { AddOpenTrackingFilter.new(mock(:data => mail.encoded, :id => "12")) }
+
+        it "should do nothing to the text part of the email" do
+          Mail.new(filter.data).text_part.decoded.should == "Some plain text"
+        end
+
+        it "should append an image to the html part of the email" do
+          Mail.new(filter.data).html_part.decoded.should == "<table>I like css</table><img src=\"http://cuttlefish.example.org/o12.gif\" />"
+        end
+    end
   end
 end
