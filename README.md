@@ -4,9 +4,31 @@
 
 Cuttlefish is an easy to setup and easy to use open source transactional email server
 
-It ensures that your emails arrive at their destination by continuously monitoring the deliverability of your emails.
+Sending a few emails from your app is easy. Sending lots becomes painful. There are so many hidden gotchas. Do your emails get delivered? Are you being considered a spammer? What about all those bounced emails?
 
-Dependencies: Ruby 1.9.3, bundler
+Let's making sending lots of emails fun again!
+
+And without the hidden dangers of vendor lock in of commercial transactional email services.
+
+* Send email from your application using smtp in the usual way and get all sorts of added benefits for no effort
+* A lovely web UI to browse what's happening
+* Monitor in real time which emails arrive at their destination and which bounce
+* Automatically not send emails to destinations that have hard bounced in the past
+* Track which emails are opened
+* Statistics on emails sent, soft/hard bounced and held back
+* Check your IP reputation with one click
+* Easy to install and get going quickly
+* Open source, so no vendor lock in.
+
+Things on the cards
+
+* REST API for deep integration with your application
+* Multiple applications can each have their own SMTP authentication
+* Super-easy link tracking
+* DKIM signing
+* "out of office" and bounce reply filtering
+
+Dependencies: Ruby 1.9.3, bundler, Postfix
 
 ##To install:
 ```
