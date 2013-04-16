@@ -39,7 +39,7 @@ describe OutgoingEmail do
 
       it "should use data to figure out what to send" do
         smtp = mock
-        HoldBackHardBounceFilter.any_instance.should_receive(:data).and_return("My altered data")
+        HoldBackHardBounceFilter.any_instance.stub(:data).and_return("My altered data")
         smtp.should_receive(:send_message).with("My altered data", anything(), anything()).and_return(mock(message: ""))
         Net::SMTP.should_receive(:start).and_yield(smtp)
         @outgoing.send

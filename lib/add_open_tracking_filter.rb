@@ -29,6 +29,11 @@ class AddOpenTrackingFilter < DeliveryFilter
   end
 
   def host
-    Rails.configuration.action_mailer.default_url_options[:host]
+    options = Rails.configuration.action_mailer.default_url_options
+    if options
+      options[:host]
+    else
+      raise "Set config.action_mailer.default_url_options in config/environments/#{Rails.env}.rb"
+    end
   end
 end
