@@ -8,7 +8,10 @@ class Delivery < ActiveRecord::Base
   
   # This delivery is being open tracked
   def set_open_tracked!
-    update_attribute(:open_tracked, true)
+    # TODO: Move the salt to configuration
+    salt = "my salt"
+    hash = Digest::SHA1.hexdigest(salt + id.to_s)
+    update_attributes(open_tracked: true, open_tracked_hash: hash)
   end
 
   def status
