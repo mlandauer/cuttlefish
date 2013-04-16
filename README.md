@@ -29,17 +29,21 @@ Things on the cards
 * DKIM signing
 * "out of office" and bounce reply filtering
 
-Dependencies: Ruby 1.9.3, bundler, Postfix
+Dependencies: Ruby 1.9.3, MySQL, Postfix
+(Postfix is optional for local development or just trying it out. Some things like the email deliverability just won't show anything)
 
 ##To install:
 ```
 bundle install
 ```
+and edit `config/database.yml` with your database settings
 
-##To run:
 ```
+bundle exec rake db:setup
 bundle exec foreman start
 ```
+
+and point your browser at [http://localhost:3000](http://localhost:3000)
 
 ##To install on your server:
 Edit `config/deploy.rb`
