@@ -18,6 +18,10 @@ module EmailsHelper
     ["label", ("label-#{bootstrap_status_class(status, true)}" if bootstrap_status_class(status, true))]
   end
 
+  def badge_class(status)
+    ["badge", "badge-#{bootstrap_status_class(status, true)}"]
+  end
+
   def status_name(status)
     case status
     when "not_sent"
