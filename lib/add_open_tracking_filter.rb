@@ -4,18 +4,22 @@ class AddOpenTrackingFilter < DeliveryFilter
   include Rails.application.routes.url_helpers
 
   def data
-    mail = Mail.new(delivery.data)
-    if mail.html_part
-      new_html = mail.html_part.body.decoded +
-        image_tag(delivery_open_track_url(:id => id, :host => host, :format => :gif), :alt => nil)
-      mail.html_part.body = new_html
-      mail.encoded
-    else
-      delivery.data
-    end
+    append_to_html(delivery.data,
+      image_tag(delivery_open_track_url(:id => id, :host => host, :format => :gif), :alt => nil))
   end
 
   private
+
+  def append_to_html(data, to_append)
+    mail = Mail.new(data)
+    part = mail.html_part
+    if part
+      part.body = part.body.decoded + to_append
+      mail.encoded
+    else
+      data
+    end
+  end
 
   def host
     Rails.configuration.action_mailer.default_url_options[:host]
