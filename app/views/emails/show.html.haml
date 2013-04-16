@@ -25,8 +25,14 @@
 
 %hr
 - if @email.data.nil?
-  %em
-    Full text of email is not available
+  %p
+    %em
+      Full text of email is not available.
+      = link_to "Why?", "#why_help", "data-toggle" => "collapse"
+  %p#why_help.collapse
+    The full text of only the most recent #{EmailDataCache.max_no_emails_to_store_data} emails is stored. Keeping things around for ever is not good for privacy or disk space. It still gives
+    you room to look at recent emails to figure our any problems if you need to.
+
 - else
   - if @email.html_part
     %ul.nav.nav-pills
