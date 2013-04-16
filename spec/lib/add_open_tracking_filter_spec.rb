@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe AddOpenTrackingFilter do
+  # TODO Record whether image was inserted
+
   describe "#data" do
     context "An html email with no text part" do
       let(:mail) do
@@ -17,6 +19,21 @@ describe AddOpenTrackingFilter do
       it "should insert an image at the bottom of the html" do
         Mail.new(filter.data).parts.first.body.should ==
           '<h1>This is HTML</h1><img src="http://cuttlefish.example.org/o673.gif" />'
+      end
+    end
+
+    context "a text email with no html part" do
+      let(:mail) do
+        Mail.new do
+          text_part do
+            body 'Some plain text'
+          end
+        end
+      end
+      let(:filter) { AddOpenTrackingFilter.new(mock(:data => mail.encoded, :id => "673")) }
+
+      it "should do nothing to the content of the email" do
+        filter.data.should == mail.encoded
       end
     end
   end
