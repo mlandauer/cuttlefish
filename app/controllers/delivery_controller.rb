@@ -1,6 +1,6 @@
 class DeliveryController < ApplicationController
   def open_track
-    Delivery.find(params[:id]).open_events.create!
+    Delivery.find(params[:id]).open_events.create!(user_agent: request.env['HTTP_USER_AGENT'])
     # TODO Check that we are asking for a gif and only accept those for the time being
     # TODO Record it
     # This sends a 1x1 transparent gif

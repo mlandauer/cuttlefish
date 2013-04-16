@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130416012515) do
+ActiveRecord::Schema.define(version: 20130416043210) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20130416012515) do
     t.integer  "delivery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "user_agent"
   end
 
   create_table "postfix_log_lines", force: true do |t|
