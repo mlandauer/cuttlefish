@@ -9,7 +9,7 @@ class OutgoingEmail
     # TODO If no emails are sent out don't open connection to smtp server
     Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
       email.deliveries.each do |delivery|
-        filtered = HoldBackHardBounceFilter.new(delivery)
+        filtered = AddOpenTrackingFilter.new(HoldBackHardBounceFilter.new(delivery))
         if filtered.send?
           # TODO: Optimise so that if data is the same for multiple recipients then they
           # are sent in one go
