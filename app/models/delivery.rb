@@ -6,6 +6,11 @@ class Delivery < ActiveRecord::Base
 
   after_save :update_status!
   
+  # This delivery is being open tracked
+  def set_open_tracked!
+    update_attribute(:open_tracked, true)
+  end
+
   def status
     if sent?
       last_line = postfix_log_lines.first
