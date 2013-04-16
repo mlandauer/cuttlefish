@@ -1,6 +1,9 @@
 = link_to delivery.address.text, address_path(delivery.address)
 = link_to "#log-#{delivery.id}", "data-toggle" => "collapse" do
   = delivered_label(delivery.status)
+- unless delivery.open_events.empty?
+  = link_to "#open-#{delivery.id}", "data-toggle" => "collapse" do
+    %span.label.label-success Opened
 - unless delivery.postfix_log_lines.empty?
   .collapse{id: "log-#{delivery.id}"}
     %table.table.table-condensed
@@ -17,3 +20,17 @@
               ago
             %td= line.dsn
             %td.status= line.extended_status
+- unless delivery.open_events.empty?
+  .collapse{id: "open-#{delivery.id}"}
+    %table.table.table-condensed
+      %thead
+        %tr
+          %th Time
+          %th User agent
+      %tbody
+        - delivery.open_events.each do |event|
+          %tr
+            %td
+              = time_ago_in_words(event.created_at)
+              ago
+            %td= event.user_agent
