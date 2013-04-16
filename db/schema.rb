@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130416010949) do
+ActiveRecord::Schema.define(version: 20130416012515) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20130416010949) do
     t.datetime "updated_at"
     t.boolean  "sent",             default: false, null: false
     t.string   "postfix_queue_id"
+    t.boolean  "open_tracked",     default: false, null: false
   end
 
   add_index "deliveries", ["postfix_queue_id"], name: "index_deliveries_on_postfix_queue_id"

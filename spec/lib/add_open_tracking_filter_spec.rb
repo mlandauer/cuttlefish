@@ -4,6 +4,14 @@ describe AddOpenTrackingFilter do
   # TODO Record whether image was inserted
 
   describe "#data" do
+    let(:delivery) do
+      delivery = Delivery.new(id: 673)
+      delivery.stub(data: mail.encoded, update_status!: nil)
+      delivery.save!
+      delivery
+    end
+    let(:filter) { AddOpenTrackingFilter.new(delivery) }
+
     context "An html email with no text part" do
       let(:mail) do
         Mail.new do
@@ -13,12 +21,16 @@ describe AddOpenTrackingFilter do
           end
         end
       end
-      let(:filter) { AddOpenTrackingFilter.new(mock(:data => mail.encoded, :id => "673")) }
 
       # TODO Use a hash to generate the id in the image so that it can't be guessed
       it "should insert an image at the bottom of the html" do
         Mail.new(filter.data).parts.first.body.should ==
           '<h1>This is HTML</h1><img src="http://cuttlefish.example.org/o673.gif" />'
+      end
+
+      it "should record that it has been open tracked" do
+        filter.data
+        delivery.open_tracked?.should be_true
       end
     end
 
@@ -30,10 +42,14 @@ describe AddOpenTrackingFilter do
           end
         end
       end
-      let(:filter) { AddOpenTrackingFilter.new(mock(:data => mail.encoded, :id => "673")) }
 
       it "should do nothing to the content of the email" do
         filter.data.should == mail.encoded
+      end
+
+      it "should record that it has not been open tracked" do
+        filter.data
+        delivery.open_tracked?.should_not be_true
       end
     end
 
@@ -43,10 +59,14 @@ describe AddOpenTrackingFilter do
           body 'Some plain text'
         end
       end
-      let(:filter) { AddOpenTrackingFilter.new(mock(:data => mail.encoded, :id => "673")) }
 
       it "should do nothing to the content of the email" do
         filter.data.should == mail.encoded
+      end
+
+      it "should record that it has not been open tracked" do
+        filter.data
+        delivery.open_tracked?.should_not be_true
       end
     end
 
@@ -62,14 +82,18 @@ describe AddOpenTrackingFilter do
             end
           end
         end
-        let(:filter) { AddOpenTrackingFilter.new(mock(:data => mail.encoded, :id => "12")) }
 
         it "should do nothing to the text part of the email" do
           Mail.new(filter.data).text_part.decoded.should == "Some plain text"
         end
 
         it "should append an image to the html part of the email" do
-          Mail.new(filter.data).html_part.decoded.should == "<table>I like css</table><img src=\"http://cuttlefish.example.org/o12.gif\" />"
+          Mail.new(filter.data).html_part.decoded.should == "<table>I like css</table><img src=\"http://cuttlefish.example.org/o673.gif\" />"
+        end
+
+        it "should record that it has been open tracked" do
+          filter.data
+          delivery.open_tracked?.should be_true
         end
     end
   end
