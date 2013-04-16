@@ -2,6 +2,7 @@ class Delivery < ActiveRecord::Base
   belongs_to :email
   belongs_to :address
   has_many :postfix_log_lines, -> { order "time DESC" }
+  has_many :open_events
 
   after_save :update_status!
   
