@@ -22,7 +22,7 @@ describe AddOpenTrackingFilter do
 
       it "should insert an image at the bottom of the html" do
         Mail.new(filter.data).parts.first.body.should ==
-          '<h1>This is HTML</h1><img src="http://cuttlefish.example.org/o268c51c4f61875f05c1c545ea50cad826de46ea7.gif" />'
+          '<h1>This is HTML</h1><img src="http://cuttlefish.example.org/o/268c51c4f61875f05c1c545ea50cad826de46ea7.gif" />'
       end
 
       it "should record that it has been open tracked" do
@@ -85,7 +85,7 @@ describe AddOpenTrackingFilter do
         end
 
         it "should append an image to the html part of the email" do
-          Mail.new(filter.data).html_part.decoded.should == "<table>I like css</table><img src=\"http://cuttlefish.example.org/o268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
+          Mail.new(filter.data).html_part.decoded.should == "<table>I like css</table><img src=\"http://cuttlefish.example.org/o/268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
         end
 
         it "should record that it has been open tracked" do
