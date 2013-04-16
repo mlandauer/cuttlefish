@@ -13,6 +13,7 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Send email from your application using smtp in the usual way and get all sorts of added benefits for no effort
 * A lovely web UI to browse what's happening
 * Monitor in real time which emails arrive at their destination and which bounce
+* Works with any web framework and language
 * Automatically not send emails to destinations that have hard bounced in the past
 * Track which emails are opened
 * Statistics on emails sent, soft/hard bounced and held back
