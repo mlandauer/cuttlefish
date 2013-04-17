@@ -6,7 +6,7 @@ Cuttlefish is an easy to setup and easy to use open source transactional email s
 
 Sending a few emails from your app is easy. Sending lots becomes painful. There are so many hidden gotchas. Do your emails get delivered? Are you being considered a spammer? What about all those bounced emails?
 
-Let's making sending lots of emails fun again!
+Let's make sending lots of emails fun again!
 
 And without the hidden dangers of vendor lock in of commercial transactional email services.
 
