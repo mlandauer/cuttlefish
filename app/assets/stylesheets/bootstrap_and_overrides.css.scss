@@ -2,7 +2,7 @@
 // Flat UI main stylesheet that aggregates all modules
 
 // Loading custom fonts
-@import url('http://fonts.googleapis.com/css?family=Lato:400,700,900,400italic');
+@import url('//fonts.googleapis.com/css?family=Lato:400,700,900,400italic');
 @import 'flat-ui/icon-font';
 @import 'flat-ui/icon-font-24';
 
@@ -44,7 +44,7 @@ body {
 
 @import "bootstrap-responsive";
 
-@import url(http://fonts.googleapis.com/css?family=Leckerli+One);
+@import url(//fonts.googleapis.com/css?family=Leckerli+One);
 
 .navbar .brand {
   font-family: 'Leckerli One', cursive;
