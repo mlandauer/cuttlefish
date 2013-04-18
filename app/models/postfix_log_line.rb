@@ -13,12 +13,14 @@ class PostfixLogLine < ActiveRecord::Base
   end
 
   def status
-    case dsn_class
-    when 2
+    if dsn_class == 2
       "delivered"
-    when 4
+    elsif dsn_class == 4
       "soft_bounce"
-    when 5
+    # Mailbox full should be treated as a temporary problem
+    elsif dsn == "5.2.2"
+      "soft_bounce"
+    elsif dsn_class == 5
       "hard_bounce"
     else
       raise "Unknown dsn class"

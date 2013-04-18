@@ -187,5 +187,12 @@ describe PostfixLogLine do
     it "should see a dsn of 4.4.1 as not delivered" do
       PostfixLogLine.new(:dsn => "4.4.1").status.should == "soft_bounce"
     end
+
+    # See https://github.com/mlandauer/cuttlefish/issues/49
+    # 5.2.2 is mailbox full. It's a "permanent" failure that should be viewed
+    # as a temporary one
+    it "should see a dsn of 5.2.2 as a soft bounce" do
+      PostfixLogLine.new(:dsn => "5.2.2").status.should == "soft_bounce"
+    end
   end
 end
