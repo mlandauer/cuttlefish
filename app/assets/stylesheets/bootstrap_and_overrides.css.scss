@@ -1,3 +1,43 @@
+@import 'bootstrap';
+// Flat UI main stylesheet that aggregates all modules
+
+// Loading custom fonts
+@import url('http://fonts.googleapis.com/css?family=Lato:400,700,900,400italic');
+@import 'flat-ui/icon-font';
+@import 'flat-ui/icon-font-24';
+
+// Loading config with variables (changing them leads to changing a color scheme)
+@import 'flat-ui/config';
+
+// Utility mixins for greater good
+@import 'flat-ui/mixins';
+
+// Modules
+@import 'flat-ui/modules/type';
+@import 'flat-ui/modules/btn';
+@import 'flat-ui/modules/demo';
+@import 'flat-ui/modules/navbar';
+@import 'flat-ui/modules/select';
+@import 'flat-ui/modules/input';
+@import 'flat-ui/modules/checkbox-and-radio';
+@import 'flat-ui/modules/toggle';
+@import 'flat-ui/modules/tagsinput';
+@import 'flat-ui/modules/progress';
+@import 'flat-ui/modules/ui-slider';
+@import 'flat-ui/modules/pager';
+@import 'flat-ui/modules/pagination';
+@import 'flat-ui/modules/share';
+@import 'flat-ui/modules/tooltip';
+@import 'flat-ui/modules/palette';
+@import 'flat-ui/modules/tile';
+@import 'flat-ui/modules/todo';
+@import 'flat-ui/modules/footer';
+@import 'flat-ui/modules/video';
+@import 'flat-ui/modules/login';
+
+// Spaces
+@import 'flat-ui/spaces';
+
 body {
   padding-top: 80px;
 }
