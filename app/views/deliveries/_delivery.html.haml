@@ -27,6 +27,8 @@
         %tr
           %th Time
           %th User agent
+          %th Client
+          %th OS
       %tbody
         - delivery.open_events.each do |event|
           %tr
@@ -34,3 +36,7 @@
               = time_ago_in_words(event.created_at)
               ago
             %td= event.user_agent
+            %td
+              = link_to event.ua_family, event.ua_url
+            %td
+              = link_to event.os_family, event.os_url
