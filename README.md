@@ -17,6 +17,7 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Automatically not send emails to destinations that have hard bounced in the past
 * Track which emails are opened
 * Statistics on emails sent, soft/hard bounced and held back
+* View the full email content for recently sent emails
 * Check your IP reputation with one click
 * Easy to install and get going quickly
 * Open source, so no vendor lock in.
