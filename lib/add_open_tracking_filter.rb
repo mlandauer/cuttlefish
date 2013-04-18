@@ -6,7 +6,7 @@ class AddOpenTrackingFilter < DeliveryFilter
   def data
     if has_html_part?
       delivery.set_open_tracked!
-      append_to_html(image_tag(delivery_open_track_url(:hash => open_tracked_hash, :host => host, :format => :gif), :alt => nil))
+      append_to_html(image_tag(delivery_open_track_url(default_url_options.merge(:hash => open_tracked_hash, :format => :gif)), :alt => nil))
     else
       delivery.data
     end
@@ -28,10 +28,9 @@ class AddOpenTrackingFilter < DeliveryFilter
     !!mail.html_part
   end
 
-  def host
-    options = Rails.configuration.action_mailer.default_url_options
-    if options
-      options[:host]
+  def default_url_options
+    if Rails.configuration.action_mailer.default_url_options
+      Rails.configuration.action_mailer.default_url_options
     else
       raise "Set config.action_mailer.default_url_options in config/environments/#{Rails.env}.rb"
     end
