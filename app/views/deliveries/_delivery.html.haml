@@ -27,6 +27,7 @@
         %tr
           %th Time
           %th User agent
+          %th Referer
           %th Client
           %th OS
       %tbody
@@ -36,6 +37,7 @@
               = time_ago_in_words(event.created_at)
               ago
             %td= event.user_agent
+            %td= event.referer
             %td
               = link_to event.ua_family, event.ua_url
             %td

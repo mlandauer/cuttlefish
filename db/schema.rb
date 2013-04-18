@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130418054241) do
+ActiveRecord::Schema.define(version: 20130418095518) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20130418054241) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "user_agent"
+    t.text     "referer"
   end
 
   create_table "postfix_log_lines", force: true do |t|
