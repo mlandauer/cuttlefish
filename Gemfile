@@ -40,10 +40,7 @@ gem "file-tail"
 gem 'syslog_protocol'
 gem "will_paginate"
 gem "dnsbl-client"
-gem "devise"
-# Using this temporarily because devise model generator uses it
-# TODO: Replace this with use of Rails 4 strong_parameters
-gem "protected_attributes"
+gem "devise", git: "https://github.com/plataformatec/devise.git", branch: "rails4"
 
 # Deployment bits and bobs
 gem "capistrano"
