@@ -1,4 +1,7 @@
 class DeliveriesController < ApplicationController
+  # We need open_track to be accessible by anyone without authentication
+  skip_filter :authenticate_admin!
+
   def open_track
     Delivery.find_by!(open_tracked_hash: params[:hash]).open_events.create!(
       user_agent: request.env['HTTP_USER_AGENT'],
