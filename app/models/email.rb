@@ -87,6 +87,11 @@ class Email < ActiveRecord::Base
     EmailDataCache[id] = data
   end
 
+  # It's been opened if any of the deliveries have opened it
+  def opened?
+    deliveries.any?{|d| d.opened?}
+  end
+
   private
 
   def update_message_id

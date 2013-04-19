@@ -50,4 +50,8 @@ class Delivery < ActiveRecord::Base
   def data
     email.data
   end
+
+  def opened?
+    open_events.count > 0
+  end
 end

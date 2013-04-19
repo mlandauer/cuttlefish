@@ -24,3 +24,5 @@
             ago
           %td
             = delivered_label(email.status)
+            - if email.opened?
+              %span.label.label-success Opened
