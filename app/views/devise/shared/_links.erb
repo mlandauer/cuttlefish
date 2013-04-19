@@ -1,5 +1,5 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to "Sign in", new_session_path(resource_name) %><br />
+  <%= link_to "Sign in", new_session_path(resource_name), class: "login-link" %><br />
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
