@@ -1,5 +1,8 @@
 Cuttlefish::Application.routes.draw do
-  devise_for :admins, :controllers => { :sessions => "admins/sessions" }
+  devise_for :admins, :controllers => {
+    :sessions => "admins/sessions",
+    :registrations => "admins/registrations"
+  }
   resources :emails, :only => [:index, :show]
   resources :addresses, :only => [:index, :show]
   resources :test_emails, :only => [:new, :create]
