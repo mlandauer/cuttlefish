@@ -1,4 +1,5 @@
 Cuttlefish::Application.routes.draw do
+  devise_for :admins
   resources :emails, :only => [:index, :show]
   resources :addresses, :only => [:index, :show]
   resources :test_emails, :only => [:new, :create]
