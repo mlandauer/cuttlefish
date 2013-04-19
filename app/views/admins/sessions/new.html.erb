@@ -8,6 +8,7 @@
 
   <div class="span6">
     <div class="login-form">
+      <%= bootstrap_flash %>
       <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
         <div class="control-group">
           <%= f.label :email %>
