@@ -1,0 +1,15 @@
+// Override style set flat-ui
+.login-icon {
+  position: inherit;
+}
+
+div.login-form {
+  max-width: 306px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body#login {
+  padding-top: 60px;
+  background-color: #1abc9c;
+}

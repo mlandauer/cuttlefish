@@ -1,17 +1,26 @@
-<h2>Sign in</h2>
+<div class="row">
+  <div class="span3">
+    <div class="login-icon">
+      <img src="/assets/login/icon.png" alt="Welcome to Mail App">
+      <h4>Welcome to <small>Cuttlefish</small></h4>
+    </div>
+  </div>
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+  <div class="span6">
+    <div class="login-form">
+      <div class="control-group">
+        <input type="text" class="login-field" value="" placeholder="Enter your email" id="login-name">
+        <label class="login-field-icon fui-man-16" for="login-name"></label>
+      </div>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+      <div class="control-group">
+        <input type="password" class="login-field" value="" placeholder="Password" id="login-pass">
+        <label class="login-field-icon fui-lock-16" for="login-pass"></label>
+      </div>
 
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
-
-  <div><%= f.submit "Sign in" %></div>
-<% end %>
-
-<%= render :partial => "devise/shared/links" %>
+      <a class="btn btn-primary btn-large btn-block" href="#">Login</a>
+      
+      <%= render :partial => "devise/shared/links" %>
+    </div>
+  </div>
+</div>

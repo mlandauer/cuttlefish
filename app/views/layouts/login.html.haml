@@ -17,23 +17,10 @@
     %link(href="/favicon.ico" rel="shortcut icon")
 
 
-  %body
+  %body#login
     .container
-
-      .row
-        .span9
-          = bootstrap_flash
-          = yield
-    
-      %footer
-        %p
-          Made by
-          = link_to "@matthewlandauer", "https://twitter.com/matthewlandauer"
-        %p
-          Cuttlefish is free and open source software. Get it at
-          = link_to "http://github.com/mlandauer/cuttlefish" do
-            %i.icon.icon-github
-            Github
+      = bootstrap_flash
+      = yield
     /
       Javascripts
       \==================================================
