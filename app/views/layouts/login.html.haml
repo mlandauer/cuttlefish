@@ -22,8 +22,10 @@
       .row
         .span3
           .login-icon
-            <img src="/assets/login/icon.png" alt="Welcome to Cuttlefish">
-            <h4>Welcome to <small>Cuttlefish</small></h4>
+            = image_tag "login/icon.png", :alt => "Welcome to Cuttlefish"
+            %h4
+              Welcome to
+              %small Cuttlefish
 
         .span6
           .login-form
