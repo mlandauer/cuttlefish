@@ -19,7 +19,16 @@
 
   %body#login
     .container
-      = yield
+      .row
+        .span3
+          .login-icon
+            <img src="/assets/login/icon.png" alt="Welcome to Mail App">
+            <h4>Welcome to <small>Cuttlefish</small></h4>
+
+        .span6
+          .login-form
+            = bootstrap_flash
+            = yield
     /
       Javascripts
       \==================================================
