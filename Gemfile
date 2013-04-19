@@ -41,6 +41,7 @@ gem 'syslog_protocol'
 gem "will_paginate"
 gem "dnsbl-client"
 gem "devise", git: "https://github.com/plataformatec/devise.git", branch: "rails4"
+gem 'devise_invitable', git: "https://github.com/scambra/devise_invitable.git", branch: "rails4"
 
 # Deployment bits and bobs
 gem "capistrano"

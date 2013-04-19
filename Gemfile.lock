@@ -9,6 +9,15 @@ GIT
       railties (~> 4.0.0.beta)
       warden (~> 1.2.1)
 
+GIT
+  remote: https://github.com/scambra/devise_invitable.git
+  revision: a9b41c79351b08a5cb45d59bae6e3f124ce9a2b4
+  branch: rails4
+  specs:
+    devise_invitable (1.1.7)
+      actionmailer (~> 4.0.0.beta)
+      railties (~> 4.0.0.beta)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -256,6 +265,7 @@ DEPENDENCIES
   coveralls
   delayed_job_active_record (~> 4.0.0.beta1)
   devise!
+  devise_invitable!
   dnsbl-client
   eventmachine
   file-tail
