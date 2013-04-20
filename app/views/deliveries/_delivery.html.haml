@@ -28,6 +28,7 @@
           %th Time
           %th User agent
           %th Referer
+          %th IP
           %th Client
           %th OS
       %tbody
@@ -38,6 +39,7 @@
               ago
             %td= event.user_agent
             %td= event.referer
+            %td= event.ip
             %td
               = link_to event.ua_family, event.ua_url
             %td
