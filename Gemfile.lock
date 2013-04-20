@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/mlandauer/devise_invitable.git
+  revision: c0315f507eb3929bdf93e1e0ae1a13ac78e674cc
+  branch: build_resource_fix
+  specs:
+    devise_invitable (1.1.7)
+      actionmailer (~> 4.0.0.beta)
+      railties (~> 4.0.0.beta)
+
+GIT
   remote: https://github.com/plataformatec/devise.git
   revision: c6189696772925ae0c608fdd8d535f735e8e114e
   branch: rails4
@@ -8,15 +17,6 @@ GIT
       orm_adapter (~> 0.1)
       railties (~> 4.0.0.beta)
       warden (~> 1.2.1)
-
-GIT
-  remote: https://github.com/scambra/devise_invitable.git
-  revision: a9b41c79351b08a5cb45d59bae6e3f124ce9a2b4
-  branch: rails4
-  specs:
-    devise_invitable (1.1.7)
-      actionmailer (~> 4.0.0.beta)
-      railties (~> 4.0.0.beta)
 
 GEM
   remote: https://rubygems.org/
