@@ -42,9 +42,12 @@
                   %span.fui-heart-24
               %li.divider-vertical
               %li= link_to "Test email", new_test_email_path
-              %li= link_to "Invite", new_admin_invitation_path
-              %li= link_to 'Logout', destroy_admin_session_path, :method => :delete
-
+            %ul.nav.pull-right
+              %li
+                = link_to current_admin.email, "#"
+                %ul
+                  %li= link_to 'Logout', destroy_admin_session_path, :method => :delete
+                  %li= link_to "Invite new user", new_admin_invitation_path
     .container
 
       .row
