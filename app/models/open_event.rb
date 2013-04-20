@@ -19,12 +19,16 @@ class OpenEvent < ActiveRecord::Base
 
   private
 
+  def user_agents_cache_directory
+    "db/user_agents"
+  end
+
   def user_agent_info_without_caching
     # This is really inefficient. It's going to reload the cache on
     # every single web request
     # TODO Make this efficient
-    # TODO Put the cache in a more sensible place and make it persistent across deploys
-    uas_parser = UASparser.new('db')
+    FileUtils::mkdir_p(user_agents_cache_directory)
+    uas_parser = UASparser.new(user_agents_cache_directory)
     uas_parser.parse(user_agent)
   end
 
