@@ -39,6 +39,7 @@ namespace :deploy do
     run "test -f #{shared_path}/database.yml || cp #{release_path}/config/database.yml #{shared_path}/database.yml"
     run "test -f #{shared_path}/production.rb || cp #{release_path}/config/environments/production.rb #{shared_path}/production.rb"
     run "test -d #{shared_path}/emails || mkdir -p #{shared_path}/emails"
+    run "test -d #{shared_path}/user_agents || mkdir -p #{shared_path}/user_agents"
     # "ln -sf <a> <b>" creates a symbolic link but deletes <b> if it already exists
     run links.map {|a| "ln -sf #{a.last} #{a.first}"}.join(";")
   end
