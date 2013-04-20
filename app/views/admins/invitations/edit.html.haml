@@ -1,17 +1,17 @@
-%h2 Set your password
+%h3 Set your password
 
 = form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
   = devise_error_messages!
   = f.hidden_field :invitation_token
 
-  %p
+  .control-group
     = f.label :password
-    %br
-    = f.password_field :password
+    = f.password_field :password, class: "login-field", placeholder: "Password"
+    %span.login-field-icon.fui-lock-16
 
-  %p
+  .control-group
     = f.label :password_confirmation
-    %br
-    = f.password_field :password_confirmation
+    = f.password_field :password_confirmation, class: "login-field", placeholder: "Confirm Password"
+    %span.login-field-icon.fui-lock-16
 
-  %p= f.submit "Set my password"
+  = f.submit "Set my password", class: "btn btn-primary btn-large btn-block"
