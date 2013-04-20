@@ -1,5 +1,5 @@
 class Admins::RegistrationsController < Devise::RegistrationsController
-  layout "login"
+  layout "login", :except => :edit
 
   def new
     if Admin.first.nil?
