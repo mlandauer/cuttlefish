@@ -2,7 +2,8 @@ Cuttlefish::Application.routes.draw do
   devise_for :admins, :controllers => {
     :sessions => "admins/sessions",
     :registrations => "admins/registrations",
-    :passwords => "admins/passwords"
+    :passwords => "admins/passwords",
+    :invitations => "admins/invitations"
   }
   resources :emails, :only => [:index, :show]
   resources :addresses, :only => [:index, :show]
