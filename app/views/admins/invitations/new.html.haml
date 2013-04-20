@@ -4,9 +4,8 @@
   = devise_error_messages!
 
   - resource.class.invite_key_fields.each do |field|
-    %p
+    .control-group
       = f.label field
-      %br
-      = f.text_field field
+      = f.text_field field, placeholder: "Email"
 
-  %p= f.submit "Send an invitation"
+  = f.submit "Send an invitation", class: "btn btn-primary"
