@@ -34,27 +34,30 @@
     you room to look at recent emails to figure our any problems if you need to.
 
 - else
-  - if @email.html_part
-    %ul.nav.nav-pills
+  %ul.nav.nav-pills
+    - if @email.html_part && @email.text_part
       %li.active= link_to "HTML", "#html", data: {toggle: "pill"}
       %li= link_to "Text", "#text", data: {toggle: "pill"}
-      %li= link_to "Source", "#source", data: {toggle: "pill"}
-    .tab-content
+    - elsif @email.html_part
+      %li.active= link_to "HTML", "#html", data: {toggle: "pill"}
+    - else
+      %li.active= link_to "Text", "#text", data: {toggle: "pill"}
+    %li= link_to "Source", "#source", data: {toggle: "pill"}
+
+  .tab-content
+    - if @email.html_part && @email.text_part
       %div.tab-pane.active#html
         .well= @email.html_part.html_safe
       %div.tab-pane#text
         %pre= @email.text_part
-      %div.tab-pane#source
-        %pre= @email.data
-  - else
-    %ul.nav.nav-pills
-      %li.active= link_to "Text", "#text", data: {toggle: "pill"}
-      %li= link_to "Source", "#source", data: {toggle: "pill"}
-    .tab-content
+    - elsif @email.html_part
+      %div.tab-pane.active#html
+        .well= @email.html_part.html_safe
+    - else
       %div.tab-pane.active#text
         %pre= @email.text_part
-      %div.tab-pane#source
-        %pre= @email.data
+    %div.tab-pane#source
+      %pre= @email.data
 
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), emails_path, :class => 'btn'
