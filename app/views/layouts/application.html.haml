@@ -44,11 +44,14 @@
               %li= link_to "Test email", new_test_email_path
             %ul.nav.pull-right
               %li
-                = link_to current_admin.email, "#"
+                = link_to "#" do
+                  = current_admin.email
+                  %span.fui-man-24
                 %ul
                   %li= link_to "Edit my details", edit_admin_registration_path
+                  %li= link_to "Invite administrator", new_admin_invitation_path
+                  %li.divider
                   %li= link_to 'Logout', destroy_admin_session_path, :method => :delete
-                  %li= link_to "Invite new user", new_admin_invitation_path
     .container
 
       .row
