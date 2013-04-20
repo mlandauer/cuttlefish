@@ -70,7 +70,7 @@ class Email < ActiveRecord::Base
   end
 
   def text_part
-    part("text/plain") || mail.body.to_s
+    part("text/plain")
   end
 
   def html_part
@@ -79,8 +79,14 @@ class Email < ActiveRecord::Base
 
   # First part with a particular mime type
   def part(mime_type)
-    part = mail.parts.find{|p| p.mime_type == mime_type}
-    part.body.to_s if part
+    if mail.multipart?
+      part = mail.parts.find{|p| p.mime_type == mime_type}
+      part.body.to_s if part
+    else
+      if mail.mime_type == mime_type
+        mail.body.to_s
+      end
+    end
   end
 
   def update_cache
