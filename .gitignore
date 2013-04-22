@@ -16,3 +16,4 @@ db/emails/development
 db/user_agents/cache
 config/newrelic.yml
 coverage
+.vagrant
