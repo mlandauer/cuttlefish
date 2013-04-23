@@ -4,6 +4,12 @@
   %fieldset
     %legend Edit my details
     .control-group
+      = f.label :gravatar, class: "control-label"
+      .controls
+        = gravatar_image_tag(@admin.email, gravatar: {size: 35, secure: true, default: :identicon})
+        %span.help-inline
+          = link_to "Change your gravatar", "http://gravatar.com/"
+    .control-group
       = f.label :email, class: "control-label"
       .controls
         = f.email_field :email

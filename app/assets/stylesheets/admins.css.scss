@@ -22,3 +22,14 @@ body#login {
   padding-top: 60px;
   background-color: #1abc9c;
 }
+
+// For pulldowns add support for .pull-right (as Bootstrap has)
+.navbar .nav ul.pull-right {
+  left: inherit;
+  right: 0;
+}
+
+.navbar .nav > li > ul.pull-right:before {
+  left: inherit;
+  right: 25px;
+}

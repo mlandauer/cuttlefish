@@ -45,9 +45,8 @@
             %ul.nav.pull-right
               %li
                 = link_to "#" do
-                  = current_admin.email
-                  %span.fui-man-24
-                %ul
+                  = gravatar_image_tag(current_admin.email, gravatar: {size: 35, secure: true, default: :identicon})
+                %ul.pull-right
                   %li= link_to "Edit my details", edit_admin_registration_path
                   %li= link_to "Invite administrator", new_admin_invitation_path
                   %li.divider
