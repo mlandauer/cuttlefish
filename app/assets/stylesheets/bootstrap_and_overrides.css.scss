@@ -46,8 +46,11 @@ body {
 
 @import url(//fonts.googleapis.com/css?family=Leckerli+One);
 
+.brand {
+  font-family: 'Leckerli One', cursive;  
+}
+
 .navbar .brand {
-  font-family: 'Leckerli One', cursive;
   text-decoration: none;
   font-size: 30px;
 }
