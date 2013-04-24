@@ -22,7 +22,7 @@ module ApplicationHelper
     flash_messages.join("\n").html_safe
   end
 
-  def nav_menu_item(*args, &block)
+  def nav_menu_item_show_active(*args, &block)
     if block_given?
       link = link_to(args[0], &block)
       current = current_page?(args[0])

@@ -22,13 +22,13 @@ describe ApplicationHelper do
     end
   end
 
-  describe "#nav_menu_item" do
+  describe "#nav_menu_item_show_active" do
     it "should create the simple markup required" do
-      helper.nav_menu_item("Test email", "/foo/bar").should == '<li><a href="/foo/bar">Test email</a></li>'
+      helper.nav_menu_item_show_active("Test email", "/foo/bar").should == '<li><a href="/foo/bar">Test email</a></li>'
     end
 
     it "should handle a block argument" do
-      helper.nav_menu_item("/foo/bar") { "Test email" }.should == '<li><a href="/foo/bar">Test email</a></li>'
+      helper.nav_menu_item_show_active("/foo/bar") { "Test email" }.should == '<li><a href="/foo/bar">Test email</a></li>'
     end
 
     context "/foo/bar is current page" do
@@ -37,7 +37,7 @@ describe ApplicationHelper do
       end
 
       it "should be active" do
-        helper.nav_menu_item("Test email", "/foo/bar").should == '<li class="active"><a href="/foo/bar">Test email</a></li>'
+        helper.nav_menu_item_show_active("Test email", "/foo/bar").should == '<li class="active"><a href="/foo/bar">Test email</a></li>'
       end
     end
   end
