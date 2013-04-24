@@ -6,3 +6,19 @@
   that sends the email. Each App has its own settings and its own smtp authentication settings to contact the Cuttlefish SMTP server.
 %p
   = link_to "New App", new_app_path, class: "btn btn-primary"
+
+%table.table
+  %thead
+    %tr
+      %th
+        Name
+      %th
+        Description
+  %tbody
+    - @apps.each do |app|
+      %tr
+        %td= app.name
+        %td= app.description
+        %td
+          - unless app.url.blank?
+            = link_to "Visit app", app.url
