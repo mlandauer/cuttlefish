@@ -1,0 +1,30 @@
+= form_for :apps, :html => {:class => "form-horizontal"} do |f|
+  %fieldset
+    %legend New App
+    .control-group
+      = f.label :name, class: "control-label"
+      .controls
+        = f.text_field :name, placeholder: "angelfish", class: "span6"
+        %span.help-block
+          This will also become the SMTP username for sending emails
+
+    .control-group
+      = f.label :description, class: "control-label"
+      .controls
+        = f.text_field :description, placeholder: "Angelfish the most awesome", class: "span6"
+    .control-group
+      = f.label :url, "URL", class: "control-label"
+      .controls
+        = f.text_field :url, placeholder: "http://angelfishsocute.com", class: "span6"
+        %span.help-block
+          Optional (and you can set this later). So we can easily link back to your application.
+    .control-group
+      = f.label :open_tracking_domain, class: "control-label"
+      .controls
+        = f.text_field :open_tracking_domain, placeholder: "email.angelfishsocute.com", class: "span6"
+        %span.help-block
+          Leave blank if you want to use default domain (#{@default_open_tracking_domain}) for open tracking. You can set this later too.
+
+  .control-group
+    .controls
+      %button.btn(type="submit") Create App
