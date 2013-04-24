@@ -43,6 +43,7 @@ gem "dnsbl-client"
 gem "devise", git: "https://github.com/plataformatec/devise.git", branch: "rails4"
 gem 'devise_invitable', git: "https://github.com/mlandauer/devise_invitable.git", branch: "build_resource_fix"
 gem 'gravatar_image_tag'
+gem "random-word"
 
 # Deployment bits and bobs
 gem "capistrano"
