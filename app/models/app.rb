@@ -1,5 +1,6 @@
 class App < ActiveRecord::Base
-  validates :name, :format => {:with => /\A[a-z0-9_]+\z/}, :uniqueness => true
+  validates :name, :format => {:with => /\A[a-z0-9_]+\z/, :message => "Needs to be one word that can be lower case letters, numbers or underscores"}, :uniqueness => true
+  validates :description, presence: true
 
   # A big fat WARNING: if you ever decide to expose the Cuttlefish SMTP server to the internet
   # the smtp_password needs to be hashes with a salt and all that.
