@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130424051134) do
+ActiveRecord::Schema.define(version: 20130424060803) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -46,6 +46,16 @@ ActiveRecord::Schema.define(version: 20130424051134) do
   add_index "admins", ["invitation_token"], name: "index_admins_on_invitation_token", unique: true
   add_index "admins", ["invited_by_id"], name: "index_admins_on_invited_by_id"
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+
+  create_table "apps", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "url"
+    t.string   "smtp_password"
+    t.string   "open_tracking_domain"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
