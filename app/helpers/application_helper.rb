@@ -21,4 +21,15 @@ module ApplicationHelper
     end
     flash_messages.join("\n").html_safe
   end
+
+  def nav_menu_item(*args, &block)
+    if block_given?
+      link = link_to(args[0], &block)
+      current = current_page?(args[0])
+    else
+      link = link_to(args[0], args[1])
+      current = current_page?(args[1])
+    end
+    content_tag(:li, link, class: ("active" if current))
+  end
 end
