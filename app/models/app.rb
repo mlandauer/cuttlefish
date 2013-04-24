@@ -1,4 +1,6 @@
 class App < ActiveRecord::Base
+  validates :name, :format => {:with => /\A[a-z0-9_]+\z/}, :uniqueness => true
+
   # A big fat WARNING: if you ever decide to expose the Cuttlefish SMTP server to the internet
   # the smtp_password needs to be hashes with a salt and all that.
   before_create :set_smtp_password
