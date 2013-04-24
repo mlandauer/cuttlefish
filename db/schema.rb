@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130420092059) do
+ActiveRecord::Schema.define(version: 20130424051134) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20130420092059) do
     t.integer  "open_events_count", default: 0,     null: false
   end
 
+  add_index "deliveries", ["open_tracked_hash"], name: "index_deliveries_on_open_tracked_hash"
   add_index "deliveries", ["postfix_queue_id"], name: "index_deliveries_on_postfix_queue_id"
 
   create_table "emails", force: true do |t|
