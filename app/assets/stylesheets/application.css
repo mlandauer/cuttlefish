@@ -11,6 +11,7 @@
  *= require_self
  *= require "bootstrap_and_overrides"
  *= require "bootstrap-extended/bootstrap-rowlink"
+ *= require formtastic-bootstrap
  *= require _font-awesome
  *= require_tree .
  */
