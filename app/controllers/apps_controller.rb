@@ -9,6 +9,8 @@ class AppsController < ApplicationController
   end
 
   def create
+    # TODO Extract this
+    @default_open_tracking_domain = Rails.configuration.action_mailer.default_url_options[:host]
     @app = App.new(app_parameters)
     if @app.save
       flash[:notice] = "App #{@app.name} successfully created"
