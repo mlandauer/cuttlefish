@@ -22,14 +22,17 @@ module ApplicationHelper
     flash_messages.join("\n").html_safe
   end
 
-  def nav_menu_item_show_active(*args, &block)
+  def nav_menu_item(*args, &block)
     if block_given?
-      link = link_to(args[0], &block)
-      current = current_page?(args[0])
+      content_tag(:li, link_to(args[0], &block), args[1])
     else
-      link = link_to(args[0], args[1])
-      current = current_page?(args[1])
+      content_tag(:li, link_to(args[0], args[1], &block), args[2])
     end
-    content_tag(:li, link, class: ("active" if current))
+  end
+
+  def nav_menu_item_show_active(*args, &block)
+    target = block_given? ? args[0] : args[1]
+    args << {class: ("active" if current_page?(target))}
+    nav_menu_item(*args, &block)
   end
 end
