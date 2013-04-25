@@ -8,14 +8,10 @@ class AppsController < ApplicationController
   end
 
   def new
-    # TODO Extract this
-    @default_open_tracking_domain = Rails.configuration.cuttlefish_domain
     @app = App.new
   end
 
   def create
-    # TODO Extract this
-    @default_open_tracking_domain = Rails.configuration.cuttlefish_domain
     @app = App.new(app_parameters)
     if @app.save
       flash[:notice] = "App #{@app.name} successfully created"
