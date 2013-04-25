@@ -17,6 +17,10 @@ class EmailDataCache
     File.join("db", "emails", Rails.env)
   end
 
+  def self.create_data_filesystem_directory
+    FileUtils::mkdir_p(data_filesystem_directory)
+  end
+
   private
 
   def self.data_filesystem_path(id)
@@ -31,7 +35,7 @@ class EmailDataCache
     # Don't overwrite the data that's already on the filesystem
     unless is_data_on_filesystem?(id)
       # Save the data part of the email to the filesystem
-      FileUtils::mkdir_p(data_filesystem_directory)
+      create_data_filesystem_directory
       File.open(data_filesystem_path(id), "w") do |f|
         f.write(data)
       end
