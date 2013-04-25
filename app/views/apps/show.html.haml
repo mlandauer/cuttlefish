@@ -29,9 +29,15 @@
         - unless @app.smtp_password_locked?
           = button_to "Keep this password", lock_password_app_path(@app), class: "btn btn-mini btn-primary"
           = button_to "Give me a new password", new_password_app_path(@app), class: "btn btn-mini"
-
+    %tr
+      %td Authentication
+      %td
+        %strong plain
+      %td
 %p Specific instructions for different languages and frameworks coming soon.
 
+%p
+  So far #{@app.name} has sent #{pluralize(@app.emails.count, 'email')}.
 %hr
 %h3 Remove this App
 
