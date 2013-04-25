@@ -1,4 +1,6 @@
 class App < ActiveRecord::Base
+  has_many :emails
+  
   validates :name, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "Only letters, numbers, spaces and underscores"}
 
   # A big fat WARNING: if you ever decide to expose the Cuttlefish SMTP server to the internet

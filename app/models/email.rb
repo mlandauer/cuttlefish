@@ -2,6 +2,7 @@ class Email < ActiveRecord::Base
   belongs_to :from_address, :class_name => "Address"
   has_and_belongs_to_many :to_addresses, :class_name => "Address", :join_table => "deliveries"
   has_many :deliveries
+  belongs_to :app
 
   after_save :update_cache
   before_save :update_message_id, :update_data_hash
