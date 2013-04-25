@@ -7,8 +7,10 @@ class App < ActiveRecord::Base
   after_create :set_name
 
   def new_password!
-    set_smtp_password
-    save!
+    unless smtp_password_locked?
+      set_smtp_password
+      save!
+    end
   end
 
   private

@@ -26,7 +26,9 @@
       %td
         %strong= @app.smtp_password
       %td
-        = button_to "Give me a new password", new_password_app_path(@app), class: "btn btn-mini btn-primary"
+        - unless @app.smtp_password_locked?
+          = button_to "Keep this password", lock_password_app_path(@app), class: "btn btn-mini btn-primary"
+          = button_to "Give me a new password", new_password_app_path(@app), class: "btn btn-mini"
 
 %p Specific instructions for different languages and frameworks coming soon.
 

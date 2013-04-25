@@ -11,6 +11,7 @@ Cuttlefish::Application.routes.draw do
   resources :apps, :except => [:edit, :update] do
     member do
       post 'new_password'
+      post 'lock_password'
     end
   end
 

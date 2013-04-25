@@ -38,6 +38,12 @@ class AppsController < ApplicationController
     redirect_to app
   end
 
+  def lock_password
+    app = App.find(params[:id])
+    app.update_attribute(:smtp_password_locked, true)
+    redirect_to app
+  end
+
   private
 
   def app_parameters
