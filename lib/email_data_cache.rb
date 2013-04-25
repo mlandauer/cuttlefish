@@ -17,6 +17,15 @@ class EmailDataCache
     File.join("db", "emails", Rails.env)
   end
 
+  # Won't throw an exception when filename doesn't exist
+  def self.safe_file_delete(filename)
+    begin
+      File.delete filename
+    rescue Errno::ENOENT
+      # Do nothing if the file doesn't exist
+    end
+  end
+
   def self.create_data_filesystem_directory
     FileUtils::mkdir_p(data_filesystem_directory)
   end
@@ -49,7 +58,7 @@ class EmailDataCache
     no_to_remove = entries.count - max_no_emails_to_store_data
     if no_to_remove > 0
       # Oldest first
-      entries.sort_by {|f| File.mtime f}[0...no_to_remove].each {|f| File.delete f}
+      entries.sort_by {|f| File.mtime f}[0...no_to_remove].each {|f| safe_file_delete f}
     end
   end
 end

@@ -24,4 +24,21 @@ describe EmailDataCache do
       EmailDataCache[10].should be_nil
     end
   end
+
+  describe ".safe_file_delete" do
+    before :each do
+      @filename = File.join(EmailDataCache.data_filesystem_directory, "foo")
+      EmailDataCache.create_data_filesystem_directory
+    end
+
+    it "should delete a file" do
+      FileUtils.touch(@filename)
+      EmailDataCache.safe_file_delete(@filename)
+      File.exists?(@filename).should be_false
+    end
+
+    it "should not throw an error when the file doesn't exist" do
+      EmailDataCache.safe_file_delete(@filename)
+    end
+  end
 end
