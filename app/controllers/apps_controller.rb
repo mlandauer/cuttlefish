@@ -3,6 +3,10 @@ class AppsController < ApplicationController
     @apps = App.all
   end
 
+  def show
+    @app = App.find(params[:id])
+  end
+
   def new
     # TODO Extract this
     @default_open_tracking_domain = Rails.configuration.action_mailer.default_url_options[:host]
@@ -20,6 +24,12 @@ class AppsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def destroy
+    @app = App.find(params[:id])
+    @app.destroy
+    redirect_to apps_path
   end
 
   private

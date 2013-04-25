@@ -17,7 +17,8 @@
   %tbody
     - @apps.each do |app|
       %tr
-        %td= app.name
+        %td
+          = link_to app.name, app
         %td= app.description
         %td
           - unless app.url.blank?
