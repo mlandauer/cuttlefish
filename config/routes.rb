@@ -8,7 +8,7 @@ Cuttlefish::Application.routes.draw do
   resources :emails, :only => [:index, :show]
   resources :addresses, :only => [:index, :show]
   resources :test_emails, :only => [:new, :create]
-  resources :apps, :except => [:edit, :update] do
+  resources :apps do
     member do
       post 'new_password'
       post 'lock_password'

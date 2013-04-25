@@ -6,6 +6,8 @@
     This is a special App that is used by Cuttlefish for sending its internal and test emails.
 
 - else
+  %p= link_to "Edit", edit_app_path(@app)
+
   %h2 How to send mail via Cuttlefish for #{@app.name}
 
   %p

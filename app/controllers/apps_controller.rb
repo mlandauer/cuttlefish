@@ -36,6 +36,20 @@ class AppsController < ApplicationController
     redirect_to apps_path
   end
 
+  def edit
+    @app = App.find(params[:id])
+  end
+
+  def update
+    @app = App.find(params[:id])
+    if @app.update_attributes(app_parameters)
+      flash[:notice] = "App #{@app.name} successfully updated"
+      redirect_to @app
+    else
+      render :edit
+    end
+  end
+
   def new_password
     app = App.find(params[:id])
     app.new_password!
