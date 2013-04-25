@@ -11,6 +11,6 @@ class App < ActiveRecord::Base
   # There really is no need to encrypt the password as it's only intended to make
   # it slightly harder to send emails from the wrong application
   def set_smtp_password
-    self.smtp_password = RandomWord.adjs.next + " " + RandomWord.nouns.next
+    self.smtp_password = RandomWord.adjs.next + "_" + RandomWord.nouns.next
   end
 end

@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe App do
   describe "#smtp_password" do
-    it "should create a password consisting of two words" do
+    it "should create a password consisting of only letter and underscores" do
       app = App.create!(name: "foo", description: "Foo")
-      app.smtp_password.split(" ").count.should == 2
+      app.smtp_password.should match /^[a-z_]+$/
     end
 
     it "should create a password that is different every time" do
