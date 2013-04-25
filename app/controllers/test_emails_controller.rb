@@ -22,8 +22,15 @@ The Awesome Cuttlefish
     mail.to = params[:to]
     mail.cc = params[:cc]
     mail.subject = params[:subject]
-    mail.delivery_method :smtp, ActionMailer::Base.smtp_settings
-
+    # Send our own outgoing email through Cuttlefish
+    # TODO: Move this configuration into the base class of Cuttlefish mailers
+    mail.delivery_method :smtp, {
+      :address => "localhost",
+      :port => Rails.configuration.cuttlefish_smtp_port,
+      :user_name => App.cuttlefish.smtp_username,
+      :password => App.cuttlefish.smtp_password,
+      :authentication => :plain
+    }
     text_part = Mail::Part.new
     text_part.body = params[:text]
 
