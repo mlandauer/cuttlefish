@@ -1,10 +1,10 @@
 class App < ActiveRecord::Base
-  validates :description, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "Only letters, numbers, spaces and underscores"}
+  validates :name, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "Only letters, numbers, spaces and underscores"}
 
   # A big fat WARNING: if you ever decide to expose the Cuttlefish SMTP server to the internet
   # the smtp_password needs to be hashes with a salt and all that.
   before_create :set_smtp_password
-  after_create :set_name
+  after_create :set_smtp_username
 
   def new_password!
     unless smtp_password_locked?
@@ -21,8 +21,8 @@ class App < ActiveRecord::Base
     self.smtp_password = RandomWord.adjs.next + "_" + RandomWord.nouns.next
   end
 
-  def set_name
+  def set_smtp_username
     # By appending the id we can be confident that this name is globally unique
-    update_attributes(name: description.downcase.gsub(" ", "_") + "_" + id.to_s)
+    update_attributes(smtp_username: name.downcase.gsub(" ", "_") + "_" + id.to_s)
   end
 end

@@ -18,7 +18,7 @@ class AppsController < ApplicationController
     @default_open_tracking_domain = Rails.configuration.cuttlefish_domain
     @app = App.new(app_parameters)
     if @app.save
-      flash[:notice] = "App #{@app.description} successfully created"
+      flash[:notice] = "App #{@app.name} successfully created"
       redirect_to @app
     else
       render :new
@@ -46,6 +46,6 @@ class AppsController < ApplicationController
   private
 
   def app_parameters
-    params.require(:app).permit(:description, :url, :open_tracking_domain)
+    params.require(:app).permit(:name, :url, :open_tracking_domain)
   end
 end

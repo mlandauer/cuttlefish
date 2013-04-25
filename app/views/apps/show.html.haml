@@ -1,7 +1,7 @@
 .page-header
-  %h1= @app.description
+  %h1= @app.name
 
-%h2 How to send mail via Cuttlefish for #{@app.description}
+%h2 How to send mail via Cuttlefish for #{@app.name}
 
 %p
   Simple send smtp email in the normal way from your application with the following details
@@ -19,7 +19,7 @@
     %tr
       %td Username
       %td
-        %strong= @app.name
+        %strong= @app.smtp_username
       %td
     %tr
       %td Password
