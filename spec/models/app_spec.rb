@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe App do
   describe "#smtp_password" do
-    it "should create a password consisting of only letter and underscores" do
+    it "should create a password that is twenty characters long" do
       app = App.create!(name: "Foo")
-      app.smtp_password.should match /^[a-z_]+$/
+      app.smtp_password.size.should == 20
     end
 
     it "should create a password that is different every time" do
