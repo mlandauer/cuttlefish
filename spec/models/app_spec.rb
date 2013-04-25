@@ -38,9 +38,8 @@ describe App do
   end
 
   describe ".cuttlefish" do
-    it "should have a name of Cuttlefish" do
-      App.cuttlefish.name.should == "Cuttlefish"
-    end
+    it { App.cuttlefish.name.should == "Cuttlefish" }
+    it { App.cuttlefish.url.should == "http://cuttlefish.io" }
 
     it "should only create one instance even if it's called several times" do
       App.cuttlefish

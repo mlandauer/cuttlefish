@@ -15,7 +15,7 @@ class App < ActiveRecord::Base
 
   # Singleton for returning special App used for sending mail from Cuttlefish itself
   def self.cuttlefish
-    App.find_or_create_by(name: "Cuttlefish", cuttlefish: true)
+    App.find_by(cuttlefish: true) || App.create!(name: "Cuttlefish", url: "http://cuttlefish.io", cuttlefish: true)
   end
 
   private
