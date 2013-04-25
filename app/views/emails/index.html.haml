@@ -15,6 +15,7 @@
       %tr
         %th To
         %th Created
+        %th App
     %tbody(data-provides="rowlink")
       - @emails.each do |email|
         %tr
@@ -22,6 +23,9 @@
           %td
             = time_ago_in_words(email.created_at)
             ago
+          %td
+            - if email.app
+              = email.app.name
           %td
             = delivered_label(email.status)
             - if email.opened?

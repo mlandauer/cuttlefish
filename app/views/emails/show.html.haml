@@ -2,6 +2,11 @@
   %h1 Email
 
 %table
+  - if @email.app
+    %tr
+      %td
+        %strong App
+      %td= link_to @email.app.name, @email.app
   %tr
     %td
       %strong From
