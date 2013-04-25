@@ -13,6 +13,11 @@ class App < ActiveRecord::Base
     end
   end
 
+  # Singleton for returning special App used for sending mail from Cuttlefish itself
+  def self.cuttlefish
+    App.find_or_create_by(name: "Cuttlefish", cuttlefish: true)
+  end
+
   private
 
   def set_smtp_password

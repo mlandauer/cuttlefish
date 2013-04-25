@@ -36,4 +36,22 @@ describe App do
       app.smtp_username.should == "planning_alerts_15"
     end
   end
+
+  describe ".cuttlefish" do
+    it "should have a name of Cuttlefish" do
+      App.cuttlefish.name.should == "Cuttlefish"
+    end
+
+    it "should only create one instance even if it's called several times" do
+      App.cuttlefish
+      App.cuttlefish
+      App.count.should == 1
+    end
+
+    it "should create a new instance even if someone has already created one called Cuttlefish" do
+      App.create!(name: "Cuttlefish")
+      App.cuttlefish
+      App.count.should == 2
+    end
+  end
 end
