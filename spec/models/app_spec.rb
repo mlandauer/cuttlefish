@@ -57,6 +57,16 @@ describe App do
     end
   end
 
+  describe "#lookup_dns_cname_record" do
+    it "should resolve the cname of www.openaustralia.org" do
+      App.lookup_dns_cname_record("www.openaustralia.org").should == "kedumba.openaustralia.org."
+    end
+
+    it "should not resolve the cname of twiddlesticks.openaustralia.org" do
+      App.lookup_dns_cname_record("twiddlesticks.openaustralia.org").should be_nil
+    end
+  end
+
   describe ".cuttlefish" do
     it { App.cuttlefish.name.should == "Cuttlefish" }
     it { App.cuttlefish.url.should == "http://cuttlefish.io" }

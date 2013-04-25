@@ -45,6 +45,7 @@ gem 'devise_invitable', git: "https://github.com/mlandauer/devise_invitable.git"
 gem 'gravatar_image_tag'
 gem "formtastic"
 gem 'formtastic-bootstrap'
+gem "net-dns"
 
 # Deployment bits and bobs
 gem "capistrano"

@@ -22,8 +22,8 @@ class App < ActiveRecord::Base
   private
 
   def self.lookup_dns_cname_record(domain)
-    # TODO: Implement this
-    nil
+    cname_record = Net::DNS::Resolver.start(domain, Net::DNS::CNAME).answer.first
+    cname_record.value if cname_record
   end
 
   def open_tracking_domain_points_to_correct_place

@@ -153,6 +153,7 @@ GEM
     minitest (4.7.3)
     multi_json (1.7.2)
     mysql2 (0.3.11)
+    net-dns (0.7.1)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -288,6 +289,7 @@ DEPENDENCIES
   jquery-rails
   less-rails
   mysql2
+  net-dns
   newrelic_rpm
   rack-livereload
   rails (= 4.0.0.beta1)
