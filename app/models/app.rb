@@ -2,6 +2,7 @@ class App < ActiveRecord::Base
   has_many :emails
   
   validates :name, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "Only letters, numbers, spaces and underscores"}
+  validate :open_tracking_domain_points_to_correct_place
 
   before_create :set_smtp_password
   after_create :set_smtp_username
@@ -19,6 +20,19 @@ class App < ActiveRecord::Base
   end
 
   private
+
+  def self.lookup_dns_cname_record(domain)
+    # TODO: Implement this
+    nil
+  end
+
+  def open_tracking_domain_points_to_correct_place
+    unless open_tracking_domain.blank?
+      if App.lookup_dns_cname_record(open_tracking_domain) != Rails.configuration.cuttlefish_domain
+        errors.add(:open_tracking_domain, "Doesn't have a CNAME record that points to #{Rails.configuration.cuttlefish_domain}")
+      end
+    end
+  end
 
   def set_smtp_password
     self.smtp_password = Digest::MD5.base64digest(rand.to_s + Time.now.to_s)[0...20]
