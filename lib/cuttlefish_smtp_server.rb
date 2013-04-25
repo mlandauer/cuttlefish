@@ -2,6 +2,7 @@ require 'delayed_job_active_record'
 require File.expand_path File.join(File.dirname(__FILE__), 'mail_job')
 require 'ostruct'
 require 'eventmachine'
+require File.expand_path File.join(File.dirname(__FILE__), "..", "app", "models", "app")
 
 class CuttlefishSmtpServer
   attr_accessor :connections
@@ -98,6 +99,18 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
     @current = OpenStruct.new
     true
+  end
+
+  def receive_plain_auth(user, password)
+    # This currently will only check the authentication if it's sent
+    # In other words currently the authentication is optional
+    app = App.where(smtp_username: user).first
+    if app && app.smtp_password == password
+      current.app_id = app.id
+      true
+    else
+      false
+    end
   end
 
   def receive_ehlo_domain(domain)
