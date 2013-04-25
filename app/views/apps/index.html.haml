@@ -11,15 +11,11 @@
   %thead
     %tr
       %th
-        Name
-      %th
         Description
   %tbody
     - @apps.each do |app|
       %tr
-        %td
-          = link_to app.name, app
-        %td= app.description
+        %td= link_to app.description, app
         %td
           - unless app.url.blank?
             = link_to "Visit app", app.url

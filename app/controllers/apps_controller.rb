@@ -18,9 +18,8 @@ class AppsController < ApplicationController
     @default_open_tracking_domain = Rails.configuration.cuttlefish_domain
     @app = App.new(app_parameters)
     if @app.save
-      flash[:notice] = "App #{@app.name} successfully created"
-      # TODO: Redirect to the app page to show instructions on how to send mail for this app
-      redirect_to apps_path
+      flash[:notice] = "App #{@app.description} successfully created"
+      redirect_to @app
     else
       render :new
     end
