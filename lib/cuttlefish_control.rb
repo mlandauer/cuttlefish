@@ -4,7 +4,7 @@ module CuttlefishControl
   def self.smtp_start
     environment = ENV["RAILS_ENV"] || "development"
     host = "127.0.0.1"
-    port = 2525
+    port = Rails.configuration.cuttlefish_smtp_port
 
     # For the benefit of foreman
     $stdout.sync = true

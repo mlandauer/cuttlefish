@@ -36,5 +36,7 @@ module Cuttlefish
 
     config.postfix_smtp_host = "localhost"
     config.postfix_smtp_port = 25
+
+    config.cuttlefish_smtp_port = 2525
   end
 end
