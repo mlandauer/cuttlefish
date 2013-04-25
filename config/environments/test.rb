@@ -34,5 +34,10 @@ Cuttlefish::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  config.action_mailer.default_url_options = { :host => 'cuttlefish.example.org' }
+  #####################################################
+  # Cuttlefish specific configuration below here ONLY #
+  #####################################################
+
+  config.cuttlefish_domain = "cuttlefish.example.org"
+  config.action_mailer.default_url_options = { :host => config.cuttlefish_domain }
 end
