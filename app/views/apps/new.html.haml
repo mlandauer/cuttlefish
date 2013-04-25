@@ -1,8 +1,4 @@
-= semantic_form_for @app, :html => {:class => "form-horizontal"} do |f|
-  = f.semantic_errors
-  = f.inputs "New App" do
-    = f.input :name, placeholder: "Angelfish", input_html: {class: "span6"}
-    = f.input :url, label: "URL", placeholder: "http://angelfishsocute.com", hint: "Optional (and you can set this later). So we can easily link back to your application."
-    -#
-      = f.input :open_tracking_domain, placeholder: "email.angelfishsocute.com", hint: "Leave blank if you want to use default domain (#{@default_open_tracking_domain}) for open tracking. You can set this later too."
-  = f.actions
+.page-header
+  %h3 New App
+
+= render "form"
