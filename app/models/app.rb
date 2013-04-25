@@ -27,9 +27,12 @@ class App < ActiveRecord::Base
   end
 
   def open_tracking_domain_points_to_correct_place
+    # In DNS speak putting a "." after the domain makes it a full domain name rather than just relative
+    # to the current higher level domain
+    cname_domain = Rails.configuration.cuttlefish_domain + "."
     unless open_tracking_domain.blank?
-      if App.lookup_dns_cname_record(open_tracking_domain) != Rails.configuration.cuttlefish_domain
-        errors.add(:open_tracking_domain, "Doesn't have a CNAME record that points to #{Rails.configuration.cuttlefish_domain}")
+      if App.lookup_dns_cname_record(open_tracking_domain) != cname_domain
+        errors.add(:open_tracking_domain, "Doesn't have a CNAME record that points to #{cname_domain}")
       end
     end
   end
