@@ -1,0 +1,34 @@
+.page-header
+  %h1= @app.description
+
+%h2 How to send mail via Cuttlefish for #{@app.description}
+
+%p
+  Simple send smtp email in the normal way from your application with the following details
+  %table.table.table-condensed
+    %tr
+      %td Host
+      %td
+        %strong= Rails.configuration.cuttlefish_domain
+    %tr
+      %td Port
+      %td
+        %strong 2525
+    %tr
+      %td Username
+      %td
+        %strong= @app.name
+    %tr
+      %td Password
+      %td
+        %strong= @app.smtp_password
+
+%p Specific instructions for different languages and frameworks coming soon.
+
+%hr
+%h3 Remove this App
+
+%p
+  Here lies danger. Removing the app from Cuttlefish is permanent and can not be undone!
+%p
+  = button_to "Remove App", @app, :confirm => "Are you sure?", :method => :delete, :class => "btn btn-danger"
