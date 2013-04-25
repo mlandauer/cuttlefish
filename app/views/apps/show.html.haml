@@ -10,18 +10,23 @@
       %td Host
       %td
         %strong= Rails.configuration.cuttlefish_domain
+      %td
     %tr
       %td Port
       %td
         %strong= Rails.configuration.cuttlefish_smtp_port
+      %td
     %tr
       %td Username
       %td
         %strong= @app.name
+      %td
     %tr
       %td Password
       %td
         %strong= @app.smtp_password
+      %td
+        = button_to "Give me a new password", new_password_app_path(@app), class: "btn btn-mini btn-primary"
 
 %p Specific instructions for different languages and frameworks coming soon.
 

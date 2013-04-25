@@ -32,6 +32,12 @@ class AppsController < ApplicationController
     redirect_to apps_path
   end
 
+  def new_password
+    app = App.find(params[:id])
+    app.new_password!
+    redirect_to app
+  end
+
   private
 
   def app_parameters

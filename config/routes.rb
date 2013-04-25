@@ -8,7 +8,11 @@ Cuttlefish::Application.routes.draw do
   resources :emails, :only => [:index, :show]
   resources :addresses, :only => [:index, :show]
   resources :test_emails, :only => [:new, :create]
-  resources :apps, :except => [:edit, :update]
+  resources :apps, :except => [:edit, :update] do
+    member do
+      post 'new_password'
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

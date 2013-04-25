@@ -6,6 +6,11 @@ class App < ActiveRecord::Base
   before_create :set_smtp_password
   after_create :set_name
 
+  def new_password!
+    set_smtp_password
+    save!
+  end
+
   private
 
   # There really is no need to encrypt the password as it's only intended to make
