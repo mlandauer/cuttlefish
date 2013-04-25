@@ -35,10 +35,11 @@
 
 %p
   So far #{@app.name} has sent #{pluralize(@app.emails.count, 'email')}.
-%hr
-%h3 Remove this App
+- unless @app.cuttlefish?
+  %hr
+  %h3 Remove this App
 
-%p
-  Here lies danger. Removing the app from Cuttlefish is permanent and can not be undone!
-%p
-  = button_to "Remove App", @app, :confirm => "Are you sure?", :method => :delete, :class => "btn btn-danger"
+  %p
+    Here lies danger. Removing the app from Cuttlefish is permanent and can not be undone!
+  %p
+    = button_to "Remove App", @app, :confirm => "Are you sure?", :method => :delete, :class => "btn btn-danger"
