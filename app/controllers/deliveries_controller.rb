@@ -1,6 +1,7 @@
 class DeliveriesController < ApplicationController
   # We need open_track to be accessible by anyone without authentication
   skip_filter :authenticate_admin!
+  # SSL redirection is also disabled for this controller. See ApplicationController force_ssl.
 
   def open_track
     Delivery.find_by!(open_tracked_hash: params[:hash]).open_events.create!(
