@@ -6,7 +6,7 @@ class AddOpenTrackingFilter < DeliveryFilter
   def data
     if has_html_part?
       delivery.set_open_tracked!
-      append_to_html(image_tag(delivery_open_track_url(default_url_options.merge(:hash => open_tracked_hash, :format => :gif)), :alt => nil))
+      append_to_html(image_tag(tracking_open_url(default_url_options.merge(:hash => open_tracked_hash, :format => :gif)), :alt => nil))
     else
       delivery.data
     end
