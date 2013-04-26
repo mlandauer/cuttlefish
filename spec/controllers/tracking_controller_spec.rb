@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DeliveriesController do
+describe TrackingController do
   describe "#open_track" do
     context "A delivery" do
       before :each do

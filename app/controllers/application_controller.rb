@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticate_admin!
 
-  # Don't use SSL for the DeliveriesController and only in production
+  # Don't use SSL for the TrackingController and only in production
   force_ssl :if => Proc.new{
-    controller_name != "deliveries" && Rails.env.production?
+    controller_name != "tracking" && Rails.env.production?
   }
 end
