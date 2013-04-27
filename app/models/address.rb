@@ -1,6 +1,7 @@
 class Address < ActiveRecord::Base
   has_many :emails_sent, :class_name => "Email", :foreign_key => "from_address_id"
-  has_and_belongs_to_many :emails_received, :class_name => "Email", :join_table => "deliveries"
+  has_many :deliveries
+  has_many :emails_received, :through => :deliveries, :source => :email
 
   # All addresses that have been sent mail
   def self.all_received_email
