@@ -9,6 +9,13 @@ describe TrackingController do
       end
 
       it "should be succesful when the correct hash is used" do
+        # Note that this request is being made via http (not https)
+        get :open, hash: "sdhf"
+        expect(response).to be_success
+      end
+
+      it "should respond to https requests as well with no redirects" do
+        request.env['HTTPS'] = 'on'
         get :open, hash: "sdhf"
         expect(response).to be_success
       end
