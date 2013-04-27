@@ -14,12 +14,28 @@ class AddOpenTrackingFilter < DeliveryFilter
 
   # The url for the tracking image
   def url
-    options = if email.open_tracking_domain
-      {protocol: "http", host: email.open_tracking_domain}
+    tracking_open_url(
+      host: host, 
+      protocol: protocol,
+      :hash => open_tracked_hash,
+      :format => :gif
+    )
+  end
+
+  # Hostname to use for the open tracking image
+  def host
+    if email.open_tracking_domain
+      email.open_tracking_domain
+    elsif Rails.env.development?
+      "localhost:3000"
     else
-      default_url_options
+      Rails.configuration.cuttlefish_domain
     end
-    tracking_open_url(options.merge(:hash => open_tracked_hash, :format => :gif))
+  end
+
+  # Whether to use ssl for the open tracking image
+  def protocol
+    email.open_tracking_domain.blank? && !Rails.env.development? ? "https" : "http"
   end
 
   private
@@ -36,13 +52,5 @@ class AddOpenTrackingFilter < DeliveryFilter
 
   def has_html_part?
     !!mail.html_part
-  end
-
-  def default_url_options
-    if Rails.configuration.action_mailer.default_url_options
-      Rails.configuration.action_mailer.default_url_options
-    else
-      raise "Set config.action_mailer.default_url_options in config/environments/#{Rails.env}.rb"
-    end
   end
 end
