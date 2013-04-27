@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe TestEmailsController do
+  before :each do
+    request.env['HTTPS'] = 'on'
+  end
+
   context "signed in" do
     before :each do
       admin = Admin.create!(:email => "foo@bar.com", :password => "guess this")
