@@ -64,6 +64,11 @@ describe Email do
       email = Email.new(:to => "mlandauer@foo.org")
       email.to.should == ["mlandauer@foo.org"]
     end
+
+    it "should set created_at for deliveries too" do
+      email = Email.create!(:to => "mlandauer@foo.org")
+      email.deliveries.first.created_at.should_not be_nil      
+    end
   end
 
   describe "#to_addresses" do
