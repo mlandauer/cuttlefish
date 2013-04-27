@@ -39,5 +39,5 @@ Cuttlefish::Application.configure do
   #####################################################
 
   config.cuttlefish_domain = "cuttlefish.example.org"
-  config.action_mailer.default_url_options = { :host => config.cuttlefish_domain }
+  config.action_mailer.default_url_options = { :host => config.cuttlefish_domain, :protocol => "https" }
 end
