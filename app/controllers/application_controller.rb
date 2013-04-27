@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   # Don't use SSL for the TrackingController and only in production
   force_ssl :if => Proc.new{
-    controller_name != "tracking" && Rails.env.production?
+    r = (controller_name != "tracking" && Rails.env.production?)
+    puts "***** controller_name: #{controller_name}, force_ssl here: #{r} *****"
+    r
   }
 end
