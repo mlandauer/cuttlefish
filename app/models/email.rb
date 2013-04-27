@@ -99,6 +99,10 @@ class Email < ActiveRecord::Base
     deliveries.any?{|d| d.opened?}
   end
 
+  def open_tracking_domain
+    app.open_tracking_domain if app
+  end
+
   private
 
   def update_message_id

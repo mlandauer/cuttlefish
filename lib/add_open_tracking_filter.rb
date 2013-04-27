@@ -14,12 +14,12 @@ class AddOpenTrackingFilter < DeliveryFilter
 
   # The url for the tracking image
   def url
-    # TODO Law of Demeter
-    if email.app && email.app.open_tracking_domain
-      tracking_open_url({protocol: "http", host: email.app.open_tracking_domain}.merge(:hash => open_tracked_hash, :format => :gif))
+    options = if email.open_tracking_domain
+      {protocol: "http", host: email.open_tracking_domain}
     else
-      tracking_open_url(default_url_options.merge(:hash => open_tracked_hash, :format => :gif))
+      default_url_options
     end
+    tracking_open_url(options.merge(:hash => open_tracked_hash, :format => :gif))
   end
 
   private
