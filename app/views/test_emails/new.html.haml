@@ -1,6 +1,11 @@
 = form_tag test_emails_path, :class => "form-horizontal" do
   %fieldset
     %legend Send test email
+    - unless App.where(cuttlefish: false).empty?
+      .control-group
+        %label.control-label(for="app_id") App
+        .controls
+          = select_tag :app_id, options_from_collection_for_select(App.all, "id", "name")
     .control-group
       %label.control-label(for="inputFrom") From
       .controls

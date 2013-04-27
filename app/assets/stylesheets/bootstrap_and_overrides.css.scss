@@ -54,3 +54,8 @@ body {
   text-decoration: none;
   font-size: 30px;
 }
+
+// Bug in flat-ui gem (override here)
+.select-icon {
+  background-image: url("/assets/select/toggle.png");
+}
