@@ -85,8 +85,14 @@ end
 
 group :test do
   gem 'coveralls', require: false
+  gem 'database_cleaner'
 end
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'capybara'
+  # PhantomJS currently has some issues with font loading. So, for the time being
+  # using selenium instead
+  #gem 'poltergeist'
+  gem 'selenium-webdriver'
 end

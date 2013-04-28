@@ -8,6 +8,15 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 ]
 SimpleCov.start('rails')
 
+require 'capybara/rspec'
+# PhantomJS currently has some issues with font loading. So, for the time being
+# using selenium instead
+#require 'capybara/poltergeist'
+#Capybara.javascript_driver = :poltergeist
+require 'database_cleaner'
+
+#DatabaseCleaner.strategy = :truncation
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
@@ -37,7 +46,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -52,5 +61,18 @@ RSpec.configure do |config|
 
   config.after :each do
     FileUtils.rm_rf EmailDataCache.data_filesystem_directory
+  end
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
   end
 end
