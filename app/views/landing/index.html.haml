@@ -1,0 +1,50 @@
+%p= link_to "Sign in", new_admin_session_path
+
+= image_tag "cuttlefish.png", :alt => "Welcome to Cuttlefish", :width => 200
+%h1.brand Cuttlefish
+%h4 Lovely Transactional Email
+
+%p Easy to setup, easy to use and open source
+
+%p
+  Sending a few emails from your app is easy. Sending lots becomes painful. There are so many hidden gotchas. Do your emails get delivered? Are you being considered a spammer? What about all those bounced emails?
+
+%p Let's make sending lots of emails fun again!
+
+%p And without the hidden dangers of vendor lock in of commercial transactional email services.
+
+%ul
+  %li Send email from your application using smtp in the usual way and get all sorts of added benefits for no effort
+  %li A lovely web UI to browse what's happening
+  %li Monitor in real time which emails arrive at their destination and which bounce
+  %li Works with any web framework and language
+  %li Automatically not send emails to destinations that have hard bounced in the past
+  %li Track which emails are opened and which links are clicked
+  %li Statistics on emails sent, soft/hard bounced and held back
+  %li View the full email content for recently sent emails
+  %li Multiple applications can each have their own SMTP authentication
+  %li Check your IP reputation with one click
+  %li Easy to install and get going quickly
+  %li Postfix, which you know and trust, handles email delivery
+  %li Open source, so no vendor lock in.
+
+%p
+  Cuttlefish is in beta. It's been used in production on one of
+  #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au"}'s project for two months and has sent 150,000 emails.
+
+%h4 Screenshots
+
+= image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/1.png"
+= image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/2.png"
+= image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/3.png"
+
+%h4 Things on the cards
+
+%ul
+  %li REST API for deep integration with your application
+  %li Web callbacks on succesful delivery, hard bounces, open and click events
+  %li DKIM signing
+  %li "out of office" and bounce reply filtering
+  %li Incoming email
+
+-# Link to github, my contact details, footer, etc..

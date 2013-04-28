@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticate_admin!
 
+  def after_sign_in_path_for(resource)
+   dash_path
+  end
+
   force_ssl :if => Proc.new{ force_ssl? }
 
   private

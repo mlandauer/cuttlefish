@@ -25,8 +25,9 @@ Cuttlefish::Application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  root to: 'main#index'
+  root to: 'landing#index'
 
+  get 'dash' => 'main#index'
   get 'status_counts' => 'main#status_counts'
   get 'reputation' => 'main#reputation'
   
