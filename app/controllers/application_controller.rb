@@ -5,8 +5,12 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticate_admin!
 
+  force_ssl :if => Proc.new{ force_ssl? }
+
+  private
+
   # Don't use SSL for the TrackingController and in development
-  force_ssl unless: Proc.new{
-    controller_name == "tracking" || Rails.env.development?
-  }
+  def force_ssl?
+   controller_name != "tracking" && !Rails.env.development? 
+  end
 end
