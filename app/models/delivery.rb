@@ -52,6 +52,6 @@ class Delivery < ActiveRecord::Base
   end
 
   def opened?
-    open_events.count > 0
+    !open_events.empty?
   end
 end

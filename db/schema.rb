@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130427055637) do
+ActiveRecord::Schema.define(version: 20130429005659) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -113,6 +113,8 @@ ActiveRecord::Schema.define(version: 20130427055637) do
     t.text     "referer"
     t.string   "ip"
   end
+
+  add_index "open_events", ["delivery_id"], name: "index_open_events_on_delivery_id"
 
   create_table "postfix_log_lines", force: true do |t|
     t.datetime "created_at"
