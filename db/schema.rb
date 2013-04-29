@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130429005659) do
+ActiveRecord::Schema.define(version: 20130429013050) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -101,8 +101,11 @@ ActiveRecord::Schema.define(version: 20130429005659) do
     t.integer  "app_id"
   end
 
+  add_index "emails", ["app_id"], name: "index_emails_on_app_id"
   add_index "emails", ["created_at", "status"], name: "index_emails_on_created_at_and_status"
   add_index "emails", ["created_at"], name: "index_emails_on_created_at"
+  add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id"
+  add_index "emails", ["message_id"], name: "index_emails_on_message_id"
   add_index "emails", ["status"], name: "index_emails_on_status"
 
   create_table "open_events", force: true do |t|
@@ -128,6 +131,7 @@ ActiveRecord::Schema.define(version: 20130429005659) do
     t.integer  "delivery_id"
   end
 
+  add_index "postfix_log_lines", ["delivery_id"], name: "index_postfix_log_lines_on_delivery_id"
   add_index "postfix_log_lines", ["time"], name: "index_postfix_log_lines_on_time"
 
 end
