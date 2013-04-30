@@ -1,11 +1,10 @@
 class Admins::SessionsController < Devise::SessionsController
   layout "login"
+  before_filter :check_first_user, :only => :new
 
-  def new
-    if Admin.first.nil?
-      redirect_to new_admin_registration_url
-    else
-      super
-    end
+  private
+
+  def check_first_user
+    redirect_to new_admin_registration_url if Admin.first.nil?
   end
 end
