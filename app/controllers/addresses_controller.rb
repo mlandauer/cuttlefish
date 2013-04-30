@@ -3,12 +3,13 @@ class AddressesController < ApplicationController
     @status = params[:status]
 
     if @status == "from"
-      @addresses = Address.all_sent_email.order("text").paginate(:page => params[:page])
+      query = Address.all_sent_email
     elsif @status == "to"
-      @addresses = Address.all_received_email.order("text").paginate(:page => params[:page])
+      query = Address.all_received_email
     else
-      @addresses = Address.order("text").paginate(:page => params[:page])
+      query = Address.all
     end
+    @addresses = query.order("text").paginate(:page => params[:page])
   end
 
   def show
