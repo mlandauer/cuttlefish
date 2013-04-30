@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130430003245) do
+ActiveRecord::Schema.define(version: 20130430032442) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 20130430003245) do
     t.integer  "delivery_id"
   end
 
+  add_index "postfix_log_lines", ["delivery_id", "time"], name: "index_postfix_log_lines_on_delivery_id_and_time"
   add_index "postfix_log_lines", ["delivery_id"], name: "index_postfix_log_lines_on_delivery_id"
   add_index "postfix_log_lines", ["time"], name: "index_postfix_log_lines_on_time"
 
