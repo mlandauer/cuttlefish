@@ -1,6 +1,7 @@
 class Address < ActiveRecord::Base
   has_many :emails_sent, :class_name => "Email", :foreign_key => "from_address_id"
   has_many :deliveries
+  has_many :postfix_log_lines, :through => :deliveries
   has_many :emails_received, :through => :deliveries, :source => :email
 
   # All addresses that have been sent mail
@@ -29,7 +30,7 @@ class Address < ActiveRecord::Base
   end
 
   def status
-    most_recent_log_line = PostfixLogLine.joins(:delivery => :address).where("address_id = ?", id).order("time DESC").first
+    most_recent_log_line = postfix_log_lines.order("time DESC").first
     most_recent_log_line ? most_recent_log_line.status : "unknown"
   end
 end
