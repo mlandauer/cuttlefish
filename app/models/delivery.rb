@@ -7,15 +7,11 @@ class Delivery < ActiveRecord::Base
   after_save :update_status!
   
   def self.today
-    # Currently created_at on deliveries doesn't get set so have to get the time from emails
-    # TODO Get rid of join
-    joins(:email).where('emails.created_at > ?', Date.today.beginning_of_day)
+    where('created_at > ?', Date.today.beginning_of_day)
   end
 
   def self.this_week
-    # Currently created_at on deliveries doesn't get set so have to get the time from emails
-    # TODO Get rid of join
-    joins(:email).where('emails.created_at > ?', 7.days.ago)
+    where('created_at > ?', 7.days.ago)
   end
 
   # This delivery is being open tracked
