@@ -1,6 +1,11 @@
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   = devise_error_messages!
 
+  %h2 You're special!
+  %p
+    As the <strong>first admin</strong> of Cuttlefish you get to create your own account. After this,
+    only admins can invite new admins.
+
   .control-group
     = f.label :email
     = f.email_field :email, class: "login-field", placeholder: "Enter your email"
