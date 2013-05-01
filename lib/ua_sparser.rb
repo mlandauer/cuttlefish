@@ -226,7 +226,9 @@ class UASparser
   end
 
   def _fetchURL(url)
-    Net::HTTP.get_response(URI.parse(url)).body
+    b = Net::HTTP.get_response(URI.parse(url)).body
+    raise "Too many connections" if b =~ /Too many connections/
+    b
   end
 
   def _checkCache()
@@ -254,7 +256,7 @@ class UASparser
         end
       end
     rescue
-      throw "Failed to get version of lastest data"
+      raise "Failed to get version of lastest data"
     end
 
     begin
@@ -265,7 +267,7 @@ class UASparser
         ini_data['version'] = ver_data
       end
     rescue
-      throw ("Failed to download cache data")
+      raise ("Failed to download cache data")
     end
 
     Marshal.dump(ini_data, cache_file)
