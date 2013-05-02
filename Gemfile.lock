@@ -8,6 +8,14 @@ GIT
       railties (~> 4.0.0.beta)
 
 GIT
+  remote: https://github.com/mlandauer/rails-settings-cached.git
+  revision: e83aa4d0d9d84f1ec1d268111e74efadbaa77a8a
+  branch: add_ruby_1.9.3_compatibility
+  specs:
+    rails-settings-cached (0.3.0)
+      rails (>= 4.0.0.beta1)
+
+GIT
   remote: https://github.com/plataformatec/devise.git
   revision: c6189696772925ae0c608fdd8d535f735e8e114e
   branch: rails4
@@ -293,6 +301,7 @@ DEPENDENCIES
   newrelic_rpm
   rack-livereload
   rails (= 4.0.0.beta1)
+  rails-settings-cached!
   rb-fchange
   rb-fsevent
   rb-inotify

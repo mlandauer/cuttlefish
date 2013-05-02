@@ -46,6 +46,8 @@ gem 'gravatar_image_tag'
 gem "formtastic"
 gem 'formtastic-bootstrap'
 gem "net-dns"
+# This fork contains a small fix for Ruby 1.9.3 compatibility. Hopefully will get merged.
+gem "rails-settings-cached", :git => "https://github.com/mlandauer/rails-settings-cached.git", :branch => "add_ruby_1.9.3_compatibility"
 
 # Deployment bits and bobs
 gem "capistrano"
