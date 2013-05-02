@@ -1,1 +1,1 @@
-Settings.defaults[:smtp_all_authenticated] = false
+Settings.smtp_all_authenticated = false if Settings.smtp_all_authenticated.nil?
