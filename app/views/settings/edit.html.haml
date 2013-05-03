@@ -4,12 +4,16 @@
     .control-group
       = label_tag :smtp_all_authenticated, "Authenticate all email", class: "control-label"
       .controls
-        = check_box_tag :smtp_all_authenticated, "yes", @smtp_all_authenticated
-        %span.help-block
-          If you enable this all email sent to Cuttlefish needs to be sent via one of the Apps (and so will be authenticated). To get the authentication details
-          = link_to "create an App", new_app_path
-          or use a
-          #{link_to "preexisting App", apps_path}. Switching this on is <strong>highly recommended</strong>.
+        = check_box_tag :smtp_all_authenticated, "yes", @smtp_all_authenticated, disabled: !App.normal_apps?
+        - if App.normal_apps?
+          %span.help-block
+            If you enable this all email sent to Cuttlefish needs to be sent via one of the Apps (and so will be authenticated). To get the authentication details
+            = link_to "create an App", new_app_path
+            or use a
+            #{link_to "preexisting App", apps_path}. Switching this on is <strong>highly recommended</strong>.
+        - else
+          %span.help-block.info
+            Before you can switch this on first #{link_to "create an App", new_app_path} and send your email through the App. Switching this on is <strong>highly recommended</strong>.
   .control-group
     .controls
       %button.btn(type="submit") Update settings

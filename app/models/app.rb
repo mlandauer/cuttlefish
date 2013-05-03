@@ -19,6 +19,11 @@ class App < ActiveRecord::Base
     App.find_by(cuttlefish: true) || App.create!(name: "Cuttlefish", url: "http://cuttlefish.io", cuttlefish: true)
   end
 
+  # Have there been any apps created?
+  def self.normal_apps?
+    !where(cuttlefish: false).empty?
+  end
+
   private
 
   def self.lookup_dns_cname_record(domain)
