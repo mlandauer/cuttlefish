@@ -3,6 +3,7 @@ require File.expand_path File.join(File.dirname(__FILE__), 'mail_job')
 require 'ostruct'
 require 'eventmachine'
 require File.expand_path File.join(File.dirname(__FILE__), "..", "app", "models", "app")
+require File.expand_path File.join(File.dirname(__FILE__), "..", "app", "models", "settings")
 
 class CuttlefishSmtpServer
   attr_accessor :connections
@@ -21,6 +22,8 @@ class CuttlefishSmtpServer
       stop!
     }
     @server = EM.start_server host, port, CuttlefishSmtpConnection do |connection|
+      # On every new connection check if the authentication setting has changed
+      connection.parms = {:auth => (Settings.smtp_all_authenticated ? :required : true)}
       connection.server = self
       @connections << connection
     end
