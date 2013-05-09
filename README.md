@@ -18,6 +18,7 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Track which emails are opened
 * Statistics on emails sent, soft/hard bounced and held back
 * View the full email content for recently sent emails
+* Multiple applications can each have their own SMTP authentication
 * Check your IP reputation with one click
 * Easy to install and get going quickly
 * Open source, so no vendor lock in.
@@ -25,7 +26,6 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 Things on the cards
 
 * REST API for deep integration with your application
-* Multiple applications can each have their own SMTP authentication
 * Super-easy link tracking
 * DKIM signing
 * "out of office" and bounce reply filtering
