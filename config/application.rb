@@ -38,5 +38,8 @@ module Cuttlefish
     config.postfix_smtp_port = 25
 
     config.cuttlefish_smtp_port = 2525
+
+    # Send our own outgoing email through Cuttlefish
+    config.action_mailer.smtp_settings = { :address => "localhost", :port => config.cuttlefish_smtp_port }
   end
 end
