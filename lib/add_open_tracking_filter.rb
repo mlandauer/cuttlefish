@@ -24,7 +24,7 @@ class AddOpenTrackingFilter < DeliveryFilter
 
   # Hostname to use for the open tracking image
   def host
-    if email.open_tracking_domain
+    if !email.open_tracking_domain.blank?
       email.open_tracking_domain
     elsif Rails.env.development?
       "localhost:3000"
