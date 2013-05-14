@@ -6,7 +6,7 @@ describe OutgoingEmail do
       # TODO This should be optimised in future so that if the content is the same
       # it's sent out in one go
       it "should only send out two emails" do
-        email = Email.create!
+        email = FactoryGirl.create(:email)
         Delivery.create!(email: email, address: Address.create!(text: "foo@bar.com"))
         Delivery.create!(email: email, address: Address.create!(text: "peter@bar.com"))
         email.reload
@@ -21,7 +21,7 @@ describe OutgoingEmail do
 
     context "an email with one recipient" do
       before :each do
-        @email = Email.create!(:to => "foo@bar.com", :data => "My original data")
+        @email = FactoryGirl.create(:email, :to => "foo@bar.com", :data => "My original data")
         @outgoing = OutgoingEmail.new(@email)
       end
 

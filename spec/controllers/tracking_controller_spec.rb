@@ -4,7 +4,7 @@ describe TrackingController do
   describe "#open" do
     context "A delivery" do
       before :each do
-        email = Email.create!
+        email = FactoryGirl.create(:email)
         Delivery.create!(open_tracked_hash: "sdhf", email: email)
       end
 

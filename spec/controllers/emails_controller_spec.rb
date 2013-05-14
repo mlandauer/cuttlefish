@@ -13,7 +13,7 @@ describe EmailsController do
 
     describe "GET index" do
       it "assigns all emails as @emails" do
-        email = Email.create!
+        email = FactoryGirl.create(:email)
         get :index, {}
         assigns(:emails).should eq([email])
       end
@@ -21,7 +21,7 @@ describe EmailsController do
 
     describe "GET show" do
       it "assigns the requested email as @email" do
-        email = Email.create!
+        email = FactoryGirl.create(:email)
         get :show, {:id => email.to_param}
         assigns(:email).should eq(email)
       end

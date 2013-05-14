@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130502055816) do
+ActiveRecord::Schema.define(version: 20130514151224) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20130502055816) do
     t.string   "message_id"
     t.string   "data_hash"
     t.string   "status",          default: "not_sent", null: false
-    t.integer  "app_id"
+    t.integer  "app_id",                               null: false
   end
 
   add_index "emails", ["app_id"], name: "index_emails_on_app_id"
