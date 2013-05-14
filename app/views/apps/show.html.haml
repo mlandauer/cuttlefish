@@ -3,7 +3,8 @@
 
 - if @app.cuttlefish?
   %p
-    This is a special App that is used by Cuttlefish for sending its internal and test emails.
+    This is a special App that is used by Cuttlefish when an unauthenticated email is sent or one if its own
+    emails is sent.
 
 - else
   %p= link_to "Edit", edit_app_path(@app)

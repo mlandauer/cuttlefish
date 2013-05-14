@@ -65,8 +65,7 @@ describe App do
   end
 
   describe ".cuttlefish" do
-    it { App.cuttlefish.name.should == "Cuttlefish" }
-    it { App.cuttlefish.url.should == "http://cuttlefish.io" }
+    it { App.cuttlefish.name.should == "Default" }
 
     it "should only create one instance even if it's called several times" do
       App.cuttlefish
@@ -74,8 +73,8 @@ describe App do
       App.count.should == 1
     end
 
-    it "should create a new instance even if someone has already created one called Cuttlefish" do
-      App.create!(name: "Cuttlefish")
+    it "should create a new instance even if someone has already created one called Default" do
+      App.create!(name: "Default")
       App.cuttlefish
       App.count.should == 2
     end
