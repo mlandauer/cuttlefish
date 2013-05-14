@@ -2,7 +2,7 @@
   %h1 Email
 
 %table
-  - if @email.app
+  - if App.normal_apps?
     %tr
       %td
         %strong App

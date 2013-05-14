@@ -21,7 +21,7 @@ class App < ActiveRecord::Base
 
   # Have there been any apps created?
   def self.normal_apps?
-    !where(cuttlefish: false).empty?
+    where(cuttlefish: false).exists?
   end
 
   private
