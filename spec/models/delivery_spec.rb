@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe Delivery do
-  let(:address) { Address.create!(text: "matthew@foo.com") }
-  let(:email) { Email.create!(to_addresses: [address]) }
-  let(:delivery) { Delivery.find_by(email: email, address: address) }
+  let(:delivery) { FactoryGirl.create(:delivery) }
 
   describe "#status" do
     context "delivery is sent" do
