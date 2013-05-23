@@ -16,10 +16,21 @@ class Delivery < ActiveRecord::Base
 
   # This delivery is being open tracked
   def set_open_tracked!
+    update_attributes(open_tracked: true, open_tracked_hash: open_tracked_hash2)
+  end
+
+  def add_open_event(request)
+    open_events.create!(
+      user_agent: request.env['HTTP_USER_AGENT'],
+      referer: request.referer,
+      ip: request.remote_ip
+    )
+  end
+
+  def open_tracked_hash2
     # TODO: Move the salt to configuration
     salt = "my salt"
-    hash = Digest::SHA1.hexdigest(salt + id.to_s)
-    update_attributes(open_tracked: true, open_tracked_hash: hash)
+    Digest::SHA1.hexdigest(salt + id.to_s)    
   end
 
   def status

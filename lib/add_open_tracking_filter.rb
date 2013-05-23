@@ -14,10 +14,11 @@ class AddOpenTrackingFilter < DeliveryFilter
 
   # The url for the tracking image
   def url
-    tracking_open_url(
+    tracking_open2_url(
       host: host, 
       protocol: protocol,
-      :hash => open_tracked_hash,
+      :delivery_id => id,
+      :hash => open_tracked_hash2,
       :format => :gif
     )
   end
