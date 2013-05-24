@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130514163825) do
+ActiveRecord::Schema.define(version: 20130524114642) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -83,14 +83,12 @@ ActiveRecord::Schema.define(version: 20130514163825) do
     t.boolean  "sent",              default: false, null: false
     t.string   "postfix_queue_id"
     t.boolean  "open_tracked",      default: false, null: false
-    t.string   "open_tracked_hash"
     t.integer  "open_events_count", default: 0,     null: false
   end
 
   add_index "deliveries", ["created_at", "open_events_count"], name: "index_deliveries_on_created_at_and_open_events_count"
   add_index "deliveries", ["email_id", "address_id"], name: "index_deliveries_on_email_id_and_address_id"
   add_index "deliveries", ["open_tracked", "created_at"], name: "index_deliveries_on_open_tracked_and_created_at"
-  add_index "deliveries", ["open_tracked_hash"], name: "index_deliveries_on_open_tracked_hash"
   add_index "deliveries", ["postfix_queue_id"], name: "index_deliveries_on_postfix_queue_id"
 
   create_table "emails", force: true do |t|
@@ -120,6 +118,13 @@ ActiveRecord::Schema.define(version: 20130514163825) do
   end
 
   add_index "open_events", ["delivery_id"], name: "index_open_events_on_delivery_id"
+
+  create_table "permissions", force: true do |t|
+    t.integer  "app_id"
+    t.integer  "admin_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "postfix_log_lines", force: true do |t|
     t.datetime "created_at"

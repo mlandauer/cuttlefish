@@ -16,7 +16,7 @@ class Delivery < ActiveRecord::Base
 
   # This delivery is being open tracked
   def set_open_tracked!
-    update_attributes(open_tracked: true, open_tracked_hash: open_tracked_hash2)
+    update_attributes(open_tracked: true)
   end
 
   def add_open_event(request)

@@ -3,13 +3,6 @@ class TrackingController < ApplicationController
   skip_filter :authenticate_admin!
   # SSL redirection is also disabled for this controller. See ApplicationController force_ssl.
 
-  def open
-    Delivery.find_by!(open_tracked_hash: params[:hash]).add_open_event(request)
-    # TODO Check that we are asking for a gif and only accept those for the time being
-    # This sends a 1x1 transparent gif
-    send_data(Base64.decode64("R0lGODlhAQABAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="), :type => "image/gif", :disposition => "inline")
-  end
-
   def open2
     delivery = Delivery.find(params[:delivery_id])
     if delivery.open_tracked_hash2 == params[:hash]
