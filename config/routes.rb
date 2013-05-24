@@ -26,7 +26,7 @@ Cuttlefish::Application.routes.draw do
   get 'reputation' => 'main#reputation'
   
   # Open tracking gifs
-  get 'o/:delivery_id/:hash' => 'tracking#open2', :as => "tracking_open2"
+  get 'o/:delivery_id/:hash' => 'tracking#open', :as => "tracking_open"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
