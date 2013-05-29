@@ -1,18 +1,20 @@
-%h3 Today
-= render "main/status_counts_period", stats: Email.stats_today
-%table.table.table-condensed
-  %tr
-    %td Open rate
-    %td.pull-right
-      - if Delivery.today.where(open_tracked: true).count > 0
-        = "%0.0f%" % (100.0 * Delivery.today.where('open_events_count > 0').count / Delivery.today.where(open_tracked: true).count)
-      - else
-        n/a
+.span3.offset2
+  %h3 Today
+  = render "main/status_counts_period", stats: Email.stats_today
+  %table.table.table-condensed
+    %tr
+      %td Open rate
+      %td.pull-right
+        - if Delivery.today.where(open_tracked: true).count > 0
+          = "%0.0f%" % (100.0 * Delivery.today.where('open_events_count > 0').count / Delivery.today.where(open_tracked: true).count)
+        - else
+          n/a
 
-%h3 Last 7 days
-= render "main/status_counts_period", stats: Email.stats_this_week
-%table.table.table-condensed
-  %tr
-    %td Open rate
-    %td.pull-right
-      = "%0.0f%" % (100.0 * Delivery.this_week.where('open_events_count > 0').count / Delivery.this_week.where(open_tracked: true).count)
+.span3.offset2
+  %h3 Last 7 days
+  = render "main/status_counts_period", stats: Email.stats_this_week
+  %table.table.table-condensed
+    %tr
+      %td Open rate
+      %td.pull-right
+        = "%0.0f%" % (100.0 * Delivery.this_week.where('open_events_count > 0').count / Delivery.this_week.where(open_tracked: true).count)
