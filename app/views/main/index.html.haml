@@ -6,7 +6,11 @@
 
 %h3 How to send email via Cuttlefish
 %p
-  Simply point your application to send emails via SMTP to port #{Rails.configuration.cuttlefish_smtp_port} on this machine.
+  - if App.normal_apps?
+    Start by picking an #{link_to "existing App", apps_path} or #{link_to "create a new one", new_app_path}.
+    Then you'll see how to send an email specifically for that App.
+  - else
+    Simply point your application to send emails via SMTP to port #{Rails.configuration.cuttlefish_smtp_port} on this machine.
 
 .row#status-counts
   = render "main/status_counts"
