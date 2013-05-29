@@ -1,12 +1,13 @@
-%p.lead
-  Cuttlefish is an easy to setup and easy to use open source transactional email server
+%h2
+  Cuttlefish &mdash; the lovely open source transactional email server
 
 %p
   It ensures that your emails arrive at their destination by continuously monitoring the deliverability
-  of your emails.
+  of your emails. And a whole lot more&hellip;
 
+%h3 How to send email via Cuttlefish
 %p
-  To send an email via Cuttlefish simply point your application to send emails via SMTP to port #{Rails.configuration.cuttlefish_smtp_port} on this machine.
+  Simply point your application to send emails via SMTP to port #{Rails.configuration.cuttlefish_smtp_port} on this machine.
 
 .row#status-counts
   = render "main/status_counts"
