@@ -2,21 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.filter-wrap {
-  text-align: center;
-
-  div.btn-group {
-      margin: 0 auto; 
-      text-align: center;
-      width: inherit;
-      display: inline-block;
-  }
-}
-
 table td {
   vertical-align: top;
   ul {
     list-style-type: none;
     margin-left: 0;
   }
+}
+
+.pagination {
+  display: inline-block;
+  float: right;
+  margin-top: 0;
 }
