@@ -7,6 +7,21 @@
     emails is sent.
 
 - else
+  %p
+    Name:
+    = @app.name
+  %p
+    URL:
+    - if @app.url.blank?
+      %span.muted Not set
+    - else
+      = link_to @app.url
+  %p
+    Open tracking domain:
+    - if @app.open_tracking_domain.blank?
+      %span.muted Not set
+    - else
+      = @app.open_tracking_domain
   %p= link_to "Edit", edit_app_path(@app)
 
   %h2 How to send mail via Cuttlefish for #{@app.name}
