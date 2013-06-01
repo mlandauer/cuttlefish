@@ -4,7 +4,7 @@ describe EmailDataCache do
   describe ".[]=" do
     it "should persist the main part of the email in the filesystem" do
       EmailDataCache[10] = "This is a main data section"
-      File.read(File.join(EmailDataCache.data_filesystem_directory, "10.txt")).should == "This is a main data section"
+      File.read(File.join(EmailDataCache.data_filesystem_directory, "10.eml")).should == "This is a main data section"
     end
 
     it "should only keep the full data of a certain number of the emails around" do

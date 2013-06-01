@@ -33,7 +33,7 @@ class EmailDataCache
   private
 
   def self.data_filesystem_path(id)
-    File.join(data_filesystem_directory, "#{id}.txt")
+    File.join(data_filesystem_directory, "#{id}.eml")
   end
 
   def self.is_data_on_filesystem?(id)
