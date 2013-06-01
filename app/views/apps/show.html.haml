@@ -49,7 +49,9 @@
         %td Authentication
         %td
           %strong plain
-  %p Specific instructions for different languages and frameworks coming soon.
+  %p #{link_to "Specific instructions on how to send email for <strong>Ruby on Rails</strong>".html_safe, rails_app_path(@app)}.
+
+  %p Want to add instructions here for your favorite web framework? Please #{link_to "contribute", "https://github.com/mlandauer/cuttlefish#how-to-contribute"}.
 
 %p
   So far #{@app.name} has sent #{pluralize(@app.emails.count, 'email')}.

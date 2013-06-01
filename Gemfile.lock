@@ -134,6 +134,9 @@ GEM
       rspec (~> 2.11)
     haml (4.0.1)
       tilt
+    haml-coderay (0.2.0)
+      coderay
+      haml
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
       activesupport (>= 3.1, < 4.1)
@@ -296,6 +299,7 @@ DEPENDENCIES
   guard
   guard-livereload
   guard-rspec
+  haml-coderay
   haml-rails
   jbuilder (~> 1.0.1)
   jquery-rails

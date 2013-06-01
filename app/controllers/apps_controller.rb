@@ -58,6 +58,10 @@ class AppsController < ApplicationController
     redirect_to app
   end
 
+  def rails
+    @app = App.find(params[:id])
+  end
+
   private
 
   def app_parameters
