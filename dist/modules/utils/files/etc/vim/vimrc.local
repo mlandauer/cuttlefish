@@ -1,0 +1,27 @@
+" color schemes
+set t_Co=256
+set background=dark
+
+" display
+syntax on
+set number
+
+" search/replace behavior
+set ignorecase
+set smartcase
+set incsearch
+
+" filetype detection
+filetype on
+filetype plugin on
+filetype indent on
+set autoindent
+set smartindent
+set expandtab
+
+" file specific settings
+au BufRead,BufNewFile *.pp  set filetype=puppet expandtab ts=2 sw=2
+au BufRead,BufNewFile *.rb  set filetype=ruby   expandtab ts=2 sw=2
+
+" macros + shortcuts
+map sw :w !sudo tee %

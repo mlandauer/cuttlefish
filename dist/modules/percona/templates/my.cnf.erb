@@ -1,0 +1,162 @@
+#
+# Bulletproof MySQL Database Server Configuration File
+#
+# One can use all long options that the program supports.
+# Run program with --help to get a list of available options and with
+# --print-defaults to see which it would actually understand and use.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+#
+
+# The mysql binary is the only one that understands this option
+[mysql]
+default-character-set = utf8
+
+# Run across all mysql tools
+[client]
+port            = 3306
+socket          = /var/run/mysqld/mysqld.sock
+
+# "Safe" Configuration
+[mysqld_safe]
+socket          = /var/run/mysqld/mysqld.sock
+nice            = 0
+
+# MySQL Proper
+
+[mysqld]
+#
+# * Basic Settings
+#
+user            = mysql
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+port            = 3306
+basedir         = /usr
+datadir         = /var/lib/mysql
+slave_load_tmpdir = /tmp
+language        = /usr/share/mysql/english
+skip-external-locking
+skip-name-resolve
+
+character_set_server            = utf8
+collation_server                = utf8_general_ci
+
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+#bind-address           = 127.0.0.1
+
+#wait_timeout            = 60
+
+#
+# * Fine Tuning
+#
+key_buffer_size         = 128M
+concurrent_insert       = 2
+
+read_buffer_size        = 8M
+read_rnd_buffer_size    = 4M
+sort_buffer_size        = 4M
+bulk_insert_buffer_size = 16M
+
+# only used for MyISAM table rebuilds (alter table, repair, add/remove index)
+myisam_sort_buffer_size = 1G
+myisam_recover          = QUICK,BACKUP
+
+max_allowed_packet      = 32M
+thread_cache_size       = 128
+max_connections         = 500
+open_files_limit        = 2000
+table_cache             = 1000
+tmp_table_size          = 128M
+max_heap_table_size     = 128M
+
+#
+# * Query Cache Configuration
+#
+
+query_cache_size        = 0
+query_cache_limit       = 256K
+
+#
+# * Logging and Replication
+#
+
+# Both location gets rotated by the cronjob.
+# Be aware that this log type is a performance killer.
+#log            = /var/log/mysql/mysql.log
+#
+# Error logging goes to syslog. This is a Debian improvement :)
+log-warnings    = 2
+#
+# Here you can see queries with especially long duration
+slow_query_log_file             = /var/log/mysql/mysql-slow.log
+slow_query_log                  = 1
+long_query_time                 = 0
+#log_slow_time                   = 0
+log-queries-not-using-indexes
+log_slow_admin_statements
+
+log_slow_verbosity  = Query_plan,Innodb
+log_slow_slave_statements
+
+# The following can be used as easy to replay backup logs or for replication.
+# note: if you are setting up a replication slave, see README.Debian about
+#       other settings you may need to change.
+log-bin                 = /var/log/mysql/mysql-bin.log
+expire_logs_days        = 3
+max_binlog_size         = 100M
+relay-log               = /var/log/mysql/slave-relay.log
+relay-log-index         = /var/log/mysql/slave-relay-log.index
+relay-log-space-limit   = 512M
+log-slave-updates
+
+# Server must report hostname and last octet of IPv4 address as identifiers.
+#
+report-host = <%= scope.lookupvar("hostname") %>
+server_id   = 1
+
+# Assume only two hosts in the replica ring
+# Use the server_id value as the auto_increment_offset
+#
+auto_increment_increment = 2
+auto_increment_offset    = 2
+
+#
+# * InnoDB
+#
+sql_mode                       = NO_ENGINE_SUBSTITUTION
+innodb_data_home_dir           = /var/lib/mysql
+innodb_log_group_home_dir      = /var/lib/mysql
+innodb_data_file_path          = ibdata1:1G:autoextend
+innodb_log_files_in_group      = 2
+innodb_log_file_size           = 100M
+innodb_log_buffer_size         = 16M
+innodb_buffer_pool_size        = <%= (memorysize.to_f * 0.6).to_i %><%= memorysize =~ /MB$/ ? "M" : "G" %>
+innodb_read_io_threads         = 8
+innodb_write_io_threads        = 8
+innodb_flush_method            = O_DIRECT # avoid operating system cache
+innodb_io_capacity             = 400
+innodb_file_per_table          = <%= innodb_file_per_table ? 1 : 0 %>
+innodb_flush_log_at_trx_commit = 1
+#innodb_adaptive_checkpoint     = 1
+sync_binlog                    = 10
+
+# Replication
+binlog_format = MIXED
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet      = 1G
+
+[isamchk]
+key_buffer              = 16M
+
+[myisamchk]
+
+# * IMPORTANT: Additional settings that can override those from this file!
+#   The files must end with '.cnf', otherwise they'll be ignored.
+#
+!includedir /etc/mysql/conf.d/

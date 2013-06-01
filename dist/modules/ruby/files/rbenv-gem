@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Setup the environment
+export RBENV_ROOT="/opt/rbenv"
+export PATH="/opt/rbenv/bin/:$PATH"
+eval "$(rbenv init -)"
+
+# Execute the gem command belonging to the current global version of Ruby
+# Capture the return code for the actual exit
+gem "$@"
+retval=$?
+# Make binaries installed/removed by the above `gem` command appear on the path
+rbenv rehash
+
+exit $retval
