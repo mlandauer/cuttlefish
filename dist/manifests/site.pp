@@ -4,7 +4,6 @@ node default {
   class {'apt':
     always_apt_update => true
   }
-  include git
   include utils
 
   include ruby::common
@@ -12,5 +11,10 @@ node default {
     is_default => true
   }
 
-  class { 'percona': }
+  class {'percona':}
+
+  Class['apt'] ->
+  Class['utils'] ->
+  Class['ruby::common'] ->
+  Class['percona']
 }
