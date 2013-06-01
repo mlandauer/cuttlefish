@@ -18,11 +18,10 @@
 
 
   %body
-    .navbar
-      .navbar-inner
-        .container
-          = link_to "Cuttlefish", root_path, :class => "brand"
     .container
+      .navbar
+        .navbar-inner
+          = link_to "Cuttlefish", root_path, :class => "brand"
 
       .row
         .span3.sidebar
@@ -63,8 +62,7 @@
           = bootstrap_flash
           = yield
     
-    %footer
-      .container
+      %footer
         %p
           Made by
           = link_to "@matthewlandauer", "https://twitter.com/matthewlandauer"
