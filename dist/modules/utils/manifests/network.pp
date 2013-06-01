@@ -1,9 +1,10 @@
 class utils::network {
-  package { [ 'tcpdump', 'ngrep', 'mtr', 'ethtool' ]:
-    ensure => present
-  }
-
-  package { [ 'netstat-nat', 'conntrack' ]:
+  package { [
+    'tcpdump',
+    'ngrep',
+    'ethtool',
+    'nmap',
+  ]:
     ensure => present
   }
 }

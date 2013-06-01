@@ -3,7 +3,6 @@ class utils {
   include utils::curl
   include utils::vim
   include utils::screen
-  include utils::nmap
   include utils::network
   include utils::tmux
   include utils::facterpath
@@ -18,6 +17,5 @@ class utils {
 
   group { 'admin':
     ensure => present,
-    tag    => 'puppet',
   }
 }
