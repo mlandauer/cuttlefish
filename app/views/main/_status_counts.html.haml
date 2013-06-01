@@ -1,4 +1,4 @@
-.span3.offset2
+.span3
   %h3 Today
   = render "main/status_counts_period", stats: Email.stats_today
   %table.table.table-condensed
@@ -10,7 +10,7 @@
         - else
           n/a
 
-.span3.offset2
+.span3.offset3
   %h3 Last 7 days
   = render "main/status_counts_period", stats: Email.stats_this_week
   %table.table.table-condensed

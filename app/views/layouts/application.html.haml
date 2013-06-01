@@ -18,44 +18,48 @@
 
 
   %body
-    .navbar.navbar-fixed-top
+    .navbar
       .navbar-inner
         .container
-          %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
           = link_to "Cuttlefish", root_path, :class => "brand"
-          .container.nav-collapse
-            %ul.nav
-              = nav_menu_item emails_path do
-                Emails
-                %span.fui-mail-24
-              = nav_menu_item addresses_path do
-                Addresses
-                %span.fui-menu-24
-              = nav_menu_item apps_path do
-                Apps
-                %span.fui-calendar-24
-              %li.divider-vertical
-              = nav_menu_item reputation_path do
-                Reputation
-                %span.fui-heart-24
-              = nav_menu_item "Test email", new_test_email_path
-              = nav_menu_item "Settings", edit_settings_path
-            %ul.nav.pull-right
-              %li
-                = link_to "#" do
-                  = gravatar_image_tag(current_admin.email, gravatar: {size: 35, secure: true, default: :identicon}, class: "img-circle")
-                %ul.pull-right
-                  %li= link_to "Edit my details", edit_admin_registration_path
-                  %li= link_to "Invite administrator", new_admin_invitation_path
-                  %li.divider
-                  %li= link_to 'Logout', destroy_admin_session_path, :method => :delete
     .container
 
       .row
-        .span12
+        .span3.sidebar
+          %ul.nav.nav-list
+            %li.nav-header Explore
+            = nav_menu_item_show_active root_path do
+              %i.icon-home
+              Dashboard
+            = nav_menu_item_show_active emails_path do
+              %i.icon-envelope
+              Emails
+            = nav_menu_item_show_active addresses_path do
+              %i.icon-reorder
+              Addresses
+            %li.nav-header Test
+            = nav_menu_item_show_active reputation_path do
+              %i.icon-heart
+              Reputation
+            = nav_menu_item_show_active new_test_email_path do
+              %i.icon-arrow-right
+              Test email
+            %li.nav-header Settings
+            = nav_menu_item_show_active apps_path do
+              %i.icon-magic
+              Apps
+            = nav_menu_item_show_active edit_settings_path do
+              %i.icon-cog
+              Global
+          %hr
+          %ul.nav.nav-list
+            %li.nav-header
+              = gravatar_image_tag(current_admin.email, gravatar: {size: 35, secure: true, default: :identicon}, class: "img-circle")
+            %li= link_to "Edit my details", edit_admin_registration_path
+            %li= link_to "Invite administrator", new_admin_invitation_path
+            %li= link_to 'Logout', destroy_admin_session_path, :method => :delete
+          %hr
+        .span9
           = bootstrap_flash
           = yield
     
