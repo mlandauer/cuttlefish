@@ -46,10 +46,6 @@
   font-family: 'Leckerli One', cursive;  
 }
 
-.navbar .brand {
-  text-decoration: none;
-}
-
 .nav-list a {
   text-decoration: none;
 }
@@ -57,8 +53,4 @@
 // Bug in flat-ui gem (override here)
 .select-icon {
   background-image: url("/assets/select/toggle.png");
-}
-
-.sidebar {
-  background-color: #eee;
 }
