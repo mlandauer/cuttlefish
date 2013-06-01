@@ -15,5 +15,4 @@
 //= require bootstrap
 //= require flat-ui
 //= require bootstrap-extended/bootstrap-rowlink
-//= require turbolinks
 //= require_tree .
