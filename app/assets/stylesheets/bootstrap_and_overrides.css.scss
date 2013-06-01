@@ -42,11 +42,17 @@
 
 @import url(//fonts.googleapis.com/css?family=Leckerli+One);
 
+body {
+  padding-top: 20px;
+}
+
 .brand {
   font-family: 'Leckerli One', cursive;
   color: #1abc9c;
   font-size: 18px;
-  padding: 14px;
+  padding-left: 14px;
+  padding-bottom: 14px;
+  margin-top: -5px;
   img {
     width: 80px;
     height: 48px;
