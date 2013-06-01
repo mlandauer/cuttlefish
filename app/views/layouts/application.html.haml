@@ -21,7 +21,10 @@
     .container
       .row
         .span3.sidebar
-          .brand Cuttlefish
+          .brand
+            = image_tag "cuttlefish_80x48.png", size: "80x48"
+            .word
+              Cuttlefish
           %ul.nav.nav-list
             %li.nav-header Explore
             = nav_menu_item_show_active root_path do
