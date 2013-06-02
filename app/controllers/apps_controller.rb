@@ -65,6 +65,6 @@ class AppsController < ApplicationController
   private
 
   def app_parameters
-    params.require(:app).permit(:name, :url, :open_tracking_domain)
+    params.require(:app).permit(:name, :url, :open_tracking_domain, :open_tracking_enabled)
   end
 end

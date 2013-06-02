@@ -40,7 +40,8 @@ gem "dnsbl-client"
 gem "devise", git: "https://github.com/plataformatec/devise.git", branch: "rails4"
 gem 'devise_invitable', git: "https://github.com/mlandauer/devise_invitable.git", branch: "build_resource_fix"
 gem 'gravatar_image_tag'
-gem "formtastic"
+# Some rails 4 support (as of db89a982424d5e4dc0d784ae5cb6f1335fe68cd1) not yet officially released
+gem "formtastic", git: "https://github.com/justinfrench/formtastic.git"
 gem 'formtastic-bootstrap'
 gem "net-dns"
 # This fork contains a small fix for Ruby 1.9.3 compatibility. Hopefully will get merged.

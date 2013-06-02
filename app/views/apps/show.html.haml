@@ -22,6 +22,12 @@
       %span.muted Not set
     - else
       = @app.open_tracking_domain
+  %p
+    Open tracking:
+    - if @app.open_tracking_enabled?
+      Enabled
+    - else
+      Disabled
   %p= link_to "Edit", edit_app_path(@app)
 
   %h2 How to send mail via Cuttlefish for #{@app.name}
