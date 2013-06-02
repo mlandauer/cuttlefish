@@ -43,7 +43,8 @@ gem 'devise_invitable', git: "https://github.com/scambra/devise_invitable.git", 
 gem 'gravatar_image_tag'
 # Some rails 4 support (as of db89a982424d5e4dc0d784ae5cb6f1335fe68cd1) not yet officially released
 gem "formtastic", git: "https://github.com/justinfrench/formtastic.git"
-gem 'formtastic-bootstrap'
+# Need commit c9331088146e456a69bd6e94298c80d09be3ee74
+gem 'formtastic-bootstrap', git: "https://github.com/mjbellantoni/formtastic-bootstrap.git"
 gem "net-dns"
 # e83aa4d0d9d84f1ec1d268111e74efadbaa77a8a contains a small fix for Ruby 1.9.3 compatibility. Not yet in an official release
 gem "rails-settings-cached", :git => "https://github.com/huacnlee/rails-settings-cached.git"
