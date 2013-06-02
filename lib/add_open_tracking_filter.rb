@@ -4,7 +4,7 @@ class AddOpenTrackingFilter < DeliveryFilter
   include Rails.application.routes.url_helpers
 
   def data
-    if has_html_part?
+    if apply?
       delivery.set_open_tracked!
       append_to_html(image_tag(url, :alt => nil))
     else
@@ -40,6 +40,11 @@ class AddOpenTrackingFilter < DeliveryFilter
   end
 
   private
+
+  # Do we apply the filter here?
+  def apply?
+    open_tracking_enabled? && has_html_part?
+  end
 
   def append_to_html(to_append)
     m = mail

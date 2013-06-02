@@ -103,6 +103,10 @@ class Email < ActiveRecord::Base
     app.open_tracking_domain if app
   end
 
+  def open_tracking_enabled?
+    app.open_tracking_enabled?
+  end
+
   private
 
   def update_message_id

@@ -29,9 +29,9 @@ describe AddOpenTrackingFilter do
   end
 
   describe "#data" do
+    let(:email) { mock_model(Email, open_tracking_domain: nil, open_tracking_enabled?: true) }
     before :each do
-      delivery.stub(data: mail.encoded)
-      delivery.stub_chain(:email, :open_tracking_domain).and_return(nil)
+      delivery.stub(data: mail.encoded, email: email)
     end
 
     context "An html email with no text part" do
@@ -51,7 +51,18 @@ describe AddOpenTrackingFilter do
 
       it "should record that it has been open tracked" do
         filter.data
-        delivery.open_tracked?.should be_true
+        delivery.should be_open_tracked
+      end
+
+      context "app has disabled open tracking" do
+        before :each do
+          delivery.stub(open_tracking_enabled?: false)
+        end
+
+        it "should record that it has not been open tracked" do
+          filter.data
+          delivery.should_not be_open_tracked
+        end
       end
     end
 

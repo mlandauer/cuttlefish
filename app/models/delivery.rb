@@ -33,6 +33,10 @@ class Delivery < ActiveRecord::Base
     Digest::SHA1.hexdigest(salt + id.to_s)    
   end
 
+  def open_tracking_enabled?
+    email.open_tracking_enabled?
+  end
+
   def status
     if sent?
       last_line = postfix_log_lines.first
