@@ -54,11 +54,11 @@
   - else
     Disabled
 %p
-  Open tracking domain:
-  - if @app.open_tracking_domain.blank?
+  Custom tracking domain:
+  - if @app.custom_tracking_domain.blank?
     %span.muted Not set
   - else
-    = @app.open_tracking_domain
+    = @app.custom_tracking_domain
 
 - if @app.cuttlefish?
   %p

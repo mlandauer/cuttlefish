@@ -16,20 +16,20 @@ describe AddOpenTrackingFilter do
     end
 
     it "should normally be an https url to the default domain" do
-      delivery.stub_chain(:email, :open_tracking_domain).and_return(nil)
+      delivery.stub_chain(:email, :custom_tracking_domain).and_return(nil)
       filter.url.should == "https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif"
     end
 
     it "should use a custom domain if it is set (and also not use ssl)" do
       # This is not nice. Far too much knowledge of other classes
       # TODO Refactor
-      delivery.stub_chain(:email, :open_tracking_domain).and_return("email.planningalerts.org.au")
+      delivery.stub_chain(:email, :custom_tracking_domain).and_return("email.planningalerts.org.au")
       filter.url.should == "http://email.planningalerts.org.au/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif"      
     end
   end
 
   describe "#data" do
-    let(:email) { mock_model(Email, open_tracking_domain: nil, open_tracking_enabled?: true) }
+    let(:email) { mock_model(Email, custom_tracking_domain: nil, open_tracking_enabled?: true) }
     before :each do
       delivery.stub(data: mail.encoded, email: email)
     end

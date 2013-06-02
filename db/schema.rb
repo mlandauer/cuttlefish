@@ -52,13 +52,13 @@ ActiveRecord::Schema.define(version: 20130602070927) do
     t.string   "name"
     t.string   "url"
     t.string   "smtp_password"
-    t.string   "open_tracking_domain"
+    t.string   "custom_tracking_domain"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "smtp_password_locked",  default: false, null: false
-    t.boolean  "cuttlefish",            default: false, null: false
-    t.boolean  "open_tracking_enabled", default: true,  null: false
-    t.boolean  "link_tracking_enabled", default: true,  null: false
+    t.boolean  "smtp_password_locked",   default: false, null: false
+    t.boolean  "cuttlefish",             default: false, null: false
+    t.boolean  "open_tracking_enabled",  default: true,  null: false
+    t.boolean  "link_tracking_enabled",  default: true,  null: false
   end
 
   create_table "delayed_jobs", force: true do |t|

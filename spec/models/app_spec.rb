@@ -34,15 +34,15 @@ describe App do
     end
   end
 
-  describe "#open_tracking_domain" do
+  describe "#custom_tracking_domain" do
     it "should look up the cname of the custom domain and check it points to the cuttlefish server" do
-      app = FactoryGirl.build(:app, open_tracking_domain: "email.myapp.com")
+      app = FactoryGirl.build(:app, custom_tracking_domain: "email.myapp.com")
       App.should_receive(:lookup_dns_cname_record).with("email.myapp.com").and_return("cuttlefish.example.org.")
       app.should be_valid
     end
 
     it "should look up the cname of the custom domain and check it points to the cuttlefish server" do
-      app = FactoryGirl.build(:app, open_tracking_domain: "email.foo.com")
+      app = FactoryGirl.build(:app, custom_tracking_domain: "email.foo.com")
       App.should_receive(:lookup_dns_cname_record).with("email.foo.com").and_return("foo.com.")
       app.should_not be_valid
     end

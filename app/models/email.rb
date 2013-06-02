@@ -99,8 +99,8 @@ class Email < ActiveRecord::Base
     deliveries.any?{|d| d.opened?}
   end
 
-  def open_tracking_domain
-    app.open_tracking_domain if app
+  def custom_tracking_domain
+    app.custom_tracking_domain if app
   end
 
   def open_tracking_enabled?

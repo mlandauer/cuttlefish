@@ -2,7 +2,7 @@ class App < ActiveRecord::Base
   has_many :emails, dependent: :destroy
   
   validates :name, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "Only letters, numbers, spaces and underscores"}
-  validate :open_tracking_domain_points_to_correct_place
+  validate :custom_tracking_domain_points_to_correct_place
 
   before_create :set_smtp_password
   after_create :set_smtp_username
@@ -31,13 +31,13 @@ class App < ActiveRecord::Base
     cname_record.value if cname_record
   end
 
-  def open_tracking_domain_points_to_correct_place
+  def custom_tracking_domain_points_to_correct_place
     # In DNS speak putting a "." after the domain makes it a full domain name rather than just relative
     # to the current higher level domain
     cname_domain = Rails.configuration.cuttlefish_domain + "."
-    unless open_tracking_domain.blank?
-      if App.lookup_dns_cname_record(open_tracking_domain) != cname_domain
-        errors.add(:open_tracking_domain, "Doesn't have a CNAME record that points to #{cname_domain}")
+    unless custom_tracking_domain.blank?
+      if App.lookup_dns_cname_record(custom_tracking_domain) != cname_domain
+        errors.add(:custom_tracking_domain, "Doesn't have a CNAME record that points to #{cname_domain}")
       end
     end
   end

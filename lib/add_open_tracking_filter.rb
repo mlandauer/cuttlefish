@@ -25,8 +25,8 @@ class AddOpenTrackingFilter < DeliveryFilter
 
   # Hostname to use for the open tracking image
   def host
-    if !email.open_tracking_domain.blank?
-      email.open_tracking_domain
+    if !email.custom_tracking_domain.blank?
+      email.custom_tracking_domain
     elsif Rails.env.development?
       "localhost:3000"
     else
@@ -36,7 +36,7 @@ class AddOpenTrackingFilter < DeliveryFilter
 
   # Whether to use ssl for the open tracking image
   def protocol
-    email.open_tracking_domain.blank? && !Rails.env.development? ? "https" : "http"
+    email.custom_tracking_domain.blank? && !Rails.env.development? ? "https" : "http"
   end
 
   private
