@@ -2,7 +2,8 @@
 define ruby::version($is_default=false) {
   include ruby::common
 
-  $version = $name
+  $version          = $name
+  $rubygems_version = '2.0.3'
 
   if $version =~ /jruby/ {
     include java::jdk
@@ -21,13 +22,22 @@ define ruby::version($is_default=false) {
     ],
   }
 
+  exec { "update-rubygems-for-ruby-${version}":
+    # FIXME(auxesis): use plain `rbenv exec`? like in cuttlefish module
+    command     => "rbenv-exec gem update --system ${rubygems_version}",
+    unless      => "rbenv-exec gem --version |grep -q ${rubygems_version}",
+    environment => 'RBENV_ROOT=/opt/rbenv',
+    path        => '/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin',
+    require     => [
+      Exec["rbenv-install-${version}"],
+    ],
+  }
+
   package { "bundler/${version}":
     ensure   => present,
-    #name     => 'bundler',
     provider => rbenvgem,
-    #alias    => "bundler-${version}",
     require  => [
-      Exec["rbenv-install-${version}"],
+      Exec["update-rubygems-for-ruby-${version}"],
     ],
   }
 
@@ -39,6 +49,9 @@ define ruby::version($is_default=false) {
         Exec["rbenv-install-${version}"],
         Group['admin'],
       ],
+      before  => [
+        Exec["update-rubygems-for-ruby-${version}"],
+      ]
     }
   }
 
