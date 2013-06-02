@@ -1,33 +1,36 @@
 .page-header
   %h1= @app.name
 
+%p
+  Name:
+  = @app.name
+%p
+  URL:
+  - if @app.url.blank?
+    %span.muted Not set
+  - else
+    = link_to @app.url
+%p
+  Open tracking domain:
+  - if @app.open_tracking_domain.blank?
+    %span.muted Not set
+  - else
+    = @app.open_tracking_domain
+%p
+  Open tracking:
+  - if @app.open_tracking_enabled?
+    Enabled
+  - else
+    Disabled
+
 - if @app.cuttlefish?
   %p
     This is a special App that is used by Cuttlefish when an unauthenticated email is sent or one if its own
-    emails is sent.
+    emails is sent. If you want to override any of the settings above, like for instance switching off open tracking or using a custom domain for the open tracking images, then you should
+    = link_to "create a new App", new_app_path
+    within Cuttlefish.
 
 - else
-  %p
-    Name:
-    = @app.name
-  %p
-    URL:
-    - if @app.url.blank?
-      %span.muted Not set
-    - else
-      = link_to @app.url
-  %p
-    Open tracking domain:
-    - if @app.open_tracking_domain.blank?
-      %span.muted Not set
-    - else
-      = @app.open_tracking_domain
-  %p
-    Open tracking:
-    - if @app.open_tracking_enabled?
-      Enabled
-    - else
-      Disabled
   %p= link_to "Edit", edit_app_path(@app)
 
   %h2 How to send mail via Cuttlefish for #{@app.name}
