@@ -65,7 +65,7 @@ GEM
     bootstrap-sass (2.2.2.0)
       sass (~> 3.2)
     builder (3.1.4)
-    capistrano (2.15.4)
+    capistrano (2.13.5)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -286,7 +286,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  capistrano
+  capistrano (= 2.13.5)
   coffee-rails (~> 4.0.0)
   coveralls
   delayed_job_active_record (~> 4.0.0.beta1)

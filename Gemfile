@@ -51,7 +51,9 @@ gem 'factory_girl_rails'
 gem 'haml-coderay'
 
 # Deployment bits and bobs
-gem "capistrano"
+# Later versions cause issues with backing up assets manifests file to release directory
+# TODO: Fix this
+gem "capistrano", "2.13.5"
 gem 'rvm-capistrano'
 gem 'newrelic_rpm'
 
