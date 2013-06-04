@@ -1,4 +1,5 @@
 require "spec_helper"
+require "ostruct"
 
 describe MailJob, '#perform' do
   it "should save the email information and forward it" do
