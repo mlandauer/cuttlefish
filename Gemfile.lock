@@ -72,7 +72,7 @@ GEM
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
     coderay (1.0.9)
-    coffee-rails (4.0.0.beta1)
+    coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0.beta, < 5.0)
     coffee-script (2.2.0)
@@ -230,8 +230,8 @@ GEM
       rspec-mocks (~> 2.13.0)
     rvm-capistrano (1.2.7)
       capistrano (>= 2.0.0)
-    sass (3.2.7)
-    sass-rails (4.0.0.beta1)
+    sass (3.2.9)
+    sass-rails (4.0.0.rc1)
       railties (>= 4.0.0.beta, < 5.0)
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0.rc0)
@@ -280,7 +280,7 @@ PLATFORMS
 
 DEPENDENCIES
   capistrano
-  coffee-rails (~> 4.0.0.beta1)
+  coffee-rails (~> 4.0.0)
   coveralls
   delayed_job_active_record (~> 4.0.0.beta1)
   devise!
@@ -314,10 +314,10 @@ DEPENDENCIES
   rb-inotify
   rspec-rails
   rvm-capistrano
-  sass-rails (~> 4.0.0.beta1)
+  sass-rails (~> 4.0.0.rc1)
   sqlite3
   syslog_protocol
   therubyracer
   thin
-  uglifier (>= 1.0.3)
+  uglifier (>= 1.3.0)
   will_paginate
