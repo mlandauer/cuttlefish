@@ -37,15 +37,16 @@ gem "file-tail"
 gem 'syslog_protocol'
 gem "will_paginate"
 gem "dnsbl-client"
+# TODO: switch to official release - probably when rails 4.0.0 is released
 gem "devise", git: "https://github.com/plataformatec/devise.git", branch: "rails4"
-gem 'devise_invitable', git: "https://github.com/mlandauer/devise_invitable.git", branch: "build_resource_fix"
+gem 'devise_invitable', git: "https://github.com/scambra/devise_invitable.git", branch: "rails4"
 gem 'gravatar_image_tag'
 # Some rails 4 support (as of db89a982424d5e4dc0d784ae5cb6f1335fe68cd1) not yet officially released
 gem "formtastic", git: "https://github.com/justinfrench/formtastic.git"
 gem 'formtastic-bootstrap'
 gem "net-dns"
-# This fork contains a small fix for Ruby 1.9.3 compatibility. Hopefully will get merged.
-gem "rails-settings-cached", :git => "https://github.com/mlandauer/rails-settings-cached.git", :branch => "add_ruby_1.9.3_compatibility"
+# e83aa4d0d9d84f1ec1d268111e74efadbaa77a8a contains a small fix for Ruby 1.9.3 compatibility. Not yet in an official release
+gem "rails-settings-cached", :git => "https://github.com/huacnlee/rails-settings-cached.git"
 gem 'factory_girl_rails'
 gem 'haml-coderay'
 
