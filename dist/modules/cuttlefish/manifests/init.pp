@@ -7,7 +7,7 @@ class cuttlefish {
   $user    = 'vagrant'
 
   exec { "bundle install ${appname}":
-    command   => "rbenv exec bundle install --path vendor/bundle/ 2>&1 | tee /tmp/bundle-install-${appname}",
+    command   => 'rbenv exec bundle install --path vendor/bundle/',
     unless    => 'rbenv exec bundle check',
     cwd       => $base,
     logoutput => true,
@@ -18,6 +18,7 @@ class cuttlefish {
       'LANG=en_US.UTF-8',
       'LC_ALL=en_US.UTF-8',
       'LANGUAGE=en_US.UTF-8',
+      'RBENV_ROOT=/opt/rbenv',
     ],
     path        => [
       '/bin',
@@ -32,10 +33,14 @@ class cuttlefish {
   }
 
   exec { "create ${appname} database":
-    command => "rbenv exec bundle exec rake db:setup | tee /tmp/create-database-${appname}",
-    unless  => "mysqlshow -u root | grep ${appname}_development",
-    cwd     => $base,
-    user    => $user,
+    command     => 'rbenv exec bundle exec rake db:setup',
+    unless      => "mysqlshow -u root | grep ${appname}_development",
+    cwd         => $base,
+    user        => $user,
+    logoutput   => true,
+    environment => [
+      'RBENV_ROOT=/opt/rbenv',
+    ],
     path    => [
       '/bin',
       '/usr/bin',
@@ -49,9 +54,13 @@ class cuttlefish {
   }
 
   exec { "foreman export ${appname}":
-    command => "rbenv exec bundle exec foreman export upstart /etc/init --app ${appname} --user ${user} --log ${logpath}",
-    creates => "/etc/init/${appname}.conf",
-    cwd     => $base,
+    command     => "rbenv exec bundle exec foreman export upstart /etc/init --app ${appname} --user ${user} --log ${logpath}",
+    creates     => "/etc/init/${appname}.conf",
+    logoutput   => true,
+    cwd         => $base,
+    environment => [
+      'RBENV_ROOT=/opt/rbenv',
+    ],
     path    => [
       '/bin',
       '/usr/bin',
