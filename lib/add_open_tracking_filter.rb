@@ -1,15 +1,15 @@
 # Insert a tracking image at the bottom of the html email
-class AddOpenTrackingFilter < DeliveryFilter
+class AddOpenTrackingFilter < MailFilter
   include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
-  def data
-    if apply?
-      delivery.set_open_tracked!
-      append_to_html(image_tag(url, :alt => nil))
-    else
-      delivery.data
-    end
+  def apply_html?
+    open_tracking_enabled?
+  end
+
+  def process_html(input)
+    delivery.set_open_tracked!
+    input + image_tag(url, :alt => nil)
   end
 
   # The url for the tracking image
@@ -37,26 +37,5 @@ class AddOpenTrackingFilter < DeliveryFilter
   # Whether to use ssl for the open tracking image
   def protocol
     email.custom_tracking_domain.blank? && !Rails.env.development? ? "https" : "http"
-  end
-
-  private
-
-  # Do we apply the filter here?
-  def apply?
-    open_tracking_enabled? && has_html_part?
-  end
-
-  def append_to_html(to_append)
-    m = mail
-    m.html_part.body = m.html_part.body.decoded + to_append
-    m.encoded
-  end
-
-  def mail
-    Mail.new(delivery.data)
-  end
-
-  def has_html_part?
-    !!mail.html_part
   end
 end
