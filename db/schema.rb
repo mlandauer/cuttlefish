@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20130602070927) do
     t.datetime "updated_at"
   end
 
-  add_index "addresses", ["text"], name: "index_addresses_on_text"
+  add_index "addresses", ["text"], name: "index_addresses_on_text", using: :btree
 
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "", null: false
@@ -42,10 +42,10 @@ ActiveRecord::Schema.define(version: 20130602070927) do
     t.string   "invited_by_type"
   end
 
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true
-  add_index "admins", ["invitation_token"], name: "index_admins_on_invitation_token", unique: true
-  add_index "admins", ["invited_by_id"], name: "index_admins_on_invited_by_id"
-  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
+  add_index "admins", ["invitation_token"], name: "index_admins_on_invitation_token", unique: true, using: :btree
+  add_index "admins", ["invited_by_id"], name: "index_admins_on_invited_by_id", using: :btree
+  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "apps", force: true do |t|
     t.string   "smtp_username"
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20130602070927) do
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "deliveries", force: true do |t|
     t.integer  "email_id"
@@ -88,10 +88,10 @@ ActiveRecord::Schema.define(version: 20130602070927) do
     t.integer  "open_events_count", default: 0,     null: false
   end
 
-  add_index "deliveries", ["created_at", "open_events_count"], name: "index_deliveries_on_created_at_and_open_events_count"
-  add_index "deliveries", ["email_id", "address_id"], name: "index_deliveries_on_email_id_and_address_id"
-  add_index "deliveries", ["open_tracked", "created_at"], name: "index_deliveries_on_open_tracked_and_created_at"
-  add_index "deliveries", ["postfix_queue_id"], name: "index_deliveries_on_postfix_queue_id"
+  add_index "deliveries", ["created_at", "open_events_count"], name: "index_deliveries_on_created_at_and_open_events_count", using: :btree
+  add_index "deliveries", ["email_id", "address_id"], name: "index_deliveries_on_email_id_and_address_id", using: :btree
+  add_index "deliveries", ["open_tracked", "created_at"], name: "index_deliveries_on_open_tracked_and_created_at", using: :btree
+  add_index "deliveries", ["postfix_queue_id"], name: "index_deliveries_on_postfix_queue_id", using: :btree
 
   create_table "emails", force: true do |t|
     t.datetime "created_at"
@@ -103,12 +103,12 @@ ActiveRecord::Schema.define(version: 20130602070927) do
     t.integer  "app_id",                               null: false
   end
 
-  add_index "emails", ["app_id"], name: "index_emails_on_app_id"
-  add_index "emails", ["created_at", "status"], name: "index_emails_on_created_at_and_status"
-  add_index "emails", ["created_at"], name: "index_emails_on_created_at"
-  add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id"
-  add_index "emails", ["message_id"], name: "index_emails_on_message_id"
-  add_index "emails", ["status"], name: "index_emails_on_status"
+  add_index "emails", ["app_id"], name: "index_emails_on_app_id", using: :btree
+  add_index "emails", ["created_at", "status"], name: "index_emails_on_created_at_and_status", using: :btree
+  add_index "emails", ["created_at"], name: "index_emails_on_created_at", using: :btree
+  add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id", using: :btree
+  add_index "emails", ["message_id"], name: "index_emails_on_message_id", using: :btree
+  add_index "emails", ["status"], name: "index_emails_on_status", using: :btree
 
   create_table "open_events", force: true do |t|
     t.integer  "delivery_id"
@@ -119,7 +119,7 @@ ActiveRecord::Schema.define(version: 20130602070927) do
     t.string   "ip"
   end
 
-  add_index "open_events", ["delivery_id"], name: "index_open_events_on_delivery_id"
+  add_index "open_events", ["delivery_id"], name: "index_open_events_on_delivery_id", using: :btree
 
   create_table "permissions", force: true do |t|
     t.integer  "app_id"
@@ -140,8 +140,8 @@ ActiveRecord::Schema.define(version: 20130602070927) do
     t.integer  "delivery_id"
   end
 
-  add_index "postfix_log_lines", ["delivery_id"], name: "index_postfix_log_lines_on_delivery_id"
-  add_index "postfix_log_lines", ["time", "delivery_id"], name: "index_postfix_log_lines_on_time_and_delivery_id"
+  add_index "postfix_log_lines", ["delivery_id"], name: "index_postfix_log_lines_on_delivery_id", using: :btree
+  add_index "postfix_log_lines", ["time", "delivery_id"], name: "index_postfix_log_lines_on_time_and_delivery_id", using: :btree
 
   create_table "settings", force: true do |t|
     t.string   "var",                   null: false
@@ -152,6 +152,6 @@ ActiveRecord::Schema.define(version: 20130602070927) do
     t.datetime "updated_at"
   end
 
-  add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true
+  add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
 
 end
