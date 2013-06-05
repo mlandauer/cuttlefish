@@ -190,6 +190,7 @@ GEM
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
     newrelic_rpm (3.6.3.106)
+    nokogiri (1.5.9)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
     pry (0.9.12.2)
@@ -318,6 +319,7 @@ DEPENDENCIES
   mysql2
   net-dns
   newrelic_rpm
+  nokogiri
   rack-livereload
   rails (= 4.0.0.rc1)
   rails-settings-cached!

@@ -50,6 +50,7 @@ gem "net-dns"
 gem "rails-settings-cached", :git => "https://github.com/huacnlee/rails-settings-cached.git"
 gem 'factory_girl_rails'
 gem 'haml-coderay'
+gem 'nokogiri'
 
 # Deployment bits and bobs
 # Later versions cause issues with backing up assets manifests file to release directory
