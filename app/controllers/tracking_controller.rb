@@ -14,4 +14,16 @@ class TrackingController < ApplicationController
       raise ActiveRecord::RecordNotFound
     end
   end
+
+  # Just do the redirect for the time being
+  # TODO: record the click
+  def link
+    delivery_link = DeliveryLink.find(params[:delivery_link_id])
+    if delivery_link.hash == params[:hash]
+      # TODO: Record the click here
+      redirect_to delivery_link.url
+    else
+      raise ActiveRecord::RecordNotFound
+    end      
+  end
 end
