@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130602070927) do
+ActiveRecord::Schema.define(version: 20130605065600) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -109,6 +109,12 @@ ActiveRecord::Schema.define(version: 20130602070927) do
   add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id", using: :btree
   add_index "emails", ["message_id"], name: "index_emails_on_message_id", using: :btree
   add_index "emails", ["status"], name: "index_emails_on_status", using: :btree
+
+  create_table "links", force: true do |t|
+    t.string   "url",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "open_events", force: true do |t|
     t.integer  "delivery_id"
