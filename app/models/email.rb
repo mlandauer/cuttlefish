@@ -107,6 +107,10 @@ class Email < ActiveRecord::Base
     app.open_tracking_enabled?
   end
 
+  def link_tracking_enabled?
+    app.link_tracking_enabled?
+  end
+
   private
 
   def update_message_id

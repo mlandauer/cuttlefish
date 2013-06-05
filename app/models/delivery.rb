@@ -37,6 +37,10 @@ class Delivery < ActiveRecord::Base
     email.open_tracking_enabled?
   end
 
+  def link_tracking_enabled?
+    email.link_tracking_enabled?
+  end
+
   def status
     if sent?
       last_line = postfix_log_lines.first
