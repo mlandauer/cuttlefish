@@ -8,6 +8,7 @@ describe LinkTrackingFilter do
     delivery
   end
   let(:filter) { LinkTrackingFilter.new(delivery) }
+  let(:email) { mock_model(Email, custom_tracking_domain: nil, link_tracking_enabled?: true) }
 
   describe "#data" do
     it "should replace html links with tracking links" do
@@ -17,7 +18,7 @@ describe LinkTrackingFilter do
           body '<h1>This is HTML</h1><a href="http://foo.com?a=2">Hello!</a><p>Some text</p><a href="http://www.bar.com">Boing</a>'
         end
       end
-      delivery.stub(data: mail.encoded)
+      delivery.stub(data: mail.encoded, email: email)
       filter.should_receive(:rewrite_url).with("http://foo.com?a=2").and_return("http://cuttlefish.io/1/sdfsd")
       filter.should_receive(:rewrite_url).with("http://www.bar.com").and_return("http://cuttlefish.io/2/sdjfs")
       Mail.new(filter.data).html_part.decoded.should == <<-EOF
@@ -32,10 +33,13 @@ describe LinkTrackingFilter do
   end
 
   describe ".rewrite_url" do
+    before :each do
+      delivery.stub(email: email)
+    end
     it "should rewrite the first link" do
       Link.should_receive(:find_or_create_by).with(url: "http://foo.com?a=2").and_return(mock_model(Link, id: 10))
       DeliveryLink.should_receive(:find_or_create_by).with(delivery_id: 673, link_id: 10).and_return(mock(DeliveryLink, id: 321, hash: "sdfsd"))
-      filter.rewrite_url("http://foo.com?a=2").should == "http://cuttlefish.io/l/321/sdfsd"
+      filter.rewrite_url("http://foo.com?a=2").should == "https://cuttlefish.example.org/l/321/sdfsd"
     end
   end
 end

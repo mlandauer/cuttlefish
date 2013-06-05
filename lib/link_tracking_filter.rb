@@ -1,12 +1,12 @@
-class LinkTrackingFilter < MailFilter
+class LinkTrackingFilter < TrackingFilter
   include Rails.application.routes.url_helpers
 
   def rewrite_url(url)
     link = Link.find_or_create_by(url: url)
     delivery_link = DeliveryLink.find_or_create_by(delivery_id: id, link_id: link.id)
     tracking_link_url(
-      host: "cuttlefish.io", 
-      protocol: "http",
+      host: host, 
+      protocol: protocol,
       :delivery_link_id => delivery_link.id,
       :hash => delivery_link.hash
     )    

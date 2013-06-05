@@ -1,5 +1,5 @@
 # Insert a tracking image at the bottom of the html email
-class AddOpenTrackingFilter < MailFilter
+class AddOpenTrackingFilter < TrackingFilter
   include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
@@ -21,21 +21,5 @@ class AddOpenTrackingFilter < MailFilter
       :hash => open_tracked_hash,
       :format => :gif
     )
-  end
-
-  # Hostname to use for the open tracking image
-  def host
-    if !email.custom_tracking_domain.blank?
-      email.custom_tracking_domain
-    elsif Rails.env.development?
-      "localhost:3000"
-    else
-      Rails.configuration.cuttlefish_domain
-    end
-  end
-
-  # Whether to use ssl for the open tracking image
-  def protocol
-    email.custom_tracking_domain.blank? && !Rails.env.development? ? "https" : "http"
   end
 end
