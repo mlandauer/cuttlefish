@@ -12,6 +12,7 @@ be reading this. So, all is good.
 
 Love,
 The Awesome Cuttlefish
+<a href="http://cuttlefish.io">http://cuttlefish.io</a>
     EOF
   end
 
