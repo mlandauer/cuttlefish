@@ -14,4 +14,7 @@ class DeliveryLink < ActiveRecord::Base
   def url
     link.url
   end
+
+  def add_link_event(request)
+  end
 end
