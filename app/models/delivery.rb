@@ -33,6 +33,10 @@ class Delivery < ActiveRecord::Base
     Digest::SHA1.hexdigest(salt + id.to_s)    
   end
 
+  def valid_open_tracked_hash?(h)
+    open_tracked_hash == h
+  end
+
   def open_tracking_enabled?
     email.open_tracking_enabled?
   end

@@ -7,6 +7,10 @@ class DeliveryLink < ActiveRecord::Base
     Digest::SHA1.hexdigest(salt + id.to_s)    
   end
 
+  def valid_hash?(h)
+    hash == h
+  end
+
   def url
     link.url
   end

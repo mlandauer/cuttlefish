@@ -5,7 +5,7 @@ class TrackingController < ApplicationController
 
   def open
     delivery = Delivery.find(params[:delivery_id])
-    if delivery.open_tracked_hash == params[:hash]
+    if delivery.valid_open_tracked_hash?(params[:hash])
       delivery.add_open_event(request)
       # TODO Check that we are asking for a gif and only accept those for the time being
       # This sends a 1x1 transparent gif
@@ -19,7 +19,7 @@ class TrackingController < ApplicationController
   # TODO: record the click
   def link
     delivery_link = DeliveryLink.find(params[:delivery_link_id])
-    if delivery_link.hash == params[:hash]
+    if delivery_link.valid_hash?(params[:hash])
       # TODO: Record the click here
       redirect_to delivery_link.url
     else
