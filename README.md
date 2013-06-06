@@ -21,13 +21,18 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Multiple applications can each have their own SMTP authentication
 * Check your IP reputation with one click
 * Easy to install and get going quickly
+* Postfix, which you know and trust, handles email delivery
 * Open source, so no vendor lock in.
+
+Cuttlefish is in beta. It's been used in production on one of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s project for two months and has sent 150,000 emails.
 
 Things on the cards
 
 * REST API for deep integration with your application
+* Web callbacks on succesful delivery, hard bounces, open and click events
 * DKIM signing
 * "out of office" and bounce reply filtering
+* Incoming email
 
 Dependencies: Ruby 1.9.3, MySQL, Postfix
 (Postfix is optional for local development or just trying it out. Some things like the email deliverability just won't show anything)
