@@ -38,7 +38,7 @@ describe LinkTrackingFilter do
     end
     it "should rewrite the first link" do
       Link.should_receive(:find_or_create_by).with(url: "http://foo.com?a=2").and_return(mock_model(Link, id: 10))
-      DeliveryLink.should_receive(:find_or_create_by).with(delivery_id: 673, link_id: 10).and_return(mock(DeliveryLink, id: 321, hash: "sdfsd"))
+      DeliveryLink.should_receive(:find_or_create_by).with(delivery_id: 673, link_id: 10).and_return(mock(DeliveryLink, id: 321, link_hash: "sdfsd"))
       filter.rewrite_url("http://foo.com?a=2").should == "https://cuttlefish.example.org/l/321/sdfsd"
     end
   end
