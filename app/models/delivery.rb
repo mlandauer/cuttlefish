@@ -3,6 +3,8 @@ class Delivery < ActiveRecord::Base
   belongs_to :address
   has_many :postfix_log_lines, -> { order "time DESC" }
   has_many :open_events
+  has_many :delivery_links
+  has_many :link_events, through: :delivery_links
 
   after_save :update_status!
   
@@ -72,5 +74,9 @@ class Delivery < ActiveRecord::Base
 
   def opened?
     !open_events.empty?
+  end
+
+  def clicked?
+    !link_events.empty?
   end
 end

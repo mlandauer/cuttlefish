@@ -4,6 +4,9 @@
 - if delivery.opened?
   = link_to "#open-#{delivery.id}", "data-toggle" => "collapse" do
     %span.label.label-success Opened
+- if delivery.clicked?
+  = link_to "#clicked-#{delivery.id}", "data-toggle" => "collapse" do
+    %span.label.label-success Clicked
 - unless delivery.postfix_log_lines.empty?
   .collapse{id: "log-#{delivery.id}"}
     %table.table.table-condensed
@@ -47,3 +50,23 @@
                 = link_to event.ua_family, event.ua_url
               %td
                 = link_to event.os_family, event.os_url
+- if delivery.clicked?
+  .collapse{id: "clicked-#{delivery.id}"}
+    %table.table.table-condensed
+      %thead
+        %tr
+          %th Time
+          %th Link
+          %th User agent
+          %th Referer
+          %th IP
+      %tbody
+        - delivery.link_events.each do |event|
+          %tr
+            %td
+              = time_ago_in_words(event.created_at)
+              ago
+            %td= link_to event.url          
+            %td= event.user_agent
+            %td= event.referer
+            %td= event.ip
