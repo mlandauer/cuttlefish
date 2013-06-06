@@ -1,5 +1,6 @@
 class DeliveryLink < ActiveRecord::Base
   belongs_to :link
+  has_many :link_events
 
   def hash
     # TODO: Move the salt to configuration
