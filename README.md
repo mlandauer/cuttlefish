@@ -15,7 +15,7 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Monitor in real time which emails arrive at their destination and which bounce
 * Works with any web framework and language
 * Automatically not send emails to destinations that have hard bounced in the past
-* Track which emails are opened
+* Track which emails are opened and which links are clicked
 * Statistics on emails sent, soft/hard bounced and held back
 * View the full email content for recently sent emails
 * Multiple applications can each have their own SMTP authentication
@@ -26,7 +26,6 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 Things on the cards
 
 * REST API for deep integration with your application
-* Super-easy link tracking
 * DKIM signing
 * "out of office" and bounce reply filtering
 
