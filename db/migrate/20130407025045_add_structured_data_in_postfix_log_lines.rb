@@ -5,7 +5,7 @@ class AddStructuredDataInPostfixLogLines < ActiveRecord::Migration
     add_column :postfix_log_lines, :delay, :string
     add_column :postfix_log_lines, :delays, :string
     add_column :postfix_log_lines, :dsn, :string
-    add_column :postfix_log_lines, :status, :text, :limit => nil
+    add_column :postfix_log_lines, :status, :text, limit: nil
     PostfixLogLine.reset_column_information
     PostfixLogLine.all.each do |l|
       to_match = l.text.match(/to=<([^>]+)>/)

@@ -1,6 +1,6 @@
 class Admins::RegistrationsController < Devise::RegistrationsController
-  layout "login", :except => [:edit, :update]
-  before_filter :check_first_user, :only => [:new, :create]
+  layout "login", except: [:edit, :update]
+  before_filter :check_first_user, only: [:new, :create]
 
   private
 

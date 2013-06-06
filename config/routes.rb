@@ -1,13 +1,13 @@
 Cuttlefish::Application.routes.draw do
-  devise_for :admins, :controllers => {
-    :sessions => "admins/sessions",
-    :registrations => "admins/registrations",
-    :passwords => "admins/passwords",
-    :invitations => "admins/invitations"
+  devise_for :admins, controllers: {
+    sessions: "admins/sessions",
+    registrations: "admins/registrations",
+    passwords: "admins/passwords",
+    invitations: "admins/invitations"
   }
-  resources :emails, :only => [:index, :show]
-  resources :addresses, :only => [:index, :show]
-  resources :test_emails, :only => [:new, :create]
+  resources :emails, only: [:index, :show]
+  resources :addresses, only: [:index, :show]
+  resources :test_emails, only: [:new, :create]
   resources :apps do
     member do
       post 'new_password'
@@ -16,7 +16,7 @@ Cuttlefish::Application.routes.draw do
     end
   end
 
-  resource :settings, :only => [:edit, :update]
+  resource :settings, only: [:edit, :update]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -27,10 +27,10 @@ Cuttlefish::Application.routes.draw do
   get 'reputation' => 'main#reputation'
   
   # Open tracking gifs
-  get 'o/:delivery_id/:hash' => 'tracking#open', :as => "tracking_open"
+  get 'o/:delivery_id/:hash' => 'tracking#open', as: "tracking_open"
 
   # Link tracking
-  get 'l/:delivery_link_id/:hash' => 'tracking#link', :as => "tracking_link"
+  get 'l/:delivery_link_id/:hash' => 'tracking#link', as: "tracking_link"
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

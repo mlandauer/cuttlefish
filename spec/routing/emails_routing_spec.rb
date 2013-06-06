@@ -8,7 +8,7 @@ describe EmailsController do
     end
 
     it "routes to #show" do
-      get("/emails/1").should route_to("emails#show", :id => "1")
+      get("/emails/1").should route_to("emails#show", id: "1")
     end
 
   end

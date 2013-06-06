@@ -28,13 +28,13 @@ describe DeliveryFilter do
   # This is the same for any unrecognised method
   describe "#id" do
     it "should return the id of the original input" do
-      a = mock(:id => "123")
+      a = mock(id: "123")
       b = DeliveryFilter.new(a)
       b.id.should == "123"
     end
 
     it "should return the id of the input even when several filters are chained together" do
-      a = mock(:id => "123")
+      a = mock(id: "123")
       b = DeliveryFilter.new(a)
       c = DeliveryFilter.new(b)
       c.id.should == "123"

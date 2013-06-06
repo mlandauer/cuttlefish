@@ -4,9 +4,9 @@ class EmailsController < ApplicationController
     @status = params[:status]
 
     if @status.nil?
-      @emails = Email.order("created_at DESC").paginate(:page => params[:page])
+      @emails = Email.order("created_at DESC").paginate(page: params[:page])
     else
-      @emails = Email.where(status: @status).order("created_at DESC").paginate(:page => params[:page])
+      @emails = Email.where(status: @status).order("created_at DESC").paginate(page: params[:page])
     end
   end
 

@@ -47,7 +47,7 @@ gem "formtastic", git: "https://github.com/justinfrench/formtastic.git"
 gem 'formtastic-bootstrap', git: "https://github.com/mjbellantoni/formtastic-bootstrap.git"
 gem "net-dns"
 # e83aa4d0d9d84f1ec1d268111e74efadbaa77a8a contains a small fix for Ruby 1.9.3 compatibility. Not yet in an official release
-gem "rails-settings-cached", :git => "https://github.com/huacnlee/rails-settings-cached.git"
+gem "rails-settings-cached", git: "https://github.com/huacnlee/rails-settings-cached.git"
 gem 'factory_girl_rails'
 gem 'haml-coderay'
 gem 'nokogiri'
@@ -75,9 +75,9 @@ group :development do
   # Webrick gives us annoying warnings "could not determine content-length of response body"
   gem "thin"
   gem 'guard'
-  gem 'rb-inotify', :require => false
-  gem 'rb-fsevent', :require => false
-  gem 'rb-fchange', :require => false
+  gem 'rb-inotify', require: false
+  gem 'rb-fsevent', require: false
+  gem 'rb-fchange', require: false
   gem 'guard-livereload'
   gem "rack-livereload"
   gem "guard-rspec"

@@ -7,8 +7,8 @@ class LinkTrackingFilter < TrackingFilter
     tracking_link_url(
       host: host, 
       protocol: protocol,
-      :delivery_link_id => delivery_link.id,
-      :hash => delivery_link.hash
+      delivery_link_id: delivery_link.id,
+      hash: delivery_link.hash
     )    
   end
 

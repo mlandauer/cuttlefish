@@ -9,7 +9,7 @@ class AddOpenTrackingFilter < TrackingFilter
 
   def process_html(input)
     delivery.set_open_tracked!
-    input + image_tag(url, :alt => nil)
+    input + image_tag(url, alt: nil)
   end
 
   # The url for the tracking image
@@ -17,9 +17,9 @@ class AddOpenTrackingFilter < TrackingFilter
     tracking_open_url(
       host: host, 
       protocol: protocol,
-      :delivery_id => id,
-      :hash => open_tracked_hash,
-      :format => :gif
+      delivery_id: id,
+      hash: open_tracked_hash,
+      format: :gif
     )
   end
 end

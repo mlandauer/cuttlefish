@@ -9,11 +9,11 @@ class AddressesController < ApplicationController
     else
       query = Address.all
     end
-    @addresses = query.order("text").paginate(:page => params[:page])
+    @addresses = query.order("text").paginate(page: params[:page])
   end
 
   def show
     @address = Address.find(params[:id])
-    @emails = @address.emails.order("created_at DESC").paginate(:page => params[:page])
+    @emails = @address.emails.order("created_at DESC").paginate(page: params[:page])
   end
 end

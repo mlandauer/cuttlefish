@@ -9,7 +9,7 @@
     / Le HTML5 shim, for IE6-8 support of HTML elements
     /[if lt IE 9]
       = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
-    = stylesheet_link_tag "application", :media => "all", "data-turbolinks-track" => true
+    = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
     %link(href="images/apple-touch-icon-144x144.png" rel="apple-touch-icon-precomposed" sizes="144x144")
     %link(href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114")
     %link(href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72")
@@ -56,7 +56,7 @@
               = gravatar_image_tag(current_admin.email, gravatar: {size: 35, secure: true, default: :identicon}, class: "img-circle")
             %li= link_to "Edit my details", edit_admin_registration_path
             %li= link_to "Invite administrator", new_admin_invitation_path
-            %li= link_to 'Logout', destroy_admin_session_path, :method => :delete
+            %li= link_to 'Logout', destroy_admin_session_path, method: :delete
           %hr
         .span9
           = bootstrap_flash

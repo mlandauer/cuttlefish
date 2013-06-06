@@ -40,6 +40,6 @@ module EmailsHelper
   end
 
   def delivered_label(status)
-    content_tag(:span, status_name(status), :class => label_class(status))
+    content_tag(:span, status_name(status), class: label_class(status))
   end
 end

@@ -7,7 +7,7 @@ describe EmailsController do
 
   context "signed in" do
     before :each do
-      admin = Admin.create!(:email => "foo@bar.com", :password => "guess this")
+      admin = Admin.create!(email: "foo@bar.com", password: "guess this")
       sign_in admin
     end
 
@@ -22,7 +22,7 @@ describe EmailsController do
     describe "GET show" do
       it "assigns the requested email as @email" do
         email = FactoryGirl.create(:email)
-        get :show, {:id => email.to_param}
+        get :show, {id: email.to_param}
         assigns(:email).should eq(email)
       end
     end

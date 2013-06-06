@@ -79,7 +79,7 @@ describe PostfixLogLine do
       let(:address1) { Address.create!(text: "foo@bar.com") }
       let(:address2) { Address.create!(text: "anincorrectemailaddress@openaustralia.org") }
       let(:email) do
-        email = FactoryGirl.create(:email, :to_addresses => [address1, address2])
+        email = FactoryGirl.create(:email, to_addresses: [address1, address2])
         email.deliveries.each {|d| d.update_attribute(:postfix_queue_id, "39D9336AFA81")}
         email
       end
@@ -129,12 +129,12 @@ describe PostfixLogLine do
     context "two emails with the same queue id" do
       let(:address) { Address.create!(text: "foo@bar.com") }
       let(:email1) do
-        email = FactoryGirl.create(:email, :to_addresses => [address], :created_at => 10.minutes.ago)
+        email = FactoryGirl.create(:email, to_addresses: [address], created_at: 10.minutes.ago)
         email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
         email
       end
       let(:email2) do
-        email = FactoryGirl.create(:email, :to_addresses => [address], :created_at => 5.minutes.ago)
+        email = FactoryGirl.create(:email, to_addresses: [address], created_at: 5.minutes.ago)
         email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
         email
       end
@@ -177,22 +177,22 @@ describe PostfixLogLine do
 
   describe "#status" do
     it "should see a dsn of 2.0.0 as delivered" do
-      PostfixLogLine.new(:dsn => "2.0.0").status.should == "delivered"
+      PostfixLogLine.new(dsn: "2.0.0").status.should == "delivered"
     end
 
     it "should see a dsn of 5.1.1 as not delivered" do
-      PostfixLogLine.new(:dsn => "5.1.1").status.should == "hard_bounce"
+      PostfixLogLine.new(dsn: "5.1.1").status.should == "hard_bounce"
     end
 
     it "should see a dsn of 4.4.1 as not delivered" do
-      PostfixLogLine.new(:dsn => "4.4.1").status.should == "soft_bounce"
+      PostfixLogLine.new(dsn: "4.4.1").status.should == "soft_bounce"
     end
 
     # See https://github.com/mlandauer/cuttlefish/issues/49
     # 5.2.2 is mailbox full. It's a "permanent" failure that should be viewed
     # as a temporary one
     it "should see a dsn of 5.2.2 as a soft bounce" do
-      PostfixLogLine.new(:dsn => "5.2.2").status.should == "soft_bounce"
+      PostfixLogLine.new(dsn: "5.2.2").status.should == "soft_bounce"
     end
   end
 end

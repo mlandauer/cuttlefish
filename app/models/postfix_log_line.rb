@@ -64,9 +64,9 @@ class PostfixLogLine < ActiveRecord::Base
     status_match = program_content.match(/status=(.*)$/)
 
     result = {
-      :time => p.time,
-      :program => content_match[1],
-      :queue_id => content_match[4],
+      time: p.time,
+      program: content_match[1],
+      queue_id: content_match[4],
     }
     result[:to] = to_match[1] if to_match
     result[:relay] = relay_match[1] if relay_match

@@ -32,7 +32,7 @@ Cuttlefish::Application.configure do
   #####################################################
 
   config.cuttlefish_domain = "localhost"
-  config.action_mailer.default_url_options = { :host => "#{config.cuttlefish_domain}:3000" }
+  config.action_mailer.default_url_options = { host: "#{config.cuttlefish_domain}:3000" }
 
   # In development send the mails to mailcatcher: http://mailcatcher.me/
   config.postfix_smtp_host = "localhost"

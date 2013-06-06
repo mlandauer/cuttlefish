@@ -1,7 +1,7 @@
 class Email < ActiveRecord::Base
-  belongs_to :from_address, :class_name => "Address"
+  belongs_to :from_address, class_name: "Address"
   has_many :deliveries
-  has_many :to_addresses, :through => :deliveries, :source => :address
+  has_many :to_addresses, through: :deliveries, source: :address
   belongs_to :app
 
   after_create :update_cache

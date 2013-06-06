@@ -1,4 +1,4 @@
-= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
+= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
   = devise_error_messages!
 
   .control-group
@@ -8,4 +8,4 @@
 
   = f.submit "Send me reset password instructions", class: "btn btn-primary btn-large btn-block"
 
-= render :partial => "devise/shared/links"
+= render partial: "devise/shared/links"

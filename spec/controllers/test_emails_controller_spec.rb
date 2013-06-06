@@ -7,7 +7,7 @@ describe TestEmailsController do
 
   context "signed in" do
     before :each do
-      admin = Admin.create!(:email => "foo@bar.com", :password => "guess this")
+      admin = Admin.create!(email: "foo@bar.com", password: "guess this")
       sign_in admin
     end
 

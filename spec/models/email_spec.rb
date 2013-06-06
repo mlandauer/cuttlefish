@@ -5,9 +5,9 @@ describe Email do
     context "One email is created" do
       before :each do
         FactoryGirl.create(:email,
-          :from => "matthew@foo.com",
-          :to => "foo@bar.com",
-          :data => "From: contact@openaustraliafoundation.org.au\nTo: Matthew Landauer\nMessage-ID: <5161ba1c90b10_7837557029c754c8@kedumba.mail>\n\nHello!"
+          from: "matthew@foo.com",
+          to: "foo@bar.com",
+          data: "From: contact@openaustraliafoundation.org.au\nTo: Matthew Landauer\nMessage-ID: <5161ba1c90b10_7837557029c754c8@kedumba.mail>\n\nHello!"
         )
       end
 
@@ -35,12 +35,12 @@ describe Email do
 
   describe "#from" do
     it "should return a string for the from email address" do
-      email = FactoryGirl.create(:email, :from_address => Address.create!(text: "matthew@foo.com"))
+      email = FactoryGirl.create(:email, from_address: Address.create!(text: "matthew@foo.com"))
       email.from.should == "matthew@foo.com"
     end
 
     it "should allow the from_address to be set by a string" do
-      email = FactoryGirl.create(:email, :from => "matthew@foo.com")
+      email = FactoryGirl.create(:email, from: "matthew@foo.com")
       email.from.should == "matthew@foo.com"
     end
   end
@@ -56,17 +56,17 @@ describe Email do
 
   describe "#to" do
     it "should return an array for all the email addresses" do
-      email = FactoryGirl.create(:email, :to => ["mlandauer@foo.org", "matthew@bar.com"])
+      email = FactoryGirl.create(:email, to: ["mlandauer@foo.org", "matthew@bar.com"])
       email.to.should == ["mlandauer@foo.org", "matthew@bar.com"]
     end
 
     it "should be able to give just a single recipient" do
-      email = Email.new(:to => "mlandauer@foo.org")
+      email = Email.new(to: "mlandauer@foo.org")
       email.to.should == ["mlandauer@foo.org"]
     end
 
     it "should set created_at for deliveries too" do
-      email = FactoryGirl.create(:email, :to => "mlandauer@foo.org")
+      email = FactoryGirl.create(:email, to: "mlandauer@foo.org")
       email.deliveries.first.created_at.should_not be_nil      
     end
   end
@@ -125,7 +125,7 @@ describe Email do
     context "an email with one recipient" do
       # TODO: It's time to start using factories
       let(:address) { Address.create!(text: "matthew@foo.com")}
-      let(:email) { FactoryGirl.create(:email, :to_addresses => [address]) }
+      let(:email) { FactoryGirl.create(:email, to_addresses: [address]) }
       let(:delivery) { Delivery.find_by(email: email, address: address)}
 
       context "email is sent" do
@@ -152,7 +152,7 @@ describe Email do
     context "an email with two recipients" do
       let(:address_matthew) { Address.create!(text: "matthew@foo.com") }
       let(:address_greg) { Address.create!(text: "greg@foo.com")}
-      let(:email) { FactoryGirl.create(:email, :to_addresses => [address_matthew, address_greg]) }
+      let(:email) { FactoryGirl.create(:email, to_addresses: [address_matthew, address_greg]) }
       let(:delivery_matthew) { Delivery.find_by(email: email, address: address_matthew) }
       let(:delivery_greg) { Delivery.find_by(email: email, address: address_greg) }
       before :each do

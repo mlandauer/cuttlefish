@@ -1,4 +1,4 @@
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => "form-horizontal" }) do |f|
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "form-horizontal" }) do |f|
   = devise_error_messages!
 
   %fieldset
@@ -41,4 +41,4 @@
 
 %p
   Unhappy?
-  = button_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete, :class => "btn btn-danger"
+  = button_to "Cancel my account", registration_path(resource_name), confirm: "Are you sure?", method: :delete, class: "btn btn-danger"

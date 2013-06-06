@@ -1,4 +1,4 @@
-= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .control-group
     = f.label :email
     = f.email_field :email, class: "login-field", placeholder: "Enter your email"
@@ -10,4 +10,4 @@
     %span.login-field-icon.fui-lock-16
 
   = f.submit "Login", class: "btn btn-primary btn-large btn-block"
-= render :partial => "devise/shared/links"
+= render partial: "devise/shared/links"

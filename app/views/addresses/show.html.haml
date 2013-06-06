@@ -9,7 +9,7 @@
   %h4 From
   = render "main/status_counts_period", stats: @address.emails_sent.group(:status).count
 
-= paginated_section(@emails, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, :class => "pagination pagination-centered pagination-small") do
+= paginated_section(@emails, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, class: "pagination pagination-centered pagination-small") do
   %table.table.table-striped
     %thead
       %tr
@@ -30,7 +30,7 @@
             - else
               = email.from          
           %td
-            = link_to email_path(email), :class => "rowlink" do
+            = link_to email_path(email), class: "rowlink" do
               = time_ago_in_words(email.created_at)
               ago
           %td= delivered_label(email.status)

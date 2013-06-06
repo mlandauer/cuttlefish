@@ -13,7 +13,7 @@ describe OutgoingEmail do
         
         outgoing = OutgoingEmail.new(email)
         smtp = mock
-        smtp.should_receive(:send_message).twice.and_return(mock(:message => ""))
+        smtp.should_receive(:send_message).twice.and_return(mock(message: ""))
         Net::SMTP.stub(:start).and_yield(smtp)
         outgoing.send
       end
@@ -21,7 +21,7 @@ describe OutgoingEmail do
 
     context "an email with one recipient" do
       before :each do
-        @email = FactoryGirl.create(:email, :to => "foo@bar.com", :data => "My original data")
+        @email = FactoryGirl.create(:email, to: "foo@bar.com", data: "My original data")
         @outgoing = OutgoingEmail.new(@email)
       end
 
@@ -53,8 +53,8 @@ describe OutgoingEmail do
       end
 
       it "should set the postfix queue id on the deliveries based on the response from the server" do
-        response = mock(:message => "250 2.0.0 Ok: queued as A123")
-        smtp = mock(:send_message => response)
+        response = mock(message: "250 2.0.0 Ok: queued as A123")
+        smtp = mock(send_message: response)
         Net::SMTP.stub(:start).and_yield(smtp)
         OutgoingEmail.should_receive(:extract_postfix_queue_id_from_smtp_message).with("250 2.0.0 Ok: queued as A123").and_return("A123")
         @outgoing.send
@@ -77,7 +77,7 @@ describe OutgoingEmail do
 
       context "don't actually send anything" do
         before :each do
-          smtp = mock(:send_message => mock(:message => ""))
+          smtp = mock(send_message: mock(message: ""))
           Net::SMTP.stub(:start).and_yield(smtp)
         end
 

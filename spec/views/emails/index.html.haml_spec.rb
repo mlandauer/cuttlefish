@@ -3,8 +3,8 @@ require 'spec_helper'
 describe "emails/index" do
   before(:each) do
     emails = [
-      stub_model(Email, :created_at => Time.now, :status => "unknown"),
-      stub_model(Email, :created_at => Time.now, :status => "unknown")
+      stub_model(Email, created_at: Time.now, status: "unknown"),
+      stub_model(Email, created_at: Time.now, status: "unknown")
     ]
     emails.stub!(:total_pages).and_return(1)
     assign(:emails, emails)

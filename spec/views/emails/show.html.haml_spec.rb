@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "emails/show" do
   before(:each) do
-    @email = assign(:email, stub_model(Email, :created_at => Time.now))
+    @email = assign(:email, stub_model(Email, created_at: Time.now))
   end
 
   it "renders attributes in <p>" do

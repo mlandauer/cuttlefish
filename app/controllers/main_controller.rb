@@ -3,12 +3,12 @@ class MainController < ApplicationController
   end
 
   def status_counts
-    render :partial => "status_counts"
+    render partial: "status_counts"
   end
 
   def reputation
     if request.xhr?
-      render :partial => "reputation"
+      render partial: "reputation"
       return
     end
   end

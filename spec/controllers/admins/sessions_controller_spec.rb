@@ -8,12 +8,12 @@ describe Admins::SessionsController do
   context "request is over http" do
     context "There is one admin already registered" do
       before :each do
-        Admin.create!(:email => "foo@bar.com", :password => "guess this")
+        Admin.create!(email: "foo@bar.com", password: "guess this")
       end
 
       it "should redirect to https" do
         get :new
-        response.should redirect_to(:action => :new, :protocol => "https")
+        response.should redirect_to(action: :new, protocol: "https")
       end
     end
   end
@@ -32,7 +32,7 @@ describe Admins::SessionsController do
 
     context "There is one admin already registered" do
       before :each do
-        Admin.create!(:email => "foo@bar.com", :password => "guess this")
+        Admin.create!(email: "foo@bar.com", password: "guess this")
       end
 
       it "should not redirect https" do

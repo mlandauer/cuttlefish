@@ -6,7 +6,7 @@ set :application, "cuttlefish"
 set :repository,  "git://github.com/mlandauer/cuttlefish.git"
 set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
 
-server "kedumba.openaustraliafoundation.org.au", :app, :web, :db, :primary => true
+server "kedumba.openaustraliafoundation.org.au", :app, :web, :db, primary: true
 
 set :use_sudo, false
 set :user, "deploy"
@@ -22,7 +22,7 @@ after "deploy:restart", "newrelic:notice_deployment"
 namespace :deploy do
   task :start do ; end
   task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
+  task :restart, roles: :app, except: { no_release: true } do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 

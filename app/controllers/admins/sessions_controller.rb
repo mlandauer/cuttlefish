@@ -1,6 +1,6 @@
 class Admins::SessionsController < Devise::SessionsController
   layout "login"
-  before_filter :check_first_user, :only => :new
+  before_filter :check_first_user, only: :new
 
   private
 

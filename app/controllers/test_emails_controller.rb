@@ -31,11 +31,11 @@ The Awesome Cuttlefish
       app = App.cuttlefish
     end
     mail.delivery_method :smtp, {
-      :address => "localhost",
-      :port => Rails.configuration.cuttlefish_smtp_port,
-      :user_name => app.smtp_username,
-      :password => app.smtp_password,
-      :authentication => :plain
+      address: "localhost",
+      port: Rails.configuration.cuttlefish_smtp_port,
+      user_name: app.smtp_username,
+      password: app.smtp_password,
+      authentication: :plain
     }
     text_part = Mail::Part.new
     text_part.body = params[:text]
