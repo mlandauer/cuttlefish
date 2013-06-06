@@ -99,6 +99,11 @@ class Email < ActiveRecord::Base
     deliveries.any?{|d| d.opened?}
   end
 
+  # TODO Do this instead with a link_events association on this model?
+  def clicked?
+    deliveries.any?{|d| d.clicked?}
+  end
+
   def custom_tracking_domain
     app.custom_tracking_domain if app
   end

@@ -42,3 +42,5 @@
             = delivered_label(email.status)
             - if email.opened?
               %span.label.label-success Opened
+            - if email.clicked?
+              %span.label.label-success Clicked
