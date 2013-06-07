@@ -7,6 +7,8 @@ class Email < ActiveRecord::Base
   after_create :update_cache
   before_save :update_message_id, :update_data_hash, :set_default_app
 
+  delegate :custom_tracking_domain, :open_tracking_enabled?, :link_tracking_enabled?, to: :app
+
   # TODO Add validations
 
   attr_writer :data
@@ -102,18 +104,6 @@ class Email < ActiveRecord::Base
   # TODO Do this instead with a link_events association on this model?
   def clicked?
     deliveries.any?{|d| d.clicked?}
-  end
-
-  def custom_tracking_domain
-    app.custom_tracking_domain if app
-  end
-
-  def open_tracking_enabled?
-    app.open_tracking_enabled?
-  end
-
-  def link_tracking_enabled?
-    app.link_tracking_enabled?
   end
 
   private
