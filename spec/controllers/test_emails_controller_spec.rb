@@ -19,20 +19,12 @@ describe TestEmailsController do
     end
 
     describe "#create" do
-      # TODO Test that this is sent to the Cuttlefish server and the correct App
-      before :each do
-        # TODO Figure out why this isn't happening automatically
-        ActionMailer::Base.deliveries = []
+      it "should send a test email" do
+        email = mock("Email")
+        TestMailer.should_receive(:test_email).with(App.cuttlefish, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", cc: nil, subject: "Test", text: "Hello. How are you?").and_return(email)
+        email.should_receive(:deliver)
         post :create, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", subject: "Test", text: "Hello. How are you?"
-        ActionMailer::Base.deliveries.count.should == 1
       end
-      let(:email) { ActionMailer::Base.deliveries.first }
-
-      it { email.from.should == ["contact@cuttlefish.io"] }
-      it { email.to.should == ["matthew@openaustralia.org"] }
-      it { email.subject.should == "Test" }
-      it { email.text_part.body.should == "Hello. How are you?" }
-      it { email.html_part.body.should == "<p>Hello. How are you?</p>" }
     end
   end
 end
