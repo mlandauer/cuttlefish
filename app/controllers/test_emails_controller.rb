@@ -30,13 +30,20 @@ The Awesome Cuttlefish
     else
       app = App.cuttlefish
     end
-    mail.delivery_method :smtp, {
-      address: "localhost",
-      port: Rails.configuration.cuttlefish_smtp_port,
-      user_name: app.smtp_username,
-      password: app.smtp_password,
-      authentication: :plain
-    }
+
+    # This nasty hack is here to make this sensibly testable
+    # TODO Refactor this whole action to use normal rails mailers
+    if Rails.env.test?
+      mail.delivery_method :test
+    else
+      mail.delivery_method :smtp, {
+        address: "localhost",
+        port: Rails.configuration.cuttlefish_smtp_port,
+        user_name: app.smtp_username,
+        password: app.smtp_password,
+        authentication: :plain
+      }
+    end
     text_part = Mail::Part.new
     text_part.body = params[:text]
 
