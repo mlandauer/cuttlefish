@@ -3,11 +3,8 @@ class EmailsController < ApplicationController
   def index
     @status = params[:status]
 
-    if @status.nil?
-      @emails = Email.order("created_at DESC").paginate(page: params[:page])
-    else
-      @emails = Email.where(status: @status).order("created_at DESC").paginate(page: params[:page])
-    end
+    @emails = @status.nil? ? Email.all : Email.where(status: @status)
+    @emails = @emails.order("created_at DESC").paginate(page: params[:page])
   end
 
   def show
