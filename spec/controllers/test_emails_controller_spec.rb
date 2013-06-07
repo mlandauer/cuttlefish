@@ -21,7 +21,7 @@ describe TestEmailsController do
     describe "#create" do
       it "should send a test email" do
         email = mock("Email")
-        TestMailer.should_receive(:test_email).with(App.cuttlefish, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", cc: nil, subject: "Test", text: "Hello. How are you?").and_return(email)
+        TestMailer.should_receive(:test_email).with(App.default, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", cc: nil, subject: "Test", text: "Hello. How are you?").and_return(email)
         email.should_receive(:deliver)
         post :create, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", subject: "Test", text: "Hello. How are you?"
       end

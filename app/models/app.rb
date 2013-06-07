@@ -15,7 +15,7 @@ class App < ActiveRecord::Base
   end
 
   # Singleton for returning special App used for sending mail from Cuttlefish itself
-  def self.cuttlefish
+  def self.default
     App.find_by(default_app: true) || App.create!(name: "Default", default_app: true)
   end
 
