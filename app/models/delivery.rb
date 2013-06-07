@@ -29,14 +29,6 @@ class Delivery < ActiveRecord::Base
     )
   end
 
-  def open_tracked_hash
-    HashId.hash(id)
-  end
-
-  def valid_open_tracked_hash?(h)
-    HashId.valid?(id, h)
-  end
-
   def open_tracking_enabled?
     email.open_tracking_enabled?
   end

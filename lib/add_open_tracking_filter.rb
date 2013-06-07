@@ -18,7 +18,7 @@ class AddOpenTrackingFilter < TrackingFilter
       host: host, 
       protocol: protocol,
       delivery_id: id,
-      hash: open_tracked_hash,
+      hash: HashId.hash(id),
       format: :gif
     )
   end

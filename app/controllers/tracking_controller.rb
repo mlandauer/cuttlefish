@@ -4,8 +4,8 @@ class TrackingController < ApplicationController
   # SSL redirection is also disabled for this controller. See ApplicationController force_ssl.
 
   def open
-    delivery = Delivery.find(params[:delivery_id])
-    if delivery.valid_open_tracked_hash?(params[:hash])
+    if HashId.valid?(params[:delivery_id], params[:hash])
+      delivery = Delivery.find(params[:delivery_id])
       delivery.add_open_event(request)
       # TODO Check that we are asking for a gif and only accept those for the time being
       # This sends a 1x1 transparent gif
@@ -16,8 +16,8 @@ class TrackingController < ApplicationController
   end
 
   def link
-    delivery_link = DeliveryLink.find(params[:delivery_link_id])
-    if delivery_link.valid_hash?(params[:hash])
+    if HashId.valid?(params[:delivery_link_id], params[:hash])
+      delivery_link = DeliveryLink.find(params[:delivery_link_id])
       delivery_link.add_link_event(request)
       redirect_to delivery_link.url
     else

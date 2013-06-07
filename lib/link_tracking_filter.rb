@@ -8,7 +8,7 @@ class LinkTrackingFilter < TrackingFilter
       host: host, 
       protocol: protocol,
       delivery_link_id: delivery_link.id,
-      hash: delivery_link.link_hash
+      hash: HashId.hash(delivery_link.id)
     )    
   end
 

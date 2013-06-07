@@ -30,7 +30,8 @@ describe TrackingController do
       end
 
       it "should log the event" do
-        delivery_link = mock_model(DeliveryLink, valid_hash?: true, url: "http://foo.com")
+        HashId.stub(valid?: true)
+        delivery_link = mock_model(DeliveryLink, url: "http://foo.com")
         DeliveryLink.should_receive(:find).with("204").and_return(delivery_link)
         delivery_link.should_receive(:add_link_event)
         get :link, delivery_link_id: 204, hash: "542bae7ec2904c85b945b56072c726d8507fc58a"        
