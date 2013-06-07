@@ -6,7 +6,7 @@ Cuttlefish::Application.routes.draw do
     invitations: "admins/invitations"
   }
   resources :emails, only: [:index, :show]
-  resources :addresses, only: [:index, :show]
+  resources :addresses, only: [:show]
   resources :test_emails, only: [:new, :create]
   resources :apps do
     member do
