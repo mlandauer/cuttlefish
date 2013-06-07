@@ -30,13 +30,11 @@ class Delivery < ActiveRecord::Base
   end
 
   def open_tracked_hash
-    # TODO: Move the salt to configuration
-    salt = "my salt"
-    Digest::SHA1.hexdigest(salt + id.to_s)    
+    HashId.hash(id)
   end
 
   def valid_open_tracked_hash?(h)
-    open_tracked_hash == h
+    HashId.valid?(id, h)
   end
 
   def open_tracking_enabled?

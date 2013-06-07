@@ -3,15 +3,12 @@ class DeliveryLink < ActiveRecord::Base
   has_many :link_events
 
   # Don't call a method hash it will stop associations on this model from working
-  # TODO Extract the hashing logic (and the same in Delivery)
   def link_hash
-    # TODO: Move the salt to configuration
-    salt = "my salt"
-    Digest::SHA1.hexdigest(salt + id.to_s)    
+    HashId.hash(id)
   end
 
   def valid_hash?(h)
-    link_hash == h
+    HashId.valid?(id, h)
   end
 
   def url
