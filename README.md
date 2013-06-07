@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mlandauer/cuttlefish.png?branch=master)](https://travis-ci.org/mlandauer/cuttlefish) [![Coverage Status](https://coveralls.io/repos/mlandauer/cuttlefish/badge.png?branch=master)](https://coveralls.io/r/mlandauer/cuttlefish) [![Code Climate](https://codeclimate.com/github/mlandauer/cuttlefish.png)](https://codeclimate.com/github/mlandauer/cuttlefish)
 
-Cuttlefish is an easy to setup and easy to use open source transactional email server
+Cuttlefish is a lovely, easy to setup transactional email server
 
 Sending a few emails from your app is easy. Sending lots becomes painful. There are so many hidden gotchas. Do your emails get delivered? Are you being considered a spammer? What about all those bounced emails?
 
