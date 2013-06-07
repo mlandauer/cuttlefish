@@ -5,7 +5,7 @@ class Email < ActiveRecord::Base
   belongs_to :app
 
   after_create :update_cache
-  before_save :update_message_id, :update_data_hash
+  before_save :update_message_id, :update_data_hash, :set_default_app
 
   # TODO Add validations
 
@@ -128,5 +128,9 @@ class Email < ActiveRecord::Base
 
   def update_data_hash
     self.data_hash = Digest::SHA1.hexdigest(data) if data
+  end
+
+  def set_default_app
+    self.app_id = App.default.id if app_id.nil?
   end
 end

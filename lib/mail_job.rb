@@ -10,7 +10,7 @@ class MailJob
       email = Email.create!(from: message.sender.match("<(.*)>")[1],
         to: message.recipients.map{|t| t.match("<(.*)>")[1]},
         data: message.data,
-        app_id: (message.app_id || App.default.id))
+        app_id: message.app_id)
 
       OutgoingEmail.new(email).send
     end
