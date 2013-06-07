@@ -16,12 +16,12 @@ class App < ActiveRecord::Base
 
   # Singleton for returning special App used for sending mail from Cuttlefish itself
   def self.cuttlefish
-    App.find_by(cuttlefish: true) || App.create!(name: "Default", cuttlefish: true)
+    App.find_by(default_app: true) || App.create!(name: "Default", default_app: true)
   end
 
   # Have there been any apps created?
   def self.normal_apps?
-    where(cuttlefish: false).exists?
+    where(default_app: false).exists?
   end
 
   private

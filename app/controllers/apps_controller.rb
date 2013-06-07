@@ -23,8 +23,8 @@ class AppsController < ApplicationController
 
   def destroy
     @app = App.find(params[:id])
-    if @app.cuttlefish?
-      flash[:error] = "Can't delete the Cuttlefish App"
+    if @app.default_app?
+      flash[:error] = "Can't delete the default App"
     else
       flash[:notice] = "App #{@app.name} successfully removed"
       @app.destroy

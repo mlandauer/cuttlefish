@@ -1,7 +1,7 @@
 .page-header
   %h1= @app.name
 
-- unless @app.cuttlefish?
+- unless @app.default_app?
   %h2 How to send mail via Cuttlefish for #{@app.name}
 
   %p
@@ -60,7 +60,7 @@
   - else
     = @app.custom_tracking_domain
 
-- if @app.cuttlefish?
+- if @app.default_app?
   %p
     This is a special App that is used by Cuttlefish when an unauthenticated email is sent or one if its own
     emails is sent. If you want to override any of the settings above, like for instance switching off open tracking or using a custom domain for the open tracking images, then you should
@@ -70,7 +70,7 @@
 - else
   %p= link_to "Edit", edit_app_path(@app)
 
-- unless @app.cuttlefish?
+- unless @app.default_app?
   %hr
   %h3 Remove this App
 
