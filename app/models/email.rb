@@ -3,6 +3,8 @@ class Email < ActiveRecord::Base
   has_many :deliveries
   has_many :to_addresses, through: :deliveries, source: :address
   belongs_to :app
+  has_many :open_events, through: :deliveries
+  has_many :link_events, through: :deliveries
 
   after_create :update_cache
   before_save :update_message_id, :update_data_hash, :set_default_app
@@ -96,14 +98,12 @@ class Email < ActiveRecord::Base
     EmailDataCache[id] = data
   end
 
-  # It's been opened if any of the deliveries have opened it
   def opened?
-    deliveries.any?{|d| d.opened?}
+    !open_events.empty?
   end
 
-  # TODO Do this instead with a link_events association on this model?
   def clicked?
-    deliveries.any?{|d| d.clicked?}
+    !link_events.empty?
   end
 
   private
