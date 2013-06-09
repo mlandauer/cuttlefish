@@ -16,6 +16,8 @@
         %th Sent / Received
         %th
         %th Created
+        - if App.normal_apps?
+          %th App
     %tbody(data-provides="rowlink")
       - @emails.each do |email|
         %tr
@@ -33,4 +35,6 @@
             = link_to email_path(email), class: "rowlink" do
               = time_ago_in_words(email.created_at)
               ago
+          - if App.normal_apps?
+            %td= email.app.name
           %td= delivered_label(email.status)
