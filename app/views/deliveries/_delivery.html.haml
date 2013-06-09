@@ -1,4 +1,4 @@
-= link_to delivery.address.text, address_path(delivery.address)
+= link_to delivery.address.text, to_address_path(delivery.address)
 = link_to "#log-#{delivery.id}", "data-toggle" => "collapse" do
   = delivered_label(delivery.status)
 - if delivery.opened?
