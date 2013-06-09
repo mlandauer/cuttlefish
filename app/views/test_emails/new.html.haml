@@ -1,7 +1,7 @@
 = form_tag test_emails_path, class: "form-horizontal" do
   %fieldset
     %legend Send test email
-    - unless App.where(cuttlefish: false).empty?
+    - if App.normal_apps?
       .control-group
         %label.control-label(for="app_id") App
         .controls
