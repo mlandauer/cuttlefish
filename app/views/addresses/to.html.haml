@@ -3,6 +3,8 @@
     Emails sent to
     = @address.text
 
-= render "main/status_counts_period", stats: @address.emails_received.group(:status).count
+.row
+  .span3
+    = render "main/status_counts_period", stats: @address.emails_received.group(:status).count
 
 = render partial: "emails/emails_from", locals: {emails: @emails}

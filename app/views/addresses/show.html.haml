@@ -1,13 +1,13 @@
 .page-header
   %h3= @address.text
 
-- if @address.emails_received.count > 0
-  %h4 To
-  = render "main/status_counts_period", stats: @address.emails_received.group(:status).count
-
-- if @address.emails_sent.count > 0
-  %h4 From
-  = render "main/status_counts_period", stats: @address.emails_sent.group(:status).count
+.row
+  .span3
+    %h4 From
+    = render "main/status_counts_period", stats: @address.emails_sent.group(:status).count
+  .span3.offset1
+    %h4 To
+    = render "main/status_counts_period", stats: @address.emails_received.group(:status).count
 
 = paginated_section(@emails, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, class: "pagination pagination-centered pagination-small") do
   %table.table.table-striped
