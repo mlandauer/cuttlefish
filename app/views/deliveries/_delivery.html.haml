@@ -1,12 +1,13 @@
 = link_to delivery.address.text, to_address_path(delivery.address)
-= link_to "#log-#{delivery.id}", "data-toggle" => "collapse" do
-  = delivered_label(delivery.status)
+%span{class: label_class(delivery.status)}
+  = link_to status_name(delivery.status), "#log-#{delivery.id}", "data-toggle" => "collapse"
 - if delivery.opened?
-  = link_to "#open-#{delivery.id}", "data-toggle" => "collapse" do
-    %span.label.label-success Opened
+  %span.label.label-success
+    = link_to "Opened", "#open-#{delivery.id}", "data-toggle" => "collapse"
 - if delivery.clicked?
-  = link_to "#clicked-#{delivery.id}", "data-toggle" => "collapse" do
-    %span.label.label-success Clicked
+  %span.label.label-success
+    = link_to "Clicked", "#clicked-#{delivery.id}", "data-toggle" => "collapse"
+      
 - unless delivery.postfix_log_lines.empty?
   .collapse{id: "log-#{delivery.id}"}
     %table.table.table-condensed
