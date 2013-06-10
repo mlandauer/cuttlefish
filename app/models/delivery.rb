@@ -1,9 +1,9 @@
 class Delivery < ActiveRecord::Base
   belongs_to :email
   belongs_to :address
-  has_many :postfix_log_lines, -> { order "time DESC" }
-  has_many :open_events
-  has_many :delivery_links
+  has_many :postfix_log_lines, -> { order "time DESC" }, dependent: :destroy
+  has_many :open_events, dependent: :destroy
+  has_many :delivery_links, dependent: :destroy
   has_many :link_events, through: :delivery_links
 
   after_save :update_status!

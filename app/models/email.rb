@@ -1,6 +1,6 @@
 class Email < ActiveRecord::Base
   belongs_to :from_address, class_name: "Address"
-  has_many :deliveries
+  has_many :deliveries, dependent: :destroy
   has_many :to_addresses, through: :deliveries, source: :address
   belongs_to :app
   has_many :open_events, through: :deliveries

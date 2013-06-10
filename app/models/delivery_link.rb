@@ -1,6 +1,6 @@
 class DeliveryLink < ActiveRecord::Base
   belongs_to :link
-  has_many :link_events
+  has_many :link_events, dependent: :destroy
 
   def url
     link.url
