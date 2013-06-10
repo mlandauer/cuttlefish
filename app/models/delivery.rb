@@ -6,6 +6,7 @@ class Delivery < ActiveRecord::Base
   has_many :delivery_links, dependent: :destroy
   has_many :link_events, through: :delivery_links
 
+  delegate :app, to: :email
   after_save :update_status!
   
   def self.today
@@ -68,5 +69,9 @@ class Delivery < ActiveRecord::Base
 
   def clicked?
     !link_events.empty?
+  end
+
+  def app_name
+    app.name
   end
 end
