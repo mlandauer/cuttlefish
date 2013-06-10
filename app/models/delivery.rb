@@ -6,7 +6,8 @@ class Delivery < ActiveRecord::Base
   has_many :delivery_links, dependent: :destroy
   has_many :link_events, through: :delivery_links
 
-  delegate :app, to: :email
+  delegate :app, :from, :from_address, :text_part, :html_part, :data,
+    :link_tracking_enabled?, :open_tracking_enabled?, to: :email
   after_save :update_status!
   
   def self.today
@@ -30,14 +31,6 @@ class Delivery < ActiveRecord::Base
     )
   end
 
-  def open_tracking_enabled?
-    email.open_tracking_enabled?
-  end
-
-  def link_tracking_enabled?
-    email.link_tracking_enabled?
-  end
-
   def status
     if sent?
       last_line = postfix_log_lines.first
@@ -51,16 +44,8 @@ class Delivery < ActiveRecord::Base
     email.update_status!
   end
 
-  def from
-    email.from
-  end
-
   def to
     address.text
-  end
-
-  def data
-    email.data
   end
 
   def opened?

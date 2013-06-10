@@ -7,16 +7,18 @@
       %tr
         %th To
         %th Created
-        %th App
+        - if App.normal_apps?
+          %th App
 
-    %tbody
+    %tbody(data-provides="rowlink")
       - @deliveries.each do |delivery|
         %tr
-          %td= delivery.to
+          %td= link_to delivery.to, delivery, class: "rowlink"
           %td
             = time_ago_in_words(delivery.created_at)
             ago
-          %td= delivery.app_name
+          - if App.normal_apps?
+            %td= delivery.app_name
           %td
             = delivered_label(delivery.status)
             - if delivery.opened?
