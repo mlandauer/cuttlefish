@@ -165,9 +165,9 @@ describe Email do
         delivery_greg.update_attribute(:sent, true)
       end
 
-      it "should have an unknown delivery status if we only have one log entry" do
+      it "should have a sent delivery status if we only have one log entry" do
         delivery_matthew.postfix_log_lines.create(dsn: "2.0.0")
-        email.calculated_status.should == "unknown"
+        email.calculated_status.should == "sent"
       end
 
       it "should know it's delivered if there are two succesful deliveries in the logs" do
@@ -176,10 +176,10 @@ describe Email do
         email.calculated_status.should == "delivered"
       end
 
-      it "should be in an unknown state if there are two log entries from the same email address" do
+      it "should be in a sent state if there are two log entries from the same email address" do
         delivery_matthew.postfix_log_lines.create(dsn: "4.3.0")
         delivery_matthew.postfix_log_lines.create(dsn: "2.0.0")
-        email.calculated_status.should == "unknown"
+        email.calculated_status.should == "sent"
       end
     end
   end

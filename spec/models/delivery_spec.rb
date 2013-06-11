@@ -19,8 +19,8 @@ describe Delivery do
         delivery.status.should == "soft_bounce"
       end
 
-      it "should be unknown if there is no log line" do
-        delivery.status.should == "unknown"
+      it "should be sent if there is no log line" do
+        delivery.status.should == "sent"
       end
     
       it "should be delivered if the most recent status was a succesful delivery" do

@@ -57,8 +57,8 @@ describe Address do
         address2.status.should == "soft_bounce"
       end
 
-      it "should be unknown if there are no delivery attempts" do
-        address2.status.should == "unknown"
+      it "should be sent if there are no delivery attempts" do
+        address2.status.should == "sent"
       end
     end
   end

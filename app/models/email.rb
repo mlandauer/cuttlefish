@@ -53,8 +53,8 @@ class Email < ActiveRecord::Base
   def calculated_status
     if deliveries.any? {|delivery| delivery.status == "not_sent" }
       "not_sent"
-    elsif deliveries.any? {|delivery| delivery.status == "unknown" }
-      "unknown"
+    elsif deliveries.any? {|delivery| delivery.status == "sent" }
+      "sent"
     elsif deliveries.any? {|delivery| delivery.status == "hard_bounce" }
       "hard_bounce"
     elsif deliveries.any? {|delivery| delivery.status == "soft_bounce" }

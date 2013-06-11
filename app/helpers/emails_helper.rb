@@ -4,9 +4,9 @@ module EmailsHelper
   def bootstrap_status_class(status, variant = false)
     map = {
       "not_sent" => "info",
+      "sent" => "success",
       "delivered" => "success",
-      "soft_bounce" => "warning",
-      "unknown" => nil
+      "soft_bounce" => "warning"
     }
     map["hard_bounce"] = variant ? "important" : "error"
 
@@ -26,14 +26,14 @@ module EmailsHelper
     case status
     when "not_sent"
       "Held back"
+    when "sent"
+      "Sent"
     when "delivered"
       "Delivered"
     when "soft_bounce"
       "Soft bounce"
     when "hard_bounce"
       "Hard bounce"
-    when "unknown"
-      "Unknown"
     else
       raise "Unknown status"
     end

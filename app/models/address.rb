@@ -10,6 +10,6 @@ class Address < ActiveRecord::Base
 
   def status
     most_recent_log_line = postfix_log_lines.order("time DESC").first
-    most_recent_log_line ? most_recent_log_line.status : "unknown"
+    most_recent_log_line ? most_recent_log_line.status : "sent"
   end
 end
