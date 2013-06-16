@@ -5,6 +5,11 @@
 
 .row
   .span3
+    %p
+      = link_to to_address_path(@address) do
+        Switch to emails sent
+        %strong to
+        this address
     = render "main/status_counts_period", stats: @address.emails_sent.group(:status).count
 
 = render partial: "deliveries/to", locals: {deliveries: @deliveries}
