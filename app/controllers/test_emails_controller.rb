@@ -22,6 +22,6 @@ The Awesome Cuttlefish
       from: params[:from], to: params[:to], cc: params[:cc], subject: params[:subject], text: params[:text]).deliver
 
     flash[:notice] = "Test email sent"
-    redirect_to emails_path
+    redirect_to deliveries_url
   end
 end

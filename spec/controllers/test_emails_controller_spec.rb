@@ -29,7 +29,7 @@ describe TestEmailsController do
       it "should redirect to the list of recent emails" do
         TestMailer.stub_chain(:test_email, :deliver)
         post :create, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", subject: "Test", text: "Hello. How are you?"
-        expect(response).to redirect_to emails_url      
+        expect(response).to redirect_to deliveries_url      
       end
     end
   end
