@@ -1,13 +1,15 @@
 class Delivery < ActiveRecord::Base
   belongs_to :email
   belongs_to :address
-  has_many :postfix_log_lines, -> { order "time DESC" }, dependent: :destroy
+  has_many :postfix_log_lines, -> { order "time DESC" }, dependent: :destroy, inverse_of: :delivery
   has_many :open_events, dependent: :destroy
   has_many :delivery_links, dependent: :destroy
   has_many :link_events, through: :delivery_links
 
   delegate :app, :from, :from_address, :text_part, :html_part, :data,
     :link_tracking_enabled?, :open_tracking_enabled?, to: :email
+
+  before_save :update_my_status!
   after_save :update_status!
   
   def self.today
@@ -31,13 +33,17 @@ class Delivery < ActiveRecord::Base
     )
   end
 
-  def status
+  def calculated_status
     if sent?
       last_line = postfix_log_lines.first
       last_line ? last_line.status : "sent"
     else
       "not_sent"
     end
+  end
+
+  def update_my_status!
+    self.status = calculated_status
   end
 
   def update_status!

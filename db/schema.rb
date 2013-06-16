@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130616043406) do
+ActiveRecord::Schema.define(version: 20130616063653) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20130616043406) do
     t.string   "postfix_queue_id"
     t.boolean  "open_tracked",      default: false, null: false
     t.integer  "open_events_count", default: 0,     null: false
+    t.string   "status",                            null: false
   end
 
   add_index "deliveries", ["created_at", "open_events_count"], name: "index_deliveries_on_created_at_and_open_events_count", using: :btree

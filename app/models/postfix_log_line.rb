@@ -1,5 +1,5 @@
 class PostfixLogLine < ActiveRecord::Base
-  belongs_to :delivery
+  belongs_to :delivery, inverse_of: :postfix_log_lines
 
   after_save :update_status!
 
@@ -29,7 +29,7 @@ class PostfixLogLine < ActiveRecord::Base
 
   # My status has changed. Tell those effected.
   def update_status!
-    delivery.update_status!
+    delivery.save!
   end
 
   def self.create_from_line(line)
@@ -44,7 +44,7 @@ class PostfixLogLine < ActiveRecord::Base
 
       if delivery
           # Don't resave duplicates
-          delivery.postfix_log_lines.find_or_create_by(values)
+          PostfixLogLine.find_or_create_by(values.merge(delivery_id: delivery.id))
       else
         puts "Skipping address #{to} from postfix queue id #{queue_id} - it's not recognised: #{line}"
       end

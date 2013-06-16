@@ -6,7 +6,7 @@ describe Delivery do
   describe "#status" do
     context "delivery is sent" do
       before :each do
-        delivery.stub(:sent?).and_return(true)
+        delivery.update_attributes(sent: true)
       end
 
       it "should be delivered if the status is sent" do
