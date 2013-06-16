@@ -24,27 +24,4 @@
     %li= link_to "Soft bounces", deliveries_path(status: "soft_bounce")
     %li= link_to "Hard bounces", deliveries_path(status: "hard_bounce")
 
-= paginated_section(@deliveries, inner_window: 2, outer_window: 0, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, class: "pagination")  do
-  %table.table.table-striped
-    %thead
-      %tr
-        %th To
-        %th Created
-        - if App.normal_apps?
-          %th App
-
-    %tbody(data-provides="rowlink")
-      - @deliveries.each do |delivery|
-        %tr
-          %td= link_to delivery.to, delivery, class: "rowlink"
-          %td
-            = time_ago_in_words(delivery.created_at)
-            ago
-          - if App.normal_apps?
-            %td= delivery.app_name
-          %td
-            = delivered_label(delivery.status)
-            - if delivery.opened?
-              %span.label.label-success Opened
-            - if delivery.clicked?
-              %span.label.label-success Clicked
+= render :partial => "to", locals: {deliveries: @deliveries}
