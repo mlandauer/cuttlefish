@@ -5,7 +5,6 @@ Cuttlefish::Application.routes.draw do
     passwords: "admins/passwords",
     invitations: "admins/invitations"
   }
-  resources :emails, only: [:index, :show]
   resources :deliveries, only: [:index, :show]
   resources :addresses, only: [] do
     member do
