@@ -4,6 +4,15 @@ class Address < ActiveRecord::Base
   has_many :postfix_log_lines, through: :deliveries
   has_many :emails_received, through: :deliveries, source: :email
 
+  # Deliveries sent from this address
+  def deliveries_sent
+    Delivery.joins(:email).where(emails: {from_address_id: id})
+  end
+
+  def deliveries_received
+    deliveries
+  end
+
   def emails
     Email.joins(:from_address, :to_addresses).where("addresses.id = ? OR deliveries.address_id = ?", id, id)
   end
