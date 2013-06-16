@@ -17,4 +17,7 @@
     %tr
       %td Open rate
       %td.pull-right
-        = "%0.0f%" % (100.0 * Delivery.this_week.where('open_events_count > 0').count / Delivery.this_week.where(open_tracked: true).count)
+        - if Delivery.this_week.where(open_tracked: true).count > 0
+          = "%0.0f%" % (100.0 * Delivery.this_week.where('open_events_count > 0').count / Delivery.this_week.where(open_tracked: true).count)
+        - else
+          n/a
