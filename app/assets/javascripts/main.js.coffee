@@ -4,7 +4,8 @@
 
 $ ->
   setInterval(->
-    $("#status-counts").load "/status_counts"
+    $("#status-counts").load "/status_counts", ->
+      $('tbody').rowlink()
   , 5000)
 
 $ ->
