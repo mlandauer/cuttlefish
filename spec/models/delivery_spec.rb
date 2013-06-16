@@ -10,12 +10,14 @@ describe Delivery do
       end
 
       it "should be delivered if the status is sent" do
-        delivery.postfix_log_lines.create(dsn: "2.0.0")
+        # TODO: Replace with factory_girl
+        delivery.postfix_log_lines.create(dsn: "2.0.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
         delivery.status.should == "delivered"
       end
 
       it "should be soft_bounce if the status was deferred" do
-        delivery.postfix_log_lines.create(dsn: "4.3.0")
+        # TODO: Replace with factory_girl
+        delivery.postfix_log_lines.create(dsn: "4.3.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
         delivery.status.should == "soft_bounce"
       end
 
@@ -24,8 +26,9 @@ describe Delivery do
       end
     
       it "should be delivered if the most recent status was a succesful delivery" do
-        delivery.postfix_log_lines.create(dsn: "4.3.0", time: 1.hour.ago)
-        delivery.postfix_log_lines.create(dsn: "2.0.0", time: 5.minutes.ago)
+        # TODO: Replace with factory_girl
+        delivery.postfix_log_lines.create(dsn: "4.3.0", time: 1.hour.ago, relay: "", delay: "", delays: "", extended_status: "")
+        delivery.postfix_log_lines.create(dsn: "2.0.0", time: 5.minutes.ago, relay: "", delay: "", delays: "", extended_status: "")
         delivery.status.should == "delivered"     
       end
     end

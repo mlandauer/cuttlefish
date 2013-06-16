@@ -139,12 +139,14 @@ describe Email do
         end
 
         it "should be delivered if the status is sent" do
-          delivery.postfix_log_lines.create(dsn: "2.0.0")
+        # TODO: Replace with factory_girl
+          delivery.postfix_log_lines.create(dsn: "2.0.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
           email.calculated_status.should == "delivered"
         end
 
         it "should not be delivered if the status is deferred" do
-          delivery.postfix_log_lines.create(dsn: "4.3.0")
+        # TODO: Replace with factory_girl
+          delivery.postfix_log_lines.create(dsn: "4.3.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
           email.calculated_status.should == "soft_bounce"
         end
       end
@@ -166,19 +168,22 @@ describe Email do
       end
 
       it "should have a sent delivery status if we only have one log entry" do
-        delivery_matthew.postfix_log_lines.create(dsn: "2.0.0")
+        # TODO: Replace with factory_girl
+        delivery_matthew.postfix_log_lines.create(dsn: "2.0.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
         email.calculated_status.should == "sent"
       end
 
       it "should know it's delivered if there are two succesful deliveries in the logs" do
-        delivery_matthew.postfix_log_lines.create(dsn: "2.0.0")
-        delivery_greg.postfix_log_lines.create(dsn: "2.0.0")
+        # TODO: Replace with factory_girl
+        delivery_matthew.postfix_log_lines.create(dsn: "2.0.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
+        delivery_greg.postfix_log_lines.create(dsn: "2.0.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
         email.calculated_status.should == "delivered"
       end
 
       it "should be in a sent state if there are two log entries from the same email address" do
-        delivery_matthew.postfix_log_lines.create(dsn: "4.3.0")
-        delivery_matthew.postfix_log_lines.create(dsn: "2.0.0")
+        # TODO: Replace with factory_girl
+        delivery_matthew.postfix_log_lines.create(dsn: "4.3.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
+        delivery_matthew.postfix_log_lines.create(dsn: "2.0.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
         email.calculated_status.should == "sent"
       end
     end

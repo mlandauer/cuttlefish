@@ -44,16 +44,18 @@ describe Address do
       it "should take the most recent delivery attempt to this address as the status" do
         delivery2 = Delivery.find_by(email: @email2, address: address2)
         delivery3 = Delivery.find_by(email: @email3, address: address2)
-        delivery2.postfix_log_lines.create!(dsn: "4.5.0", time: 10.minutes.ago)
-        delivery3.postfix_log_lines.create!(dsn: "2.0.0", time: 5.minutes.ago)
+        # TODO: Replace with factory_girl
+        delivery2.postfix_log_lines.create!(dsn: "4.5.0", time: 10.minutes.ago, relay: "", delay: "", delays: "", extended_status: "")
+        delivery3.postfix_log_lines.create!(dsn: "2.0.0", time: 5.minutes.ago, relay: "", delay: "", delays: "", extended_status: "")
         address2.status.should == "delivered"
       end
 
       it "should take the most recent delivery attempt to this address as the status" do
         delivery2 = Delivery.find_by(email: @email2, address: address2)
         delivery3 = Delivery.find_by(email: @email3, address: address2)
-        delivery2.postfix_log_lines.create!(dsn: "4.5.0", time: 5.minutes.ago)
-        delivery3.postfix_log_lines.create!(dsn: "2.0.0", time: 10.minutes.ago)
+        # TODO: Replace with factory_girl
+        delivery2.postfix_log_lines.create!(dsn: "4.5.0", time: 5.minutes.ago, relay: "", delay: "", delays: "", extended_status: "")
+        delivery3.postfix_log_lines.create!(dsn: "2.0.0", time: 10.minutes.ago, relay: "", delay: "", delays: "", extended_status: "")
         address2.status.should == "soft_bounce"
       end
 

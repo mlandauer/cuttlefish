@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130610071554) do
+ActiveRecord::Schema.define(version: 20130616043406) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -153,13 +153,13 @@ ActiveRecord::Schema.define(version: 20130610071554) do
   create_table "postfix_log_lines", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "time"
-    t.string   "relay"
-    t.string   "delay"
-    t.string   "delays"
-    t.string   "dsn"
-    t.text     "extended_status"
-    t.integer  "delivery_id"
+    t.datetime "time",            null: false
+    t.string   "relay",           null: false
+    t.string   "delay",           null: false
+    t.string   "delays",          null: false
+    t.string   "dsn",             null: false
+    t.text     "extended_status", null: false
+    t.integer  "delivery_id",     null: false
   end
 
   add_index "postfix_log_lines", ["delivery_id"], name: "index_postfix_log_lines_on_delivery_id", using: :btree
