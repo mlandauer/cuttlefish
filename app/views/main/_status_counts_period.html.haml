@@ -2,25 +2,25 @@
   %tr
     %td Created
     %td
-      = link_to emails_path do
+      = link_to deliveries_path do
         %span.pull-right{class: ["badge"]}= stats.values.sum || 0
   %tr
     %td Delivered
     %td 
-      = link_to emails_path(status: "delivered") do
+      = link_to deliveries_path(status: "delivered") do
         %span.pull-right{class: badge_class("delivered")}= stats["delivered"] || 0
   %tr
     %td Soft bounces
     %td
-      = link_to emails_path(status: "soft_bounce") do
+      = link_to deliveries_path(status: "soft_bounce") do
         %span.pull-right{class: badge_class("soft_bounce")}= stats["soft_bounce"] || 0
   %tr
     %td Hard bounces
     %td
-      = link_to emails_path(status: "hard_bounce") do
+      = link_to deliveries_path(status: "hard_bounce") do
         %span.pull-right{class: badge_class("hard_bounce")}= stats["hard_bounce"] || 0
   %tr
     %td Held back
     %td 
-      = link_to emails_path(status: "not_sent") do
+      = link_to deliveries_path(status: "not_sent") do
         %span.pull-right{class: badge_class("not_sent")}= stats["not_sent"] || 0

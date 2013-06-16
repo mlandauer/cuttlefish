@@ -10,6 +10,6 @@
         Switch to emails sent
         %strong to
         this address
-    = render "main/status_counts_period", stats: @address.emails_sent.group(:status).count
+    = render "main/status_counts_period", stats: @address.deliveries_sent.group("deliveries.status").count
 
 = render partial: "deliveries/to", locals: {deliveries: @deliveries}
