@@ -1,0 +1,9 @@
+= render "main/status_counts_period", stats: deliveries.group("deliveries.status").count
+%table.table.table-condensed
+  %tr
+    %td Open rate
+    %td.pull-right
+      - if deliveries.where(open_tracked: true).count > 0
+        = "%0.0f%" % (100.0 * deliveries.where('open_events_count > 0').count / deliveries.where(open_tracked: true).count)
+      - else
+        n/a

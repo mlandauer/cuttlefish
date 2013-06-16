@@ -1,23 +1,7 @@
 .span3
   %h3 Today
-  = render "main/status_counts_period", stats: Delivery.today.group(:status).count
-  %table.table.table-condensed
-    %tr
-      %td Open rate
-      %td.pull-right
-        - if Delivery.today.where(open_tracked: true).count > 0
-          = "%0.0f%" % (100.0 * Delivery.today.where('open_events_count > 0').count / Delivery.today.where(open_tracked: true).count)
-        - else
-          n/a
+  = render "main/status_counts_period2", deliveries: Delivery.today
 
 .span3.offset3
   %h3 Last 7 days
-  = render "main/status_counts_period", stats: Delivery.this_week.group(:status).count
-  %table.table.table-condensed
-    %tr
-      %td Open rate
-      %td.pull-right
-        - if Delivery.this_week.where(open_tracked: true).count > 0
-          = "%0.0f%" % (100.0 * Delivery.this_week.where('open_events_count > 0').count / Delivery.this_week.where(open_tracked: true).count)
-        - else
-          n/a
+  = render "main/status_counts_period2", deliveries: Delivery.this_week
