@@ -1,6 +1,29 @@
 .page-header
   %h1 Recent deliveries
 
+.btn-group
+  %button.btn.dropdown-toggle(data-toggle="dropdown")
+    - if @status.nil?
+      All
+    - elsif @status == "not_sent"
+      Held back
+    - elsif @status == "sent"
+      Sent
+    - elsif @status == "delivered"
+      Delivered
+    - elsif @status == "soft_bounce"
+      Soft bounces
+    - elsif @status == "hard_bounce"
+      Hard bounces
+    %span.caret
+  %ul.dropdown-menu
+    %li= link_to "All", deliveries_path
+    %li= link_to "Held back", deliveries_path(status: "not_sent")
+    %li= link_to "Sent", deliveries_path(status: "sent")
+    %li= link_to "Delivered", deliveries_path(status: "delivered")
+    %li= link_to "Soft bounces", deliveries_path(status: "soft_bounce")
+    %li= link_to "Hard bounces", deliveries_path(status: "hard_bounce")
+
 = paginated_section(@deliveries, inner_window: 2, outer_window: 0, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, class: "pagination")  do
   %table.table.table-striped
     %thead
