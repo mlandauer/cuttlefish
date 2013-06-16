@@ -12,14 +12,6 @@ class Delivery < ActiveRecord::Base
   before_save :update_my_status!
   after_save :update_status!
 
-  def self.stats_today
-    today.group(:status).count
-  end
-
-  def self.stats_this_week
-    this_week.group(:status).count
-  end
-  
   def self.today
     where('created_at > ?', Date.today.beginning_of_day)
   end

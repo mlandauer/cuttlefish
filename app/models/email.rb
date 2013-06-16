@@ -15,14 +15,6 @@ class Email < ActiveRecord::Base
 
   attr_writer :data
 
-  def self.stats_today
-    where('created_at > ?', Date.today.beginning_of_day).group(:status).count
-  end
-
-  def self.stats_this_week
-    where('created_at > ?', 7.days.ago).group(:status).count
-  end
-
   def from
     # TODO: Remove the "if" once we've added validations
     from_address.text if from_address
