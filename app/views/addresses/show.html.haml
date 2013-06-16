@@ -7,7 +7,7 @@
     = render "main/status_counts_period", stats: @address.emails_sent.group(:status).count
   .span3.offset1
     %h4 To
-    = render "main/status_counts_period", stats: @address.emails_received.group(:status).count
+    = render "main/status_counts_period", stats: @address.emails_received.group("emails.status").count
 
 = paginated_section(@emails, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, class: "pagination pagination-centered pagination-small") do
   %table.table.table-striped

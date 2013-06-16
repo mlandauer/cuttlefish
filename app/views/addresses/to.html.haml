@@ -5,6 +5,6 @@
 
 .row
   .span3
-    = render "main/status_counts_period", stats: @address.emails_received.group(:status).count
+    = render "main/status_counts_period", stats: @address.emails_received.group("emails.status").count
 
 = render partial: "emails/emails_from", locals: {emails: @emails}
