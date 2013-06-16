@@ -7,7 +7,7 @@ Cuttlefish::Application.routes.draw do
   }
   resources :emails, only: [:index, :show]
   resources :deliveries, only: [:index, :show]
-  resources :addresses, only: [:show] do
+  resources :addresses, only: [] do
     member do
       get :from
       get :to
