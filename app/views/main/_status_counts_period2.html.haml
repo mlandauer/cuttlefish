@@ -1,4 +1,30 @@
-= render "main/status_counts_period", stats: deliveries.group("deliveries.status").count
+%table.table.table-condensed
+  %tr
+    %td Created
+    %td
+      = link_to deliveries_path do
+        %span.pull-right{class: ["badge"]}= deliveries.group("deliveries.status").count.values.sum || 0
+  %tr
+    %td Delivered
+    %td 
+      = link_to deliveries_path(status: "delivered") do
+        %span.pull-right{class: badge_class("delivered")}= deliveries.group("deliveries.status").count["delivered"] || 0
+  %tr
+    %td Soft bounces
+    %td
+      = link_to deliveries_path(status: "soft_bounce") do
+        %span.pull-right{class: badge_class("soft_bounce")}= deliveries.group("deliveries.status").count["soft_bounce"] || 0
+  %tr
+    %td Hard bounces
+    %td
+      = link_to deliveries_path(status: "hard_bounce") do
+        %span.pull-right{class: badge_class("hard_bounce")}= deliveries.group("deliveries.status").count["hard_bounce"] || 0
+  %tr
+    %td Held back
+    %td 
+      = link_to deliveries_path(status: "not_sent") do
+        %span.pull-right{class: badge_class("not_sent")}= deliveries.group("deliveries.status").count["not_sent"] || 0
+
 %table.table.table-condensed
   %tr
     %td Open rate
