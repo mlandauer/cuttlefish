@@ -1,7 +1,7 @@
 .span3
   %h3 Today
-  = render "main/status_counts_period2", deliveries: Delivery.today
+  = render "main/status_counts_period", deliveries: Delivery.today
 
 .span3.offset3
   %h3 Last 7 days
-  = render "main/status_counts_period2", deliveries: Delivery.this_week
+  = render "main/status_counts_period", deliveries: Delivery.this_week
