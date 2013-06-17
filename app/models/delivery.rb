@@ -10,7 +10,6 @@ class Delivery < ActiveRecord::Base
     :link_tracking_enabled?, :open_tracking_enabled?, to: :email
 
   before_save :update_my_status!
-  after_save :update_status!
 
   def self.today
     where('created_at > ?', Date.today.beginning_of_day)
@@ -44,10 +43,6 @@ class Delivery < ActiveRecord::Base
 
   def update_my_status!
     self.status = calculated_status
-  end
-
-  def update_status!
-    email.update_status!
   end
 
   def to

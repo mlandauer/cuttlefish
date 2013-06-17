@@ -41,27 +41,6 @@ class Email < ActiveRecord::Base
     @data ||= EmailDataCache[id]
   end
 
-  # TODO Extract status out into a value object
-  def calculated_status
-    if deliveries.any? {|delivery| delivery.status == "not_sent" }
-      "not_sent"
-    elsif deliveries.any? {|delivery| delivery.status == "sent" }
-      "sent"
-    elsif deliveries.any? {|delivery| delivery.status == "hard_bounce" }
-      "hard_bounce"
-    elsif deliveries.any? {|delivery| delivery.status == "soft_bounce" }
-      "soft_bounce"
-    elsif deliveries.all? {|delivery| delivery.status == "delivered" }
-      "delivered"
-    else
-      raise "Unexpected situation"
-    end
-  end
-
-  def update_status!
-    update_attribute(:status, calculated_status)
-  end
-
   def mail
     Mail.new(data)
   end

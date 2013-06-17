@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130616063653) do
+ActiveRecord::Schema.define(version: 20130617000225) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -107,16 +107,14 @@ ActiveRecord::Schema.define(version: 20130616063653) do
     t.integer  "from_address_id"
     t.string   "message_id"
     t.string   "data_hash"
-    t.string   "status",          default: "not_sent", null: false
-    t.integer  "app_id",                               null: false
+    t.integer  "app_id",          null: false
   end
 
   add_index "emails", ["app_id"], name: "index_emails_on_app_id", using: :btree
-  add_index "emails", ["created_at", "status"], name: "index_emails_on_created_at_and_status", using: :btree
   add_index "emails", ["created_at"], name: "index_emails_on_created_at", using: :btree
+  add_index "emails", ["created_at"], name: "index_emails_on_created_at_and_status", using: :btree
   add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id", using: :btree
   add_index "emails", ["message_id"], name: "index_emails_on_message_id", using: :btree
-  add_index "emails", ["status"], name: "index_emails_on_status", using: :btree
 
   create_table "link_events", force: true do |t|
     t.integer  "delivery_link_id"
@@ -176,5 +174,15 @@ ActiveRecord::Schema.define(version: 20130616063653) do
   end
 
   add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
+
+  create_table "track_events", force: true do |t|
+    t.text     "user_agent"
+    t.text     "referer"
+    t.string   "ip"
+    t.integer  "trackable_id"
+    t.string   "trackable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
