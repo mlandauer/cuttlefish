@@ -10,6 +10,6 @@
         Switch to emails sent
         %strong from
         this address
-    = render "main/status_counts_period", deliveries: @address.deliveries_received
+    = render "main/status_counts_period", deliveries: @address.deliveries_received, link: false
 
 = render partial: "deliveries/from", locals: {deliveries: @deliveries}
