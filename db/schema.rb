@@ -176,14 +176,4 @@ ActiveRecord::Schema.define(version: 20130618021807) do
 
   add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
 
-  create_table "track_events", force: true do |t|
-    t.text     "user_agent"
-    t.text     "referer"
-    t.string   "ip"
-    t.integer  "trackable_id"
-    t.string   "trackable_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
 end
