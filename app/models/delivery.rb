@@ -12,11 +12,11 @@ class Delivery < ActiveRecord::Base
   before_save :update_my_status!
 
   def self.today
-    where('created_at > ?', Date.today.beginning_of_day)
+    where('deliveries.created_at > ?', Date.today.beginning_of_day)
   end
 
   def self.this_week
-    where('created_at > ?', 7.days.ago)
+    where('deliveries.created_at > ?', 7.days.ago)
   end
 
   # This delivery is being open tracked
@@ -65,7 +65,8 @@ class Delivery < ActiveRecord::Base
   # Returns nil when there are no deliveries with open tracking (which would otherwise cause a division by
   # zero error)
   def self.open_rate(deliveries)
-    n = deliveries.where('open_events_count > 0').count
+    # By doing an _inner_ join we only end up counting deliveries that have open_events
+    n = deliveries.joins(:open_events).count
     total =  deliveries.where(open_tracked: true).count
     (n.to_f / total) if total > 0
   end
