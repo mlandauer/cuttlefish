@@ -60,4 +60,13 @@ class Delivery < ActiveRecord::Base
   def app_name
     app.name
   end
+
+  # A value between 0 and 1. The fraction of deliveries with open tracking for which the delivery was opened
+  # Returns nil when there are no deliveries with open tracking (which would otherwise cause a division by
+  # zero error)
+  def self.open_rate(deliveries)
+    n = deliveries.where('open_events_count > 0').count
+    total =  deliveries.where(open_tracked: true).count
+    (n.to_f / total) if total > 0
+  end
 end
