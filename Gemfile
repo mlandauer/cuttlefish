@@ -95,4 +95,6 @@ group :development, :test do
   # using selenium instead
   #gem 'poltergeist'
   gem 'selenium-webdriver'
+  # For resizing screenshots
+  gem 'rmagick'
 end
