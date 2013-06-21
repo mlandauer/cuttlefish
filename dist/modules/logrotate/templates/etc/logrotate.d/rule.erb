@@ -1,0 +1,61 @@
+<%
+  opts = []
+
+  if @path.kind_of?(Array)
+    rpath = @path.join(' ')
+  else
+    rpath = @path
+  end
+
+  if scope.to_hash.has_key?('_create')
+    if @_create == 'create'
+      opts << [@_create, @create_mode, @create_owner, @create_group].reject { |r|
+        r == 'undef'
+      }.join(' ')
+    else
+      opts << @_create
+    end
+  end
+
+  [
+    '_compress', '_copy', '_copytruncate', '_delaycompress', '_dateext',
+    '_mail', '_missingok', '_olddir', '_sharedscripts', '_ifempty', '_maillast',
+    '_mailfirst', '_shred', '_rotate_every'
+  ].each do |bool|
+    opts << scope.to_hash[bool] if scope.to_hash.has_key?(bool)
+  end
+
+  [
+    'compresscmd', 'compressext', 'compressoptions', 'dateformat', 'extension',
+    'maxage', 'minsize', 'rotate', 'size', 'shredcycles', 'start',
+    'uncompresscmd'
+  ].each do |key|
+    value = scope.to_hash[key]
+    opts << "#{key} #{value}" if value != 'undef'
+  end
+-%>
+<%= rpath %> {
+<% opts.each do |opt| -%>
+  <%= opt %>
+<% end -%>
+<% if @postrotate != 'undef' -%>
+  postrotate
+    <%= @postrotate %>
+  endscript
+<% end -%>
+<% if @prerotate != 'undef' -%>
+  prerotate
+    <%= @prerotate %>
+  endscript
+<% end -%>
+<% if @firstaction != 'undef' -%>
+  firstaction
+    <%= @firstaction %>
+  endscript
+<% end -%>
+<% if @lastaction != 'undef' -%>
+  lastaction
+    <%= @lastaction %>
+  endscript
+<% end -%>
+}

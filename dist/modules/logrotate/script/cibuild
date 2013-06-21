@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+set -e
+
+[ -z "${PUPPET_VERSION}" ] && script/bootstrap
+
+bundle exec rspec
+
+bundle exec puppet-lint --with-filename --fail-on-warnings manifests
