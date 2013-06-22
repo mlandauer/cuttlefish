@@ -41,7 +41,7 @@ describe "getting a bunch of screenshots", js: true do
 <div>
   <br>
 </div>
-<img src="https://pbs.twimg.com/media/BGUKkJ2CEAAIQWI.jpg:large" alt="Inline image 1" width="564" height="423">
+<img src="https://pbs.twimg.com/media/BGUKkJ2CEAAIQWI.jpg:large" alt="Inline image 1" width="300">
 <div>
   <br>
 </div>
