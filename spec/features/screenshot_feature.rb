@@ -7,7 +7,8 @@ describe "getting a bunch of screenshots", js: true do
     page.save_screenshot(path)
     i = Magick::ImageList.new(path)
     small = i.resize_to_fit(1024 / 1.5)
-    small.write(path)
+    s2 = small.border(1, 1, "gainsboro")
+    s2.write(path)
     #exec("open #{path}")
   end
 
