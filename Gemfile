@@ -6,7 +6,7 @@ gem 'rails', '4.0.0.rc1'
 # For the time being we'll keep sqlite and mysql both around so we can switch
 # between them for development / production whatever. Not good in the long run but
 # okay in the short term
-gem 'sqlite3'
+#gem 'sqlite3'
 gem 'mysql2'
 
 # Gems used only for assets and not required
