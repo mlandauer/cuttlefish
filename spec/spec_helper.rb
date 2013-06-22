@@ -59,6 +59,10 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
+  config.before :each do
+    FileUtils.rm_rf EmailDataCache.data_filesystem_directory
+  end
+
   config.after :each do
     FileUtils.rm_rf EmailDataCache.data_filesystem_directory
   end
