@@ -4,6 +4,7 @@ describe "getting a bunch of screenshots", js: true do
 
   def screenshot(path)
     page.driver.browser.manage.window.resize_to(1024,640)
+    FileUtils.mkdir_p(File.dirname(path))
     page.save_screenshot(path)
     i = Magick::ImageList.new(path)
     small = i.resize_to_fit(1024 / 1.5, 2000)
@@ -19,7 +20,7 @@ describe "getting a bunch of screenshots", js: true do
   context "no users" do
     it "sign up page" do
       visit new_admin_registration_path
-      screenshot("app/assets/images/screenshot1.png")
+      screenshot("app/assets/images/screenshots/1.png")
     end
   end
 
@@ -78,7 +79,7 @@ describe "getting a bunch of screenshots", js: true do
     end
 
     it "landing page" do
-      screenshot("app/assets/images/screenshot2.png")
+      screenshot("app/assets/images/screenshots/2.png")
     end
 
     it "email" do
@@ -87,7 +88,7 @@ describe "getting a bunch of screenshots", js: true do
       click_link "Opened"
       # Wait until jquery animation finishes
       page.evaluate_script('$(":animated").length') == 0 
-      screenshot("app/assets/images/screenshot3.png")
+      screenshot("app/assets/images/screenshots/3.png")
     end
   end
 
