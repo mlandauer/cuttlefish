@@ -84,8 +84,8 @@ describe "getting a bunch of screenshots", js: true do
 
     it "email" do
       visit delivery_path(@delivery)
-      click_link "Delivered"
-      click_link "Opened"
+      click_link "5 minutes after being sent"
+      click_link "2 minutes after being sent"
       # Wait until jquery animation finishes
       page.evaluate_script('$(":animated").length') == 0 
       screenshot("app/assets/images/screenshots/3.png")
