@@ -1,0 +1,25 @@
+%table.table.table-condensed
+  %thead
+    %tr
+      %th Time
+      %th User agent
+      %th Referer
+      %th IP
+      -#
+        -# TODO: Re-enable all the user-agent stuff after we've worked out how to handle the issues when there are errors downloading the data file
+        %th Client
+        %th OS
+  %tbody
+    - delivery.open_events.each do |event|
+      %tr
+        %td
+          = time_ago_in_words(event.created_at)
+          ago
+        %td= event.user_agent
+        %td= event.referer
+        %td= event.ip
+        -#
+          %td
+            = link_to event.ua_family, event.ua_url
+          %td
+            = link_to event.os_family, event.os_url

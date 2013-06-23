@@ -1,0 +1,14 @@
+%table.table.table-condensed
+  %thead
+    %tr
+      %th Time
+      %th DSN
+      %th Status
+  %tbody
+    - delivery.postfix_log_lines.each do |line|
+      %tr
+        %td
+          = time_ago_in_words(line.time)
+          ago
+        %td= line.dsn
+        %td.status= line.extended_status

@@ -10,64 +10,10 @@
       
 - unless delivery.postfix_log_lines.empty?
   .collapse{id: "log-#{delivery.id}"}
-    %table.table.table-condensed
-      %thead
-        %tr
-          %th Time
-          %th DSN
-          %th Status
-      %tbody
-        - delivery.postfix_log_lines.each do |line|
-          %tr
-            %td
-              = time_ago_in_words(line.time)
-              ago
-            %td= line.dsn
-            %td.status= line.extended_status
+    = render partial: "postfix_log_lines", locals: {delivery: delivery}
 - if delivery.opened?
   .collapse{id: "open-#{delivery.id}"}
-    %table.table.table-condensed
-      %thead
-        %tr
-          %th Time
-          %th User agent
-          %th Referer
-          %th IP
-          -#
-            -# TODO: Re-enable all the user-agent stuff after we've worked out how to handle the issues when there are errors downloading the data file
-            %th Client
-            %th OS
-      %tbody
-        - delivery.open_events.each do |event|
-          %tr
-            %td
-              = time_ago_in_words(event.created_at)
-              ago
-            %td= event.user_agent
-            %td= event.referer
-            %td= event.ip
-            -#
-              %td
-                = link_to event.ua_family, event.ua_url
-              %td
-                = link_to event.os_family, event.os_url
+    = render partial: "open_events", locals: {delivery: delivery}
 - if delivery.clicked?
   .collapse{id: "clicked-#{delivery.id}"}
-    %table.table.table-condensed
-      %thead
-        %tr
-          %th Time
-          %th Link
-          %th User agent
-          %th Referer
-          %th IP
-      %tbody
-        - delivery.link_events.each do |event|
-          %tr
-            %td
-              = time_ago_in_words(event.created_at)
-              ago
-            %td= link_to event.url          
-            %td= event.user_agent
-            %td= event.referer
-            %td= event.ip
+    = render partial: "link_events", locals: {delivery: delivery}

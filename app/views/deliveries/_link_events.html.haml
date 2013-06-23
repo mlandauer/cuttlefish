@@ -1,0 +1,18 @@
+%table.table.table-condensed
+  %thead
+    %tr
+      %th Time
+      %th Link
+      %th User agent
+      %th Referer
+      %th IP
+  %tbody
+    - delivery.link_events.each do |event|
+      %tr
+        %td
+          = time_ago_in_words(event.created_at)
+          ago
+        %td= link_to event.url          
+        %td= event.user_agent
+        %td= event.referer
+        %td= event.ip
