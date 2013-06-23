@@ -61,20 +61,7 @@
         .span9
           = bootstrap_flash
           = yield
-    
-    %footer
-      .container
-        .row
-          .span12
-            %h3 Say Hello
-            %p
-              Made by
-              = link_to "@matthewlandauer", "https://twitter.com/matthewlandauer"
-            %p
-              Cuttlefish is free and open source software. Get it at
-              = link_to "http://github.com/mlandauer/cuttlefish" do
-                %i.icon.icon-github
-                Github
+    = render "layouts/footer"
     /
       Javascripts
       \==================================================
