@@ -14,7 +14,13 @@
   .tab-content
     - App.where(default_app: false).each do |app|
       .tab-pane{id: "details-#{app.id}", class: ("active" if app == @active_app)}
-        %p Details for sending mail for #{app.name}:
+
+        %h3 General
+
+        %p
+          These are the details that you need to be able to send email via Cuttlefish for the #{app.name} App.
+          Specific instructions for sending mail from different frameworks and languages is further down the page.
+
         %table.table.table-condensed
           %tr
             %td Host
@@ -36,6 +42,34 @@
             %td Authentication
             %td
               %strong plain
+
+        %h3 Using Rails
+
+        %p
+          = link_to "Ruby on Rails", "http://rubyonrails.org"
+          is an open-source web framework that's optimized for programmer
+          happiness and sustainable productivity.
+        %p
+          Depending on whether you want to send emails via Cuttlefish in your development or production environment either edit <code>config/environments/development.rb</code> or <code>config/environments/production.rb</code> and add the following:
+
+        %p
+          :coderay
+            #!ruby
+
+            # Send #{app.name} mails to Cuttlefish (see http://cuttlefish.io)
+            config.action_mailer.delivery_method = :smtp
+            config.action_mailer.smtp_settings = {
+              :address => "#{Rails.configuration.cuttlefish_domain}",
+              :port => #{Rails.configuration.cuttlefish_smtp_port},
+              :user_name => "#{app.smtp_username}",
+              :password => "#{app.smtp_password}",
+              :authentication => :plain
+             }
+
+        %h3 Using other frameworks
+
+        %p Want to add instructions here for your favorite web framework and make it super easy for people? Please #{link_to "contribute", "https://github.com/mlandauer/cuttlefish#how-to-contribute"}.
+
 
 -#
   %table.table.table-condensed
