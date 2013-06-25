@@ -2,7 +2,7 @@
   %h1= @app.name
 
 - unless @app.default_app?
-  = link_to "How send mail via Cuttlefish for #{@app.name}", documentation_path(anchor: "app-#{@app.id}")
+  = link_to "How to send mail via Cuttlefish for #{@app.name}", documentation_path(anchor: "app-#{@app.id}")
 
 %h2 Settings
 %p
