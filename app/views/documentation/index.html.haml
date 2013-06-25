@@ -1,0 +1,61 @@
+.page-header
+  %h1 Documentation
+
+%h2 How to send mail via Cuttlefish
+
+%p
+  Simple send normal smtp email, with each App having its own authentication details.
+
+.tabbale
+  %ul.nav.nav-tabs
+    - App.where(default_app: false).each do |app|
+      %li{class: ("active" if app == @active_app)}
+        = link_to app.name, "#details-#{app.id}", "data-toggle" => "tab"
+  .tab-content
+    - App.where(default_app: false).each do |app|
+      .tab-pane{id: "details-#{app.id}", class: ("active" if app == @active_app)}
+        %p Details for sending mail for #{app.name}:
+        %table.table.table-condensed
+          %tr
+            %td Host
+            %td
+              %strong= Rails.configuration.cuttlefish_domain
+          %tr
+            %td Port
+            %td
+              %strong= Rails.configuration.cuttlefish_smtp_port
+          %tr
+            %td Username
+            %td
+              %strong= app.smtp_username
+          %tr
+            %td Password
+            %td
+              %strong= app.smtp_password
+          %tr
+            %td Authentication
+            %td
+              %strong plain
+
+-#
+  %table.table.table-condensed
+    %tr
+      %td Host
+      %td
+        %strong= Rails.configuration.cuttlefish_domain
+    %tr
+      %td Port
+      %td
+        %strong= Rails.configuration.cuttlefish_smtp_port
+    %tr
+      %td Username
+      %td
+        %strong= @app.smtp_username
+    %tr
+      %td Password
+      %td
+        %strong= @app.smtp_password
+    %tr
+      %td Authentication
+      %td
+        %strong plain

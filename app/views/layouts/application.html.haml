@@ -28,11 +28,14 @@
           %ul.nav.nav-list
             %li.nav-header Explore
             = nav_menu_item_show_active root_path do
-              %i.icon-home
+              %i.icon-dashboard
               Dashboard
             = nav_menu_item_show_active deliveries_path do
               %i.icon-envelope
               Emails
+            = nav_menu_item_show_active documentation_path do
+              %i.icon-lightbulb
+              Documentation
             %li.nav-header Test
             = nav_menu_item_show_active reputation_path do
               %i.icon-heart

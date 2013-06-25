@@ -37,6 +37,8 @@ Cuttlefish::Application.routes.draw do
   # Link tracking
   get 'l/:delivery_link_id/:hash' => 'tracking#link', as: "tracking_link"
   
+  get '/documentation' => 'documentation#index'
+  
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
