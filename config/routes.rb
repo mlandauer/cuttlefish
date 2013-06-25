@@ -17,7 +17,6 @@ Cuttlefish::Application.routes.draw do
     member do
       post 'new_password'
       post 'lock_password'
-      get 'rails'
     end
   end
 
