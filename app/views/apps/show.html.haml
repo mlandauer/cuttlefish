@@ -2,34 +2,7 @@
   %h1= @app.name
 
 - unless @app.default_app?
-  %h2 How to send mail via Cuttlefish for #{@app.name}
-
-  %p
-    Simple send smtp email in the normal way from your application with the following details
-    %table.table.table-condensed
-      %tr
-        %td Host
-        %td
-          %strong= Rails.configuration.cuttlefish_domain
-      %tr
-        %td Port
-        %td
-          %strong= Rails.configuration.cuttlefish_smtp_port
-      %tr
-        %td Username
-        %td
-          %strong= @app.smtp_username
-      %tr
-        %td Password
-        %td
-          %strong= @app.smtp_password
-      %tr
-        %td Authentication
-        %td
-          %strong plain
-  %p #{link_to "Specific instructions on how to send email for <strong>Ruby on Rails</strong>".html_safe, rails_app_path(@app)}.
-
-  %p Want to add instructions here for your favorite web framework? Please #{link_to "contribute", "https://github.com/mlandauer/cuttlefish#how-to-contribute"}.
+  = link_to "How send mail via Cuttlefish for #{@app.name}", documentation_path(anchor: "app-#{@app.id}")
 
 %h2 Settings
 %p
