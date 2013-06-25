@@ -10,10 +10,10 @@
   %ul.nav.nav-tabs
     - App.where(default_app: false).each do |app|
       %li{class: ("active" if app == @active_app)}
-        = link_to app.name, "#details-#{app.id}", "data-toggle" => "tab"
+        = link_to app.name, "#app-#{app.id}", "data-toggle" => "tab"
   .tab-content
     - App.where(default_app: false).each do |app|
-      .tab-pane{id: "details-#{app.id}", class: ("active" if app == @active_app)}
+      .tab-pane{id: "app-#{app.id}", class: ("active" if app == @active_app)}
 
         %h3 General
 
