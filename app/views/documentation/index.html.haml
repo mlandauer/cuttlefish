@@ -3,93 +3,103 @@
 
 %h2 How to send mail via Cuttlefish
 
-%p
-  Simple send normal smtp email, with each App having its own authentication details.
+- if App.normal_apps?
+  %p
+    Simple send normal smtp email, with each App having its own authentication details.
 
-.tabbale
-  %ul.nav.nav-tabs
-    - App.where(default_app: false).each do |app|
-      %li{class: ("active" if app == @active_app)}
-        = link_to app.name, "#app-#{app.id}", "data-toggle" => "tab"
-  .tab-content
-    - App.where(default_app: false).each do |app|
-      .tab-pane{id: "app-#{app.id}", class: ("active" if app == @active_app)}
+  .tabbale
+    %ul.nav.nav-tabs
+      - App.where(default_app: false).each do |app|
+        %li{class: ("active" if app == @active_app)}
+          = link_to app.name, "#app-#{app.id}", "data-toggle" => "tab"
+    .tab-content
+      - App.where(default_app: false).each do |app|
+        .tab-pane{id: "app-#{app.id}", class: ("active" if app == @active_app)}
 
-        %h3 General
+          %h3 General
 
-        %p
-          These are the details that you need to be able to send email via Cuttlefish for the #{app.name} App.
-          Specific instructions for sending mail from different frameworks and languages is further down the page.
+          %p
+            These are the details that you need to be able to send email via Cuttlefish for the #{app.name} App.
+            Specific instructions for sending mail from different frameworks and languages is further down the page.
 
-        %table.table.table-condensed
-          %tr
-            %td Host
-            %td
-              %strong= Rails.configuration.cuttlefish_domain
-          %tr
-            %td Port
-            %td
-              %strong= Rails.configuration.cuttlefish_smtp_port
-          %tr
-            %td Username
-            %td
-              %strong= app.smtp_username
-          %tr
-            %td Password
-            %td
-              %strong= app.smtp_password
-          %tr
-            %td Authentication
-            %td
-              %strong plain
+          %table.table.table-condensed
+            %tr
+              %td Host
+              %td
+                %strong= Rails.configuration.cuttlefish_domain
+            %tr
+              %td Port
+              %td
+                %strong= Rails.configuration.cuttlefish_smtp_port
+            %tr
+              %td Username
+              %td
+                %strong= app.smtp_username
+            %tr
+              %td Password
+              %td
+                %strong= app.smtp_password
+            %tr
+              %td Authentication
+              %td
+                %strong plain
 
-        %h3 Using Rails
+          %h3 Using Rails
 
-        %p
-          = link_to "Ruby on Rails", "http://rubyonrails.org"
-          is an open-source web framework that's optimized for programmer
-          happiness and sustainable productivity.
-        %p
-          Depending on whether you want to send emails via Cuttlefish in your development or production environment either edit <code>config/environments/development.rb</code> or <code>config/environments/production.rb</code> and add the following:
+          %p
+            = link_to "Ruby on Rails", "http://rubyonrails.org"
+            is an open-source web framework that's optimized for programmer
+            happiness and sustainable productivity.
+          %p
+            Depending on whether you want to send emails via Cuttlefish in your development or production environment either edit <code>config/environments/development.rb</code> or <code>config/environments/production.rb</code> and add the following:
 
-        %p
-          :coderay
-            #!ruby
+          %p
+            :coderay
+              #!ruby
 
-            # Send #{app.name} mails to Cuttlefish (see http://cuttlefish.io)
-            config.action_mailer.delivery_method = :smtp
-            config.action_mailer.smtp_settings = {
-              :address => "#{Rails.configuration.cuttlefish_domain}",
-              :port => #{Rails.configuration.cuttlefish_smtp_port},
-              :user_name => "#{app.smtp_username}",
-              :password => "#{app.smtp_password}",
-              :authentication => :plain
-             }
+              # Send #{app.name} mails to Cuttlefish (see http://cuttlefish.io)
+              config.action_mailer.delivery_method = :smtp
+              config.action_mailer.smtp_settings = {
+                :address => "#{Rails.configuration.cuttlefish_domain}",
+                :port => #{Rails.configuration.cuttlefish_smtp_port},
+                :user_name => "#{app.smtp_username}",
+                :password => "#{app.smtp_password}",
+                :authentication => :plain
+               }
 
-        %h3 Using other frameworks
+          %h3 Using other frameworks
 
-        %p Want to add instructions here for your favorite web framework and make it super easy for people? Please #{link_to "contribute", "https://github.com/mlandauer/cuttlefish#how-to-contribute"}.
+          %p Want to add instructions here for your favorite web framework and make it super easy for people? Please #{link_to "contribute", "https://github.com/mlandauer/cuttlefish#how-to-contribute"}.
+- else
+  %h3 General
 
+  %p
+    Simply point your application to send emails via SMTP to port <strong>#{Rails.configuration.cuttlefish_smtp_port}</strong> on
+    <strong>#{Rails.configuration.cuttlefish_domain}</strong>. No authentication is necessary.
+  %p
+    See below for specific instructions for sending mail from different frameworks and languages.
 
--#
-  %table.table.table-condensed
-    %tr
-      %td Host
-      %td
-        %strong= Rails.configuration.cuttlefish_domain
-    %tr
-      %td Port
-      %td
-        %strong= Rails.configuration.cuttlefish_smtp_port
-    %tr
-      %td Username
-      %td
-        %strong= @app.smtp_username
-    %tr
-      %td Password
-      %td
-        %strong= @app.smtp_password
-    %tr
-      %td Authentication
-      %td
-        %strong plain
+  %h3 Using Rails
+
+  %p
+    = link_to "Ruby on Rails", "http://rubyonrails.org"
+    is an open-source web framework that's optimized for programmer
+    happiness and sustainable productivity.
+  %p
+    Depending on whether you want to send emails via Cuttlefish in your development or production environment either edit <code>config/environments/development.rb</code> or <code>config/environments/production.rb</code> and add the following:
+
+  %p
+    :coderay
+      #!ruby
+
+      # Send mails to Cuttlefish (see http://cuttlefish.io)
+      config.action_mailer.delivery_method = :smtp
+      config.action_mailer.smtp_settings = {
+        :address => "#{Rails.configuration.cuttlefish_domain}",
+        :port => #{Rails.configuration.cuttlefish_smtp_port},
+       }
+
+  %h3 Using other frameworks
+
+  %p Want to add instructions here for your favorite web framework and make it super easy for people? Please #{link_to "contribute", "https://github.com/mlandauer/cuttlefish#how-to-contribute"}.
+
