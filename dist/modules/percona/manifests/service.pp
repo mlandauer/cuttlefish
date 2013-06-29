@@ -1,9 +1,11 @@
+# percona::service
+# manages whether percona-server is enabled at boot and running or not
+#
 class percona::service {
+  $ensure = $percona::start ? { true => running, default => stopped }
+
   service { 'mysql':
-    ensure    => running,
-    enable    => true,
-    require   => [
-      Package['percona-server-server'],
-    ],
+    ensure  => $ensure,
+    enable  => $percona::enable
   }
 }
