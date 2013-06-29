@@ -54,7 +54,7 @@ class cuttlefish {
   }
 
   exec { "foreman export ${appname}":
-    command     => "rbenv exec bundle exec foreman export upstart /etc/init --app ${appname} --user ${user} --log ${logpath}",
+    command     => "rbenv exec bundle exec foreman export upstart /etc/init --app ${appname} --user ${user} --log ${logpath} --procfile Procfile.vagrant ",
     creates     => "/etc/init/${appname}.conf",
     logoutput   => true,
     cwd         => $base,
