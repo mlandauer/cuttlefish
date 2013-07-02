@@ -23,21 +23,27 @@
 
 %p And without the hidden dangers of vendor lock in of commercial transactional email services.
 
-%ul
-  %li Send email from your application using smtp in the usual way and get all sorts of added benefits for no effort
-  %li A lovely web UI to browse what's happening
-  %li Monitor in real time which emails arrive at their destination and which bounce
-  %li Works with any web framework and language
-  %li Automatically not send emails to destinations that have hard bounced in the past
-  %li Track which emails are opened and which links are clicked
-  %li Statistics on emails sent, soft/hard bounced and held back
-  %li View the full email content for recently sent emails
-  %li Multiple applications can each have their own SMTP authentication
-  %li Check your IP reputation with one click
-  %li Easy to install and get going quickly
-  %li Postfix, which you know and trust, handles email delivery
-  %li Open source, so no vendor lock in.
-
+.row
+  .span4
+    %h4 Easy to use
+    %p Send email from your application using smtp in the usual way and get all sorts of added benefits for no effort. A lovely web UI to browse what's happening.
+    %h4 Flexible
+    %p Works with any web framework and language
+    %h4 Secure
+    %p Multiple applications can each have their own SMTP authentication
+  .span4
+    %h4 Real time analytics
+    %p Monitor in real time which emails arrive at their destination and which bounce. Track which emails are opened and which links are clicked. Statistics on emails sent, soft/hard bounced and held back
+    %h4 Reliable
+    %p Under the hood Postfix, which you know and trust, handles email delivery.
+    %h4 Open source
+    %p Take complete control of your destiny. No vendor lock in.
+  .span4
+    %h4 Ensures delivery
+    %p Makes sure those emails arrive at their destinations. Automatically not send emails to destinations that have hard bounced in the past. Check your IP reputation with one click
+    %h4 Easy to install
+    %p Get going quickly
+    
 %p
   Cuttlefish is in beta. It's been used in production on one of
   #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au"}'s project for two months and has sent 150,000 emails.
