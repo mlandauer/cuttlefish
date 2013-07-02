@@ -3,16 +3,18 @@
 
 %p= link_to "Sign in", new_admin_session_path
 
-= image_tag "cuttlefish.png", :alt => "Welcome to Cuttlefish", :width => 200
-%h1.brand Cuttlefish
-%h4 Lovely Transactional Email
+.hero-unit
+  = image_tag "cuttlefish.png", alt: "Welcome to Cuttlefish", width: 200, height: 120
+  %h1.brand
+    Cuttlefish
+    %small Lovely Transactional Email
 
-%p Easy to setup, easy to use and open source
+  %p Easy to setup, easy to use and open source
 
-%p
-  = link_to "https://github.com/mlandauer/cuttlefish", class: "btn btn-primary btn-large" do
-    %i.icon-download-alt
-    Download
+  %p
+    = link_to "https://github.com/mlandauer/cuttlefish", class: "btn btn-primary btn-large" do
+      %i.icon-download-alt
+      Download
 
 %p
   Sending a few emails from your app is easy. Sending lots becomes painful. There are so many hidden gotchas. Do your emails get delivered? Are you being considered a spammer? What about all those bounced emails?
