@@ -7,7 +7,9 @@ class cuttlefish {
   $user    = 'vagrant'
 
   exec { "bundle install ${appname}":
-    command   => 'rbenv exec bundle install --path vendor/bundle/',
+    # Horrible hack. Put the bundle cache outside of the vagrant synched directory so that
+    # we don't suffer from massive performance issues.
+    command   => 'rbenv exec bundle install --path /vendor-bundle',
     unless    => 'rbenv exec bundle check',
     cwd       => $base,
     logoutput => true,
