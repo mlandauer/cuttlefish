@@ -25,7 +25,7 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Postfix, which you know and trust, handles email delivery
 * Open source, so no vendor lock in.
 
-Cuttlefish is in beta. It's been used in production on one of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s project for two months and has sent 150,000 emails.
+Cuttlefish is in beta. It's been used in production on one of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s project for three months and has sent 300,000 emails.
 
 ##Screenshots
 
