@@ -5,7 +5,7 @@
 
 .hero-unit
   = image_tag "cuttlefish.png", alt: "Welcome to Cuttlefish", width: 200, height: 120
-  %h1.brand
+  %h1
     Cuttlefish
     %small Lovely Transactional Email
 
@@ -16,46 +16,39 @@
       %i.icon-download-alt
       Download
 
-%p
-  Sending a few emails from your app is easy. Sending lots becomes painful. There are so many hidden gotchas. Do your emails get delivered? Are you being considered a spammer? What about all those bounced emails?
-
-%p Let's make sending lots of emails fun again!
-
-%p And without the hidden dangers of vendor lock in of commercial transactional email services.
-
 .row
   .span4
-    %h4 Ensure delivery
-    %p Makes sure those emails arrive at their destinations. Automatically not send emails to destinations that have hard bounced in the past. Check your IP reputation with one click
+    %h3 Ensure delivery
+    %p Make sure your emails arrive at their destinations. Keeps your email reputation high by automatically holding back emails to destinations that have previously bounced.
 
-    %h4 Flexible
+    %h3 Flexible
     %p Works with any web framework and language
 
   .span4
-    %h4 Real time analytics
-    %p Monitor in real time which emails arrive at their destination and which bounce. Track which emails are opened and which links are clicked. And all of this split out by which application sends the emails.
+    %h3 Real time analytics
+    %p Monitor in real time which emails arrive at their destination and which bounce. Track which emails are opened and which links are clicked. And all of this split out by which of your applications sends the emails.
 
-    %h4 Reliable
-    %p Under the hood Postfix, which you know and trust, handles email delivery.
+    %h3 Reliable
+    %p Under the hood #{link_to "Postfix", "http://www.postfix.org/"}, which you know and trust, handles email delivery.
 
   .span4
-    %h4 Easy to use
+    %h3 Easy to use
     %p Send email from your application using smtp in the usual way and get all sorts of added benefits for no effort. A lovely web UI to browse what's happening.
 
-    %h4 Open source
-    %p Take complete control of your destiny. No vendor lock in.
+    %h3 Open source
+    %p Take control of your destiny. Use Cuttlefish's advanced features without fear of vendor lock in.
     
 %p
   Cuttlefish is in beta. It's been used in production on one of
   #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au"}'s project for three months and has sent 300,000 emails.
 
-%h4 Screenshots
+%h3 Screenshots
 
 = image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/1.png"
 = image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/2.png"
 = image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/3.png"
 
-%h4 Things on the cards
+%h3 Coming soon
 
 %ul
   %li REST API for deep integration with your application
