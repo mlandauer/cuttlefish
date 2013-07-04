@@ -1,7 +1,8 @@
 = link_to "https://github.com/mlandauer/cuttlefish" do
   %img(style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub")
 
-%p= link_to "Sign in", new_admin_session_path
+%ul.nav.nav-pills
+  %li.active.pull-right= link_to "Sign in", new_admin_session_path
 
 .hero-unit
   = image_tag "cuttlefish.png", alt: "Welcome to Cuttlefish", width: 200, height: 120
@@ -38,23 +39,27 @@
     %h3 Open source
     %p Take control of your destiny. Use Cuttlefish's advanced features without fear of vendor lock in.
     
-%p
-  Cuttlefish is in beta. It's been used in production on one of
-  #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au"}'s project for three months and has sent 300,000 emails.
+.screenshots
+  %h2 Screenshots
 
-%h3 Screenshots
+  = image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/1.png"
+  = image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/2.png"
+  = image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/3.png"
 
-= image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/1.png"
-= image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/2.png"
-= image_tag "https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/3.png"
+.beta
+  %h2 Beta
+  %p
+    Cuttlefish is in <em>beta</em>. It's been used in production on
+    #{link_to "one", "http://www.planningalerts.org.au"}
+    of
+    #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au"}'s project for three months and has sent 300,000 emails.
 
-%h3 Coming soon
+.soon
+  %h2 Coming soon
 
-%ul
-  %li REST API for deep integration with your application
-  %li Web callbacks on succesful delivery, hard bounces, open and click events
-  %li DKIM signing
-  %li "out of office" and bounce reply filtering
-  %li Incoming email
-
--# Link to github, my contact details, footer, etc..
+  %ul.unstyled
+    %li REST API for deep integration with your application
+    %li Web callbacks on succesful delivery, hard bounces, open and click events
+    %li DKIM signing
+    %li "out of office" and bounce reply filtering
+    %li Incoming email
