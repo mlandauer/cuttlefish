@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Setup the environment
+export RBENV_ROOT="/opt/rbenv"
+export PATH="/opt/rbenv/bin/:$PATH"
+eval "$(rbenv init -)"
+
+# Execute the command in the context of the current global version of Ruby
+$@

@@ -1,0 +1,4 @@
+module: puppetlabs/apt
+version: 0.0.3
+url: file:///home/johnf/.puppet/var/puppet-module/cache/http_forge_puppetlabs_com-75a31f1d6f1ef6eb63b4479b3512ee1508209a7f/puppetlabs-apt-0.0.3.tar.gz
+installed: 2012-05-22 12:13:04 +1000

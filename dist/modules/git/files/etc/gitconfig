@@ -1,0 +1,6 @@
+[alias]
+        stat = status
+        st = status
+
+[push]
+        default = matching

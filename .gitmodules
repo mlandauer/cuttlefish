@@ -1,0 +1,6 @@
+[submodule "puppet/modules/mysql"]
+	path = puppet/modules/mysql
+	url = git://github.com/puppetlabs/puppetlabs-mysql.git
+[submodule "puppet/modules/rvm"]
+	path = puppet/modules/rvm
+	url = https://github.com/iantruslove/puppet-rvm.git
