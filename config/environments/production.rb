@@ -78,6 +78,9 @@ Cuttlefish::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  # If you want to use Google Analytics in production then set that here
+  #GA.tracker = "UA-xxxxxxxx-x"
+
   #####################################################
   # Cuttlefish specific configuration below here ONLY #
   #####################################################
