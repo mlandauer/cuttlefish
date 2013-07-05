@@ -48,7 +48,10 @@
     %tr
       %td.key
         %strong
-          First opened
+          - if @delivery.open_events.count == 1
+            Opened
+          - else
+            First opened
       %td
         = link_to "#opened", "data-toggle" => "collapse" do
           = distance_of_time_in_words(@delivery.created_at, @delivery.open_events.first.created_at, true)
@@ -60,7 +63,10 @@
     %tr
       %td.key
         %strong
-          First clicked
+          - if @delivery.link_events.count == 1
+            Clicked
+          - else
+            First clicked
       %td
         = link_to "#clicked", "data-toggle" => "collapse" do
           = distance_of_time_in_words(@delivery.created_at, @delivery.link_events.first.created_at, true)
