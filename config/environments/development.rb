@@ -27,6 +27,9 @@ Cuttlefish::Application.configure do
 
   config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
 
+  # If you want to use Google Analytics in production then set that here
+  #GA.tracker = "UA-xxxxxxxx-x"
+
   #####################################################
   # Cuttlefish specific configuration below here ONLY #
   #####################################################

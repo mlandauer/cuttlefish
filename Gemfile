@@ -51,6 +51,7 @@ gem "rails-settings-cached", git: "https://github.com/huacnlee/rails-settings-ca
 gem 'factory_girl_rails'
 gem 'haml-coderay'
 gem 'nokogiri'
+gem 'google-analytics-rails'
 
 # Deployment bits and bobs
 # Later versions cause issues with backing up assets manifests file to release directory
