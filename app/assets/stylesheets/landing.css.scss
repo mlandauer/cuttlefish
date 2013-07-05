@@ -2,10 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body.landing {
+  padding-top: 0px;
+}
+
+#hero {
+  padding-top: 20px;
+  background-color: #eeeeee;
+}
+
 .hero-unit {
   text-align: center;
-  // To hang the fork me badge on
-  position: relative;
   h1 {
     font-family: 'Leckerli One', cursive;
     font-size: 40px;

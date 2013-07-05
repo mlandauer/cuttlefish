@@ -17,10 +17,10 @@
     %link(href="/favicon.ico" rel="shortcut icon")
     = analytics_init if Rails.env.production?
 
-  %body
+  %body.landing
     .container
       = bootstrap_flash
-      = yield
+    = yield
     = render "layouts/footer"
     /
       Javascripts
