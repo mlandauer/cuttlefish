@@ -8,11 +8,16 @@ body.landing {
 
 #hero {
   padding-top: 20px;
-  background-color: #eeeeee;
+  background-color: #E74C3C;
 }
 
 .hero-unit {
+  background-color: #E74C3C;
   padding-top: 0px;
+  color: white;
+  small {
+    color: white;
+  }
   text-align: center;
   h1 {
     font-family: 'Leckerli One', cursive;
