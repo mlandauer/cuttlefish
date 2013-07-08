@@ -20,28 +20,31 @@
         Download
 
 .container
-  #features.row
-    .span4
-      %h3 Ensure delivery
-      %p Make sure your emails arrive at their destinations. Keeps your email reputation high by automatically holding back emails to destinations that have previously bounced.
+  #features
+    .row
+      .span4
+        = image_tag "illustrations/mail.png", size: "75x75"
+        %h3 Ensure delivery
+        %p Make sure your emails arrive at their destinations. Keeps your email reputation high by automatically holding back emails to destinations that have previously bounced.
+      .span4
+        = image_tag "illustrations/map.png", size: "75x75"
+        %h3 Real time analytics
+        %p Monitor in real time which emails arrive at their destination and which bounce. Track which emails are opened and which links are clicked. And all of this split out by which of your applications sends the emails.
+      .span4
+        = image_tag "illustrations/gift.png", size: "75x75"
+        %h3 Easy to use
+        %p Send email from your application using smtp in the usual way and get all sorts of added benefits for no effort. A lovely web UI to browse what's happening.
+    .row
+      .span4
+        %h3 Flexible
+        %p Works with any web framework and language
+      .span4
+        %h3 Reliable
+        %p Under the hood #{link_to "Postfix", "http://www.postfix.org/"}, which you know and trust, handles email delivery.
+      .span4
+        %h3 Open source
+        %p Take control of your destiny. Use Cuttlefish's advanced features without fear of vendor lock in.
 
-      %h3 Flexible
-      %p Works with any web framework and language
-
-    .span4
-      %h3 Real time analytics
-      %p Monitor in real time which emails arrive at their destination and which bounce. Track which emails are opened and which links are clicked. And all of this split out by which of your applications sends the emails.
-
-      %h3 Reliable
-      %p Under the hood #{link_to "Postfix", "http://www.postfix.org/"}, which you know and trust, handles email delivery.
-
-    .span4
-      %h3 Easy to use
-      %p Send email from your application using smtp in the usual way and get all sorts of added benefits for no effort. A lovely web UI to browse what's happening.
-
-      %h3 Open source
-      %p Take control of your destiny. Use Cuttlefish's advanced features without fear of vendor lock in.
-      
   #screenshots
     %h2 Check out the UI
     .row
