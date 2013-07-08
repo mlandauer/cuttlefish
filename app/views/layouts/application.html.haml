@@ -18,49 +18,51 @@
     = analytics_init if Rails.env.production?
 
   %body
-    .container
-      .row
-        .span3.sidebar
-          .brand
-            = image_tag "cuttlefish_80x48.png", size: "80x48"
-            .word
-              Cuttlefish
-          %ul.nav.nav-list
-            %li.nav-header Explore
-            = nav_menu_item_show_active dash_path do
-              %i.icon-dashboard
-              Dashboard
-            = nav_menu_item_show_active deliveries_path do
-              %i.icon-envelope
-              Emails
-            = nav_menu_item_show_active documentation_path do
-              %i.icon-lightbulb
-              Documentation
-            %li.nav-header Test
-            = nav_menu_item_show_active reputation_path do
-              %i.icon-heart
-              Reputation
-            = nav_menu_item_show_active new_test_email_path do
-              %i.icon-arrow-right
-              Test email
-            %li.nav-header Settings
-            = nav_menu_item_show_active apps_path do
-              %i.icon-magic
-              Apps
-            = nav_menu_item_show_active edit_settings_path do
-              %i.icon-cog
-              Global
-          %hr
-          %ul.nav.nav-list
-            %li.nav-header
-              = gravatar_image_tag(current_admin.email, gravatar: {size: 35, secure: true, default: :identicon}, class: "img-circle")
-            %li= link_to "Edit my details", edit_admin_registration_path
-            %li= link_to "Invite administrator", new_admin_invitation_path
-            %li= link_to 'Logout', destroy_admin_session_path, method: :delete
-          %hr
-        .span9
-          = bootstrap_flash
-          = yield
+    #wrap
+      .container
+        .row
+          .span3.sidebar
+            .brand
+              = image_tag "cuttlefish_80x48.png", size: "80x48"
+              .word
+                Cuttlefish
+            %ul.nav.nav-list
+              %li.nav-header Explore
+              = nav_menu_item_show_active dash_path do
+                %i.icon-dashboard
+                Dashboard
+              = nav_menu_item_show_active deliveries_path do
+                %i.icon-envelope
+                Emails
+              = nav_menu_item_show_active documentation_path do
+                %i.icon-lightbulb
+                Documentation
+              %li.nav-header Test
+              = nav_menu_item_show_active reputation_path do
+                %i.icon-heart
+                Reputation
+              = nav_menu_item_show_active new_test_email_path do
+                %i.icon-arrow-right
+                Test email
+              %li.nav-header Settings
+              = nav_menu_item_show_active apps_path do
+                %i.icon-magic
+                Apps
+              = nav_menu_item_show_active edit_settings_path do
+                %i.icon-cog
+                Global
+            %hr
+            %ul.nav.nav-list
+              %li.nav-header
+                = gravatar_image_tag(current_admin.email, gravatar: {size: 35, secure: true, default: :identicon}, class: "img-circle")
+              %li= link_to "Edit my details", edit_admin_registration_path
+              %li= link_to "Invite administrator", new_admin_invitation_path
+              %li= link_to 'Logout', destroy_admin_session_path, method: :delete
+            %hr
+          .span9
+            = bootstrap_flash
+            = yield
+      #push
     %footer
       .container
         .row

@@ -62,8 +62,10 @@ body.landing {
 // TODO Put the footer styling in a better place
 
 footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  .span12 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
   background-color: #BDC3C7;
   color: #ECF0F1;
   a {
@@ -71,3 +73,25 @@ footer {
     text-decoration: none;
   }
 }
+
+html, 
+ body {
+   height: 100%;
+   /* The html and body elements cannot have any padding or margin. */
+ }
+
+ /* Wrapper for page content to push down footer */
+ #wrap {
+   min-height: 100%;
+   height: auto !important;
+   height: 100%;
+   /* Negative indent footer by it's height */
+   margin: 0 auto -146px;
+ }
+
+ /* Set the fixed height of the footer here */
+ #push,
+ footer {
+   height: 146px;
+ }
+ 
