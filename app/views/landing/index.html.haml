@@ -49,12 +49,21 @@
     %h2 Check out the UI
     .row
       .span4
-        = image_tag "screenshots/1.png"
+        = link_to "#modal1", class: "thumbnail", data: {toggle: "modal"} do
+          = image_tag "screenshots/1.png"
       .span4
-        = image_tag "screenshots/3.png"
+        = link_to "#modal3", class: "thumbnail", data: {toggle: "modal"} do
+          = image_tag "screenshots/3.png"
       .span4
-        = image_tag "screenshots/2.png"
+        = link_to "#modal2", class: "thumbnail", data: {toggle: "modal"} do
+          = image_tag "screenshots/2.png"
 
+    #modal1.modal.hide.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+      .modal-body= image_tag "screenshots/1.png"
+    #modal2.modal.hide.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+      .modal-body= image_tag "screenshots/2.png"
+    #modal3.modal.hide.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+      .modal-body= image_tag "screenshots/3.png"
 
   .beta
     %h2 Beta
