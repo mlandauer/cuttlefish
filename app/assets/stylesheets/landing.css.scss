@@ -38,7 +38,7 @@ body.landing {
 
 .beta {
   padding-top: 40px;
-  padding-bottom: 40px;
+  #padding-bottom: 40px;
 }
 
 #screenshots {
@@ -48,15 +48,16 @@ body.landing {
   }
 }
 
-#compare p {
-  text-align: left;
+#compare {
+  padding-top: 40px;
+  p {
+    text-align: left;
+  }
 }
 
 #soon {
+  padding-top: 40px;
   padding-bottom: 40px;
-  h2 {
-    padding-top: 40px;
-  }
   li {
 
   }  

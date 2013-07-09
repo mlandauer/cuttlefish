@@ -65,14 +65,6 @@
     #modal3.modal.hide.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
       .modal-body= image_tag "screenshots/3.png"
 
-  .beta
-    %h2 Beta
-    %p
-      Cuttlefish is in <em>beta</em>. It's been used in production on
-      #{link_to "one", "http://www.planningalerts.org.au"}
-      of
-      #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au"}'s project for three months and has sent 300,000 emails.
-
   #compare
     %h2 How does this compare to...?
 
@@ -85,6 +77,14 @@
     %p
       Of course there is a lot that Cuttlefish doesn't yet do that the proprietary services do. 
       It doesn't yet have an API or web callbacks for registering failed email deliveries to your app; It can't detect when a user marks one of your emails as spam; It doesn't have built in support for email templates.
+
+  .beta
+    %h2 Beta
+    %p
+      Cuttlefish is in <em>beta</em>. It's been used in production on
+      #{link_to "one", "http://www.planningalerts.org.au"}
+      of
+      #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au"}'s project for three months and has sent 300,000 emails.
 
   #soon
     %h2 And coming soon!
