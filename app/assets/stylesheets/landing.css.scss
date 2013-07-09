@@ -4,6 +4,7 @@
 
 body.landing {
   padding-top: 0px;
+  text-align: center;
 }
 
 #hero {
@@ -18,7 +19,6 @@ body.landing {
   small {
     color: white;
   }
-  text-align: center;
   h1 {
     font-family: 'Leckerli One', cursive;
     font-size: 40px;
@@ -30,7 +30,6 @@ body.landing {
 }
 
 #features {
-  text-align: center;
   img {
     margin-top: 60px;
     margin-bottom: 20px;
@@ -39,19 +38,21 @@ body.landing {
 
 .beta {
   padding-top: 40px;
-  text-align: center;
+  padding-bottom: 40px;
 }
 
 #screenshots {
-  text-align: center;
   h2 {
     padding-top: 40px;
     padding-bottom: 40px;
   }
 }
 
+#compare p {
+  text-align: left;
+}
+
 #soon {
-  text-align: center;
   padding-bottom: 40px;
   h2 {
     padding-top: 40px;
@@ -62,13 +63,13 @@ body.landing {
 }
 
 #download {
-  text-align: center;
   padding-bottom: 40px;
 }
 
 // TODO Put the footer styling in a better place
 
 footer {
+  text-align: left;
   .span12 {
     margin-top: 20px;
     margin-bottom: 20px;
