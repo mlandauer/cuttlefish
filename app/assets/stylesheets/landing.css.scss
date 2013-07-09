@@ -46,6 +46,11 @@ body.landing {
     padding-top: 40px;
     padding-bottom: 40px;
   }
+  // Change the size of the modal to fit the image size we want to show (width 683px)
+  .modal {
+    width: 714px;
+    margin-left: -357px;
+  }
 }
 
 #compare {
