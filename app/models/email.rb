@@ -7,7 +7,7 @@ class Email < ActiveRecord::Base
   has_many :link_events, through: :deliveries
 
   after_create :update_cache
-  before_save :update_message_id, :update_data_hash, :set_default_app
+  before_save :update_message_id, :update_data_hash, :update_subject, :set_default_app
 
   delegate :custom_tracking_domain, :open_tracking_enabled?, :link_tracking_enabled?, to: :app
 
@@ -89,6 +89,10 @@ class Email < ActiveRecord::Base
 
   def update_data_hash
     self.data_hash = Digest::SHA1.hexdigest(data) if data
+  end
+
+  def update_subject
+    self.subject = Mail.new(data).subject
   end
 
   def set_default_app

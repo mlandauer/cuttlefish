@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130709001223) do
+ActiveRecord::Schema.define(version: 20130710003548) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 20130709001223) do
     t.string   "message_id"
     t.string   "data_hash"
     t.integer  "app_id",          null: false
+    t.string   "subject"
   end
 
   add_index "emails", ["app_id"], name: "index_emails_on_app_id", using: :btree

@@ -12,7 +12,7 @@ describe Email do
         FactoryGirl.create(:email,
           from: "matthew@foo.com",
           to: "foo@bar.com",
-          data: "From: contact@openaustraliafoundation.org.au\nTo: Matthew Landauer\nMessage-ID: <5161ba1c90b10_7837557029c754c8@kedumba.mail>\n\nHello!"
+          data: "From: contact@openaustraliafoundation.org.au\nTo: Matthew Landauer\nSubject: This is a subject\nMessage-ID: <5161ba1c90b10_7837557029c754c8@kedumba.mail>\n\nHello!"
         )
       end
 
@@ -21,7 +21,7 @@ describe Email do
       end
 
       it "should set a hash of the full email content" do
-        Email.first.data_hash.should == "8807e1b5f635e050b5d84634cfb9a37f9c1bd2e4"
+        Email.first.data_hash.should == "d096b1b1dfbcabf6bd4ef4d4b0ad88f562eedee9"
       end
 
       it "should have an identical hash to another email with identical content" do
@@ -34,6 +34,10 @@ describe Email do
         first_email = Email.first
         email = FactoryGirl.create(:email, from: "geoff@foo.com", to: "people@bar.com", data: "Something else")
         email.data_hash.should_not == first_email.data_hash
+      end
+
+      it "should set the subject of the email based on the data" do
+        Email.first.subject.should == "This is a subject"
       end
     end
   end
