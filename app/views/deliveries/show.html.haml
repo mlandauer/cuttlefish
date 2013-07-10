@@ -21,6 +21,10 @@
       %strong To
     %td
       = link_to @delivery.address.text, to_address_path(@delivery.address)
+  %tr
+    %td.key
+      %strong Subject
+    %td= @delivery.subject
             
   %tr
     %td.key

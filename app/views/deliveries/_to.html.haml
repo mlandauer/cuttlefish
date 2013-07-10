@@ -6,6 +6,7 @@
         - if App.normal_apps?
           %th App
         %th To
+        %th Subject
 
     %tbody(data-provides="rowlink")
       - deliveries.each do |delivery|
@@ -16,6 +17,7 @@
           - if App.normal_apps?
             %td= delivery.app_name
           %td= link_to delivery.to, delivery, class: "rowlink"
+          %td= delivery.subject
           %td
             = delivered_label(delivery.status)
             - if delivery.opened?
