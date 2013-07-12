@@ -9,7 +9,7 @@ class Email < ActiveRecord::Base
   after_create :update_cache
   before_save :update_message_id, :update_data_hash, :update_subject, :set_default_app
 
-  delegate :custom_tracking_domain, :open_tracking_enabled?, :link_tracking_enabled?, to: :app
+  delegate :custom_tracking_domain, :open_tracking_enabled?, :click_tracking_enabled?, to: :app
 
   # TODO Add validations
 

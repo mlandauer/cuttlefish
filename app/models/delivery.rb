@@ -7,7 +7,7 @@ class Delivery < ActiveRecord::Base
   has_many :click_events, -> { order "created_at" }, through: :delivery_links
 
   delegate :app, :from, :from_address, :text_part, :html_part, :data,
-    :link_tracking_enabled?, :open_tracking_enabled?, :subject, to: :email
+    :click_tracking_enabled?, :open_tracking_enabled?, :subject, to: :email
 
   before_save :update_my_status!
 

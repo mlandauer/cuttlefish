@@ -13,7 +13,7 @@ class LinkTrackingFilter < TrackingFilter
   end
 
   def apply_html?
-    link_tracking_enabled?
+    click_tracking_enabled?
   end
 
   def process_html(input)

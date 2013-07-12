@@ -4,7 +4,7 @@
     = f.input :name, placeholder: "Angelfish", input_html: {class: "span6"}
     = f.input :url, label: "URL", placeholder: "http://angelfishsocute.com", hint: "Optional (and you can set this later). So we can easily link back to your application."
   = f.inputs "Tracking" do
-    = f.input :link_tracking_enabled, hint: "Rewrite all the links in html emails so that you can find out when users click them"
+    = f.input :click_tracking_enabled, hint: "Rewrite all the links in html emails so that you can find out when users click them"
     = f.input :open_tracking_enabled, hint: "Adds a small transparent image to the end of html emails so that you can find out when an email is opened"
     = f.input :custom_tracking_domain, placeholder: "email.angelfishsocute.com", hint: "Leave blank if you want to use default domain (#{Rails.configuration.cuttlefish_domain}) for open and link tracking. You can set this later too."
   = f.actions

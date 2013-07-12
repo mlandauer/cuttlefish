@@ -8,7 +8,7 @@ describe LinkTrackingFilter do
     delivery
   end
   let(:filter) { LinkTrackingFilter.new(delivery) }
-  let(:email) { mock_model(Email, custom_tracking_domain: nil, link_tracking_enabled?: true) }
+  let(:email) { mock_model(Email, custom_tracking_domain: nil, click_tracking_enabled?: true) }
 
   describe "#data" do
     it "should replace html links with tracking links" do

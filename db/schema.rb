@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130712034237) do
+ActiveRecord::Schema.define(version: 20130712062539) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20130712034237) do
     t.boolean  "smtp_password_locked",   default: false, null: false
     t.boolean  "default_app",            default: false, null: false
     t.boolean  "open_tracking_enabled",  default: true,  null: false
-    t.boolean  "link_tracking_enabled",  default: true,  null: false
+    t.boolean  "click_tracking_enabled", default: true,  null: false
   end
 
   create_table "click_events", force: true do |t|
