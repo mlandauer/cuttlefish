@@ -77,7 +77,7 @@
           after being sent
           <i class="icon-plus-sign-alt"></i>
         .collapse{id: "clicked"}
-          = render partial: "link_events", locals: {delivery: @delivery}
+          = render partial: "click_events", locals: {delivery: @delivery}
 
 %hr
 - if @delivery.data.nil?
