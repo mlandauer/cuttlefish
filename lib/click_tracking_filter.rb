@@ -1,4 +1,4 @@
-class LinkTrackingFilter < TrackingFilter
+class ClickTrackingFilter < TrackingFilter
   include Rails.application.routes.url_helpers
 
   def rewrite_url(url)
