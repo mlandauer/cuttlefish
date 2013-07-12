@@ -6,7 +6,7 @@ class DeliveryLink < ActiveRecord::Base
     link.url
   end
 
-  def add_link_event(request)
+  def add_click_event(request)
     click_events.create!(
       user_agent: request.env['HTTP_USER_AGENT'],
       referer: request.referer,

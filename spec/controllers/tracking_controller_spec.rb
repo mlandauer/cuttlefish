@@ -33,7 +33,7 @@ describe TrackingController do
         HashId.stub(valid?: true)
         delivery_link = mock_model(DeliveryLink, url: "http://foo.com")
         DeliveryLink.should_receive(:find).with("204").and_return(delivery_link)
-        delivery_link.should_receive(:add_link_event)
+        delivery_link.should_receive(:add_click_event)
         get :link, delivery_link_id: 204, hash: "542bae7ec2904c85b945b56072c726d8507fc58a"        
       end
     end

@@ -18,7 +18,7 @@ class TrackingController < ApplicationController
   def link
     if HashId.valid?(params[:delivery_link_id], params[:hash])
       delivery_link = DeliveryLink.find(params[:delivery_link_id])
-      delivery_link.add_link_event(request)
+      delivery_link.add_click_event(request)
       redirect_to delivery_link.url
     else
       raise ActiveRecord::RecordNotFound
