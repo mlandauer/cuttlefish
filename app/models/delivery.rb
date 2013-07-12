@@ -4,7 +4,7 @@ class Delivery < ActiveRecord::Base
   has_many :postfix_log_lines, -> { order "time DESC" }, dependent: :destroy, inverse_of: :delivery
   has_many :open_events, -> { order "created_at" }, dependent: :destroy
   has_many :delivery_links, dependent: :destroy
-  has_many :link_events, -> { order "created_at" }, through: :delivery_links
+  has_many :click_events, -> { order "created_at" }, through: :delivery_links
 
   delegate :app, :from, :from_address, :text_part, :html_part, :data,
     :link_tracking_enabled?, :open_tracking_enabled?, :subject, to: :email
@@ -54,7 +54,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def clicked?
-    !link_events.empty?
+    !click_events.empty?
   end
 
   def app_name
@@ -73,8 +73,8 @@ class Delivery < ActiveRecord::Base
   end
 
   def self.click_rate(deliveries)
-    # By doing an _inner_ join we only end up counting deliveries that have link_events
-    n = deliveries.joins(:link_events).select("distinct(deliveries.id)").count
+    # By doing an _inner_ join we only end up counting deliveries that have click_events
+    n = deliveries.joins(:click_events).select("distinct(deliveries.id)").count
     total =  deliveries.joins(:delivery_links).select("distinct(deliveries.id)").count
     (n.to_f / total) if total > 0
   end

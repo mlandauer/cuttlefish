@@ -7,7 +7,7 @@
       %th Referer
       %th IP
   %tbody
-    - delivery.link_events.each do |event|
+    - delivery.click_events.each do |event|
       %tr
         %td
           = time_ago_in_words(event.created_at)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130710003548) do
+ActiveRecord::Schema.define(version: 20130712034237) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -60,6 +60,17 @@ ActiveRecord::Schema.define(version: 20130710003548) do
     t.boolean  "open_tracking_enabled",  default: true,  null: false
     t.boolean  "link_tracking_enabled",  default: true,  null: false
   end
+
+  create_table "click_events", force: true do |t|
+    t.integer  "delivery_link_id"
+    t.text     "user_agent"
+    t.text     "referer"
+    t.string   "ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "click_events", ["delivery_link_id"], name: "index_click_events_on_delivery_link_id", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
@@ -120,17 +131,6 @@ ActiveRecord::Schema.define(version: 20130710003548) do
   add_index "emails", ["created_at"], name: "index_emails_on_created_at_and_status", using: :btree
   add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id", using: :btree
   add_index "emails", ["message_id"], name: "index_emails_on_message_id", using: :btree
-
-  create_table "link_events", force: true do |t|
-    t.integer  "delivery_link_id"
-    t.text     "user_agent"
-    t.text     "referer"
-    t.string   "ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "link_events", ["delivery_link_id"], name: "index_link_events_on_delivery_link_id", using: :btree
 
   create_table "links", force: true do |t|
     t.string   "url",        null: false

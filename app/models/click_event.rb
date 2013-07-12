@@ -1,4 +1,4 @@
-class LinkEvent < ActiveRecord::Base
+class ClickEvent < ActiveRecord::Base
   belongs_to :delivery_link
   delegate :link, to: :delivery_link
 

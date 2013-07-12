@@ -4,7 +4,7 @@ class Email < ActiveRecord::Base
   has_many :to_addresses, through: :deliveries, source: :address
   belongs_to :app
   has_many :open_events, through: :deliveries
-  has_many :link_events, through: :deliveries
+  has_many :click_events, through: :deliveries
 
   after_create :update_cache
   before_save :update_message_id, :update_data_hash, :update_subject, :set_default_app
@@ -74,7 +74,7 @@ class Email < ActiveRecord::Base
   end
 
   def clicked?
-    !link_events.empty?
+    !click_events.empty?
   end
 
   private
