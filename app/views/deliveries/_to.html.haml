@@ -1,24 +1,18 @@
 = paginated_section(deliveries, inner_window: 2, outer_window: 0, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, class: "pagination")  do
-  %table.table.table-striped
-    %thead
-      %tr
-        %th Created
-        - if App.normal_apps?
-          %th App
-        %th To
-        %th Subject
-
+  %table#deliveries.table.table-striped
     %tbody(data-provides="rowlink")
       - deliveries.each do |delivery|
         %tr
-          %td
+          %td.description
+            = link_to delivery.to, delivery, class: "rowlink"
+            %br
+            = delivery.subject
+          - if App.normal_apps?
+            %td.app.hidden-phone= delivery.app_name
+          %td.time-and-labels
             = time_ago_in_words(delivery.created_at)
             ago
-          - if App.normal_apps?
-            %td= delivery.app_name
-          %td= link_to delivery.to, delivery, class: "rowlink"
-          %td= delivery.subject
-          %td
+            %br
             = delivered_label(delivery.status)
             - if delivery.opened?
               %span.label.label-success Opened

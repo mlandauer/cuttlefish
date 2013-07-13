@@ -41,3 +41,24 @@ body#login {
   left: inherit;
   right: 25px;
 }
+
+table#deliveries {
+  table-layout: fixed;
+  td {
+    overflow: hidden;
+  }
+  td.app {
+    width: 120px;
+  }
+  td.time-and-labels {
+    width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  table#deliveries {
+    td.time-and-labels {
+      width: 80px;
+    }
+  }
+}
