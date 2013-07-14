@@ -70,3 +70,14 @@
 .select-icon {
   background-image: url("/assets/select/toggle.png");
 }
+
+// Fix for pager disabled
+.pager .disabled {
+  > a, > a:hover {
+    color: white;
+    background-color: inherit;
+  }
+  //> a:hover {
+  //  color: white;
+  //}
+}

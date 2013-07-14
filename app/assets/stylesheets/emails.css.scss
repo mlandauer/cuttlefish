@@ -10,10 +10,14 @@ table td {
   }
 }
 
-.pagination {
+.pagination, .pager {
   display: inline-block;
   float: right;
   margin-top: 0;
+}
+
+p.count {
+  margin-top: 20px;
 }
 
 span.label a {

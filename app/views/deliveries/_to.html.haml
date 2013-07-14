@@ -1,4 +1,8 @@
-= paginated_section(deliveries, inner_window: 2, outer_window: 0, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), renderer: BootstrapLinkRenderer, class: "pagination")  do
+
+
+= paginated_section deliveries, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png"), next_label: image_tag("pager/next.png"), text: "Email" do
+  
+  %p.count= page_entries_info deliveries, model: "email"
   %table#deliveries.table.table-striped
     %tbody(data-provides="rowlink")
       - deliveries.each do |delivery|
