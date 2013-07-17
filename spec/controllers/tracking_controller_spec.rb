@@ -17,7 +17,7 @@ describe TrackingController do
     end
   end
 
-  describe "#link" do
+  describe "#click" do
     before :each do
       @delivery_link = FactoryGirl.create(:delivery_link, id: 204)
       DeliveryLink.any_instance.stub(url: "http://foo.com")
@@ -25,7 +25,7 @@ describe TrackingController do
 
     context "When the correct hash and id are used" do
       it "should redirect" do
-        get :link, delivery_link_id: 204, hash: "542bae7ec2904c85b945b56072c726d8507fc58a"
+        get :click, delivery_link_id: 204, hash: "542bae7ec2904c85b945b56072c726d8507fc58a"
         expect(response).to redirect_to("http://foo.com")
       end
 
@@ -34,16 +34,16 @@ describe TrackingController do
         delivery_link = mock_model(DeliveryLink, url: "http://foo.com")
         DeliveryLink.should_receive(:find).with("204").and_return(delivery_link)
         delivery_link.should_receive(:add_click_event)
-        get :link, delivery_link_id: 204, hash: "542bae7ec2904c85b945b56072c726d8507fc58a"        
+        get :click, delivery_link_id: 204, hash: "542bae7ec2904c85b945b56072c726d8507fc58a"        
       end
     end
 
     it "should 404 when the wrong id is used" do
-      expect { get :link, delivery_link_id: 122, hash: "a5ff8760c7cf5763a4008c338d617f71542e362f"}.to raise_error(ActiveRecord::RecordNotFound)
+      expect { get :click, delivery_link_id: 122, hash: "a5ff8760c7cf5763a4008c338d617f71542e362f"}.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "should 4040 when the wrong hash is used" do
-      expect { get :link, delivery_link_id: 204, hash: "123"}.to raise_error(ActiveRecord::RecordNotFound)
+      expect { get :click, delivery_link_id: 204, hash: "123"}.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

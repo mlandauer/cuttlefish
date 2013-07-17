@@ -15,7 +15,7 @@ class TrackingController < ApplicationController
     end
   end
 
-  def link
+  def click
     if HashId.valid?(params[:delivery_link_id], params[:hash])
       delivery_link = DeliveryLink.find(params[:delivery_link_id])
       delivery_link.add_click_event(request)

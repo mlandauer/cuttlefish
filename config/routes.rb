@@ -35,7 +35,7 @@ Cuttlefish::Application.routes.draw do
   get 'o/:delivery_id/:hash' => 'tracking#open', as: "tracking_open"
 
   # Link tracking
-  get 'l/:delivery_link_id/:hash' => 'tracking#link', as: "tracking_link"
+  get 'l/:delivery_link_id/:hash' => 'tracking#click', as: "tracking_click"
   
   get '/documentation' => 'documentation#index'
   
