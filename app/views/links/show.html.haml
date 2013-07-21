@@ -1,0 +1,23 @@
+.page-header
+  %h1 Emails with link #{@link.url}
+
+= paginated_section @delivery_links, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Email" do
+  
+  %p.count= page_entries_info @delivery_links, model: "email"
+  %table#deliveries.table.table-striped
+    %thead
+      %tr
+        %th.description
+        %th.app.hidden-phone
+        %th.time-and-labels Clicks
+    %tbody(data-provides="rowlink")
+      - @delivery_links.each do |delivery_link|
+        %tr
+          %td.description
+            = link_to delivery_link.to, delivery_link.delivery, class: "rowlink"
+            %br
+            = delivery_link.subject
+          - if App.normal_apps?
+            %td.app.hidden-phone= delivery_link.app_name
+          %td.time-and-labels
+            = delivery_link.click_events.count

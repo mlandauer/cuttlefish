@@ -21,7 +21,7 @@ Cuttlefish::Application.routes.draw do
   end
 
   resource :settings, only: [:edit, :update]
-  resources :links, only: :index
+  resources :links, only: [:index, :show]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

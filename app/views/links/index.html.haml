@@ -4,7 +4,7 @@
 = paginated_section @links, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Links" do
   %p.count= page_entries_info @links, model: "link"
 
-  %table.table
+  %table.table.table-striped
     %thead
       %tr
         %th URL
@@ -12,10 +12,10 @@
         %th Unique clicks
         %th Emails
         %th Click rate
-    %tbody
+    %tbody(data-provides="rowlink")
       - @links.each do |link|
         %tr
-          %td= link.url
+          %td= link_to link.url, link, class: "rowlink"
           %td= link.click_events.count
           %td
             -# TODO: Implement unique clicks

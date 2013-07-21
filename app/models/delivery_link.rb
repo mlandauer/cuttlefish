@@ -1,6 +1,9 @@
 class DeliveryLink < ActiveRecord::Base
   belongs_to :link
+  belongs_to :delivery
   has_many :click_events, dependent: :destroy
+
+  delegate :to, :subject, :app_name, to: :delivery
 
   def url
     link.url
