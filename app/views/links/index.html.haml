@@ -7,12 +7,14 @@
   %table.table
     %thead
       %tr
-        %th
-          URL
-        %th
-          Clicks
+        %th URL
+        %th Clicks
+        %th Emails
+        %th Click rate
     %tbody
       - @links.each do |link|
         %tr
           %td= link.url
           %td= link.click_events.count
+          %td= link.deliveries.count
+          %td= "%0.0f%" % (100.0 * link.click_events.count / link.deliveries.count)
