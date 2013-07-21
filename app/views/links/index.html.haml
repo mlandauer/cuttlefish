@@ -1,0 +1,18 @@
+.page-header
+  %h1 Links
+
+= paginated_section @links, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Links" do
+  %p.count= page_entries_info @links, model: "link"
+
+  %table.table
+    %thead
+      %tr
+        %th
+          URL
+        %th
+          Clicks
+    %tbody
+      - @links.each do |link|
+        %tr
+          %td= link.url
+          %td= link.click_events.count
