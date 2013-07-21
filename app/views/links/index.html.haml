@@ -9,6 +9,7 @@
       %tr
         %th URL
         %th Clicks
+        %th Unique clicks
         %th Emails
         %th Click rate
     %tbody
@@ -16,5 +17,7 @@
         %tr
           %td= link.url
           %td= link.click_events.count
+          %td
+            -# TODO: Implement unique clicks
           %td= link.deliveries.count
           %td= "%0.0f%" % (100.0 * link.click_events.count / link.deliveries.count)
