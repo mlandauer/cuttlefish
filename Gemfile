@@ -37,9 +37,8 @@ gem "file-tail"
 gem 'syslog_protocol'
 gem "will_paginate"
 gem "dnsbl-client"
-# TODO: switch to official release - probably when rails 4.0.0 is released
-gem "devise", git: "https://github.com/plataformatec/devise.git", branch: "rails4"
-gem 'devise_invitable', git: "https://github.com/scambra/devise_invitable.git", branch: "rails4"
+gem "devise"
+gem 'devise_invitable'
 gem 'gravatar_image_tag'
 # Some rails 4 support (as of db89a982424d5e4dc0d784ae5cb6f1335fe68cd1) not yet officially released
 gem "formtastic", git: "https://github.com/justinfrench/formtastic.git"
