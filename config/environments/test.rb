@@ -40,4 +40,6 @@ Cuttlefish::Application.configure do
 
   config.cuttlefish_domain = "cuttlefish.example.org"
   config.action_mailer.default_url_options = { host: config.cuttlefish_domain, protocol: "https" }
+  # This needs to be set to something secret in production.rb!
+  config.devise_secret_key = 'xxxxxx'
 end

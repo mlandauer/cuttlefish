@@ -37,4 +37,6 @@ Cuttlefish::Application.configure do
   # In development send the mails to mailcatcher: http://mailcatcher.me/
   config.postfix_smtp_host = "localhost"
   config.postfix_smtp_port = 1025
+  # This needs to be set to something secret in production.rb!
+  config.devise_secret_key = 'xxxxxx'
 end
