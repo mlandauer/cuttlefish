@@ -45,6 +45,9 @@ Cuttlefish is in beta. It's been used in production on one of [OpenAustralia Fou
 Ruby 1.9.3, MySQL, Postfix
 (Postfix is optional for local development or just trying it out. Some things like the email deliverability just won't show anything)
 
+Also you need the following libraries:
+imagemagick, libmagickwand-dev, libmysqld-dev
+
 ##To install:
 ```
 bundle install
