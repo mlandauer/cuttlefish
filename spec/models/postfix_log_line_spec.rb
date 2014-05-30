@@ -118,7 +118,7 @@ describe PostfixLogLine do
     it "should show a message if the address isn't recognised in a log line" do
       PostfixLogLine.should_receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
       email = FactoryGirl.create(:email)
-      PostfixLogLine.create_from_line(line1)      
+      PostfixLogLine.create_from_line(line1)
     end
 
     it "should only log lines that are delivery attempts" do
@@ -144,7 +144,7 @@ describe PostfixLogLine do
       it "should use the latest email" do
         delivery1
         delivery2
-        PostfixLogLine.create_from_line(line1)      
+        PostfixLogLine.create_from_line(line1)
         delivery1.postfix_log_lines.should be_empty
         delivery2.postfix_log_lines.count.should == 1
       end
