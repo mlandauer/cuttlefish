@@ -60,7 +60,7 @@ describe PostfixLogLine do
         line.delays.should == "92777/0.03/1.6/0.91"
         line.dsn.should == "4.3.0"
         line.extended_status.should == "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
-        line.time.should == Time.local(2013,4,5,16,41,54)
+        line.time.should == Time.local(Time.now.year,4,5,16,41,54)
       end
 
       it "should attach it to the delivery" do
@@ -71,7 +71,7 @@ describe PostfixLogLine do
         line.delays.should == "92777/0.03/1.6/0.91"
         line.dsn.should == "4.3.0"
         line.extended_status.should == "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
-        line.time.should == Time.local(2013,4,5,16,41,54)
+        line.time.should == Time.local(Time.now.year,4,5,16,41,54)
       end
     end
 
@@ -153,7 +153,7 @@ describe PostfixLogLine do
 
   describe ".match_main_content" do
     it { PostfixLogLine.match_main_content(line1).should == {
-      time: Time.local(2013,4,5,16,41,54),
+      time: Time.local(Time.now.year,4,5,16,41,54),
       program: "smtp",
       queue_id: "39D9336AFA81",
       to: "foo@bar.com",
@@ -164,12 +164,12 @@ describe PostfixLogLine do
       extended_status: "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
     }}
     it { PostfixLogLine.match_main_content(line2).should == {
-      time: Time.local(2013,4,5,18,41,58),
+      time: Time.local(Time.now.year,4,5,18,41,58),
       program: "qmgr",
       queue_id: "E69DB36D4A2B",
     }}
     it { PostfixLogLine.match_main_content(line3).should == {
-      time: Time.local(2013,4,5,17,11,7),
+      time: Time.local(Time.now.year,4,5,17,11,7),
       program: "smtpd",
       queue_id: nil,
     }}
