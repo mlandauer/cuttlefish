@@ -108,7 +108,7 @@
         %pre= @delivery.text_part
     - elsif @delivery.html_part
       %div.tab-pane.active#html
-        .well= @delivery.html_part.html_safe
+        .well= @delivery.html_part.html_safe.force_encoding("UTF-8")
     - else
       %div.tab-pane.active#text
         %pre= @delivery.text_part
