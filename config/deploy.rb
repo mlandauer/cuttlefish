@@ -9,6 +9,8 @@ set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
 server "kedumba.openaustraliafoundation.org.au", :app, :web, :db, primary: true
 
 set :use_sudo, false
+set :deploy_via, :remote_cache
+
 set :user, "deploy"
 set :deploy_to, "/srv/www/cuttlefish.openaustraliafoundation.org.au"
 
@@ -29,11 +31,12 @@ namespace :deploy do
   desc "After a code update, we link additional config and data directories"
   before "deploy:assets:precompile" do
     links = {
-      "#{release_path}/config/database.yml"               => "#{shared_path}/database.yml",
-      "#{release_path}/config/environments/production.rb" => "#{shared_path}/production.rb",
-      "#{release_path}/config/newrelic.yml"               => "#{shared_path}/newrelic.yml",
-      "#{release_path}/db/emails"                         => "#{shared_path}/emails",
-      "#{release_path}/db/user_agents"                    => "#{shared_path}/user_agents",
+      "#{release_path}/config/database.yml"                => "#{shared_path}/database.yml",
+      "#{release_path}/config/environments/production.rb"  => "#{shared_path}/production.rb",
+      "#{release_path}/config/newrelic.yml"                => "#{shared_path}/newrelic.yml",
+      "#{release_path}/config/initializers/honeybadger.rb" => "#{shared_path}/honeybadger.rb",
+      "#{release_path}/db/emails"                          => "#{shared_path}/emails",
+      "#{release_path}/db/user_agents"                     => "#{shared_path}/user_agents",
     }
     # Copy across the example database configuration file if there isn't already one
     run "test -f #{shared_path}/database.yml || cp #{release_path}/config/database.yml #{shared_path}/database.yml"
