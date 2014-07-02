@@ -14,6 +14,9 @@ gem 'mysql2'
 group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
+  # Don't upgrade to Bootstrap 3. It's already responsive, for example, so there's a bunch
+  # of things we need to do for the upgrade
+  gem 'bootstrap-sass', '~> 2.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', platforms: :ruby
@@ -31,7 +34,8 @@ gem "eventmachine"
 gem 'delayed_job_active_record', "~> 4.0.0.beta1"
 gem 'foreman'
 gem 'haml-rails'
-gem 'flatui-rails'
+# Use pull request that has needed Rails 4 improvements https://github.com/pkurek/flatui-rails/pull/25
+gem 'flatui-rails', github: 'iffyuva/flatui-rails', ref: '3d3c423'
 gem 'font-awesome-sass-rails'
 gem "file-tail"
 gem 'syslog_protocol'

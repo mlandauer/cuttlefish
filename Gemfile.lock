@@ -1,4 +1,14 @@
 GIT
+  remote: git://github.com/iffyuva/flatui-rails.git
+  revision: 3d3c423d6bb58caa5d97d6fe2e3d03235e0d378e
+  ref: 3d3c423
+  specs:
+    flatui-rails (0.0.4)
+      bootstrap-sass (>= 2.3.1)
+      railties (>= 3.1)
+      sass-rails (>= 3.2.0)
+
+GIT
   remote: https://github.com/justinfrench/formtastic.git
   revision: 593ed1e43e8fbf35da589186720d35e7f444519f
   specs:
@@ -41,7 +51,7 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.2)
     bcrypt-ruby (3.1.2)
-    bootstrap-sass (2.2.2.0)
+    bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
     builder (3.1.4)
     capistrano (2.13.5)
@@ -107,10 +117,6 @@ GEM
     ffi (1.9.0)
     file-tail (1.0.12)
       tins (~> 0.5)
-    flatui-rails (0.0.4)
-      bootstrap-sass (= 2.2.2)
-      railties (>= 3.1)
-      sass-rails (>= 3.2.0)
     font-awesome-sass-rails (3.0.2.2)
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
@@ -294,6 +300,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-sass (~> 2.0)
   capistrano (= 2.13.5)
   capybara
   coffee-rails
@@ -306,7 +313,7 @@ DEPENDENCIES
   eventmachine
   factory_girl_rails
   file-tail
-  flatui-rails
+  flatui-rails!
   font-awesome-sass-rails
   foreman
   formtastic!
