@@ -26,7 +26,7 @@ namespace :deploy do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 
-  desc "After a code update, we link additional config and the scrapers"
+  desc "After a code update, we link additional config and data directories"
   before "deploy:assets:precompile" do
     links = {
       "#{release_path}/config/database.yml"               => "#{shared_path}/database.yml",

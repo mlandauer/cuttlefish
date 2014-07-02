@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.3'
+gem 'rails', '4.0.6'
 
 # For the time being we'll keep sqlite and mysql both around so we can switch
 # between them for development / production whatever. Not good in the long run but
@@ -12,8 +12,11 @@ gem 'mysql2'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 4.0.0.rc1'
-  gem 'coffee-rails', '~> 4.0.0'
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  # Don't upgrade to Bootstrap 3. It's already responsive, for example, so there's a bunch
+  # of things we need to do for the upgrade
+  gem 'bootstrap-sass', '~> 2.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', platforms: :ruby
@@ -31,7 +34,8 @@ gem "eventmachine"
 gem 'delayed_job_active_record', "~> 4.0.0.beta1"
 gem 'foreman'
 gem 'haml-rails'
-gem 'flatui-rails'
+# Use pull request that has needed Rails 4 improvements https://github.com/pkurek/flatui-rails/pull/25
+gem 'flatui-rails', github: 'iffyuva/flatui-rails', ref: '3d3c423'
 gem 'font-awesome-sass-rails'
 gem "file-tail"
 gem 'syslog_protocol'
@@ -45,8 +49,7 @@ gem "formtastic", git: "https://github.com/justinfrench/formtastic.git"
 # Need commit c9331088146e456a69bd6e94298c80d09be3ee74
 gem 'formtastic-bootstrap', git: "https://github.com/mjbellantoni/formtastic-bootstrap.git"
 gem "net-dns"
-# e83aa4d0d9d84f1ec1d268111e74efadbaa77a8a contains a small fix for Ruby 1.9.3 compatibility. Not yet in an official release
-gem "rails-settings-cached", git: "https://github.com/huacnlee/rails-settings-cached.git"
+gem "rails-settings-cached"
 gem 'factory_girl_rails'
 gem 'haml-coderay'
 gem 'nokogiri'
@@ -58,6 +61,7 @@ gem 'google-analytics-rails'
 gem "capistrano", "2.13.5"
 gem 'rvm-capistrano'
 gem 'newrelic_rpm'
+gem 'honeybadger'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
