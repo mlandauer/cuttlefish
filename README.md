@@ -83,9 +83,12 @@ deploy  ALL = NOPASSWD: /usr/sbin/service
 ```
 This allows the deploy user to sudo just to manage the upstart processes
 
-## New relic:
+### New Relic
 If you use new relic just put your configuration file in shared/newrelic.yml on the server
 To record your deploys you will also need to add config/newrelic.yml on your local box. How annoying!
+
+### Honeybadger
+Copy `config/initializers/honeybadger.rb-example` to `config/initializers/honeybadger.rb` and fill in your API key.
 
 ## How to contribute
 

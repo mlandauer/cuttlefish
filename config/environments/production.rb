@@ -90,6 +90,4 @@ Cuttlefish::Application.configure do
   # These need to be set to something secret! Use "bundle exec rake secret"
   config.devise_secret_key = 'xxxxxx'
   config.secret_key_base = 'xxxxxx'
-
-  config.honeybadger_api_key = 'xxxxxx'
 end
