@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130712062539) do
+ActiveRecord::Schema.define(version: 20140702031017) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -73,9 +73,9 @@ ActiveRecord::Schema.define(version: 20130712062539) do
   add_index "click_events", ["delivery_link_id"], name: "index_click_events_on_delivery_link_id", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
-    t.integer  "priority",   default: 0
-    t.integer  "attempts",   default: 0
-    t.text     "handler"
+    t.integer  "priority",                    default: 0
+    t.integer  "attempts",                    default: 0
+    t.text     "handler",    limit: 16777215
     t.text     "last_error"
     t.datetime "run_at"
     t.datetime "locked_at"
