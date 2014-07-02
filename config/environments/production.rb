@@ -87,6 +87,7 @@ Cuttlefish::Application.configure do
 
   config.cuttlefish_domain = "cuttlefish.yourdomain"
   config.action_mailer.default_url_options = { host: config.cuttlefish_domain, protocol: "https" }
-  # This needs to be set to something secret! Use "bundle exec rake secret"
+  # These need to be set to something secret! Use "bundle exec rake secret"
   config.devise_secret_key = 'xxxxxx'
+  config.secret_key_base = 'xxxxxx'
 end
