@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/huacnlee/rails-settings-cached.git
-  revision: c7fc081366e47dbdf74e7ac393649522056e699a
-  specs:
-    rails-settings-cached (0.3.0)
-      rails (>= 4.0.0.beta1)
-
-GIT
   remote: https://github.com/justinfrench/formtastic.git
   revision: 593ed1e43e8fbf35da589186720d35e7f444519f
   specs:
@@ -209,6 +202,8 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.0.6)
       sprockets-rails (~> 2.0)
+    rails-settings-cached (0.4.1)
+      rails (>= 4.0.0)
     railties (4.0.6)
       actionpack (= 4.0.6)
       activesupport (= 4.0.6)
@@ -332,7 +327,7 @@ DEPENDENCIES
   nokogiri
   rack-livereload
   rails (= 4.0.6)
-  rails-settings-cached!
+  rails-settings-cached
   rb-fchange
   rb-fsevent
   rb-inotify

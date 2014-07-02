@@ -45,8 +45,7 @@ gem "formtastic", git: "https://github.com/justinfrench/formtastic.git"
 # Need commit c9331088146e456a69bd6e94298c80d09be3ee74
 gem 'formtastic-bootstrap', git: "https://github.com/mjbellantoni/formtastic-bootstrap.git"
 gem "net-dns"
-# e83aa4d0d9d84f1ec1d268111e74efadbaa77a8a contains a small fix for Ruby 1.9.3 compatibility. Not yet in an official release
-gem "rails-settings-cached", git: "https://github.com/huacnlee/rails-settings-cached.git"
+gem "rails-settings-cached"
 gem 'factory_girl_rails'
 gem 'haml-coderay'
 gem 'nokogiri'
