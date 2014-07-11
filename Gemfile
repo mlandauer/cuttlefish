@@ -85,6 +85,7 @@ group :development do
   gem 'guard-livereload'
   gem "rack-livereload"
   gem "guard-rspec"
+  gem 'rack-mini-profiler'
 end
 
 group :test do
