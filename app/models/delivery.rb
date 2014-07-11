@@ -72,7 +72,7 @@ class Delivery < ActiveRecord::Base
 
   def self.click_rate(deliveries)
     # By doing an _inner_ join we only end up counting deliveries that have click_events
-    n = deliveries.joins(:click_events).select("distinct(deliveries.id)").count
+    n = deliveries.joins(:delivery_links).where("click_events_count > 0").select("distinct(deliveries.id)").count
     total =  deliveries.joins(:delivery_links).select("distinct(deliveries.id)").count
     (n.to_f / total) if total > 0
   end
