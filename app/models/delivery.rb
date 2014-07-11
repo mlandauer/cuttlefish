@@ -65,9 +65,7 @@ class Delivery < ActiveRecord::Base
   # Returns nil when there are no deliveries with open tracking (which would otherwise cause a division by
   # zero error)
   def self.open_rate(deliveries)
-    # By doing an _inner_ join we only end up counting deliveries that have open_events
-    # And for those deliveries with multiple open events we don't want to count those several times
-    n = deliveries.joins(:open_events).select("distinct(deliveries.id)").count
+    n = deliveries.where("open_events_count > 0").count
     total =  deliveries.where(open_tracked: true).count
     (n.to_f / total) if total > 0
   end
