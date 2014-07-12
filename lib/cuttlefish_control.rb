@@ -3,7 +3,8 @@ require File.expand_path File.join(File.dirname(__FILE__), 'cuttlefish_smtp_serv
 module CuttlefishControl
   def self.smtp_start
     environment = ENV["RAILS_ENV"] || "development"
-    host = "127.0.0.1"
+    # We are accepting connections from the outside world
+    host = "0.0.0.0"
     port = Rails.configuration.cuttlefish_smtp_port
 
     # For the benefit of foreman
