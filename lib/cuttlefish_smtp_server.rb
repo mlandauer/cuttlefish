@@ -25,7 +25,7 @@ class CuttlefishSmtpServer
       # On every new connection check if the authentication setting has changed
       connection.parms = {
         auth: (Settings.smtp_all_authenticated ? :required : true),
-        starttls: true
+        starttls: :required
       }
       connection.server = self
       @connections << connection
