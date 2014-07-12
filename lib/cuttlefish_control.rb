@@ -18,7 +18,7 @@ module CuttlefishControl
 
       puts "My eight arms and two tentacles are quivering in anticipation."
       puts "I'm listening for emails via SMTP on #{host} port #{port}"
-      puts "I'm in the #{environment} environment" 
+      puts "I'm in the #{environment} environment"
     }
   end
 
