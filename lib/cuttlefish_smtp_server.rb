@@ -36,7 +36,7 @@ class CuttlefishSmtpServer
   def stop
     puts "Stopping server gracefully..."
     EM.stop_server @server
-    
+
     unless wait_for_connections_and_stop
       # Still some connections running, schedule a check later
       EventMachine.add_periodic_timer(1) { wait_for_connections_and_stop }
@@ -146,4 +146,3 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     @current ||= OpenStruct.new
   end
 end
-
