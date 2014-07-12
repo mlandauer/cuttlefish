@@ -19,6 +19,8 @@
         :port => #{Rails.configuration.cuttlefish_smtp_port},
         :user_name => "#{app.smtp_username}",
         :password => "#{app.smtp_password}",
+        # Server is currently using a self-signed certificate
+        :openssl_verify_mode => "none",
         :authentication => :plain
        }
   - else
@@ -30,6 +32,8 @@
       config.action_mailer.smtp_settings = {
         :address => "#{Rails.configuration.cuttlefish_domain}",
         :port => #{Rails.configuration.cuttlefish_smtp_port},
+        # Server is currently using a self-signed certificate
+        :openssl_verify_mode => "none",
        }
 
 
