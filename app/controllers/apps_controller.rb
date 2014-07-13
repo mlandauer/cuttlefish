@@ -58,6 +58,13 @@ class AppsController < ApplicationController
     redirect_to app
   end
 
+  def dkim
+    # Let's generate a key pair
+    key = OpenSSL::PKey::RSA.new(2048)
+    @public = key.public_key.to_pem
+    @private = key.to_pem
+  end
+
   private
 
   def app_parameters
