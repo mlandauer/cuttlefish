@@ -1,6 +1,6 @@
 class App < ActiveRecord::Base
   has_many :emails, dependent: :destroy
-  
+
   validates :name, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "Only letters, numbers, spaces and underscores"}
   validate :custom_tracking_domain_points_to_correct_place
 
