@@ -59,9 +59,7 @@ class AppsController < ApplicationController
   end
 
   def dkim
-    app = App.find(params[:id])
-    @public = app.dkim_public_key
-    @private = app.dkim_private_key
+    @app = App.find(params[:id])
   end
 
   private

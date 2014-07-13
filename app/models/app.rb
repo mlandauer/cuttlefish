@@ -29,6 +29,11 @@ class App < ActiveRecord::Base
     read_attribute(:dkim_public_key)
   end
 
+  # The string that needs to be inserted in DNS
+  def dkim_public_key_dns
+    "k=rsa; p=" + dkim_public_key.split("\n")[1..-2].join("\n")
+  end
+
   def dkim_private_key
     set_dkim_key_pair if read_attribute(:dkim_private_key).nil?
     read_attribute(:dkim_private_key)
