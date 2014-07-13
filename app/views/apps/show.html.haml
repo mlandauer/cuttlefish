@@ -15,6 +15,12 @@
   - else
     = link_to @app.url
 %p
+  Email from domain:
+  - if @app.from_domain.blank?
+    %span.muted Not set
+  - else
+    = @app.from_domain
+%p
   Click tracking:
   - if @app.click_tracking_enabled?
     Enabled
