@@ -59,10 +59,9 @@ class AppsController < ApplicationController
   end
 
   def dkim
-    # Let's generate a key pair
-    key = OpenSSL::PKey::RSA.new(2048)
-    @public = key.public_key.to_pem
-    @private = key.to_pem
+    app = App.find(params[:id])
+    @public = app.dkim_public_key
+    @private = app.dkim_private_key
   end
 
   private

@@ -24,6 +24,16 @@ class App < ActiveRecord::Base
     where(default_app: false).exists?
   end
 
+  def dkim_public_key
+    set_dkim_key_pair if read_attribute(:dkim_public_key).nil?
+    read_attribute(:dkim_public_key)
+  end
+
+  def dkim_private_key
+    set_dkim_key_pair if read_attribute(:dkim_private_key).nil?
+    read_attribute(:dkim_private_key)
+  end
+
   private
 
   def self.lookup_dns_cname_record(domain)
@@ -49,5 +59,11 @@ class App < ActiveRecord::Base
   def set_smtp_username
     # By appending the id we can be confident that this name is globally unique
     update_attributes(smtp_username: name.downcase.gsub(" ", "_") + "_" + id.to_s)
+  end
+
+  def set_dkim_key_pair
+    # Let's generate a key pair
+    key = OpenSSL::PKey::RSA.new(2048)
+    update_attributes(dkim_private_key: key.to_pem, dkim_public_key: key.public_key.to_pem)
   end
 end
