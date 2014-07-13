@@ -32,15 +32,15 @@ Cuttlefish::Application.routes.draw do
   get 'dash' => 'main#index'
   get 'status_counts' => 'main#status_counts'
   get 'reputation' => 'main#reputation'
-  
+
   # Open tracking gifs
   get 'o/:delivery_id/:hash' => 'tracking#open', as: "tracking_open"
 
   # Link tracking
   get 'l/:delivery_link_id/:hash' => 'tracking#click', as: "tracking_click"
-  
+
   get '/documentation' => 'documentation#index'
-  
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
