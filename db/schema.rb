@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140713001257) do
+ActiveRecord::Schema.define(version: 20140713004313) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20140713001257) do
     t.boolean  "click_tracking_enabled", default: true,  null: false
     t.text     "dkim_public_key"
     t.text     "dkim_private_key"
+    t.string   "from_domain"
   end
 
   create_table "click_events", force: true do |t|
