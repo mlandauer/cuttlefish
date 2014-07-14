@@ -5,7 +5,9 @@ describe CuttlefishSmtpConnection do
   describe '#receive_message' do
     it 'can queue large messages' do
       connection = CuttlefishSmtpConnection.new('')
-      connection.current.data = 'foobar' * 1000000
+      # This data is still about double what should fit in a TEXT
+      # Something six times bigger than this causes mysql to lose connection on OS X for Matthew
+      connection.current.data = 'a' * 1000000
       connection.receive_message
     end
   end
