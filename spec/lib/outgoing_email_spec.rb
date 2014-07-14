@@ -10,7 +10,7 @@ describe OutgoingEmail do
         Delivery.create!(email: email, address: Address.create!(text: "foo@bar.com"))
         Delivery.create!(email: email, address: Address.create!(text: "peter@bar.com"))
         email.reload
-        
+
         outgoing = OutgoingEmail.new(email)
         smtp = mock
         smtp.should_receive(:send_message).twice.and_return(mock(message: ""))
@@ -39,7 +39,7 @@ describe OutgoingEmail do
 
       it "should use data to figure out what to send" do
         smtp = mock
-        HoldBackHardBounceFilter.any_instance.stub(:data).and_return("My altered data")
+        Filters::HoldBackHardBounce.any_instance.stub(:data).and_return("My altered data")
         smtp.should_receive(:send_message).with("My altered data", anything(), anything()).and_return(mock(message: ""))
         Net::SMTP.should_receive(:start).and_yield(smtp)
         @outgoing.send
@@ -63,7 +63,7 @@ describe OutgoingEmail do
 
       context "deliveries is empty" do
         before :each do
-          HoldBackHardBounceFilter.any_instance.stub(:send?).and_return(false)
+          Filters::HoldBackHardBounce.any_instance.stub(:send?).and_return(false)
         end
 
         it "should send no emails" do

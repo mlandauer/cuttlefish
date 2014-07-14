@@ -1,4 +1,4 @@
-class DeliveryFilter
+class Filters::Delivery
   attr_reader :delivery
 
   def initialize(delivery)

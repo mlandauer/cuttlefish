@@ -1,13 +1,13 @@
 require "spec_helper"
 
-describe ClickTrackingFilter do
+describe Filters::ClickTracking do
   let(:delivery) do
     delivery = Delivery.new(id: 673)
     delivery.stub(update_status!: nil)
     delivery.save!
     delivery
   end
-  let(:filter) { ClickTrackingFilter.new(delivery) }
+  let(:filter) { Filters::ClickTracking.new(delivery) }
   let(:email) { mock_model(Email, custom_tracking_domain: nil, click_tracking_enabled?: true) }
 
   describe "#data" do

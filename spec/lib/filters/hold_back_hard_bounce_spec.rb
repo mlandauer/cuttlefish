@@ -1,8 +1,8 @@
 require "spec_helper"
 
-describe HoldBackHardBounceFilter do
+describe Filters::HoldBackHardBounce do
   let(:delivery) { mock(from: "foo@foo.com", to: ["bar@foo.com"], data: "my original data") }
-  let(:filter) { HoldBackHardBounceFilter.new(delivery) }
+  let(:filter) { Filters::HoldBackHardBounce.new(delivery) }
 
   describe "#from" do
     it { filter.from.should == "foo@foo.com" }

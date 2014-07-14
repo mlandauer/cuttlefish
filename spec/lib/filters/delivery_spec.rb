@@ -1,8 +1,8 @@
 require "spec_helper"
 
-describe DeliveryFilter do
+describe Filters::Delivery do
   let(:delivery) { mock(from: "foo@foo.com", to: ["bar@foo.com"], data: "my original data") }
-  let(:filter) { DeliveryFilter.new(delivery) }
+  let(:filter) { Filters::Delivery.new(delivery) }
 
   describe "#from" do
     it { filter.from.should == "foo@foo.com" }
@@ -29,14 +29,14 @@ describe DeliveryFilter do
   describe "#id" do
     it "should return the id of the original input" do
       a = mock(id: "123")
-      b = DeliveryFilter.new(a)
+      b = Filters::Delivery.new(a)
       b.id.should == "123"
     end
 
     it "should return the id of the input even when several filters are chained together" do
       a = mock(id: "123")
-      b = DeliveryFilter.new(a)
-      c = DeliveryFilter.new(b)
+      b = Filters::Delivery.new(a)
+      c = Filters::Delivery.new(b)
       c.id.should == "123"
     end
   end

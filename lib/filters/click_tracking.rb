@@ -1,15 +1,15 @@
-class ClickTrackingFilter < TrackingFilter
+class Filters::ClickTracking < Filters::Tracking
   include Rails.application.routes.url_helpers
 
   def rewrite_url(url)
     link = Link.find_or_create_by(url: url)
     delivery_link = DeliveryLink.find_or_create_by(delivery_id: id, link_id: link.id)
     tracking_click_url(
-      host: host, 
+      host: host,
       protocol: protocol,
       delivery_link_id: delivery_link.id,
       hash: HashId.hash(delivery_link.id)
-    )    
+    )
   end
 
   def apply_html?

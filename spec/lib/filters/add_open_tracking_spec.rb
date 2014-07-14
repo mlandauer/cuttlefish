@@ -1,13 +1,13 @@
 require "spec_helper"
 
-describe AddOpenTrackingFilter do
+describe Filters::AddOpenTracking do
   let(:delivery) do
     delivery = Delivery.new(id: 673)
     delivery.stub(update_status!: nil)
     delivery.save!
     delivery
   end
-  let(:filter) { AddOpenTrackingFilter.new(delivery) }
+  let(:filter) { Filters::AddOpenTracking.new(delivery) }
 
   describe "#url" do
     before :each do
@@ -24,7 +24,7 @@ describe AddOpenTrackingFilter do
       # This is not nice. Far too much knowledge of other classes
       # TODO Refactor
       delivery.stub_chain(:email, :custom_tracking_domain).and_return("email.planningalerts.org.au")
-      filter.url.should == "http://email.planningalerts.org.au/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif"      
+      filter.url.should == "http://email.planningalerts.org.au/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif"
     end
   end
 

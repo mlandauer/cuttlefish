@@ -1,6 +1,6 @@
 # Filter mail content by splitting out html and text parts
 # and handling them separately
-class MailFilter < DeliveryFilter
+class Filters::Mail < Filters::Delivery
   def data
     mail = Mail.new(delivery.data)
     if (mail.html_part && apply_html?) || (mail.text_part && apply_text?)

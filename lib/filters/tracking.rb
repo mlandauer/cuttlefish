@@ -1,4 +1,4 @@
-class TrackingFilter < MailFilter
+class Filters::Tracking < Filters::Mail
   # Hostname to use for the open tracking image or rewritten link
   def host
     if !email.custom_tracking_domain.blank?
