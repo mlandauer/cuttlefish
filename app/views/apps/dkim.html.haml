@@ -14,6 +14,17 @@
     %td cuttlefish._domainkey.#{@app.from_domain}
     %td= @app.dkim_public_key_dns
 
+%h3 Current value in DNS
+
+- a = Net::DNS::Resolver.start("cuttlefish._domainkey.#{@app.from_domain}", Net::DNS::TXT).answer.first.txt
+%p= a
+
+%p
+  - if a == @app.dkim_public_key_dns
+    Matches
+  - else
+    Does not match
+
 %p Only enable DKIM once you've set up your DNS records
 
 = button_to (@app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(@app), class: "btn btn-primary"
