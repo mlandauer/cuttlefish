@@ -25,8 +25,8 @@ class App < ActiveRecord::Base
   end
 
   def dkim_public_key
-    set_dkim_key_pair if read_attribute(:dkim_public_key).nil?
-    read_attribute(:dkim_public_key)
+    # We can generate the public key from the private key
+    OpenSSL::PKey::RSA.new(dkim_private_key).public_key.to_pem
   end
 
   # The string that needs to be inserted in DNS
@@ -35,7 +35,7 @@ class App < ActiveRecord::Base
   end
 
   def dkim_private_key
-    set_dkim_key_pair if read_attribute(:dkim_private_key).nil?
+    update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem) if read_attribute(:dkim_private_key).nil?
     read_attribute(:dkim_private_key)
   end
 
@@ -70,11 +70,5 @@ class App < ActiveRecord::Base
   def set_smtp_username
     # By appending the id we can be confident that this name is globally unique
     update_attributes(smtp_username: name.downcase.gsub(" ", "_") + "_" + id.to_s)
-  end
-
-  def set_dkim_key_pair
-    # Let's generate a key pair
-    key = OpenSSL::PKey::RSA.new(2048)
-    update_attributes(dkim_private_key: key.to_pem, dkim_public_key: key.public_key.to_pem)
   end
 end
