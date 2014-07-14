@@ -49,17 +49,17 @@
 - else
   %p= link_to "Edit", edit_app_path(@app)
 
-%hr
-%h3 Improve delivery
-%p
-  DomainKeys Identified Mail (DKIM) improves the delivery of your emails by automatically cryptographically
-  signing each email so that the recipient can check that it was indeed sent by you.
-- if @app.dkim_enabled
-  = button_to "Disable DKIM", toggle_dkim_app_path(@app), class: "btn btn-primary"
-- else
-  %p= link_to "Set up DKIM", dkim_app_path(@app)
-
 - unless @app.default_app?
+  %hr
+  %h3 Improve delivery
+  %p
+    DomainKeys Identified Mail (DKIM) improves the delivery of your emails by automatically cryptographically
+    signing each email so that the recipient can check that it was indeed sent by you.
+  - if @app.dkim_enabled
+    = button_to "Disable DKIM", toggle_dkim_app_path(@app), class: "btn btn-primary"
+  - else
+    %p= link_to "Set up DKIM", dkim_app_path(@app)
+
   %hr
   %h3 Remove this App
 
