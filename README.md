@@ -22,6 +22,7 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Multiple applications can each have their own SMTP authentication
 * Check your IP reputation with one click
 * Easy to install and get going quickly
+* Built in, super easy to set up, automatic DKIM signing
 * Postfix, which you know and trust, handles email delivery
 * Open source, so no vendor lock in.
 
@@ -37,7 +38,6 @@ Cuttlefish is in beta. It's been used in production on one of [OpenAustralia Fou
 
 * REST API for deep integration with your application
 * Web callbacks on succesful delivery, hard bounces, open and click events
-* DKIM signing
 * "out of office" and bounce reply filtering
 * Incoming email
 
