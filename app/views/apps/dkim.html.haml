@@ -16,16 +16,18 @@
     If you have a different DNS provider and discover that it does or does not work please
     #{link_to "file an issue on GitHub", "https://github.com/mlandauer/cuttlefish/issues/new"}.
 
-  %table.table
-    %tr
-      %th Name
-      %th Value
-    %tr
-      %td _domainkey.#{@app.from_domain}
-      %td t=y;o=~;
-    %tr
-      %td cuttlefish._domainkey.#{@app.from_domain}
-      %td= @app.dkim_public_key_dns_dnsmadeeasy
+  %table.table.dns
+    %thead
+      %tr
+        %th Name
+        %th Value
+    %tbody
+      %tr
+        %td _domainkey.#{@app.from_domain}
+        %td t=y;o=~;
+      %tr
+        %td cuttlefish._domainkey.#{@app.from_domain}
+        %td= @app.dkim_public_key_dns_dnsmadeeasy
 
   %p
     %strong Reload
