@@ -9,7 +9,8 @@ class OutgoingEmail
     # TODO If no emails are sent out don't open connection to smtp server
     Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
       email.deliveries.each do |delivery|
-        filtered = Filters::ClickTracking.new(Filters::AddOpenTracking.new(Filters::HoldBackHardBounce.new(delivery)))
+        # DKIM filter needs to always be the last one
+        filtered = Filters::Dkim.new(Filters::ClickTracking.new(Filters::AddOpenTracking.new(Filters::HoldBackHardBounce.new(delivery))))
         if filtered.send?
           # TODO: Optimise so that if data is the same for multiple recipients then they
           # are sent in one go
