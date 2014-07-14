@@ -20,11 +20,11 @@
 
 %h3 Current value in DNS
 
-- a = Net::DNS::Resolver.start("cuttlefish._domainkey.#{@app.from_domain}", Net::DNS::TXT).answer.first.txt
-%p= a
+%p= @app.dkim_dns_entry
+%p= @app.dkim_public_key_dns_lookup
 
 %p
-  - if a == @app.dkim_public_key_dns_dnsmadeeasy
+  - if @app.dkim_dns_configured?
     Matches
   - else
     Does not match

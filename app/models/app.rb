@@ -39,9 +39,22 @@ class App < ActiveRecord::Base
     App.quote_long_dns_txt_record("k=rsa; p=" + dkim_public_key.split("\n")[1..-2].join)
   end
 
+  # This is the expected form of the correctly configured TXT entry when we are doing a DNS lookup
+  def dkim_public_key_dns_lookup
+    dkim_public_key_dns_dnsmadeeasy.gsub('""', ' ').gsub('"', '')
+  end
+
+  def dkim_dns_entry
+    Net::DNS::Resolver.start("cuttlefish._domainkey.#{from_domain}", Net::DNS::TXT).answer.first.txt
+  end
+
   def dkim_private_key
     update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem) if read_attribute(:dkim_private_key).nil?
     read_attribute(:dkim_private_key)
+  end
+
+  def dkim_dns_configured?
+    dkim_dns_entry.strip == dkim_public_key_dns_lookup
   end
 
   private
