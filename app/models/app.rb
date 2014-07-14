@@ -31,7 +31,7 @@ class App < ActiveRecord::Base
 
   # The string that needs to be inserted in DNS
   def dkim_public_key_dns
-    "k=rsa; p=" + dkim_public_key.split("\n")[1..-2].join
+    App.quote_long_dns_txt_record("k=rsa; p=" + dkim_public_key.split("\n")[1..-2].join)
   end
 
   def dkim_private_key
@@ -40,6 +40,12 @@ class App < ActiveRecord::Base
   end
 
   private
+
+  # If a DNS TXT record is longer than 255 characters it needs to be split into several
+  # separate strings
+  def self.quote_long_dns_txt_record(text)
+    text.scan(/.{1,255}/).map{|s| '"' + s + '"'}.join
+  end
 
   def self.lookup_dns_cname_record(domain)
     cname_record = Net::DNS::Resolver.start(domain, Net::DNS::CNAME).answer.first
