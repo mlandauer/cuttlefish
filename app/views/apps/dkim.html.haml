@@ -25,10 +25,12 @@
     %tbody
       %tr
         %td _domainkey.#{@app.from_domain}
-        %td t=y;o=~;
+        %td
+          %pre t=y;o=~;
       %tr
         %td cuttlefish._domainkey.#{@app.from_domain}
-        %td= @app.dkim_public_key_dns_dnsmadeeasy
+        %td
+          %pre= @app.dkim_public_key_dns_dnsmadeeasy
 
   %p
     %strong Reload
