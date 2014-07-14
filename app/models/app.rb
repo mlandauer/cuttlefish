@@ -45,7 +45,8 @@ class App < ActiveRecord::Base
   end
 
   def dkim_dns_entry
-    Net::DNS::Resolver.start("cuttlefish._domainkey.#{from_domain}", Net::DNS::TXT).answer.first.txt
+    entry = Net::DNS::Resolver.start("cuttlefish._domainkey.#{from_domain}", Net::DNS::TXT).answer.first
+    entry.txt.strip if entry
   end
 
   def dkim_private_key
@@ -54,7 +55,7 @@ class App < ActiveRecord::Base
   end
 
   def dkim_dns_configured?
-    dkim_dns_entry.strip == dkim_public_key_dns_lookup
+    dkim_dns_entry == dkim_public_key_dns_lookup
   end
 
   private

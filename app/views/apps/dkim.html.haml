@@ -1,34 +1,32 @@
 %h1 Set up DKIM
 
-%h2 Setting up your DNS
-%p You will need to add two TXT records to your DNS.
-%p
-  Note that the format of the DNS values should work with #{link_to "DNS Made Easy", "http://www.dnsmadeeasy.com/"}.
-  If you have a different DNS provider and discover that it does or does not work please
-  #{link_to "file an issue on GitHub", "https://github.com/mlandauer/cuttlefish/issues/new"}.
+- if @app.dkim_dns_configured?
+  %p Your DNS looks to be correctly configured.
+  = button_to (@app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(@app), class: "btn btn-primary"
+- else
+  %h2 Setting up your DNS
+  .alert.alert-info
+    - if @app.dkim_dns_entry.nil?
+      You will need to add two TXT records to your DNS.
+    - else
+      Your DNS doesn't look to be set up correctly
 
-%table.table
-  %tr
-    %th Name
-    %th Value
-  %tr
-    %td _domainkey.#{@app.from_domain}
-    %td t=y;o=~;
-  %tr
-    %td cuttlefish._domainkey.#{@app.from_domain}
-    %td= @app.dkim_public_key_dns_dnsmadeeasy
+  %p
+    Note that the format of the DNS values should work with #{link_to "DNS Made Easy", "http://www.dnsmadeeasy.com/"}.
+    If you have a different DNS provider and discover that it does or does not work please
+    #{link_to "file an issue on GitHub", "https://github.com/mlandauer/cuttlefish/issues/new"}.
 
-%h3 Current value in DNS
+  %table.table
+    %tr
+      %th Name
+      %th Value
+    %tr
+      %td _domainkey.#{@app.from_domain}
+      %td t=y;o=~;
+    %tr
+      %td cuttlefish._domainkey.#{@app.from_domain}
+      %td= @app.dkim_public_key_dns_dnsmadeeasy
 
-%p= @app.dkim_dns_entry
-%p= @app.dkim_public_key_dns_lookup
-
-%p
-  - if @app.dkim_dns_configured?
-    Matches
-  - else
-    Does not match
-
-%p Only enable DKIM once you've set up your DNS records
-
-= button_to (@app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(@app), class: "btn btn-primary"
+  %p
+    %strong Reload
+    this page after you have configured your DNS
