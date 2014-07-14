@@ -13,7 +13,7 @@
   - if @app.url.blank?
     %span.muted Not set
   - else
-    = link_to @app.url
+    = link_to @app.url, @app.url
 %p
   Email from domain:
   - if @app.from_domain.blank?
