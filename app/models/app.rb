@@ -33,8 +33,9 @@ class App < ActiveRecord::Base
     dkim_key.public_key.to_pem
   end
 
-  # The string that needs to be inserted in DNS
-  def dkim_public_key_dns
+  # The string that needs to be inserted in DNS.
+  # This string format works at least for the service DNS Made Easy.
+  def dkim_public_key_dns_dnsmadeeasy
     App.quote_long_dns_txt_record("k=rsa; p=" + dkim_public_key.split("\n")[1..-2].join)
   end
 

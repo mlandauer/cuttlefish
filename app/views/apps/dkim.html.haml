@@ -12,7 +12,7 @@
     %td t=y;o=~;
   %tr
     %td cuttlefish._domainkey.#{@app.from_domain}
-    %td= @app.dkim_public_key_dns
+    %td= @app.dkim_public_key_dns_dnsmadeeasy
 
 %h3 Current value in DNS
 
@@ -20,7 +20,7 @@
 %p= a
 
 %p
-  - if a == @app.dkim_public_key_dns
+  - if a == @app.dkim_public_key_dns_dnsmadeeasy
     Matches
   - else
     Does not match
