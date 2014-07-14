@@ -18,6 +18,7 @@ Cuttlefish::Application.routes.draw do
       post 'new_password'
       post 'lock_password'
       get 'dkim'
+      post 'toggle_dkim'
     end
   end
 

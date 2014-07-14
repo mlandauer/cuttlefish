@@ -13,3 +13,7 @@
   %tr
     %td cuttlefish._domainkey.#{@app.from_domain}
     %td= @app.dkim_public_key_dns
+
+%p Only enable DKIM once you've set up your DNS records
+
+= button_to (@app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(@app), class: "btn btn-primary"

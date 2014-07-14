@@ -62,6 +62,12 @@ class AppsController < ApplicationController
     @app = App.find(params[:id])
   end
 
+  def toggle_dkim
+    app = App.find(params[:id])
+    app.update_attribute(:dkim_enabled, !app.dkim_enabled)
+    redirect_to app
+  end
+
   private
 
   def app_parameters
