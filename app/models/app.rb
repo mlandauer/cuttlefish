@@ -24,9 +24,13 @@ class App < ActiveRecord::Base
     where(default_app: false).exists?
   end
 
+  def dkim_key
+    OpenSSL::PKey::RSA.new(dkim_private_key)
+  end
+
   def dkim_public_key
     # We can generate the public key from the private key
-    OpenSSL::PKey::RSA.new(dkim_private_key).public_key.to_pem
+    dkim_key.public_key.to_pem
   end
 
   # The string that needs to be inserted in DNS
