@@ -19,15 +19,21 @@ describe Filters::Dkim do
     end
 
     context "dkim is enabled" do
-      before :each do
-        app.update_attributes(dkim_enabled: true)
+      before(:each) { app.update_attributes(dkim_enabled: true) }
+
+      context "email from dkim domain" do
+        before(:each) { delivery.stub(from_domain: "foo.com") }
+        it {
+          # Signature is different every time (because of I assume a random salt). So, we're just
+          # going to test for the presence of the header
+          Mail.new(filter.data).header["DKIM-Signature"].should_not be_nil
+        }
       end
 
-      it {
-        # Signature is different every time (because of I assume a random salt). So, we're just
-        # going to test for the presence of the header
-        Mail.new(filter.data).header["DKIM-Signature"].should_not be_nil
-      }
+      context "email from a different domain" do
+        before(:each) { delivery.stub(from_domain: "bar.com") }
+        it { Mail.new(filter.data).header["DKIM-Signature"].should be_nil }
+      end
     end
   end
 end

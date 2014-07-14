@@ -20,6 +20,11 @@ class Email < ActiveRecord::Base
     from_address.text if from_address
   end
 
+  def from_domain
+    # TODO: Remove the "if" once we've added validations
+    from_address.domain if from_address
+  end
+
   def from=(a)
     self.from_address = Address.find_or_create_by(text: a)
   end

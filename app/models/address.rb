@@ -13,6 +13,11 @@ class Address < ActiveRecord::Base
     deliveries
   end
 
+  # Extract just the domain part of the address
+  def domain
+    text.split("@")[1]
+  end
+
   def emails
     Email.joins(:from_address, :to_addresses).where("addresses.id = ? OR deliveries.address_id = ?", id, id)
   end
