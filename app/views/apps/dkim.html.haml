@@ -3,7 +3,7 @@
 %h2 Setting up your DNS
 %p You will need to create two text records to your DNS server with the following information:
 
-%table
+%table.table
   %tr
     %th Name
     %th Value
@@ -12,4 +12,4 @@
     %td t=y;o=~;
   %tr
     %td cuttlefish._domainkey.#{@app.from_domain}
-    %td= @app.dkim_public_key_dns.gsub("\n", "<br/>").html_safe
+    %td= @app.dkim_public_key_dns
