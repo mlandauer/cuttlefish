@@ -101,6 +101,7 @@ GEM
       actionmailer (>= 3.2.6, < 5)
       devise (>= 3.1.0)
     diff-lcs (1.2.4)
+    dkim (1.0.0)
     dnsbl-client (1.0.0)
     dotenv (0.8.0)
     em-websocket (0.5.0)
@@ -314,6 +315,7 @@ DEPENDENCIES
   delayed_job_active_record (~> 4.0.0.beta1)
   devise
   devise_invitable
+  dkim
   dnsbl-client
   eventmachine
   factory_girl_rails

@@ -62,6 +62,7 @@ gem "capistrano", "2.13.5"
 gem 'rvm-capistrano'
 gem 'newrelic_rpm'
 gem 'honeybadger'
+gem 'dkim'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
