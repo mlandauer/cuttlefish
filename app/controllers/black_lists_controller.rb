@@ -1,0 +1,2 @@
+class BlackListsController < ApplicationController
+end
