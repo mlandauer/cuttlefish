@@ -37,7 +37,9 @@ module CuttlefishControl
             # TODO Move this domain logic somewhere sensible
             if log_line && log_line.status == "hard_bounce"
               # We don't want to save duplicates
-              BlackList.find_or_create_by(address: log_line.delivery.address, caused_by_delivery: log_line.delivery)
+              if BlackList.find_by(address: log_line.delivery.address).nil?
+                BlackList.create(address: log_line.delivery.address, caused_by_delivery: log_line.delivery)
+              end
             end
           end
         end
