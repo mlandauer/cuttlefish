@@ -1,6 +1,11 @@
 %h1 Email blacklist
 
-%ul
-  - @black_lists.each do |black_list|
-    %li
-      = black_list.address.text
+= paginated_section @black_lists, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Address" do
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Email address
+    %tbody
+      - @black_lists.each do |black_list|
+        %tr
+          %td= black_list.address.text
