@@ -17,16 +17,16 @@ describe Filters::HoldBackHardBounce do
   end
 
   describe "#send?" do
-    context "an address where an email was succesfully sent before" do
+    context "an address that is not blacklisted" do
       before :each do
-        delivery.stub_chain(:address, :status).and_return("delivered")
+        delivery.stub_chain(:address, :blacklisted?).and_return(false)
       end
       it { filter.send?.should be_true }
     end
 
-    context "an address where an email hard_bounced most recently" do
+    context "an address that is blacklisted" do
       before :each do
-        delivery.stub_chain(:address, :status).and_return("hard_bounce")
+        delivery.stub_chain(:address, :blacklisted?).and_return(true)
       end
       it { filter.send?.should be_false }
     end

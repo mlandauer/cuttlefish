@@ -63,5 +63,16 @@ describe Address do
         address2.status.should == "sent"
       end
     end
+
+    describe "#blacklisted?" do
+      context "address1 is not blacklisted" do
+        it {address1.should_not be_blacklisted}
+      end
+
+      context "address1 is blacklisted" do
+        before(:each) { BlackList.create(address: address1)}
+        it {address1.should be_blacklisted}
+      end
+    end
   end
 end
