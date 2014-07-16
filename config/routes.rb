@@ -14,6 +14,7 @@ Cuttlefish::Application.routes.draw do
   end
   resources :test_emails, only: [:new, :create]
   resources :apps do
+    resources :emails, only: :index, as: :deliveries, controller: "deliveries"
     member do
       post 'new_password'
       post 'lock_password'

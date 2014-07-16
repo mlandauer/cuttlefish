@@ -1,8 +1,10 @@
 .page-header
   %h1= @app.name
 
-- unless @app.default_app?
-  = link_to "How to send mail via Cuttlefish for #{@app.name}", documentation_path(anchor: "app-#{@app.id}")
+%ul
+  %li= link_to "Emails sent via this app", app_deliveries_path(@app)
+  - unless @app.default_app?
+    %li= link_to "How to send mail via Cuttlefish for #{@app.name}", documentation_path(anchor: "app-#{@app.id}")
 
 %h2 Settings
 %p
