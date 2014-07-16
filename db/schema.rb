@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714022048) do
+ActiveRecord::Schema.define(version: 20140716032348) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -62,6 +62,13 @@ ActiveRecord::Schema.define(version: 20140714022048) do
     t.text     "dkim_private_key"
     t.string   "from_domain"
     t.boolean  "dkim_enabled",           default: false, null: false
+  end
+
+  create_table "black_lists", force: true do |t|
+    t.integer  "address_id"
+    t.integer  "caused_by_delivery_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "click_events", force: true do |t|
