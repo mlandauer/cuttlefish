@@ -17,12 +17,12 @@
       Hard bounces
     %span.caret
   %ul.dropdown-menu
-    %li= link_to "All", deliveries_path
-    %li= link_to "Held back", deliveries_path(status: "not_sent")
-    %li= link_to "Sent", deliveries_path(status: "sent")
-    %li= link_to "Delivered", deliveries_path(status: "delivered")
-    %li= link_to "Soft bounces", deliveries_path(status: "soft_bounce")
-    %li= link_to "Hard bounces", deliveries_path(status: "hard_bounce")
+    %li= link_to "All", canonical_deliveries_path(@app, nil)
+    %li= link_to "Held back", canonical_deliveries_path(@app, "not_sent")
+    %li= link_to "Sent", canonical_deliveries_path(@app, "sent")
+    %li= link_to "Delivered", canonical_deliveries_path(@app, "delivered")
+    %li= link_to "Soft bounces", canonical_deliveries_path(@app, "soft_bounce")
+    %li= link_to "Hard bounces", canonical_deliveries_path(@app, "hard_bounce")
 
 
 .btn-group
@@ -35,6 +35,6 @@
   %ul.dropdown-menu
     %li= link_to "All Apps", deliveries_path
     - App.all.each do |app|
-      %li= link_to app.name, app_deliveries_path(app)
+      %li= link_to app.name, canonical_deliveries_path(app, @status)
 
 = render :partial => "to", locals: {deliveries: @deliveries}
