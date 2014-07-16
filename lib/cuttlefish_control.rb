@@ -36,7 +36,8 @@ module CuttlefishControl
             # Check if an email needs to be blacklisted
             # TODO Move this domain logic somewhere sensible
             if log_line && log_line.status == "hard_bounce"
-              BlackList.create(address: log_line.delivery.address, caused_by_delivery: log_line.delivery)
+              # We don't want to save duplicates
+              BlackList.find_or_create_by(address: log_line.delivery.address, caused_by_delivery: log_line.delivery)
             end
           end
         end
