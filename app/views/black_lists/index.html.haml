@@ -1,6 +1,7 @@
-%h1 Email blacklist
+%h1 Blacklisted email addresses
 
 = paginated_section @black_lists, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Address" do
+  %p.count= page_entries_info @black_lists, model: "blacklisted email addresses"
   %table.table.table-striped
     %thead
       %tr
