@@ -1,0 +1,6 @@
+%h1 Email blacklist
+
+%ul
+  - @black_lists.each do |black_list|
+    %li
+      = black_list.address.text
