@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/mlandauer/cuttlefish.png?label=ready&title=Ready)](https://waffle.io/mlandauer/cuttlefish)
 
 # ![Cuttlefish](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/cuttlefish_80x48.png) Cuttlefish
 
