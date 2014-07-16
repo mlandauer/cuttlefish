@@ -5,7 +5,17 @@
     %thead
       %tr
         %th Email address
+        %th Email that caused it to be blacklisted
+        %th When
     %tbody
       - @black_lists.each do |black_list|
         %tr
           %td= black_list.address.text
+          %td
+            - unless black_list.caused_by_delivery.subject.blank?
+              = link_to black_list.caused_by_delivery.subject, black_list.caused_by_delivery
+          %td
+            -# This is when the email was sent not when it was blacklisted
+            -# TODO Fix this
+            = time_ago_in_words(black_list.caused_by_delivery.created_at)
+            ago
