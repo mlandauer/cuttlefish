@@ -26,6 +26,12 @@
               = image_tag "cuttlefish_80x48.png", size: "80x48"
               .word
                 Cuttlefish
+            %form.form-search(accept-charset="UTF-8" action="#{deliveries_path}" method="get")
+              .input-append
+                = text_field_tag :search, "", class: "span2 search-query", placeholder: "tomato@soup.com"
+                = button_tag class: "btn" do
+                  %i.icon-search
+
             %ul.nav.nav-list
               %li.nav-header Explore
               = nav_menu_item_show_active dash_path do
