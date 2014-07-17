@@ -28,7 +28,7 @@
                 Cuttlefish
             %form.form-search(accept-charset="UTF-8" action="#{deliveries_path}" method="get")
               .input-append
-                = text_field_tag :search, "", class: "span2 search-query", placeholder: "tomato@soup.com"
+                = text_field_tag :search, @search, class: "span2 search-query", placeholder: "tomato@soup.com"
                 = button_tag class: "btn" do
                   %i.icon-search
 
