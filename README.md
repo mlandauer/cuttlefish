@@ -89,9 +89,12 @@ This allows the deploy user to sudo just to manage the upstart processes
 | Error                  |           Solution |
 |------------------------|--------------------|
 | cap aborted!  cannot load such file -- deploy | try `bundle exec cap COMMAND` |
+| group 'rvm' does not exist | Install RVM with `\curl -sSL https://get.rvm.io | bash -s stable --ruby` |
 | bash: /root/.rvm/bin/rvm: No such file or directory | [RVM Solutions][rvm] |
+| `gem install mysql2` fails | [MySQL Solutions][mysql] |
 
 [rvm]: http://stackoverflow.com/questions/5253153/rvm-error-with-deploying-rails-app-via-capistrano/5319283#5319283
+[mysql]: http://stackoverflow.com/questions/5219855/gem-install-mysql2-fails/9400208#9400208
 
 
 ### New Relic
