@@ -2,17 +2,27 @@ require 'new_relic/recipes'
 require "rvm/capistrano"
 require 'bundler/capistrano'
 
-set :application, "cuttlefish"
-set :repository,  "git://github.com/mlandauer/cuttlefish.git"
-set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
+# MUST EDIT
+#
+# Either fork the repository for edits and deployment
+# or optionally create a new branch
+# `git checkout -b production`
+# and change the upstream url to a private repository
+# `git remote add bitbucket git@bitbucket.org:USERNAME/REPO.git`
+# `git push -u bitbucket production:master`
+set :repository,  "git@bitbucket.org:USERNAME/REPO.git"
+server "YOURSERVER.COM", :app, :web, :db, primary: true
+set :deploy_to, "/srv/www/path/to/deploy"
+set :user, "deploy"     # ssh username
 
-server "kedumba.openaustraliafoundation.org.au", :app, :web, :db, primary: true
+# details about various parameters:
+# https://github.com/capistrano/capistrano/wiki/2.x-Significant-Configuration-Variables
+
+set :application, "cuttlefish"
+set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
 
 set :use_sudo, false
 #set :deploy_via, :remote_cache
-
-set :user, "deploy"
-set :deploy_to, "/srv/www/cuttlefish.openaustraliafoundation.org.au"
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
