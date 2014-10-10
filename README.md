@@ -63,9 +63,12 @@ bundle exec foreman start
 and point your browser at [http://localhost:3000](http://localhost:3000)
 
 ##To install on your server:
-Edit `config/deploy.rb`
 
-Run:
+**Edit:**
+`config/deploy.rb` - For server settings and deployment
+`config/envoirments/production.rb` - For domain name and secret keys
+
+**Run:**
 ```
 cap deploy:setup
 cap deploy:cold (the first time)
