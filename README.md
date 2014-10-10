@@ -88,7 +88,11 @@ This allows the deploy user to sudo just to manage the upstart processes
 
 | Error                  |           Solution |
 |------------------------|--------------------|
-|cap aborted!  cannot load such file -- deploy| try `bundle exec cap COMMAND` |
+| cap aborted!  cannot load such file -- deploy | try `bundle exec cap COMMAND` |
+| bash: /root/.rvm/bin/rvm: No such file or directory | [RVM Solutions][rvm] |
+
+[rvm]: http://stackoverflow.com/questions/5253153/rvm-error-with-deploying-rails-app-via-capistrano/5319283#5319283
+
 
 ### New Relic
 If you use new relic just put your configuration file in shared/newrelic.yml on the server
