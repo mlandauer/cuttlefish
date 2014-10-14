@@ -92,7 +92,7 @@ This allows the deploy user to sudo just to manage the upstart processes
 | Error                  |           Solution |
 |------------------------|--------------------|
 | cap aborted!  cannot load such file -- deploy | try `bundle exec cap COMMAND` |
-| group 'rvm' does not exist | Install RVM with `\curl -sSL https://get.rvm.io &#124; bash -s stable` |
+| group 'rvm' does not exist | Install RVM with `\curl -sSL https://get.rvm.io | bash -s stable` |
 | bash: /root/.rvm/bin/rvm: No such file or directory | [RVM Solutions][rvm] |
 | `gem install mysql2` fails | [MySQL Solutions][mysql] |
 
