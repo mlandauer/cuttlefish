@@ -9,10 +9,11 @@ require 'bundler/capistrano'
 # `git checkout -b production`
 # and change the upstream url to a private repository
 # `git remote add bitbucket git@bitbucket.org:USERNAME/REPO.git`
-# `git push -u bitbucket production:master`
+# `git push -u bitbucket production`
 set :repository,  "git@bitbucket.org:USERNAME/REPO.git"
+set :branch, "production"
 server "YOURSERVER.COM", :app, :web, :db, primary: true
-set :deploy_to, "/srv/www/path/to/deploy"
+set :deploy_to, "/home/user/path/to/deploy"
 set :user, "deploy"     # ssh username
 
 # details about various parameters:
@@ -62,7 +63,7 @@ end
 namespace :foreman do
   desc "Export the Procfile to Ubuntu's upstart scripts"
   task :export, roles: :app do
-    run "cd #{current_path} && sudo bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log -f Procfile.production"
+    run "cd #{current_path} && rvmsudo bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log -f Procfile.production"
   end
 
   desc "Start the application services"
