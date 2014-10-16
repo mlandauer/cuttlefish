@@ -64,6 +64,9 @@ and point your browser at [http://localhost:3000](http://localhost:3000)
 
 ##To install on your server:
 
+**For detailed deployment guide - [check out the
+complete instructions](DEPLOYMENT.md).**
+
 **Edit:**
 
 `config/database.yml` - for database settings
