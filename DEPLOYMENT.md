@@ -113,11 +113,11 @@ repository: `git push -u bitbucket producttion`
 Push the code to server and install the
 dependencies:
 
-    bundle exec cap deploy:setup`
+    bundle exec cap deploy:setup
 
-Setup the database first time configs:
+Setup the database configs (**run only first time**):
 
-    bundle cap deploy:cold (the first time)
+    bundle exec cap deploy:cold
 
 *Troubleshoot 1: If `gem install mysql2` fails
 then [have a look here.][mysql-dev]*
@@ -221,4 +221,8 @@ for your website in a click.
 
 The Cuttlefish self-hosted transaction mail
 service should be live and running now.
+
+For updates in code or configuration, you can do
+`bundle exec cap deploy:update`.
+
 **Enjoy!!!**
