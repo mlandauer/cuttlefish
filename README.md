@@ -65,7 +65,11 @@ and point your browser at [http://localhost:3000](http://localhost:3000)
 ##To install on your server:
 
 **Edit:**
+
+`config/database.yml` - for database settings
+
 `config/deploy.rb` - For server settings and deployment
+
 `config/envoirments/production.rb` - For domain name and secret keys
 
 **Run:**
@@ -85,7 +89,7 @@ And add the following line:
 ```
 deploy  ALL = NOPASSWD: /usr/sbin/service
 ```
-This allows the deploy user to sudo just to manage the upstart processes
+This allows the deploy user to sudo just to manage the upstart processes.
 
 ### Deployment troubleshooting
 
