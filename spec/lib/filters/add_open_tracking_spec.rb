@@ -102,6 +102,30 @@ describe Filters::AddOpenTracking do
       end
     end
 
+    context "an html email with one part" do
+      let(:body) do
+        <<-EOF
+From: They Vote For You <contact@theyvoteforyou.org.au>
+To: matthew@openaustralia.org
+Subject: An html email
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<p>Hello This an html email</p>
+        EOF
+      end
+
+      let(:mail) do
+        Mail.new(body)
+      end
+
+      it "should add an image" do
+        Mail.new(filter.data).body.should == "<p>Hello This an html email</p>\n<img src=\"https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
+      end
+    end
+
     context "an email with a text part and an html part" do
         let(:mail) do
           Mail.new do
