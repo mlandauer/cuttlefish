@@ -4,21 +4,21 @@ class Filters::AddOpenTracking < Filters::Tracking
   include Rails.application.routes.url_helpers
 
   def process_html(input, delivery)
-    if open_tracking_enabled?
-      filter.set_open_tracked!
-      input + image_tag(url, alt: nil)
+    if delivery.open_tracking_enabled?
+      delivery.set_open_tracked!
+      input + image_tag(url(delivery), alt: nil)
     else
       input
     end
   end
 
   # The url for the tracking image
-  def url
+  def url(delivery)
     tracking_open_url(
-      host: host,
-      protocol: protocol,
-      delivery_id: id,
-      hash: HashId.hash(id),
+      host: host(delivery),
+      protocol: protocol(delivery),
+      delivery_id: delivery.id,
+      hash: HashId.hash(delivery.id),
       format: :gif
     )
   end

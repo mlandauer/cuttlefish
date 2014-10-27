@@ -17,8 +17,4 @@ class Filters::Delivery
   def data(delivery)
     filter.data
   end
-
-  def method_missing(name, *args, &block)
-    filter.send name, *args, &block
-  end
 end
