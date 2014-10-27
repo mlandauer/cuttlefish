@@ -9,10 +9,6 @@ class Filters::Delivery
     delivery.data
   end
 
-  def send?
-    delivery.respond_to?(:send?) ? delivery.send? : true
-  end
-
   def method_missing(name, *args, &block)
     delivery.send name, *args, &block
   end
