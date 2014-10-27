@@ -9,12 +9,10 @@ class OutgoingEmail
     # TODO If no emails are sent out don't open connection to smtp server
     Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
       email.deliveries.each do |delivery|
-        # DKIM filter needs to always be the last one
-        filtered = Filters::Dkim.new(Filters::ClickTracking.new(Filters::AddOpenTracking.new(delivery)))
         if delivery.send?
           # TODO: Optimise so that if data is the same for multiple recipients then they
           # are sent in one go
-          response = smtp.send_message(filtered.data, delivery.from, [delivery.to])
+          response = smtp.send_message(Filters::Master.new(delivery).data, delivery.from, [delivery.to])
           delivery.update_attributes(
             postfix_queue_id: OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message),
             sent: true)
