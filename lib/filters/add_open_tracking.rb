@@ -3,10 +3,6 @@ class Filters::AddOpenTracking < Filters::Tracking
   include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
-  def apply_html?
-    true
-  end
-
   def process_html(input)
     if open_tracking_enabled?
       delivery.set_open_tracked!

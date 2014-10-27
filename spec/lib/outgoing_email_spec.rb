@@ -21,7 +21,7 @@ describe OutgoingEmail do
 
     context "an email with one recipient" do
       before :each do
-        @email = FactoryGirl.create(:email, to: "foo@bar.com", data: "My original data")
+        @email = FactoryGirl.create(:email, to: "foo@bar.com", data: "to: foo@bar.com\n\nMy original data")
         @outgoing = OutgoingEmail.new(@email)
       end
 
@@ -41,13 +41,6 @@ describe OutgoingEmail do
         smtp = mock
         Filters::Master.any_instance.stub(:data).and_return("My altered data")
         smtp.should_receive(:send_message).with("My altered data", anything(), anything()).and_return(mock(message: ""))
-        Net::SMTP.should_receive(:start).and_yield(smtp)
-        @outgoing.send
-      end
-
-      it "should use data by default to figure out what to send" do
-        smtp = mock
-        smtp.should_receive(:send_message).with("My original data", anything(), anything()).and_return(mock(message: ""))
         Net::SMTP.should_receive(:start).and_yield(smtp)
         @outgoing.send
       end

@@ -29,16 +29,18 @@ class Filters::Mail < Filters::Delivery
 
   # Override the following four methods in inherited class
   def process_text(input)
+    input
   end
 
   def process_html(input)
+    input
   end
 
   def apply_text?
-    false
+    true
   end
 
   def apply_html?
-    false
+    true
   end
 end

@@ -12,10 +12,6 @@ class Filters::ClickTracking < Filters::Tracking
     )
   end
 
-  def apply_html?
-    true
-  end
-
   def process_html(input)
     if click_tracking_enabled?
       doc = Nokogiri::HTML(input)
