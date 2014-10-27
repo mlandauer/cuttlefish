@@ -4,24 +4,24 @@ class Filters::Mail < Filters::Delivery
   def data(delivery)
     mail = Mail.new(input_data(delivery))
     if mail.multipart?
-      mail.html_part.body = process_html(mail.html_part.body.decoded) if mail.html_part
-      mail.text_part.body = process_text(mail.text_part.body.decoded) if mail.text_part
+      mail.html_part.body = process_html(mail.html_part.body.decoded, delivery) if mail.html_part
+      mail.text_part.body = process_text(mail.text_part.body.decoded, delivery) if mail.text_part
     else
       if mail.mime_type == "text/html"
-        mail.body = process_html(mail.body.decoded)
+        mail.body = process_html(mail.body.decoded, delivery)
       else
-        mail.body = process_text(mail.body.decoded)
+        mail.body = process_text(mail.body.decoded, delivery)
       end
     end
     mail.encoded
   end
 
   # Override the following two methods in inherited class
-  def process_text(input)
+  def process_text(input, delivery)
     input
   end
 
-  def process_html(input)
+  def process_html(input, delivery)
     input
   end
 end
