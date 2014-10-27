@@ -13,6 +13,7 @@ class Filters::Delivery
     end
   end
 
+  # Override this method
   def data(delivery)
     input_data(delivery)
   end
