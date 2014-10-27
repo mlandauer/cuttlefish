@@ -16,7 +16,7 @@ class Filters::Mail < Filters::Delivery
     mail.encoded
   end
 
-  # Override the following four methods in inherited class
+  # Override the following two methods in inherited class
   def process_text(input)
     input
   end
