@@ -19,14 +19,14 @@ describe Filters::HoldBackHardBounce do
   describe "#send?" do
     context "an address that is not blacklisted" do
       before :each do
-        delivery.stub_chain(:address, :blacklisted?).and_return(false)
+        delivery.stub(:send?).and_return(true)
       end
       it { filter.send?.should be_true }
     end
 
     context "an address that is blacklisted" do
       before :each do
-        delivery.stub_chain(:address, :blacklisted?).and_return(true)
+        delivery.stub(:send?).and_return(false)
       end
       it { filter.send?.should be_false }
     end
