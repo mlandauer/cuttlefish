@@ -5,14 +5,6 @@ class Filters::Delivery
     @delivery = delivery
   end
 
-  def from
-    delivery.from
-  end
-
-  def to
-    delivery.to
-  end
-
   def data
     delivery.data
   end
