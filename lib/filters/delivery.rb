@@ -1,15 +1,15 @@
 class Filters::Delivery
-  attr_reader :delivery
+  attr_reader :filter
 
-  def initialize(delivery)
-    @delivery = delivery
+  def initialize(filter)
+    @filter = filter
   end
 
   def data
-    delivery.data
+    filter.data
   end
 
   def method_missing(name, *args, &block)
-    delivery.send name, *args, &block
+    filter.send name, *args, &block
   end
 end

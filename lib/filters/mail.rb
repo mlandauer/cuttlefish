@@ -2,7 +2,7 @@
 # and handling them separately
 class Filters::Mail < Filters::Delivery
   def data
-    mail = Mail.new(delivery.data)
+    mail = Mail.new(filter.data)
     if mail.multipart?
       mail.html_part.body = process_html(mail.html_part.body.decoded) if mail.html_part
       mail.text_part.body = process_text(mail.text_part.body.decoded) if mail.text_part

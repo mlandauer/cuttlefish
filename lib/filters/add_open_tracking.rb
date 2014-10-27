@@ -5,7 +5,7 @@ class Filters::AddOpenTracking < Filters::Tracking
 
   def process_html(input)
     if open_tracking_enabled?
-      delivery.set_open_tracked!
+      filter.set_open_tracked!
       input + image_tag(url, alt: nil)
     else
       input
