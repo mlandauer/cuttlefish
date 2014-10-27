@@ -12,7 +12,7 @@ class OutgoingEmail
         if delivery.send?
           # TODO: Optimise so that if data is the same for multiple recipients then they
           # are sent in one go
-          response = smtp.send_message(Filters::Master.new(delivery).data(delivery), delivery.from, [delivery.to])
+          response = smtp.send_message(Filters::Master.new.data(delivery), delivery.from, [delivery.to])
           delivery.update_attributes(
             postfix_queue_id: OutgoingEmail.extract_postfix_queue_id_from_smtp_message(response.message),
             sent: true)

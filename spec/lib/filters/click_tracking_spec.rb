@@ -7,7 +7,7 @@ describe Filters::ClickTracking do
     delivery.save!
     delivery
   end
-  let(:filter) { Filters::ClickTracking.new(delivery) }
+  let(:filter) { Filters::ClickTracking.new }
   let(:email) { mock_model(Email, custom_tracking_domain: nil, click_tracking_enabled?: true) }
 
   describe "#data" do

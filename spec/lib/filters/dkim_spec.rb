@@ -11,7 +11,7 @@ describe Filters::Dkim do
   end
   let(:app) { App.create(from_domain: "foo.com") }
   let(:delivery) { mock_model(Delivery, app: app, data: mail.encoded) }
-  let(:filter) { Filters::Dkim.new(delivery) }
+  let(:filter) { Filters::Dkim.new }
 
   describe "#data" do
     context "dkim is disabled" do
