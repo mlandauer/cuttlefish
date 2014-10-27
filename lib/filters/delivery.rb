@@ -5,7 +5,16 @@ class Filters::Delivery
     @filter = filter
   end
 
-  def data
+  def input_data(delivery)
+    # Temporary hack
+    if filter.kind_of?(Delivery)
+      filter.data
+    else
+      filter.data(delivery)
+    end
+  end
+
+  def data(delivery)
     filter.data
   end
 
