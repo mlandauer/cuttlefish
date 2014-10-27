@@ -7,7 +7,7 @@ describe Filters::AddOpenTracking do
     delivery.save!
     delivery
   end
-  let(:filter) { Filters::AddOpenTracking.new(delivery) }
+  let(:filter) { Filters::AddOpenTracking.new }
 
   describe "#url" do
     before :each do
@@ -17,14 +17,14 @@ describe Filters::AddOpenTracking do
 
     it "should normally be an https url to the default domain" do
       delivery.stub_chain(:email, :custom_tracking_domain).and_return(nil)
-      filter.url.should == "https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif"
+      filter.url(delivery).should == "https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif"
     end
 
     it "should use a custom domain if it is set (and also not use ssl)" do
       # This is not nice. Far too much knowledge of other classes
       # TODO Refactor
       delivery.stub_chain(:email, :custom_tracking_domain).and_return("email.planningalerts.org.au")
-      filter.url.should == "http://email.planningalerts.org.au/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif"
+      filter.url(delivery).should == "http://email.planningalerts.org.au/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif"
     end
   end
 
@@ -45,12 +45,12 @@ describe Filters::AddOpenTracking do
       end
 
       it "should insert an image at the bottom of the html" do
-        Mail.new(filter.data).parts.first.body.should ==
+        Mail.new(filter.data(delivery)).parts.first.body.should ==
           '<h1>This is HTML</h1><img src="https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif" />'
       end
 
       it "should record that it has been open tracked" do
-        filter.data
+        filter.data(delivery)
         delivery.should be_open_tracked
       end
 
@@ -60,7 +60,7 @@ describe Filters::AddOpenTracking do
         end
 
         it "should record that it has not been open tracked" do
-          filter.data
+          filter.data(delivery)
           delivery.should_not be_open_tracked
         end
       end
@@ -76,11 +76,11 @@ describe Filters::AddOpenTracking do
       end
 
       it "should do nothing to the content of the email" do
-        filter.data.should == mail.encoded
+        filter.data(delivery).should == mail.encoded
       end
 
       it "should record that it has not been open tracked" do
-        filter.data
+        filter.data(delivery)
         delivery.open_tracked?.should_not be_true
       end
     end
@@ -93,11 +93,11 @@ describe Filters::AddOpenTracking do
       end
 
       it "should do nothing to the content of the email" do
-        filter.data.should == mail.encoded
+        filter.data(delivery).should == mail.encoded
       end
 
       it "should record that it has not been open tracked" do
-        filter.data
+        filter.data(delivery)
         delivery.open_tracked?.should_not be_true
       end
     end
@@ -122,7 +122,7 @@ Content-Transfer-Encoding: 7bit
       end
 
       it "should add an image" do
-        Mail.new(filter.data).body.should == "<p>Hello This an html email</p>\n<img src=\"https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
+        Mail.new(filter.data(delivery)).body.should == "<p>Hello This an html email</p>\n<img src=\"https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
       end
     end
 
@@ -140,15 +140,15 @@ Content-Transfer-Encoding: 7bit
         end
 
         it "should do nothing to the text part of the email" do
-          Mail.new(filter.data).text_part.decoded.should == "Some plain text"
+          Mail.new(filter.data(delivery)).text_part.decoded.should == "Some plain text"
         end
 
         it "should append an image to the html part of the email" do
-          Mail.new(filter.data).html_part.decoded.should == "<table>I like css</table><img src=\"https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
+          Mail.new(filter.data(delivery)).html_part.decoded.should == "<table>I like css</table><img src=\"https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
         end
 
         it "should record that it has been open tracked" do
-          filter.data
+          filter.data(delivery)
           delivery.open_tracked?.should be_true
         end
     end

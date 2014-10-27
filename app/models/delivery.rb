@@ -11,6 +11,12 @@ class Delivery < ActiveRecord::Base
 
   before_save :update_my_status!
 
+  # Should this email be sent to this address?
+  # If not it's because the email has bounced
+  def send?
+    !address.blacklisted?
+  end
+
   def self.today
     where('deliveries.created_at > ?', Date.today.beginning_of_day)
   end

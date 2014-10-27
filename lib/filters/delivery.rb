@@ -1,27 +1,20 @@
 class Filters::Delivery
-  attr_reader :delivery
+  attr_reader :filter
 
-  def initialize(delivery)
-    @delivery = delivery
+  def initialize(filter = nil)
+    @filter = filter
   end
 
-  def from
-    delivery.from
+  def input_data(delivery)
+    if filter.nil?
+      delivery.data
+    else
+      filter.data(delivery)
+    end
   end
 
-  def to
-    delivery.to
-  end
-
-  def data
-    delivery.data
-  end
-
-  def send?
-    delivery.respond_to?(:send?) ? delivery.send? : true
-  end
-
-  def method_missing(name, *args, &block)
-    delivery.send name, *args, &block
+  # Override this method
+  def data(delivery)
+    input_data(delivery)
   end
 end

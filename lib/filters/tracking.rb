@@ -1,8 +1,8 @@
 class Filters::Tracking < Filters::Mail
   # Hostname to use for the open tracking image or rewritten link
-  def host
-    if !email.custom_tracking_domain.blank?
-      email.custom_tracking_domain
+  def host(delivery)
+    if !delivery.email.custom_tracking_domain.blank?
+      delivery.email.custom_tracking_domain
     elsif Rails.env.development?
       "localhost:3000"
     else
@@ -11,7 +11,7 @@ class Filters::Tracking < Filters::Mail
   end
 
   # Whether to use ssl for the open tracking image or rewritten link
-  def protocol
-    email.custom_tracking_domain.blank? && !Rails.env.development? ? "https" : "http"
+  def protocol(delivery)
+    delivery.email.custom_tracking_domain.blank? && !Rails.env.development? ? "https" : "http"
   end
 end
