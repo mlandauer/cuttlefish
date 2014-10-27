@@ -4,9 +4,9 @@ class Filters::Mail < Filters::Delivery
   def data
     mail = Mail.new(delivery.data)
     if mail.multipart?
-      if (mail.html_part && apply_html?) || (mail.text_part && apply_text?)
-        mail.html_part.body = process_html(mail.html_part.body.decoded) if mail.html_part && apply_html?
-        mail.text_part.body = process_text(mail.text_part.body.decoded) if mail.text_part && apply_text?
+      if mail.html_part || mail.text_part
+        mail.html_part.body = process_html(mail.html_part.body.decoded) if mail.html_part
+        mail.text_part.body = process_text(mail.text_part.body.decoded) if mail.text_part
         mail.encoded
       else
         # If we don't need to change either the html or text part don't risk the conversion back and forth between text and Mail representation.
@@ -14,15 +14,12 @@ class Filters::Mail < Filters::Delivery
         delivery.data
       end
     else
-      if mail.mime_type == "text/html" && apply_html?
+      if mail.mime_type == "text/html"
         mail.body = process_html(mail.body.decoded)
         mail.encoded
-      elsif apply_text?
+      else
         mail.body = process_text(mail.body.decoded)
         mail.encoded
-      else
-        # Do nothing
-        delivery.data
       end
     end
   end
@@ -34,13 +31,5 @@ class Filters::Mail < Filters::Delivery
 
   def process_html(input)
     input
-  end
-
-  def apply_text?
-    true
-  end
-
-  def apply_html?
-    true
   end
 end
