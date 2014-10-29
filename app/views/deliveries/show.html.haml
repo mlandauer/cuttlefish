@@ -25,7 +25,7 @@
     %td.key
       %strong Subject
     %td= @delivery.subject
-            
+
   %tr
     %td.key
       %strong
@@ -103,12 +103,14 @@
   .tab-content
     - if @delivery.html_part && @delivery.text_part
       %div.tab-pane.active#html
-        .well= @delivery.html_part.html_safe
+        -# Inline css so that email styling doesn't interfere with the cuttlefish ui
+        .well= Premailer.new(@delivery.html_part, with_html_string: true).to_inline_css.html_safe
       %div.tab-pane#text
         %pre= @delivery.text_part
     - elsif @delivery.html_part
       %div.tab-pane.active#html
-        .well= @delivery.html_part.html_safe
+        -# Inline css so that email styling doesn't interfere with the cuttlefish ui
+        .well= Premailer.new(@delivery.html_part, with_html_string: true).to_inline_css.html_safe
     - else
       %div.tab-pane.active#text
         %pre= @delivery.text_part
