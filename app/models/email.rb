@@ -59,13 +59,19 @@ class Email < ActiveRecord::Base
   end
 
   # First part with a particular mime type
-  def part(mime_type)
-    if mail.multipart?
-      part = mail.parts.find{|p| p.mime_type == mime_type}
-      part.body.to_s if part
+  # If a part is itself multipart then recurse down
+  def part(mime_type, section = nil)
+    section = mail if section.nil?
+    if section.multipart?
+      section.parts.each do |p|
+        if part(mime_type, p)
+          return part(mime_type, p)
+        end
+      end
+      nil
     else
-      if mail.mime_type == mime_type
-        mail.body.to_s
+      if section.mime_type == mime_type
+        section.body.to_s
       end
     end
   end

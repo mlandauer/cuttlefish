@@ -76,7 +76,7 @@ describe Email do
 
     it "should set created_at for deliveries too" do
       email = FactoryGirl.create(:email, to: "mlandauer@foo.org")
-      email.deliveries.first.created_at.should_not be_nil      
+      email.deliveries.first.created_at.should_not be_nil
     end
   end
 
@@ -97,7 +97,7 @@ describe Email do
         FactoryGirl.create(:email, id: 10, data: "This is a main data section")
       end
       let(:email) { Email.find(10) }
-      
+
       it "should be able to read in the data again" do
         email.data.should == "This is a main data section"
       end
@@ -177,6 +177,39 @@ describe Email do
 
     describe "#text_part" do
       it { email.text_part.should be_nil }
+    end
+  end
+
+  context "an email which consistents of a part that is itself multipart" do
+    let(:html_part) do
+      Mail::Part.new do
+        content_type  'text/html; charset=UTF-8'
+        body '<p>This is some html</p>'
+      end
+    end
+    let(:text_part) do
+      Mail::Part.new do
+        body 'This is plain text'
+      end
+    end
+    let(:mail) do
+      mail = Mail.new
+      mail.part :content_type => "multipart/alternative" do |p|
+        p.html_part = html_part
+        p.text_part = text_part
+      end
+      mail
+    end
+    let(:email) do
+      Email.new(data: mail.encoded)
+    end
+
+    describe "#html_part" do
+      it { email.html_part.should == "<p>This is some html</p>" }
+    end
+
+    describe "#text_part" do
+      it { email.text_part.should == 'This is plain text' }
     end
   end
 end
