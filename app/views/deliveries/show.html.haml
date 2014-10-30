@@ -103,14 +103,12 @@
   .tab-content
     - if @delivery.html_part && @delivery.text_part
       %div.tab-pane.active#html
-        -# Inline css so that email styling doesn't interfere with the cuttlefish ui
-        .well= Premailer.new(@delivery.html_part, with_html_string: true).to_inline_css.html_safe
+        .well= clean_html_email_for_display(@delivery.html_part)
       %div.tab-pane#text
         %pre= @delivery.text_part
     - elsif @delivery.html_part
       %div.tab-pane.active#html
-        -# Inline css so that email styling doesn't interfere with the cuttlefish ui
-        .well= Premailer.new(@delivery.html_part, with_html_string: true).to_inline_css.html_safe
+        .well= clean_html_email_for_display(@delivery.html_part)
     - else
       %div.tab-pane.active#text
         %pre= @delivery.text_part
