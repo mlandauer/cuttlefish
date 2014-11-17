@@ -24,11 +24,7 @@ Your account won't be created until you access the link above and set your passw
     it do
       email.delivery_method.settings.should == {
         address: "localhost",
-        port: 2525,
-        user_name: App.default.smtp_username,
-        password: App.default.smtp_password,
-        openssl_verify_mode: "none",
-        authentication: :plain
+        port: 25
       }
     end
   end

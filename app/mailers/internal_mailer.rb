@@ -4,14 +4,11 @@ class InternalMailer < Devise::Mailer
   private
 
   def set_delivery_options
+    # Send mail directly to postfix - don't bother sending it
+    # through Cuttlefish first.
     mail.delivery_method.settings.merge!(
-      address: "localhost",
-      port: Rails.configuration.cuttlefish_smtp_port,
-      user_name: App.default.smtp_username,
-      password: App.default.smtp_password,
-      # Server is currently using a self-signed certificate
-      openssl_verify_mode: "none",
-      authentication: :plain
+      address: Rails.configuration.postfix_smtp_host,
+      port: Rails.configuration.postfix_smtp_port
     )
   end
 end
