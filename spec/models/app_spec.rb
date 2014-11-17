@@ -54,15 +54,19 @@ describe App do
     end
   end
 
-  describe "#lookup_dns_cname_record" do
-    it "should resolve the cname of www.openaustralia.org" do
-      App.lookup_dns_cname_record("www.openaustralia.org").should == "kedumba.openaustralia.org."
-    end
-
-    it "should not resolve the cname of twiddlesticks.openaustralia.org" do
-      App.lookup_dns_cname_record("twiddlesticks.openaustralia.org").should be_nil
-    end
-  end
+  # The following two tests are commented out because they require a network connection and
+  # are testing real things in DNS so in general it makes the tests fragile. Though, if you're
+  # working on the lookup_dns_cname_record method it's probably a good idea to uncomment them!
+  
+  # describe "#lookup_dns_cname_record" do
+  #   it "should resolve the cname of www.openaustralia.org" do
+  #     App.lookup_dns_cname_record("www.openaustralia.org").should == "kedumba.openaustralia.org."
+  #   end
+  #
+  #   it "should not resolve the cname of twiddlesticks.openaustralia.org" do
+  #    App.lookup_dns_cname_record("twiddlesticks.openaustralia.org").should be_nil
+  #   end
+  # end
 
   describe ".default" do
     it { App.default.name.should == "Default" }
