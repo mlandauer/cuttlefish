@@ -273,6 +273,8 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
+    skylight (0.4.2)
+      activesupport (>= 3.0.0)
     slop (3.4.5)
     sprockets (2.11.0)
       hike (~> 1.2)
@@ -360,6 +362,7 @@ DEPENDENCIES
   rvm-capistrano
   sass-rails
   selenium-webdriver
+  skylight
   syslog_protocol
   therubyracer
   thin
