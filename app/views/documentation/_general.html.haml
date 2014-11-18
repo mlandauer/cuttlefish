@@ -1,39 +1,31 @@
 %h3 General
 
-- if app
-  %p
-    These are the details that you need to be able to send email via Cuttlefish for the #{app.name} App.
-    Specific instructions for sending mail from different frameworks and languages is further down the page.
+%p
+  These are the details that you need to be able to send email via Cuttlefish for the #{app.name} App.
+  Specific instructions for sending mail from different frameworks and languages is further down the page.
 
-  %table.table.table-condensed
-    %tr
-      %td Protocol
-      %td
-        %strong= link_to "SMTP", "http://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol"
-    %tr
-      %td Host
-      %td
-        %strong= Rails.configuration.cuttlefish_domain
-    %tr
-      %td Port
-      %td
-        %strong= Rails.configuration.cuttlefish_smtp_port
-    %tr
-      %td Username
-      %td
-        %strong= app.smtp_username
-    %tr
-      %td Password
-      %td
-        %strong= app.smtp_password
-    %tr
-      %td Authentication
-      %td
-        %strong plain
-- else
-  %p
-    Simply point your application to send emails via SMTP to port <strong>#{Rails.configuration.cuttlefish_smtp_port}</strong> on
-    <strong>#{Rails.configuration.cuttlefish_domain}</strong>. No authentication is necessary.
-  %p
-    See below for specific instructions for sending mail from different frameworks and languages.
-
+%table.table.table-condensed
+  %tr
+    %td Protocol
+    %td
+      %strong= link_to "SMTP", "http://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol"
+  %tr
+    %td Host
+    %td
+      %strong= Rails.configuration.cuttlefish_domain
+  %tr
+    %td Port
+    %td
+      %strong= Rails.configuration.cuttlefish_smtp_port
+  %tr
+    %td Username
+    %td
+      %strong= app.smtp_username
+  %tr
+    %td Password
+    %td
+      %strong= app.smtp_password
+  %tr
+    %td Authentication
+    %td
+      %strong plain

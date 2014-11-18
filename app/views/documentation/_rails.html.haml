@@ -8,30 +8,17 @@
   Depending on whether you want to send emails via Cuttlefish in your development or production environment either edit <code>config/environments/development.rb</code> or <code>config/environments/production.rb</code> and add the following:
 
 %p
-  - if app
-    :coderay
-      #!ruby
+  :coderay
+    #!ruby
 
-      # Send #{app.name} mails to Cuttlefish (see http://cuttlefish.io)
-      config.action_mailer.delivery_method = :smtp
-      config.action_mailer.smtp_settings = {
-        :address => "#{Rails.configuration.cuttlefish_domain}",
-        :port => #{Rails.configuration.cuttlefish_smtp_port},
-        :user_name => "#{app.smtp_username}",
-        :password => "#{app.smtp_password}",
-        # Server is currently using a self-signed certificate
-        :openssl_verify_mode => "none",
-        :authentication => :plain
-       }
-  - else
-    :coderay
-      #!ruby
-
-      # Send mails to Cuttlefish (see http://cuttlefish.io)
-      config.action_mailer.delivery_method = :smtp
-      config.action_mailer.smtp_settings = {
-        :address => "#{Rails.configuration.cuttlefish_domain}",
-        :port => #{Rails.configuration.cuttlefish_smtp_port},
-        # Server is currently using a self-signed certificate
-        :openssl_verify_mode => "none",
-       }
+    # Send #{app.name} mails to Cuttlefish (see http://cuttlefish.io)
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      :address => "#{Rails.configuration.cuttlefish_domain}",
+      :port => #{Rails.configuration.cuttlefish_smtp_port},
+      :user_name => "#{app.smtp_username}",
+      :password => "#{app.smtp_password}",
+      # Server is currently using a self-signed certificate
+      :openssl_verify_mode => "none",
+      :authentication => :plain
+     }
