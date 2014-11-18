@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118012335) do
+ActiveRecord::Schema.define(version: 20141118050818) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -176,5 +176,17 @@ ActiveRecord::Schema.define(version: 20141118012335) do
 
   add_index "postfix_log_lines", ["delivery_id"], name: "index_postfix_log_lines_on_delivery_id", using: :btree
   add_index "postfix_log_lines", ["time", "delivery_id"], name: "index_postfix_log_lines_on_time_and_delivery_id", using: :btree
+
+  add_foreign_key "click_events", "delivery_links", name: "click_events_delivery_link_id_fk", dependent: :delete
+
+  add_foreign_key "deliveries", "emails", name: "deliveries_email_id_fk", dependent: :delete
+
+  add_foreign_key "delivery_links", "deliveries", name: "delivery_links_delivery_id_fk", dependent: :delete
+
+  add_foreign_key "emails", "apps", name: "emails_app_id_fk", dependent: :delete
+
+  add_foreign_key "open_events", "deliveries", name: "open_events_delivery_id_fk", dependent: :delete
+
+  add_foreign_key "postfix_log_lines", "deliveries", name: "postfix_log_lines_delivery_id_fk", dependent: :delete
 
 end
