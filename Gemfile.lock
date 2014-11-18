@@ -219,8 +219,6 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.0.12)
       sprockets-rails (~> 2.0)
-    rails-settings-cached (0.4.1)
-      rails (>= 4.0.0)
     railties (4.0.12)
       actionpack (= 4.0.12)
       activesupport (= 4.0.12)
@@ -348,7 +346,6 @@ DEPENDENCIES
   rack-livereload
   rack-mini-profiler
   rails (= 4.0.12)
-  rails-settings-cached
   rb-fchange
   rb-fsevent
   rb-inotify

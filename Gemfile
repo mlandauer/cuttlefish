@@ -49,7 +49,6 @@ gem "formtastic", git: "https://github.com/justinfrench/formtastic.git"
 # Need commit c9331088146e456a69bd6e94298c80d09be3ee74
 gem 'formtastic-bootstrap', git: "https://github.com/mjbellantoni/formtastic-bootstrap.git"
 gem "net-dns"
-gem "rails-settings-cached"
 gem 'factory_girl_rails'
 gem 'haml-coderay'
 gem 'nokogiri'
