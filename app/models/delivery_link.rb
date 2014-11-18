@@ -1,7 +1,7 @@
 class DeliveryLink < ActiveRecord::Base
   belongs_to :link
   belongs_to :delivery
-  has_many :click_events
+  has_many :click_events, dependent: :destroy
 
   delegate :to, :subject, :app_name, to: :delivery
 
@@ -14,6 +14,6 @@ class DeliveryLink < ActiveRecord::Base
       user_agent: request.env['HTTP_USER_AGENT'],
       referer: request.referer,
       ip: request.remote_ip
-    )
+    )    
   end
 end
