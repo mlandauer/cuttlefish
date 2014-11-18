@@ -23,12 +23,8 @@ class AppsController < ApplicationController
 
   def destroy
     @app = App.find(params[:id])
-    if @app.default_app?
-      flash[:error] = "Can't delete the default App"
-    else
-      flash[:notice] = "App #{@app.name} successfully removed"
-      @app.destroy
-    end
+    flash[:notice] = "App #{@app.name} successfully removed"
+    @app.destroy
     redirect_to apps_path
   end
 

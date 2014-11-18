@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe Email do
   describe "create!" do
-    it "should set the default app if none is given" do
-      email = FactoryGirl.create(:email, app_id: nil)
-      email.app.should be_default_app
-    end
-
     context "One email is created" do
       before :each do
         FactoryGirl.create(:email,

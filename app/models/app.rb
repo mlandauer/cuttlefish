@@ -14,14 +14,10 @@ class App < ActiveRecord::Base
     end
   end
 
-  # Singleton for returning special App used for sending mail from Cuttlefish itself
-  def self.default
-    App.find_by(default_app: true) || App.create!(name: "Default", default_app: true)
-  end
-
   # Have there been any apps created?
+  # TODO Remove this method
   def self.normal_apps?
-    where(default_app: false).exists?
+    !all.empty?
   end
 
   def dkim_key

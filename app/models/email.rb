@@ -7,7 +7,7 @@ class Email < ActiveRecord::Base
   has_many :click_events, through: :deliveries
 
   after_create :update_cache
-  before_save :update_message_id, :update_data_hash, :update_subject, :set_default_app
+  before_save :update_message_id, :update_data_hash, :update_subject
 
   delegate :custom_tracking_domain, :open_tracking_enabled?, :click_tracking_enabled?, to: :app
 
@@ -104,9 +104,5 @@ class Email < ActiveRecord::Base
 
   def update_subject
     self.subject = Mail.new(data).subject
-  end
-
-  def set_default_app
-    self.app_id = App.default.id if app_id.nil?
   end
 end

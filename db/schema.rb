@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118005010) do
+ActiveRecord::Schema.define(version: 20141118012335) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(version: 20141118005010) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "smtp_password_locked",   default: false, null: false
-    t.boolean  "default_app",            default: false, null: false
     t.boolean  "open_tracking_enabled",  default: true,  null: false
     t.boolean  "click_tracking_enabled", default: true,  null: false
     t.text     "dkim_private_key"

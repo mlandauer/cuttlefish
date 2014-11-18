@@ -57,7 +57,7 @@ describe App do
   # The following two tests are commented out because they require a network connection and
   # are testing real things in DNS so in general it makes the tests fragile. Though, if you're
   # working on the lookup_dns_cname_record method it's probably a good idea to uncomment them!
-  
+
   # describe "#lookup_dns_cname_record" do
   #   it "should resolve the cname of www.openaustralia.org" do
   #     App.lookup_dns_cname_record("www.openaustralia.org").should == "kedumba.openaustralia.org."
@@ -67,20 +67,4 @@ describe App do
   #    App.lookup_dns_cname_record("twiddlesticks.openaustralia.org").should be_nil
   #   end
   # end
-
-  describe ".default" do
-    it { App.default.name.should == "Default" }
-
-    it "should only create one instance even if it's called several times" do
-      App.default
-      App.default
-      App.count.should == 1
-    end
-
-    it "should create a new instance even if someone has already created one called Default" do
-      App.create!(name: "Default")
-      App.default
-      App.count.should == 2
-    end
-  end
 end
