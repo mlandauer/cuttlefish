@@ -24,7 +24,7 @@ class CuttlefishSmtpServer
     @server = EM.start_server host, port, CuttlefishSmtpConnection do |connection|
       # On every new connection check if the authentication setting has changed
       connection.parms = {
-        auth: (Settings.smtp_all_authenticated ? :required : true),
+        auth: :required,
         starttls: :required
       }
       connection.server = self

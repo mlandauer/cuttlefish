@@ -23,7 +23,6 @@ Cuttlefish::Application.routes.draw do
     end
   end
 
-  resource :settings, only: [:edit, :update]
   resources :links, only: [:index, :show]
   resources :black_lists, only: [:index, :destroy]
 
