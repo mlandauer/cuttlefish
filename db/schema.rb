@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118070918) do
+ActiveRecord::Schema.define(version: 20141118070603) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -182,8 +182,6 @@ ActiveRecord::Schema.define(version: 20141118070918) do
 
   add_foreign_key "emails", "addresses", name: "emails_from_address_id_fk", column: "from_address_id"
   add_foreign_key "emails", "apps", name: "emails_app_id_fk", dependent: :delete
-
-  add_foreign_key "open_events", "deliveries", name: "open_events_delivery_id_fk", dependent: :delete
 
   add_foreign_key "postfix_log_lines", "deliveries", name: "postfix_log_lines_delivery_id_fk", dependent: :delete
 
