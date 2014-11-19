@@ -18,7 +18,7 @@ The Awesome Cuttlefish
 
   # Send a test email
   def create
-    TestMailer.test_email(params[:app_id] ? App.find(params[:app_id]) : App.default,
+    TestMailer.test_email(App.find(params[:app_id]),
       from: params[:from], to: params[:to], cc: params[:cc], subject: params[:subject], text: params[:text]).deliver
 
     flash[:notice] = "Test email sent"

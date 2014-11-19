@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140716040430) do
+ActiveRecord::Schema.define(version: 20141118070603) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -22,24 +22,25 @@ ActiveRecord::Schema.define(version: 20140716040430) do
   add_index "addresses", ["text"], name: "index_addresses_on_text", using: :btree
 
   create_table "admins", force: true do |t|
-    t.string   "email",                             default: "", null: false
-    t.string   "encrypted_password",                default: ""
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0
+    t.integer  "sign_in_count",          default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "invitation_token",       limit: 60
+    t.string   "invitation_token"
     t.datetime "invitation_sent_at"
     t.datetime "invitation_accepted_at"
     t.integer  "invitation_limit"
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
+    t.datetime "invitation_created_at"
   end
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
@@ -56,7 +57,6 @@ ActiveRecord::Schema.define(version: 20140716040430) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "smtp_password_locked",   default: false, null: false
-    t.boolean  "default_app",            default: false, null: false
     t.boolean  "open_tracking_enabled",  default: true,  null: false
     t.boolean  "click_tracking_enabled", default: true,  null: false
     t.text     "dkim_private_key"
@@ -70,6 +70,9 @@ ActiveRecord::Schema.define(version: 20140716040430) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "black_lists", ["address_id"], name: "black_lists_address_id_fk", using: :btree
+  add_index "black_lists", ["caused_by_delivery_id"], name: "black_lists_caused_by_delivery_id_fk", using: :btree
 
   create_table "click_events", force: true do |t|
     t.integer  "delivery_link_id"
@@ -177,15 +180,9 @@ ActiveRecord::Schema.define(version: 20140716040430) do
   add_index "postfix_log_lines", ["delivery_id"], name: "index_postfix_log_lines_on_delivery_id", using: :btree
   add_index "postfix_log_lines", ["time", "delivery_id"], name: "index_postfix_log_lines_on_time_and_delivery_id", using: :btree
 
-  create_table "settings", force: true do |t|
-    t.string   "var",                   null: false
-    t.text     "value"
-    t.integer  "thing_id"
-    t.string   "thing_type", limit: 30
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_foreign_key "emails", "addresses", name: "emails_from_address_id_fk", column: "from_address_id"
+  add_foreign_key "emails", "apps", name: "emails_app_id_fk", dependent: :delete
 
-  add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
+  add_foreign_key "postfix_log_lines", "deliveries", name: "postfix_log_lines_delivery_id_fk", dependent: :delete
 
 end

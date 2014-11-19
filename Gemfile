@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.6'
+gem 'rails', '4.0.12'
 
 # For the time being we'll keep sqlite and mysql both around so we can switch
 # between them for development / production whatever. Not good in the long run but
@@ -49,12 +49,13 @@ gem "formtastic", git: "https://github.com/justinfrench/formtastic.git"
 # Need commit c9331088146e456a69bd6e94298c80d09be3ee74
 gem 'formtastic-bootstrap', git: "https://github.com/mjbellantoni/formtastic-bootstrap.git"
 gem "net-dns"
-gem "rails-settings-cached"
 gem 'factory_girl_rails'
 gem 'haml-coderay'
 gem 'nokogiri'
 gem 'google-analytics-rails'
 gem 'premailer'
+gem "skylight"
+gem "foreigner"
 
 # Deployment bits and bobs
 # Later versions cause issues with backing up assets manifests file to release directory
