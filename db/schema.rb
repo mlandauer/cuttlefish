@@ -71,9 +71,6 @@ ActiveRecord::Schema.define(version: 20141118070603) do
     t.datetime "updated_at"
   end
 
-  add_index "black_lists", ["address_id"], name: "black_lists_address_id_fk", using: :btree
-  add_index "black_lists", ["caused_by_delivery_id"], name: "black_lists_caused_by_delivery_id_fk", using: :btree
-
   create_table "click_events", force: true do |t|
     t.integer  "delivery_link_id"
     t.text     "user_agent"
