@@ -9,7 +9,7 @@ set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
 server "kedumba.openaustraliafoundation.org.au", :app, :web, :db, primary: true
 
 set :use_sudo, false
-#set :deploy_via, :remote_cache
+set :deploy_via, :remote_cache
 
 set :user, "deploy"
 set :deploy_to, "/srv/www/cuttlefish.openaustraliafoundation.org.au"
