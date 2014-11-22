@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "deliveries/show.json.jbuilder" do
+describe "deliveries/show.json.erb" do
   it do
     app = mock_model(App,
       id: 2,
