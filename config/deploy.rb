@@ -3,7 +3,7 @@ require "rvm/capistrano"
 require 'bundler/capistrano'
 
 set :application, "cuttlefish"
-set :repository,  "git://github.com/mlandauer/cuttlefish.git"
+set :repository,  "https://github.com/mlandauer/cuttlefish.git"
 set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
 
 server "kedumba.openaustraliafoundation.org.au", :app, :web, :db, primary: true
