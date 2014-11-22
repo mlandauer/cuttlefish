@@ -10,7 +10,9 @@ class Archive
     deliveries = Delivery.where(created_at: t0..t1).includes(:links, :click_events, :open_events, :address, :postfix_log_lines, {:email => [:from_address, :app]})
 
     FileUtils.mkdir_p("db/archive")
-    File.open("db/archive/#{date}.json", "w") do |f|
+    # Compress with gzip
+    # TODO bzip2 gives better compression but I had trouble with the Ruby gem for it
+    Zlib::GzipWriter.open("db/archive/#{date}.json.gz") do |f|
       f.write ActionController::Base.new.render_to_string(partial: "deliveries/deliveries.json.jbuilder", locals: {deliveries: deliveries})
     end
   end
