@@ -48,20 +48,17 @@ class Archiving
 
     # Create email if necessary
     if Email.find(data[:email_id]).nil?
-      from_address = Address.find_by_text(data[:from])
       Email.create(
       id: data[:email_id],
-      from_address_id: from_address.id,
+      from_address_id: data[:from_address][:id],
       subject: data[:subject],
       data_hash: data[:data_hash],
       app_id: data[:app][:id]
       )
     end
-    to_address = Address.find_by_text(data[:to])
-
     delivery = Delivery.create(
     id: data[:id],
-    address_id: to_address.id,
+    address_id: data[:to_address][:id],
     sent: data[:sent],
     status: data[:status],
     created_at: data[:created_at],
