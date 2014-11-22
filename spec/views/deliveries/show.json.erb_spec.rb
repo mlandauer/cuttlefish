@@ -10,10 +10,12 @@ describe "deliveries/show.json.erb" do
       from_domain: "planningalerts.org.au"
     )
     from_address = mock_model(Address,
+      id: 12,
       text: "bounces@planningalerts.org.au"
     )
     to_address = mock_model(Address,
-    text: "foo@gmail.com"
+      id: 13,
+      text: "foo@gmail.com"
     )
     email = mock_model(Email,
       id: 1753541,
@@ -76,8 +78,14 @@ describe "deliveries/show.json.erb" do
 
     expect(JSON.parse(rendered, symbolize_names: true)).to eq ({
       id: 5,
-      from: "bounces@planningalerts.org.au",
-      to: "foo@gmail.com",
+      from_address: {
+        id: 12,
+        text: "bounces@planningalerts.org.au"
+      },
+      to_address: {
+        id: 13,
+        text: "foo@gmail.com"
+      },
       subject: "1 new planning application",
       sent: true,
       status: "delivered",

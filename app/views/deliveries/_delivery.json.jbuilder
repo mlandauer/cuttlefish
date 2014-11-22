@@ -1,6 +1,12 @@
 json.id delivery.id
-json.from delivery.email.from_address.text
-json.to delivery.address.text
+json.from_address do
+  json.id delivery.email.from_address.id
+  json.text delivery.email.from_address.text
+end
+json.to_address do
+  json.id delivery.address.id
+  json.text delivery.address.text
+end
 json.subject delivery.email.subject
 json.sent delivery.sent
 json.status delivery.status
