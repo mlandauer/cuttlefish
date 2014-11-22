@@ -24,9 +24,11 @@ describe "deliveries/show.json.erb" do
       subject: "1 new planning application"
     )
     link1 = mock_model(Link,
+      id: 123,
       url: "http://www.planningalerts.org.au/alerts/abc1234/area"
     )
     link2 = mock_model(Link,
+      id: 321,
       url: "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe"
     )
     delivery_link1 = mock_model(DeliveryLink,
@@ -56,9 +58,11 @@ describe "deliveries/show.json.erb" do
       extended_status: "sent (250 2.0.0 OK 1401877617 bh2si4687161pbb.204 - gsmtp)"
     )
     delivery = mock_model(Delivery,
+      id: 5,
       email: email,
       address: to_address,
       created_at: "2014-06-04T20:26:51.000+10:00",
+      updated_at: "2014-06-04T20:26:55.000+10:00",
       sent: true,
       status: "delivered",
       open_tracked: true,
@@ -71,6 +75,7 @@ describe "deliveries/show.json.erb" do
     render
 
     expect(JSON.parse(rendered, symbolize_names: true)).to eq ({
+      id: 5,
       from: "bounces@planningalerts.org.au",
       to: "foo@gmail.com",
       subject: "1 new planning application",
@@ -80,6 +85,7 @@ describe "deliveries/show.json.erb" do
       email_id: 1753541,
       data_hash: "aa126db79482378ce17b441347926570228f12ef",
       created_at: "2014-06-04T20:26:51.000+10:00",
+      updated_at: "2014-06-04T20:26:55.000+10:00",
       app: {
         id: 2,
         name: "Planning Alerts",
@@ -99,10 +105,12 @@ describe "deliveries/show.json.erb" do
         ],
         links: [
           {
+            id: 123,
             url: "http://www.planningalerts.org.au/alerts/abc1234/area",
             click_events: [ ]
           },
           {
+            id: 321,
             url: "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe",
             click_events: [
               {

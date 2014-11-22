@@ -1,3 +1,4 @@
+json.id delivery.id
 json.from delivery.email.from_address.text
 json.to delivery.address.text
 json.subject delivery.email.subject
@@ -7,6 +8,7 @@ json.message_id delivery.email.message_id
 json.email_id delivery.email.id
 json.data_hash delivery.email.data_hash
 json.created_at delivery.created_at
+json.updated_at delivery.updated_at
 json.app do
   json.id delivery.email.app.id
   json.name delivery.email.app.name
@@ -23,6 +25,7 @@ json.tracking do
     json.created_at open_event.created_at
   end
   json.links delivery.delivery_links do |delivery_link|
+    json.id delivery_link.link.id
     json.url delivery_link.link.url
     json.click_events delivery_link.click_events do |click_event|
       json.user_agent click_event.user_agent
