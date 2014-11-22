@@ -50,6 +50,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     addressable (2.3.6)
+    archive-tar-minitar (0.5.2)
     arel (4.0.2)
     bcrypt-ruby (3.1.2)
     bootstrap-sass (2.3.2.2)
@@ -311,6 +312,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  archive-tar-minitar
   bootstrap-sass (~> 2.0)
   capistrano (= 2.13.5)
   capybara
