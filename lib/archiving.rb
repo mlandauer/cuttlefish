@@ -10,7 +10,7 @@ class Archiving
       puts "Nothing to archive for #{date}"
     else
       FileUtils.mkdir_p("db/archive")
-
+      puts "Archiving #{date}..."
       # TODO bzip2 gives better compression but I had trouble with the Ruby gem for it
       Zlib::GzipWriter.open("db/archive/#{date}.tar.gz") do |gzip|
         Archive::Tar::Minitar::Writer.open(gzip) do |writer|
@@ -27,6 +27,7 @@ class Archiving
           end
         end
       end
+      puts "Removing archived data from database for #{date}..."
       deliveries.find_each do |delivery|
         delivery.destroy
       end
