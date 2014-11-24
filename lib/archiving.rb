@@ -17,6 +17,7 @@ class Archiving
           deliveries.find_each do |delivery|
             content = serialise(delivery)
             writer.add_file_simple("#{date}/#{delivery.id}.json", size: content.length, mode: 0600 ) {|f| f.write content}
+            delivery.app.increment!(:archived_deliveries_count)
           end
         end
       end
@@ -30,7 +31,7 @@ class Archiving
       Archive::Tar::Minitar::Reader.open(gzip) do |reader|
         reader.each do |entry|
           deserialise(entry.read)
-          return
+          # We are intentionally not decrementing the archived_deliveries_count
         end
       end
     end
