@@ -14,10 +14,16 @@ class Archiving
       # TODO bzip2 gives better compression but I had trouble with the Ruby gem for it
       Zlib::GzipWriter.open("db/archive/#{date}.tar.gz") do |gzip|
         Archive::Tar::Minitar::Writer.open(gzip) do |writer|
-          deliveries.find_each do |delivery|
-            content = serialise(delivery)
-            writer.add_file_simple("#{date}/#{delivery.id}.json", size: content.length, mode: 0600 ) {|f| f.write content}
-            delivery.app.increment!(:archived_deliveries_count)
+          # Get all the apps for these deliveries
+          apps = App.find(Delivery.where(created_at: t0..t1).joins(:email).group(:app_id).pluck(:app_id))
+          apps.each do |app|
+            app_deliveries = Delivery.joins(:email).where(created_at: t0..t1, emails: {app_id: app.id}).includes(:links, :click_events, :open_events, :address, :postfix_log_lines, {:email => [:from_address, :app]})
+            app_deliveries.find_each do |delivery|
+             content = serialise(delivery)
+             writer.add_file_simple("#{date}/#{delivery.id}.json", size: content.length, mode: 0600 ) {|f| f.write content}
+            end
+            # Doing one increment per app rather than per delivery
+            app.increment!(:archived_deliveries_count, app_deliveries.count)
           end
         end
       end
