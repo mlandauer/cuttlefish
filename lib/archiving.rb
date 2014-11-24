@@ -21,8 +21,9 @@ class Archiving
           end
         end
       end
-      # The scary bit
-      deliveries.destroy_all
+      deliveries.find_each do |delivery|
+        delivery.destroy
+      end
     end
   end
 
