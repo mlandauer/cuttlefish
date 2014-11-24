@@ -4,6 +4,7 @@ class Delivery < ActiveRecord::Base
   has_many :postfix_log_lines, -> { order "time DESC" }, inverse_of: :delivery
   has_many :open_events, -> { order "created_at" }, dependent: :destroy
   has_many :delivery_links, dependent: :destroy
+  has_many :links, through: :delivery_links
   has_many :click_events, -> { order "created_at" }, through: :delivery_links
 
   delegate :app, :from, :from_address, :from_domain, :text_part, :html_part, :data,

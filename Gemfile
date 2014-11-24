@@ -27,8 +27,7 @@ end
 
 gem 'jquery-rails'
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.0.1'
+gem 'jbuilder'
 
 gem "eventmachine"
 gem 'delayed_job_active_record', "~> 4.0.0.beta1"
@@ -56,6 +55,7 @@ gem 'google-analytics-rails'
 gem 'premailer'
 gem "skylight"
 gem "foreigner"
+gem "archive-tar-minitar"
 
 # Deployment bits and bobs
 # Later versions cause issues with backing up assets manifests file to release directory

@@ -23,7 +23,7 @@ set :application, "cuttlefish"
 set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
 
 set :use_sudo, false
-#set :deploy_via, :remote_cache
+set :deploy_via, :remote_cache
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
@@ -49,6 +49,7 @@ namespace :deploy do
       "#{release_path}/config/initializers/honeybadger.rb" => "#{shared_path}/honeybadger.rb",
       "#{release_path}/db/emails"                          => "#{shared_path}/emails",
       "#{release_path}/db/user_agents"                     => "#{shared_path}/user_agents",
+      "#{release_path}/db/archive"                         => "#{shared_path}/archive",
     }
     # Copy across the example database configuration file if there isn't already one
     run "test -f #{shared_path}/database.yml || cp #{release_path}/config/database.yml #{shared_path}/database.yml"

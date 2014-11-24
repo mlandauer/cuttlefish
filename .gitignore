@@ -15,5 +15,6 @@ vendor
 cuttlefish.sublime-workspace
 db/emails/development
 db/user_agents/cache
+db/archive
 config/newrelic.yml
 coverage

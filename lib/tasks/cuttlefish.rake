@@ -15,4 +15,12 @@ namespace :cuttlefish do
   task :update_status => :environment do
     Email.all.each {|email| email.update_status! }
   end
+
+  desc "Archive all emails from a particular date (e.g. 2014-05-01)"
+  task :archive, [:date1, :date2] => :environment do |t, args|
+    args.with_defaults(:date2 => args.date1)
+    (Date.parse(args.date1)..Date.parse(args.date2)).each do |date|
+      Archiving.archive(date)
+    end
+  end
 end

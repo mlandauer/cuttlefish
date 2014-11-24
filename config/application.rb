@@ -30,6 +30,16 @@ module Cuttlefish
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
     config.assets.precompile += %w(*.woff *.svg *.eot *.ttf)
 
+    # We only use the ip address to track open and click events. If the client forges the
+    # the HTTP_CLIENT_IP header in the request by default rails will throw an exception
+    # and drop the request. We're not to so picky.
+    # Alternatively we could remove the HTTP_CLIENT_IP header in middleware and depend on
+    # X-Forwarded-For header (which in our case is set by Varnish) for the ip address.
+    # See http://writeheavy.com/2011/07/31/when-its-ok-to-turn-of-rails-ip-spoof-checking.html
+    # For the time being we'll do the dumb thing and just accept the forged requests. The
+    # worst that happens is we have a few wrong ip address on tracking events
+    config.action_dispatch.ip_spoofing_check = false
+
     #####################################################
     # Cuttlefish specific configuration below here ONLY #
     #####################################################

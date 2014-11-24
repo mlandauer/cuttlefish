@@ -27,7 +27,7 @@ describe DeliveriesHelper do
   </body>
 </html>
       EOF
-      helper.clean_html_email_for_display(html).strip.should == "<div style=\"font-size: 40px\">\n<p style=\"font-size: 20px\">Some text</p>\n  </div>"
+      helper.clean_html_email_for_display(html).strip.should == "<div style=\"font-size: 40px\">\n\n    <p style=\"font-size: 20px\">Some text</p>\n  </div>"
     end
   end
 end

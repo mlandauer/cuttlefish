@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118070603) do
+ActiveRecord::Schema.define(version: 20141124001230) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -56,12 +56,13 @@ ActiveRecord::Schema.define(version: 20141118070603) do
     t.string   "custom_tracking_domain"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "smtp_password_locked",   default: false, null: false
-    t.boolean  "open_tracking_enabled",  default: true,  null: false
-    t.boolean  "click_tracking_enabled", default: true,  null: false
+    t.boolean  "smtp_password_locked",      default: false, null: false
+    t.boolean  "open_tracking_enabled",     default: true,  null: false
+    t.boolean  "click_tracking_enabled",    default: true,  null: false
     t.text     "dkim_private_key"
     t.string   "from_domain"
-    t.boolean  "dkim_enabled",           default: false, null: false
+    t.boolean  "dkim_enabled",              default: false, null: false
+    t.integer  "archived_deliveries_count", default: 0,     null: false
   end
 
   create_table "black_lists", force: true do |t|
@@ -70,9 +71,6 @@ ActiveRecord::Schema.define(version: 20141118070603) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "black_lists", ["address_id"], name: "black_lists_address_id_fk", using: :btree
-  add_index "black_lists", ["caused_by_delivery_id"], name: "black_lists_caused_by_delivery_id_fk", using: :btree
 
   create_table "click_events", force: true do |t|
     t.integer  "delivery_link_id"
