@@ -10,7 +10,7 @@ describe TrackingController do
       # Note that this request is being made via http (not https)
       get :open, delivery_id: 101, hash: "df73d6aecbe72eb3abb72b5413674020fae69a2a"
       expect(response).to be_success
-    end    
+    end
 
     it "should 404 when hash isn't recognised" do
       expect { get :open, delivery_id: 101, hash: "123"}.to raise_error(ActiveRecord::RecordNotFound)
@@ -24,17 +24,26 @@ describe TrackingController do
     end
 
     context "When the correct hash and id are used" do
-      it "should redirect" do
-        get :click, delivery_link_id: 204, hash: "542bae7ec2904c85b945b56072c726d8507fc58a"
-        expect(response).to redirect_to("http://foo.com")
+      context "the delivery_link exists" do
+        it "should redirect" do
+          get :click, delivery_link_id: 204, hash: HashId.hash(204)
+          expect(response).to redirect_to("http://foo.com")
+        end
+
+        it "should log the event" do
+          HashId.stub(valid?: true)
+          delivery_link = mock_model(DeliveryLink, url: "http://foo.com")
+          DeliveryLink.should_receive(:find_by_id).with("204").and_return(delivery_link)
+          delivery_link.should_receive(:add_click_event)
+          get :click, delivery_link_id: 204, hash: HashId.hash(204)
+        end
       end
 
-      it "should log the event" do
-        HashId.stub(valid?: true)
-        delivery_link = mock_model(DeliveryLink, url: "http://foo.com")
-        DeliveryLink.should_receive(:find).with("204").and_return(delivery_link)
-        delivery_link.should_receive(:add_click_event)
-        get :click, delivery_link_id: 204, hash: "542bae7ec2904c85b945b56072c726d8507fc58a"        
+      context "the delivery_link doesn't exist and url provided" do
+        it "should redirect to to the given url" do
+          get :click, delivery_link_id: 123, hash: HashId.hash(123), url: "http://bar.com?foo=baz"
+          expect(response).to redirect_to("http://bar.com?foo=baz")
+        end
       end
     end
 
