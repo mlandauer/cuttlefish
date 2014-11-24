@@ -8,7 +8,8 @@ class Filters::ClickTracking < Filters::Tracking
       host: host(delivery),
       protocol: protocol(delivery),
       delivery_link_id: delivery_link.id,
-      hash: HashId.hash(delivery_link.id)
+      hash: HashId.hash(delivery_link.id),
+      url: url
     )
   end
 
