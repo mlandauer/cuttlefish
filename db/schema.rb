@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141126052536) do
+ActiveRecord::Schema.define(version: 20141126054742) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -41,12 +41,14 @@ ActiveRecord::Schema.define(version: 20141126052536) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.datetime "invitation_created_at"
+    t.integer  "team_id",                             null: false
   end
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["invitation_token"], name: "index_admins_on_invitation_token", unique: true, using: :btree
   add_index "admins", ["invited_by_id"], name: "index_admins_on_invited_by_id", using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
+  add_index "admins", ["team_id"], name: "index_admins_on_team_id", using: :btree
 
   create_table "apps", force: true do |t|
     t.string   "smtp_username"

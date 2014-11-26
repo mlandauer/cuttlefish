@@ -19,7 +19,8 @@ describe Admins::RegistrationsController do
   end
 
   context "There is already one admin registered" do
-    let(:admin) { Admin.create!(email: "foo@bar.com", password: "guess this") }
+    let(:team) { Team.create! }
+    let(:admin) { team.admins.create!(email: "foo@bar.com", password: "guess this") }
     before :each do
       admin
     end
@@ -47,4 +48,3 @@ describe Admins::RegistrationsController do
     end
   end
 end
-

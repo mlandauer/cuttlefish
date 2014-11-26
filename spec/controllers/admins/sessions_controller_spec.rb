@@ -8,7 +8,8 @@ describe Admins::SessionsController do
   context "request is over http" do
     context "There is one admin already registered" do
       before :each do
-        Admin.create!(email: "foo@bar.com", password: "guess this")
+        team = Team.create!
+        team.admins.create!(email: "foo@bar.com", password: "guess this")
       end
 
       it "should redirect to https" do
@@ -32,7 +33,8 @@ describe Admins::SessionsController do
 
     context "There is one admin already registered" do
       before :each do
-        Admin.create!(email: "foo@bar.com", password: "guess this")
+        team = Team.create!
+        team.admins.create!(email: "foo@bar.com", password: "guess this")
       end
 
       it "should not redirect https" do
@@ -42,4 +44,3 @@ describe Admins::SessionsController do
     end
   end
 end
-
