@@ -1,3 +1,4 @@
+# coding: utf-8
 require "spec_helper"
 
 describe Filters::AddOpenTracking do
@@ -39,14 +40,14 @@ describe Filters::AddOpenTracking do
         Mail.new do
           html_part do
             content_type 'text/html; charset=UTF-8'
-            body '<h1>This is HTML</h1>'
+            body '<h1>This is HTML with “some” UTF-8</h1>'
           end
         end
       end
 
       it "should insert an image at the bottom of the html" do
-        Mail.new(filter.data(delivery)).parts.first.body.should ==
-          '<h1>This is HTML</h1><img src="https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif" />'
+        Mail.new(filter.data(delivery)).parts.first.decoded.should ==
+          '<h1>This is HTML with “some” UTF-8</h1><img src="https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif" />'
       end
 
       it "should record that it has been open tracked" do
