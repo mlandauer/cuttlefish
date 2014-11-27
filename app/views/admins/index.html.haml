@@ -4,20 +4,7 @@
 %table.table
   - @admins.each do |admin|
     %tbody
-      %tr
-        %td= admin_gravatar(admin)
-        %td
-          = admin.email
-          - if admin == current_admin
-            (You)
-        %td
-          - if admin.invitation_accepted_at
-            For
-            = time_ago_in_words(admin.invitation_accepted_at)
-          - elsif admin.invitation_created_at
-            Invited
-            = time_ago_in_words(admin.invitation_created_at)
-            ago
+      = render admin
 
 %h2 Invite a new administrator
 
