@@ -12,11 +12,17 @@
 
 %h3 Other administrators
 
-%ul
+%table.table
   - Admin.where("id != ?", current_admin.id).each do |admin|
-    %li
-      = admin.email
-      - if admin.invitation_accepted_at
-        (For #{time_ago_in_words(admin.invitation_accepted_at)})
-      - else
-        (Invited #{time_ago_in_words(admin.invitation_created_at)} ago)
+    %tbody
+      %tr
+        %td= admin_gravatar(admin)
+        %td= admin.email
+        %td
+          - if admin.invitation_accepted_at
+            For
+            = time_ago_in_words(admin.invitation_accepted_at)
+          - else
+            Invited
+            = time_ago_in_words(admin.invitation_created_at)
+            ago
