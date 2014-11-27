@@ -2,8 +2,9 @@
   %h1 Administrators
 
 %table.table
-  - @admins.each do |admin|
-    %tbody
+  %tbody
+    = render current_admin
+    - @admins.where("id != ?", current_admin.id).each do |admin|
       = render admin
 
 %h2 Invite a new administrator
