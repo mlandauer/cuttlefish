@@ -20,7 +20,8 @@ describe TestEmailsController do
     end
 
     describe "#create" do
-      let(:app) { App.create!(name: "Test") }
+      let(:team) { Team.create! }
+      let(:app) { team.apps.create!(name: "Test") }
 
       it "should send a test email" do
         email = mock("Email")

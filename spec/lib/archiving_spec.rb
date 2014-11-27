@@ -2,7 +2,8 @@ require "spec_helper"
 
 describe Archiving do
   it do
-    app = App.create!(
+    team = Team.create!
+    app = team.apps.create!(
       id: 2,
       name: "Planning Alerts",
       url: "http://www.planningalerts.org.au/",

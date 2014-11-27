@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141126054742) do
+ActiveRecord::Schema.define(version: 20141127000723) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -65,7 +65,10 @@ ActiveRecord::Schema.define(version: 20141126054742) do
     t.string   "from_domain"
     t.boolean  "dkim_enabled",              default: false, null: false
     t.integer  "archived_deliveries_count", default: 0,     null: false
+    t.integer  "team_id",                                   null: false
   end
+
+  add_index "apps", ["team_id"], name: "index_apps_on_team_id", using: :btree
 
   create_table "black_lists", force: true do |t|
     t.integer  "address_id"

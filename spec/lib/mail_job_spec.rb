@@ -2,7 +2,8 @@ require "spec_helper"
 require "ostruct"
 
 describe MailJob, '#perform' do
-  let(:app) { App.create(name: "test") }
+  let(:team) { Team.create! }
+  let(:app) { team.apps.create!(name: "test") }
 
   it "should save the email information and forward it" do
     OutgoingEmail.any_instance.stub(:send)
