@@ -9,3 +9,14 @@
       = f.text_field field, placeholder: "Email"
 
   = f.submit "Send an invitation", class: "btn btn-primary"
+
+%h3 Other administrators
+
+%ul
+  - Admin.where("id != ?", current_admin.id).each do |admin|
+    %li
+      = admin.email
+      - if admin.invitation_accepted_at
+        (For #{time_ago_in_words(admin.invitation_accepted_at)})
+      - else
+        (Invited #{time_ago_in_words(admin.invitation_created_at)} ago)
