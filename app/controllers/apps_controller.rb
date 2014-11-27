@@ -1,18 +1,24 @@
 class AppsController < ApplicationController
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+
   def index
-    @apps = App.all
+    @apps = policy_scope(App)
   end
 
   def show
     @app = App.find(params[:id])
+    authorize @app
   end
 
   def new
     @app = App.new
+    authorize @app
   end
 
   def create
     @app = current_admin.team.apps.build(app_parameters)
+    authorize @app
     if @app.save
       flash[:notice] = "App #{@app.name} successfully created"
       redirect_to @app
@@ -23,6 +29,7 @@ class AppsController < ApplicationController
 
   def destroy
     @app = App.find(params[:id])
+    authorize @app
     flash[:notice] = "App #{@app.name} successfully removed"
     @app.destroy
     redirect_to apps_path
@@ -30,10 +37,12 @@ class AppsController < ApplicationController
 
   def edit
     @app = App.find(params[:id])
+    authorize @app
   end
 
   def update
     @app = App.find(params[:id])
+    authorize @app
     if @app.update_attributes(app_parameters)
       flash[:notice] = "App #{@app.name} successfully updated"
       redirect_to @app
@@ -41,6 +50,8 @@ class AppsController < ApplicationController
       render :edit
     end
   end
+
+  # New password and lock password are currently not linked to from anywhere
 
   def new_password
     app = App.find(params[:id])
@@ -56,10 +67,12 @@ class AppsController < ApplicationController
 
   def dkim
     @app = App.find(params[:id])
+    authorize @app
   end
 
   def toggle_dkim
     app = App.find(params[:id])
+    authorize app
     app.update_attribute(:dkim_enabled, !app.dkim_enabled)
     redirect_to app
   end

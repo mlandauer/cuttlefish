@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
   def force_ssl?
    controller_name != "tracking" && !Rails.env.development?
   end
+
+  def pundit_user
+    current_admin
+  end
 end
