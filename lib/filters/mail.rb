@@ -4,13 +4,13 @@ class Filters::Mail < Filters::Delivery
   def data(delivery)
     mail = Mail.new(input_data(delivery))
     if mail.multipart?
-      mail.html_part.body = process_html(mail.html_part.body.decoded, delivery) if mail.html_part
-      mail.text_part.body = process_text(mail.text_part.body.decoded, delivery) if mail.text_part
+      mail.html_part.body = process_html(mail.html_part.decoded, delivery) if mail.html_part
+      mail.text_part.body = process_text(mail.text_part.decoded, delivery) if mail.text_part
     else
       if mail.mime_type == "text/html"
-        mail.body = process_html(mail.body.decoded, delivery)
+        mail.body = process_html(mail.decoded, delivery)
       else
-        mail.body = process_text(mail.body.decoded, delivery)
+        mail.body = process_text(mail.decoded, delivery)
       end
     end
     mail.encoded
