@@ -7,4 +7,8 @@ class Admins::InvitationsController < Devise::InvitationsController
   def invite_resource
     resource_class.invite!(invite_params.merge(team_id: current_inviter.team_id), current_inviter)
   end
+
+  def after_invite_path_for(resource)
+    admins_path
+  end
 end
