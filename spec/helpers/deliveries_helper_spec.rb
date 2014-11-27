@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'spec_helper'
 
 # Specs in this file have access to a helper object that includes
@@ -28,6 +29,10 @@ describe DeliveriesHelper do
 </html>
       EOF
       helper.clean_html_email_for_display(html).strip.should == "<div style=\"font-size: 40px\">\n\n    <p style=\"font-size: 20px\">Some text</p>\n  </div>"
+    end
+
+    it "should preserve UTF-8 characters" do
+      helper.clean_html_email_for_display("This is some “test UTF-8” stuff").should == "<div><p>This is some “test UTF-8” stuff</p></div>"
     end
   end
 end
