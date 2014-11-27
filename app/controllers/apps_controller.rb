@@ -12,7 +12,7 @@ class AppsController < ApplicationController
   end
 
   def create
-    @app = App.new(app_parameters)
+    @app = current_admin.team.apps.build(app_parameters)
     if @app.save
       flash[:notice] = "App #{@app.name} successfully created"
       redirect_to @app
