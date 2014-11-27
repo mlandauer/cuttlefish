@@ -129,6 +129,7 @@ describe Email do
 
     describe "#html_part" do
       it { email.html_part.should == "<h1>This is HTML</h1>" }
+      it { email.html_part.encoding.to_s.should == "UTF-8"}
     end
 
     describe "#text_part" do
