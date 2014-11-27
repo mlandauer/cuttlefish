@@ -208,6 +208,8 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pundit (0.3.0)
+      activesupport (>= 3.0.0)
     rack (1.5.2)
     rack-livereload (0.3.15)
       rack
@@ -349,6 +351,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri
   premailer
+  pundit
   rack-livereload
   rack-mini-profiler
   rails (= 4.0.12)

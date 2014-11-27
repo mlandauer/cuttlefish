@@ -56,6 +56,7 @@ gem 'premailer'
 gem "skylight"
 gem "foreigner"
 gem "archive-tar-minitar"
+gem "pundit"
 
 # Deployment bits and bobs
 # Later versions cause issues with backing up assets manifests file to release directory
