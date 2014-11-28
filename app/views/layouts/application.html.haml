@@ -40,7 +40,9 @@
               = nav_menu_item_show_active deliveries_path do
                 %i.icon-envelope
                 Emails
-              = nav_menu_item_show_active links_path do
+              -# Temporarily don't link to the links page because it's WAY TOO SLOW
+              -# = nav_menu_item_show_active links_path do
+              %li
                 %i.icon-link
                 Links
               = nav_menu_item_show_active black_lists_path do
