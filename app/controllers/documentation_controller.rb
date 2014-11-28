@@ -1,5 +1,6 @@
 class DocumentationController < ApplicationController
   def index
-    @active_app = App.first
+    @apps = policy_scope(App)
+    @active_app = @apps.first
   end
 end

@@ -3,7 +3,7 @@
 
 %h2 How to send mail via Cuttlefish
 
-- if App.all.empty?
+- if @apps.empty?
   %p
     Before you can send email via Cuttlefish you will need to #{link_to "create an App", new_app_path}. Each App has its
     own settings and usually relates to one application from which you're sending the emails.
@@ -14,11 +14,11 @@
 
   .tabbale
     %ul.nav.nav-tabs
-      - App.all.each do |app|
+      - @apps.each do |app|
         %li{class: ("active" if app == @active_app)}
           = link_to app.name, "#app-#{app.id}", "data-toggle" => "tab"
     .tab-content
-      - App.all.each do |app|
+      - @apps.each do |app|
         .tab-pane{id: "app-#{app.id}", class: ("active" if app == @active_app)}
           = render partial: "general", locals: {app: app}
           = render partial: "rails", locals: {app: app}
