@@ -75,7 +75,10 @@ ActiveRecord::Schema.define(version: 20141130114112) do
     t.integer  "caused_by_delivery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "team_id",               null: false
   end
+
+  add_index "black_lists", ["team_id"], name: "index_black_lists_on_team_id", using: :btree
 
   create_table "click_events", force: true do |t|
     t.integer  "delivery_link_id"
