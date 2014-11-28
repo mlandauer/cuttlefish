@@ -11,7 +11,6 @@ class Delivery < ActiveRecord::Base
     :click_tracking_enabled?, :open_tracking_enabled?, :subject, to: :email
 
   before_save :update_my_status!
-  before_create :update_app_id!
 
   # Should this email be sent to this address?
   # If not it's because the email has bounced
@@ -51,10 +50,6 @@ class Delivery < ActiveRecord::Base
 
   def update_my_status!
     self.status = calculated_status
-  end
-
-  def update_app_id!
-    self.app_id = email.app_id
   end
 
   def to

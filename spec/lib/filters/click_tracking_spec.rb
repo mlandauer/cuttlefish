@@ -2,9 +2,8 @@
 require "spec_helper"
 
 describe Filters::ClickTracking do
-  let(:email) { Email.create! }
   let(:delivery) do
-    delivery = Delivery.new(id: 673, email: email)
+    delivery = Delivery.new(id: 673)
     delivery.stub(update_status!: nil)
     delivery.save!
     delivery

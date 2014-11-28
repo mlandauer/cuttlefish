@@ -2,11 +2,8 @@
 require "spec_helper"
 
 describe Filters::AddOpenTracking do
-  let(:team) { Team.create! }
-  let(:app) { App.create!(name: "foo", team: team) }
-  let(:email) { Email.create!(app: app) }
   let(:delivery) do
-    delivery = Delivery.new(id: 673, email: email)
+    delivery = Delivery.new(id: 673)
     delivery.stub(update_status!: nil)
     delivery.save!
     delivery
