@@ -6,8 +6,8 @@ describe TestEmailsController do
   end
 
   context "signed in" do
+    let(:team) { Team.create! }
     before :each do
-      team = Team.create!
       admin = team.admins.create!(email: "foo@bar.com", password: "guess this")
       sign_in admin
     end
@@ -20,7 +20,6 @@ describe TestEmailsController do
     end
 
     describe "#create" do
-      let(:team) { Team.create! }
       let(:app) { team.apps.create!(name: "Test") }
 
       it "should send a test email" do
