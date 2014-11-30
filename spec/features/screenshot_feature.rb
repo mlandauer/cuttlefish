@@ -65,7 +65,7 @@ describe "getting a bunch of screenshots", js: true do
             EOF
           end
         end
-        @app = team.apps.create!(name: "Test")
+        @app = team.apps.create!(name: "My first App")
         @email = @app.emails.create!(from: "hello@cuttlefish.io", to: "matthew@openaustralia.org", data: mail.encoded)
         @delivery = @email.deliveries.first
         @delivery.update_attributes(sent: true, open_tracked: true)
