@@ -36,7 +36,7 @@ describe "getting a bunch of screenshots", js: true do
 
           html_part do
             content_type 'text/html; charset=UTF-8'
-            body <<-EOF 
+            body <<-EOF
 <div>
   It's pretty good to be able to wake up and go for a walk in place like this five minutes from where you live.
 </div>
@@ -90,7 +90,7 @@ describe "getting a bunch of screenshots", js: true do
       click_link "5 minutes after being sent"
       click_link "2 minutes after being sent"
       # Wait until jquery animation finishes
-      page.evaluate_script('$(":animated").length') == 0 
+      page.evaluate_script('$(":animated").length') == 0
       screenshot("app/assets/images/screenshots/3.png")
     end
   end
