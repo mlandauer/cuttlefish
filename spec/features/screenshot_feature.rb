@@ -25,8 +25,10 @@ describe "getting a bunch of screenshots", js: true do
   end
 
   context "a user and an email" do
+    let(:team) { Team.create! }
+
     before :each do
-      Admin.create!(email: 'matthew@openaustralia.org', password: 'caplin')
+      team.admins.create!(email: 'matthew@openaustralia.org', password: 'caplin')
         mail = Mail.new do
           text_part do
             body "This can be anything because it isn't actually seen in the screenshot"
@@ -63,7 +65,8 @@ describe "getting a bunch of screenshots", js: true do
             EOF
           end
         end
-        @email = Email.create!(from: "hello@cuttlefish.io", to: "matthew@openaustralia.org", data: mail.encoded)
+        @app = team.apps.create!(name: "Test")
+        @email = @app.emails.create!(from: "hello@cuttlefish.io", to: "matthew@openaustralia.org", data: mail.encoded)
         @delivery = @email.deliveries.first
         @delivery.update_attributes(sent: true, open_tracked: true)
         FactoryGirl.create(:postfix_log_line, delivery: @delivery,
