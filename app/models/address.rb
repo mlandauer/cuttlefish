@@ -5,6 +5,9 @@ class Address < ActiveRecord::Base
   has_many :emails_received, through: :deliveries, source: :email
   has_many :black_lists
 
+  extend FriendlyId
+  friendly_id :text
+
   # Deliveries sent from this address
   def deliveries_sent(team)
     Delivery.where(app_id: team.apps).joins(:email).where(emails: {from_address_id: id})

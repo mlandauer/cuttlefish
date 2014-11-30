@@ -7,7 +7,8 @@ Cuttlefish::Application.routes.draw do
   }
   resources :admins, only: [:index]
   resources :emails, only: [:index, :show], as: :deliveries, controller: "deliveries"
-  resources :addresses, only: [] do
+  # Allow "." in the id's by using the constraint
+  resources :addresses, only: [], constraints: {id: /[^\/]+/} do
     member do
       get :from
       get :to
