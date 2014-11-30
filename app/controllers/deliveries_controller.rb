@@ -15,7 +15,7 @@ class DeliveriesController < ApplicationController
     @deliveries = @deliveries.joins(:email).where("emails.app_id" => @app.id) if @app
     @deliveries = @deliveries.joins(:address).where("addresses.text" => @search) if @search
 
-    @deliveries = @deliveries.includes(:click_events, :postfix_log_lines, :email, :address).order("deliveries.created_at DESC").page(params[:page])
+    @deliveries = @deliveries.includes(:delivery_links, :postfix_log_lines, :email, :address).order("deliveries.created_at DESC").page(params[:page])
   end
 
   def show

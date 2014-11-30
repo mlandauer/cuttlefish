@@ -67,7 +67,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def clicked?
-    !click_events.empty?
+    delivery_links.any?{|delivery_link| delivery_link.click_events.size > 0}
   end
 
   def app_name
