@@ -10,14 +10,13 @@ describe InternalMailer do
     it { email.subject.should == "Invitation instructions" }
     it do
       email.body.should == <<-EOF
-<p>Hello foo@bar.com!</p>
+<p>Hello foo@bar.com</p>
 
 <p>Someone has invited you to https://cuttlefish.example.org/, you can accept it through the link below.</p>
 
 <p><a href="https://cuttlefish.example.org/admins/invitation/accept?invitation_token=abc123">Accept invitation</a></p>
 
-<p>If you don't want to accept the invitation, please ignore this email.<br />
-Your account won't be created until you access the link above and set your password.</p>
+<p>If you don't want to accept the invitation, please ignore this email.<br />Your account won't be created until you access the link above and set your password.</p>
       EOF
     end
 
