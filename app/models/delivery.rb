@@ -63,7 +63,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def opened?
-    !open_events.empty?
+    open_events.size > 0
   end
 
   def clicked?
