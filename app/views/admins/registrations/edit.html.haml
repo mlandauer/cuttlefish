@@ -15,16 +15,11 @@
         = f.email_field :email
 
     .control-group
-      = f.label :password, class: "control-label"
+      = f.label :password, "New password", class: "control-label"
       .controls
         = f.password_field :password
         %span.help-block
           Leave blank if you don't want to change it
-
-    .control-group
-      = f.label :password_confirmation, class: "control-label"
-      .controls
-        = f.password_field :password_confirmation
 
     .control-group
       = f.label :current_password, class: "control-label"
