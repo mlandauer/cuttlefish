@@ -91,6 +91,13 @@ To record your deploys you will also need to add config/newrelic.yml on your loc
 ### Honeybadger
 Copy `config/initializers/honeybadger.rb-example` to `config/initializers/honeybadger.rb` and fill in your API key.
 
+## Screenshots
+Done some development work which updates the look of the main pages? To update the screenshots
+```
+bundle exec rspec spec/features/screenshot_feature.rb
+```
+Then commit the results
+
 ## How to contribute
 
 If you find what looks like a bug:
