@@ -5,4 +5,12 @@ class Admin < ActiveRecord::Base
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   belongs_to :team
+
+  def display_name
+    if name.present?
+      name
+    else
+      email
+    end
+  end
 end
