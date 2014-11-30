@@ -37,6 +37,6 @@ module ApplicationHelper
   end
 
   def admin_gravatar(admin)
-    gravatar_image_tag(admin.email, gravatar: {size: 35, secure: true, default: :identicon}, class: "img-circle", size: "35x35")
+    gravatar_image_tag(admin.email, gravatar: {size: 35, secure: true, default: :identicon}, class: "img-circle")
   end
 end
