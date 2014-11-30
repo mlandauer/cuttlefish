@@ -25,7 +25,6 @@ Cuttlefish::Application.routes.draw do
     end
   end
 
-  resources :links, only: [:index, :show]
   resources :black_lists, only: [:index, :destroy]
 
   # The priority is based upon order of creation: first created -> highest priority.
