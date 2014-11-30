@@ -43,7 +43,7 @@
           = status_name(@delivery.status)
       %td
         = link_to "#log", "data-toggle" => "collapse" do
-          = distance_of_time_in_words(@delivery.created_at, @delivery.postfix_log_lines.first.time, true)
+          = distance_of_time_in_words(@delivery.created_at, @delivery.postfix_log_lines.first.time, include_seconds: true)
           after being sent
           <i class="icon-plus-sign-alt"></i>
         .collapse{id: "log"}
@@ -58,7 +58,7 @@
             First opened
       %td
         = link_to "#opened", "data-toggle" => "collapse" do
-          = distance_of_time_in_words(@delivery.created_at, @delivery.open_events.first.created_at, true)
+          = distance_of_time_in_words(@delivery.created_at, @delivery.open_events.first.created_at, include_seconds: true)
           after being sent
           <i class="icon-plus-sign-alt"></i>
         .collapse{id: "opened"}
@@ -73,7 +73,7 @@
             First clicked
       %td
         = link_to "#clicked", "data-toggle" => "collapse" do
-          = distance_of_time_in_words(@delivery.created_at, @delivery.click_events.first.created_at, true)
+          = distance_of_time_in_words(@delivery.created_at, @delivery.click_events.first.created_at, include_seconds: true)
           after being sent
           <i class="icon-plus-sign-alt"></i>
         .collapse{id: "clicked"}
