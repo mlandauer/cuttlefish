@@ -3,7 +3,7 @@ class Address < ActiveRecord::Base
   has_many :deliveries
   has_many :postfix_log_lines, through: :deliveries
   has_many :emails_received, through: :deliveries, source: :email
-  has_one :black_list
+  has_many :black_lists
 
   # Deliveries sent from this address
   def deliveries_sent
@@ -28,7 +28,7 @@ class Address < ActiveRecord::Base
     most_recent_log_line ? most_recent_log_line.status : "sent"
   end
 
-  def blacklisted?
-    !black_list.nil?
+  def blacklisted?(team)
+    black_lists.where(team_id: team.id).exists?
   end
 end
