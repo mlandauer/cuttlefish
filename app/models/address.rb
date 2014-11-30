@@ -6,12 +6,12 @@ class Address < ActiveRecord::Base
   has_many :black_lists
 
   # Deliveries sent from this address
-  def deliveries_sent
-    Delivery.joins(:email).where(emails: {from_address_id: id})
+  def deliveries_sent(team)
+    Delivery.where(app_id: team.apps).joins(:email).where(emails: {from_address_id: id})
   end
 
-  def deliveries_received
-    deliveries
+  def deliveries_received(team)
+    deliveries.where(app_id: team.apps)
   end
 
   # Extract just the domain part of the address
