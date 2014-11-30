@@ -70,7 +70,8 @@ describe Address do
       end
 
       context "address1 is blacklisted" do
-        before(:each) { BlackList.create(address: address1)}
+        let(:team) { Team.create! }
+        before(:each) { team.black_lists.create(address: address1)}
         it {address1.should be_blacklisted}
       end
     end
