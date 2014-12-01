@@ -5,4 +5,9 @@ class InternalMailer < Devise::Mailer
     address: Rails.configuration.postfix_smtp_host,
     port: Rails.configuration.postfix_smtp_port
   }
+
+  def invitation_instructions(record, token, opts={})
+    opts[:subject] = "#{record.invited_by.display_name} invites you to Cuttlefish"
+    super
+  end
 end
