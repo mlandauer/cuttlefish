@@ -7,6 +7,12 @@
     only admins can invite new admins.
 
   .control-group
+    = f.label :name
+    .controls
+      = f.text_field :name, class: "login-field", placeholder: "Enter your name"
+      %span.login-field-icon.fui-heart-16
+
+  .control-group
     = f.label :email
     = f.email_field :email, class: "login-field", placeholder: "Enter your email"
     %span.login-field-icon.fui-man-16
