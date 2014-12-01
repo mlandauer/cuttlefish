@@ -65,7 +65,7 @@ body.landing {
   padding-bottom: 40px;
   li {
 
-  }  
+  }
 }
 
 #download {
@@ -76,7 +76,7 @@ body.landing {
 
 footer {
   text-align: left;
-  .span12 {
+  .span6 {
     margin-top: 20px;
     margin-bottom: 20px;
   }
@@ -88,7 +88,7 @@ footer {
   }
 }
 
-html, 
+html,
  body {
    height: 100%;
    /* The html and body elements cannot have any padding or margin. */
@@ -108,4 +108,3 @@ html,
  footer {
    height: 146px;
  }
- 

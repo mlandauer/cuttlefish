@@ -75,16 +75,26 @@
     %footer
       .container
         .row
-          .span12
+          .span6
             %h3 Say Hello
             %p
               Made by
               = link_to "@matthewlandauer", "https://twitter.com/matthewlandauer"
-            %p
-              Cuttlefish is free and open source software. Get it at
-              = link_to "http://github.com/mlandauer/cuttlefish" do
-                %i.fa.fa-github
-                Github
+          .span6.text-right
+            %h3 Cuttlefish is free and open source software
+            %ul.unstyled
+              %li
+                = link_to "http://github.com/mlandauer/cuttlefish" do
+                  Source code on Github
+                  %i.fa.fa-github
+              %li
+                = link_to "https://github.com/mlandauer/cuttlefish/issues" do
+                  Suggest a feature or report an issue
+                  %i.fa.fa-bug
+              %li
+                = link_to "https://waffle.io/mlandauer/cuttlefish" do
+                  waffle.io
+                  %i.fa.fa-flag
     /
       Javascripts
       \==================================================
