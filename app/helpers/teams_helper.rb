@@ -1,0 +1,2 @@
+module TeamsHelper
+end
