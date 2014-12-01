@@ -58,8 +58,12 @@
                 %i.fa.fa-magic.fa-fw
                 Apps
               = nav_menu_item_show_active admins_path do
-                %i.fa.fa-group.fa-fw
+                %i.fa.fa-user.fa-fw
                 Administrators
+              - if policy(:team).index?
+                %li
+                  %i.fa.fa-users.fa-fw
+                  Teams
 
             %hr
             %ul.nav.nav-list
