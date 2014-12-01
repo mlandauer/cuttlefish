@@ -24,7 +24,8 @@ describe InternalMailer do
     it do
       email.delivery_method.settings.should == {
         address: "localhost",
-        port: 25
+        port: 25,
+        enable_starttls_auto: false
       }
     end
   end
