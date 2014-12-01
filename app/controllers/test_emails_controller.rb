@@ -3,8 +3,8 @@ class TestEmailsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
   def new
-    @from = "contact@openaustraliafoundation.org.au"
-    @to = "Matthew Landauer <matthew@openaustralia.org>"
+    @from = "contact@oaf.org.au"
+    @to = "Matthew Landauer <matthew@oaf.org.au>"
     @subject = "This is a test email from Cuttlefish"
     @text = <<-EOF
 Hello folks. Hopefully this should have worked and you should
