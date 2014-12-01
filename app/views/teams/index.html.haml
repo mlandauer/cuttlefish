@@ -1,0 +1,8 @@
+.page-header
+  %h1 Teams
+
+%ul
+  - @teams.each do |team|
+    %li
+      = pluralize(team.admins.size, "administrator")
+      (#{team.admins.map{|a| a.display_name}.to_sentence})

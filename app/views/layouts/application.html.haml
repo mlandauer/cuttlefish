@@ -61,7 +61,7 @@
                 %i.fa.fa-user.fa-fw
                 Administrators
               - if policy(:team).index?
-                %li
+                = nav_menu_item_show_active teams_path do
                   %i.fa.fa-users.fa-fw
                   Teams
 
