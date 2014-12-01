@@ -11,6 +11,6 @@ class Admins::RegistrationsController < Devise::RegistrationsController
   def sign_up_params
     # The first user is attached to the first team
     team = Team.find_or_create_by(id: 1)
-    devise_parameter_sanitizer.sanitize(:sign_up).merge(team_id: team.id)
+    devise_parameter_sanitizer.sanitize(:sign_up).merge(team_id: team.id, super_admin: true)
   end
 end

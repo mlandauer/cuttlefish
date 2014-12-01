@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130220259) do
+ActiveRecord::Schema.define(version: 20141201051257) do
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20141130220259) do
   add_index "addresses", ["text"], name: "index_addresses_on_text", using: :btree
 
   create_table "admins", force: true do |t|
-    t.string   "email",                  default: "", null: false
+    t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -41,8 +41,9 @@ ActiveRecord::Schema.define(version: 20141130220259) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.datetime "invitation_created_at"
-    t.integer  "team_id",                             null: false
+    t.integer  "team_id",                                null: false
     t.string   "name"
+    t.boolean  "super_admin",            default: false, null: false
   end
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
