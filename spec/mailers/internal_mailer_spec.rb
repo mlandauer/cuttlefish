@@ -6,7 +6,7 @@ describe InternalMailer do
     let(:admin) { mock_model(Admin, email: "foo@bar.com", invited_by: admin1) }
     let(:email) { InternalMailer.invitation_instructions(admin, "abc123") }
 
-    it { email.from.should == ["contact@openaustraliafoundation.org.au"] }
+    it { email.from.should == ["contact@oaf.org.au"] }
     it { email.to.should == ["foo@bar.com"] }
     it { email.subject.should == "Matthew invites you to Cuttlefish" }
     it do
