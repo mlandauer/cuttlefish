@@ -14,7 +14,9 @@
     .control-group
       = f.label :name, class: "control-label"
       .controls
-        = f.text_field :name
+        = f.text_field :name, placeholder: "Jane Smith"
+        %span.help-block
+          The name that other people will see
 
     .control-group
       = f.label :email, class: "control-label"
