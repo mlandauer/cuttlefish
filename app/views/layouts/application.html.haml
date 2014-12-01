@@ -30,35 +30,35 @@
               .input-append
                 = text_field_tag :search, @search, class: "span2 search-query", placeholder: "tomato@soup.com"
                 = button_tag class: "btn" do
-                  %i.icon-search
+                  %i.fa.fa-search
 
             %ul.nav.nav-list
               %li.nav-header Explore
               = nav_menu_item_show_active dash_path do
-                %i.icon-dashboard
+                %i.fa.fa-dashboard.fa-fw
                 Dashboard
               = nav_menu_item_show_active deliveries_path do
-                %i.icon-envelope
+                %i.fa.fa-envelope.fa-fw
                 Emails
               = nav_menu_item_show_active black_lists_path do
-                %i.icon-thumbs-down
+                %i.fa.fa-thumbs-down.fa-fw
                 Blacklist
               = nav_menu_item_show_active documentation_path do
-                %i.icon-lightbulb
+                %i.fa.fa-lightbulb-o.fa-fw
                 Documentation
               %li.nav-header Test
               = nav_menu_item_show_active reputation_path do
-                %i.icon-heart
+                %i.fa.fa-heart.fa-fw
                 Reputation
               = nav_menu_item_show_active new_test_email_path do
-                %i.icon-arrow-right
+                %i.fa.fa-arrow-right.fa-fw
                 Test email
               %li.nav-header Settings
               = nav_menu_item_show_active apps_path do
-                %i.icon-magic
+                %i.fa.fa-magic.fa-fw
                 Apps
               = nav_menu_item_show_active admins_path do
-                %i.icon-group
+                %i.fa.fa-group.fa-fw
                 Administrators
 
             %hr
@@ -83,7 +83,7 @@
             %p
               Cuttlefish is free and open source software. Get it at
               = link_to "http://github.com/mlandauer/cuttlefish" do
-                %i.icon.icon-github
+                %i.fa.fa-github
                 Github
     /
       Javascripts

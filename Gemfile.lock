@@ -123,9 +123,8 @@ GEM
     ffi (1.9.6)
     file-tail (1.0.12)
       tins (~> 0.5)
-    font-awesome-sass-rails (3.0.2.2)
-      railties (>= 3.1.1)
-      sass-rails (>= 3.1.1)
+    font-awesome-rails (4.2.0.0)
+      railties (>= 3.2, < 5.0)
     foreigner (1.6.1)
       activerecord (>= 3.0.0)
     foreman (0.63.0)
@@ -335,7 +334,7 @@ DEPENDENCIES
   factory_girl_rails
   file-tail
   flatui-rails!
-  font-awesome-sass-rails
+  font-awesome-rails
   foreigner
   foreman
   formtastic!

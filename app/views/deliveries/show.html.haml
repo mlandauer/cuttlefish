@@ -45,7 +45,7 @@
         = link_to "#log", "data-toggle" => "collapse" do
           = distance_of_time_in_words(@delivery.created_at, @delivery.postfix_log_lines.first.time, include_seconds: true)
           after being sent
-          <i class="icon-plus-sign-alt"></i>
+          %i.fa.fa-plus-square
         .collapse{id: "log"}
           = render partial: "postfix_log_lines", locals: {delivery: @delivery}
   - if @delivery.opened?
@@ -60,7 +60,7 @@
         = link_to "#opened", "data-toggle" => "collapse" do
           = distance_of_time_in_words(@delivery.created_at, @delivery.open_events.first.created_at, include_seconds: true)
           after being sent
-          <i class="icon-plus-sign-alt"></i>
+          %i.fa.fa-plus-square
         .collapse{id: "opened"}
           = render partial: "open_events", locals: {delivery: @delivery}
   - if @delivery.clicked?
@@ -75,7 +75,7 @@
         = link_to "#clicked", "data-toggle" => "collapse" do
           = distance_of_time_in_words(@delivery.created_at, @delivery.click_events.first.created_at, include_seconds: true)
           after being sent
-          <i class="icon-plus-sign-alt"></i>
+          %i.fa.fa-plus-square
         .collapse{id: "clicked"}
           = render partial: "click_events", locals: {delivery: @delivery}
 
