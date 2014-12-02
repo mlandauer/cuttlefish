@@ -108,9 +108,9 @@ GEM
     diff-lcs (1.2.4)
     dkim (1.0.0)
     dnsbl-client (1.0.0)
-    dotenv (0.8.0)
-    dotenv-rails (0.8.0)
-      dotenv (= 0.8.0)
+    dotenv (1.0.2)
+    dotenv-deployment (0.2.0)
+      dotenv (~> 1.0)
     em-websocket (0.5.0)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.5.3)
@@ -332,7 +332,7 @@ DEPENDENCIES
   devise_invitable
   dkim
   dnsbl-client
-  dotenv-rails
+  dotenv-deployment
   eventmachine
   factory_girl_rails
   file-tail
