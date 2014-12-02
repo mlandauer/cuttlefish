@@ -15,7 +15,7 @@
     %link(href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72")
     %link(href="images/apple-touch-icon.png" rel="apple-touch-icon-precomposed")
     = favicon_link_tag 'cuttlefish.ico'
-    = analytics_init if Rails.env.production?
+    = analytics_init if GA.valid_tracker?
 
   %body
     #wrap

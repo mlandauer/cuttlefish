@@ -48,5 +48,8 @@ module Cuttlefish
     config.postfix_smtp_port = 25
 
     config.cuttlefish_smtp_port = 2525
+
+    # TODO Move this to an initializer
+    GA.tracker = ENV["GOOGLE_ANALYTICS_CODE"]
   end
 end
