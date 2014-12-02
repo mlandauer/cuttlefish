@@ -1,0 +1,1 @@
+GA.tracker = ENV["GOOGLE_ANALYTICS_CODE"]
