@@ -19,7 +19,7 @@ describe MailJob, '#perform' do
   end
 
   it "should not save the email information if the forwarding fails" do
-    Email.any_instance.stub(:forward).and_raise("I can't contact the mail server")
+    OutgoingEmail.any_instance.stub(:send).and_raise("I can't contact the mail server")
 
     expect {
       MailJob.new(OpenStruct.new(sender: "<matthew@foo.com>", recipients: ["<foo@bar.com>"], data: "message", app_id: app.id)).perform

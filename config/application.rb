@@ -44,8 +44,8 @@ module Cuttlefish
     # Cuttlefish specific configuration below here ONLY #
     #####################################################
 
-    config.postfix_smtp_host = "localhost"
-    config.postfix_smtp_port = 25
+    config.postfix_smtp_host = ENV["POSTFIX_SMTP_HOST"] || "localhost"
+    config.postfix_smtp_port = ENV["POSTFIX_SMTP_PORT"] || "25"
 
     config.cuttlefish_smtp_port = 2525
   end

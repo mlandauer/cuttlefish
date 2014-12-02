@@ -25,8 +25,8 @@ describe OutgoingEmail do
         @outgoing = OutgoingEmail.new(@email)
       end
 
-      it "should open an smtp connection to localhost port 25" do
-        Net::SMTP.should_receive(:start).with("localhost", 25)
+      it "should open an smtp connection to localhost port 1025" do
+        Net::SMTP.should_receive(:start).with("localhost", 1025)
         @outgoing.send
       end
 
