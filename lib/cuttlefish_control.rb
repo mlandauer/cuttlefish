@@ -10,9 +10,9 @@ module CuttlefishControl
     # For the benefit of foreman
     $stdout.sync = true
 
-    if ENV["CUTTLEFISH_READ_ONLY_MODE"]
+    if read_only_mode?
       puts "I'm in read-only mode and so not listening for emails via SMTP."
-      puts "To disable unset the environment variable CUTTLEFISH_READ_ONLY_MODE and restart."
+      puts how_to_disable_read_only_mode
       # Sleep forever
       sleep
     else
@@ -34,7 +34,25 @@ module CuttlefishControl
     $stdout.sync = true
 
     file = "/var/log/mail/mail.log"
-    puts "Sucking up log entries in #{file}..."
-    CuttlefishLogDaemon.start(file)
+
+    if read_only_mode?
+      puts "I'm in read-only mode and so not sucking up log entries."
+      puts how_to_disable_read_only_mode
+      # Sleep forever
+      sleep
+    else
+      puts "Sucking up log entries in #{file}..."
+      CuttlefishLogDaemon.start(file)
+    end
+  end
+
+  private
+
+  def self.read_only_mode?
+    ENV["CUTTLEFISH_READ_ONLY_MODE"]
+  end
+
+  def self.how_to_disable_read_only_mode
+    "To disable unset the environment variable CUTTLEFISH_READ_ONLY_MODE and restart."
   end
 end
