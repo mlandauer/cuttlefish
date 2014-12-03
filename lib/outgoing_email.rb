@@ -7,7 +7,7 @@ class OutgoingEmail
 
   def send
     # TODO If no emails are sent out don't open connection to smtp server
-    Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port.to_i) do |smtp|
+    Net::SMTP.start(Rails.configuration.postfix_smtp_host, Rails.configuration.postfix_smtp_port) do |smtp|
       email.deliveries.each do |delivery|
         if delivery.send?
           # TODO: Optimise so that if data is the same for multiple recipients then they
