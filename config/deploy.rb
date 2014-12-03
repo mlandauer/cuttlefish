@@ -34,7 +34,6 @@ namespace :deploy do
   before "deploy:assets:precompile" do
     links = {
       "#{release_path}/config/database.yml"                => "#{shared_path}/database.yml",
-      "#{release_path}/config/environments/production.rb"  => "#{shared_path}/production.rb",
       "#{release_path}/config/newrelic.yml"                => "#{shared_path}/newrelic.yml",
       "#{release_path}/config/skylight.yml"                => "#{shared_path}/skylight.yml",
       "#{release_path}/config/initializers/honeybadger.rb" => "#{shared_path}/honeybadger.rb",
