@@ -50,5 +50,7 @@ module Cuttlefish
     config.postfix_smtp_port = ENV["POSTFIX_SMTP_PORT"] ? ENV["POSTFIX_SMTP_PORT"].to_i : 25
 
     config.cuttlefish_smtp_port = ENV["CUTTLEFISH_SMTP_PORT"] ? ENV["CUTTLEFISH_SMTP_PORT"].to_i : 2525
+
+    config.secret_key_base = ENV["SECRET_KEY_BASE"]
   end
 end

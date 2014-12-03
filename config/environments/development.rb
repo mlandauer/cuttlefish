@@ -32,7 +32,4 @@ Cuttlefish::Application.configure do
   #####################################################
 
   config.action_mailer.default_url_options = { host: "#{config.cuttlefish_domain}:3000" }
-
-  # These need to be set to something secret in production.rb!
-  config.secret_key_base = 'xxxxxx'
 end
