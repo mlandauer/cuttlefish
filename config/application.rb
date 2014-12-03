@@ -45,7 +45,7 @@ module Cuttlefish
     #####################################################
 
     config.cuttlefish_domain = ENV["CUTTLEFISH_DOMAIN"] || "cuttlefish.io"
-    
+
     config.postfix_smtp_host = ENV["POSTFIX_SMTP_HOST"] || "localhost"
     config.postfix_smtp_port = ENV["POSTFIX_SMTP_PORT"] ? ENV["POSTFIX_SMTP_PORT"].to_i : 25
 
