@@ -32,13 +32,15 @@ module CuttlefishControl
       if File.exists?(file)
         File::Tail::Logfile.open(file) do |log|
           log.tail do |line|
-            log_line = PostfixLogLine.create_from_line(line)
-            # Check if an email needs to be blacklisted
-            # TODO Move this domain logic somewhere sensible
-            if log_line && log_line.status == "hard_bounce"
-              # We don't want to save duplicates
-              if BlackList.find_by(team_id: log_line.delivery.app.team_id, address: log_line.delivery.address).nil?
-                BlackList.create(team_id: log_line.delivery.app.team_id, address: log_line.delivery.address, caused_by_delivery: log_line.delivery)
+            PostfixLogLine.transaction do
+              log_line = PostfixLogLine.create_from_line(line)
+              # Check if an email needs to be blacklisted
+              # TODO Move this domain logic somewhere sensible
+              if log_line && log_line.status == "hard_bounce"
+                # We don't want to save duplicates
+                if BlackList.find_by(team_id: log_line.delivery.app.team_id, address: log_line.delivery.address).nil?
+                  BlackList.create(team_id: log_line.delivery.app.team_id, address: log_line.delivery.address, caused_by_delivery: log_line.delivery)
+                end
               end
             end
           end
