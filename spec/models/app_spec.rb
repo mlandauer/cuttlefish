@@ -37,7 +37,7 @@ describe App do
   describe "#custom_tracking_domain" do
     it "should look up the cname of the custom domain and check it points to the cuttlefish server" do
       app = FactoryGirl.build(:app, custom_tracking_domain: "email.myapp.com")
-      App.should_receive(:lookup_dns_cname_record).with("email.myapp.com").and_return("cuttlefish.example.org.")
+      App.should_receive(:lookup_dns_cname_record).with("email.myapp.com").and_return("localhost.")
       app.should be_valid
     end
 

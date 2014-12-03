@@ -21,7 +21,7 @@ describe Filters::AddOpenTracking do
 
     it "should normally be an https url to the default domain" do
       delivery.stub_chain(:email, :custom_tracking_domain).and_return(nil)
-      filter.url(delivery).should == "https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif"
+      filter.url(delivery).should == "https://localhost/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif"
     end
 
     it "should use a custom domain if it is set (and also not use ssl)" do
@@ -50,7 +50,7 @@ describe Filters::AddOpenTracking do
 
       it "should insert an image at the bottom of the html" do
         Mail.new(filter.data(delivery)).parts.first.decoded.should ==
-          '<h1>This is HTML with “some” UTF-8</h1><img src="https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif" />'
+          '<h1>This is HTML with “some” UTF-8</h1><img src="https://localhost/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif" />'
       end
 
       it "should record that it has been open tracked" do
@@ -126,7 +126,7 @@ Content-Transfer-Encoding: 7bit
       end
 
       it "should add an image" do
-        Mail.new(filter.data(delivery)).body.should == "<p>Hello This an html email</p>\n<img src=\"https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
+        Mail.new(filter.data(delivery)).body.should == "<p>Hello This an html email</p>\n<img src=\"https://localhost/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
       end
     end
 
@@ -148,7 +148,7 @@ Content-Transfer-Encoding: 7bit
         end
 
         it "should append an image to the html part of the email" do
-          Mail.new(filter.data(delivery)).html_part.decoded.should == "<table>I like css</table><img src=\"https://cuttlefish.example.org/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
+          Mail.new(filter.data(delivery)).html_part.decoded.should == "<table>I like css</table><img src=\"https://localhost/o/673/268c51c4f61875f05c1c545ea50cad826de46ea7.gif\" />"
         end
 
         it "should record that it has been open tracked" do

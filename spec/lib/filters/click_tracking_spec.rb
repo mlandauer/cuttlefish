@@ -42,7 +42,7 @@ describe Filters::ClickTracking do
       Link.should_receive(:find_or_create_by).with(url: "http://foo.com?a=2").and_return(mock_model(Link, id: 10))
       DeliveryLink.should_receive(:find_or_create_by).with(delivery_id: 673, link_id: 10).and_return(mock(DeliveryLink, id: 321))
       HashId.stub(hash: "sdfsd")
-      filter.rewrite_url("http://foo.com?a=2", delivery).should == "https://cuttlefish.example.org/l/321/sdfsd?url=http%3A%2F%2Ffoo.com%3Fa%3D2"
+      filter.rewrite_url("http://foo.com?a=2", delivery).should == "https://localhost/l/321/sdfsd?url=http%3A%2F%2Ffoo.com%3Fa%3D2"
     end
   end
 end
