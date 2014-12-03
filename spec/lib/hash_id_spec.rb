@@ -2,12 +2,12 @@ require "spec_helper"
 
 describe HashId do
   it ".hash" do
-    HashId.hash(15).should == "bd0dce790c91139b20bf406a0357359c65b88e3c"
+    HashId.hash(15).should == "c4fbdefa0dd07f5dccebf5d6adfaeab278ed7285"
   end
 
   describe ".valid?" do
-    it { HashId.valid?(15, "bd0dce790c91139b20bf406a0357359c65b88e3c").should be_true }
+    it { HashId.valid?(15, "c4fbdefa0dd07f5dccebf5d6adfaeab278ed7285").should be_true }
     it { HashId.valid?(15, "this hash is wrong").should be_false }
-    it { HashId.valid?(14, "bd0dce790c91139b20bf406a0357359c65b88e3c").should be_false }
+    it { HashId.valid?(14, "c4fbdefa0dd07f5dccebf5d6adfaeab278ed7285").should be_false }
   end
 end
