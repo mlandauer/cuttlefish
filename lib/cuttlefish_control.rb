@@ -10,16 +10,23 @@ module CuttlefishControl
     # For the benefit of foreman
     $stdout.sync = true
 
-    activerecord_config = YAML.load(File.read(File.join(File.dirname(__FILE__), '..', 'config', 'database.yml')))
-    ActiveRecord::Base.establish_connection(activerecord_config[environment])
+    if ENV["CUTTLEFISH_READ_ONLY_MODE"]
+      puts "I'm in read-only mode and so not listening for emails via SMTP."
+      puts "To disable unset the environment variable CUTTLEFISH_READ_ONLY_MODE and restart."
+      # Sleep forever
+      sleep
+    else
+      activerecord_config = YAML.load(File.read(File.join(File.dirname(__FILE__), '..', 'config', 'database.yml')))
+      ActiveRecord::Base.establish_connection(activerecord_config[environment])
 
-    EM.run {
-      CuttlefishSmtpServer.new.start(host, port)
+      EM.run {
+        CuttlefishSmtpServer.new.start(host, port)
 
-      puts "My eight arms and two tentacles are quivering in anticipation."
-      puts "I'm listening for emails via SMTP on #{host} port #{port}"
-      puts "I'm in the #{environment} environment"
-    }
+        puts "My eight arms and two tentacles are quivering in anticipation."
+        puts "I'm listening for emails via SMTP on #{host} port #{port}"
+        puts "I'm in the #{environment} environment"
+      }
+    end
   end
 
   def self.log_start
