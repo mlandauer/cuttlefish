@@ -52,5 +52,7 @@ module Cuttlefish
     config.cuttlefish_smtp_port = ENV["CUTTLEFISH_SMTP_PORT"] ? ENV["CUTTLEFISH_SMTP_PORT"].to_i : 2525
 
     config.secret_key_base = ENV["SECRET_KEY_BASE"]
+
+    config.action_mailer.default_url_options = { host: config.cuttlefish_domain, protocol: "https" }
   end
 end

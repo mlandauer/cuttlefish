@@ -33,10 +33,4 @@ Cuttlefish::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
-
-  #####################################################
-  # Cuttlefish specific configuration below here ONLY #
-  #####################################################
-
-  config.action_mailer.default_url_options = { host: config.cuttlefish_domain, protocol: "https" }
 end

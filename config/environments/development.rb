@@ -27,9 +27,5 @@ Cuttlefish::Application.configure do
 
   config.middleware.insert_after(ActionDispatch::Static, Rack::LiveReload)
 
-  #####################################################
-  # Cuttlefish specific configuration below here ONLY #
-  #####################################################
-
   config.action_mailer.default_url_options = { host: "#{config.cuttlefish_domain}:3000" }
 end
