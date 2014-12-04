@@ -15,6 +15,11 @@ describe TrackingController do
     it "should 404 when hash isn't recognised" do
       expect { get :open, delivery_id: 101, hash: "123"}.to raise_error(ActiveRecord::RecordNotFound)
     end
+
+    it "should register the open event" do
+      get :open, delivery_id: 101, hash: "59620c1214fb2a2404187bd7447c4972b3f11d78"
+      Delivery.find(101).open_events.count.should == 1
+    end
   end
 
   describe "#click" do
