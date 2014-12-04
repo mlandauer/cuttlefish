@@ -1,6 +1,6 @@
 class TestEmailPolicy < ApplicationPolicy
   def new?
-    true
+    create?
   end
 
   def create?

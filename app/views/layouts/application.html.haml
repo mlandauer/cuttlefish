@@ -50,9 +50,10 @@
               = nav_menu_item_show_active reputation_path do
                 %i.fa.fa-heart.fa-fw
                 Reputation
-              = nav_menu_item_show_active new_test_email_path do
-                %i.fa.fa-arrow-right.fa-fw
-                Test email
+              - if policy(:test_email).new?
+                = nav_menu_item_show_active new_test_email_path do
+                  %i.fa.fa-arrow-right.fa-fw
+                  Test email
               %li.nav-header Settings
               = nav_menu_item_show_active apps_path do
                 %i.fa.fa-magic.fa-fw
