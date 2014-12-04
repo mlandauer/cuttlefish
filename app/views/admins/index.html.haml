@@ -7,11 +7,12 @@
     - @admins.where("id != ?", current_admin.id).each do |admin|
       = render admin
 
-%h2 Invite a new administrator
+- if policy(:invitation).create?
+  %h2 Invite a new administrator
 
-= form_for @admin, url: invitation_path(@admin), html: {method: :post} do |f|
-  .control-group
-    = f.label :email
-    = f.text_field :email, placeholder: "Email"
+  = form_for @admin, url: invitation_path(@admin), html: {method: :post} do |f|
+    .control-group
+      = f.label :email
+      = f.text_field :email, placeholder: "Email"
 
-  = f.submit "Send an invitation", class: "btn btn-primary", disabled: !policy(:invitation).create?
+    = f.submit "Send an invitation", class: "btn btn-primary"
