@@ -19,4 +19,4 @@
             = time_ago_in_words(black_list.caused_by_delivery.postfix_log_lines.first.created_at)
             ago
           %td
-            = button_to "Remove", black_list, method: :delete, class: "btn btn-danger"
+            = button_to "Remove", black_list, method: :delete, class: "btn btn-danger", disabled: !policy(black_list).destroy?
