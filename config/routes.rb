@@ -3,7 +3,7 @@ Cuttlefish::Application.routes.draw do
     sessions: "admins/sessions",
     registrations: "admins/registrations",
     passwords: "admins/passwords",
-    invitations: "admins/invitations"
+    invitations: "invitations"
   }
   resources :admins, only: [:index]
   resources :emails, only: [:index, :show], as: :deliveries, controller: "deliveries"

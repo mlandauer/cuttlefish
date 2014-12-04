@@ -1,4 +1,4 @@
-class Admins::InvitationsController < Devise::InvitationsController
+class InvitationsController < Devise::InvitationsController
   layout "login", only: [:edit, :update]
 
   private
