@@ -74,6 +74,11 @@
             %hr
           .span9
             = bootstrap_flash
+            - if ENV["CUTTLEFISH_READ_ONLY_MODE"]
+              .alert
+                <strong>Warning!</strong> The whole site is in read-only mode. To disable unset
+                the environment variable <code>CUTTLEFISH_READ_ONLY_MODE</code> and restart the
+                web server and the daemons
             = yield
       #push
     = render "shared/footer"
