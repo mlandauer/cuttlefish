@@ -14,4 +14,4 @@
     = f.label :email
     = f.text_field :email, placeholder: "Email"
 
-  = f.submit "Send an invitation", class: "btn btn-primary"
+  = f.submit "Send an invitation", class: "btn btn-primary", disabled: !policy(:invitation).create?
