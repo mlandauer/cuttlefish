@@ -33,4 +33,4 @@
             = @text
       .control-group
         .controls
-          %button.btn(type="submit") Send test email
+          = button_tag "Send test email", class: "btn", disabled: !policy(:test_email).create?
