@@ -20,6 +20,21 @@ describe TrackingController do
       get :open, delivery_id: 101, hash: "59620c1214fb2a2404187bd7447c4972b3f11d78"
       Delivery.find(101).open_events.count.should == 1
     end
+
+    context "read only mode" do
+      before(:each) {stub_const('ENV', ENV.to_hash.merge('CUTTLEFISH_READ_ONLY_MODE' => 'true'))}
+
+      it "should be succesful when the correct hash is used" do
+        # Note that this request is being made via http (not https)
+        get :open, delivery_id: 101, hash: "59620c1214fb2a2404187bd7447c4972b3f11d78"
+        expect(response).to be_success
+      end
+
+      it "should not register the open event" do
+        get :open, delivery_id: 101, hash: "59620c1214fb2a2404187bd7447c4972b3f11d78"
+        Delivery.find(101).open_events.count.should == 0
+      end
+    end
   end
 
   describe "#click" do
@@ -49,6 +64,20 @@ describe TrackingController do
           get :click, delivery_link_id: 123, hash: HashId.hash(123), url: "http://bar.com?foo=baz"
           expect(response).to redirect_to("http://bar.com?foo=baz")
         end
+      end
+    end
+
+    context "read only mode" do
+      before(:each) {stub_const('ENV', ENV.to_hash.merge('CUTTLEFISH_READ_ONLY_MODE' => 'true'))}
+
+      it "should redirect" do
+        get :click, delivery_link_id: 204, hash: HashId.hash(204)
+        expect(response).to redirect_to("http://foo.com")
+      end
+
+      it "should not log the event" do
+        get :click, delivery_link_id: 204, hash: HashId.hash(204)
+        DeliveryLink.find(204).click_events.count.should == 0
       end
     end
 
