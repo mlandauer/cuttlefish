@@ -1,6 +1,33 @@
 class Admins::RegistrationsController < Devise::RegistrationsController
+  after_action :verify_authorized
+
   layout "login", except: [:edit, :update]
   before_filter :check_first_user, only: [:new, :create]
+
+  def edit
+    authorize :registration
+    super
+  end
+
+  def update
+    authorize :registration
+    super
+  end
+
+  def destroy
+    authorize :registration
+    super
+  end
+
+  def new
+    authorize :registration
+    super
+  end
+
+  def create
+    authorize :registration
+    super
+  end
 
   private
 
