@@ -1,6 +1,6 @@
 class AppPolicy < ApplicationPolicy
   def update?
-    user.team_id == record.team_id
+    user.team_id == record.team_id && ENV["CUTTLEFISH_READ_ONLY_MODE"].nil?
   end
 
   def destroy?
@@ -16,7 +16,7 @@ class AppPolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    ENV["CUTTLEFISH_READ_ONLY_MODE"].nil?
   end
 
   class Scope < Scope

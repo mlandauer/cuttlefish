@@ -40,7 +40,8 @@
   - else
     = @app.custom_tracking_domain
 
-%p= link_to "Edit", edit_app_path(@app)
+- if policy(@app).edit?
+  %p= link_to "Edit", edit_app_path(@app)
 
 %hr
 %h3 Improve delivery
@@ -48,9 +49,9 @@
   DomainKeys Identified Mail (DKIM) improves the delivery of your emails by automatically cryptographically
   signing each email so that the recipient can check that it was indeed sent by you.
 - if @app.dkim_enabled
-  = button_to "Disable DKIM", toggle_dkim_app_path(@app), class: "btn btn-primary"
+  = button_to "Disable DKIM", toggle_dkim_app_path(@app), class: "btn btn-primary", disabled: !policy(@app).toggle_dkim?
 - else
-  %p= link_to "Set up DKIM", dkim_app_path(@app)
+  %p= link_to "Set up DKIM", dkim_app_path(@app), disabled: !policy(@app).dkim?
 
 %hr
 %h3 Remove this App
@@ -58,4 +59,4 @@
 %p
   Here lies danger. Removing the app from Cuttlefish will permanently delete the app, the associated emails and can not be undone!
 %p
-  = button_to "Remove App", @app, confirm: "Are you sure?", method: :delete, class: "btn btn-danger"
+  = button_to "Remove App", @app, confirm: "Are you sure?", method: :delete, class: "btn btn-danger", disabled: !policy(@app).destroy?
