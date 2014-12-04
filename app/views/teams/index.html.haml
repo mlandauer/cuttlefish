@@ -12,11 +12,12 @@
       = pluralize(team.admins.size, "administrator")
       (#{team.admins.map{|a| a.display_name}.to_sentence})
 
-%h2 Invite a new team
+- if policy(:team).create?
+  %h2 Invite a new team
 
-= form_for @admin, url: invite_teams_path(@admin), html: {method: :post} do |f|
-  .control-group
-    = f.label :email
-    = f.text_field :email, placeholder: "Email"
+  = form_for @admin, url: invite_teams_path(@admin), html: {method: :post} do |f|
+    .control-group
+      = f.label :email
+      = f.text_field :email, placeholder: "Email"
 
-  = f.submit "Send an invitation", class: "btn btn-primary"
+    = f.submit "Send an invitation", class: "btn btn-primary"

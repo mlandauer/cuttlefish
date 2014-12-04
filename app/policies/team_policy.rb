@@ -4,6 +4,6 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def invite?
-    index?
+    user.super_admin? && ENV["CUTTLEFISH_READ_ONLY_MODE"].nil?
   end
 end
