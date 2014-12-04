@@ -1,19 +1,25 @@
-%h3 Set your name and password
 
-= form_for resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put } do |f|
-  = devise_error_messages!
-  = f.hidden_field :invitation_token
+- if policy(:invitation).update?
+  %h3 Set your name and password
 
-  .control-group
-    = f.label :name
-    .controls
-      = f.text_field :name, class: "login-field", placeholder: "Name (e.g. Jane Smith)"
-      %span.login-field-icon.fui-heart-16
+  = form_for resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put } do |f|
+    = devise_error_messages!
+    = f.hidden_field :invitation_token
 
-  .control-group
-    = f.label :password
-    .controls
-      = f.password_field :password, class: "login-field", placeholder: "Password"
-      %span.login-field-icon.fui-lock-16
+    .control-group
+      = f.label :name
+      .controls
+        = f.text_field :name, class: "login-field", placeholder: "Name (e.g. Jane Smith)"
+        %span.login-field-icon.fui-heart-16
 
-  = f.submit "Set my name and password", class: "btn btn-primary btn-large btn-block"
+    .control-group
+      = f.label :password
+      .controls
+        = f.password_field :password, class: "login-field", placeholder: "Password"
+        %span.login-field-icon.fui-lock-16
+
+    = f.submit "Set my name and password", class: "btn btn-primary btn-large btn-block"
+- else
+  %h3
+    We can't yet set up your account just yet because we're doing maintenance.
+    Sorry. Please come back shortly.

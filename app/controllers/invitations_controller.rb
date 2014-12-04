@@ -1,9 +1,14 @@
 class InvitationsController < Devise::InvitationsController
-  #after_action :verify_authorized
+  after_action :verify_authorized
 
   layout "login", only: [:edit, :update]
 
   def create
+    authorize :invitation
+    super
+  end
+
+  def update
     authorize :invitation
     super
   end
