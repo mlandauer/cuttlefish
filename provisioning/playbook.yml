@@ -3,7 +3,6 @@
   sudo: true
   #user: root
   roles:
-    - {role: ANXS.postgresql, postgresql_ext_install_dev_headers: yes}
     - {role: rvm_io.rvm1-ruby, rvm1_rubies: ['ruby-1.9.3-p484']}
     - abtris.nginx-passenger
     - {role: deploy-user, github_users: ['mlandauer', 'henare']}
