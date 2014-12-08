@@ -1,2 +1,3 @@
 ---
-# tasks file for cuttlefish-app
+- name: Ensure that deploy owns /var/www
+  file: owner=deploy group=deploy path=/var/www
