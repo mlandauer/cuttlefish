@@ -122,5 +122,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "provisioning/playbook.yml"
+    ansible.vault_password_file = "~/.cuttlefish_ansible_vault_pass.txt"
   end
 end

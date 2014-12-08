@@ -1,7 +1,11 @@
 ---
 - name: Ensure that deploy owns /var/www
   file: owner=deploy group=deploy path=/var/www state=directory
+- name: Ensure that /var/www/shared exists
+  file: path=/var/www/shared owner=deploy group=deploy state=directory
 - name: Ensure git is installed
   apt: pkg=git
 - name: Install bits for compiling mysql clients against
   apt: pkg=libmysqlclient-dev
+- name: Ensure that .env exists
+  template: src=env dest=/var/www/shared/.env owner=deploy group=deploy
