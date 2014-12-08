@@ -1,17 +1,33 @@
 ---
 - name: Ensure that deploy owns /var/www
   file: owner=deploy group=deploy path=/var/www state=directory
+
 - name: Ensure that /var/www/shared exists
   file: path=/var/www/shared owner=deploy group=deploy state=directory
+
 - name: Ensure git is installed
   apt: pkg=git
+
 - name: Install bits for compiling mysql clients against
   apt: pkg=libmysqlclient-dev
+
 - name: Ensure that .env exists
   template: src=env dest=/var/www/shared/.env owner=deploy group=deploy
+
 - name: Generate the overall nginx config
   template: src=nginx.conf dest=/etc/nginx/nginx.conf
   notify: nginx reload
+
 - name: Generate the nginx config for the app
   template: src=default dest=/etc/nginx/sites-available/ owner=root group=root mode=644
   notify: nginx reload
+
+- name: Create cuttlefish postgresql database
+  postgresql_db: name=cuttlefish
+
+- name: Create cuttlefish posgresql role
+  postgresql_user: db=cuttlefish name=cuttlefish password={{ db_password }}
+
+- name: Copy over database configuration for application
+  template: src=database.yml dest=/var/www/shared/database.yml owner=deploy group=deploy
+  notify: nginx restart

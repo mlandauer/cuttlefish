@@ -1,0 +1,5 @@
+production:
+  adapter: postgresql
+  database: cuttlefish
+  username: cuttlefish
+  password: {{ db_password }}
