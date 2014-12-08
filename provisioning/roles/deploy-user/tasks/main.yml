@@ -1,0 +1,4 @@
+- name: Ensure we have a deploy group
+  group: name=deploy
+- name: Ensure we have a deploy user
+  user: name=deploy comment="Deploy user" shell=/bin/bash group=deploy
