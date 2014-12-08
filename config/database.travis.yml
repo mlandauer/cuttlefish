@@ -1,8 +1,8 @@
-mysql:
+mysql: &mysql
   adapter: mysql2
   username: root
 
-postgresql:
+postgresql: &postgresql
   adapter: postgresql
   username: postgres
 
