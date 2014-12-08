@@ -1,2 +1,3 @@
 ---
-# tasks file for postfix
+- name: Install postfix
+  apt: pkg=postfix
