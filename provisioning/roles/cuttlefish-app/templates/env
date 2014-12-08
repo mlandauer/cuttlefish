@@ -7,3 +7,4 @@ DEVISE_SECRET_KEY={{ devise_secret_key }}
 #NEW_RELIC_APP_NAME={{ new_relic_app_name }}
 #HONEYBADGER_API_KEY={{ honeybadger_api_key }}
 CUTTLEFISH_HASH_SALT="{{ cuttlefish_hash_salt }}"
+DISABLE_SSL=true

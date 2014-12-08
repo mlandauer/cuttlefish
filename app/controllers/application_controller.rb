@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 
   # Don't use SSL for the TrackingController and in development
   def force_ssl?
-   controller_name != "tracking" && !Rails.env.development?
+   controller_name != "tracking" && !Rails.env.development? && ENV["DISABLE_SSL"].nil?
   end
 
   def pundit_user
