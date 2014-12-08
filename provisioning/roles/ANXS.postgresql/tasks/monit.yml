@@ -1,0 +1,6 @@
+# file: postgresql/tasks/monit.yml
+
+- name: PostgreSQL | (Monit) Copy the postgresql monit service file
+  template:
+    src: etc_monit_conf.d_postgresql.j2
+    dest: /etc/monit/conf.d/postgresql

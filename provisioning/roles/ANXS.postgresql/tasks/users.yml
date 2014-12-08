@@ -1,0 +1,25 @@
+# file: postgresql/tasks/users.yml
+
+- name: PostgreSQL | Ensure PostgreSQL is running
+  service:
+    name: postgresql
+    state: started
+
+- name: PostgreSQL | Make sure the PostgreSQL users are present
+  postgresql_user:
+    name: "{{item.name}}"
+    password: "{{item.pass | default('pass')}}"
+    state: present
+    login_host: "{{item.host | default('localhost')}}"
+  with_items: postgresql_users
+  when: postgresql_users|length > 0
+
+- name: PostgreSQL | Update the user privileges
+  postgresql_user:
+    name: "{{item.name}}"
+    db: "{{item.db}}"
+    priv: "{{item.priv | default('ALL')}}"
+    state: present
+    login_host: "{{item.host | default('localhost')}}"
+  with_items: postgresql_user_privileges
+  when: postgresql_users|length > 0

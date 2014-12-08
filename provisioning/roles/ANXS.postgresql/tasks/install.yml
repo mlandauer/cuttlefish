@@ -1,0 +1,27 @@
+# file: postgresql/tasks/install.yml
+
+- name: PostgreSQL | Make sure the dependencies are installed
+  apt:
+    pkg: "{{item}}"
+    state: present
+  with_items: ["python-psycopg2", "python-pycurl"]
+
+- name: PostgreSQL | Add PostgeSQL repository apt-key
+  apt_key:
+    id: ACCC4CF8
+    url: "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+    state: present
+
+- name: PostgreSQL | Add PostgreSQL repository
+  apt_repository:
+    repo: 'deb http://apt.postgresql.org/pub/repos/apt/ {{ansible_distribution_release}}-pgdg main'
+    state: present
+
+- name: PostgreSQL | Install PostgreSQL
+  apt:
+    name: "{{item}}"
+    state: present
+  environment: postgresql_env
+  with_items:
+    - "postgresql-{{postgresql_version}}"
+    - "postgresql-client-{{postgresql_version}}"

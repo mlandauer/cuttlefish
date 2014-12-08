@@ -1,0 +1,53 @@
+# file: postgresql/tasks/configure.yml
+
+- name: PostgreSQL | Make sure the postgres data directory exists
+  file:
+    path: "{{postgresql_data_directory}}"
+    owner: "{{postgresql_admin_user}}"
+    group: "{{postgresql_admin_user}}"
+    state: directory
+    mode: 0700
+
+- name: PostgreSQL | Reset the cluster - drop the existing one
+  shell: pg_dropcluster --stop {{postgresql_version}} {{postgresql_cluster_name}}
+  sudo: yes
+  sudo_user: postgres
+  when: postgresql_cluster_reset
+
+- name: PostgreSQL | Reset the cluster - create a new one (with specified encoding and locale)
+  shell: pg_createcluster --start --locale {{postgresql_locale}} -e {{postgresql_encoding}} -d {{postgresql_data_directory}} {{postgresql_version}} {{postgresql_cluster_name}}
+  sudo: yes
+  sudo_user: postgres
+  when: postgresql_cluster_reset
+
+- name: PostgreSQL | Update configuration - pt. 1 (pg_hba.conf)
+  template:
+    src: pg_hba.conf.j2
+    dest: "{{postgresql_conf_directory}}/pg_hba.conf"
+    owner: "{{postgresql_admin_user}}"
+    group: "{{postgresql_admin_user}}"
+    mode: 0640
+  register: postgresql_configuration_pt1
+
+- name: PostgreSQL | Update configuration - pt. 2 (postgresql.conf)
+  template:
+    src: postgresql.conf.j2
+    dest: "{{postgresql_conf_directory}}/postgresql.conf"
+    owner: "{{postgresql_admin_user}}"
+    group: "{{postgresql_admin_user}}"
+    mode: 0640
+  register: postgresql_configuration_pt2
+  
+- name: PostgreSQL | Create folder for additional configuration files
+  file:
+    name: "{{postgresql_conf_directory}}/conf.d"
+    state: directory
+    owner: "{{postgresql_admin_user}}"
+    group: "{{postgresql_admin_user}}"
+    mode: 0755
+
+- name: PostgreSQL | Restart PostgreSQL
+  service:
+    name: postgresql
+    state: restarted
+  when: postgresql_configuration_pt1.changed or postgresql_configuration_pt2.changed

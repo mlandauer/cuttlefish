@@ -1,0 +1,6 @@
+---
+- hosts: all
+  sudo: true
+  #user: root
+  roles:
+    - ANXS.postgresql
