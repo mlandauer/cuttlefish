@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Ladislav Prskavec
+  license: MIT
+  min_ansible_version: 1.4
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - saucy
+        - precise
+        - lucid
+    - name: Debian
+      versions:
+        - wheezy
+        - squeeze
+  categories:
+     - web
+dependencies: []

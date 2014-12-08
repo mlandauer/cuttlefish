@@ -1,0 +1,18 @@
+---
+- name: Remove apache2
+  apt: name=apache2 state=absent
+
+- name: Add key for passenger
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xAC40B2F7 state=present
+  
+- name: Apt via https
+  apt: name=apt-transport-https state=present
+
+- name: Apt add passenger to list  
+  apt_repository: repo='deb https://oss-binaries.phusionpassenger.com/apt/passenger {{ansible_distribution_release}} main' state=present update_cache=yes  
+  
+- name: Install nginx
+  action: apt pkg={{ item }} state=installed
+  with_items:
+   - nginx-extras 
+   - passenger

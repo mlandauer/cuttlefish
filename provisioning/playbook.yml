@@ -5,3 +5,4 @@
   roles:
     - ANXS.postgresql
     - {role: rvm_io.rvm1-ruby, rvm1_rubies: ['ruby-1.9.3-p484']}
+    - abtris.nginx-passenger
