@@ -1,9 +1,9 @@
-GOOGLE_ANALYTICS_CODE={{ google_analytics_code }}
+#GOOGLE_ANALYTICS_CODE={{ google_analytics_code }}
 SECRET_KEY_BASE={{ secret_key_base }}
 DEVISE_SECRET_KEY={{ devise_secret_key }}
-SKYLIGHT_APPLICATION={{ skylight_application }}
-SKYLIGHT_AUTHENTICATION={{ skylight_authentication }}
-NEW_RELIC_LICENSE_KEY={{ new_relic_license_key }}
-NEW_RELIC_APP_NAME={{ new_relic_app_name }}
-HONEYBADGER_API_KEY={{ honeybadger_api_key }}
+#SKYLIGHT_APPLICATION={{ skylight_application }}
+#SKYLIGHT_AUTHENTICATION={{ skylight_authentication }}
+#NEW_RELIC_LICENSE_KEY={{ new_relic_license_key }}
+#NEW_RELIC_APP_NAME={{ new_relic_app_name }}
+#HONEYBADGER_API_KEY={{ honeybadger_api_key }}
 CUTTLEFISH_HASH_SALT="{{ cuttlefish_hash_salt }}"
