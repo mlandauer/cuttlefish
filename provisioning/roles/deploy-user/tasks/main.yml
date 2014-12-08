@@ -2,3 +2,12 @@
   group: name=deploy
 - name: Ensure we have a deploy user
   user: name=deploy comment="Deploy user" shell=/bin/bash group=deploy
+- name: download pubkey from Github and placed as authorized_keys
+  get_url: url=https://github.com/{{ item }}.keys dest=/tmp/{{ item }}.github_authorized_keys
+  delegate_to: localhost
+  sudo: false
+  with_items: github_users
+- name: Create authorized_keys from the file that just downloaded
+  authorized_key: user=deploy key="{{ lookup('file', item) }}"
+  with_fileglob:
+    - /tmp/*.github_authorized_keys
