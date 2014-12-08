@@ -3,8 +3,6 @@
   sudo: true
   #user: root
   roles:
-    - {role: rvm_io.rvm1-ruby, rvm1_rubies: ['ruby-1.9.3-p484'], rvm1_rvm_check_for_updates: false}
-    - abtris.nginx-passenger
     - {role: deploy-user, github_users: ['mlandauer', 'henare']}
     - postfix
     - cuttlefish-app
