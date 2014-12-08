@@ -10,6 +10,7 @@ gem 'rails', '4.0.12'
 # okay in the short term
 #gem 'sqlite3'
 gem 'mysql2'
+gem 'pg'
 
 # Gems used only for assets and not required
 # in production environments by default.

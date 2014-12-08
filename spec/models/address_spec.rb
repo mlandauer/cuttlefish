@@ -12,7 +12,7 @@ describe Address do
 
     describe "#emails_sent" do
       it "should be able to find all the emails sent from this address" do
-        address1.emails_sent.should == [@email1, @email2]
+        address1.emails_sent.order(:id).should == [@email1, @email2]
       end
 
       it "should be able to find all the emails sent from this address" do
