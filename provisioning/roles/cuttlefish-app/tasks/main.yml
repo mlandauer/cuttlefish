@@ -1,3 +1,7 @@
 ---
 - name: Ensure that deploy owns /var/www
-  file: owner=deploy group=deploy path=/var/www
+  file: owner=deploy group=deploy path=/var/www state=directory
+- name: Ensure git is installed
+  apt: pkg=git
+- name: Install bits for compiling mysql clients against
+  apt: pkg=libmysqlclient-dev
