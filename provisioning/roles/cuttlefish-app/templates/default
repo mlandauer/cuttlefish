@@ -3,5 +3,5 @@ server {
 
   root /srv/www/current/public;
   passenger_enabled on;
-  passenger_ruby /usr/local/lib/rvm/wrappers/ruby-1.9.3-p484/ruby;
+  passenger_ruby /usr/local/lib/rvm/wrappers/default/ruby;
 }
