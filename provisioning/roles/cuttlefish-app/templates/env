@@ -8,3 +8,4 @@ DEVISE_SECRET_KEY={{ devise_secret_key }}
 #HONEYBADGER_API_KEY={{ honeybadger_api_key }}
 CUTTLEFISH_HASH_SALT="{{ cuttlefish_hash_salt }}"
 DISABLE_SSL=true
+POSTFIX_LOG_PATH=/var/log/mail.log
