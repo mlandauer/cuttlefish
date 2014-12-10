@@ -33,16 +33,14 @@ module CuttlefishControl
     # For the benefit of foreman
     $stdout.sync = true
 
-    file = "/var/log/mail/mail.log"
-
     if read_only_mode?
       puts "I'm in read-only mode and so not sucking up log entries."
       puts how_to_disable_read_only_mode
       # Sleep forever
       sleep
     else
-      puts "Sucking up log entries in #{file}..."
-      CuttlefishLogDaemon.start(file)
+      puts "Sucking up log entries in #{Rails.configuration.postfix_log_path}..."
+      CuttlefishLogDaemon.start(Rails.configuration.postfix_log_path)
     end
   end
 
