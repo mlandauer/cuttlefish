@@ -4,6 +4,6 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def invite?
-    user.super_admin? && ENV["CUTTLEFISH_READ_ONLY_MODE"].nil?
+    user.super_admin? && !Rails.configuration.cuttlefish_read_only_mode
   end
 end

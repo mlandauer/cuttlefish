@@ -49,7 +49,7 @@ module CuttlefishControl
   private
 
   def self.read_only_mode?
-    ENV["CUTTLEFISH_READ_ONLY_MODE"]
+    Rails.configuration.cuttlefish_read_only_mode
   end
 
   def self.how_to_disable_read_only_mode

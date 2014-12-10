@@ -54,5 +54,9 @@ module Cuttlefish
     config.secret_key_base = ENV["SECRET_KEY_BASE"]
 
     config.action_mailer.default_url_options = { host: config.cuttlefish_domain, protocol: "https" }
+
+    config.cuttlefish_read_only_mode = !ENV["CUTTLEFISH_READ_ONLY_MODE"].nil?
+    config.cuttlefish_hash_salt = ENV["CUTTLEFISH_HASH_SALT"]
+    config.disable_ssl = !ENV["DISABLE_SSL"].nil?
   end
 end

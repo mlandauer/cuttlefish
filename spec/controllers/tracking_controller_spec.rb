@@ -22,7 +22,7 @@ describe TrackingController do
     end
 
     context "read only mode" do
-      before(:each) {stub_const('ENV', ENV.to_hash.merge('CUTTLEFISH_READ_ONLY_MODE' => 'true'))}
+      before(:each) {Rails.configuration.stub(cuttlefish_read_only_mode: true)}
 
       it "should be succesful when the correct hash is used" do
         # Note that this request is being made via http (not https)
@@ -68,7 +68,7 @@ describe TrackingController do
     end
 
     context "read only mode" do
-      before(:each) {stub_const('ENV', ENV.to_hash.merge('CUTTLEFISH_READ_ONLY_MODE' => 'true'))}
+      before(:each) { Rails.configuration.stub(cuttlefish_read_only_mode: true)}
 
       it "should redirect" do
         get :click, delivery_link_id: 204, hash: HashId.hash(204)

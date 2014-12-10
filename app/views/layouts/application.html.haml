@@ -76,7 +76,7 @@
             %hr
           .span9
             = bootstrap_flash
-            - if ENV["CUTTLEFISH_READ_ONLY_MODE"]
+            - if Rails.configuration.cuttlefish_read_only_mode
               .alert
                 <strong>Warning!</strong> The whole site is in read-only mode. To disable unset
                 the environment variable <code>CUTTLEFISH_READ_ONLY_MODE</code> and restart the

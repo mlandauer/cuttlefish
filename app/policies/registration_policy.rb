@@ -1,6 +1,6 @@
 class RegistrationPolicy < ApplicationPolicy
   def edit?
-    ENV["CUTTLEFISH_READ_ONLY_MODE"].nil?
+    !Rails.configuration.cuttlefish_read_only_mode
   end
 
   def update?

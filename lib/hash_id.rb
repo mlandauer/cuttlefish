@@ -1,6 +1,6 @@
 module HashId
   def self.hash(id)
-    Digest::SHA1.hexdigest(ENV["CUTTLEFISH_HASH_SALT"] + id.to_s)
+    Digest::SHA1.hexdigest(Rails.configuration.cuttlefish_hash_salt + id.to_s)
   end
 
   def self.valid?(id, h)

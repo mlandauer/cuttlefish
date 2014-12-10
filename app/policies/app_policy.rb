@@ -1,6 +1,6 @@
 class AppPolicy < ApplicationPolicy
   def update?
-    user.team_id == record.team_id && ENV["CUTTLEFISH_READ_ONLY_MODE"].nil?
+    user.team_id == record.team_id && !Rails.configuration.cuttlefish_read_only_mode
   end
 
   def destroy?
@@ -16,7 +16,7 @@ class AppPolicy < ApplicationPolicy
   end
 
   def create?
-    ENV["CUTTLEFISH_READ_ONLY_MODE"].nil?
+    !Rails.configuration.cuttlefish_read_only_mode
   end
 
   class Scope < Scope
