@@ -282,7 +282,7 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
-    skylight (0.4.3)
+    skylight (0.5.1)
       activesupport (>= 3.0.0)
     slop (3.4.5)
     sprockets (2.11.0)
