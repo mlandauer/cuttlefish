@@ -53,46 +53,37 @@ Also you need the following libraries:
 imagemagick, libmagickwand-dev, libmysqld-dev
 
 ##To install:
-```
-bundle install
-```
-and edit `config/database.yml` with your database settings
 
+We use [Vagrant](https://www.vagrantup.com/) and [Ansible](http://docs.ansible.com/) to automatically set up a fresh server with everything you need to run Cuttlefish. It's a fairly complicated affair as Cuttlefish does have quite a few moving
+parts but all of this is with the purpose of making it easier for the developer sending mail.
+
+These instructions are currently for installing the server at cuttlefish.oaf.org.au. They're not
+yet generic. Maybe you can help with this?
+
+### To install to a local test virtual machine
+
+1. Create a file `~/.cuttlefish_ansible_vault_pass.txt` which contains the password for encrypting the secret values used in the deploy. The encrypted variables are at `provisioning/roles/cuttlefish-app/vars/main.yml`.
+
+2. Download base box and build virtual machine with everything needed for Cuttlefish. This will take a while (at least 30 mins or so)
 ```
-bundle exec rake db:setup
-bundle exec foreman start
+vagrant up
 ```
 
-and point your browser at [http://localhost:3000](http://localhost:3000)
-
-##To install on your server:
-Edit `config/deploy.rb`
-
-Run:
+3. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker
 ```
 cap deploy:setup
-cap deploy:cold (the first time)
+cap deploy:cold
+cap foreman:export
+cap foreman:restart
 ```
 
-And on the server
+4. Add to your local `/etc/hosts` file
 ```
-cd /srv/www/cuttlefish.openaustraliafoundation.org.au/current
-sudo foreman export upstart /etc/init -u deploy -a cuttlefish -f Procfile.production -l /srv/www/cuttlefish.openaustraliafoundation.org.au/shared/log --root /srv/www/cuttlefish.openaustraliafoundation.org.au/current
-visudo
+127.0.0.1       cuttlefish.oaf.org.au
 ```
 
-And add the following line:
-```
-deploy  ALL = NOPASSWD: /usr/sbin/service
-```
-This allows the deploy user to sudo just to manage the upstart processes
+5. Point your web browser at https://cuttlefish.oaf.org.au:8443/
 
-### New Relic
-If you use new relic just put your configuration file in shared/newrelic.yml on the server
-To record your deploys you will also need to add config/newrelic.yml on your local box. How annoying!
-
-### Honeybadger
-Copy `config/initializers/honeybadger.rb-example` to `config/initializers/honeybadger.rb` and fill in your API key.
 
 ## Screenshots
 Done some development work which updates the look of the main pages? To update the screenshots
