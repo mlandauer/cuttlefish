@@ -11,3 +11,7 @@
   authorized_key: user=deploy key="{{ lookup('file', item) }}"
   with_fileglob:
     - /tmp/*.github_authorized_keys
+- name: Create authorized_keys from the file that just downloaded
+  authorized_key: user=root key="{{ lookup('file', item) }}"
+  with_fileglob:
+    - /tmp/*.github_authorized_keys

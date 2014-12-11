@@ -98,15 +98,11 @@ cap foreman:restart
 
 6. Click "Boot" and wait for it to start up
 
-7. Allow you to ssh as root. You'll need to give the root password which you chose in step 5
-```
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@your.linode.ip.address
-```
 8. Update `provisioning/hosts` with the name of your server (e.g. li123-45.members.linode.com)
 
 9. Create a file `~/.cuttlefish_ansible_vault_pass.txt` which contains the password for encrypting the secret values used in the deploy. The encrypted variables are at `provisioning/roles/cuttlefish-app/vars/main.yml`.
 
-10. Provision the server with Ansible
+10. Provision the server with Ansible. You'll need to supply the root password you chose in step 5. On subsequent deploys you won't need this.
 ```
 ./provision_production.sh
 ```
