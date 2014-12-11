@@ -84,6 +84,50 @@ cap foreman:restart
 
 5. Point your web browser at https://cuttlefish.oaf.org.au:8443/
 
+### To install on [Linode](https://www.linode.com/)
+
+1. Login at the [Linode Manager](https://manager.linode.com/)
+
+2. [Add a new Linode](https://manager.linode.com/linodes/add)
+
+3. Select "Linode 2048" at location "Fremont, CA"
+
+4. Select your new Linode in the dashboard
+
+5. Click "Deploy a Linux Distribution". Choose "Ubuntu 14.04 LTS" and choose a root password. Leave everything as default.
+
+6. Click "Boot" and wait for it to start up
+
+7. Allow you to ssh as root. You'll need to give the root password which you chose in step 5
+```
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@your.linode.ip.address
+```
+8. Update `provisioning/hosts` with the name of your server (e.g. li123-45.members.linode.com)
+
+9. Create a file `~/.cuttlefish_ansible_vault_pass.txt` which contains the password for encrypting the secret values used in the deploy. The encrypted variables are at `provisioning/roles/cuttlefish-app/vars/main.yml`.
+
+10. Provision the server with Ansible
+```
+cd provisioning
+ansible-playbook -i hosts --vault-password-file=~/.cuttlefish_ansible_vault_pass.txt -u root playbook.yml
+```
+
+11. Update the server name in `config/deploy.rb`
+
+12. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker
+```
+cap deploy:setup
+cap deploy:cold
+cap foreman:export
+cap foreman:restart
+```
+
+13. At this stage you might want to snapshot the disk
+
+14. Make sure that DNS for cuttlefish.oaf.org.au points to the server ip address
+
+14. Point your browser at https://cuttlefish.org.au
+
 
 ## Screenshots
 Done some development work which updates the look of the main pages? To update the screenshots
