@@ -108,8 +108,7 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub root@your.linode.ip.address
 
 10. Provision the server with Ansible
 ```
-cd provisioning
-ansible-playbook -i hosts --vault-password-file=~/.cuttlefish_ansible_vault_pass.txt -u root playbook.yml
+./provision_production.sh
 ```
 
 11. Update the server name in `config/deploy.rb`
