@@ -65,11 +65,6 @@
   text-decoration: none;
 }
 
-// Bug in flat-ui gem (override here)
-.select-icon {
-  background-image: url("/assets/select/toggle.png");
-}
-
 // Fix for pager disabled
 .pager .disabled {
   > a, > a:hover {
