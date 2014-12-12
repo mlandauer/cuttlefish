@@ -121,10 +121,15 @@ cap foreman:restart
 
 14. Make sure that DNS for cuttlefish.oaf.org.au points to the server ip address
 
-15. Add DNS TXT record for _spf.cuttlefish.oaf.org.au with "v=spf1 ip4:your.server.ip4.address ip6:your.server.ip6.address ~all"
-
 14. Point your browser at https://cuttlefish.org.au
 
+At this point you should have a basic working setup. You should be able to send test mail and see it getting delivered.
+
+Some further things to ensure things work smoothly
+
+1. Add DNS TXT record for _spf.cuttlefish.oaf.org.au with "v=spf1 ip4:your.server.ip4.address ip6:your.server.ip6.address ~all"
+
+2. Ensure that the SPF TXT record for oaf.org.au includes `include:_spf.cuttlefish.oaf.org.au` before the closing `~all` or `-all`. This allows devise emails to be sent from contact@oaf.org.au.
 
 ## Screenshots
 Done some development work which updates the look of the main pages? To update the screenshots
