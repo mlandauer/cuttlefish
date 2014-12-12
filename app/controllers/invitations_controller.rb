@@ -1,5 +1,5 @@
 class InvitationsController < Devise::InvitationsController
-  after_action :verify_authorized
+  after_action :verify_authorized, except: :edit
 
   layout "login", only: [:edit, :update]
 
