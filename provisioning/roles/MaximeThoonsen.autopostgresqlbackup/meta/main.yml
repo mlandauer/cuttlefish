@@ -1,0 +1,14 @@
+---
+
+galaxy_info:
+  author: Maxime Thoonsen
+  description: Install and configure autopostgresqlbackup utility
+  license: MIT
+  min_ansible_version: 1.4
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+  categories:
+    - database
+dependencies: []

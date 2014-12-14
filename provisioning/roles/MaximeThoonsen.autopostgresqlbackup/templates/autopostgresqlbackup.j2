@@ -1,0 +1,93 @@
+# ===============================
+# === Debian specific options ===
+#================================
+
+# By default, on Debian systems, only 'postgres' user
+# is allowed to access PostgreSQL databases without password.
+# In order to dump databases we need to run pg_dump/psql
+# commands as 'postgres' with su.
+#
+# The following setting has been added to workraound this issue.
+# (if it is set to empty, 'su' usage will be disabled)
+SU_USERNAME=postgres
+
+#=====================================================================
+# Set the following variables to your system needs
+# (Detailed instructions below variables)
+#=====================================================================
+
+# Username to access the PostgreSQL server e.g. dbuser
+USERNAME=postgres
+
+# Password
+# create a file $HOME/.pgpass containing a line like this
+#   hostname:*:*:dbuser:dbpass
+# replace hostname with the value of DBHOST and postgres with
+# the value of USERNAME
+
+# Host name (or IP address) of PostgreSQL server e.g localhost
+DBHOST=localhost
+
+# List of DBNAMES for Daily/Weekly Backup e.g. "DB1 DB2 DB3"
+DBNAMES="all"
+
+# pseudo database name used to dump global objects (users, roles, tablespaces)
+GLOBALS_OBJECTS="postgres_globals"
+
+# Backup directory location e.g /backups
+BACKUPDIR="{{ autopostgresqlbackup_backup_directory }}"
+
+# Mail setup
+# What would you like to be mailed to you?
+# - log   : send only log file
+# - files : send log file and sql files as attachments (see docs)
+# - stdout : will simply output the log to the screen if run manually.
+# - quiet : Only send logs if an error occurs to the MAILADDR.
+MAILCONTENT="{{ autopostgresqlbackup_mailcontent }}"
+
+# Set the maximum allowed email size in k. (4000 = approx 5MB email [see docs])
+MAXATTSIZE="4000"
+
+# Email Address to send mail to? (user@domain.com)
+MAILADDR="{{ autopostgresqlbackup_mailaddr }}"
+
+# ============================================================
+# === ADVANCED OPTIONS ( Read the doc's below for details )===
+#=============================================================
+
+# List of DBBNAMES for Monthly Backups.
+MDBNAMES="template1 $DBNAMES"
+
+# List of DBNAMES to EXLUCDE if DBNAMES are set to all (must be in " quotes)
+DBEXCLUDE=""
+
+# Include CREATE DATABASE in backup?
+CREATE_DATABASE=yes
+
+# Separate backup directory and file for each DB? (yes or no)
+SEPDIR=yes
+
+# Which day do you want weekly backups? (1 to 7 where 1 is Monday)
+DOWEEKLY=6
+
+# Choose Compression type. (gzip or bzip2)
+COMP=gzip
+
+# Compress communications between backup server and PostgreSQL server?
+# set compression level from 0 to 9 (0 means no compression)
+COMMCOMP=0
+
+# Additionally keep a copy of the most recent backup in a seperate directory.
+LATEST={{ autopostgresqlbackup_latest }}
+
+# OPT string for use with pg_dump ( see man pg_dump )
+OPT=""
+
+# Backup files extension
+EXT="sql"
+
+# Command to run before backups (uncomment to use)
+#PREBACKUP="/etc/postgresql-backup-pre"
+
+# Command run after backups (uncomment to use)
+#POSTBACKUP="/etc/postgresql-backup-post"
