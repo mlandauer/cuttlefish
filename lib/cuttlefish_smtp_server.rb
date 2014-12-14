@@ -26,10 +26,8 @@ class CuttlefishSmtpServer
         auth: :required,
         starttls: :required,
         tls_options: {
-          # TODO Rename the certificate to generic name that doesn't include domain
-          # TODO Allow paths to be overridden in environment
-          cert_chain_file: "/etc/ssl/cuttlefish.oaf.org.au.pem",
-          private_key_file: "/etc/ssl/private/cuttlefish.oaf.org.au.key"
+          cert_chain_file: Rails.configuration.cuttlefish_domain_cert_chain_file,
+          private_key_file: Rails.configuration.cuttlefish_domain_private_key_file
         }
       }
       connection.server = self
