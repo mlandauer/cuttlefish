@@ -1,6 +1,8 @@
+.page-header
+  %h1 Send test email
+
 = form_tag test_emails_path, class: "form-horizontal" do
   %fieldset
-    %legend Send test email
     - if policy_scope(App).empty?
       %p
         Before you can send email via Cuttlefish you will need to #{link_to "create an App", new_app_path}. Each App has its
