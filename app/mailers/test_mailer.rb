@@ -9,7 +9,7 @@ class TestMailer < ActionMailer::Base
         password: app.smtp_password,
         # We're currently using a self-signed certificate on the smtp server. So,
         # to keep everyone happy we have to use openssl verify mode none.
-        openssl_verify_mode: "none",
+        #openssl_verify_mode: "none",
         authentication: :plain
       }
     e
