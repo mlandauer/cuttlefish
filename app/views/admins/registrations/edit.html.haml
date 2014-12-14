@@ -1,9 +1,10 @@
+.page-header
+  %h1 Edit my details
+
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "form-horizontal" }) do |f|
   = devise_error_messages!
 
   %fieldset
-    %legend Edit my details
-
     .control-group
       = f.label :gravatar, class: "control-label"
       .controls
