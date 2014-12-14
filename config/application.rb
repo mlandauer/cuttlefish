@@ -59,5 +59,6 @@ module Cuttlefish
     config.cuttlefish_hash_salt = ENV["CUTTLEFISH_HASH_SALT"]
     config.disable_ssl = !ENV["DISABLE_SSL"].nil?
     config.postfix_log_path = ENV["POSTFIX_LOG_PATH"] || "/var/log/mail/mail.log"
+    config.devise_emails_from = ENV["DEVISE_EMAILS_FROM"] || "contact@oaf.org.au"
   end
 end

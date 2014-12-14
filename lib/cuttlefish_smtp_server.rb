@@ -24,7 +24,13 @@ class CuttlefishSmtpServer
       # On every new connection check if the authentication setting has changed
       connection.parms = {
         auth: :required,
-        starttls: :required
+        starttls: :required,
+        tls_options: {
+          # TODO Rename the certificate to generic name that doesn't include domain
+          # TODO Allow paths to be overridden in environment
+          cert_chain_file: "/etc/ssl/cuttlefish.oaf.org.au.pem",
+          private_key_file: "/etc/ssl/private/cuttlefish.oaf.org.au.key"
+        }
       }
       connection.server = self
       @connections << connection
@@ -78,7 +84,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
   end
 
   def get_server_domain
-    "localhost"
+    Rails.configuration.cuttlefish_domain
   end
 
   def get_server_greeting
@@ -143,5 +149,23 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
   def current
     @current ||= OpenStruct.new
+  end
+
+  # Overriding implementation in parent class
+  # TODO Add this feature to supply certificate as PR in main project (it's listed as a TODO)
+  def process_starttls
+    if @@parms[:starttls]
+      if @state.include?(:starttls)
+        send_data "503 TLS Already negotiated\r\n"
+      elsif ! @state.include?(:ehlo)
+        send_data "503 EHLO required before STARTTLS\r\n"
+      else
+        send_data "220 Start TLS negotiation\r\n"
+        start_tls(@@parms[:tls_options] || {})
+        @state << :starttls
+      end
+    else
+      process_unknown
+    end
   end
 end

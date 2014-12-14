@@ -1,13 +1,27 @@
 - name: Ensure we have a deploy group
   group: name=deploy
+
 - name: Ensure we have a deploy user
   user: name=deploy comment="Deploy user" shell=/bin/bash group=deploy
+
 - name: download pubkey from Github and placed as authorized_keys
   get_url: url=https://github.com/{{ item }}.keys dest=/tmp/{{ item }}.github_authorized_keys
   delegate_to: localhost
   sudo: false
   with_items: github_users
-- name: Create authorized_keys from the file that just downloaded
+
+- name: Create authorized_keys for deploy from the file that just downloaded
   authorized_key: user=deploy key="{{ lookup('file', item) }}"
   with_fileglob:
     - /tmp/*.github_authorized_keys
+
+- name: Create authorized_keys for root from the file that just downloaded
+  authorized_key: user=root key="{{ lookup('file', item) }}"
+  with_fileglob:
+    - /tmp/*.github_authorized_keys
+  register: add_authorized_keys
+
+- name: Only allow ssh access with keys
+  lineinfile: dest=/etc/ssh/sshd_config state=present regexp="^#?PasswordAuthentication" line="PasswordAuthentication no"
+  when: add_authorized_keys|success
+  notify: sshd restart

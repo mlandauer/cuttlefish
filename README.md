@@ -53,46 +53,85 @@ Also you need the following libraries:
 imagemagick, libmagickwand-dev, libmysqld-dev
 
 ##To install:
-```
-bundle install
-```
-and edit `config/database.yml` with your database settings
 
+We use [Vagrant](https://www.vagrantup.com/) and [Ansible](http://docs.ansible.com/) to automatically set up a fresh server with everything you need to run Cuttlefish. It's a fairly complicated affair as Cuttlefish does have quite a few moving
+parts but all of this is with the purpose of making it easier for the developer sending mail.
+
+These instructions are currently for installing the server at cuttlefish.oaf.org.au. They're not
+yet generic. Maybe you can help with this?
+
+### To install to a local test virtual machine
+
+1. Create a file `~/.cuttlefish_ansible_vault_pass.txt` which contains the password for encrypting the secret values used in the deploy. The encrypted variables are at `provisioning/roles/cuttlefish-app/vars/main.yml`.
+
+2. Download base box and build virtual machine with everything needed for Cuttlefish. This will take a while (at least 30 mins or so)
 ```
-bundle exec rake db:setup
-bundle exec foreman start
+vagrant up
 ```
 
-and point your browser at [http://localhost:3000](http://localhost:3000)
-
-##To install on your server:
-Edit `config/deploy.rb`
-
-Run:
+3. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker
 ```
 cap deploy:setup
-cap deploy:cold (the first time)
+cap deploy:cold
+cap foreman:export
+cap foreman:restart
 ```
 
-And on the server
+4. Add to your local `/etc/hosts` file
 ```
-cd /srv/www/cuttlefish.openaustraliafoundation.org.au/current
-sudo foreman export upstart /etc/init -u deploy -a cuttlefish -f Procfile.production -l /srv/www/cuttlefish.openaustraliafoundation.org.au/shared/log --root /srv/www/cuttlefish.openaustraliafoundation.org.au/current
-visudo
+127.0.0.1       cuttlefish.oaf.org.au
 ```
 
-And add the following line:
-```
-deploy  ALL = NOPASSWD: /usr/sbin/service
-```
-This allows the deploy user to sudo just to manage the upstart processes
+5. Point your web browser at https://cuttlefish.oaf.org.au:8443/
 
-### New Relic
-If you use new relic just put your configuration file in shared/newrelic.yml on the server
-To record your deploys you will also need to add config/newrelic.yml on your local box. How annoying!
+### To install on [Linode](https://www.linode.com/)
 
-### Honeybadger
-Copy `config/initializers/honeybadger.rb-example` to `config/initializers/honeybadger.rb` and fill in your API key.
+1. Login at the [Linode Manager](https://manager.linode.com/)
+
+2. [Add a new Linode](https://manager.linode.com/linodes/add)
+
+3. Select "Linode 2048" at location "Fremont, CA"
+
+4. Select your new Linode in the dashboard
+
+5. Click "Deploy a Linux Distribution". Choose "Ubuntu 14.04 LTS" and choose a root password. Leave everything as default.
+
+6. Click "Boot" and wait for it to start up
+
+8. Update `provisioning/hosts` with the name of your server (e.g. li123-45.members.linode.com)
+
+9. Create a file `~/.cuttlefish_ansible_vault_pass.txt` which contains the password for encrypting the secret values used in the deploy. The encrypted variables are at `provisioning/roles/cuttlefish-app/vars/main.yml`.
+
+10. Provision the server with Ansible. You'll need to supply the root password you chose in step 5. On subsequent deploys you won't need this.
+```
+./provision_production.sh
+```
+
+11. Update the server name in `config/deploy.rb`
+
+12. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker
+```
+cap deploy:setup
+cap deploy:cold
+cap foreman:export
+cap foreman:restart
+```
+
+13. At this stage you might want to snapshot the disk
+
+14. Make sure that DNS for cuttlefish.oaf.org.au points to the server ip address
+
+14. Point your browser at https://cuttlefish.org.au
+
+At this point you should have a basic working setup. You should be able to send test mail and see it getting delivered.
+
+Some further things to ensure things work smoothly
+
+1. Add DNS TXT record for _spf.cuttlefish.oaf.org.au with "v=spf1 ip4:your.server.ip4.address ip6:your.server.ip6.address ~all"
+
+2. Ensure that the SPF TXT record for oaf.org.au includes `include:_spf.cuttlefish.oaf.org.au` before the closing `~all` or `-all`. This allows devise emails to be sent from contact@oaf.org.au.
+
+3. Set up reverse DNS. In the Linode Manager under "Remote Access" click "Reverse DNS" then for the hostname put in "cuttlefish.oaf.org.au" and follow the instructions. This step is necessary in order to be able to sign up to receive [Feedback loop emails](https://en.wikipedia.org/wiki/Feedback_loop_%28email%29).
 
 ## Screenshots
 Done some development work which updates the look of the main pages? To update the screenshots
