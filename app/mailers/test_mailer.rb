@@ -3,7 +3,7 @@ class TestMailer < ActionMailer::Base
     @text = params[:text]
     e = mail(from: params[:from], to: params[:to], cc: params[:cc], subject: params[:subject])
     e.delivery_method :smtp, {
-        address: Rails.configuration.cuttlefish_domain,
+        address: "localhost",
         port: Rails.configuration.cuttlefish_smtp_port,
         user_name: app.smtp_username,
         password: app.smtp_password,
