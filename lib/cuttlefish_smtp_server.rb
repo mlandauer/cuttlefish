@@ -84,7 +84,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
   end
 
   def get_server_domain
-    "localhost"
+    Rails.configuration.cuttlefish_domain
   end
 
   def get_server_greeting
