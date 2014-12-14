@@ -1,3 +1,6 @@
+.page-header
+  %h1= @delivery.subject
+
 %p
   %span{class: label_class(@delivery.status)}
     = status_name(@delivery.status)
