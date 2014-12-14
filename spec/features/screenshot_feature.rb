@@ -30,6 +30,7 @@ describe "getting a bunch of screenshots", js: true do
     before :each do
       team.admins.create!(email: 'matthew@openaustralia.org', password: 'caplin')
         mail = Mail.new do
+          subject "Hello!"
           text_part do
             body "This can be anything because it isn't actually seen in the screenshot"
           end
