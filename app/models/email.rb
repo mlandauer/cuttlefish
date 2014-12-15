@@ -43,7 +43,7 @@ class Email < ActiveRecord::Base
   end
 
   def email_cache
-    EmailDataCache.new(Rails.env, Rails.configuration.max_no_emails_to_store)
+    EmailDataCache.new(File.join(Rails.env, app_id), Rails.configuration.max_no_emails_to_store)
   end
 
   def data
