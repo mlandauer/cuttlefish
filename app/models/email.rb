@@ -43,7 +43,7 @@ class Email < ActiveRecord::Base
   end
 
   def data
-    @data ||= EmailDataCache[id]
+    @data ||= EmailDataCache.get(id)
   end
 
   def mail
@@ -77,7 +77,7 @@ class Email < ActiveRecord::Base
   end
 
   def update_cache
-    EmailDataCache[id] = data
+    EmailDataCache.set(id, data)
   end
 
   def opened?
