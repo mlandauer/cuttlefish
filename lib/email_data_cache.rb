@@ -1,8 +1,9 @@
 class EmailDataCache
-  attr_reader :scope
+  attr_reader :scope, :max_no_emails_to_store_data
 
-  def initialize(scope)
-    @scope = scope
+  # By default keep the full content of the last 1000 emails
+  def initialize(scope, max_no_emails_to_store_data = 1000)
+    @scope, @max_no_emails_to_store_data = scope, max_no_emails_to_store_data
   end
 
   def set(id, data)
@@ -20,11 +21,6 @@ class EmailDataCache
 
   def create_data_filesystem_directory
     FileUtils::mkdir_p(data_filesystem_directory)
-  end
-
-  def max_no_emails_to_store_data
-    # By default keep the full content of the last 1000 emails
-    1000
   end
 
   # Won't throw an exception when filename doesn't exist
