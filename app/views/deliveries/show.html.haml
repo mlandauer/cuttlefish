@@ -118,5 +118,8 @@
     %div.tab-pane#source
       %pre= @delivery.data
 
+    %p.muted
+      This shows the original email as sent by you to Cuttlefish
+
 .form-actions
   = link_to t('.back', default: t("helpers.links.back")), deliveries_path, class: 'btn'
