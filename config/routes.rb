@@ -1,4 +1,4 @@
-Cuttlefish::Application.routes.draw do
+Rails.application.routes.draw do
   devise_for :admins, controllers: {
     sessions: "admins/sessions",
     registrations: "admins/registrations",
@@ -83,6 +83,13 @@ Cuttlefish::Application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
+
+  # Example resource route with concerns:
+  #   concern :toggleable do
+  #     post 'toggle'
+  #   end
+  #   resources :posts, concerns: :toggleable
+  #   resources :photos, concerns: :toggleable
 
   # Example resource route within a namespace:
   #   namespace :admin do

@@ -1,14 +1,10 @@
 require File.expand_path('../boot', __FILE__)
 
-# Pick the frameworks you want:
-require "active_record/railtie"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "sprockets/railtie"
-# require "rails/test_unit/railtie"
+require 'rails/all'
 
-# Assets should be precompiled for production (so we don't need the gems loaded then)
-Bundler.require(*Rails.groups(assets: %w(development test)))
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
 
 module Cuttlefish
   class Application < Rails::Application
@@ -25,10 +21,6 @@ module Cuttlefish
     # config.i18n.default_locale = :de
 
     config.autoload_paths += %W(#{config.root}/lib)
-
-    # For bootstrap-sass gem
-    config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
-    config.assets.precompile += %w(*.woff *.svg *.eot *.ttf)
 
     # We only use the ip address to track open and click events. If the client forges the
     # the HTTP_CLIENT_IP header in the request by default rails will throw an exception
