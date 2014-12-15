@@ -90,11 +90,11 @@ GEM
       addressable
     daemons (1.1.9)
     database_cleaner (1.0.1)
-    delayed_job (4.0.0.beta2)
-      activesupport (>= 3.0, < 4.1)
-    delayed_job_active_record (4.0.0.beta2)
-      activerecord (>= 3.0, < 4.1)
-      delayed_job (~> 4.0.0.beta1)
+    delayed_job (4.0.4)
+      activesupport (>= 3.0, < 4.2)
+    delayed_job_active_record (4.0.2)
+      activerecord (>= 3.0, < 4.2)
+      delayed_job (>= 3.0, < 4.1)
     devise (3.4.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -328,7 +328,7 @@ DEPENDENCIES
   coffee-rails
   coveralls
   database_cleaner
-  delayed_job_active_record (~> 4.0.0.beta1)
+  delayed_job_active_record
   devise
   devise_invitable
   dkim
