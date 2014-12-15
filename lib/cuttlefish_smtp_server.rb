@@ -22,17 +22,18 @@ class CuttlefishSmtpServer
     }
     @server = EM.start_server host, port, CuttlefishSmtpConnection do |connection|
       # On every new connection check if the authentication setting has changed
-      connection.parms = {
+      parameters = {
         auth: :required,
         starttls: :required
       }
       # Don't use our own SSL certificate in development
       unless Rails.env.development?
-        connection.parms[:tls_options] = {
+        parameters[:tls_options] = {
           cert_chain_file: Rails.configuration.cuttlefish_domain_cert_chain_file,
           private_key_file: Rails.configuration.cuttlefish_domain_private_key_file
         }
       end
+      connection.parms = parameters
       connection.server = self
       @connections << connection
     end
