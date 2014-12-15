@@ -104,7 +104,7 @@ describe Email do
     end
 
     it "should only keep the full data of a certain number of the emails around" do
-      EmailDataCache.stub(:max_no_emails_to_store_data).and_return(2)
+      EmailDataCache.any_instance.stub(:max_no_emails_to_store_data).and_return(2)
       4.times { FactoryGirl.create(:email, data: "This is a main section") }
       Dir.glob(File.join(EmailDataCache.new(Rails.env).data_filesystem_directory, "*")).count.should == 2
     end

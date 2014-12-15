@@ -22,7 +22,7 @@ class EmailDataCache
     FileUtils::mkdir_p(data_filesystem_directory)
   end
 
-  def self.max_no_emails_to_store_data
+  def max_no_emails_to_store_data
     # By default keep the full content of the last 1000 emails
     1000
   end
@@ -61,7 +61,7 @@ class EmailDataCache
     # If there are more than a certain number of stored emails on the filesystem
     # remove the oldest ones
     entries = Dir.glob(File.join(data_filesystem_directory, "*"))
-    no_to_remove = entries.count - EmailDataCache.max_no_emails_to_store_data
+    no_to_remove = entries.count - max_no_emails_to_store_data
     if no_to_remove > 0
       # Oldest first
       entries.sort_by {|f| File.mtime f}[0...no_to_remove].each {|f| EmailDataCache.safe_file_delete f}

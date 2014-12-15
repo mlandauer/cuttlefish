@@ -10,7 +10,7 @@ describe EmailDataCache do
     end
 
     it "should only keep the full data of a certain number of the emails around" do
-      EmailDataCache.stub(:max_no_emails_to_store_data).and_return(2)
+      cache.stub(:max_no_emails_to_store_data).and_return(2)
       (1..4).each {|id| cache.set(id, "This a main section") }
       Dir.glob(File.join(cache.data_filesystem_directory, "*")).count.should == 2
     end
