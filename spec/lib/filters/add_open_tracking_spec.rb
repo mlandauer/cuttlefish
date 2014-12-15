@@ -85,7 +85,7 @@ describe Filters::AddOpenTracking do
 
       it "should record that it has not been open tracked" do
         filter.data(delivery)
-        delivery.open_tracked?.should_not be_true
+        delivery.open_tracked?.should_not be_truthy
       end
     end
 
@@ -102,7 +102,7 @@ describe Filters::AddOpenTracking do
 
       it "should record that it has not been open tracked" do
         filter.data(delivery)
-        delivery.open_tracked?.should_not be_true
+        delivery.open_tracked?.should_not be_truthy
       end
     end
 
@@ -153,7 +153,7 @@ Content-Transfer-Encoding: 7bit
 
         it "should record that it has been open tracked" do
           filter.data(delivery)
-          delivery.open_tracked?.should be_true
+          delivery.open_tracked?.should be_truthy
         end
     end
   end

@@ -68,12 +68,12 @@ describe Address do
       let(:team) { Team.create! }
 
       context "address1 is not blacklisted" do
-        it {address1.blacklisted?(team).should_not be_true}
+        it {address1.blacklisted?(team).should_not be_truthy}
       end
 
       context "address1 is blacklisted" do
         before(:each) { team.black_lists.create(address: address1)}
-        it {address1.blacklisted?(team).should be_true}
+        it {address1.blacklisted?(team).should be_truthy}
       end
     end
   end

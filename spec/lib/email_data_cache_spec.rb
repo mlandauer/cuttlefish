@@ -34,7 +34,7 @@ describe EmailDataCache do
     it "should delete a file" do
       FileUtils.touch(@filename)
       EmailDataCache.safe_file_delete(@filename)
-      File.exists?(@filename).should be_false
+      File.exists?(@filename).should be_falsy
     end
 
     it "should not throw an error when the file doesn't exist" do

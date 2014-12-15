@@ -75,12 +75,12 @@ describe OutgoingEmail do
         end
 
         it "should record to which destinations the email has been sent" do
-          @email.deliveries.first.sent?.should be_false
+          @email.deliveries.first.sent?.should be_falsy
         end
 
         it "should record to which destinations the email has been sent" do
           @outgoing.send
-          @email.deliveries.first.sent?.should be_true
+          @email.deliveries.first.sent?.should be_truthy
         end
       end
     end
