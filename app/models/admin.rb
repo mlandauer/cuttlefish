@@ -13,4 +13,12 @@ class Admin < ActiveRecord::Base
       email
     end
   end
+
+  def email_with_name
+    if name.present?
+      "#{name} <#{email}>"
+    else
+      email
+    end
+  end
 end
