@@ -29,6 +29,7 @@ set :deploy_to, "/srv/www"
 
 #before 'deploy:setup', 'rvm:install_ruby'  # install Ruby and create gemset, or:
 before "deploy:restart", "foreman:restart"
+before "foreman:restart", "foreman:export"
 #after "deploy:restart", "newrelic:notice_deployment"
 
 namespace :deploy do
