@@ -1,4 +1,28 @@
 class EmailDataCache
+  attr_reader :scope
+
+  def initialize(scope)
+    @scope = scope
+  end
+
+  def set(id, data)
+    EmailDataCache.set(scope, id, data)
+  end
+
+  def get(id)
+    EmailDataCache.get(scope, id)
+  end
+
+  def data_filesystem_directory
+    EmailDataCache.data_filesystem_directory(scope)
+  end
+
+  def create_data_filesystem_directory
+    EmailDataCache.create_data_filesystem_directory(scope)
+  end
+  
+  #####
+
   def self.set(scope, id, data)
     save_data_to_filesystem(scope, id, data)
     cleanup_filesystem_data_store(scope)

@@ -43,7 +43,7 @@ class Email < ActiveRecord::Base
   end
 
   def data
-    @data ||= EmailDataCache.get(Rails.env, id)
+    @data ||= EmailDataCache.new(Rails.env).get(id)
   end
 
   def mail
@@ -77,7 +77,7 @@ class Email < ActiveRecord::Base
   end
 
   def update_cache
-    EmailDataCache.set(Rails.env, id, data)
+    EmailDataCache.new(Rails.env).set(id, data)
   end
 
   def opened?
