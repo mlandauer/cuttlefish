@@ -12,8 +12,8 @@ describe OutgoingEmail do
         email.reload
 
         outgoing = OutgoingEmail.new(email)
-        smtp = mock
-        smtp.should_receive(:send_message).twice.and_return(mock(message: ""))
+        smtp = double
+        smtp.should_receive(:send_message).twice.and_return(double(message: ""))
         Net::SMTP.stub(:start).and_yield(smtp)
         outgoing.send
       end
@@ -31,23 +31,23 @@ describe OutgoingEmail do
       end
 
       it "should send an email to foo@bar.com" do
-        smtp = mock
-        smtp.should_receive(:send_message).with(anything(), anything(), ["foo@bar.com"]).and_return(mock(message: ""))
+        smtp = double
+        smtp.should_receive(:send_message).with(anything(), anything(), ["foo@bar.com"]).and_return(double(message: ""))
         Net::SMTP.should_receive(:start).and_yield(smtp)
         @outgoing.send
       end
 
       it "should use data to figure out what to send" do
-        smtp = mock
+        smtp = double
         Filters::Master.any_instance.stub(:data).and_return("My altered data")
-        smtp.should_receive(:send_message).with("My altered data", anything(), anything()).and_return(mock(message: ""))
+        smtp.should_receive(:send_message).with("My altered data", anything(), anything()).and_return(double(message: ""))
         Net::SMTP.should_receive(:start).and_yield(smtp)
         @outgoing.send
       end
 
       it "should set the postfix queue id on the deliveries based on the response from the server" do
-        response = mock(message: "250 2.0.0 Ok: queued as A123")
-        smtp = mock(send_message: response)
+        response = double(message: "250 2.0.0 Ok: queued as A123")
+        smtp = double(send_message: response)
         Net::SMTP.stub(:start).and_yield(smtp)
         OutgoingEmail.should_receive(:extract_postfix_queue_id_from_smtp_message).with("250 2.0.0 Ok: queued as A123").and_return("A123")
         @outgoing.send
@@ -61,7 +61,7 @@ describe OutgoingEmail do
 
         it "should send no emails" do
           # TODO Ideally it shouldn't open a connection to the smtp server at all
-          smtp = mock
+          smtp = double
           smtp.should_not_receive(:send_message)
           Net::SMTP.stub(:start).and_yield(smtp)
           @outgoing.send
@@ -70,7 +70,7 @@ describe OutgoingEmail do
 
       context "don't actually send anything" do
         before :each do
-          smtp = mock(send_message: mock(message: ""))
+          smtp = double(send_message: double(message: ""))
           Net::SMTP.stub(:start).and_yield(smtp)
         end
 

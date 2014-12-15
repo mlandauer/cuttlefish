@@ -23,7 +23,7 @@ describe TestEmailsController do
       let(:app) { team.apps.create!(name: "Test") }
 
       it "should send a test email" do
-        email = mock("Email")
+        email = double("Email")
         TestMailer.should_receive(:test_email).with(app, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", cc: nil, subject: "Test", text: "Hello. How are you?").and_return(email)
         email.should_receive(:deliver)
         post :create, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", subject: "Test", text: "Hello. How are you?", app_id: app.id

@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Filters::Delivery do
-  let(:delivery) { mock(from: "foo@foo.com", to: ["bar@foo.com"], data: "my original data") }
+  let(:delivery) { double(from: "foo@foo.com", to: ["bar@foo.com"], data: "my original data") }
   let(:filter) { Filters::Delivery.new }
 
   describe "#data" do

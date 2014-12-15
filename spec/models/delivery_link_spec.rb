@@ -3,7 +3,7 @@ require 'spec_helper'
 describe DeliveryLink do
   describe "#add_click_event" do
     it "should log the link event with some info from the current request" do
-      request = mock("Request", env: {"HTTP_USER_AGENT" => "some user agent info"},
+      request = double("Request", env: {"HTTP_USER_AGENT" => "some user agent info"},
         referer: "http://foo.com", remote_ip: "1.2.3.4")
       delivery_link = FactoryGirl.create(:delivery_link)
       delivery_link.add_click_event(request)
