@@ -42,8 +42,12 @@ class Email < ActiveRecord::Base
     to.join(", ")
   end
 
+  def email_cache
+    EmailDataCache.new(Rails.env, Rails.configuration.max_no_emails_to_store)
+  end
+
   def data
-    @data ||= EmailDataCache.new(Rails.env).get(id)
+    @data ||= email_cache.get(id)
   end
 
   def mail
@@ -77,7 +81,7 @@ class Email < ActiveRecord::Base
   end
 
   def update_cache
-    EmailDataCache.new(Rails.env).set(id, data)
+    email_cache.set(id, data)
   end
 
   def opened?

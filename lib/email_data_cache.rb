@@ -1,8 +1,7 @@
 class EmailDataCache
   attr_reader :scope, :max_no_emails_to_store_data
 
-  # By default keep the full content of the last 1000 emails
-  def initialize(scope, max_no_emails_to_store_data = 1000)
+  def initialize(scope, max_no_emails_to_store_data)
     @scope, @max_no_emails_to_store_data = scope, max_no_emails_to_store_data
   end
 

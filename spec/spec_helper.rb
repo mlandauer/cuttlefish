@@ -60,11 +60,13 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.before :each do
-    FileUtils.rm_rf EmailDataCache.new(Rails.env).data_filesystem_directory
+    cache = EmailDataCache.new(Rails.env, Rails.configuration.max_no_emails_to_store)
+    FileUtils.rm_rf cache.data_filesystem_directory
   end
 
   config.after :each do
-    FileUtils.rm_rf EmailDataCache.new(Rails.env).data_filesystem_directory
+    cache = EmailDataCache.new(Rails.env, Rails.configuration.max_no_emails_to_store)
+    FileUtils.rm_rf cache.data_filesystem_directory
   end
 
   config.before(:suite) do

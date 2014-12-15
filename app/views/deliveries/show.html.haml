@@ -89,7 +89,7 @@
       Full text of email is not available.
       = link_to "Why?", "#why_help", "data-toggle" => "collapse"
   %p#why_help.collapse
-    The full text of only the most recent #{EmailDataCache.new(Rails.env).max_no_emails_to_store_data} emails is stored. Keeping things around for ever is not good for privacy or disk space. It still gives
+    The full text of only the most recent #{Rails.configuration.max_no_emails_to_store} emails is stored. Keeping things around for ever is not good for privacy or disk space. It still gives
     you room to look at recent emails to figure our any problems if you need to.
 
 - else

@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe EmailDataCache do
-  let(:cache) { EmailDataCache.new(Rails.env) }
+  let(:cache) { EmailDataCache.new(Rails.env, 1000) }
 
   describe ".set" do
     it "should persist the main part of the email in the filesystem" do
