@@ -105,6 +105,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'rspec-activemodel-mocks'
   gem 'capybara'
   # PhantomJS currently has some issues with font loading. So, for the time being
   # using selenium instead
