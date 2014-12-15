@@ -11,7 +11,7 @@ require 'spec_helper'
 #     end
 #   end
 # end
-describe DeliveriesHelper do
+describe DeliveriesHelper, type: :helper do
   describe "clean_html_email_for_display" do
     it "should only show the body of the email and inline css" do
       html = <<-EOF

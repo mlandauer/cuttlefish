@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AppsController do
+describe AppsController, type: :controller do
   before :each do
     request.env['HTTPS'] = 'on'
   end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admins::SessionsController do
+describe Admins::SessionsController, type: :controller do
   before :each do
     request.env["devise.mapping"] = Devise.mappings[:admin]
   end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LandingController do
+describe LandingController, type: :controller do
   before :each do
     request.env['HTTPS'] = 'on'
   end

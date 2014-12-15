@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TestEmailsController do
+describe TestEmailsController, type: :controller do
   before :each do
     request.env['HTTPS'] = 'on'
   end

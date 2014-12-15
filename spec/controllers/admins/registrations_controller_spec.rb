@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admins::RegistrationsController do
+describe Admins::RegistrationsController, type: :controller do
   before :each do
     request.env["devise.mapping"] = Devise.mappings[:admin]
     request.env['HTTPS'] = 'on'

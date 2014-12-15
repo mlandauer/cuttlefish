@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TrackingController do
+describe TrackingController, type: :controller do
   describe "#open" do
     before :each do
       FactoryGirl.create(:delivery, id: 101)

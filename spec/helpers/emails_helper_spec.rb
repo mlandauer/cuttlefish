@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe EmailsHelper do
+describe EmailsHelper, type: :helper do
   describe ".bootstrap_status_class" do
     it { helper.bootstrap_status_class("delivered").should == "success"}
     it { helper.bootstrap_status_class("soft_bounce").should == "warning"}

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ApplicationHelper do
+describe ApplicationHelper, type: :helper do
   describe "#bootstrap_flash" do
     it "should be empty when there is no flash" do
       helper.bootstrap_flash.should == ""
