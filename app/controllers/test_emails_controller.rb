@@ -6,8 +6,7 @@ class TestEmailsController < ApplicationController
 
   def new
     authorize :test_email
-    @from = "contact@oaf.org.au"
-    @to = "Matthew Landauer <matthew@oaf.org.au>"
+    @to = current_admin.email_with_name
     @subject = "This is a test email from Cuttlefish"
     @text = <<-EOF
 Hello folks. Hopefully this should have worked and you should
