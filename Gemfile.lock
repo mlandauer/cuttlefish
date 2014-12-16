@@ -9,13 +9,6 @@ GIT
       sass-rails (>= 3.2.0)
 
 GIT
-  remote: https://github.com/justinfrench/formtastic.git
-  revision: 593ed1e43e8fbf35da589186720d35e7f444519f
-  specs:
-    formtastic (2.2.1)
-      actionpack (>= 3.0)
-
-GIT
   remote: https://github.com/mjbellantoni/formtastic-bootstrap.git
   revision: f86eaef93bea0a06879b3977d7554864964a623f
   specs:
@@ -137,6 +130,8 @@ GEM
       dotenv (>= 0.7)
       thor (>= 0.13.6)
     formatador (0.2.5)
+    formtastic (2.3.1)
+      actionpack (>= 3.0)
     friendly_id (5.0.4)
       activerecord (>= 4.0.0)
     google-analytics-rails (0.0.4)
@@ -370,7 +365,7 @@ DEPENDENCIES
   font-awesome-rails
   foreigner
   foreman
-  formtastic!
+  formtastic
   formtastic-bootstrap!
   friendly_id
   google-analytics-rails

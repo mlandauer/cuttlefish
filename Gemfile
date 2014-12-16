@@ -48,8 +48,7 @@ gem "dnsbl-client"
 gem "devise"
 gem 'devise_invitable'
 gem 'gravatar_image_tag'
-# Some rails 4 support (as of db89a982424d5e4dc0d784ae5cb6f1335fe68cd1) not yet officially released
-gem "formtastic", git: "https://github.com/justinfrench/formtastic.git"
+gem "formtastic"
 # Need commit c9331088146e456a69bd6e94298c80d09be3ee74
 gem 'formtastic-bootstrap', git: "https://github.com/mjbellantoni/formtastic-bootstrap.git"
 gem "net-dns"
