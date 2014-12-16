@@ -46,7 +46,7 @@ Cuttlefish is in beta. It's been used in production on three of [OpenAustralia F
 * Incoming email
 
 ##Dependencies
-Ruby 1.9.3, MySQL, Postfix
+Ruby 2.1.5, MySQL, Postfix
 (Postfix is optional for local development or just trying it out. Some things like the email deliverability just won't show anything)
 
 Also you need the following libraries:
