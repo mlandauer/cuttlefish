@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 1.9.3
+  - 2.1.5
 env:
   # Test separately against mysql and postgres databases
   - DB=mysql
