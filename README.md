@@ -7,7 +7,7 @@
 * [cuttlefish.io](https://cuttlefish.io)
 * [github.com/mlandauer/cuttlefish](https://github.com/mlandauer/cuttlefish)
 
-Cuttlefish is a lovely, easy to setup transactional email server
+Cuttlefish is a lovely, easy to set up transactional email server
 
 Sending a few emails from your app is easy. Sending lots becomes painful. There are so many hidden gotchas. Do your emails get delivered? Are you being considered a spammer? What about all those bounced emails?
 
