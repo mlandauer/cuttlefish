@@ -62,6 +62,10 @@ class Delivery < ActiveRecord::Base
     address.text
   end
 
+  def return_path
+    Rails.configuration.cuttlefish_bounce_email
+  end
+
   def opened?
     open_events.size > 0
   end

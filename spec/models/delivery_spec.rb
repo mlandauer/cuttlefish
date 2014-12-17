@@ -36,5 +36,9 @@ describe Delivery do
     it "should be not_sent if the nothing's been sent yet" do
       delivery.status.should == "not_sent"
     end
+
+    it "should have a return path" do
+      delivery.return_path.should == "bounces@cuttlefish.oaf.org.au"
+    end
   end
 end
