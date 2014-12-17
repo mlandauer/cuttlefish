@@ -30,6 +30,14 @@ describe OutgoingEmail do
         @outgoing.send
       end
 
+      it "should send an email with a return-path" do
+        smtp = double
+        Delivery.any_instance.should_receive(:return_path).and_return("bounce-address@cuttlefish.io")
+        smtp.should_receive(:send_message).with(anything(), "bounce-address@cuttlefish.io", anything()).and_return(double(message: ""))
+        Net::SMTP.should_receive(:start).and_yield(smtp)
+        @outgoing.send
+      end
+
       it "should send an email to foo@bar.com" do
         smtp = double
         smtp.should_receive(:send_message).with(anything(), anything(), ["foo@bar.com"]).and_return(double(message: ""))
