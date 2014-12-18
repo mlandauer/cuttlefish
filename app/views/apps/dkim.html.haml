@@ -5,18 +5,42 @@
   %p Your DNS looks to be correctly configured.
   = button_to (@app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(@app), class: "btn btn-primary"
 - else
-  %h2 Setting up your DNS
   .alert.alert-info
     - if @app.dkim_dns_entry.nil?
       You will need to add two TXT records to your DNS.
     - else
       Your DNS doesn't look to be set up correctly
 
+  %h2 Setting up your DNS
+
+  - if @provider.nil?
+    %p
+      These are generic instructions for updating your DNS. For instructions for your specific
+      DNS provider choose below.
+  - elsif @provider == "dns_made_easy"
+    %p
+      These are specific instructions for updating your DNS on #{link_to "DNS Made Easy", "http://www.dnsmadeeasy.com/"}. If you use a different provider choose below.
+  - elsif @provider == "cloudflare"
+    %p
+      These are specific instructions for updating your DNS on #{link_to "CloudFlare", "https://www.cloudflare.com/"}. If you use a different provider choose below.
+
+  .btn-group
+    %button.btn.btn-default.dropdown-toggle{type: "button", "data-toggle" => "dropdown", "aria-expanded" => false}
+      - if @provider == "dns_made_easy"
+        DNS Made Easy
+      - elsif @provider == "cloudflare"
+        CloudFlare
+      - else
+        Generic DNS provider
+      %span.caret
+    %ul.dropdown-menu(role="menu")
+      %li= link_to "Generic DNS provider", provider: nil
+      %li= link_to "DNS Made Easy", provider: "dns_made_easy"
+      %li= link_to "CloudFlare", provider: "cloudflare"
   %p
-    Note that the format of the DNS values should work with #{link_to "DNS Made Easy", "http://www.dnsmadeeasy.com/"}.
-    If you have a different DNS provider and discover that it does or does not work please
+    Your DNS provider not listed? Please
     = link_to "file an issue on GitHub", "https://github.com/mlandauer/cuttlefish/issues/new"
-    to let us know. We'll then update this documentation.
+    with what the instructions should say.
 
   %table.table.dns
     %thead
@@ -31,7 +55,15 @@
       %tr
         %td cuttlefish._domainkey.#{@app.from_domain}
         %td
-          %pre= @app.dkim_public_key_dns_dnsmadeeasy
+          %pre
+            - if @provider.nil?
+              = @app.dkim_public_key_dns_generic
+            - elsif @provider == "dns_made_easy"
+              = @app.dkim_public_key_dns_dnsmadeeasy
+            - elsif @provider == "cloudflare"
+              = @app.dkim_public_key_dns_cloudflare
+            - else
+              raise
 
   %p
     %strong Reload

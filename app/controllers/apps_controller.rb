@@ -68,6 +68,7 @@ class AppsController < ApplicationController
   def dkim
     @app = App.find(params[:id])
     authorize @app
+    @provider = params[:provider]
   end
 
   def toggle_dkim

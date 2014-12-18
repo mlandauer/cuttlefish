@@ -1,7 +1,7 @@
 class App < ActiveRecord::Base
   has_many :emails
   belongs_to :team
-  
+
   validates :name, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "Only letters, numbers, spaces and underscores"}
   validate :custom_tracking_domain_points_to_correct_place
 
@@ -34,6 +34,14 @@ class App < ActiveRecord::Base
   # This string format works at least for the service DNS Made Easy.
   def dkim_public_key_dns_dnsmadeeasy
     App.quote_long_dns_txt_record("k=rsa; p=" + dkim_public_key.split("\n")[1..-2].join)
+  end
+
+  def dkim_public_key_dns_generic
+    dkim_public_key_dns_cloudflare
+  end
+
+  def dkim_public_key_dns_cloudflare
+    dkim_public_key_dns_dnsmadeeasy.gsub('"', '')
   end
 
   # This is the expected form of the correctly configured TXT entry when we are doing a DNS lookup
