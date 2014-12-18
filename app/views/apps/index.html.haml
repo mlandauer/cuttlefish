@@ -2,8 +2,10 @@
   %h1 Apps
 
 %p
-  Want to have a custom domain for your open tracking images? Then, you'll want to add an App. This represents the application
-  that sends the email. Each App has its own settings and its own smtp authentication settings to contact the Cuttlefish SMTP server.
+  All emails are sent through apps, which represent the application that sends the email.
+  Each App has its own settings and its own smtp authentication settings to contact the
+  Cuttlefish SMTP server.
+
 - if policy(:app).new?
   %p
     = link_to "New App", new_app_path, class: "btn btn-primary"
