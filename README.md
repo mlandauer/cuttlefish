@@ -127,9 +127,9 @@ At this point you should have a basic working setup. You should be able to send 
 
 Some further things to ensure things work smoothly
 
-1. Add DNS TXT record for _spf.cuttlefish.oaf.org.au with "v=spf1 ip4:your.server.ip4.address ip6:your.server.ip6.address ~all"
+1. Add DNS TXT record for cuttlefish.oaf.org.au with "v=spf1 ip4:your.server.ip4.address ip6:your.server.ip6.address -all"
 
-2. Ensure that the SPF TXT record for oaf.org.au includes `include:_spf.cuttlefish.oaf.org.au` before the closing `~all` or `-all`. This allows devise emails to be sent from contact@oaf.org.au.
+2. Ensure that the devise email address is set to contact@cuttlefish.oaf.org.au
 
 3. Set up reverse DNS. In the Linode Manager under "Remote Access" click "Reverse DNS" then for the hostname put in "cuttlefish.oaf.org.au" and follow the instructions. This step is necessary in order to be able to sign up to receive [Feedback loop emails](https://en.wikipedia.org/wiki/Feedback_loop_%28email%29).
 
