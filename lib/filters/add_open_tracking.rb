@@ -3,7 +3,7 @@ class Filters::AddOpenTracking < Filters::Tracking
   include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
-  def process_html(input)
+  def filter_html(input)
     if @delivery.open_tracking_enabled?
       @delivery.set_open_tracked!
       input + image_tag(url(@delivery), alt: nil)
