@@ -1,8 +1,4 @@
-class Filters::Master
-  def initialize(delivery)
-    @delivery = delivery
-  end
-
+class Filters::Master < Filters::Delivery
   def filter(content)
     filtered1 = Filters::AddOpenTracking.new(@delivery).filter(content)
     filtered2 = Filters::ClickTracking.new(@delivery).filter(filtered1)
