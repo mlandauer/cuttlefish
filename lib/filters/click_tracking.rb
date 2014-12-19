@@ -5,8 +5,8 @@ class Filters::ClickTracking < Filters::Tracking
     link = Link.find_or_create_by(url: url)
     delivery_link = DeliveryLink.find_or_create_by(delivery_id: delivery.id, link_id: link.id)
     tracking_click_url(
-      host: host(delivery),
-      protocol: protocol(delivery),
+      host: host,
+      protocol: protocol,
       delivery_link_id: delivery_link.id,
       hash: HashId.hash(delivery_link.id),
       url: url
