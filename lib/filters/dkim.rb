@@ -1,8 +1,4 @@
 class Filters::Dkim < Filters::Delivery
-  def data(delivery)
-    data2(delivery.data)
-  end
-
   def data2(content)
     if active?
       Dkim.sign(input_data2(content), selector: 'cuttlefish', private_key: @delivery.app.dkim_key, domain: @delivery.app.from_domain)
