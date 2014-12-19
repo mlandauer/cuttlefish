@@ -6,14 +6,14 @@ class Filters::AddOpenTracking < Filters::Tracking
   def filter_html(input)
     if delivery.open_tracking_enabled?
       delivery.set_open_tracked!
-      input + image_tag(url(delivery), alt: nil)
+      input + image_tag(url, alt: nil)
     else
       input
     end
   end
 
   # The url for the tracking image
-  def url(delivery)
+  def url
     tracking_open_url(
       host: host(delivery),
       protocol: protocol(delivery),
