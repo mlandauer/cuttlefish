@@ -31,6 +31,6 @@ class OutgoingEmail
   private
 
   def filtered_content(delivery)
-    Filters::Master.new(delivery).filter_mail(Mail.new(delivery.data)).to_s
-  end  
+    Filters::Master.new(delivery).filter(delivery.data)
+  end
 end
