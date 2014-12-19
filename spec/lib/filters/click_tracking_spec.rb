@@ -23,7 +23,7 @@ describe Filters::ClickTracking do
       delivery.stub(data: mail.encoded, email: email)
       filter.should_receive(:rewrite_url).with("http://foo.com?a=2").and_return("http://cuttlefish.io/1/sdfsd")
       filter.should_receive(:rewrite_url).with("http://www.bar.com").and_return("http://cuttlefish.io/2/sdjfs")
-      Mail.new(filter.filter(delivery.data)).html_part.decoded.should == <<-EOF
+      filter.filter_mail(Mail.new(delivery.data)).html_part.decoded.should == <<-EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html><body>
 <h1>This is HTML</h1>

@@ -10,6 +10,6 @@ describe Filters::Base do
   let(:filter) { Filters::Base.new(delivery) }
 
   describe "#filter" do
-    it { filter.filter(mail.to_s).should == mail.to_s}
+    it { filter.filter_mail(mail).should == mail}
   end
 end
