@@ -4,9 +4,9 @@ class Filters::AddOpenTracking < Filters::Tracking
   include Rails.application.routes.url_helpers
 
   def filter_html(input)
-    if @delivery.open_tracking_enabled?
-      @delivery.set_open_tracked!
-      input + image_tag(url(@delivery), alt: nil)
+    if delivery.open_tracking_enabled?
+      delivery.set_open_tracked!
+      input + image_tag(url(delivery), alt: nil)
     else
       input
     end

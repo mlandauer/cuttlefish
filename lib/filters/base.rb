@@ -1,4 +1,6 @@
 class Filters::Base
+  attr_reader :delivery
+  
   def initialize(delivery)
     @delivery = delivery
   end
