@@ -18,7 +18,9 @@ class MailJob
         data: message.data,
         app_id: message.app_id)
 
-      OutgoingEmail.new(email).send
+      email.deliveries.each do |delivery|
+        OutgoingDelivery.new(delivery).send
+      end
     end
   end
 end

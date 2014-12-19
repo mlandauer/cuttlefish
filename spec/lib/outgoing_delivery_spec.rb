@@ -1,28 +1,11 @@
 require "spec_helper"
 
-describe OutgoingEmail do
+describe OutgoingDelivery do
   describe "#send" do
-    context "an email with two recipients" do
-      # TODO This should be optimised in future so that if the content is the same
-      # it's sent out in one go
-      it "should only send out two emails" do
-        email = FactoryGirl.create(:email)
-        Delivery.create!(email: email, address: Address.create!(text: "foo@bar.com"))
-        Delivery.create!(email: email, address: Address.create!(text: "peter@bar.com"))
-        email.reload
-
-        outgoing = OutgoingEmail.new(email)
-        smtp = double
-        smtp.should_receive(:send_message).twice.and_return(double(message: ""))
-        Net::SMTP.stub(:start).and_yield(smtp)
-        outgoing.send
-      end
-    end
-
     context "an email with one recipient" do
       before :each do
         @email = FactoryGirl.create(:email, to: "foo@bar.com", data: "to: foo@bar.com\n\nMy original data")
-        @outgoing = OutgoingEmail.new(@email)
+        @outgoing = OutgoingDelivery.new(@email.deliveries.first)
       end
 
       it "should open an smtp connection to localhost port 1025" do

@@ -1,17 +1,3 @@
-class OutgoingEmail
-  attr_reader :email
-
-  def initialize(email)
-    @email = email
-  end
-
-  def send
-    email.deliveries.each do |delivery|
-      OutgoingDelivery.new(delivery).send
-    end
-  end
-end
-
 class OutgoingDelivery
   attr_reader :delivery
 

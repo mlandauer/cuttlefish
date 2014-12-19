@@ -15,20 +15,20 @@ describe MailJob, '#perform' do
 
 
   it "should save the email information and forward it" do
-    OutgoingEmail.any_instance.stub(:send)
+    OutgoingDelivery.any_instance.stub(:send)
     MailJob.new(OpenStruct.new(sender: "<matthew@foo.com>", recipients: ["<foo@bar.com>"], data: mail.encoded, app_id: app.id)).perform
 
     Email.count.should == 1
   end
 
   it "should forward the email information" do
-    OutgoingEmail.any_instance.should_receive(:send)
+    OutgoingDelivery.any_instance.should_receive(:send)
 
     MailJob.new(OpenStruct.new(sender: "<matthew@foo.com>", recipients: ["<foo@bar.com>"], data: mail.encoded, app_id: app.id)).perform
   end
 
   it "should not save the email information if the forwarding fails" do
-    OutgoingEmail.any_instance.stub(:send).and_raise("I can't contact the mail server")
+    OutgoingDelivery.any_instance.stub(:send).and_raise("I can't contact the mail server")
 
     expect {
       MailJob.new(OpenStruct.new(sender: "<matthew@foo.com>", recipients: ["<foo@bar.com>"], data: "message", app_id: app.id)).perform
@@ -38,8 +38,8 @@ describe MailJob, '#perform' do
   end
 
   it "should discard the return path email and use the email contents as the from address" do
-    OutgoingEmail.any_instance.should_receive(:send)
-    Email.should_receive(:create!).with(from: "matthew@foo.com", to: ["foo@bar.com"], data: mail.encoded, app_id: app.id)
+    OutgoingDelivery.any_instance.should_receive(:send)
+    Email.should_receive(:create!).with(from: "matthew@foo.com", to: ["foo@bar.com"], data: mail.encoded, app_id: app.id).and_call_original
 
     MailJob.new(OpenStruct.new(sender: "<bounces@foo.com>", recipients: ["<foo@bar.com>"], data: mail.encoded, app_id: app.id)).perform
   end
