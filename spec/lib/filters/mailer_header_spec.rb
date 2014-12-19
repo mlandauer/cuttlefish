@@ -19,11 +19,11 @@ describe Filters::MailerHeader do
       end
 
       it "should add an X-Mailer header" do
-        Mail.new(filter.data(delivery.data)).header["X-Mailer"].to_s.should == "Cuttlefish 1.2"
+        Mail.new(filter.data2(delivery.data)).header["X-Mailer"].to_s.should == "Cuttlefish 1.2"
       end
 
       it "shouldn't alter anything else" do
-        Mail.new(filter.data(delivery.data)).text_part.decoded.should == 'An email with some text and headers'
+        Mail.new(filter.data2(delivery.data)).text_part.decoded.should == 'An email with some text and headers'
       end
     end
   end
