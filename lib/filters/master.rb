@@ -10,6 +10,6 @@ class Filters::Master
     # DKIM filter needs to always be the last one
     filter5 = Filters::Dkim.new(delivery)
     filter5.previous_filter = filter4
-    filter5.data2(delivery.data)
+    filter5.data(delivery.data)
   end
 end
