@@ -1,11 +1,11 @@
 class Filters::Delivery
-  attr_accessor :next_filter
+  attr_accessor :previous_filter
 
   def input_data(delivery)
-    if next_filter.nil?
+    if previous_filter.nil?
       delivery.data
     else
-      next_filter.data(delivery)
+      previous_filter.data(delivery)
     end
   end
 
