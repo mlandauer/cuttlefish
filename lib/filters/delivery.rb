@@ -7,14 +7,14 @@ class Filters::Delivery
 
   def output_data(content)
     if previous_filter.nil?
-      data2(content)
+      filter(content)
     else
-      data2(previous_filter.output_data(content))
+      filter(previous_filter.output_data(content))
     end
   end
 
   # Override this method
-  def data2(content)
+  def filter(content)
     content
   end
 end
