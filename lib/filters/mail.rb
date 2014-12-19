@@ -2,7 +2,10 @@
 # and handling them separately
 class Filters::Mail < Filters::Base
   def filter(content)
-    mail = Mail.new(content)
+    filter_mail(Mail.new(content)).encoded
+  end
+
+  def filter_mail(mail)
     if mail.multipart?
       mail.html_part.body = filter_html(mail.html_part.decoded) if mail.html_part
       mail.text_part.body = filter_text(mail.text_part.decoded) if mail.text_part
@@ -13,7 +16,7 @@ class Filters::Mail < Filters::Base
         mail.body = filter_text(mail.decoded)
       end
     end
-    mail.encoded
+    mail
   end
 
   # Override the following two methods in inherited class

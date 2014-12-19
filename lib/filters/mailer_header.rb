@@ -1,7 +1,10 @@
 class Filters::MailerHeader < Filters::Base
   def filter(content)
-    mail = Mail.new(content)
+    filter_mail(Mail.new(content)).to_s
+  end
+
+  def filter_mail(mail)
     mail.header['X-Mailer'] = "Cuttlefish #{APP_VERSION}"
-    mail.to_s
+    mail
   end
 end
