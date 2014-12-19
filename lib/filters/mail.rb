@@ -1,8 +1,8 @@
 # Filter mail content by splitting out html and text parts
 # and handling them separately
 class Filters::Mail < Filters::Delivery
-  def data(content)
-    mail = Mail.new(input_data(content))
+  def data2(content)
+    mail = Mail.new(content)
     if mail.multipart?
       mail.html_part.body = process_html(mail.html_part.decoded, @delivery) if mail.html_part
       mail.text_part.body = process_text(mail.text_part.decoded, @delivery) if mail.text_part

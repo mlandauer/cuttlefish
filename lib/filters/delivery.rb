@@ -15,6 +15,11 @@ class Filters::Delivery
 
   # Override this method
   def data(content)
-    input_data(content)
+    data2(input_data(content))
+  end
+
+  # Override this method
+  def data2(content)
+    content
   end
 end
