@@ -5,16 +5,12 @@ class Filters::Delivery
     @delivery = delivery
   end
 
-  def input_data(content)
-    if previous_filter.nil?
-      content
-    else
-      previous_filter.output_data(content)
-    end
-  end
-
   def output_data(content)
-    data2(input_data(content))
+    if previous_filter.nil?
+      data2(content)
+    else
+      data2(previous_filter.output_data(content))
+    end
   end
 
   # Override this method
