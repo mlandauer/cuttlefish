@@ -1,15 +1,11 @@
 class Filters::Delivery
-  attr_reader :filter
-
-  def initialize(filter = nil)
-    @filter = filter
-  end
+  attr_accessor :next_filter
 
   def input_data(delivery)
-    if filter.nil?
+    if next_filter.nil?
       delivery.data
     else
-      filter.data(delivery)
+      next_filter.data(delivery)
     end
   end
 
