@@ -1,8 +1,4 @@
 class Filters::Master < Filters::Base
-  def filter(content)
-    filter_mail(Mail.new(content)).to_s
-  end
-
   def filter_mail(mail)
     content = mail.to_s
     filtered1 = Filters::AddOpenTracking.new(delivery).filter(content)

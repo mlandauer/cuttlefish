@@ -1,10 +1,6 @@
 # Filter mail content by splitting out html and text parts
 # and handling them separately
 class Filters::Mail < Filters::Base
-  def filter(content)
-    filter_mail(Mail.new(content)).encoded
-  end
-
   def filter_mail(mail)
     if mail.multipart?
       mail.html_part.body = filter_html(mail.html_part.decoded) if mail.html_part
