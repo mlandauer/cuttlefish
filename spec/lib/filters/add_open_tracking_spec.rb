@@ -49,12 +49,12 @@ describe Filters::AddOpenTracking do
       end
 
       it "should insert an image at the bottom of the html" do
-        Mail.new(filter.data(delivery)).parts.first.decoded.should ==
+        Mail.new(filter.data2(delivery.data)).parts.first.decoded.should ==
           '<h1>This is HTML with “some” UTF-8</h1><img src="https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif" />'
       end
 
       it "should record that it has been open tracked" do
-        filter.data(delivery)
+        filter.data2(delivery.data)
         delivery.should be_open_tracked
       end
 
@@ -64,7 +64,7 @@ describe Filters::AddOpenTracking do
         end
 
         it "should record that it has not been open tracked" do
-          filter.data(delivery)
+          filter.data2(delivery.data)
           delivery.should_not be_open_tracked
         end
       end
@@ -80,11 +80,11 @@ describe Filters::AddOpenTracking do
       end
 
       it "should do nothing to the content of the email" do
-        filter.data(delivery).should == mail.encoded
+        filter.data2(delivery.data).should == mail.encoded
       end
 
       it "should record that it has not been open tracked" do
-        filter.data(delivery)
+        filter.data2(delivery.data)
         delivery.open_tracked?.should_not be_truthy
       end
     end
@@ -97,11 +97,11 @@ describe Filters::AddOpenTracking do
       end
 
       it "should do nothing to the content of the email" do
-        filter.data(delivery).should == mail.encoded
+        filter.data2(delivery.data).should == mail.encoded
       end
 
       it "should record that it has not been open tracked" do
-        filter.data(delivery)
+        filter.data2(delivery.data)
         delivery.open_tracked?.should_not be_truthy
       end
     end
@@ -126,7 +126,7 @@ Content-Transfer-Encoding: 7bit
       end
 
       it "should add an image" do
-        Mail.new(filter.data(delivery)).body.should == "<p>Hello This an html email</p>\n<img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
+        Mail.new(filter.data2(delivery.data)).body.should == "<p>Hello This an html email</p>\n<img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
       end
     end
 
@@ -144,15 +144,15 @@ Content-Transfer-Encoding: 7bit
         end
 
         it "should do nothing to the text part of the email" do
-          Mail.new(filter.data(delivery)).text_part.decoded.should == "Some plain text"
+          Mail.new(filter.data2(delivery.data)).text_part.decoded.should == "Some plain text"
         end
 
         it "should append an image to the html part of the email" do
-          Mail.new(filter.data(delivery)).html_part.decoded.should == "<table>I like css</table><img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
+          Mail.new(filter.data2(delivery.data)).html_part.decoded.should == "<table>I like css</table><img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
         end
 
         it "should record that it has been open tracked" do
-          filter.data(delivery)
+          filter.data2(delivery.data)
           delivery.open_tracked?.should be_truthy
         end
     end

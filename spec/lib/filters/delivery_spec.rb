@@ -5,6 +5,6 @@ describe Filters::Delivery do
   let(:filter) { Filters::Delivery.new(delivery) }
 
   describe "#data" do
-    it { filter.data(delivery).should == "my original data"}
+    it { filter.data2(delivery.data).should == "my original data"}
   end
 end
