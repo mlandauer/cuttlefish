@@ -9,12 +9,11 @@ class Filters::Delivery
     if previous_filter.nil?
       content
     else
-      previous_filter.data(content)
+      previous_filter.output_data(content)
     end
   end
 
-  # Override this method
-  def data(content)
+  def output_data(content)
     data2(input_data(content))
   end
 
