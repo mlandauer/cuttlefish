@@ -13,11 +13,11 @@ class Filters::ClickTracking < Filters::Tracking
     )
   end
 
-  def process_html(input, delivery)
-    if delivery.click_tracking_enabled?
+  def process_html(input)
+    if @delivery.click_tracking_enabled?
       doc = Nokogiri::HTML(input)
       doc.search("a[href]").each do |a|
-        a["href"] = rewrite_url(a["href"], delivery)
+        a["href"] = rewrite_url(a["href"], @delivery)
       end
       doc.to_s
     else
