@@ -1,6 +1,6 @@
 # Filter mail content by splitting out html and text parts
 # and handling them separately
-class Filters::Mail < Filters::Delivery
+class Filters::Mail < Filters::Base
   def filter(content)
     mail = Mail.new(content)
     if mail.multipart?

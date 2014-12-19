@@ -1,4 +1,4 @@
-class Filters::Delivery
+class Filters::Base
   def initialize(delivery)
     @delivery = delivery
   end
