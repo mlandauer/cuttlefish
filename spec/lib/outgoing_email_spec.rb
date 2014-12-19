@@ -47,8 +47,11 @@ describe OutgoingEmail do
 
       it "should use data to figure out what to send" do
         smtp = double
-        Filters::Master.any_instance.stub(:filter).and_return("My altered data")
-        smtp.should_receive(:send_message).with("My altered data", anything(), anything()).and_return(double(message: ""))
+        filtered_mail = Mail.new do
+          body "My altered data"
+        end
+        Filters::Master.any_instance.stub(:filter_mail).and_return(filtered_mail)
+        smtp.should_receive(:send_message).with(filtered_mail.to_s, anything(), anything()).and_return(double(message: ""))
         Net::SMTP.should_receive(:start).and_yield(smtp)
         @outgoing.send
       end
