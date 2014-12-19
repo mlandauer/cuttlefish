@@ -60,7 +60,7 @@ describe OutgoingEmail do
         response = double(message: "250 2.0.0 Ok: queued as A123")
         smtp = double(send_message: response)
         Net::SMTP.stub(:start).and_yield(smtp)
-        OutgoingEmail.should_receive(:extract_postfix_queue_id_from_smtp_message).with("250 2.0.0 Ok: queued as A123").and_return("A123")
+        OutgoingDelivery.should_receive(:extract_postfix_queue_id_from_smtp_message).with("250 2.0.0 Ok: queued as A123").and_return("A123")
         @outgoing.send
         @email.deliveries.each{|d| d.postfix_queue_id.should == "A123"}
       end
@@ -99,11 +99,11 @@ describe OutgoingEmail do
 
   describe ".extract_postfix_queue_id_from_smtp_message" do
     it "should extract the queue id" do
-      OutgoingEmail.extract_postfix_queue_id_from_smtp_message("250 2.0.0 Ok: queued as 2F63736D4A27\n").should == "2F63736D4A27"
+      OutgoingDelivery.extract_postfix_queue_id_from_smtp_message("250 2.0.0 Ok: queued as 2F63736D4A27\n").should == "2F63736D4A27"
     end
 
     it "should ignore any other form" do
-      OutgoingEmail.extract_postfix_queue_id_from_smtp_message("250 250 Message accepted").should be_nil
+      OutgoingDelivery.extract_postfix_queue_id_from_smtp_message("250 250 Message accepted").should be_nil
     end
   end
 end
