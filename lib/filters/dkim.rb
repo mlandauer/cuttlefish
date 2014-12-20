@@ -3,6 +3,8 @@ class Filters::Dkim < Filters::Base
     if active?
       Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: delivery.app.dkim_key, domain: delivery.app.from_domain))
     else
+      mail.sender = Rails.configuration.cuttlefish_sender_email
+      # TODO Sign with DKIM for cuttlefish_sender_email domain if available
       mail
     end
   end

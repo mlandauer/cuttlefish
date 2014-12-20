@@ -15,7 +15,10 @@ describe Filters::Dkim do
 
   describe "#data" do
     context "dkim is disabled" do
-      it { filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should be_nil }
+      it { filter.filter_mail(mail).header["DKIM-Signature"].should be_nil }
+      it {
+        filter.filter_mail(mail).sender.should == "sender@cuttlefish.oaf.org.au"
+      }
     end
 
     context "dkim is enabled" do
@@ -28,11 +31,13 @@ describe Filters::Dkim do
           # going to test for the presence of the header
           filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should_not be_nil
         }
+        it { filter.filter_mail(mail).sender.should be_nil}
       end
 
       context "email from a different domain" do
         before(:each) { delivery.stub(from_domain: "bar.com") }
         it { filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should be_nil }
+        it { filter.filter_mail(mail).sender.should == "sender@cuttlefish.oaf.org.au"}
       end
     end
   end
