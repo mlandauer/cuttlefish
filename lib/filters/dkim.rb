@@ -10,7 +10,12 @@ class Filters::Dkim < Filters::Base
   end
 
   def active?(mail)
-    from_domain = mail.from.first.split("@")[1]
+    if mail.sender
+      address = mail.sender
+    else
+      address = mail.from.first
+    end
+    from_domain = address.split("@")[1]
     delivery.app.dkim_enabled && from_domain == delivery.app.from_domain
   end
 end

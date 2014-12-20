@@ -38,6 +38,18 @@ describe Filters::Dkim do
         before(:each) { mail.from = "Contact <contact@bar.com>" }
         it { filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should be_nil }
         it { filter.filter_mail(mail).sender.should == "sender@cuttlefish.oaf.org.au"}
+
+        context "and sender is in correct domain" do
+          before(:each) { mail.sender = "Contact <contact@foo.com>"}
+          it { filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should_not be_nil }
+          it { filter.filter_mail(Mail.new(delivery.data)).sender.should == "contact@foo.com"}
+        end
+
+        context "and sender is in wrong domain" do
+          before(:each) { mail.sender = "Contact <contact@bibble.com>"}
+          it { filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should be_nil }
+          it { filter.filter_mail(Mail.new(delivery.data)).sender.should == "sender@cuttlefish.oaf.org.au"}
+        end
       end
     end
   end
