@@ -12,7 +12,14 @@ describe Filters::Dkim do
   end
   let(:app) { App.create(from_domain: "foo.com") }
   let(:delivery) { mock_model(Delivery, app: app, data: mail.encoded) }
-  let(:filter) { Filters::Dkim.new(delivery) }
+  let(:filter) {
+    Filters::Dkim.new(
+      enabled: delivery.app.dkim_enabled,
+      domain: delivery.app.from_domain,
+      key: delivery.app.dkim_key,
+      sender_email: Rails.configuration.cuttlefish_sender_email
+    )
+  }
 
   describe "#data" do
     context "dkim is disabled" do

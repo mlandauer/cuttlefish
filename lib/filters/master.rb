@@ -9,6 +9,12 @@ class Filters::Master < Filters::Base
     filtered3 = Filters::InlineCss.new(delivery).filter_mail(filtered2)
     filtered4 = Filters::MailerHeader.new(delivery).filter_mail(filtered3)
     # DKIM filter needs to always be the last one
-    Filters::Dkim.new(delivery).filter_mail(filtered4)
+    filter5 = Filters::Dkim.new(
+      enabled: delivery.app.dkim_enabled,
+      domain: delivery.app.from_domain,
+      key: delivery.app.dkim_key,
+      sender_email: Rails.configuration.cuttlefish_sender_email
+    )
+    filter5.filter_mail(filtered4)
   end
 end

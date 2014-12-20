@@ -2,14 +2,8 @@ class Filters::Dkim < Filters::Base
   attr_reader :options
 
   # options: enabled, domain, key, sender_email
-  def initialize(delivery)
-    @delivery = delivery
-    @options = {
-      enabled: delivery.app.dkim_enabled,
-      domain: delivery.app.from_domain,
-      key: delivery.app.dkim_key,
-      sender_email: Rails.configuration.cuttlefish_sender_email
-    }
+  def initialize(options)
+    @options = options
   end
 
   def filter_mail(mail)
