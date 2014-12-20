@@ -6,7 +6,7 @@ class Filters::Master < Filters::Base
   def filter_mail(mail)
     filtered1 = Filters::AddOpenTracking.new(delivery).filter_mail(mail)
     filtered2 = Filters::ClickTracking.new(delivery).filter_mail(filtered1)
-    filtered3 = Filters::InlineCss.new(delivery).filter_mail(filtered2)
+    filtered3 = Filters::InlineCss.new.filter_mail(filtered2)
     filtered4 = Filters::MailerHeader.new(delivery).filter_mail(filtered3)
     # DKIM filter needs to always be the last one
     filter5 = Filters::Dkim.new(
