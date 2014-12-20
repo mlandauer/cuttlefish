@@ -1,6 +1,5 @@
 require "spec_helper"
 
-# TODO This test currently depends on the real behaviour of the App class. Fix this
 describe Filters::Dkim do
   let(:mail) do
     Mail.new do
@@ -10,14 +9,12 @@ describe Filters::Dkim do
       end
     end
   end
-  let(:app) { App.create(from_domain: "foo.com") }
-  let(:delivery) { mock_model(Delivery, app: app, data: mail.encoded) }
   let(:filter) {
     Filters::Dkim.new(
-      enabled: delivery.app.dkim_enabled,
-      domain: delivery.app.from_domain,
-      key: delivery.app.dkim_key,
-      sender_email: Rails.configuration.cuttlefish_sender_email
+      enabled: false,
+      domain: "foo.com",
+      key: OpenSSL::PKey::RSA.new(2048),
+      sender_email: "sender@cuttlefish.oaf.org.au"
     )
   }
 
@@ -30,32 +27,32 @@ describe Filters::Dkim do
     end
 
     context "dkim is enabled" do
-      before(:each) { app.update_attributes(dkim_enabled: true) }
+      before(:each) { filter.enabled = true }
 
       context "email from dkim domain" do
         it {
           # Signature is different every time (because of I assume a random salt). So, we're just
           # going to test for the presence of the header
-          filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should_not be_nil
+          filter.filter_mail(mail).header["DKIM-Signature"].should_not be_nil
         }
         it { filter.filter_mail(mail).sender.should be_nil}
       end
 
       context "email from a different domain" do
         before(:each) { mail.from = "Contact <contact@bar.com>" }
-        it { filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should be_nil }
+        it { filter.filter_mail(mail).header["DKIM-Signature"].should be_nil }
         it { filter.filter_mail(mail).sender.should == "sender@cuttlefish.oaf.org.au"}
 
         context "and sender is in correct domain" do
           before(:each) { mail.sender = "Contact <contact@foo.com>"}
-          it { filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should_not be_nil }
-          it { filter.filter_mail(Mail.new(delivery.data)).sender.should == "contact@foo.com"}
+          it { filter.filter_mail(mail).header["DKIM-Signature"].should_not be_nil }
+          it { filter.filter_mail(mail).sender.should == "contact@foo.com"}
         end
 
         context "and sender is in wrong domain" do
           before(:each) { mail.sender = "Contact <contact@bibble.com>"}
-          it { filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should be_nil }
-          it { filter.filter_mail(Mail.new(delivery.data)).sender.should == "sender@cuttlefish.oaf.org.au"}
+          it { filter.filter_mail(mail).header["DKIM-Signature"].should be_nil }
+          it { filter.filter_mail(mail).sender.should == "sender@cuttlefish.oaf.org.au"}
         end
       end
     end
