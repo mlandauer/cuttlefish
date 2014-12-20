@@ -1,16 +1,18 @@
 class Filters::Dkim < Filters::Base
-  attr_reader :options
+  attr_accessor :key, :domain, :sender_email, :enabled
 
-  # options: enabled, domain, key, sender_email
   def initialize(options)
-    @options = options
+    @enabled = options[:enabled]
+    @key = options[:key]
+    @domain = options[:domain]
+    @sender_email = options[:sender_email]
   end
 
   def filter_mail(mail)
     if active?(mail)
-      Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: options[:key], domain: options[:domain]))
+      Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: key, domain: domain))
     else
-      mail.sender = options[:sender_email]
+      mail.sender = sender_email
       # TODO Sign with DKIM for cuttlefish_sender_email domain if available
       mail
     end
@@ -19,6 +21,6 @@ class Filters::Dkim < Filters::Base
   def active?(mail)
     address = mail.sender || mail.from.first
     from_domain = address.split("@")[1]
-    options[:enabled] && from_domain == options[:domain]
+    enabled && from_domain == domain
   end
 end
