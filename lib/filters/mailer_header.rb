@@ -4,9 +4,9 @@ class Filters::MailerHeader < Filters::Base
   def initialize(options)
     @version = options[:version]
   end
-  
+
   def filter_mail(mail)
-    mail.header['X-Mailer'] = "Cuttlefish #{APP_VERSION}"
+    mail.header['X-Mailer'] = "Cuttlefish #{version}"
     mail
   end
 end

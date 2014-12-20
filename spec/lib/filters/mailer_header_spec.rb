@@ -8,22 +8,18 @@ describe Filters::MailerHeader do
       end
     end
   end
-  let(:app) { mock_model(App) }
-  let(:delivery) { mock_model(Delivery, app: app, data: mail.encoded) }
   let(:filter) { Filters::MailerHeader.new(version: APP_VERSION) }
 
   describe "#data" do
     context "Version 1.2 of the app" do
-      before :each do
-        stub_const("APP_VERSION", "1.2")
-      end
+      before(:each) { filter.version = "1.2"}
 
       it "should add an X-Mailer header" do
-        filter.filter_mail(Mail.new(delivery.data)).header["X-Mailer"].to_s.should == "Cuttlefish 1.2"
+        filter.filter_mail(mail).header["X-Mailer"].to_s.should == "Cuttlefish 1.2"
       end
 
       it "shouldn't alter anything else" do
-        filter.filter_mail(Mail.new(delivery.data)).text_part.decoded.should == 'An email with some text and headers'
+        filter.filter_mail(mail).text_part.decoded.should == 'An email with some text and headers'
       end
     end
   end
