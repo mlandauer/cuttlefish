@@ -1,6 +1,6 @@
 class Filters::Dkim < Filters::Base
   def filter_mail(mail)
-    if active?
+    if active?(mail)
       Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: delivery.app.dkim_key, domain: delivery.app.from_domain))
     else
       mail.sender = Rails.configuration.cuttlefish_sender_email
@@ -9,7 +9,8 @@ class Filters::Dkim < Filters::Base
     end
   end
 
-  def active?
-    delivery.app.dkim_enabled && delivery.from_domain == delivery.app.from_domain
+  def active?(mail)
+    from_domain = mail.from.first.split("@")[1]
+    delivery.app.dkim_enabled && from_domain == delivery.app.from_domain
   end
 end

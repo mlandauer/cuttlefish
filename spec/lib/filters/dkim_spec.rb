@@ -4,6 +4,7 @@ require "spec_helper"
 describe Filters::Dkim do
   let(:mail) do
     Mail.new do
+      from 'Contact <contact@foo.com>'
       text_part do
         body 'An email with some text and headers'
       end
@@ -25,7 +26,6 @@ describe Filters::Dkim do
       before(:each) { app.update_attributes(dkim_enabled: true) }
 
       context "email from dkim domain" do
-        before(:each) { delivery.stub(from_domain: "foo.com") }
         it {
           # Signature is different every time (because of I assume a random salt). So, we're just
           # going to test for the presence of the header
@@ -35,7 +35,7 @@ describe Filters::Dkim do
       end
 
       context "email from a different domain" do
-        before(:each) { delivery.stub(from_domain: "bar.com") }
+        before(:each) { mail.from = "Contact <contact@bar.com>" }
         it { filter.filter_mail(Mail.new(delivery.data)).header["DKIM-Signature"].should be_nil }
         it { filter.filter_mail(mail).sender.should == "sender@cuttlefish.oaf.org.au"}
       end
