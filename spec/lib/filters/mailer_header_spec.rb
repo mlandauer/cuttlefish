@@ -10,7 +10,7 @@ describe Filters::MailerHeader do
   end
   let(:app) { mock_model(App) }
   let(:delivery) { mock_model(Delivery, app: app, data: mail.encoded) }
-  let(:filter) { Filters::MailerHeader.new(delivery) }
+  let(:filter) { Filters::MailerHeader.new(version: APP_VERSION) }
 
   describe "#data" do
     context "Version 1.2 of the app" do
