@@ -7,11 +7,11 @@ describe DeliveryLink do
         referer: "http://foo.com", remote_ip: "1.2.3.4")
       delivery_link = FactoryGirl.create(:delivery_link)
       delivery_link.add_click_event(request)
-      delivery_link.click_events.count.should == 1
+      expect(delivery_link.click_events.count).to eq 1
       e = delivery_link.click_events.first
-      e.user_agent.should == "some user agent info"
-      e.referer.should == "http://foo.com"
-      e.ip.should == "1.2.3.4"
+      expect(e.user_agent).to eq "some user agent info"
+      expect(e.referer).to eq "http://foo.com"
+      expect(e.ip).to eq "1.2.3.4"
     end
   end
 end

@@ -14,9 +14,9 @@ describe InvitationsController, type: :controller do
       before(:each) { sign_in admin }
 
       it "should invite a user by their email address and make them part of the team" do
-        Admin.should_receive(:invite!).with({"email" => "matthew@foo.bar", "team_id" => team.id}, admin).and_call_original
+        expect(Admin).to receive(:invite!).with({"email" => "matthew@foo.bar", "team_id" => team.id}, admin).and_call_original
         post :create, admin: {email: "matthew@foo.bar"}
-        response.should redirect_to admins_url
+        expect(response).to redirect_to admins_url
       end
     end
   end

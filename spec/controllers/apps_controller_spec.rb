@@ -14,9 +14,9 @@ describe AppsController, type: :controller do
       it "should create an app that is part of the current user's team" do
         post :create, app: {name: "My New App"}
         app = App.first
-        app.name.should == "My New App"
-        app.team.should == team
-        response.should redirect_to app
+        expect(app.name).to eq "My New App"
+        expect(app.team).to eq team
+        expect(response).to redirect_to app
       end
     end
   end

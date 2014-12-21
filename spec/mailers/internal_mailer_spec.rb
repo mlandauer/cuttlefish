@@ -6,11 +6,11 @@ describe InternalMailer do
     let(:admin) { mock_model(Admin, email: "foo@bar.com", invited_by: admin1) }
     let(:email) { InternalMailer.invitation_instructions(admin, "abc123") }
 
-    it { email.from.should == ["contact@oaf.org.au"] }
-    it { email.to.should == ["foo@bar.com"] }
-    it { email.subject.should == "Matthew invites you to Cuttlefish" }
+    it { expect(email.from).to eq ["contact@oaf.org.au"] }
+    it { expect(email.to).to eq ["foo@bar.com"] }
+    it { expect(email.subject).to eq "Matthew invites you to Cuttlefish" }
     it do
-      email.body.should == <<-EOF
+      expect(email.body).to eq <<-EOF
 <p>Matthew invites you to Cuttlefish - an easy to use transactional email server with a lovely user interface</p>
 
 <p>Accept the invitation through the link below.</p>
@@ -22,11 +22,11 @@ describe InternalMailer do
     end
 
     it do
-      email.delivery_method.settings.should == {
+      expect(email.delivery_method.settings).to eq ({
         address: "localhost",
         port: 1025,
         enable_starttls_auto: false
-      }
+      })
     end
   end
 end

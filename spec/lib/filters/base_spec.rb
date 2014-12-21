@@ -9,6 +9,6 @@ describe Filters::Base do
   let(:filter) { Filters::Base.new }
 
   describe "#filter" do
-    it { filter.filter_mail(mail).should == mail}
+    it { expect(filter.filter_mail(mail)).to eq mail}
   end
 end

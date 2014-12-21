@@ -20,9 +20,9 @@ describe Filters::Dkim do
 
   describe "#data" do
     context "dkim is disabled" do
-      it { filter.filter_mail(mail).header["DKIM-Signature"].should be_nil }
+      it { expect(filter.filter_mail(mail).header["DKIM-Signature"]).to be_nil }
       it {
-        filter.filter_mail(mail).sender.should == "sender@cuttlefish.oaf.org.au"
+        expect(filter.filter_mail(mail).sender).to eq "sender@cuttlefish.oaf.org.au"
       }
     end
 
@@ -33,26 +33,26 @@ describe Filters::Dkim do
         it {
           # Signature is different every time (because of I assume a random salt). So, we're just
           # going to test for the presence of the header
-          filter.filter_mail(mail).header["DKIM-Signature"].should_not be_nil
+          expect(filter.filter_mail(mail).header["DKIM-Signature"]).to_not be_nil
         }
-        it { filter.filter_mail(mail).sender.should be_nil}
+        it { expect(filter.filter_mail(mail).sender).to be_nil}
       end
 
       context "email from a different domain" do
         before(:each) { mail.from = "Contact <contact@bar.com>" }
-        it { filter.filter_mail(mail).header["DKIM-Signature"].should be_nil }
-        it { filter.filter_mail(mail).sender.should == "sender@cuttlefish.oaf.org.au"}
+        it { expect(filter.filter_mail(mail).header["DKIM-Signature"]).to be_nil }
+        it { expect(filter.filter_mail(mail).sender).to eq "sender@cuttlefish.oaf.org.au"}
 
         context "and sender is in correct domain" do
           before(:each) { mail.sender = "Contact <contact@foo.com>"}
-          it { filter.filter_mail(mail).header["DKIM-Signature"].should_not be_nil }
-          it { filter.filter_mail(mail).sender.should == "contact@foo.com"}
+          it { expect(filter.filter_mail(mail).header["DKIM-Signature"]).to_not be_nil }
+          it { expect(filter.filter_mail(mail).sender).to eq "contact@foo.com"}
         end
 
         context "and sender is in wrong domain" do
           before(:each) { mail.sender = "Contact <contact@bibble.com>"}
-          it { filter.filter_mail(mail).header["DKIM-Signature"].should be_nil }
-          it { filter.filter_mail(mail).sender.should == "sender@cuttlefish.oaf.org.au"}
+          it { expect(filter.filter_mail(mail).header["DKIM-Signature"]).to be_nil }
+          it { expect(filter.filter_mail(mail).sender).to eq "sender@cuttlefish.oaf.org.au"}
         end
       end
     end

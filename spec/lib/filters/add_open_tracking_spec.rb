@@ -15,7 +15,7 @@ describe Filters::AddOpenTracking do
 
   describe "#url" do
     it "should normally be an https url to the default domain" do
-      filter.url.should == "https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif"
+      expect(filter.url).to eq "https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif"
     end
 
     it "should use a custom domain if it is set (and also not use ssl)" do
@@ -23,7 +23,7 @@ describe Filters::AddOpenTracking do
       # TODO Refactor
       filter.tracking_domain = "email.planningalerts.org.au"
       filter.using_custom_tracking_domain = true
-      filter.url.should == "http://email.planningalerts.org.au/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif"
+      expect(filter.url).to eq "http://email.planningalerts.org.au/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif"
     end
   end
 
@@ -39,12 +39,11 @@ describe Filters::AddOpenTracking do
       end
 
       it "should insert an image at the bottom of the html" do
-        filter.filter_mail(mail).parts.first.decoded.should ==
-          '<h1>This is HTML with “some” UTF-8</h1><img src="https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif" />'
+        expect(filter.filter_mail(mail).parts.first.decoded).to eq '<h1>This is HTML with “some” UTF-8</h1><img src="https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif" />'
       end
 
       it "should record that it has been open tracked" do
-        delivery.should_receive(:set_open_tracked!)
+        expect(delivery).to receive(:set_open_tracked!)
         filter.filter_mail(mail)
       end
 
@@ -54,7 +53,7 @@ describe Filters::AddOpenTracking do
         end
 
         it "should record that it has not been open tracked" do
-          delivery.should_not_receive(:set_open_tracked!)
+          expect(delivery).to_not receive(:set_open_tracked!)
           filter.filter_mail(mail)
         end
       end
@@ -70,11 +69,11 @@ describe Filters::AddOpenTracking do
       end
 
       it "should do nothing to the content of the email" do
-        filter.filter_mail(mail).to_s.should == mail.encoded
+        expect(filter.filter_mail(mail).to_s).to eq mail.encoded
       end
 
       it "should record that it has not been open tracked" do
-        delivery.should_not_receive(:set_open_tracked!)
+        expect(delivery).to_not receive(:set_open_tracked!)
         filter.filter_mail(mail)
       end
     end
@@ -87,11 +86,11 @@ describe Filters::AddOpenTracking do
       end
 
       it "should do nothing to the content of the email" do
-        filter.filter_mail(mail).to_s.should == mail.encoded
+        expect(filter.filter_mail(mail).to_s).to eq mail.encoded
       end
 
       it "should record that it has not been open tracked" do
-        delivery.should_not_receive(:set_open_tracked!)
+        expect(delivery).to_not receive(:set_open_tracked!)
         filter.filter_mail(mail)
       end
     end
@@ -116,7 +115,7 @@ Content-Transfer-Encoding: 7bit
       end
 
       it "should add an image" do
-        filter.filter_mail(mail).body.should == "<p>Hello This an html email</p>\n<img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
+        expect(filter.filter_mail(mail).body).to eq "<p>Hello This an html email</p>\n<img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
       end
     end
 
@@ -134,15 +133,15 @@ Content-Transfer-Encoding: 7bit
         end
 
         it "should do nothing to the text part of the email" do
-          filter.filter_mail(mail).text_part.decoded.should == "Some plain text"
+          expect(filter.filter_mail(mail).text_part.decoded).to eq "Some plain text"
         end
 
         it "should append an image to the html part of the email" do
-          filter.filter_mail(mail).html_part.decoded.should == "<table>I like css</table><img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
+          expect(filter.filter_mail(mail).html_part.decoded).to eq "<table>I like css</table><img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
         end
 
         it "should record that it has been open tracked" do
-          delivery.should_receive(:set_open_tracked!)
+          expect(delivery).to receive(:set_open_tracked!)
           filter.filter_mail(mail)
         end
     end

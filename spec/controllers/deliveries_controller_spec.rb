@@ -18,7 +18,7 @@ describe DeliveriesController, type: :controller do
         # Make the email app part of this team
         delivery.email.app.update_attributes(team_id: team.id)
         get :index, {}
-        assigns(:deliveries).should eq([delivery])
+        expect(assigns(:deliveries)).to eq [delivery]
       end
     end
 
@@ -28,7 +28,7 @@ describe DeliveriesController, type: :controller do
         # Make the email app part of this team
         delivery.email.app.update_attributes(team_id: team.id)
         get :show, {id: delivery.to_param}
-        assigns(:delivery).should eq(delivery)
+        expect(assigns(:delivery)).to eq delivery
       end
     end
   end

@@ -12,27 +12,27 @@ describe Email do
       end
 
       it "should set the message-id based on the email content" do
-        Email.first.message_id.should == "5161ba1c90b10_7837557029c754c8@kedumba.mail"
+        expect(Email.first.message_id).to eq "5161ba1c90b10_7837557029c754c8@kedumba.mail"
       end
 
       it "should set a hash of the full email content" do
-        Email.first.data_hash.should == "d096b1b1dfbcabf6bd4ef4d4b0ad88f562eedee9"
+        expect(Email.first.data_hash).to eq "d096b1b1dfbcabf6bd4ef4d4b0ad88f562eedee9"
       end
 
       it "should have an identical hash to another email with identical content" do
         first_email = Email.first
         email = FactoryGirl.create(:email, from: "geoff@foo.com", to: "people@bar.com", data: first_email.data)
-        email.data_hash.should == first_email.data_hash
+        expect(email.data_hash).to eq first_email.data_hash
       end
 
       it "should have a different hash to another email with different content" do
         first_email = Email.first
         email = FactoryGirl.create(:email, from: "geoff@foo.com", to: "people@bar.com", data: "Something else")
-        email.data_hash.should_not == first_email.data_hash
+        expect(email.data_hash).to_not eq first_email.data_hash
       end
 
       it "should set the subject of the email based on the data" do
-        Email.first.subject.should == "This is a subject"
+        expect(Email.first.subject).to eq "This is a subject"
       end
     end
   end
@@ -40,12 +40,12 @@ describe Email do
   describe "#from" do
     it "should return a string for the from email address" do
       email = FactoryGirl.create(:email, from_address: Address.create!(text: "matthew@foo.com"))
-      email.from.should == "matthew@foo.com"
+      expect(email.from).to eq "matthew@foo.com"
     end
 
     it "should allow the from_address to be set by a string" do
       email = FactoryGirl.create(:email, from: "matthew@foo.com")
-      email.from.should == "matthew@foo.com"
+      expect(email.from).to eq "matthew@foo.com"
     end
   end
 
@@ -53,25 +53,25 @@ describe Email do
     it "should return an Address object" do
       email = FactoryGirl.create(:email, from: "matthew@foo.org")
       a1 = Address.find_by_text("matthew@foo.org")
-      a1.should_not be_nil
-      email.from_address.should == a1
+      expect(a1).to_not be_nil
+      expect(email.from_address).to eq a1
     end
   end
 
   describe "#to" do
     it "should return an array for all the email addresses" do
       email = FactoryGirl.create(:email, to: ["mlandauer@foo.org", "matthew@bar.com"])
-      email.to.should == ["mlandauer@foo.org", "matthew@bar.com"]
+      expect(email.to).to eq ["mlandauer@foo.org", "matthew@bar.com"]
     end
 
     it "should be able to give just a single recipient" do
       email = Email.new(to: "mlandauer@foo.org")
-      email.to.should == ["mlandauer@foo.org"]
+      expect(email.to).to eq ["mlandauer@foo.org"]
     end
 
     it "should set created_at for deliveries too" do
       email = FactoryGirl.create(:email, to: "mlandauer@foo.org")
-      email.deliveries.first.created_at.should_not be_nil
+      expect(email.deliveries.first.created_at).to_not be_nil
     end
   end
 
@@ -80,9 +80,9 @@ describe Email do
       email = FactoryGirl.create(:email, to: ["mlandauer@foo.org", "matthew@bar.com"])
       a1 = Address.find_by_text("mlandauer@foo.org")
       a2 = Address.find_by_text("matthew@bar.com")
-      a1.should_not be_nil
-      a2.should_not be_nil
-      email.to_addresses.should == [a1, a2]
+      expect(a1).to_not be_nil
+      expect(a2).to_not be_nil
+      expect(email.to_addresses).to eq [a1, a2]
     end
   end
 
@@ -94,20 +94,20 @@ describe Email do
       let(:email) { Email.find(10) }
 
       it "should be able to read in the data again" do
-        email.data.should == "This is a main data section"
+        expect(email.data).to eq "This is a main data section"
       end
 
       it "should be able to read in the data again even after being saved again" do
         email.save!
-        email.data.should == "This is a main data section"
+        expect(email.data).to eq "This is a main data section"
       end
     end
 
     it "should only keep the full data of a certain number of the emails around" do
-      Rails.configuration.stub(:max_no_emails_to_store).and_return(2)
+      allow(Rails.configuration).to receive(:max_no_emails_to_store).and_return(2)
       app = FactoryGirl.create(:app)
       4.times { FactoryGirl.create(:email, data: "This is a main section", app_id: app.id) }
-      Dir.glob(File.join(Email.first.email_cache.data_filesystem_directory, "*")).count.should == 2
+      expect(Dir.glob(File.join(Email.first.email_cache.data_filesystem_directory, "*")).count).to eq 2
     end
   end
 
@@ -129,12 +129,12 @@ describe Email do
     end
 
     describe "#html_part" do
-      it { email.html_part.should == "<h1>This is HTML</h1>" }
-      it { email.html_part.encoding.to_s.should == "UTF-8"}
+      it { expect(email.html_part).to eq "<h1>This is HTML</h1>" }
+      it { expect(email.html_part.encoding.to_s).to eq "UTF-8"}
     end
 
     describe "#text_part" do
-      it { email.text_part.should == "This is plain text" }
+      it { expect(email.text_part).to eq "This is plain text" }
     end
   end
 
@@ -149,11 +149,11 @@ describe Email do
     end
 
     describe "#html_part" do
-      it { email.html_part.should be_nil }
+      it { expect(email.html_part).to be_nil }
     end
 
     describe "#text_part" do
-      it { email.text_part.should == "This is plain text" }
+      it { expect(email.text_part).to eq "This is plain text" }
     end
   end
 
@@ -169,11 +169,11 @@ describe Email do
     end
 
     describe "#html_part" do
-      it { email.html_part.should == "<p>This is some html</p>" }
+      it { expect(email.html_part).to eq "<p>This is some html</p>" }
     end
 
     describe "#text_part" do
-      it { email.text_part.should be_nil }
+      it { expect(email.text_part).to be_nil }
     end
   end
 
@@ -202,11 +202,11 @@ describe Email do
     end
 
     describe "#html_part" do
-      it { email.html_part.should == "<p>This is some html</p>" }
+      it { expect(email.html_part).to eq "<p>This is some html</p>" }
     end
 
     describe "#text_part" do
-      it { email.text_part.should == 'This is plain text' }
+      it { expect(email.text_part).to eq 'This is plain text' }
     end
   end
 end

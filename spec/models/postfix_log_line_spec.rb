@@ -15,19 +15,19 @@ describe PostfixLogLine do
     end
 
     describe ".relay" do
-      it { l.relay.should == "foo.bar.com[1.2.3.4]:25" }
+      it { expect(l.relay).to eq "foo.bar.com[1.2.3.4]:25" }
     end
     describe ".delay" do
-      it { l.delay.should == "92780" }
+      it { expect(l.delay).to eq "92780" }
     end
     describe ".delays" do
-      it { l.delays.should == "92777/0.03/1.6/0.91" }
+      it { expect(l.delays).to eq "92777/0.03/1.6/0.91" }
     end
     describe ".dsn" do
-      it { l.dsn.should == "4.3.0" }
+      it { expect(l.dsn).to eq "4.3.0" }
     end
     describe ".extended_status" do
-      it { l.extended_status.should == "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))" }
+      it { expect(l.extended_status).to eq "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))" }
     end
   end
 
@@ -35,7 +35,7 @@ describe PostfixLogLine do
     it "should have an empty log lines on the delivery to start with" do
       email = FactoryGirl.create(:email, to: "foo@bar.com")
       email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
-      email.deliveries.first.postfix_log_lines.should be_empty
+      expect(email.deliveries.first.postfix_log_lines).to be_empty
     end
 
     context "one log line" do
@@ -53,25 +53,25 @@ describe PostfixLogLine do
       end
 
       it "should extract and save relevant parts of the line" do
-        PostfixLogLine.count.should == 1
+        expect(PostfixLogLine.count).to eq 1
         line = delivery.postfix_log_lines.first
-        line.relay.should == "foo.bar.com[1.2.3.4]:25"
-        line.delay.should == "92780"
-        line.delays.should == "92777/0.03/1.6/0.91"
-        line.dsn.should == "4.3.0"
-        line.extended_status.should == "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
-        line.time.should == Time.local(Time.now.year,4,5,16,41,54)
+        expect(line.relay).to eq "foo.bar.com[1.2.3.4]:25"
+        expect(line.delay).to eq "92780"
+        expect(line.delays).to eq "92777/0.03/1.6/0.91"
+        expect(line.dsn).to eq "4.3.0"
+        expect(line.extended_status).to eq "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
+        expect(line.time).to eq Time.local(Time.now.year,4,5,16,41,54)
       end
 
       it "should attach it to the delivery" do
-        email.deliveries.first.postfix_log_lines.count.should == 1
+        expect(email.deliveries.first.postfix_log_lines.count).to eq 1
         line = email.deliveries.first.postfix_log_lines.first
-        line.relay.should == "foo.bar.com[1.2.3.4]:25"
-        line.delay.should == "92780"
-        line.delays.should == "92777/0.03/1.6/0.91"
-        line.dsn.should == "4.3.0"
-        line.extended_status.should == "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
-        line.time.should == Time.local(Time.now.year,4,5,16,41,54)
+        expect(line.relay).to eq "foo.bar.com[1.2.3.4]:25"
+        expect(line.delay).to eq "92780"
+        expect(line.delays).to eq "92777/0.03/1.6/0.91"
+        expect(line.dsn).to eq "4.3.0"
+        expect(line.extended_status).to eq "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
+        expect(line.time).to eq Time.local(Time.now.year,4,5,16,41,54)
       end
     end
 
@@ -93,8 +93,8 @@ describe PostfixLogLine do
       end
 
       it "should attach it to the delivery" do
-        delivery1.postfix_log_lines.count.should == 1
-        delivery2.postfix_log_lines.count.should == 1
+        expect(delivery1.postfix_log_lines.count).to eq 1
+        expect(delivery2.postfix_log_lines.count).to eq 1
       end
     end
 
@@ -106,7 +106,7 @@ describe PostfixLogLine do
 
       PostfixLogLine.create_from_line(line1)
       PostfixLogLine.create_from_line(line1)
-      delivery.postfix_log_lines.count.should == 1
+      expect(delivery.postfix_log_lines.count).to eq 1
     end
 
     it "should recognise timeouts" do
@@ -114,24 +114,24 @@ describe PostfixLogLine do
       delivery = FactoryGirl.create(:delivery, postfix_queue_id: "773A9CBBC", address: address)
       line = "Dec 21 07:41:10 localhost postfix/error[29539]: 773A9CBBC: to=<foobar@optusnet.com.au>, relay=none, delay=334, delays=304/31/0/0, dsn=4.4.1, status=deferred (delivery temporarily suspended: connect to extmail.optusnet.com.au[211.29.133.14]:25: Connection timed out)"
       PostfixLogLine.create_from_line(line)
-      PostfixLogLine.count.should == 1
+      expect(PostfixLogLine.count).to eq 1
     end
 
     it "should not produce any log lines if the queue id is not recognised" do
-      PostfixLogLine.should_receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
+      expect(PostfixLogLine).to receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
       PostfixLogLine.create_from_line(line1)
-      PostfixLogLine.count.should == 0
+      expect(PostfixLogLine.count).to eq 0
     end
 
     it "should show a message if the address isn't recognised in a log line" do
-      PostfixLogLine.should_receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
+      expect(PostfixLogLine).to receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
       email = FactoryGirl.create(:email)
       PostfixLogLine.create_from_line(line1)
     end
 
     it "should only log lines that are delivery attempts" do
       PostfixLogLine.create_from_line(line2)
-      PostfixLogLine.count.should == 0
+      expect(PostfixLogLine.count).to eq 0
     end
 
     context "two emails with the same queue id" do
@@ -153,14 +153,14 @@ describe PostfixLogLine do
         delivery1
         delivery2
         PostfixLogLine.create_from_line(line1)
-        delivery1.postfix_log_lines.should be_empty
-        delivery2.postfix_log_lines.count.should == 1
+        expect(delivery1.postfix_log_lines).to be_empty
+        expect(delivery2.postfix_log_lines.count).to eq 1
       end
     end
   end
 
   describe ".match_main_content" do
-    it { PostfixLogLine.match_main_content(line1).should == {
+    it { expect(PostfixLogLine.match_main_content(line1)).to eq ({
       time: Time.local(Time.now.year,4,5,16,41,54),
       program: "smtp",
       queue_id: "39D9336AFA81",
@@ -170,37 +170,37 @@ describe PostfixLogLine do
       delays: "92777/0.03/1.6/0.91",
       dsn: "4.3.0",
       extended_status: "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
-    }}
-    it { PostfixLogLine.match_main_content(line2).should == {
+    })}
+    it { expect(PostfixLogLine.match_main_content(line2)).to eq ({
       time: Time.local(Time.now.year,4,5,18,41,58),
       program: "qmgr",
       queue_id: "E69DB36D4A2B",
-    }}
-    it { PostfixLogLine.match_main_content(line3).should == {
+    })}
+    it { expect(PostfixLogLine.match_main_content(line3)).to eq ({
       time: Time.local(Time.now.year,4,5,17,11,7),
       program: "smtpd",
       queue_id: nil,
-    }}
+    })}
   end
 
   describe "#status" do
     it "should see a dsn of 2.0.0 as delivered" do
-      PostfixLogLine.new(dsn: "2.0.0").status.should == "delivered"
+      expect(PostfixLogLine.new(dsn: "2.0.0").status).to eq "delivered"
     end
 
     it "should see a dsn of 5.1.1 as not delivered" do
-      PostfixLogLine.new(dsn: "5.1.1").status.should == "hard_bounce"
+      expect(PostfixLogLine.new(dsn: "5.1.1").status).to eq "hard_bounce"
     end
 
     it "should see a dsn of 4.4.1 as not delivered" do
-      PostfixLogLine.new(dsn: "4.4.1").status.should == "soft_bounce"
+      expect(PostfixLogLine.new(dsn: "4.4.1").status).to eq "soft_bounce"
     end
 
     # See https://github.com/mlandauer/cuttlefish/issues/49
     # 5.2.2 is mailbox full. It's a "permanent" failure that should be viewed
     # as a temporary one
     it "should see a dsn of 5.2.2 as a soft bounce" do
-      PostfixLogLine.new(dsn: "5.2.2").status.should == "soft_bounce"
+      expect(PostfixLogLine.new(dsn: "5.2.2").status).to eq "soft_bounce"
     end
   end
 end

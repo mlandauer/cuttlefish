@@ -14,7 +14,7 @@ describe Admins::SessionsController, type: :controller do
 
       it "should redirect to https" do
         get :new
-        response.should redirect_to(action: :new, protocol: "https")
+        expect(response).to redirect_to(action: :new, protocol: "https")
       end
     end
   end
@@ -27,7 +27,7 @@ describe Admins::SessionsController, type: :controller do
     context "This is a fresh install of Cuttlefish and there are no admins registered" do
       it "should redirect to the registration page" do
         get :new
-        response.should redirect_to new_admin_registration_url
+        expect(response).to redirect_to new_admin_registration_url
       end
     end
 
@@ -39,7 +39,7 @@ describe Admins::SessionsController, type: :controller do
 
       it "should not redirect https" do
         get :new
-        response.should be_success
+        expect(response).to be_success
       end
     end
   end

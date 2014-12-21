@@ -15,11 +15,11 @@ describe Filters::MailerHeader do
       before(:each) { filter.version = "1.2"}
 
       it "should add an X-Mailer header" do
-        filter.filter_mail(mail).header["X-Mailer"].to_s.should == "Cuttlefish 1.2"
+        expect(filter.filter_mail(mail).header["X-Mailer"].to_s).to eq "Cuttlefish 1.2"
       end
 
       it "shouldn't alter anything else" do
-        filter.filter_mail(mail).text_part.decoded.should == 'An email with some text and headers'
+        expect(filter.filter_mail(mail).text_part.decoded).to eq 'An email with some text and headers'
       end
     end
   end

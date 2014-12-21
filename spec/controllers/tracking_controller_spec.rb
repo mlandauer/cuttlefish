@@ -18,11 +18,11 @@ describe TrackingController, type: :controller do
 
     it "should register the open event" do
       get :open, delivery_id: 101, hash: "59620c1214fb2a2404187bd7447c4972b3f11d78"
-      Delivery.find(101).open_events.count.should == 1
+      expect(Delivery.find(101).open_events.count).to eq 1
     end
 
     context "read only mode" do
-      before(:each) {Rails.configuration.stub(cuttlefish_read_only_mode: true)}
+      before(:each) { allow(Rails.configuration).to receive(:cuttlefish_read_only_mode).and_return(true)}
 
       it "should be succesful when the correct hash is used" do
         # Note that this request is being made via http (not https)
@@ -32,7 +32,7 @@ describe TrackingController, type: :controller do
 
       it "should not register the open event" do
         get :open, delivery_id: 101, hash: "59620c1214fb2a2404187bd7447c4972b3f11d78"
-        Delivery.find(101).open_events.count.should == 0
+        expect(Delivery.find(101).open_events.count).to eq 0
       end
     end
   end
@@ -40,7 +40,7 @@ describe TrackingController, type: :controller do
   describe "#click" do
     before :each do
       @delivery_link = FactoryGirl.create(:delivery_link, id: 204)
-      DeliveryLink.any_instance.stub(url: "http://foo.com")
+      allow_any_instance_of(DeliveryLink).to receive(:url).and_return("http://foo.com")
     end
 
     context "When the correct hash and id are used" do
@@ -51,10 +51,10 @@ describe TrackingController, type: :controller do
         end
 
         it "should log the event" do
-          HashId.stub(valid?: true)
+          allow(HashId).to receive(:valid?).and_return(true)
           delivery_link = mock_model(DeliveryLink, url: "http://foo.com")
-          DeliveryLink.should_receive(:find_by_id).with("204").and_return(delivery_link)
-          delivery_link.should_receive(:add_click_event)
+          expect(DeliveryLink).to receive(:find_by_id).with("204").and_return(delivery_link)
+          expect(delivery_link).to receive(:add_click_event)
           get :click, delivery_link_id: 204, hash: HashId.hash(204)
         end
       end
@@ -68,7 +68,7 @@ describe TrackingController, type: :controller do
     end
 
     context "read only mode" do
-      before(:each) { Rails.configuration.stub(cuttlefish_read_only_mode: true)}
+      before(:each) { allow(Rails.configuration).to receive(:cuttlefish_read_only_mode).and_return(true)}
 
       it "should redirect" do
         get :click, delivery_link_id: 204, hash: HashId.hash(204)
@@ -77,7 +77,7 @@ describe TrackingController, type: :controller do
 
       it "should not log the event" do
         get :click, delivery_link_id: 204, hash: HashId.hash(204)
-        DeliveryLink.find(204).click_events.count.should == 0
+        expect(DeliveryLink.find(204).click_events.count).to eq 0
       end
     end
 
