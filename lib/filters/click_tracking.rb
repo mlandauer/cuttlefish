@@ -3,13 +3,7 @@ class Filters::ClickTracking < Filters::Tracking
 
   attr_accessor :delivery_id, :enabled
 
-  def initialize(delivery)
-    options = {
-      delivery_id: delivery.id,
-      enabled: delivery.click_tracking_enabled?,
-      tracking_domain: delivery.tracking_domain,
-      using_custom_tracking_domain: delivery.custom_tracking_domain?
-    }
+  def initialize(options)
     @delivery_id = options[:delivery_id]
     @enabled = options[:enabled]
     super(options)
