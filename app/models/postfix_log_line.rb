@@ -39,7 +39,9 @@ class PostfixLogLine < ActiveRecord::Base
     queue_id = values.delete(:queue_id)
 
     # Only log delivery attempts
-    if program == "smtp"
+    # Note that timeouts in connecting to the remote mail server appear in the program "error". So,
+    # we're including those
+    if program == "smtp" || program == "error"
       delivery = Delivery.joins(:email, :address).order("emails.created_at DESC").find_by("addresses.text" => to, postfix_queue_id: queue_id)
 
       if delivery

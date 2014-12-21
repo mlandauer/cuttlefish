@@ -109,6 +109,14 @@ describe PostfixLogLine do
       delivery.postfix_log_lines.count.should == 1
     end
 
+    it "should recognise timeouts" do
+      address = FactoryGirl.create(:address, text: "foobar@optusnet.com.au")
+      delivery = FactoryGirl.create(:delivery, postfix_queue_id: "773A9CBBC", address: address)
+      line = "Dec 21 07:41:10 localhost postfix/error[29539]: 773A9CBBC: to=<foobar@optusnet.com.au>, relay=none, delay=334, delays=304/31/0/0, dsn=4.4.1, status=deferred (delivery temporarily suspended: connect to extmail.optusnet.com.au[211.29.133.14]:25: Connection timed out)"
+      PostfixLogLine.create_from_line(line)
+      PostfixLogLine.count.should == 1
+    end
+
     it "should not produce any log lines if the queue id is not recognised" do
       PostfixLogLine.should_receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
       PostfixLogLine.create_from_line(line1)
