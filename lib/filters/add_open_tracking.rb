@@ -6,11 +6,17 @@ class Filters::AddOpenTracking < Filters::Tracking
   attr_accessor :delivery_id, :enabled
 
   def initialize(delivery)
-    @delivery = delivery
-    @delivery_id = delivery.id
-    @enabled = delivery.open_tracking_enabled?
-    super(tracking_domain: delivery.tracking_domain,
-      using_custom_tracking_domain: delivery.custom_tracking_domain?)
+    options = {
+      delivery: delivery,
+      delivery_id: delivery.id,
+      enabled: delivery.open_tracking_enabled?,
+      tracking_domain: delivery.tracking_domain,
+      using_custom_tracking_domain: delivery.custom_tracking_domain?
+    }
+    @delivery = options[:delivery]
+    @delivery_id = options[:delivery_id]
+    @enabled = options[:enabled]
+    super(options)
   end
 
   def filter_html(input)
