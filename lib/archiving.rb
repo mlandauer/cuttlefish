@@ -51,7 +51,7 @@ class Archiving
 
   def self.deserialise(text)
     data = JSON.parse(text, symbolize_names: true)
-    puts "Reloading delivery #{data[:id]}..."
+    #puts "Reloading delivery #{data[:id]}..."
     # Create app if necessary
     App.create(data[:app]) if App.find(data[:app][:id]).nil?
 
