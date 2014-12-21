@@ -11,7 +11,15 @@ describe Filters::AddOpenTracking do
     delivery.save!
     delivery
   end
-  let(:filter) { Filters::AddOpenTracking.new(delivery) }
+  let(:filter) {
+    Filters::AddOpenTracking.new(
+      delivery: delivery,
+      delivery_id: delivery.id,
+      enabled: delivery.open_tracking_enabled?,
+      tracking_domain: delivery.tracking_domain,
+      using_custom_tracking_domain: delivery.custom_tracking_domain?
+    )
+  }
 
   describe "#url" do
     before :each do

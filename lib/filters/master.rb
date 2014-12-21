@@ -4,7 +4,13 @@ class Filters::Master < Filters::Base
   end
 
   def filter_mail(mail)
-    filter1 = Filters::AddOpenTracking.new(delivery)
+    filter1 = Filters::AddOpenTracking.new(
+      delivery: delivery,
+      delivery_id: delivery.id,
+      enabled: delivery.open_tracking_enabled?,
+      tracking_domain: delivery.tracking_domain,
+      using_custom_tracking_domain: delivery.custom_tracking_domain?
+    )
     filter2 = Filters::ClickTracking.new(
       delivery_id: delivery.id,
       enabled: delivery.click_tracking_enabled?,
