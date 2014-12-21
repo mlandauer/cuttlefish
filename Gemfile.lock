@@ -342,6 +342,8 @@ GEM
     will_paginate (3.0.7)
     xpath (2.0.0)
       nokogiri (~> 1.3)
+    zeus (0.15.3)
+      method_source (>= 0.6.7)
 
 PLATFORMS
   ruby
@@ -406,3 +408,4 @@ DEPENDENCIES
   thin
   uglifier (>= 1.3.0)
   will_paginate
+  zeus
