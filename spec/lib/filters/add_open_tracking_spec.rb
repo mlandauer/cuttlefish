@@ -2,31 +2,18 @@
 require "spec_helper"
 
 describe Filters::AddOpenTracking do
-  let(:team) { Team.create! }
-  let(:app) { App.create!(name: "foo", team: team) }
-  let(:email) { Email.create!(app: app) }
-  let(:delivery) do
-    delivery = Delivery.new(id: 673, email: email, app: app)
-    delivery.stub(update_status!: nil)
-    delivery.save!
-    delivery
-  end
+  let(:delivery) { double(Delivery, :set_open_tracked! => true) }
   let(:filter) {
     Filters::AddOpenTracking.new(
       delivery: delivery,
-      delivery_id: delivery.id,
-      enabled: delivery.open_tracking_enabled?,
-      tracking_domain: delivery.tracking_domain,
-      using_custom_tracking_domain: delivery.custom_tracking_domain?
+      delivery_id: 673,
+      enabled: true,
+      tracking_domain: "localhost",
+      using_custom_tracking_domain: false
     )
   }
 
   describe "#url" do
-    before :each do
-      # Doing this so we don't need to set any email content (with an html part)
-      delivery.set_open_tracked!
-    end
-
     it "should normally be an https url to the default domain" do
       filter.url.should == "https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif"
     end
@@ -34,17 +21,13 @@ describe Filters::AddOpenTracking do
     it "should use a custom domain if it is set (and also not use ssl)" do
       # This is not nice. Far too much knowledge of other classes
       # TODO Refactor
-      app.update_attributes(custom_tracking_domain: "email.planningalerts.org.au")
+      filter.tracking_domain = "email.planningalerts.org.au"
+      filter.using_custom_tracking_domain = true
       filter.url.should == "http://email.planningalerts.org.au/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif"
     end
   end
 
   describe "#data" do
-    let(:email) { mock_model(Email, custom_tracking_domain: nil, open_tracking_enabled?: true) }
-    before :each do
-      delivery.stub(data: mail.encoded, email: email, app: app)
-    end
-
     context "An html email with no text part" do
       let(:mail) do
         Mail.new do
@@ -56,23 +39,23 @@ describe Filters::AddOpenTracking do
       end
 
       it "should insert an image at the bottom of the html" do
-        filter.filter_mail(Mail.new(delivery.data)).parts.first.decoded.should ==
+        filter.filter_mail(mail).parts.first.decoded.should ==
           '<h1>This is HTML with “some” UTF-8</h1><img src="https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif" />'
       end
 
       it "should record that it has been open tracked" do
-        filter.filter_mail(Mail.new(delivery.data))
-        delivery.should be_open_tracked
+        delivery.should_receive(:set_open_tracked!)
+        filter.filter_mail(mail)
       end
 
       context "app has disabled open tracking" do
         before :each do
-          delivery.stub(open_tracking_enabled?: false)
+          filter.enabled = false
         end
 
         it "should record that it has not been open tracked" do
-          filter.filter_mail(Mail.new(delivery.data))
-          delivery.should_not be_open_tracked
+          delivery.should_not_receive(:set_open_tracked!)
+          filter.filter_mail(mail)
         end
       end
     end
@@ -87,12 +70,12 @@ describe Filters::AddOpenTracking do
       end
 
       it "should do nothing to the content of the email" do
-        filter.filter_mail(Mail.new(delivery.data)).to_s.should == mail.encoded
+        filter.filter_mail(mail).to_s.should == mail.encoded
       end
 
       it "should record that it has not been open tracked" do
-        filter.filter_mail(Mail.new(delivery.data))
-        delivery.open_tracked?.should_not be_truthy
+        delivery.should_not_receive(:set_open_tracked!)
+        filter.filter_mail(mail)
       end
     end
 
@@ -104,12 +87,12 @@ describe Filters::AddOpenTracking do
       end
 
       it "should do nothing to the content of the email" do
-        filter.filter_mail(Mail.new(delivery.data)).to_s.should == mail.encoded
+        filter.filter_mail(mail).to_s.should == mail.encoded
       end
 
       it "should record that it has not been open tracked" do
-        filter.filter_mail(Mail.new(delivery.data))
-        delivery.open_tracked?.should_not be_truthy
+        delivery.should_not_receive(:set_open_tracked!)
+        filter.filter_mail(mail)
       end
     end
 
@@ -133,7 +116,7 @@ Content-Transfer-Encoding: 7bit
       end
 
       it "should add an image" do
-        filter.filter_mail(Mail.new(delivery.data)).body.should == "<p>Hello This an html email</p>\n<img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
+        filter.filter_mail(mail).body.should == "<p>Hello This an html email</p>\n<img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
       end
     end
 
@@ -151,16 +134,16 @@ Content-Transfer-Encoding: 7bit
         end
 
         it "should do nothing to the text part of the email" do
-          filter.filter_mail(Mail.new(delivery.data)).text_part.decoded.should == "Some plain text"
+          filter.filter_mail(mail).text_part.decoded.should == "Some plain text"
         end
 
         it "should append an image to the html part of the email" do
-          filter.filter_mail(Mail.new(delivery.data)).html_part.decoded.should == "<table>I like css</table><img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
+          filter.filter_mail(mail).html_part.decoded.should == "<table>I like css</table><img src=\"https://localhost/o/673/7160aac874571221e97d4bad21a63b2a12f907d8.gif\" />"
         end
 
         it "should record that it has been open tracked" do
-          filter.filter_mail(Mail.new(delivery.data))
-          delivery.open_tracked?.should be_truthy
+          delivery.should_receive(:set_open_tracked!)
+          filter.filter_mail(mail)
         end
     end
   end
