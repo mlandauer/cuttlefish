@@ -10,7 +10,7 @@
   - @teams.each do |team|
     %li
       = pluralize(team.admins.size, "administrator")
-      (#{team.admins.map{|a| a.display_name}.to_sentence})
+      (#{team.admins.map{|a| mail_to h(a.email), h(a.display_name)}.to_sentence.html_safe})
 
 - if policy(:team).invite?
   %h2 Invite a new team
