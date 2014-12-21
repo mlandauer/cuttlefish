@@ -32,11 +32,11 @@ describe Address do
 
     describe "#emails" do
       it "should be able to find all the emails that involved this email address" do
-        expect(address1.emails).to match [@email1, @email2]
+        expect(address1.emails).to match_array [@email1, @email2]
       end
 
       it "should be able to find all the emails that involved this email address" do
-        expect(address2.emails).to match [@email2, @email3]
+        expect(address2.emails).to match_array [@email2, @email3]
       end
     end
 
