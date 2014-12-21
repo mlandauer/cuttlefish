@@ -1,6 +1,9 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
+notification :growl_notify
+notification :gntp
+
 guard 'livereload' do
   watch(%r{app/views/.+\.(erb|haml|slim)$})
   watch(%r{app/helpers/.+\.rb})

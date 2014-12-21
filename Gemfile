@@ -97,6 +97,7 @@ group :development do
   gem 'rack-mini-profiler'
   gem "spring"
   gem "spring-commands-rspec"
+  gem "ruby_gntp"
 end
 
 group :test do
