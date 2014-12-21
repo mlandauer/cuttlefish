@@ -1,4 +1,10 @@
 class Filters::Master < Filters::Base
+  attr_reader :delivery
+
+  def initialize(delivery)
+    @delivery = delivery
+  end
+
   def filter(content)
     filter_mail(Mail.new(content)).to_s
   end

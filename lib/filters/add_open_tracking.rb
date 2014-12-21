@@ -3,7 +3,7 @@ class Filters::AddOpenTracking < Filters::Tracking
   include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
-  attr_accessor :delivery_id, :enabled
+  attr_accessor :delivery, :delivery_id, :enabled
 
   def initialize(options)
     @delivery = options[:delivery]

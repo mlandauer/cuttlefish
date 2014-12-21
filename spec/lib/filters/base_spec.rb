@@ -6,8 +6,7 @@ describe Filters::Base do
       body "Some content"
     end
   }
-  let(:delivery) { double }
-  let(:filter) { Filters::Base.new(delivery) }
+  let(:filter) { Filters::Base.new }
 
   describe "#filter" do
     it { filter.filter_mail(mail).should == mail}
