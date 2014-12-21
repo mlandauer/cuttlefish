@@ -11,6 +11,9 @@
     %li
       = pluralize(team.admins.size, "administrator")
       (#{team.admins.map{|a| mail_to h(a.email), h(a.display_name)}.to_sentence.html_safe})
+      %ul
+        - team.apps.each do |app|
+          %li= link_to app.name, app
 
 - if policy(:team).invite?
   %h2 Invite a new team
