@@ -6,7 +6,8 @@ class Filters::ClickTracking < Filters::Tracking
   def initialize(delivery)
     @delivery_id = delivery.id
     @enabled = delivery.click_tracking_enabled?
-    super(delivery)
+    super(tracking_domain: delivery.tracking_domain,
+      using_custom_tracking_domain: delivery.custom_tracking_domain?)
   end
 
   def rewrite_url(url)
