@@ -6,7 +6,7 @@ describe Filters::AddOpenTracking do
   let(:app) { App.create!(name: "foo", team: team) }
   let(:email) { Email.create!(app: app) }
   let(:delivery) do
-    delivery = Delivery.new(id: 673, email: email)
+    delivery = Delivery.new(id: 673, email: email, app: app)
     delivery.stub(update_status!: nil)
     delivery.save!
     delivery
@@ -34,7 +34,7 @@ describe Filters::AddOpenTracking do
   describe "#data" do
     let(:email) { mock_model(Email, custom_tracking_domain: nil, open_tracking_enabled?: true) }
     before :each do
-      delivery.stub(data: mail.encoded, email: email)
+      delivery.stub(data: mail.encoded, email: email, app: app)
     end
 
     context "An html email with no text part" do

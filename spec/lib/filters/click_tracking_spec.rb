@@ -3,6 +3,7 @@ require "spec_helper"
 
 describe Filters::ClickTracking do
   let(:email) { Email.create! }
+  let(:app) { App.create }
   let(:delivery) do
     delivery = Delivery.new(id: 673, email: email)
     delivery.stub(update_status!: nil)
@@ -36,7 +37,7 @@ describe Filters::ClickTracking do
 
   describe ".rewrite_url" do
     before :each do
-      delivery.stub(email: email)
+      delivery.stub(email: email, app: app)
     end
     it "should rewrite the first link" do
       Link.should_receive(:find_or_create_by).with(url: "http://foo.com?a=2").and_return(mock_model(Link, id: 10))

@@ -63,6 +63,19 @@ class App < ActiveRecord::Base
     dkim_dns_entry == dkim_public_key_dns_lookup
   end
 
+  def tracking_domain
+    if custom_tracking_domain?
+      custom_tracking_domain
+    else
+      Rails.configuration.cuttlefish_domain
+    end
+  end
+
+  # Are we using a custom tracking domain?
+  def custom_tracking_domain?
+    custom_tracking_domain.present?
+  end
+
   private
 
   # If a DNS TXT record is longer than 255 characters it needs to be split into several
