@@ -95,7 +95,7 @@ group :development do
   gem "rack-livereload"
   gem "guard-rspec"
   gem 'rack-mini-profiler'
-  gem "zeus"
+  gem "spring"
 end
 
 group :test do

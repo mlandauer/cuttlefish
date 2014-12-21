@@ -308,6 +308,7 @@ GEM
     skylight (0.5.1)
       activesupport (>= 3.0.0)
     slop (3.6.0)
+    spring (1.2.0)
     sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -342,8 +343,6 @@ GEM
     will_paginate (3.0.7)
     xpath (2.0.0)
       nokogiri (~> 1.3)
-    zeus (0.15.3)
-      method_source (>= 0.6.7)
 
 PLATFORMS
   ruby
@@ -403,9 +402,9 @@ DEPENDENCIES
   sass-rails
   selenium-webdriver
   skylight
+  spring
   syslog_protocol
   therubyracer
   thin
   uglifier (>= 1.3.0)
   will_paginate
-  zeus
