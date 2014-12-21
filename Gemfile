@@ -96,6 +96,7 @@ group :development do
   gem "guard-rspec"
   gem 'rack-mini-profiler'
   gem "spring"
+  gem "spring-commands-rspec"
 end
 
 group :test do
