@@ -3,9 +3,18 @@ class Filters::AddOpenTracking < Filters::Tracking
   include ActionView::Helpers::AssetTagHelper
   include Rails.application.routes.url_helpers
 
+  attr_accessor :delivery_id, :enabled
+
+  def initialize(delivery)
+    @delivery = delivery
+    @delivery_id = delivery.id
+    @enabled = delivery.open_tracking_enabled?
+  end
+
   def filter_html(input)
-    if delivery.open_tracking_enabled?
+    if enabled
       delivery.set_open_tracked!
+      # TODO Add image tag in a place to keep html valid (not just the end of the document)
       input + image_tag(url, alt: nil)
     else
       input
@@ -17,8 +26,8 @@ class Filters::AddOpenTracking < Filters::Tracking
     tracking_open_url(
       host: host,
       protocol: protocol,
-      delivery_id: delivery.id,
-      hash: HashId.hash(delivery.id),
+      delivery_id: delivery_id,
+      hash: HashId.hash(delivery_id),
       format: :gif
     )
   end
