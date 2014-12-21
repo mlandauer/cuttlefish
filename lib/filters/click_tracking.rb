@@ -4,9 +4,9 @@ class Filters::ClickTracking < Filters::Tracking
   attr_accessor :delivery_id, :enabled
 
   def initialize(delivery)
-    @delivery = delivery
     @delivery_id = delivery.id
     @enabled = delivery.click_tracking_enabled?
+    super(delivery)
   end
 
   def rewrite_url(url)

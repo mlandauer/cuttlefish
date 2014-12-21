@@ -6,9 +6,9 @@ class Filters::AddOpenTracking < Filters::Tracking
   attr_accessor :delivery_id, :enabled
 
   def initialize(delivery)
-    @delivery = delivery
     @delivery_id = delivery.id
     @enabled = delivery.open_tracking_enabled?
+    super(delivery)
   end
 
   def filter_html(input)
