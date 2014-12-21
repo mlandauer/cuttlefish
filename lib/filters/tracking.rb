@@ -10,6 +10,6 @@ class Filters::Tracking < Filters::Mail
 
   # Whether to use ssl for the open tracking image or rewritten link
   def protocol
-    !delivery.custom_tracking_domain? && !Rails.env.development? ? "https" : "http"
+    delivery.custom_tracking_domain? || Rails.env.development? ? "http" : "https"
   end
 end
