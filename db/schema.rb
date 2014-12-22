@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222053542) do
+ActiveRecord::Schema.define(version: 20141222054155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20141222053542) do
     t.string   "from_domain"
     t.boolean  "dkim_enabled",              default: false, null: false
     t.integer  "archived_deliveries_count", default: 0,     null: false
-    t.integer  "team_id",                                   null: false
+    t.integer  "team_id"
     t.boolean  "cuttlefish",                default: false, null: false
   end
 
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 20141222053542) do
 
   add_index "emails", ["app_id"], name: "index_emails_on_app_id", using: :btree
   add_index "emails", ["created_at"], name: "index_emails_on_created_at", using: :btree
+  add_index "emails", ["created_at"], name: "index_emails_on_created_at_and_status", using: :btree
   add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id", using: :btree
   add_index "emails", ["message_id"], name: "index_emails_on_message_id", using: :btree
 
