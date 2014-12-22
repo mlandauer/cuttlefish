@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141201051257) do
+ActiveRecord::Schema.define(version: 20141222053542) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "addresses", force: true do |t|
     t.string   "text"
@@ -68,6 +71,7 @@ ActiveRecord::Schema.define(version: 20141201051257) do
     t.boolean  "dkim_enabled",              default: false, null: false
     t.integer  "archived_deliveries_count", default: 0,     null: false
     t.integer  "team_id",                                   null: false
+    t.boolean  "cuttlefish",                default: false, null: false
   end
 
   add_index "apps", ["team_id"], name: "index_apps_on_team_id", using: :btree
@@ -94,9 +98,9 @@ ActiveRecord::Schema.define(version: 20141201051257) do
   add_index "click_events", ["delivery_link_id"], name: "index_click_events_on_delivery_link_id", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
-    t.integer  "priority",                    default: 0
-    t.integer  "attempts",                    default: 0
-    t.text     "handler",    limit: 16777215
+    t.integer  "priority",   default: 0
+    t.integer  "attempts",   default: 0
+    t.text     "handler"
     t.text     "last_error"
     t.datetime "run_at"
     t.datetime "locked_at"
@@ -152,7 +156,6 @@ ActiveRecord::Schema.define(version: 20141201051257) do
 
   add_index "emails", ["app_id"], name: "index_emails_on_app_id", using: :btree
   add_index "emails", ["created_at"], name: "index_emails_on_created_at", using: :btree
-  add_index "emails", ["created_at"], name: "index_emails_on_created_at_and_status", using: :btree
   add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id", using: :btree
   add_index "emails", ["message_id"], name: "index_emails_on_message_id", using: :btree
 
