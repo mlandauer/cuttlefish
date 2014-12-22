@@ -16,12 +16,6 @@ class App < ActiveRecord::Base
     end
   end
 
-  # Have there been any apps created?
-  # TODO Remove this method
-  def self.normal_apps?
-    !all.empty?
-  end
-
   def dkim_key
     OpenSSL::PKey::RSA.new(dkim_private_key)
   end

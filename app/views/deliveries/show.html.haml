@@ -10,11 +10,10 @@
     %span.label.label-success Clicked
 
 %table#email-headers
-  - if App.normal_apps?
-    %tr
-      %td.key
-        %strong App
-      %td= link_to @delivery.app_name, @delivery.app
+  %tr
+    %td.key
+      %strong App
+    %td= link_to @delivery.app_name, @delivery.app
   %tr
     %td.key
       %strong From

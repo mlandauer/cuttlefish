@@ -8,8 +8,7 @@
             = delivery.from
             %br
             = delivery.subject
-          - if App.normal_apps?
-            %td.app.hidden-phone= delivery.app.name
+          %td.app.hidden-phone= delivery.app.name
           %td.time-and-labels
             = link_to delivery, class: "rowlink" do
               = time_ago_in_words(delivery.created_at)
