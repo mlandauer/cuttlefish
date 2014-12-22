@@ -8,9 +8,11 @@ class DeliveriesController < ApplicationController
     if params[:app_id]
       @app = App.find(params[:app_id])
       authorize @app, :show?
+      @deliveries = @app.deliveries
+    else
+      @deliveries = policy_scope(Delivery)
     end
 
-    @deliveries = policy_scope(Delivery)
     @deliveries = @deliveries.where(status: @status) if @status
     @deliveries = @deliveries.joins(:email).where("emails.app_id" => @app.id) if @app
     @deliveries = @deliveries.joins(:address).where("addresses.text" => @search) if @search
