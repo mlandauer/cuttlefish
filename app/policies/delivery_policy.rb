@@ -1,4 +1,8 @@
 class DeliveryPolicy < ApplicationPolicy
+  def show?
+    user.super_admin? || super
+  end
+
   class Scope < Scope
     def resolve
       # Avoid using join here as it was a lot slower
