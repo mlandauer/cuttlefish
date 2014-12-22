@@ -19,6 +19,10 @@ class AppPolicy < ApplicationPolicy
     !Rails.configuration.cuttlefish_read_only_mode
   end
 
+  def show?
+    user.super_admin? || super
+  end
+
   class Scope < Scope
     def resolve
       scope.where(team_id: user.team_id)
