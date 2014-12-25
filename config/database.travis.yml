@@ -1,12 +1,4 @@
-mysql: &mysql
-  adapter: mysql2
-  username: root
-
-postgresql: &postgresql
-  adapter: postgresql
-  username: postgres
-
 test:
   database: cuttlefish_test
-  # Depending on the value of the environment variable DB test against different databases
-  <<: *<%= ENV["DB"] || "postgresql" %>
+  adapter: postgresql
+  username: postgres

@@ -1,10 +1,6 @@
 language: ruby
 rvm:
   - 2.1.5
-env:
-  # Test separately against mysql and postgres databases
-  - DB=mysql
-  - DB=postgresql
 
 before_script:
   - cp config/database.travis.yml config/database.yml

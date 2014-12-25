@@ -202,7 +202,6 @@ GEM
     mini_portile (0.6.1)
     minitest (5.5.0)
     multi_json (1.10.1)
-    mysql2 (0.3.17)
     nenv (0.1.1)
     net-dns (0.8.0)
     net-scp (1.1.1)
@@ -385,7 +384,6 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   less-rails
-  mysql2
   net-dns
   newrelic_rpm
   nokogiri
