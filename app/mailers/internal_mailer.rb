@@ -1,13 +1,13 @@
 class InternalMailer < Devise::Mailer
-  # Send mail directly to postfix - don't bother sending it through Cuttlefish first.
-  # That way we don't need a special app and all the associate nonsense
   default delivery_method_options: {
-    address: Rails.configuration.postfix_smtp_host,
-    port: Rails.configuration.postfix_smtp_port,
-    # Disabling TLS so that it doesn't bother encrypting this connection
-    # and also won't fail because the servername doesn't match the certificate
-    # TODO This should all be configurable and not like this quick little hack. Eek!
-    enable_starttls_auto: false
+    address: Rails.configuration.cuttlefish_domain,
+    port: Rails.configuration.cuttlefish_smtp_port,
+    user_name: App.cuttlefish.smtp_username,
+    password: App.cuttlefish.smtp_password,
+    # So that we don't get a certificate name and host mismatch we're just
+    # disabling the check.
+    openssl_verify_mode: "none",
+    authentication: :plain
   }
 
   def invitation_instructions(record, token, opts={})

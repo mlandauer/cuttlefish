@@ -55,11 +55,10 @@ describe App do
   end
 
   describe ".cuttlefish" do
-    before(:each) { allow(Rails.configuration).to receive(:cuttlefish_domain).and_return("cuttlefish.io")}
     let(:app) { App.cuttlefish }
 
     it { expect(app.name).to eq "Cuttlefish" }
-    it { expect(app.from_domain).to eq "cuttlefish.io" }
+    it { expect(app.from_domain).to eq "localhost" }
     it { expect(app.team).to be_nil }
 
     it "should return the same instance when request twice" do

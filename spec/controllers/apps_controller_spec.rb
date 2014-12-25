@@ -13,7 +13,7 @@ describe AppsController, type: :controller do
 
       it "should create an app that is part of the current user's team" do
         post :create, app: {name: "My New App"}
-        app = App.first
+        app = App.where(cuttlefish: false).first
         expect(app.name).to eq "My New App"
         expect(app.team).to eq team
         expect(response).to redirect_to app

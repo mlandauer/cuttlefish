@@ -24,8 +24,13 @@ describe InternalMailer do
     it do
       expect(email.delivery_method.settings).to eq ({
         address: "localhost",
-        port: 1025,
-        enable_starttls_auto: false
+        port: 2525,
+        user_name: App.cuttlefish.smtp_username,
+        password: App.cuttlefish.smtp_password,
+        # So that we don't get a certificate name and host mismatch we're just
+        # disabling the check.
+        openssl_verify_mode: "none",
+        authentication: :plain
       })
     end
   end
