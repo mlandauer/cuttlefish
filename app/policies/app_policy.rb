@@ -8,11 +8,11 @@ class AppPolicy < ApplicationPolicy
   end
 
   def dkim?
-    update?
+    (user.super_admin? && record.cuttlefish? && !Rails.configuration.cuttlefish_read_only_mode) || update?
   end
 
   def toggle_dkim?
-    update?
+    dkim?
   end
 
   def create?
