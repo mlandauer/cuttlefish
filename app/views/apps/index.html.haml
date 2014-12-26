@@ -16,11 +16,6 @@
       %th
         Name
   %tbody
-    - if current_admin.super_admin?
-      %tr
-        %td= link_to App.cuttlefish.name, App.cuttlefish
-        %td
-
     - @apps.each do |app|
       %tr
         %td= link_to app.name, app
