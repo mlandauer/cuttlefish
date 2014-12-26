@@ -14,16 +14,43 @@ describe Filters::Dkim do
       enabled: false,
       domain: "foo.com",
       key: OpenSSL::PKey::RSA.new(2048),
+      cuttlefish_enabled: false,
+      cuttlefish_domain: "cuttlefish.oaf.org.au",
+      cuttlefish_key: OpenSSL::PKey::RSA.new(2048),
       sender_email: "sender@cuttlefish.oaf.org.au"
     )
   }
 
   describe "#data" do
     context "dkim is disabled" do
-      it { expect(filter.filter_mail(mail).header["DKIM-Signature"]).to be_nil }
-      it {
-        expect(filter.filter_mail(mail).sender).to eq "sender@cuttlefish.oaf.org.au"
-      }
+      context "cuttlefish dkim is disabled" do
+        it { expect(filter.filter_mail(mail).header["DKIM-Signature"]).to be_nil }
+        it {
+          expect(filter.filter_mail(mail).sender).to eq "sender@cuttlefish.oaf.org.au"
+        }
+      end
+
+      context "cuttlefish dkim is enabled" do
+        before(:each) { filter.cuttlefish_enabled = true }
+
+        # This should in practise always be the case (because the domain of the sender email
+        # should be the same as the cuttlefish domain)
+        context "sender email is in cuttlefish domain" do
+          it { expect(filter.filter_mail(mail).header["DKIM-Signature"]).to_not be_nil }
+          it {
+            expect(filter.filter_mail(mail).sender).to eq "sender@cuttlefish.oaf.org.au"
+          }
+        end
+
+        # Note that this shouldn't happen in practise (see above)
+        context "sender email is not in the cuttlefish domain" do
+          before(:each) {filter.cuttlefish_domain = "oaf.org.au"}
+          it { expect(filter.filter_mail(mail).header["DKIM-Signature"]).to be_nil }
+          it {
+            expect(filter.filter_mail(mail).sender).to eq "sender@cuttlefish.oaf.org.au"
+          }
+        end
+      end
     end
 
     context "dkim is enabled" do
