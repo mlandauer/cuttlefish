@@ -32,6 +32,8 @@ class Address < ActiveRecord::Base
   end
 
   def blacklisted?(team)
-    black_lists.where(team_id: team.id).exists?
+    # If there is no team there is no blacklist
+    # In concrete terms the internal cuttlefish app doesn't have a blacklist and isn't part of a team
+    team && black_lists.where(team_id: team.id).exists?
   end
 end
