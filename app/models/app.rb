@@ -10,13 +10,21 @@ class App < ActiveRecord::Base
   after_create :set_smtp_username
 
   def self.cuttlefish
-    App.find_by(cuttlefish: true) || App.create(cuttlefish: true, name: "Cuttlefish", from_domain: Rails.configuration.cuttlefish_domain)
+    App.find_by(cuttlefish: true) || App.create(cuttlefish: true, name: "Cuttlefish")
   end
 
   def new_password!
     unless smtp_password_locked?
       set_smtp_password
       save!
+    end
+  end
+
+  def from_domain
+    if cuttlefish?
+      Rails.configuration.cuttlefish_domain
+    else
+      read_attribute(:from_domain)
     end
   end
 
