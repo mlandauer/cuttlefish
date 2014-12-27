@@ -13,15 +13,16 @@ class Filters::Dkim < Filters::Base
   end
 
   def filter_mail(mail)
-    if enabled && in_correct_domain?(mail, domain)
-      Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: key, domain: domain))
-    else
+    unless in_correct_domain?(mail, domain) && enabled
       mail.sender = sender_email
-      if cuttlefish_enabled && in_correct_domain?(mail, cuttlefish_domain)
-        Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: cuttlefish_key, domain: cuttlefish_domain))
-      else
-        mail
-      end
+    end
+
+    if in_correct_domain?(mail, domain) && enabled
+      Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: key, domain: domain))
+    elsif in_correct_domain?(mail, cuttlefish_domain) && cuttlefish_enabled
+      Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: cuttlefish_key, domain: cuttlefish_domain))
+    else
+      mail
     end
   end
 
