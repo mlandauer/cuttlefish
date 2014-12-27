@@ -3,6 +3,20 @@
     Emails sent to
     = @address.text
 
+- if @address.blacklisted?(current_admin.team)
+  %h2
+    = @address.text
+    is on the blacklist
+  %p
+    - unless @address.blacklist(current_admin.team).caused_by_delivery.subject.blank?
+      Reason:
+      = link_to truncate(@address.blacklist(current_admin.team).caused_by_delivery.postfix_log_lines.first.extended_status, length: 160), @address.blacklist(current_admin.team).caused_by_delivery
+      = time_ago_in_words(@address.blacklist(current_admin.team).caused_by_delivery.postfix_log_lines.first.created_at)
+      ago
+
+  - if policy(@address.blacklist(current_admin.team)).destroy?
+    = button_to "Remove from blacklist", @address.blacklist(current_admin.team), method: :delete, class: "btn btn-danger"
+
 .row
   .span3
     %p

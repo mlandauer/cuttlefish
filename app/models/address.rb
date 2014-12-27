@@ -31,9 +31,13 @@ class Address < ActiveRecord::Base
     most_recent_log_line ? most_recent_log_line.status : "sent"
   end
 
-  def blacklisted?(team)
+  def blacklist(team)
     # If there is no team there is no blacklist
     # In concrete terms the internal cuttlefish app doesn't have a blacklist and isn't part of a team
-    team && black_lists.where(team_id: team.id).exists?
+    team && black_lists.find_by(team_id: team.id)
+  end
+
+  def blacklisted?(team)
+    !blacklist(team).nil?
   end
 end

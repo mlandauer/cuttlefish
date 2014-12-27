@@ -10,6 +10,6 @@ class BlackListsController < ApplicationController
     black_list = BlackList.find(params[:id])
     authorize black_list
     black_list.destroy
-    redirect_to black_lists_path
+    redirect_to :back
   end
 end
