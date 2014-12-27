@@ -29,6 +29,9 @@ class Filters::Master < Filters::Base
       enabled: delivery.app.dkim_enabled,
       domain: delivery.app.from_domain,
       key: delivery.app.dkim_key,
+      cuttlefish_enabled: App.cuttlefish.dkim_enabled,
+      cuttlefish_domain: App.cuttlefish.from_domain,
+      cuttlefish_key: App.cuttlefish.dkim_key,
       sender_email: Rails.configuration.cuttlefish_sender_email
     )
 
