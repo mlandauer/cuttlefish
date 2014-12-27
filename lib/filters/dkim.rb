@@ -17,14 +17,17 @@ class Filters::Dkim < Filters::Base
       mail.sender = sender_email
     end
 
-    if in_correct_domain?(mail, domain) && enabled
-      mail = Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: key, domain: domain))
-    end
-    if in_correct_domain?(mail, cuttlefish_domain) && cuttlefish_enabled
-      mail = Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: cuttlefish_key, domain: cuttlefish_domain))
-    end
+    mail = sign(mail, enabled, domain, key)
+    sign(mail, cuttlefish_enabled, cuttlefish_domain, cuttlefish_key)
+  end
 
-    mail
+  # DKIM sign the email if it's coming from the correct domain
+  def sign(mail, enabled, domain, key)
+    if in_correct_domain?(mail, domain) && enabled
+      Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: key, domain: domain))
+    else
+      mail
+    end
   end
 
   def in_correct_domain?(mail, domain)
