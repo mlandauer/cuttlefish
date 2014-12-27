@@ -1,7 +1,7 @@
 class InternalMailer < Devise::Mailer
   # Hacky way to not try to create cuttlefish app if apps table doesn't yet exist.
   # This can happen when you're doing a "rake db:setup"
-  if ActiveRecord::Base.connection.column_exists?(:apps, :cuttlefish)
+  if ActiveRecord::Base.connection.table_exists?(:apps) && ActiveRecord::Base.connection.column_exists?(:apps, :cuttlefish)
     default delivery_method_options: {
       address: Rails.configuration.cuttlefish_domain,
       port: Rails.configuration.cuttlefish_smtp_port,
