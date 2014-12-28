@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222054155) do
+ActiveRecord::Schema.define(version: 20141228101710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 20141222054155) do
   create_table "apps", force: true do |t|
     t.string   "smtp_username"
     t.string   "name"
-    t.string   "url"
     t.string   "smtp_password"
     t.string   "custom_tracking_domain"
     t.datetime "created_at"
@@ -156,7 +155,6 @@ ActiveRecord::Schema.define(version: 20141222054155) do
 
   add_index "emails", ["app_id"], name: "index_emails_on_app_id", using: :btree
   add_index "emails", ["created_at"], name: "index_emails_on_created_at", using: :btree
-  add_index "emails", ["created_at"], name: "index_emails_on_created_at_and_status", using: :btree
   add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id", using: :btree
   add_index "emails", ["message_id"], name: "index_emails_on_message_id", using: :btree
 
