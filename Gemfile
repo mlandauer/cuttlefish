@@ -27,8 +27,6 @@ gem 'jquery-rails'
 
 gem 'jbuilder'
 
-# Keep a watch on this pull request: https://github.com/eventmachine/eventmachine/pull/552
-# If it's merged we should be able to remove a little code in lib/cuttlefish_smtp_server.rb
 gem "eventmachine"
 gem 'delayed_job_active_record'
 gem 'foreman'

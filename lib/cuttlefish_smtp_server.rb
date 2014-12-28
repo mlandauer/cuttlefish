@@ -148,22 +148,4 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
   def current
     @current ||= OpenStruct.new
   end
-
-  # Overriding implementation in parent class
-  # TODO Add this feature to supply certificate as PR in main project (it's listed as a TODO)
-  def process_starttls
-    if @@parms[:starttls]
-      if @state.include?(:starttls)
-        send_data "503 TLS Already negotiated\r\n"
-      elsif ! @state.include?(:ehlo)
-        send_data "503 EHLO required before STARTTLS\r\n"
-      else
-        send_data "220 Start TLS negotiation\r\n"
-        start_tls(@@parms[:starttls_options] || {})
-        @state << :starttls
-      end
-    else
-      process_unknown
-    end
-  end
 end
