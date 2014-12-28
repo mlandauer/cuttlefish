@@ -8,7 +8,7 @@ server {
 }
 
 server {
-  listen 443;
+  listen 443 ssl spdy;
   server_name cuttlefish.oaf.org.au;
   root /srv/www/current/public;
   passenger_enabled on;
