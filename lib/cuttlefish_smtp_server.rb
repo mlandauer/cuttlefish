@@ -122,11 +122,6 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     end
   end
 
-  def receive_ehlo_domain(domain)
-    @ehlo_domain = domain
-    true
-  end
-
   def receive_data_command
     current.data = ""
     true
@@ -134,14 +129,6 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
   def receive_data_chunk(data)
     current.data << data.join("\n")
-    true
-  end
-
-  def receive_transaction
-    if @ehlo_domain
-      current.ehlo_domain = @ehlo_domain
-      @ehlo_domain = nil
-    end
     true
   end
 
