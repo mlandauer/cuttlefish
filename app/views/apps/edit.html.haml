@@ -2,3 +2,12 @@
   %h1 Edit App
 
 = render "form"
+
+- if policy(@app).destroy?
+  %hr
+  %h3 Remove this App
+
+  %p
+    Here lies danger. Removing the app from Cuttlefish will permanently delete the app, the associated emails and can not be undone!
+  %p
+    = button_to "Remove App", @app, confirm: "Are you sure?", method: :delete, class: "btn btn-danger"
