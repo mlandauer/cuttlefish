@@ -28,7 +28,7 @@ class CuttlefishSmtpServer
       }
       # Don't use our own SSL certificate in development
       unless Rails.env.development?
-        parameters[:tls_options] = {
+        parameters[:starttls_options] = {
           cert_chain_file: Rails.configuration.cuttlefish_domain_cert_chain_file,
           private_key_file: Rails.configuration.cuttlefish_domain_private_key_file
         }
@@ -159,7 +159,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
         send_data "503 EHLO required before STARTTLS\r\n"
       else
         send_data "220 Start TLS negotiation\r\n"
-        start_tls(@@parms[:tls_options] || {})
+        start_tls(@@parms[:starttls_options] || {})
         @state << :starttls
       end
     else
