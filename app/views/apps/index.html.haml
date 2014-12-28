@@ -15,7 +15,7 @@
     %tr
       %th
         Name
-  %tbody
+  %tbody(data-provides="rowlink")
     - @apps.each do |app|
       %tr
         %td= link_to app.name, app
