@@ -3,7 +3,7 @@ class AppsController < ApplicationController
   after_action :verify_policy_scoped, only: :index
 
   def index
-    @apps = policy_scope(App)
+    @apps = policy_scope(App).order(:name)
   end
 
   def show
