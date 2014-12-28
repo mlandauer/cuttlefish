@@ -1,5 +1,6 @@
 server {
-  listen 80 default_server;
+  listen 80;
+  server_name cuttlefish.oaf.org.au;
 
   root /srv/www/current/public;
   passenger_enabled on;
