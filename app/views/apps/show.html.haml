@@ -6,37 +6,8 @@
   - unless @app.cuttlefish?
     %li= link_to "How to send mail via Cuttlefish for #{@app.name}", documentation_path(anchor: "app-#{@app.id}")
 
-%h2 Settings
-%p
-  Name:
-  = @app.name
-%p
-  Email from domain:
-  - if @app.from_domain.blank?
-    %span.muted Not set
-  - else
-    = @app.from_domain
-%p
-  Click tracking:
-  - if @app.click_tracking_enabled?
-    Enabled
-  - else
-    Disabled
-%p
-  Open tracking:
-  - if @app.open_tracking_enabled?
-    Enabled
-  - else
-    Disabled
-%p
-  Custom tracking domain:
-  - if @app.custom_tracking_domain.blank?
-    %span.muted Not set
-  - else
-    = @app.custom_tracking_domain
-
 - if policy(@app).edit?
-  %p= link_to "Edit", edit_app_path(@app)
+  %p= link_to "Edit Settings", edit_app_path(@app), class: "btn"
 
 - if @app.dkim_enabled && policy(@app).toggle_dkim?
   %hr
