@@ -81,10 +81,6 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     server.connections.delete(self)
   end
 
-  def receive_plain_auth(user, pass)
-    true
-  end
-
   def get_server_domain
     Rails.configuration.cuttlefish_domain
   end
