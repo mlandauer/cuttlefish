@@ -6,7 +6,6 @@ describe Archiving do
     app = team.apps.create!(
       id: 2,
       name: "Planning Alerts",
-      url: "http://www.planningalerts.org.au/",
       from_domain: "planningalerts.org.au"
     )
 

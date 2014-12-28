@@ -97,7 +97,6 @@ describe "deliveries/show.json.erb", type: :view do
       app: {
         id: 2,
         name: "Planning Alerts",
-        url: "http://www.planningalerts.org.au/",
         custom_tracking_domain: "email.planningalerts.org.au",
         from_domain: "planningalerts.org.au"
       },

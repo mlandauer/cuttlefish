@@ -18,7 +18,6 @@ json.updated_at delivery.updated_at
 json.app do
   json.id delivery.email.app.id
   json.name delivery.email.app.name
-  json.url delivery.email.app.url
   json.custom_tracking_domain delivery.email.app.custom_tracking_domain
   json.from_domain delivery.email.app.from_domain
 end
