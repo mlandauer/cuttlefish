@@ -10,6 +10,13 @@ server {
 server {
   listen 443 ssl spdy;
   server_name cuttlefish.oaf.org.au;
+
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+  
   root /srv/www/current/public;
   passenger_enabled on;
   passenger_ruby /usr/local/lib/rvm/wrappers/default/ruby;
