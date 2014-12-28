@@ -11,4 +11,12 @@ describe CuttlefishSmtpConnection do
       connection.receive_message
     end
   end
+
+  describe "#receive_plain_auth" do
+    let(:app) { App.create!(name: "test") }
+    let(:connection) { CuttlefishSmtpConnection.new('') }
+    it { expect(connection.receive_plain_auth("foo", "bar")).to eq false }
+    it { expect(connection.receive_plain_auth(app.smtp_username, "bar")).to eq false }
+    it { expect(connection.receive_plain_auth(app.smtp_username, app.smtp_password)).to eq true }
+  end
 end
