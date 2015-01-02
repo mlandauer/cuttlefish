@@ -1,5 +1,10 @@
 .page-header
-  %h1 Set up DKIM
+  %h1 Transparently send mail from your own domain
+  %p
+    In
+    = link_to "Google Mail", "https://gmail.com"
+    get rid of "via #{Rails.configuration.cuttlefish_domain}" when viewing
+    email sent from your own domain by giving Cuttlefish permission to send email on your behalf.
 
 - if @app.from_domain.present?
   - if @app.dkim_dns_configured?

@@ -17,9 +17,5 @@
     signing each email so that the recipient can check that it was indeed sent by you.
   = button_to "Disable DKIM", toggle_dkim_app_path(@app), class: "btn btn-primary"
 - elsif !@app.dkim_enabled && policy(@app).dkim?
-  %hr
-  %h3 Improve delivery
-  %p
-    DomainKeys Identified Mail (DKIM) improves the delivery of your emails by automatically cryptographically
-    signing each email so that the recipient can check that it was indeed sent by you.
-  %p= link_to "Set up DKIM", dkim_app_path(@app)
+  %h3 What to do next
+  %p= link_to "Transparently send mail from your own domain", dkim_app_path(@app)
