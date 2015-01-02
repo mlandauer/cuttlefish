@@ -45,7 +45,11 @@ class AppsController < ApplicationController
     authorize @app
     if @app.update_attributes(app_parameters)
       flash[:notice] = "App #{@app.name} successfully updated"
-      redirect_to @app
+      if app_parameters.has_key?(:from_domain)
+        redirect_to dkim_app_path(@app)
+      else
+        redirect_to @app
+      end
     else
       render :edit
     end
