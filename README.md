@@ -62,7 +62,7 @@ yet generic. Maybe you can help with this?
 
 ### To install to a local test virtual machine
 
-1. Create a file `~/.cuttlefish_ansible_vault_pass.txt` which contains the password for encrypting the secret values used in the deploy. The encrypted variables are at `provisioning/roles/cuttlefish-app/vars/main.yml`.
+1. Fill in the secret values in `provisioning/roles/cuttlefish-app/vars/main.yml` and encrypt the file. Create a file `~/.cuttlefish_ansible_vault_pass.txt` which contains the password for encrypting the secret values used in the deploy.
 
 2. Download base box and build virtual machine with everything needed for Cuttlefish. This will take a while (at least 30 mins or so)
 ```
