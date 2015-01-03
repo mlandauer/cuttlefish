@@ -13,15 +13,13 @@ set :rvm_path, "/usr/local/lib/rvm"
 set :rvm_bin_path, "/usr/local/lib/rvm/bin"
 set :rvm_install_with_sudo, true
 
-#server "kedumba.openaustraliafoundation.org.au", :app, :web, :db, primary: true
-#server "localhost:2222", :app, :web, :db, primary: true
-server "li743-35.members.linode.com", :app, :web, :db, primary: true
+server "localhost:2222", :app, :web, :db, primary: true
+#server "deployment.linode.com", :app, :web, :db, primary: true
 
 set :use_sudo, false
 set :deploy_via, :remote_cache
 
 set :user, "deploy"
-#set :deploy_to, "/srv/www/cuttlefish.openaustraliafoundation.org.au"
 set :deploy_to, "/srv/www"
 
 # if you want to clean up old releases on each deploy uncomment this:
