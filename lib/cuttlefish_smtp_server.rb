@@ -55,10 +55,6 @@ class CuttlefishSmtpServer
     end
     exit
   end
-
-  def running?
-    !!@server
-  end
 end
 
 class CuttlefishSmtpConnection < EM::P::SmtpServer
