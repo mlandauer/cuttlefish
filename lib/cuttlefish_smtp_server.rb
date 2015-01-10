@@ -66,6 +66,10 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
   def initialize
     super
+    self.parms = CuttlefishSmtpConnection.default_parameters
+  end
+
+  def self.default_parameters
     parameters = {
       auth: :required,
       starttls: :required
@@ -77,7 +81,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
         private_key_file: Rails.configuration.cuttlefish_domain_private_key_file
       }
     end
-    self.parms = parameters
+    parameters
   end
 
   def unbind
