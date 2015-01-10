@@ -23,4 +23,55 @@ describe CuttlefishSmtpConnection do
   describe "#get_server_greeting" do
     it { expect(connection.get_server_greeting).to eq "Cuttlefish SMTP server waves its arms and tentacles and says hello" }
   end
+
+  describe "#get_server_domain" do
+    it do
+      expect(Rails.configuration).to receive(:cuttlefish_domain).and_return("cuttlefish.io")
+      expect(connection.get_server_domain).to eq "cuttlefish.io"
+    end
+  end
+
+  describe "#receive_sender" do
+    it do
+      expect(connection.receive_sender("matthew@foo.com")).to eq true
+      expect(connection.current.sender).to eq "matthew@foo.com"
+    end
+  end
+
+  describe "#receive_recipient" do
+    it do
+      expect(connection.receive_recipient("matthew@foo.com")).to eq true
+      expect(connection.receive_recipient("bar@camp.com")).to eq true
+      expect(connection.current.recipients).to eq ["matthew@foo.com", "bar@camp.com"]
+    end
+  end
+
+  describe "#receive_data_command" do
+    it do
+      connection.current.data = "some left over data that shouldn't be there"
+      expect(connection.receive_data_command).to eq true
+      expect(connection.current.data).to eq ""
+    end
+  end
+
+  describe "#receive_data_chunk" do
+    it do
+      connection.current.data = "some data already received\n"
+      expect(connection.receive_data_chunk(["foo", "bar"])).to eq true
+      expect(connection.current.data).to eq "some data already received\nfoo\nbar"
+    end
+  end
+
+  describe ".default_parameters" do
+    it {expect(CuttlefishSmtpConnection.default_parameters[:auth]).to eq :required}
+    it {expect(CuttlefishSmtpConnection.default_parameters[:starttls]).to eq :required}
+    it do
+      expect(Rails.configuration).to receive(:cuttlefish_domain_cert_chain_file).and_return("/foo/bar")
+      expect(Rails.configuration).to receive(:cuttlefish_domain_private_key_file).and_return("/foo/private")
+      expect(CuttlefishSmtpConnection.default_parameters[:starttls_options]).to eq ({
+        cert_chain_file: "/foo/bar",
+        private_key_file: "/foo/private"
+      })
+    end
+  end
 end

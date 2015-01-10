@@ -21,19 +21,6 @@ class CuttlefishSmtpServer
       stop!
     }
     @server = EM.start_server host, port, CuttlefishSmtpConnection do |connection|
-      # On every new connection check if the authentication setting has changed
-      parameters = {
-        auth: :required,
-        starttls: :required
-      }
-      # Don't use our own SSL certificate in development
-      unless Rails.env.development?
-        parameters[:starttls_options] = {
-          cert_chain_file: Rails.configuration.cuttlefish_domain_cert_chain_file,
-          private_key_file: Rails.configuration.cuttlefish_domain_private_key_file
-        }
-      end
-      connection.parms = parameters
       connection.server = self
       @connections << connection
     end
@@ -68,14 +55,30 @@ class CuttlefishSmtpServer
     end
     exit
   end
-
-  def running?
-    !!@server
-  end
 end
 
 class CuttlefishSmtpConnection < EM::P::SmtpServer
   attr_accessor :server
+
+  def initialize
+    super
+    self.parms = CuttlefishSmtpConnection.default_parameters
+  end
+
+  def self.default_parameters
+    parameters = {
+      auth: :required,
+      starttls: :required
+    }
+    # Don't use our own SSL certificate in development
+    unless Rails.env.development?
+      parameters[:starttls_options] = {
+        cert_chain_file: Rails.configuration.cuttlefish_domain_cert_chain_file,
+        private_key_file: Rails.configuration.cuttlefish_domain_private_key_file
+      }
+    end
+    parameters
+  end
 
   def unbind
     server.connections.delete(self)

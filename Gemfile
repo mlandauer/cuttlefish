@@ -43,7 +43,7 @@ gem 'devise_invitable'
 gem 'gravatar_image_tag'
 gem "formtastic"
 # Need commit c9331088146e456a69bd6e94298c80d09be3ee74
-gem 'formtastic-bootstrap', git: "https://github.com/mjbellantoni/formtastic-bootstrap.git"
+gem 'formtastic-bootstrap', git: "https://github.com/mjbellantoni/formtastic-bootstrap.git", ref: "f86eaef93bea0a06879b3977d7554864964a623f"
 gem "net-dns"
 gem 'factory_girl_rails'
 gem 'haml-coderay'

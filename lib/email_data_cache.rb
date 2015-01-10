@@ -46,7 +46,7 @@ class EmailDataCache
     unless is_data_on_filesystem?(id)
       # Save the data part of the email to the filesystem
       create_data_filesystem_directory
-      File.open(data_filesystem_path(id), "w") do |f|
+      File.open(data_filesystem_path(id), "wb") do |f|
         f.write(data)
       end
     end
