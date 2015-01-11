@@ -5,6 +5,12 @@ Rails.application.routes.draw do
     passwords: "admins/passwords",
     invitations: "invitations"
   }
+
+  require 'sidekiq/web'
+  authenticate :admin, lambda { |u| u.super_admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   resources :admins, only: [:index]
   resources :emails, only: [:index, :show], as: :deliveries, controller: "deliveries"
   # Allow "." in the id's by using the constraint
