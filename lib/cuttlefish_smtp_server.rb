@@ -107,7 +107,8 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     current.received = true
     current.completed_at = Time.now
 
-    Delayed::Job.enqueue MailJob.new(current)
+    #Delayed::Job.enqueue MailJob.new(current)
+    MailWorker.perform_async(current)
 
     @current = OpenStruct.new
     true

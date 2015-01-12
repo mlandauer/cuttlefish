@@ -24,3 +24,11 @@ class MailJob
     end
   end
 end
+
+# For Sidekiq
+class MailWorker
+  include Sidekiq::Worker
+  def perform(message)
+    MailJob.new(message).perform
+  end
+end
