@@ -125,3 +125,4 @@ dependencies:
   - {role: rvm_io.rvm1-ruby, rvm1_rubies: ['ruby-2.1.5'], rvm1_delete_ruby: 'ruby-1.9.3-p484', rvm1_rvm_check_for_updates: false}
   - {role: abtris.nginx-passenger}
   - {role: MaximeThoonsen.autopostgresqlbackup}
+  - {role: DavidWittman.redis}

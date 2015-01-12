@@ -1,0 +1,7 @@
+{
+  "bind": "{{ redis_bind }}",
+  "port": "{{ redis_port }}",
+  "sentinel_bind": "{{ redis_sentinel_bind }}",
+  "sentinel_port": "{{ redis_sentinel_port }}",
+  "sentinel_monitors": {{ redis_sentinel_monitors | to_json }}
+}

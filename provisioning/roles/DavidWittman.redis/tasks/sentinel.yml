@@ -1,0 +1,59 @@
+---
+- name: create sentinel working directory
+  file: path={{ redis_sentinel_dir }} state=directory
+        recurse=yes
+        owner={{ redis_user }}
+
+- name: create sentinel init script
+  template: src={{ item }}
+            dest=/etc/init.d/sentinel_{{ redis_sentinel_port }}
+            mode=0755
+  # Choose the distro-specific template. We must specify the templates
+  # path here because with_first_found tries to find files in files/
+  with_first_found:
+    - files:
+      - "{{ ansible_os_family }}/redis_sentinel.init.j2"
+      - default/redis_sentinel.init.j2
+      paths:
+        - ../templates
+
+- name: set sentinel to start at boot
+  service: name=sentinel_{{ redis_sentinel_port }} enabled=yes
+
+- name: check if sentinel log file exists
+  stat: path={{ redis_sentinel_logfile }}
+  register: sentinel_logfile_stat
+
+- name: ensure that sentinel log file exists and is writable by redis
+  file: path={{ redis_sentinel_logfile }}
+        owner={{ redis_user }}
+        group={{ redis_user }}
+        mode=0600
+        state=touch
+  when: sentinel_logfile_stat.stat.exists == False and redis_sentinel_logfile != '""'
+
+- name: create sentinel config file
+  template: src=redis_sentinel.conf.j2
+            dest=/etc/redis/sentinel_{{ redis_sentinel_port }}.conf
+            owner={{ redis_user }}
+  notify: restart sentinel
+
+- name: add sentinel init config file
+  template: dest=/etc/sysconfig/sentinel_{{ redis_sentinel_port }}
+            src=redis.init.conf.j2
+  when: ansible_os_family == "RedHat"
+  notify: restart sentinel
+
+- name: add sentinel init config file
+  template: dest=/etc/default/sentinel_{{ redis_sentinel_port }}
+            src=redis.init.conf.j2
+  when: ansible_os_family == "Debian"
+  notify: restart sentinel
+
+# Flush handlers before ensuring the service is started to prevent
+# a start and then restart
+- name: flush handlers to apply config changes
+  meta: flush_handlers
+
+- name: ensure sentinel is running
+  service: name=sentinel_{{ redis_sentinel_port }} state=started

@@ -1,0 +1,12 @@
+# Init script variables for Redis and Redis Sentinel
+# Stored in /etc/{sysconfig,default}/{redis,sentinel}_$port
+
+{% if redis_password %}
+REDIS_PASSWORD={{ redis_password }}
+{% endif %}
+NOFILE_LIMIT={{ redis_nofile_limit }}
+{% if redis_sentinel %}
+BIND_ADDRESS={{ redis_sentinel_bind }}
+{% else %}
+BIND_ADDRESS={{ redis_bind }}
+{% endif %}

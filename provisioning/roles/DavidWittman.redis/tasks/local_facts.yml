@@ -1,0 +1,5 @@
+- name: create facts directory
+  file: path='/etc/ansible/facts.d' state='directory'
+
+- name: create redis facts
+  template: src='etc/ansible/facts.d/redis.fact.j2' dest='/etc/ansible/facts.d/redis.fact'
