@@ -1,3 +1,4 @@
 smtp: /usr/local/lib/rvm/bin/rvm . do bundle exec rake cuttlefish:smtp RAILS_ENV=production
 log: /usr/local/lib/rvm/bin/rvm . do bundle exec rake cuttlefish:log RAILS_ENV=production
 worker: /usr/local/lib/rvm/bin/rvm . do bundle exec rake jobs:work RAILS_ENV=production
+sidekiq: /usr/local/lib/rvm/bin/rvm . do bundle exec sidekiq RAILS_ENV=production
