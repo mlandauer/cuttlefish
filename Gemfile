@@ -28,8 +28,6 @@ gem 'jquery-rails'
 gem 'jbuilder'
 
 gem "eventmachine"
-# TODO temporarily have delayed_job and sidekiq living side-by-side
-gem 'delayed_job_active_record'
 gem 'sidekiq'
 gem 'sinatra', :require => nil
 
