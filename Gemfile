@@ -28,7 +28,9 @@ gem 'jquery-rails'
 gem 'jbuilder'
 
 gem "eventmachine"
-gem 'delayed_job_active_record'
+gem 'sidekiq'
+gem 'sinatra', :require => nil
+
 gem 'foreman'
 gem 'haml-rails'
 # Use pull request that has needed Rails 4 improvements https://github.com/pkurek/flatui-rails/pull/25

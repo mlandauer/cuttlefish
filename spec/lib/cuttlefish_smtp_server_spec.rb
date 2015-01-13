@@ -5,15 +5,6 @@ describe CuttlefishSmtpConnection do
   let(:connection) { CuttlefishSmtpConnection.new('') }
   let(:app) { App.create!(name: "test") }
 
-  describe '#receive_message' do
-    it 'can queue large messages' do
-      # This data is still about double what should fit in a TEXT
-      # Something six times bigger than this causes mysql to lose connection on OS X for Matthew
-      connection.current.data = 'a' * 1000000
-      connection.receive_message
-    end
-  end
-
   describe "#receive_plain_auth" do
     it { expect(connection.receive_plain_auth("foo", "bar")).to eq false }
     it { expect(connection.receive_plain_auth(app.smtp_username, "bar")).to eq false }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141228101710) do
+ActiveRecord::Schema.define(version: 20150112214714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,22 +96,6 @@ ActiveRecord::Schema.define(version: 20141228101710) do
 
   add_index "click_events", ["delivery_link_id"], name: "index_click_events_on_delivery_link_id", using: :btree
 
-  create_table "delayed_jobs", force: true do |t|
-    t.integer  "priority",   default: 0
-    t.integer  "attempts",   default: 0
-    t.text     "handler"
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
-
   create_table "deliveries", force: true do |t|
     t.integer  "email_id"
     t.integer  "address_id"
@@ -155,6 +139,7 @@ ActiveRecord::Schema.define(version: 20141228101710) do
 
   add_index "emails", ["app_id"], name: "index_emails_on_app_id", using: :btree
   add_index "emails", ["created_at"], name: "index_emails_on_created_at", using: :btree
+  add_index "emails", ["created_at"], name: "index_emails_on_created_at_and_status", using: :btree
   add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id", using: :btree
   add_index "emails", ["message_id"], name: "index_emails_on_message_id", using: :btree
 

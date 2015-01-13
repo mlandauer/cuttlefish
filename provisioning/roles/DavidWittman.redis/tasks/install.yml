@@ -1,0 +1,72 @@
+---
+- name: install dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+    - gcc
+    - make
+    - libc6-dev
+  when: ansible_os_family == "Debian"
+
+- name: install dependencies
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc
+    - make
+  when: ansible_os_family == "RedHat"
+
+- name: enable overcommit in sysctl
+  sysctl: name=vm.overcommit_memory value=1 state=present reload=yes ignoreerrors=yes
+  when: redis_travis_ci is not defined
+
+- name: add redis user
+  user:
+    name={{ redis_user }}
+    comment="Redis"
+    home={{ redis_install_dir }}
+    shell=/bin/false
+    system=yes
+
+- name: download redis
+  get_url: url=http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz
+           dest=/usr/local/src/redis-{{ redis_version }}.tar.gz
+  when: not redis_tarball
+  
+- name: upload redis
+  copy: src={{ redis_tarball }}
+        dest=/usr/local/src/redis-{{ redis_version }}.tar.gz  
+  when: redis_tarball
+
+- name: extract redis tarball
+  shell: tar xf /usr/local/src/redis-{{ redis_version }}.tar.gz -C /usr/local/src
+         creates=/usr/local/src/redis-{{ redis_version }}
+
+- name: compile redis
+  command: make -j5
+           chdir=/usr/local/src/redis-{{ redis_version }}
+           creates=/usr/local/src/redis-{{ redis_version }}/src/redis-server
+
+- name: create redis install directory
+  file: path={{ redis_install_dir }} state=directory
+
+- name: create /etc/redis
+  file: path=/etc/redis state=directory
+
+- name: create /var/run/redis
+  file: path=/var/run/redis state=directory
+        owner={{ redis_user }}
+
+- name: install redis
+  command: make PREFIX={{ redis_install_dir }} install
+           chdir=/usr/local/src/redis-{{ redis_version }}
+           creates={{ redis_install_dir }}/bin/redis-server
+
+- name: list redis binaries
+  command: ls -1 {{ redis_install_dir }}/bin
+  register: redis_binaries
+  changed_when: false
+  when: ansible_os_family == "Debian"
+
+- name: add redis binaries to alternatives
+  alternatives: name={{ item }} path={{ redis_install_dir }}/bin/{{ item }} link=/usr/bin/{{ item }}
+  with_items: redis_binaries.stdout_lines
+  when: ansible_os_family == "Debian"

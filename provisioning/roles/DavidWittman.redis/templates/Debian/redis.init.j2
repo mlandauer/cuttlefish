@@ -1,0 +1,86 @@
+#!/bin/sh
+#
+# Redis init script for Debian-based distros
+#
+#
+### BEGIN INIT INFO
+# Provides:          redis_{{ redis_port }}
+# Required-Start:    $network $local_fs $remote_fs
+# Required-Stop:     $network $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Should-Start:      $syslog $named
+# Should-Stop:       $syslog $named
+# Short-Description: Start and stop redis_{{ redis_port }}
+# Description:       Redis key-value store
+### END INIT INFO
+
+# Source the Linux Standard Base functions
+. /lib/lsb/init-functions
+
+REDIS_PORT={{ redis_port }}
+NAME=redis_${REDIS_PORT}
+DAEMON={{ redis_install_dir }}/bin/redis-server
+PIDFILE={{ redis_pidfile }}
+
+REDIS_USER={{ redis_user }}
+CONF="/etc/redis/${REDIS_PORT}.conf"
+CLIEXEC={{ redis_install_dir }}/bin/redis-cli
+
+if [ -r /etc/default/redis_${REDIS_PORT} ]; then
+    . /etc/default/redis_${REDIS_PORT}
+fi
+
+if [ -n "$REDIS_PASSWORD" ]; then
+    CLIEXEC="${CLIEXEC} -a ${REDIS_PASSWORD}"
+fi
+
+if [ -n "$BIND_ADDRESS" ]; then
+    CLIEXEC="${CLIEXEC} -h ${BIND_ADDRESS}"
+fi
+
+case "$1" in
+    start)
+        if [ -f $PIDFILE ]; then
+            echo "$PIDFILE exists, $NAME is already running or crashed"
+        else
+            if [ -n "$NOFILE_LIMIT" ]; then
+                ulimit -n $NOFILE_LIMIT
+            fi
+            log_daemon_msg "Starting $NAME..."
+            if start-stop-daemon --start -q --oknodo -p $PIDFILE -c $REDIS_USER --exec $DAEMON -- $CONF; then
+                log_end_msg 0
+            else
+                log_end_msg 1
+            fi
+        fi
+        ;;
+    stop)
+        if [ -f $PIDFILE ]; then
+            PID=$(cat $PIDFILE)
+            log_daemon_msg "Stopping $NAME..."
+            $CLIEXEC -h $BIND_ADDRESS -p $REDIS_PORT shutdown
+            while [ -x /proc/${PID} ]; do
+                log_daemon_msg "Waiting for Redis to shutdown ..."
+                sleep 1
+            done
+            log_end_msg 0
+        else
+            log_daemon_msg "$NAME is not running"
+            log_end_msg 0
+        fi
+        ;;
+    status)
+        status_of_proc -p $PIDFILE $DAEMON "$NAME" && exit 0 || exit $?
+        ;;
+    restart|force-reload)
+        ${0} stop
+        ${0} start
+        ;;
+    *)
+        echo "Usage: /etc/init.d/$NAME {start|stop|status|restart|force-reload}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

@@ -1,0 +1,57 @@
+---
+- name: create redis working directory
+  file: path={{ redis_dir }} state=directory
+        recurse=yes
+        owner={{ redis_user }}
+
+- name: create redis init script
+  template: src={{ item }} dest=/etc/init.d/redis_{{ redis_port }}
+            mode=0755
+  # Choose the distro-specific template. We must specify the templates
+  # path here because with_first_found tries to find files in files/
+  with_first_found:
+    - files:
+      - "{{ ansible_os_family }}/redis.init.j2"
+      - default/redis.init.j2
+      paths:
+        - ../templates
+
+- name: set redis to start at boot
+  service: name=redis_{{ redis_port }} enabled=yes
+
+- name: check if log file exists
+  stat: path={{ redis_logfile }}
+  register: logfile_stat
+
+- name: ensure that log file exists and is writable by redis
+  file: path={{ redis_logfile }}
+        owner={{ redis_user }}
+        group={{ redis_user }}
+        mode=0600
+        state=touch
+  when: logfile_stat.stat.exists == False and redis_logfile != '""'
+
+- name: create redis config file
+  template: src=redis.conf.j2 dest=/etc/redis/{{ redis_port }}.conf
+            owner={{ redis_user }}
+  notify: restart redis
+
+- name: add redis init config file
+  template: dest=/etc/sysconfig/redis_{{ redis_port }}
+            src=redis.init.conf.j2
+  when: ansible_os_family == "RedHat"
+  notify: restart redis
+
+- name: add redis init config file
+  template: dest=/etc/default/redis_{{ redis_port }}
+            src=redis.init.conf.j2
+  when: ansible_os_family == "Debian"
+  notify: restart redis
+
+# Flush handlers before ensuring the service is started to prevent
+# a start and then restart
+- name: flush handlers to apply config changes
+  meta: flush_handlers
+
+- name: ensure redis is running
+  service: name=redis_{{ redis_port }} state=started

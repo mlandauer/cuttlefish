@@ -61,10 +61,15 @@
               = nav_menu_item_show_active admins_path do
                 %i.fa.fa-user.fa-fw
                 Administrators
-              - if policy(:team).index?
-                = nav_menu_item_show_active teams_path do
-                  %i.fa.fa-users.fa-fw
-                  Teams
+              - if current_admin.super_admin?
+                %li.nav-header Site Admin
+                - if policy(:team).index?
+                  = nav_menu_item_show_active teams_path do
+                    %i.fa.fa-users.fa-fw
+                    Teams
+                = nav_menu_item_show_active sidekiq_web_path do
+                  %i.fa.fa-info-circle.fa-fw
+                  Background jobs
 
             %hr
             %ul.nav.nav-list
