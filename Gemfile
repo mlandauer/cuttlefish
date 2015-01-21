@@ -57,6 +57,7 @@ gem "foreigner"
 gem "archive-tar-minitar"
 gem "pundit"
 gem "friendly_id"
+gem "user_agent_parser"
 
 # Deployment bits and bobs
 # Later versions cause issues with backing up assets manifests file to release directory
