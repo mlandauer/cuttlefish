@@ -24,7 +24,8 @@ module UserAgent
   end
 
   # Cache this between requests so that we don't keep reloading the user agent database
+  # TODO Put in a PR to the main project to update the default regexes with the google image proxy
   def user_agent_parser
-    @@user_agent_parser ||= UserAgentParser::Parser.new
+    @@user_agent_parser ||= UserAgentParser::Parser.new(patterns_path: "lib/regexes.yaml")
   end
 end
