@@ -6,6 +6,8 @@
       %th User agent
       %th Referer
       %th IP
+      %th Client
+      %th OS
   %tbody
     - delivery.click_events.each do |event|
       %tr
@@ -16,3 +18,5 @@
         %td= event.user_agent
         %td= event.referer
         %td= event.ip
+        %td= event.ua_family
+        %td= event.os_family
