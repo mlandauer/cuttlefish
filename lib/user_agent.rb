@@ -3,8 +3,18 @@ module UserAgent
     parsed_user_agent.family
   end
 
+  def ua_version
+    v = parsed_user_agent.version
+    v.to_s if v
+  end
+
   def os_family
     parsed_user_agent.os.family
+  end
+
+  def os_version
+    v = parsed_user_agent.os.version
+    v.to_s if v
   end
 
   private

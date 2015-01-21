@@ -16,5 +16,11 @@
         %td= event.user_agent
         %td= event.referer
         %td= event.ip
-        %td= event.ua_family
-        %td= event.os_family
+        %td
+          = event.ua_family
+          - if event.ua_version
+            %span.muted (#{event.ua_version})
+        %td
+          = event.os_family
+          - if event.os_version
+            %span.muted (#{event.os_version})
