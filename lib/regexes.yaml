@@ -209,6 +209,10 @@ user_agent_parsers:
   - regex: 'Google.*/\+/web/snippet'
     family_replacement: 'GooglePlusBot'
 
+  # Google Image Proxy for Gmail
+  - regex: 'GoogleImageProxy'
+    family_replacement: 'Gmail'
+
   # Rackspace Monitoring
   - regex: '(Rackspace Monitoring)/(\d+)\.(\d+)'
     family_replacement: 'RackspaceBot'
@@ -588,6 +592,10 @@ os_parsers:
   ##########
   - regex: '(Silk-Accelerated=[a-z]{4,5})'
     os_replacement: 'Android'
+
+  # Google Image Proxy for Gmail
+  - regex: 'GoogleImageProxy'
+    os_replacement: ~
 
   ##########
   # Windows
