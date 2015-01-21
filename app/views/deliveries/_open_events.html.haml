@@ -4,7 +4,6 @@
       %th Time
       %th Client
       %th OS
-      %th Referer
       %th IP
   %tbody
     - delivery.open_events.each do |event|
@@ -20,5 +19,4 @@
           = event.os_family
           - if event.os_version
             %span.muted (#{event.os_version})
-        %td= event.referer
         %td= event.ip
