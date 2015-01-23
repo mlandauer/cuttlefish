@@ -13,10 +13,10 @@ class AddParsedUserAgentToOpenEvents < ActiveRecord::Migration
       OpenEvent.find_each do |open_event|
         parsed_user_agent = parser.parse(open_event.user_agent)
 
-        calculate_ua_family = parsed_user_agent.family
-        calculate_ua_version = parsed_user_agent.version.to_s if parsed_user_agent.version
-        calculate_os_family = parsed_user_agent.os.family
-        calculate_os_version = parsed_user_agent.os.version.to_s if parsed_user_agent.os.version
+        calculate_ua_family = parsed_user_agent.family.to_s.clone
+        calculate_ua_version = parsed_user_agent.version.to_s.clone if parsed_user_agent.version
+        calculate_os_family = parsed_user_agent.os.family.to_s.clone
+        calculate_os_version = parsed_user_agent.os.version.to_s.clone if parsed_user_agent.os.version
 
         # Avoid calllbacks
         open_event.ua_family = calculate_ua_family
