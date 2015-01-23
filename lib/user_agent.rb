@@ -20,7 +20,8 @@ module UserAgent
   private
 
   def parsed_user_agent
-    @parsed_user_agent ||= user_agent_parser.parse(user_agent)
+    # @parsed_user_agent ||= user_agent_parser.parse(user_agent)
+    user_agent_parser.parse(user_agent)
   end
 
   # Cache this between requests so that we don't keep reloading the user agent database
