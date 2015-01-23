@@ -16,6 +16,13 @@ GIT
     formtastic-bootstrap (2.1.3)
       formtastic (~> 2.2)
 
+GIT
+  remote: https://github.com/mlandauer/uap-ruby.git
+  revision: 6959b17cfd00ef50ca0d1f6513e9f51a4b50917e
+  submodules: true
+  specs:
+    user_agent_parser (2.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -357,7 +364,6 @@ GEM
     uglifier (2.6.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    user_agent_parser (2.2.0)
     warden (1.2.3)
       rack (>= 1.0)
     websocket (1.2.1)
@@ -430,5 +436,5 @@ DEPENDENCIES
   therubyracer
   thin
   uglifier (>= 1.3.0)
-  user_agent_parser
+  user_agent_parser!
   will_paginate
