@@ -26,7 +26,10 @@ class AddParsedUserAgentToOpenEvents < ActiveRecord::Migration
         )
 
         count += 1
-        p count if count % 100 == 0
+        if count % 1000 == 0
+          p count
+          GC.start
+        end
       end
     end
   end
