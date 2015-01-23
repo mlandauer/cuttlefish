@@ -11,9 +11,9 @@ class AddParsedUserAgentToOpenEvents < ActiveRecord::Migration
     OpenEvent.find_each do |open_event|
       open_event.update_attributes(
         ua_family: open_event.calculate_ua_family,
-        ua_version: open_event,calculate_ua_version,
-        os_family: open_event,calculate_os_family,
-        os_version: open_event,calculate_os_version
+        ua_version: open_event.calculate_ua_version,
+        os_family: open_event.calculate_os_family,
+        os_version: open_event.calculate_os_version
       )
 
       count += 1
