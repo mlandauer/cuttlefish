@@ -23,7 +23,7 @@ class AddParsedUserAgentToOpenEvents < ActiveRecord::Migration
         open_event.ua_version = calculate_ua_version
         open_event.os_family = calculate_os_family
         open_event.os_version = calculate_os_version
-        open_event.save!(validate: false)
+        open_event.save(validate: false)
 
         count += 1
         if count % 1000 == 0
