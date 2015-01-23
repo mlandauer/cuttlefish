@@ -139,7 +139,6 @@ ActiveRecord::Schema.define(version: 20150123013225) do
 
   add_index "emails", ["app_id"], name: "index_emails_on_app_id", using: :btree
   add_index "emails", ["created_at"], name: "index_emails_on_created_at", using: :btree
-  add_index "emails", ["created_at"], name: "index_emails_on_created_at_and_status", using: :btree
   add_index "emails", ["from_address_id"], name: "index_emails_on_from_address_id", using: :btree
   add_index "emails", ["message_id"], name: "index_emails_on_message_id", using: :btree
 
