@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150112214714) do
+ActiveRecord::Schema.define(version: 20150123013225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,6 +158,10 @@ ActiveRecord::Schema.define(version: 20150112214714) do
     t.text     "user_agent"
     t.text     "referer"
     t.string   "ip"
+    t.string   "ua_family"
+    t.string   "ua_version"
+    t.string   "os_family"
+    t.string   "os_version"
   end
 
   add_index "open_events", ["delivery_id"], name: "index_open_events_on_delivery_id", using: :btree
