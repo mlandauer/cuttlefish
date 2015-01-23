@@ -7,8 +7,11 @@ class AddParsedUserAgentToOpenEvents < ActiveRecord::Migration
 
     OpenEvent.reset_column_information
     # Resaving open events so that the user agent parsing happens
+    count = 0
     OpenEvent.find_each(batch_size: 500) do |open_event|
       open_event.save!
+      count += 1
+      p count if count % 100 == 0
     end
   end
 end
