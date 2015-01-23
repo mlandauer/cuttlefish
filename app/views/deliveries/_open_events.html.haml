@@ -12,11 +12,11 @@
           = time_ago_in_words(event.created_at)
           ago
         %td
-          = event.calculate_ua_family
-          - if event.calculate_ua_version
-            %span.muted (#{event.calculate_ua_version})
+          = event.ua_family
+          - if event.ua_version
+            %span.muted (#{event.ua_version})
         %td
-          = event.calculate_os_family
-          - if event.calculate_os_version
-            %span.muted (#{event.calculate_os_version})
+          = event.os_family
+          - if event.os_version
+            %span.muted (#{event.os_version})
         %td= event.ip
