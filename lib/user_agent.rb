@@ -1,21 +1,26 @@
 module UserAgent
-  def ua_family
+  def calculate_ua_family
     parsed_user_agent.family
   end
 
-  def ua_version
+  def calculate_ua_version
     v = parsed_user_agent.version
     v.to_s if v
   end
 
-  def os_family
+  def calculate_os_family
     parsed_user_agent.os.family
   end
 
-  def os_version
+  def calculate_os_version
     v = parsed_user_agent.os.version
     v.to_s if v
   end
+
+  alias_method :ua_family, :calculate_ua_family
+  alias_method :ua_version, :calculate_ua_version
+  alias_method :os_family, :calculate_os_family
+  alias_method :os_version, :calculate_os_version
 
   private
 
