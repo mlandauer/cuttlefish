@@ -14,11 +14,11 @@
           ago
         %td= link_to event.url
         %td
-          = event.ua_family
-          - if event.ua_version
-            %span.muted (#{event.ua_version})
+          = event.calculate_ua_family
+          - if event.calculate_ua_version
+            %span.muted (#{event.calculate_ua_version})
         %td
-          = event.os_family
-          - if event.os_version
-            %span.muted (#{event.os_version})
+          = event.calculate_os_family
+          - if event.calculate_os_version
+            %span.muted (#{event.calculate_os_version})
         %td= event.ip
