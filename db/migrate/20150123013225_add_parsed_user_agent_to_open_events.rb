@@ -1,4 +1,10 @@
 class AddParsedUserAgentToOpenEvents < ActiveRecord::Migration
+  # The counter_cache on the association was causing a memory leak even
+  # when using OpenEvent.find_each below. So just for this migration use
+  # a stripped down version of the model
+  class OpenEvent < ActiveRecord::Base
+  end
+
   def change
     add_column :open_events, :ua_family, :string
     add_column :open_events, :ua_version, :string
