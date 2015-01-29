@@ -4,8 +4,9 @@
 
 [![Build Status](https://travis-ci.org/mlandauer/cuttlefish.png?branch=master)](https://travis-ci.org/mlandauer/cuttlefish) [![Coverage Status](https://coveralls.io/repos/mlandauer/cuttlefish/badge.png?branch=master)](https://coveralls.io/r/mlandauer/cuttlefish) [![Code Climate](https://codeclimate.com/github/mlandauer/cuttlefish.png)](https://codeclimate.com/github/mlandauer/cuttlefish)
 
-* [cuttlefish.io](https://cuttlefish.io)
-* [github.com/mlandauer/cuttlefish](https://github.com/mlandauer/cuttlefish)
+* Project site: [cuttlefish.io](https://cuttlefish.io)
+* Hosted version ([free](http://poplus.org/posts/email-is-your-secret-weapon/) for [Poplus.org](http://poplus.org/) community members): [cuttlefish.oaf.org.au](https://cuttlefish.oaf.org.au)
+* Github repo:  [github.com/mlandauer/cuttlefish](https://github.com/mlandauer/cuttlefish)
 
 Cuttlefish is a lovely, easy to set up transactional email server
 
