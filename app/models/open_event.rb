@@ -2,7 +2,7 @@ class OpenEvent < ActiveRecord::Base
   belongs_to :delivery, counter_cache: true
   include UserAgent
 
-  #before_save :parse_user_agent!
+  before_save :parse_user_agent!
 
   def parse_user_agent!
     self.ua_family = calculate_ua_family
