@@ -29,7 +29,7 @@
             %button.close(type="button" data-dismiss="modal" aria-hidden="true") ×
             %h3#myModalLabel Get an invitation
           .modal-body
-            = semantic_form_for @signup_form, url: "#", html: {class: "form-horizontal"} do |f|
+            = semantic_form_for @signup_form, url: request_invitation_path, html: {class: "form-horizontal"} do |f|
               = f.semantic_errors
               = f.inputs do
                 = f.input :name, placeholder: "Your name"
