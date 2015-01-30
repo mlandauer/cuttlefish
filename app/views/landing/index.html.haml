@@ -22,8 +22,33 @@
         Cuttlefish? It's for lovely transactional email.
         It's easy to use and open source.
       %p
-        = link_to "#", class: "btn btn-primary btn-large" do
-          Sign up
+        = link_to "Sign up", "#myModal", role: "button", class: "btn btn-primary btn-large", data: {toggle: "modal"}
+
+        #myModal.modal.hide.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+          .modal-header
+            %button.close(type="button" data-dismiss="modal" aria-hidden="true") ×
+            %h3#myModalLabel Modal header
+          .modal-body
+            %p
+              Your name
+            %p
+              Your email address — where you will receive the Cuttlefish invitation
+            %p
+              Organisation name & website — If you're not part of an official
+              organisation, that's fine too. Simply include something about the
+              people you're working with.
+            %p
+              Describe the emails you would like to send with Cuttlefish and
+              the applications they come from (e.g. email alerts for our
+              parliamentary monitoring site ...)
+            %p
+              The obvious disclaimer here is don't use Cuttlefish to send anything
+              that could be mistaken as spam. No unsolicited emails. No mass
+              marketing emails. Only things related to civic technology. If you
+              have any doubts or questions just ask.
+          .modal-footer
+            %button.btn(data-dismiss="modal" aria-hidden="true") Close
+            %button.btn.btn-primary Save changes
     - else
       %h1
         %span.cuttlefish
