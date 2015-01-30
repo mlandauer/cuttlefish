@@ -1,6 +1,6 @@
 class SignupForm < MailForm::Base
-  attribute :name,      :validate => true
-  attribute :email,     :validate => /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
+  attribute :name
+  attribute :email
   attribute :organisation_name
   attribute :organisation_url
   attribute :message
