@@ -27,28 +27,23 @@
         #myModal.modal.hide.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
           .modal-header
             %button.close(type="button" data-dismiss="modal" aria-hidden="true") ×
-            %h3#myModalLabel Modal header
+            %h3#myModalLabel Get an invitation
           .modal-body
-            %p
-              Your name
-            %p
-              Your email address — where you will receive the Cuttlefish invitation
-            %p
-              Organisation name & website — If you're not part of an official
-              organisation, that's fine too. Simply include something about the
-              people you're working with.
-            %p
-              Describe the emails you would like to send with Cuttlefish and
-              the applications they come from (e.g. email alerts for our
-              parliamentary monitoring site ...)
-            %p
-              The obvious disclaimer here is don't use Cuttlefish to send anything
-              that could be mistaken as spam. No unsolicited emails. No mass
-              marketing emails. Only things related to civic technology. If you
-              have any doubts or questions just ask.
-          .modal-footer
-            %button.btn(data-dismiss="modal" aria-hidden="true") Close
-            %button.btn.btn-primary Save changes
+            = semantic_form_for @signup_form, url: "#", html: {class: "form-horizontal"} do |f|
+              = f.semantic_errors
+              = f.inputs do
+                = f.input :name, placeholder: "Your name"
+                = f.input :email, placeholder: "Your email address", hint: "This is where you will receive your Cuttlefish invitation"
+                = f.input :organisation_name, placeholder: "Organisation Name", hint: "If you're not part of an official organisation, that's fine too. Simply include something about the people you're working with."
+                = f.input :organisation_url, placeholder: "Organisation URL"
+                = f.input :message, as: :text, placeholder: "Anything else you want to let us know? For instance, how are you planning to use Cuttlefish? Or maybe just say Hello!", input_html: {cols: 10}
+              %p
+                The obvious disclaimer here is please don't use Cuttlefish to send anything
+                that could be mistaken as spam. No unsolicited emails. No mass
+                marketing emails. Only things related to civic technology. If you
+                have any doubts or questions just ask.
+              = f.actions do
+                = f.action :submit, label: "Send"
     - else
       %h1
         %span.cuttlefish

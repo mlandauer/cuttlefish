@@ -19,6 +19,13 @@ span.cuttlefish {
 
 .modal {
   color: #34495e;
+  p, .help-block {
+    font-size: 0.75em;
+    line-height: 1.5em;
+  }
+  textarea {
+    height: 200px;
+  }
 }
 
 .hero-unit {
