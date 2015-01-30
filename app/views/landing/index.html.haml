@@ -3,21 +3,39 @@
 
 #hero
   .container
+    - if @poplus
+      %p
+        Run and maintained by the
+        OpenAustralia Foundation sponsored by Poplus via a mini-grant.
     %ul.nav.nav-pills
       %li.active.pull-right= link_to "Sign in", new_admin_session_path
 
   .hero-unit
+
     = image_tag "cuttlefish.png", alt: "Welcome to Cuttlefish", width: 200, height: 120
-    %h1
-      Cuttlefish
-      %small Lovely Transactional Email
+    - if @poplus
+      %h1
+        Free hosted
+        %span.cuttlefish Cuttlefish
+        for the Poplus and international civic tech community
+      %p
+        Cuttlefish? It's for lovely transactional email.
+        It's easy to use and open source.
+      %p
+        = link_to "#", class: "btn btn-primary btn-large" do
+          Sign up
+    - else
+      %h1
+        %span.cuttlefish
+          Cuttlefish
+          %small Lovely Transactional Email
+      %p
+        Easy to set up, easy to use and open source
+      %p
+        = link_to "https://github.com/mlandauer/cuttlefish", class: "btn btn-primary btn-large" do
+          %i.fa.fa-download
+          Download
 
-    %p Easy to set up, easy to use and open source
-
-    %p
-      = link_to "https://github.com/mlandauer/cuttlefish", class: "btn btn-primary btn-large" do
-        %i.fa.fa-download
-        Download
 
 .container
   #features
