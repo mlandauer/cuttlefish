@@ -7,17 +7,17 @@ describe ApplicationHelper, type: :helper do
     end
 
     it "should show an error message" do
-      allow(helper).to receive(:flash).and_return(error: "This is a bad thing")
+      allow(helper).to receive(:flash).and_return("error" => "This is a bad thing")
       expect(helper.bootstrap_flash).to eq '<div class="alert fade in alert-error"><button class="close" data-dismiss="alert">&times;</button>This is a bad thing</div>'
     end
 
     it "should show a notice message" do
-      allow(helper).to receive(:flash).and_return(notice: "This is interesting")
+      allow(helper).to receive(:flash).and_return("notice" => "This is interesting")
       expect(helper.bootstrap_flash).to eq '<div class="alert fade in alert-success"><button class="close" data-dismiss="alert">&times;</button>This is interesting</div>'
     end
 
     it "should show two messages together" do
-      allow(helper).to receive(:flash).and_return(error: "This is a bad thing", notice: "This is interesting")
+      allow(helper).to receive(:flash).and_return("error" => "This is a bad thing", "notice" => "This is interesting")
       expect(helper.bootstrap_flash).to eq "<div class=\"alert fade in alert-error\"><button class=\"close\" data-dismiss=\"alert\">&times;</button>This is a bad thing</div>\n<div class=\"alert fade in alert-success\"><button class=\"close\" data-dismiss=\"alert\">&times;</button>This is interesting</div>"
     end
   end
