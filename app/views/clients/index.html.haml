@@ -1,11 +1,12 @@
-- content_for :title, "Email Clients in the last 7 days"
+- content_for :title, "Email Clients"
 
 .page-header
   %h1= yield :title
   %p
-    Deduce the email clients that people are using from the user agent of open events. Currently,
-    not dedecting web mail clients other than Gmail.
+    Email clients that people are using, figured out from the user agent of open events.
+    Currently, it doesn't detect web mail clients other than Gmail.
 
   %p
-    Note that if people have image loading disabled or are using a text-only email clients they are
-    not included in these results.
+    Note that if people have image loading disabled or are using a text-only
+    email clients they are not included in these results.
+    Also, only the first open event is included for each email.
