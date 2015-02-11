@@ -9,4 +9,14 @@
   %p
     Note that if people have image loading disabled or are using a text-only
     email clients they are not included in these results.
-    Also, only the first open event is included for each email.
+
+%table.table
+  %thead
+    %tr
+      %th Client
+      %th Count
+  %tbody
+    - OpenEvent.group(:ua_family).order("count_all desc").count.each do |ua_family, count|
+      %tr
+        %td= ua_family
+        %td= count
