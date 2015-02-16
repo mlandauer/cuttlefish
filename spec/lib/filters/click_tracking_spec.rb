@@ -36,8 +36,8 @@ describe Filters::ClickTracking do
     it "should rewrite the first link" do
       expect(Link).to receive(:find_or_create_by).with(url: "http://foo.com?a=2").and_return(mock_model(Link, id: 10))
       expect(DeliveryLink).to receive(:find_or_create_by).with(delivery_id: 673, link_id: 10).and_return(double(DeliveryLink, id: 321))
-      allow(HashId).to receive(:hash).and_return("sdfsd")
-      expect(filter.rewrite_url("http://foo.com?a=2")).to eq "https://localhost/l/321/sdfsd?url=http%3A%2F%2Ffoo.com%3Fa%3D2"
+      allow(HashId2).to receive(:hash).with("321-http://foo.com?a=2").and_return("sdfsd")
+      expect(filter.rewrite_url("http://foo.com?a=2")).to eq "https://localhost/l2/321/sdfsd?url=http%3A%2F%2Ffoo.com%3Fa%3D2"
     end
   end
 end
