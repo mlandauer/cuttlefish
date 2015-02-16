@@ -1,0 +1,47 @@
+%h3 Using PHP
+
+%p
+  On Linux, PHP's
+  = link_to "mail()", "https://php.net/manual/en/mail.configuration.php#ini.sendmail-path"
+  function sends email with the
+  %code sendmail
+  command.
+  Using
+  = link_to "msmtp", "http://msmtp.sourceforge.net/"
+  we can configure PHP to send all email via Cuttlefish.
+
+%p
+  The following instructions show you how to do this on an Ubuntu system:
+
+%ul
+  %li
+    Install msmtp:
+    %code sudo aptitude install msmtp
+  %li
+    Create file
+    %code /etc/msmtprc
+    with contents:
+    %pre
+      :preserve
+        account cuttlefish
+        tls on
+        tls_trust_file /etc/ssl/certs/ca-certificates.crt
+        host #{Rails.configuration.cuttlefish_domain}
+        port #{Rails.configuration.cuttlefish_smtp_port}
+        auth on
+        user #{app.smtp_username}
+        password #{app.smtp_password}
+        account default : cuttlefish
+  %li
+    Edit PHP configuration files
+    %code /etc/php5/apache2/php.ini
+    and
+    %code /etc/php5/cli/php.ini
+    and add the following line to the
+    %code [mail function]
+    section:
+    %pre sendmail_path = "msmtp --read-envelope-from -t"
+  %li
+    Restart Apache:
+    %code sudo service apache2 restart
+  %li Disco. All mail sent using PHP's mail() function will now go via Cuttlefish.

@@ -25,11 +25,11 @@ class Filters::AddOpenTracking < Filters::Tracking
 
   # The url for the tracking image
   def url
-    tracking_open_url(
+    tracking_open2_url(
       host: host,
       protocol: protocol,
       delivery_id: delivery_id,
-      hash: HashId.hash(delivery_id),
+      hash: HashId2.hash(delivery_id.to_s),
       format: :gif
     )
   end

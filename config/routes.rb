@@ -38,20 +38,27 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :clients, only: :index
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   root to: 'landing#index'
+  post 'request_invitation' => 'landing#request_invitation'
 
   get 'dash' => 'main#index'
   get 'status_counts' => 'main#status_counts'
   get 'reputation' => 'main#reputation'
 
   # Open tracking gifs
+  # Deprecating the first form of the url
   get 'o/:delivery_id/:hash' => 'tracking#open', as: "tracking_open"
+  get 'o2/:delivery_id/:hash' => 'tracking#open2', as: "tracking_open2"
 
   # Link tracking
+  # Deprecating the first form of the url
   get 'l/:delivery_link_id/:hash' => 'tracking#click', as: "tracking_click"
+  get 'l2/:delivery_link_id/:hash' => 'tracking#click2', as: "tracking_click2"
 
   get '/documentation' => 'documentation#index'
 

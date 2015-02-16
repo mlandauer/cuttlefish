@@ -157,6 +157,26 @@ describe Email do
     end
   end
 
+  context "another email which is just a single text part" do
+    let(:data) do
+      <<-EOF
+To: web-administrators@openaustralia.org
+Subject: Email alert statistics
+From: Email Alerts <contact@openaustralia.org>
+
+Some text
+      EOF
+    end
+
+    let(:email) do
+      Email.new(data: data)
+    end
+
+    describe "#text_part" do
+      it { expect(email.text_part).to eq "Some text\n" }
+    end
+  end
+
   context "an email which just consistents of a single html part" do
     let(:mail) do
       Mail.new do

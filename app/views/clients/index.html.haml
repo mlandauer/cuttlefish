@@ -1,0 +1,22 @@
+- content_for :title, "Email Clients"
+
+.page-header
+  %h1= yield :title
+  %p
+    Email clients that people are using, figured out from the user agent of open events.
+    It doesn't detect web mail clients other than Gmail.
+
+  %p
+    Note that if people have image loading disabled or are using a text-only
+    email clients they are not included in these results.
+
+%table.table
+  %thead
+    %tr
+      %th Client
+      %th Count
+  %tbody
+    - policy_scope(Delivery).joins(:open_events).group(:ua_family).order("count_all desc").count.each do |ua_family, count|
+      %tr
+        %td= ua_family
+        %td= count

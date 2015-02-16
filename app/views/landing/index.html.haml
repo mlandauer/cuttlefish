@@ -3,21 +3,59 @@
 
 #hero
   .container
+    - if @poplus
+      %p
+        Run and maintained by the
+        OpenAustralia Foundation sponsored by Poplus via a mini-grant.
     %ul.nav.nav-pills
       %li.active.pull-right= link_to "Sign in", new_admin_session_path
 
   .hero-unit
+
     = image_tag "cuttlefish.png", alt: "Welcome to Cuttlefish", width: 200, height: 120
-    %h1
-      Cuttlefish
-      %small Lovely Transactional Email
+    - if @poplus
+      %h1
+        Free hosted
+        %span.cuttlefish Cuttlefish
+        for the Poplus and international civic tech community
+      %p
+        Cuttlefish? It's for lovely transactional email.
+        It's easy to use and open source.
+      %p
+        = link_to "Sign up", "#myModal", role: "button", class: "btn btn-primary btn-large", data: {toggle: "modal"}
 
-    %p Easy to set up, easy to use and open source
+        #myModal.modal.hide.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+          .modal-header
+            %button.close(type="button" data-dismiss="modal" aria-hidden="true") ×
+            %h3#myModalLabel Get an invitation
+          .modal-body
+            = semantic_form_for @signup_form, url: request_invitation_path, html: {class: "form-horizontal"} do |f|
+              = f.semantic_errors
+              = f.inputs do
+                = f.input :name, placeholder: "Your name"
+                = f.input :email, placeholder: "Your email address", hint: "This is where you will receive your Cuttlefish invitation"
+                = f.input :organisation_name, placeholder: "Organisation Name", hint: "If you're not part of an official organisation, that's fine too. Simply include something about the people you're working with."
+                = f.input :organisation_url, placeholder: "Organisation URL"
+                = f.input :message, as: :text, placeholder: "Anything else you want to let us know? For instance, how are you planning to use Cuttlefish? Or maybe just say Hello!", input_html: {cols: 10}
+              %p
+                The obvious disclaimer here is please don't use Cuttlefish to send anything
+                that could be mistaken as spam. No unsolicited emails. No mass
+                marketing emails. Only things related to civic technology. If you
+                have any doubts or questions just ask.
+              = f.actions do
+                = f.action :submit, label: "Send"
+    - else
+      %h1
+        %span.cuttlefish
+          Cuttlefish
+          %small Lovely Transactional Email
+      %p
+        Easy to set up, easy to use and open source
+      %p
+        = link_to "https://github.com/mlandauer/cuttlefish", class: "btn btn-primary btn-large" do
+          %i.fa.fa-download
+          Download
 
-    %p
-      = link_to "https://github.com/mlandauer/cuttlefish", class: "btn btn-primary btn-large" do
-        %i.fa.fa-download
-        Download
 
 .container
   #features

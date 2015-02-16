@@ -1,4 +1,3 @@
-require File.expand_path File.join(File.dirname(__FILE__), 'mail_job')
 require File.expand_path File.join(File.dirname(__FILE__), 'mail_worker')
 require 'ostruct'
 require 'eventmachine'
@@ -106,8 +105,6 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
   def receive_message
     current.received = true
     current.completed_at = Time.now
-
-    #Delayed::Job.enqueue MailJob.new(current)
 
     MailWorker.perform_async(current.sender, current.recipients, current.data, current.received,
       current.completed_at, current.app_id)

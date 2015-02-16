@@ -3,8 +3,8 @@
     %tr
       %th Time
       %th Link
-      %th User agent
-      %th Referer
+      %th Client
+      %th OS
       %th IP
   %tbody
     - delivery.click_events.each do |event|
@@ -12,7 +12,13 @@
         %td
           = time_ago_in_words(event.created_at)
           ago
-        %td= link_to event.url          
-        %td= event.user_agent
-        %td= event.referer
+        %td= link_to event.url
+        %td
+          = event.calculate_ua_family
+          - if event.calculate_ua_version
+            %span.muted (#{event.calculate_ua_version})
+        %td
+          = event.calculate_os_family
+          - if event.calculate_os_version
+            %span.muted (#{event.calculate_os_version})
         %td= event.ip

@@ -75,7 +75,7 @@ class Email < ActiveRecord::Base
       end
       nil
     else
-      if section.mime_type == mime_type
+      if (section.mime_type == mime_type) || (section.mime_type.nil? && mime_type == "text/plain")
         section.decoded
       end
     end

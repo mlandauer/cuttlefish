@@ -12,6 +12,22 @@ body.landing {
   background-color: #E74C3C;
 }
 
+span.cuttlefish {
+  font-family: 'Leckerli One', cursive;
+  margin-right: 5px;
+}
+
+.modal {
+  color: #34495e;
+  p, .help-block {
+    font-size: 0.75em;
+    line-height: 1.5em;
+  }
+  textarea {
+    height: 200px;
+  }
+}
+
 .hero-unit {
   background-color: #E74C3C;
   padding-top: 0px;
@@ -20,7 +36,6 @@ body.landing {
     color: white;
   }
   h1 {
-    font-family: 'Leckerli One', cursive;
     font-size: 40px;
     font-weight: normal;
   }
