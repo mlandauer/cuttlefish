@@ -48,19 +48,14 @@ class TrackingController < ApplicationController
   end
 
   def click2
-    if HashId2.valid?(params[:delivery_link_id], params[:hash])
+    if HashId2.valid?("#{params[:delivery_link_id]}-#{params[:url]}", params[:hash])
       delivery_link = DeliveryLink.find_by_id(params[:delivery_link_id])
-      if delivery_link
-        delivery_link.add_click_event(request) unless Rails.configuration.cuttlefish_read_only_mode
-        redirect_to delivery_link.url
-      elsif params[:url]
-        # This is probably an old email which has been archived and the delivery_link record
-        # doesn't exist anymore. If we have a url we should redirect to it anyway so that the
-        # link will still work even though we won't be able to log the click event.
-        redirect_to params[:url]
-      else
-        raise ActiveRecord::RecordNotFound
+      # If there is no delivery_link this is probably an old email
+      # which has been archived and the delivery_link record doesn't exist anymore.
+      if delivery_link && !Rails.configuration.cuttlefish_read_only_mode
+        delivery_link.add_click_event(request)
       end
+      redirect_to params[:url]
     else
       raise ActiveRecord::RecordNotFound
     end
