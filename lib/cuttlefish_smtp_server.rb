@@ -1,4 +1,3 @@
-require File.expand_path File.join(File.dirname(__FILE__), 'mail_job')
 require File.expand_path File.join(File.dirname(__FILE__), 'mail_worker')
 require 'ostruct'
 require 'eventmachine'

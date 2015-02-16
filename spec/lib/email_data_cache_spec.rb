@@ -1,5 +1,4 @@
 require "spec_helper"
-require "mail_job"
 
 describe EmailDataCache do
   let(:cache) { EmailDataCache.new(Rails.env, 1000) }
