@@ -1,7 +1,7 @@
 require "spec_helper"
 require "ostruct"
 
-describe MailJob, '#perform' do
+describe MailWorker, '#perform' do
   let(:team) { Team.create! }
   let(:app) { team.apps.create!(name: "test") }
   let(:mail) {
@@ -16,7 +16,8 @@ describe MailJob, '#perform' do
 
   it "should save the email information and forward it" do
     allow_any_instance_of(OutgoingDelivery).to receive(:send)
-    MailJob.new(OpenStruct.new(sender: "<matthew@foo.com>", recipients: ["<foo@bar.com>"], data: mail.encoded, app_id: app.id)).perform
+    MailWorker.new.perform("<matthew@foo.com>", ["<foo@bar.com>"], mail.encoded,
+      nil, nil, app.id)
 
     expect(Email.count).to eq 1
   end
@@ -24,14 +25,16 @@ describe MailJob, '#perform' do
   it "should forward the email information" do
     expect_any_instance_of(OutgoingDelivery).to receive(:send)
 
-    MailJob.new(OpenStruct.new(sender: "<matthew@foo.com>", recipients: ["<foo@bar.com>"], data: mail.encoded, app_id: app.id)).perform
+    MailWorker.new.perform("<matthew@foo.com>", ["<foo@bar.com>"], mail.encoded,
+      nil, nil, app.id)
   end
 
   it "should not save the email information if the forwarding fails" do
     allow_any_instance_of(OutgoingDelivery).to receive(:send).and_raise("I can't contact the mail server")
 
     expect {
-      MailJob.new(OpenStruct.new(sender: "<matthew@foo.com>", recipients: ["<foo@bar.com>"], data: "message", app_id: app.id)).perform
+      MailWorker.new.perform("<matthew@foo.com>", ["<foo@bar.com>"], "message",
+        nil, nil, app.id)
     }.to raise_error
 
     expect(Email.count).to eq 0
@@ -41,6 +44,7 @@ describe MailJob, '#perform' do
     expect_any_instance_of(OutgoingDelivery).to receive(:send)
     expect(Email).to receive(:create!).with(from: "matthew@foo.com", to: ["foo@bar.com"], data: mail.encoded, app_id: app.id).and_call_original
 
-    MailJob.new(OpenStruct.new(sender: "<bounces@foo.com>", recipients: ["<foo@bar.com>"], data: mail.encoded, app_id: app.id)).perform
+    MailWorker.new.perform("<bounces@foo.com>", ["<foo@bar.com>"], mail.encoded,
+      nil, nil, app.id)
   end
 end

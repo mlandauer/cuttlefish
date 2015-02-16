@@ -107,8 +107,6 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     current.received = true
     current.completed_at = Time.now
 
-    #Delayed::Job.enqueue MailJob.new(current)
-
     MailWorker.perform_async(current.sender, current.recipients, current.data, current.received,
       current.completed_at, current.app_id)
 
