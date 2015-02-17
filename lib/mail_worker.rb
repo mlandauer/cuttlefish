@@ -1,12 +1,8 @@
 # For Sidekiq
 class MailWorker
   include Sidekiq::Worker
-  def perform(sender, recipients, data, received, completed_at, app_id)
-    # TODO Remove sender, received, completed_at because they are not used
-    perform2(recipients, data, app_id)
-  end
 
-  def perform2(recipients, data, app_id)
+  def perform(recipients, data, app_id)
     ActiveRecord::Base.transaction do
       # Discard the "return path" in sender
       # Take the from instead from the contents of the mail
