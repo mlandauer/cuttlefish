@@ -16,8 +16,7 @@ describe MailWorker, '#perform' do
 
   it "should save the email information and forward it" do
     allow_any_instance_of(OutgoingDelivery).to receive(:send)
-    MailWorker.new.perform("<matthew@foo.com>", ["<foo@bar.com>"], mail.encoded,
-      nil, nil, app.id)
+    MailWorker.new.perform(["<foo@bar.com>"], mail.encoded, app.id)
 
     expect(Email.count).to eq 1
   end
@@ -25,16 +24,14 @@ describe MailWorker, '#perform' do
   it "should forward the email information" do
     expect_any_instance_of(OutgoingDelivery).to receive(:send)
 
-    MailWorker.new.perform("<matthew@foo.com>", ["<foo@bar.com>"], mail.encoded,
-      nil, nil, app.id)
+    MailWorker.new.perform(["<foo@bar.com>"], mail.encoded, app.id)
   end
 
   it "should not save the email information if the forwarding fails" do
     allow_any_instance_of(OutgoingDelivery).to receive(:send).and_raise("I can't contact the mail server")
 
     expect {
-      MailWorker.new.perform("<matthew@foo.com>", ["<foo@bar.com>"], "message",
-        nil, nil, app.id)
+      MailWorker.new.perform(["<foo@bar.com>"], "message", app.id)
     }.to raise_error
 
     expect(Email.count).to eq 0
@@ -44,7 +41,6 @@ describe MailWorker, '#perform' do
     expect_any_instance_of(OutgoingDelivery).to receive(:send)
     expect(Email).to receive(:create!).with(from: "matthew@foo.com", to: ["foo@bar.com"], data: mail.encoded, app_id: app.id).and_call_original
 
-    MailWorker.new.perform("<bounces@foo.com>", ["<foo@bar.com>"], mail.encoded,
-      nil, nil, app.id)
+    MailWorker.new.perform(["<foo@bar.com>"], mail.encoded, app.id)
   end
 end

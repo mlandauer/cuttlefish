@@ -106,8 +106,9 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     current.received = true
     current.completed_at = Time.now
 
-    MailWorker.perform_async(current.sender, current.recipients, current.data, current.received,
-      current.completed_at, current.app_id)
+    # TODO No need to capture current.sender, current.received, current.completed_at
+    # because we're not passing it on
+    MailWorker.perform_async(current.recipients, current.data, current.app_id)
 
     @current = OpenStruct.new
     true
