@@ -53,25 +53,16 @@ class App < ActiveRecord::Base
 
   # This is the expected form of the correctly configured TXT entry when we are doing a DNS lookup
   def dkim_public_key_dns_lookup
-    dkim_public_key_dns_dnsmadeeasy.gsub('""', ' ').gsub('"', '')
-  end
-
-  def dkim_public_key_dns_lookup_new
     dkim_public_key_dns_dnsmadeeasy.gsub('"', '')
   end
 
-  def dkim_dns_entry_new
+  def dkim_dns_entry
     # Use our default nameserver
     begin
       Resolv::DNS.new.getresource("cuttlefish._domainkey.#{from_domain}", Resolv::DNS::Resource::IN::TXT).strings.join
     rescue ResolvError
       nil
     end
-  end
-
-  def dkim_dns_entry
-    entry = Net::DNS::Resolver.start("cuttlefish._domainkey.#{from_domain}", Net::DNS::TXT).answer.first
-    entry.txt.strip if entry
   end
 
   def dkim_private_key
@@ -81,10 +72,6 @@ class App < ActiveRecord::Base
 
   def dkim_dns_configured?
     dkim_dns_entry == dkim_public_key_dns_lookup
-  end
-
-  def dkim_dns_configured_new?
-    dkim_dns_entry_new == dkim_public_key_dns_lookup_new
   end
 
   def tracking_domain
@@ -109,6 +96,7 @@ class App < ActiveRecord::Base
   end
 
   def self.lookup_dns_cname_record(domain)
+    # TODO Move this over to use Ruby stdlib Resolv::DNS
     cname_record = Net::DNS::Resolver.start(domain, Net::DNS::CNAME).answer.first
     cname_record.value if cname_record
   end
