@@ -56,6 +56,19 @@ class App < ActiveRecord::Base
     dkim_public_key_dns_dnsmadeeasy.gsub('""', ' ').gsub('"', '')
   end
 
+  def dkim_public_key_dns_lookup_new
+    dkim_public_key_dns_dnsmadeeasy.gsub('"', '')
+  end
+
+  def dkim_dns_entry_new
+    # Use our default nameserver
+    begin
+      Resolv::DNS.new.getresource("cuttlefish._domainkey.#{from_domain}", Resolv::DNS::Resource::IN::TXT).strings.join
+    rescue ResolvError
+      nil
+    end
+  end
+
   def dkim_dns_entry
     entry = Net::DNS::Resolver.start("cuttlefish._domainkey.#{from_domain}", Net::DNS::TXT).answer.first
     entry.txt.strip if entry
@@ -68,6 +81,10 @@ class App < ActiveRecord::Base
 
   def dkim_dns_configured?
     dkim_dns_entry == dkim_public_key_dns_lookup
+  end
+
+  def dkim_dns_configured_new?
+    dkim_dns_entry_new == dkim_public_key_dns_lookup_new
   end
 
   def tracking_domain
