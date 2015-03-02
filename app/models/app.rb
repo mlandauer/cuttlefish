@@ -60,7 +60,7 @@ class App < ActiveRecord::Base
     # Use our default nameserver
     begin
       Resolv::DNS.new.getresource("cuttlefish._domainkey.#{from_domain}", Resolv::DNS::Resource::IN::TXT).strings.join
-    rescue ResolvError
+    rescue Resolv::ResolvError
       nil
     end
   end
@@ -96,9 +96,19 @@ class App < ActiveRecord::Base
   end
 
   def self.lookup_dns_cname_record(domain)
-    # TODO Move this over to use Ruby stdlib Resolv::DNS
-    cname_record = Net::DNS::Resolver.start(domain, Net::DNS::CNAME).answer.first
-    cname_record.value if cname_record
+    # Use our default nameserver
+    begin
+      n = Resolv::DNS.new.getresource(domain, Resolv::DNS::Resource::IN::CNAME).name
+      # Doing this to maintain compatibility with previous implementation
+      # of this method
+      if n.absolute?
+        n.to_s + "."
+      else
+        n.to_s
+      end
+    rescue Resolv::ResolvError
+      nil
+    end
   end
 
   def custom_tracking_domain_points_to_correct_place
