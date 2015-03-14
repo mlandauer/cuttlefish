@@ -80,6 +80,9 @@ describe CuttlefishSmtpConnection do
           "Message-ID: <20150313144220.12848.46019@paro-taktsang>",
           "",
           "Contra toda autoridad!...excepto mi mamá!"].join("\n")
+      # Simulate the encoding that we would assume when the data is received
+      # over the wire so to speak
+      data.force_encoding("ASCII-8BIT")
       connection.receive_sender("ciudadanoi@email.org")
       connection.receive_recipient('Felipe <felipe@fiera-feroz.cl>')
       connection.receive_recipient('Matthew <matthew@fiera-feroz.cl>')
