@@ -90,7 +90,7 @@ describe CuttlefishSmtpConnection do
       end
       expect(Email.count).to eq 1
       mail = Email.first
-      expect(mail.data).to include("Contra toda autoridad!...excepto mi mamá!")
+      expect(Mail.new(mail.data).decoded).to eq("Contra toda autoridad!...excepto mi mamá!")
     end
   end
 end
