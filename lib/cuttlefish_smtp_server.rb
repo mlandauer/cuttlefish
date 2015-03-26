@@ -113,9 +113,8 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     # Before we send current.data to MailWorker we need to deal with the encoding
     # because before it gets stored in redis it needs to be serialised to json
     # which requires a conversion to utf8
-    # It comes in with unknown encoding - so let's just pass it to the Mail gem instead
-    # to handle it correctly based on the mail headers
-    MailWorker.perform_async(current.recipients, Mail.new(current.data).to_s, current.app_id)
+    # It comes in with unknown encoding - so let's encode it as base64
+    MailWorker.perform_async(current.recipients, Base64.encode64(current.data), current.app_id)
 
     @current = OpenStruct.new
     true
