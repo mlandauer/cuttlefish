@@ -13,8 +13,9 @@
   %hr
   %h3 Improve delivery
   %p
-    DomainKeys Identified Mail (DKIM) improves the delivery of your emails by automatically cryptographically
-    signing each email so that the recipient can check that it was indeed sent by you.
+    DomainKeys Identified Mail (DKIM) is a standard for email receivers to
+    verify that the email was indeed sent by you, and that it has not been
+    tampered with during transport.
   = button_to "Disable DKIM", toggle_dkim_app_path(@app), class: "btn btn-primary"
 - elsif !@app.dkim_enabled && policy(@app).dkim?
   %h3 What to do next
