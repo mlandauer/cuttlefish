@@ -11,6 +11,12 @@ class CuttlefishLogDaemon
                 if log_line && log_line.status == "hard_bounce"
                   # We don't want to save duplicates
                   if BlackList.find_by(team_id: log_line.delivery.app.team_id, address: log_line.delivery.address).nil?
+                    # TEMPORARY addition to debug something in production
+                    if log_line.delivery.app.team_id.nil?
+                      puts "team_id is NIL"
+                      p log_line
+                      p line
+                    end
                     BlackList.create(team_id: log_line.delivery.app.team_id, address: log_line.delivery.address, caused_by_delivery: log_line.delivery)
                   end
                 end
