@@ -1,5 +1,6 @@
 require 'spec_helper'
 require File.expand_path File.join(File.dirname(__FILE__), '..', '..', 'lib', 'cuttlefish_smtp_server')
+require 'sidekiq/testing'
 
 describe CuttlefishSmtpConnection do
   let(:connection) { CuttlefishSmtpConnection.new('') }
@@ -63,6 +64,36 @@ describe CuttlefishSmtpConnection do
         cert_chain_file: "/foo/bar",
         private_key_file: "/foo/private"
       })
+    end
+  end
+  describe "#receive_message" do
+    it do
+      allow_any_instance_of(OutgoingDelivery).to receive(:send)
+      data = [
+          "MIME-Version: 1.0",
+          "Content-Type: text/plain; charset=\"utf-8\"",
+          "Content-Transfer-Encoding: 8bit",
+          "Subject: [WriteIT] Message: asdasd",
+          "From: Felipe <felipe@fiera-feroz.cl>, Matthew <matthew@fiera-feroz.cl>",
+          "To: felipe@fiera-feroz.cl",
+          "Date: Fri, 13 Mar 2015 14:42:20 -0000",
+          "Message-ID: <20150313144220.12848.46019@paro-taktsang>",
+          "",
+          "Contra toda autoridad!...excepto mi mamá!"].join("\n")
+      # Simulate the encoding that we would assume when the data is received
+      # over the wire so to speak
+      data.force_encoding("ASCII-8BIT")
+      connection.receive_sender("ciudadanoi@email.org")
+      connection.receive_recipient('Felipe <felipe@fiera-feroz.cl>')
+      connection.receive_recipient('Matthew <matthew@fiera-feroz.cl>')
+      connection.receive_plain_auth(app.smtp_username, app.smtp_password)
+      connection.current.data = data
+      Sidekiq::Testing.inline! do
+        connection.receive_message
+      end
+      expect(Email.count).to eq 1
+      mail = Email.first
+      expect(Mail.new(mail.data).decoded).to eq("Contra toda autoridad!...excepto mi mamá!")
     end
   end
 end

@@ -1,0 +1,21 @@
+%h3 Using Django
+
+%p
+  = link_to "Django", "https://www.djangoproject.com/"
+  makes it easier to build better Web apps more quickly and with less code.
+
+%p
+  If you want to send emails using Django you should edit your settings.py and add the following:
+
+:coderay
+  #!python
+
+  # Send #{app.name} mails to Cuttlefish (see http://cuttlefish.io)
+  EMAIL_HOST = '#{Rails.configuration.cuttlefish_domain}'
+  EMAIL_PORT = #{Rails.configuration.cuttlefish_smtp_port}
+  EMAIL_HOST_USER = '#{app.smtp_username}'
+  EMAIL_HOST_PASSWORD = '#{app.smtp_password}'
+  EMAIL_USE_TLS = True
+
+%p
+  Probably you should also check the value for EMAIL_BACKEND as the default value is 'django.core.mail.backends.smtp.EmailBackend'.
