@@ -58,12 +58,6 @@ gem "pundit"
 gem "friendly_id"
 gem "user_agent_parser"
 gem "mail_form"
-
-# Deployment bits and bobs
-# Later versions cause issues with backing up assets manifests file to release directory
-# TODO: Fix this
-gem "capistrano", "2.13.5"
-gem 'rvm-capistrano'
 gem 'newrelic_rpm'
 gem 'honeybadger'
 gem 'dkim'
@@ -94,6 +88,11 @@ group :development do
   gem "spring"
   gem "spring-commands-rspec"
   gem "ruby_gntp"
+  # Deployment bits and bobs
+  # Later versions cause issues with backing up assets manifests file to release directory
+  # TODO: Fix this
+  gem "capistrano", "2.13.5"
+  gem 'rvm-capistrano'
 end
 
 group :test do
