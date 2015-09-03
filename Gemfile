@@ -92,7 +92,7 @@ group :development do
   # Later versions cause issues with backing up assets manifests file to release directory
   # TODO: Fix this
   gem "capistrano", "2.13.5"
-  gem 'rvm-capistrano'
+  gem 'rvm-capistrano', require: false
 end
 
 group :test do
