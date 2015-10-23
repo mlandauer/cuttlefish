@@ -13,7 +13,7 @@
             = delivery.subject
           %td.app.hidden-phone= delivery.app_name
           %td.time-and-labels
-            = time_ago_in_words(delivery.created_at)
+            %span{title: delivery.created_at}= time_ago_in_words(delivery.created_at)
             ago
             %br
             = delivered_label(delivery.status)
