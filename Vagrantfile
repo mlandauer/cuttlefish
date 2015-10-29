@@ -124,6 +124,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # chef-validator, unless you changed the configuration.
   #
   #   chef.validation_client_name = "ORGNAME-validator"
+ config.vm.provision :shell, inline: <<SCRIPT
+apt-get update -y
+
+apt-get upgrade --yes
+
+apt-get install python-apt -y
+
+SCRIPT
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "provisioning/playbook.yml"

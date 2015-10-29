@@ -1,4 +1,6 @@
 # file: postgresql/tasks/install.yml
+- name: apt cache
+  apt: update_cache=yes cache_valid_time=3600
 
 - name: PostgreSQL | Make sure the dependencies are installed
   apt:
