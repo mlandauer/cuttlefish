@@ -31,4 +31,4 @@ rvm1_rvm_check_for_updates: True
 rvm1_gpg_keys: 'D39DC0E3'
 
 # The GPG key server
-rvm1_gpg_key_server: 'hkp://keys.gnupg.net'
+rvm1_gpg_key_server: 'hkp://pgp.mit.edu'
