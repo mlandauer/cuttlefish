@@ -3,3 +3,6 @@
 
 [db]
 192.168.33.22
+
+[all:vars]
+db_password=WaRlOrdZ
