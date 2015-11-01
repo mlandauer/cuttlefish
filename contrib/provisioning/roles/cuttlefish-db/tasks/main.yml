@@ -3,13 +3,9 @@
 - name: packages
   apt: pkg={{ item }}
   with_items:
+      - postgresql
       - sudo
       - python-psycopg2
-
-- name: packages
-  apt: pkg={{ item }}
-  with_items:
-    - postgresql
 
 - name: db
   sudo: yes
