@@ -6,3 +6,6 @@
 
 - name: bundle install
   command: bundle install --frozen --path=vendor --quiet
+
+- name: database.yml
+  template: src=database.yml.j2 dest=/home/cuttlefish/config/database.yml
