@@ -1,0 +1,6 @@
+---
+
+- hosts: cuttlefish
+  user: cuttlefish
+  roles:
+      - cuttlefish-app

@@ -1,0 +1,6 @@
+---
+
+- name: packages
+  apt: pkg={{ item }}
+  with_items:
+    - postgresql
