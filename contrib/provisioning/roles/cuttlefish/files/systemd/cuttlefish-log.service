@@ -1,0 +1,17 @@
+[Unit]
+Description=Cuttlefish Log
+After=postfix.target
+Documentation=
+
+[Service]
+User=cuttlefish
+#EnvironmentFile=/home/cuttlefish/env
+WorkingDirectory=/home/cuttlefish
+ExecStart=/usr/bin/bundle exec rake cuttlefish:log RAILS_ENV=production
+KillMode=process
+Restart=on-failure
+CPUAccounting=true
+
+[Install]
+WantedBy=multi-user.target
+
