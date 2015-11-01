@@ -1,0 +1,9 @@
+---
+
+- hosts: cuttlefish
+  roles:
+    - cuttlefish
+
+- hosts: db
+  roles:
+    - cuttlefish-db

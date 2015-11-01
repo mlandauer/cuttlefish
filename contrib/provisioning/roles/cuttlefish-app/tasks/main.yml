@@ -1,0 +1,8 @@
+---
+
+- name: copy source
+  synchronize: src=../../../../..   dest=/home/
+      rsync_opts="--exclude 'contrib' --exclude 'provisioning' --exclude='.git' --exclude='.vagrant' --exclude 'vendor'"
+
+- name: bundle install
+  command: bundle install --frozen --path=vendor --quiet
