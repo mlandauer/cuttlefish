@@ -6,3 +6,7 @@
 
 [all:vars]
 db_password=WaRlOrdZ
+cuttlefish_domain=cuttlefish.example.com
+secret_key_base=toto
+devise_secret_key=toto
+cuttlefish_hash_salt=toto

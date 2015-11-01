@@ -2,10 +2,13 @@
 
 - name: copy source
   synchronize: src=../../../../..   dest=/home/
-      rsync_opts="--exclude 'contrib' --exclude 'provisioning' --exclude='.git' --exclude='.vagrant' --exclude 'vendor'"
+      rsync_opts="--exclude 'contrib' --exclude 'provisioning' --exclude='.git' --exclude='.vagrant' --exclude 'vendor' --exclude='.env'"
 
 - name: bundle install
   command: bundle install --frozen --path=vendor --quiet
 
 - name: database.yml
   template: src=database.yml.j2 dest=/home/cuttlefish/config/database.yml
+
+- name: .env setup
+  template: src=env.j2 dest=/home/cuttlefish/.env
