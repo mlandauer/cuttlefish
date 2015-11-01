@@ -5,7 +5,7 @@ Documentation=
 
 [Service]
 User=cuttlefish
-#EnvironmentFile=/home/cuttlefish/env
+EnvironmentFile=/home/cuttlefish/.env
 WorkingDirectory=/home/cuttlefish
 ExecStart=/usr/bin/bundle exec rake cuttlefish:smtp RAILS_ENV=production
 KillMode=process

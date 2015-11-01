@@ -1,0 +1,4 @@
+---
+
+# Parallelize your bundle install
+bundler_jobs: 1
