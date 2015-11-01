@@ -38,3 +38,11 @@
               owner=cuttlefish
   with_items: authorized_root.stdout_lines
 
+- name: services
+  copy: src=systemd/{{ item }} dest=/etc/systemd/system/{{ item }}
+  with_items:
+      - cuttlefish-smtp.service
+      - cuttlefish-log.service
+      - cuttlefish-workers.service
+  notify: systemctl daemon-reload
+
