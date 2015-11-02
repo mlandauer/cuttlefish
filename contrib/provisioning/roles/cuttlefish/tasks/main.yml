@@ -44,5 +44,6 @@
       - cuttlefish-smtp.service
       - cuttlefish-log.service
       - cuttlefish-workers.service
+      - cuttlefish-web.service
   notify: systemctl daemon-reload
 

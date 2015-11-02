@@ -1,0 +1,16 @@
+[Unit]
+Description=Cuttlefish Web
+After=network.target
+Documentation=
+
+[Service]
+User=cuttlefish
+EnvironmentFile=/home/cuttlefish/.env
+WorkingDirectory=/home/cuttlefish
+ExecStart=/usr/bin/bundle exec puma --config config/puma.rb
+KillMode=process
+Restart=on-failure
+CPUAccounting=true
+
+[Install]
+WantedBy=multi-user.target
