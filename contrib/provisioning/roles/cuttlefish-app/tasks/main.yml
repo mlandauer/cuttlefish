@@ -12,3 +12,11 @@
 
 - name: .env setup
   template: src=env.j2 dest=/home/cuttlefish/.env
+
+- name: revision
+  delegate_to: 127.0.0.1
+  command: git describe --always
+  register: revision
+
+- name: REVISION
+  copy: content='{{ revision.stdout }}' dest=/home/cuttlefish/REVISION

@@ -1,4 +1,7 @@
 ---
 
+web_listen: 'localhost'
+web_concurrency: 2
 # Parallelize your bundle install
 bundler_jobs: 1
+disable_ssl: False
