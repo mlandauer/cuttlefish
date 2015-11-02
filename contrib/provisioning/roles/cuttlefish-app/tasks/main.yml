@@ -2,7 +2,7 @@
 
 - name: copy source
   synchronize: src=../../../../..   dest=/home/
-      rsync_opts="--exclude 'contrib' --exclude 'provisioning' --exclude='.git' --exclude='.vagrant' --exclude 'vendor' --exclude='.env'"
+      rsync_opts="--exclude 'contrib' --exclude 'provisioning' --exclude='.git' --exclude='.vagrant' --exclude 'vendor' --exclude='.env' --exclude='config/database.yml'"
 
 - name: bundle install
   command: bundle install --frozen --path=vendor --quiet
