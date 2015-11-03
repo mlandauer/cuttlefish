@@ -15,6 +15,18 @@
       - bundler
       - redis-server
       - rsync
+      - nginx
+
+- name: site available
+  template: src=cuttlefish.conf.j2
+            dest=/etc/nginx/sites-available/cuttlefish.conf
+  notify: restart nginx
+
+- name: site enabled
+  file: state=link
+        src=/etc/nginx/sites-available/cuttlefish.conf
+        dest=/etc/nginx/sites-enabled/cuttlefish.conf
+  notify: restart nginx
 
 - name: cuttlefish user
   user: name=cuttlefish
