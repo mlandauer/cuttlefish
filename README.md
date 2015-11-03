@@ -59,7 +59,7 @@ We use [Vagrant](https://www.vagrantup.com/) and [Ansible](http://docs.ansible.c
 parts but all of this is with the purpose of making it easier for the developer sending mail.
 
 These instructions are currently for installing the server at cuttlefish.oaf.org.au. They're not
-yet generic. Maybe you can help with this?
+yet generic. Maybe you can [help with this](https://github.com/mlandauer/cuttlefish/issues/226)?
 
 ### To install to a local test virtual machine
 
