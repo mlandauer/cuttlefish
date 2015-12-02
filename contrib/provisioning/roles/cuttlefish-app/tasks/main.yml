@@ -2,10 +2,12 @@
 
 - name: copy source
   synchronize: src=../../../../..   dest=/home/
-      rsync_opts="--exclude 'contrib' --exclude 'provisioning' --exclude='.git' --exclude='.vagrant' --exclude 'vendor' --exclude='.env' --exclude='config/database.yml'"
+      rsync_opts="--exclude 'contrib' --exclude 'provisioning'  --exclude='.vagrant' --exclude='.env' --exclude='config/database.yml'"
+  #--exclude='.git'
 
 - name: bundle install
   command: bundle install --frozen --path=vendor --quiet
+           chdir=/home/cuttlefish
 
 - name: database.yml
   template: src=database.yml.j2 dest=/home/cuttlefish/config/database.yml
@@ -19,4 +21,12 @@
   register: revision
 
 - name: REVISION
-  copy: content='{{ revision.stdout }}' dest=/home/cuttlefish/REVISION
+  copy: "content='{{ revision.stdout }}' dest=/home/cuttlefish/REVISION"
+
+- name: db migrate
+  shell: RACK_ENV=production bundle exec rake db:migrate
+         chdir=/home/cuttlefish
+
+- name: assets
+  shell: RACK_ENV=development bundle exec rake assets:environment assets:precompile
+         chdir=/home/cuttlefish
