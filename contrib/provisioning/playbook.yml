@@ -1,9 +1,13 @@
 ---
 
+- hosts: db
+  tags: db
+  roles:
+    - cuttlefish-db
+
 - hosts: cuttlefish
   roles:
     - cuttlefish
+    - role: cuttlefish-app
+      tags: app
 
-- hosts: db
-  roles:
-    - cuttlefish-db
