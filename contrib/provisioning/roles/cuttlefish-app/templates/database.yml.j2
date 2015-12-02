@@ -1,6 +1,11 @@
-production:
+---
+
+production: &default
   adapter: postgresql
   database: cuttlefish
   username: cuttlefish
   password: {{ db_password }}
+  host: localhost
 
+development:
+  <<: *default
