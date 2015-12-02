@@ -53,9 +53,18 @@
 - name: services
   copy: src=systemd/{{ item }} dest=/etc/systemd/system/{{ item }}
   with_items:
+      - cuttlefish.service
       - cuttlefish-smtp.service
       - cuttlefish-log.service
       - cuttlefish-workers.service
       - cuttlefish-web.service
   notify: systemctl daemon-reload
 
+- name: services
+  service: name={{ item }} state=started
+  with_items:
+      - cuttlefish
+      - cuttlefish-smtp
+      - cuttlefish-log
+      - cuttlefish-workers
+      - cuttlefish-web
