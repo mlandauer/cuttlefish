@@ -51,6 +51,11 @@
               owner=cuttlefish
   with_items: authorized_root.stdout_lines
 
+- name: env exist
+  command: ls /home/cuttlefish/.env
+  ignore_errors: True
+  register: env_exists
+
 - name: services
   copy: src=systemd/{{ item }} dest=/etc/systemd/system/{{ item }}
   with_items:
@@ -69,3 +74,4 @@
       - cuttlefish-log
       - cuttlefish-workers
       - cuttlefish-web
+  when: env_exists.stderr == ''
