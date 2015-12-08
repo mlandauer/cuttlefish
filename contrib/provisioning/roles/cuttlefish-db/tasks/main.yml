@@ -3,6 +3,7 @@
 - name: packages
   apt: pkg={{ item }}
   with_items:
+      - sudo
       - python-psycopg2
 
 - name: packages
