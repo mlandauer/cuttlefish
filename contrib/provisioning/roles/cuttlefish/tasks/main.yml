@@ -33,6 +33,7 @@
   user: name=cuttlefish
         state=present
         shell=/bin/bash
+        groups=adm
 
 - name: ssh folder
   file: path=/home/cuttlefish.ssh
