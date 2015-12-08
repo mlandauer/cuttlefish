@@ -16,6 +16,7 @@
       - redis-server
       - rsync
       - nginx
+      - build-essential
 
 - name: site available
   template: src=cuttlefish.conf.j2
