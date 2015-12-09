@@ -11,3 +11,5 @@ secret_key_base=toto
 devise_secret_key=toto
 cuttlefish_hash_salt=toto
 disable_ssl=yes
+cuttlefish_cert=/etc/ssl/certs/ssl-cert-snakeoil.pem
+cuttlefish_private_key=/etc/ssl/private/ssl-cert-snakeoil.key
