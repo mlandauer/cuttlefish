@@ -1,0 +1,4 @@
+---
+
+cuttlefish_private_key: /etc/ssl/private/ssl-cert-snakeoil.key
+cuttlefish_cert: /etc/ssl/certs/ssl-cert-snakeoil.pem
