@@ -31,6 +31,7 @@ class Archiving
       deliveries.find_each do |delivery|
         delivery.destroy
       end
+      copy_to_s3(date)
     end
   end
 
@@ -89,5 +90,21 @@ class Archiving
       delivery.postfix_log_lines.create(postfix_log_line_data)
     end
     delivery
+  end
+
+  def self.copy_to_s3(date)
+    if s3_bucket = ENV["S3_BUCKET"]
+      puts "Copying #{date} archive to S3 bucket #{s3_bucket}..."
+      s3_connection = Fog::Storage.new(
+        provider: "AWS",
+        aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+        aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
+      )
+      directory = s3_connection.directories.get(s3_bucket)
+      directory.files.create(
+        key: "#{date}.tar.gz",
+        body: File.open("db/archive/#{date}.tar.gz"),
+      )
+    end
   end
 end
