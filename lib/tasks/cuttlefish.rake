@@ -23,4 +23,13 @@ namespace :cuttlefish do
       Archiving.archive(date)
     end
   end
+
+  desc "Copy archive to S3 (if it was missed as part of the archive task)"
+  task :copy_archive_to_s3, [:date1, :date2] => :environment do |t, args|
+    raise "S3 not configured" unless ENV["S3_BUCKET"]
+    args.with_defaults(:date2 => args.date1)
+    (Date.parse(args.date1)..Date.parse(args.date2)).each do |date|
+      Archiving.copy_to_s3(date)
+    end
+  end
 end
