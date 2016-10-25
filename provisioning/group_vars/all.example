@@ -35,6 +35,16 @@ secret_key_base: ''
 devise_secret_key: ''
 cuttlefish_hash_salt: ''
 
+# This is the port Cuttlefish will listen on for incoming SMTP connections.
+# Note that Postfix is listening on port 25, so you'll need to use something
+# different here.
+cuttlefish_smtp_port: 2525
+
+# These need to be something@yourdomain.com - SPF is checked against these
+# addresses.
+cuttlefish_sender_email: 'sender@cuttlefish.oaf.org.au'
+cuttlefish_bounce_email: 'bounces@cuttlefish.oaf.org.au'
+
 #
 # Optional
 #
