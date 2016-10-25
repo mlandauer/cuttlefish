@@ -3,6 +3,6 @@
   sudo: true
   #user: root
   roles:
-    - {role: deploy-user, github_users: ['mlandauer', 'henare', 'equivalentideas']}
+    - deploy-user
     - postfix
     - cuttlefish-app

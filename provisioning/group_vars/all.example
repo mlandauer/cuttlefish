@@ -1,0 +1,50 @@
+# vim: set et ts=2 sw=2:
+---
+#
+# Required variables
+#
+
+# The fully-qualified domain name (i.e. with subdomain) where your Cuttlefish
+# instance is running.
+fqdn: "cuttlefish.oaf.org.au"
+
+# GitHub usernames for users who will have deploy access to this machine. This
+# is used to grab their SSH keys from GitHub.
+#
+# If you change this after provisioning, the users who have access will be
+# updated to reflect this.
+github_users: ['mlandauer', 'henare', 'equivalentideas']
+
+# Postgres database password
+#
+# If you change this after provisioning bad things will happen.
+db_password: 'secretdbpassword'
+
+# Rails secrets. Set these to a random strings 32+ characters long, e.g.
+#
+#  $ ruby -e 'require "securerandom"; puts SecureRandom.hex(32)'
+#
+# They should all be different!
+#
+# If you move the database to another machine, `devise_secret_key` and
+# `cuttlefish_hash_salt` must match. `secret_key_base` is used for the session
+# cookie, so if you have multiple load-balanced Cuttlefish hosts that must also
+# match.
+#
+secret_key_base: 'c91c946e4a617cd94c12f8e237634102397d59832cae4228533389d9131abb49'
+devise_secret_key: '1bcd3afd1038f009b0b8e7e6f9a6c9289a1b81251bf855dd089ac21d8261f6ca'
+cuttlefish_hash_salt: '970492357e6b0399521f4393da76b2439ff0e135ac055840646f67ca963de566'
+
+#
+# Optional
+#
+
+google_analytics_code:
+skylight_application: ''
+skylight_authentication: ''
+new_relic_license_key: ''
+new_relic_app_name: ''
+honeybadger_api_key: ''
+s3_bucket: ''
+aws_access_key_id: ''
+aws_secret_access_key: ''
