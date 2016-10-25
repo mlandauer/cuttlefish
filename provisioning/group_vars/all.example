@@ -31,9 +31,9 @@ db_password: 'secretdbpassword'
 # cookie, so if you have multiple load-balanced Cuttlefish hosts that must also
 # match.
 #
-secret_key_base: 'c91c946e4a617cd94c12f8e237634102397d59832cae4228533389d9131abb49'
-devise_secret_key: '1bcd3afd1038f009b0b8e7e6f9a6c9289a1b81251bf855dd089ac21d8261f6ca'
-cuttlefish_hash_salt: '970492357e6b0399521f4393da76b2439ff0e135ac055840646f67ca963de566'
+secret_key_base: ''
+devise_secret_key: ''
+cuttlefish_hash_salt: ''
 
 #
 # Optional
