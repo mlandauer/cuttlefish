@@ -30,6 +30,44 @@ If you want to commit these files to Git, you'll need to remove them from the
 probably want to use [Ansible Vault](http://docs.ansible.com/ansible/playbooks_vault.html)
 to encrypt them before committing.
 
+## Provisioning
+
+To run the Ansible playbook, then just run this (from your local machine, not
+the server):
+
+    ansible-playbook -i hosts -u root playbook.yml
+
+If something fails, you can make it more verbose which should help identify the
+issue:
+
+    ansible-playbook -i hosts -u root playbook.yml -vvvv
+
+## Deployment
+
+Once that's done, it's time to deploy Cuttlefish. Go up to the root of the
+repository, edit `config/deploy.rb`. Look for the "server" line and update it
+to match what is in the `hosts` you created.
+
+If you haven't already install the gems:
+
+    bundle install
+
+Then you can use Capistrano to deploy:
+
+    cap deploy:setup
+    cap deploy:cold
+    cap foreman:export
+    cap foreman:restart
+
+(TODO add deployment to Ansible, so you don't need to setup Ruby + Rails on
+your local machine)
+
+If you then visit the domain name, you should be presented with the login
+screen. If you didn't specify a SSL certificate, a self-signed one will have
+been generated, so you'll get a warning about that in your browser.
+
+## Configuration
+
 ## Walkthrough: Deploying on [Linode](https://www.linode.com/)
 
 1. Login at the [Linode Manager](https://manager.linode.com/)
@@ -50,6 +88,7 @@ to encrypt them before committing.
 
 10. Provision the server with Ansible. You'll need to supply the root password you chose in step 5. On subsequent deploys you won't need this.
 ```
+ansible-playbook -i hosts -u root playbook.yml
 ```
 
 11. Update the server name in `config/deploy.rb`
