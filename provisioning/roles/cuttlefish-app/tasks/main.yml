@@ -49,21 +49,21 @@
   file: dest=/etc/ssl/private state=directory
 
 - name: Add SSL certificate
-  copy: src=ssl-unified.crt dest=/etc/ssl/cuttlefish.oaf.org.au.pem owner=root group=root mode=0644
+  copy: src=ssl-unified.crt dest="/etc/ssl/{{fqdn}}.pem" owner=root group=root mode=0644
   when: ssl_public_key is defined and ssl_private_key is defined
   notify: nginx reload
 
 - name: Add private SSL key
-  copy: content="{{ private_ssl_key }}" dest=/etc/ssl/private/cuttlefish.oaf.org.au.key owner=root group=ssl-cert mode=0640
+  copy: content="{{ private_ssl_key }}" dest="/etc/ssl/private/{{fqdn}}.key" owner=root group=ssl-cert mode=0640
   when: ssl_public_key is defined and ssl_private_key is defined
   notify: nginx reload
 
 - name: Generate self-signed SSL certificate
-  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN=cuttlefish.oaf.org.au.key" -days 3650 -keyout /etc/ssl/private/cuttlefish.oaf.org.au.key -out /etc/ssl/cuttlefish.oaf.org.au.pem -extensions v3_ca creates=/etc/ssl/cuttlefish.oaf.org.au.pem
+  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{fqdn}}.key" -days 3650 -keyout "/etc/ssl/private/{{fqdn}}.key" -out "/etc/ssl/{{fqdn}}.pem" -extensions v3_ca creates="/etc/ssl/{{fqdn}}.pem"
   when: ssl_public_key is not defined or ssl_private_key is not defined
   notify: nginx reload
 
 - name: Set permissions on self-signed SSL private key
-  file: dest=/etc/ssl/private/cuttlefish.oaf.org.au.key owner=root group=ssl-cert mode=0640
+  file: dest="/etc/ssl/private/{{fqdn}}.key" owner=root group=ssl-cert mode=0640
   when: ssl_public_key is not defined or ssl_private_key is not defined
   notify: nginx reload
