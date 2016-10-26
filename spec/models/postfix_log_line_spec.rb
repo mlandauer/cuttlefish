@@ -5,6 +5,7 @@ describe PostfixLogLine do
   let(:line2) { "Apr  5 18:41:58 kedumba postfix/qmgr[2638]: E69DB36D4A2B: removed" }
   let(:line3) { "Apr  5 17:11:07 kedumba postfix/smtpd[7453]: connect from unknown[111.142.251.143]" }
   let(:line4) { "Apr  5 14:21:51 kedumba postfix/smtp[2500]: 39D9336AFA81: to=<anincorrectemailaddress@openaustralia.org>, relay=aspmx.l.google.com[173.194.79.27]:25, delay=1, delays=0.08/0/0.58/0.34, dsn=5.1.1, status=bounced (host aspmx.l.google.com[173.194.79.27] said: 550-5.1.1 The email account that you tried to reach does not exist. zb4si15321910pbb.132 - gsmtp (in reply to RCPT TO command))" }
+  let(:line5) { "Oct 25 17:36:47 vps331845 postfix[6084]: Postfix is running with backwards-compatible default setting" }
 
   context "one log line" do
     let (:l) do
@@ -156,6 +157,13 @@ describe PostfixLogLine do
         expect(delivery1.postfix_log_lines).to be_empty
         expect(delivery2.postfix_log_lines.count).to eq 1
       end
+    end
+
+    it "should log and skip unrecognised lines" do
+      expect(PostfixLogLine).to receive(:puts).with("Skipping unrecognised line: Oct 25 17:36:47 vps331845 postfix[6084]: Postfix is running with backwards-compatible default setting")
+      email = FactoryGirl.create(:email)
+      result = PostfixLogLine.create_from_line(line5)
+      expect(result).to be_nil
     end
   end
 
