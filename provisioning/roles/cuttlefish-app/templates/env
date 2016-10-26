@@ -1,17 +1,36 @@
-GOOGLE_ANALYTICS_CODE={{ google_analytics_code }}
+CUTTLEFISH_DOMAIN={{ fqdn }}
 SECRET_KEY_BASE={{ secret_key_base }}
 DEVISE_SECRET_KEY={{ devise_secret_key }}
-SKYLIGHT_APPLICATION={{ skylight_application }}
-SKYLIGHT_AUTHENTICATION={{ skylight_authentication }}
-#NEW_RELIC_LICENSE_KEY={{ new_relic_license_key }}
-#NEW_RELIC_APP_NAME={{ new_relic_app_name }}
-HONEYBADGER_API_KEY={{ honeybadger_api_key }}
 CUTTLEFISH_HASH_SALT="{{ cuttlefish_hash_salt }}"
-POSTFIX_LOG_PATH=/var/log/mail.log
-CUTTLEFISH_DOMAIN={{ fqdn }}
+
+CUTTLEFISH_SMTP_PORT={{ cuttlefish_smtp_port }}
 CUTTLEFISH_SENDER_EMAIL={{ cuttlefish_sender_email }}
 CUTTLEFISH_BOUNCE_EMAIL={{ cuttlefish_bounce_email }}
-CUTTLEFISH_SMTP_PORT={{ cuttlefish_smtp_port }}
+
+POSTFIX_LOG_PATH=/var/log/mail.log
+
+{% if google_analytics_code is defined %}
+GOOGLE_ANALYTICS_CODE={{ google_analytics_code }}
+{% endif %}
+
+{% if s3_bucket is defined and aws_access_key_id is defined and aws_secret_access_key is defined %}
 S3_BUCKET="{{ s3_bucket }}"
 AWS_ACCESS_KEY_ID="{{ aws_access_key_id }}"
 AWS_SECRET_ACCESS_KEY="{{ aws_secret_access_key }}"
+{% endif %}
+
+{% if skylight_application is defined and skylight_authentication is defined %}
+SKYLIGHT_APPLICATION={{ skylight_application }}
+SKYLIGHT_AUTHENTICATION={{ skylight_authentication }}
+{% endif %}
+
+{% if new_relic_license_key is defined and new_relic_app_name is defined %}
+NEW_RELIC_LICENSE_KEY={{ new_relic_license_key }}
+NEW_RELIC_APP_NAME={{ new_relic_app_name }}
+{% else %}
+NEWRELIC_AGENT_ENABLED=false
+{% endif %}
+
+{% if honeybadger_api_key is defined %}
+HONEYBADGER_API_KEY={{ honeybadger_api_key }}
+{% endif %}

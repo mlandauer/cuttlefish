@@ -49,12 +49,21 @@ cuttlefish_bounce_email: 'bounces@cuttlefish.oaf.org.au'
 # Optional
 #
 
-google_analytics_code:
-skylight_application: ''
-skylight_authentication: ''
-new_relic_license_key: ''
-new_relic_app_name: ''
-honeybadger_api_key: ''
-s3_bucket: ''
-aws_access_key_id: ''
-aws_secret_access_key: ''
+# Skylight.io app metrics
+#skylight_application: ''
+#skylight_authentication: ''
+
+# New Relic app metrics
+#new_relic_license_key: ''
+#new_relic_app_name: ''
+
+# Honeybadger.io app metrics
+#honeybadger_api_key: ''
+
+# Google Analytics (on Cuttlefish, not in emails)
+#google_analytics_code: ''
+
+# AWS configuration (used for archiving)
+#s3_bucket: ''
+#aws_access_key_id: ''
+#aws_secret_access_key: ''
