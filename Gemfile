@@ -94,6 +94,8 @@ group :development do
   # TODO: Fix this
   gem "capistrano", "2.13.5"
   gem 'rvm-capistrano', require: false
+  # Newer versions don't support Ruby 2.1. Remove this when we upgrade Ruby
+  gem "listen", "~> 2"
 end
 
 group :test do
