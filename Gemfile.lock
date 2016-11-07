@@ -326,9 +326,11 @@ GEM
     json (1.8.3)
     less (2.6.0)
       commonjs (~> 0.2.7)
-    less-rails (2.6.0)
-      actionpack (>= 3.1)
+    less-rails (2.8.0)
+      actionpack (>= 4.0)
       less (~> 2.6.0)
+      sprockets (> 2, < 4)
+      tilt
     libv8 (3.16.14.7)
     listen (2.10.1)
       celluloid (~> 0.16.0)
