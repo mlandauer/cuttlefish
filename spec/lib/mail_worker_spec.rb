@@ -32,7 +32,7 @@ describe MailWorker, '#perform' do
 
     expect {
       MailWorker.new.perform(["<foo@bar.com>"], "message", app.id)
-    }.to raise_error
+    }.to raise_error("I can't contact the mail server")
 
     expect(Email.count).to eq 0
   end
