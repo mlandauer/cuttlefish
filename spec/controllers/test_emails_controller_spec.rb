@@ -25,12 +25,12 @@ describe TestEmailsController, type: :controller do
       it "should send a test email" do
         email = double("Email")
         expect(TestMailer).to receive(:test_email).with(app, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", cc: nil, subject: "Test", text: "Hello. How are you?").and_return(email)
-        expect(email).to receive(:deliver)
+        expect(email).to receive(:deliver_now)
         post :create, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", subject: "Test", text: "Hello. How are you?", app_id: app.id
       end
 
       it "should redirect to the list of recent emails" do
-        allow(TestMailer).to receive_message_chain(:test_email, :deliver)
+        allow(TestMailer).to receive_message_chain(:test_email, :deliver_now)
         post :create, from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", subject: "Test", text: "Hello. How are you?", app_id: app.id
         expect(response).to redirect_to deliveries_url
       end

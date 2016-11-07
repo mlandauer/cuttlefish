@@ -10,7 +10,7 @@ class LandingController < ApplicationController
 
   def request_invitation
     @signup_form = SignupForm.new(params[:signup_form])
-    @signup_form.deliver
+    @signup_form.deliver_now
     flash[:notice] = "Thanks! You should hear back from us very soon."
     redirect_to root_url
   end
