@@ -31,7 +31,7 @@ describe MailWorker, '#perform' do
     allow_any_instance_of(OutgoingDelivery).to receive(:send).and_raise("I can't contact the mail server")
 
     expect {
-      MailWorker.new.perform(["<foo@bar.com>"], "message", app.id)
+      MailWorker.new.perform(["<foo@bar.com>"], Base64.encode64(mail.encoded), app.id)
     }.to raise_error("I can't contact the mail server")
 
     expect(Email.count).to eq 0
