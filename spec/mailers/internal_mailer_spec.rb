@@ -17,7 +17,8 @@ describe InternalMailer do
 
 <p><a href="https://localhost/admins/invitation/accept?invitation_token=abc123">Accept invitation</a></p>
 
-<p>If you don't want to accept the invitation, please ignore this email.<br />Your account won't be created until you access the link above and set your password.</p>
+<p>If you don't want to accept the invitation, please ignore this email.<br />
+Your account won't be created until you access the link above and set your password.</p>
       EOF
     end
 
