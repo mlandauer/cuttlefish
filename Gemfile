@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'dotenv-deployment'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.16'
+gem 'rails', '4.2.7.1'
 
 gem 'pg'
 
@@ -52,7 +52,6 @@ gem 'nokogiri'
 gem 'google-analytics-rails'
 gem 'premailer'
 gem "skylight"
-gem "foreigner"
 gem "archive-tar-minitar"
 gem "pundit"
 gem "friendly_id"
@@ -88,12 +87,13 @@ group :development do
   gem 'rack-mini-profiler'
   gem "spring"
   gem "spring-commands-rspec"
-  gem "ruby_gntp"
   # Deployment bits and bobs
   # Later versions cause issues with backing up assets manifests file to release directory
   # TODO: Fix this
   gem "capistrano", "2.13.5"
   gem 'rvm-capistrano', require: false
+  # Newer versions don't support Ruby 2.1. Remove this when we upgrade Ruby
+  gem "listen", "~> 2"
 end
 
 group :test do
