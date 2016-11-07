@@ -87,7 +87,6 @@ group :development do
   gem 'rack-mini-profiler'
   gem "spring"
   gem "spring-commands-rspec"
-  gem "ruby_gntp"
   # Deployment bits and bobs
   # Later versions cause issues with backing up assets manifests file to release directory
   # TODO: Fix this
