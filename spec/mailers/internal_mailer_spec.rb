@@ -10,7 +10,7 @@ describe InternalMailer do
     it { expect(email.to).to eq ["foo@bar.com"] }
     it { expect(email.subject).to eq "Matthew invites you to Cuttlefish" }
     it do
-      expect(email.body).to eq <<-EOF
+      expect(email.body.to_s).to eq <<-EOF
 <p>Matthew invites you to Cuttlefish - an easy to use transactional email server with a lovely user interface</p>
 
 <p>Accept the invitation through the link below.</p>
