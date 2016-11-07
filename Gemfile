@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'dotenv-deployment'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.0'
+gem 'rails', '4.2.7.1'
 
 gem 'pg'
 
