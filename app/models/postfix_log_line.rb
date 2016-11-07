@@ -34,6 +34,8 @@ class PostfixLogLine < ActiveRecord::Base
 
   def self.create_from_line(line)
     values = match_main_content(line)
+    return if values.nil?
+
     program = values.delete(:program)
     to = values.delete(:to)
     queue_id = values.delete(:queue_id)
@@ -57,6 +59,11 @@ class PostfixLogLine < ActiveRecord::Base
     # Assume the log file was written using syslog and parse accordingly
     p = SyslogProtocol.parse("<13>" + line)
     content_match = p.content.match /^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)/
+    if content_match.nil?
+      puts "Skipping unrecognised line: #{line}"
+      return nil
+    end
+
     program_content = content_match[5]
     to_match = program_content.match(/to=<([^>]+)>/)
     relay_match = program_content.match(/relay=([^,]+)/)
