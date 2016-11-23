@@ -2,7 +2,6 @@
 
 - hosts: localhost
   remote_user: travis
-  sudo: true
 
   vars:
     rvm1_rubies:

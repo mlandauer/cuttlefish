@@ -4,11 +4,18 @@
 - name: Ensure we have a deploy user
   user: name=deploy comment="Deploy user" shell=/bin/bash group=deploy
 
+- name: Cleanup old authorized keys
+  file: dest={{item}} state=absent
+  delegate_to: localhost
+  sudo: false
+  with_fileglob:
+    - /tmp/*.github_authorized_keys
+
 - name: download pubkey from Github and placed as authorized_keys
   get_url: url=https://github.com/{{ item }}.keys dest=/tmp/{{ item }}.github_authorized_keys
   delegate_to: localhost
   sudo: false
-  with_items: github_users
+  with_items: "{{github_users}}"
 
 - name: Create authorized_keys for deploy from the file that just downloaded
   authorized_key: user=deploy key="{{ lookup('file', item) }}"

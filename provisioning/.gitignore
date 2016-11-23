@@ -1,0 +1,3 @@
+hosts
+group_vars/all
+playbook.retry

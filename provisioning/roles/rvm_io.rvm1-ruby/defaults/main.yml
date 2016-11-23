@@ -1,8 +1,9 @@
 ---
 
 # Install 1 or more versions of ruby
+# The last ruby listed will be set as the default ruby
 rvm1_rubies:
-  - 'ruby-2.1.3'
+  - 'ruby-2.3.1'
 
 # Delete a specific version of ruby (ie. ruby-2.1.0)
 rvm1_delete_ruby:
@@ -15,8 +16,14 @@ rvm1_install_path: '/usr/local/lib/rvm'
 #       make sure you ADD the --user-install flag below
 rvm1_install_flags: '--auto-dotfiles'
 
+# Add additional ruby install flags
+rvm1_ruby_install_flags:
+
+# Set the owner for the rvm directory
+rvm1_user: 'root'
+
 # URL for the latest installer script
-rvm1_rvm_latest_installer: 'https://raw.githubusercontent.com/wayneeseguin/rvm/master/binscripts/rvm-installer'
+rvm1_rvm_latest_installer: 'https://raw.githubusercontent.com/rvm/rvm/master/binscripts/rvm-installer'
 
 # rvm version to use
 rvm1_rvm_version: 'stable'
@@ -32,3 +39,12 @@ rvm1_gpg_keys: 'D39DC0E3'
 
 # The GPG key server
 rvm1_gpg_key_server: 'hkp://keys.gnupg.net'
+
+# autolib mode, see https://rvm.io/rvm/autolibs
+rvm1_autolib_mode: 3
+
+# Name of UID 0 user
+root_user: 'root'
+
+# Name of GID 0 group -- BSD systems typically use wheel instead of root
+root_group: '{{ root_user }}'

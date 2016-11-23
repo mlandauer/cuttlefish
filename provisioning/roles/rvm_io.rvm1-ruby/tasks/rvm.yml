@@ -30,18 +30,30 @@
   command: 'gpg --keyserver {{ rvm1_gpg_key_server }} --recv-keys {{ rvm1_gpg_keys }}'
   changed_when: False
   when: rvm1_gpg_keys != ''
+  become: yes
+  become_user: '{{ rvm1_user }}'
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 5
 
 - name: Install rvm
   command: >
     {{ rvm1_temp_download_path }}/rvm-installer.sh {{ rvm1_rvm_version }}
     --path {{ rvm1_install_path }} {{ rvm1_install_flags }}
   when: not rvm_binary.stat.exists
+  become: yes
+  become_user: '{{ rvm1_user }}'
 
 - name: Update rvm
   shell: '{{ rvm1_rvm }} get {{ rvm1_rvm_version }} && {{ rvm1_rvm }} reload'
   changed_when: False
   when: rvm_binary.stat.exists and rvm1_rvm_check_for_updates
+  become: yes
+  become_user: '{{ rvm1_user }}'
 
 - name: Configure rvm
-  command: '{{ rvm1_rvm }} autolibs 3'
+  command: '{{ rvm1_rvm }} autolibs {{ rvm1_autolib_mode }}'
   when: not rvm_binary.stat.exists
+  become: yes
+  become_user: '{{ rvm1_user }}'

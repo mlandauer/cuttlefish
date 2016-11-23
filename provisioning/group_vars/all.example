@@ -1,0 +1,69 @@
+# vim: set et ts=2 sw=2:
+---
+#
+# Required variables
+#
+
+# The fully-qualified domain name (i.e. with subdomain) where your Cuttlefish
+# instance is running.
+fqdn: "cuttlefish.oaf.org.au"
+
+# GitHub usernames for users who will have deploy access to this machine. This
+# is used to grab their SSH keys from GitHub.
+#
+# If you change this after provisioning, the users who have access will be
+# updated to reflect this.
+github_users: ['mlandauer', 'henare', 'equivalentideas']
+
+# Postgres database password
+#
+# If you change this after provisioning bad things will happen.
+db_password: 'secretdbpassword'
+
+# Rails secrets. Set these to a random strings 32+ characters long, e.g.
+#
+#  $ ruby -e 'require "securerandom"; puts SecureRandom.hex(32)'
+#
+# They should all be different!
+#
+# If you move the database to another machine, `devise_secret_key` and
+# `cuttlefish_hash_salt` must match. `secret_key_base` is used for the session
+# cookie, so if you have multiple load-balanced Cuttlefish hosts that must also
+# match.
+#
+secret_key_base: ''
+devise_secret_key: ''
+cuttlefish_hash_salt: ''
+
+# This is the port Cuttlefish will listen on for incoming SMTP connections.
+# Note that Postfix is listening on port 25, so you'll need to use something
+# different here.
+cuttlefish_smtp_port: 2525
+
+# These need to be something@yourdomain.com - SPF is checked against these
+# addresses.
+cuttlefish_sender_email: 'sender@cuttlefish.oaf.org.au'
+cuttlefish_bounce_email: 'bounces@cuttlefish.oaf.org.au'
+
+#
+# Optional
+#
+
+# Skylight.io app metrics
+#skylight_application: ''
+#skylight_authentication: ''
+
+# New Relic app metrics
+#new_relic_license_key: ''
+#new_relic_app_name: ''
+
+# Honeybadger.io app metrics
+#honeybadger_api_key: ''
+
+# Google Analytics (on Cuttlefish, not in emails)
+#google_analytics_code: ''
+
+# AWS configuration (used for archiving)
+#s3_bucket: ''
+#aws_access_key_id: ''
+#aws_secret_access_key: ''
