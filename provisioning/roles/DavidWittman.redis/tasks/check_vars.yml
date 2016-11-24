@@ -1,0 +1,23 @@
+---
+# Checksums for Ansible 1.x must be sha256
+- name: check for checksum (ansible 1.x)
+  fail:
+    msg: >
+      A sha256 checksum must be provided for Ansible 1.x when
+      redis_verify_checksum is set to true.
+  when:
+    - ansible_version.major < 2
+    - redis_verify_checksum|bool
+    - redis_checksum is not defined or redis_checksum|length != 64
+
+- name: check for checksum (ansible 2.x)
+  fail:
+    msg: >
+      There is no sha1 checksum defined for version {{ redis_version }} in
+      vars/main.yml. Set redis_checksum manually or submit a PR to add this
+      version.
+  when:
+    - ansible_version.major >= 2
+    - redis_verify_checksum|bool
+    - redis_checksum is not defined
+    - redis_version not in redis_checksums

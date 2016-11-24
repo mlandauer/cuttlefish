@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  roles:
+    - role: ansible-redis
+      redis_sentinel: true
+      redis_sentinel_logfile: "/var/log/redis_sentinel.log"

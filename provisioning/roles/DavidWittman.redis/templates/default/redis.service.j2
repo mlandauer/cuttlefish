@@ -1,0 +1,37 @@
+[Unit]
+Description=Advanced key-value store
+After=network.target
+Documentation=http://redis.io/documentation, man:redis-server(1)
+
+[Service]
+Type={{ 'forking' if redis_daemonize == 'yes' else 'simple' }}
+ExecStartPre=-/bin/mkdir {{ redis_pidfile|dirname }}
+ExecStartPre=/bin/chown -R {{ redis_user }}:{{ redis_group }} {{ redis_pidfile|dirname }}
+ExecStart="{{ redis_install_dir }}/bin/redis-server" /etc/redis/{{ redis_port }}.conf
+EnvironmentFile=-/etc/default/redis_{{ redis_port }}
+PIDFile={{ redis_pidfile }}
+TimeoutStopSec=0
+Restart=always
+User={{ redis_user }}
+Group={{ redis_group }}
+
+UMask=007
+PrivateTmp=yes
+LimitNOFILE={{ redis_nofile_limit }}
+PrivateDevices=yes
+ProtectHome=yes
+ReadOnlyDirectories=/
+ReadWriteDirectories=-{{ redis_dir }}
+{% if redis_logfile != '""' %}
+ReadWriteDirectories=-{{ redis_logfile|dirname }}
+{% endif %}
+ReadWriteDirectories=-{{ redis_pidfile|dirname }}
+CapabilityBoundingSet=~CAP_SYS_PTRACE
+
+# redis-server writes its own config file when in cluster mode so we allow
+# writing there (NB. ProtectSystem=true over ProtectSystem=full)
+ProtectSystem=true
+ReadWriteDirectories=-/etc/redis
+
+[Install]
+WantedBy=multi-user.target

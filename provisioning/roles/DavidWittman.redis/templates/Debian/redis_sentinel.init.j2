@@ -11,21 +11,22 @@
 # Default-Stop:      0 1 6
 # Should-Start:      $syslog $named
 # Should-Stop:       $syslog $named
-# Short-Description: Start and stop redis_{{ redis_sentinel_port }}
-# Description:       Redis key-value store
+# Short-Description: Start and stop sentinel_{{ redis_sentinel_port }}
+# Description:       Redis Sentinel monitor
 ### END INIT INFO
 
 # Source the Linux Standard Base functions
 . /lib/lsb/init-functions
 
 SENTINEL_PORT={{ redis_sentinel_port }}
-NAME=redis_${SENTINEL_PORT}
+NAME="sentinel_${SENTINEL_PORT}"
 DAEMON={{ redis_install_dir }}/bin/redis-server
 PIDFILE={{ redis_sentinel_pidfile }}
+PIDFILE_DIR=$(dirname "${PIDFILE}")
 
 REDIS_USER={{ redis_user }}
 CONF="/etc/redis/sentinel_${SENTINEL_PORT}.conf"
-CLIEXEC={{ redis_install_dir }}/bin/redis-cli
+CLIEXEC="{{ redis_install_dir }}/bin/redis-cli -p ${SENTINEL_PORT}"
 
 if [ -r /etc/default/sentinel_${SENTINEL_PORT} ]; then
     . /etc/default/sentinel_${SENTINEL_PORT}
@@ -41,27 +42,34 @@ fi
 
 case "$1" in
     start)
-        if [ -f $PIDFILE ]; then
-            echo "$PIDFILE exists, $NAME is already running or crashed"
+        if [ -f "$PIDFILE" ]; then
+            status_of_proc -p "$PIDFILE" $DAEMON "$NAME process" && return 0
+        fi
+
+        if [ -n "$NOFILE_LIMIT" ]; then
+            ulimit -n $NOFILE_LIMIT
+        fi
+
+        if [ ! -d "$PIDFILE_DIR" ]; then
+            mkdir "$PIDFILE_DIR"
+            chown ${REDIS_USER}:${REDIS_USER} "$PIDFILE_DIR"
+            chmod 0755 "$PIDFILE_DIR"
+        fi
+
+        log_daemon_msg "Starting $NAME..."
+        if start-stop-daemon --start -q --oknodo -p "$PIDFILE" -c $REDIS_USER --exec $DAEMON -- $CONF --sentinel; then
+            log_end_msg 0
         else
-            if [ -n "$NOFILE_LIMIT" ]; then
-                ulimit -n $NOFILE_LIMIT
-            fi
-            log_daemon_msg "Starting $NAME..."
-            if start-stop-daemon --start -q --oknodo -p $PIDFILE -c $REDIS_USER --exec $DAEMON -- $CONF --sentinel; then
-                log_end_msg 0
-            else
-                log_end_msg 1
-            fi
+            log_end_msg 1
         fi
         ;;
     stop)
-        if [ -f $PIDFILE ]; then
-            PID=$(cat $PIDFILE)
+        if [ -f "$PIDFILE" ]; then
+            PID=$(cat "$PIDFILE")
             log_daemon_msg "Stopping $NAME..."
-            $CLIEXEC -h $BIND_ADDRESS -p $SENTINEL_PORT shutdown
+            $CLIEXEC shutdown
             while [ -x /proc/${PID} ]; do
-                log_daemon_msg "Waiting for Redis to shutdown ..."
+                log_daemon_msg "Waiting for Redis Sentinel to shutdown ..."
                 sleep 1
             done
             log_end_msg 0
@@ -71,7 +79,7 @@ case "$1" in
         fi
         ;;
     status)
-        status_of_proc -p $PIDFILE $DAEMON "$NAME" && exit 0 || exit $?
+        status_of_proc -p "$PIDFILE" $DAEMON "$NAME" && exit 0 || exit $?
         ;;
     restart|force-reload)
         ${0} stop

@@ -1,0 +1,27 @@
+---
+# Test for all replication components of Redis
+# We're using non-standard ports here so they don't conflict with other
+# tests on Travis.
+- hosts: all
+  remote_user: root
+  vars:
+    redis_version: 3.0.7
+    redis_password: ant1r3z
+    redis_travis_ci: true
+  roles:
+    - role: ../../ansible-redis
+      redis_port: 7379
+    - role: ../../ansible-redis
+      redis_port: 8379
+      redis_slaveof: 127.0.0.1 6379
+      redis_local_facts: false
+    - role: ../../ansible-redis
+      redis_sentinel: true
+      redis_sentinel_port: 27379
+      redis_sentinel_monitors:
+        - name: master01
+          host: 127.0.0.1
+          port: 7379
+          quorum: 1
+          auth_pass: "{{ redis_password }}"
+      redis_local_facts: false

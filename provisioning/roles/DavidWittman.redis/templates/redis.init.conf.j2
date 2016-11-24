@@ -2,11 +2,11 @@
 # Stored in /etc/{sysconfig,default}/{redis,sentinel}_$port
 
 {% if redis_password %}
-REDIS_PASSWORD={{ redis_password }}
+REDIS_PASSWORD='{{ redis_password }}'
 {% endif %}
-NOFILE_LIMIT={{ redis_nofile_limit }}
+NOFILE_LIMIT='{{ redis_nofile_limit }}'
 {% if redis_sentinel %}
-BIND_ADDRESS={{ redis_sentinel_bind }}
+BIND_ADDRESS='{{ redis_sentinel_bind.split()[0] }}'
 {% else %}
-BIND_ADDRESS={{ redis_bind }}
+BIND_ADDRESS='{{ redis_bind.split()[0] }}'
 {% endif %}

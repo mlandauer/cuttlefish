@@ -9,6 +9,7 @@
 . /etc/init.d/functions
 
 REDIS_PORT={{ redis_port }}
+NAME="redis_${REDIS_PORT}"
 
 if [ -r /etc/sysconfig/redis_${REDIS_PORT} ]; then
     . /etc/sysconfig/redis_${REDIS_PORT}
@@ -18,10 +19,14 @@ REDIS_USER={{ redis_user }}
 PIDFILE={{ redis_pidfile }}
 CONF="/etc/redis/${REDIS_PORT}.conf"
 EXEC={{ redis_install_dir }}/bin/redis-server
-CLIEXEC={{ redis_install_dir }}/bin/redis-cli
+CLIEXEC="{{ redis_install_dir }}/bin/redis-cli -p ${REDIS_PORT}"
 
 if [ -n "$REDIS_PASSWORD" ]; then
     CLIEXEC="${CLIEXEC} -a ${REDIS_PASSWORD}"
+fi
+
+if [ -n "$BIND_ADDRESS" ]; then
+    CLIEXEC="${CLIEXEC} -h ${BIND_ADDRESS}"
 fi
 
 case "$1" in
@@ -44,7 +49,7 @@ case "$1" in
         else
                 PID=$(cat $PIDFILE)
                 echo "Stopping ..."
-                $CLIEXEC -p $REDIS_PORT shutdown
+                $CLIEXEC shutdown
                 while [ -x /proc/${PID} ]
                 do
                     echo "Waiting for Redis to shutdown ..."
@@ -53,12 +58,15 @@ case "$1" in
                 echo "Redis stopped"
         fi
         ;;
+    status)
+        status -p "${PIDFILE}" "redis_${REDIS_PORT}"
+        ;;
     restart|force-reload)
         ${0} stop
         ${0} start
         ;;
     *)
-        echo "Usage: /etc/init.d/$NAME {start|stop|restart|force-reload}" >&2
+        echo "Usage: /etc/init.d/$NAME {start|stop|status|restart|force-reload}" >&2
         exit 1
         ;;
 esac

@@ -1,0 +1,12 @@
+---
+- hosts: all
+  remote_user: root
+  vars:
+    redis_travis_ci: true
+    redis_sentinel: true
+    redis_sentinel_monitors:
+      - name: master01
+        host: localhost
+        port: 6379
+  roles:
+    - ../../ansible-redis

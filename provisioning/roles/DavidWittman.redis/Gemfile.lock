@@ -1,0 +1,35 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    artifactory (2.3.3)
+    kitchen-ansible (0.44.6)
+      net-ssh (~> 3.0)
+      test-kitchen (~> 1.4)
+    kitchen-vagrant (0.20.0)
+      test-kitchen (~> 1.4)
+    mixlib-install (1.1.0)
+      artifactory
+      mixlib-shellout
+      mixlib-versioning
+    mixlib-shellout (2.2.6)
+    mixlib-versioning (1.1.0)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (3.2.0)
+    safe_yaml (1.0.4)
+    test-kitchen (1.10.2)
+      mixlib-install (~> 1.0, >= 1.0.4)
+      mixlib-shellout (>= 1.2, < 3.0)
+      net-scp (~> 1.1)
+      net-ssh (>= 2.9, < 4.0)
+      safe_yaml (~> 1.0)
+      thor (~> 0.18)
+    thor (0.19.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  kitchen-ansible
+  kitchen-vagrant
+  test-kitchen

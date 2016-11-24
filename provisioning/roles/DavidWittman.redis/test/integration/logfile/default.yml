@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  roles:
+    - role: ansible-redis
+      redis_logfile: "/var/log/redis.log"

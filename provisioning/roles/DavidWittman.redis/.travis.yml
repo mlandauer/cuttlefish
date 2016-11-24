@@ -2,31 +2,37 @@
 language: python
 python: "2.7"
 
+env:
+  - ANSIBLE_VERSION=1.9.4
+  - ANSIBLE_VERSION=latest
+
 before_install:
   - sudo apt-get update -qq
 
 install:
-  - pip install ansible
-  - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
 script:
   # Syntax check
-  - "ansible-playbook -i localhost, tests/test_server.yml --syntax-check"
-  - "ansible-playbook -i localhost, tests/test_sentinel.yml --syntax-check"
-  # Run role
-  - "ansible-playbook -i localhost, tests/test_server.yml --connection=local --sudo"
+  - "ansible-playbook -i localhost, test/test_server.yml --syntax-check"
+  - "ansible-playbook -i localhost, test/test_sentinel.yml --syntax-check"
+  # Test Redis Server
+  - "ansible-playbook -i localhost, test/test_server.yml --connection=local --sudo"
   # Idempotency check
   - >
-    ansible-playbook -i localhost, tests/test_server.yml --connection=local --sudo
+    ansible-playbook -i localhost, test/test_server.yml --connection=local --sudo
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotency: PASS' && exit 0)
     || (echo 'Idempotency: FAIL' && exit 1)
-  - "ansible-playbook -i localhost, tests/test_sentinel.yml --connection=local --sudo"
+  # Test Redis Sentinel
+  - "ansible-playbook -i localhost, test/test_sentinel.yml --connection=local --sudo"
   - >
-    ansible-playbook -i localhost, tests/test_sentinel.yml --connection=local --sudo
+    ansible-playbook -i localhost, test/test_sentinel.yml --connection=local --sudo
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotency: PASS' && exit 0)
     || (echo 'Idempotency: FAIL' && exit 1)
+  # Connection test
   - "/opt/redis/bin/redis-cli PING"
   - "/opt/redis/bin/redis-cli -p 26379 PING"
   # Facts syntax check
@@ -35,3 +41,7 @@ script:
     | python -m json.tool
     && (echo 'Facts syntax: PASS' && exit 0)
     || (echo 'Facts syntax: FAIL' && exit 1)
+  # Test all replication components (server, slave, sentinel)
+  # No idempotency check here (yet) because the sentinel config writes to itself
+  # after a config is discovered from the Redis server.
+  - ansible-playbook -i localhost, test/test_all.yml --connection=local --sudo

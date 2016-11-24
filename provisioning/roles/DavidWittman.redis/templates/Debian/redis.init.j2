@@ -22,10 +22,11 @@ REDIS_PORT={{ redis_port }}
 NAME=redis_${REDIS_PORT}
 DAEMON={{ redis_install_dir }}/bin/redis-server
 PIDFILE={{ redis_pidfile }}
+PIDFILE_DIR=$(dirname "${PIDFILE}")
 
 REDIS_USER={{ redis_user }}
 CONF="/etc/redis/${REDIS_PORT}.conf"
-CLIEXEC={{ redis_install_dir }}/bin/redis-cli
+CLIEXEC="{{ redis_install_dir }}/bin/redis-cli -p ${REDIS_PORT}"
 
 if [ -r /etc/default/redis_${REDIS_PORT} ]; then
     . /etc/default/redis_${REDIS_PORT}
@@ -41,25 +42,32 @@ fi
 
 case "$1" in
     start)
-        if [ -f $PIDFILE ]; then
-            echo "$PIDFILE exists, $NAME is already running or crashed"
+        if [ -f "$PIDFILE" ]; then
+            status_of_proc -p "$PIDFILE" $DAEMON "$NAME process" && return 0
+        fi
+
+        if [ -n "$NOFILE_LIMIT" ]; then
+            ulimit -n $NOFILE_LIMIT
+        fi
+
+        if [ ! -d "$PIDFILE_DIR" ]; then
+            mkdir "$PIDFILE_DIR"
+            chown ${REDIS_USER}:${REDIS_USER} "$PIDFILE_DIR"
+            chmod 0755 "$PIDFILE_DIR"
+        fi
+
+        log_daemon_msg "Starting $NAME..."
+        if start-stop-daemon --start -q --oknodo -p "$PIDFILE" -c $REDIS_USER --exec $DAEMON -- $CONF; then
+            log_end_msg 0
         else
-            if [ -n "$NOFILE_LIMIT" ]; then
-                ulimit -n $NOFILE_LIMIT
-            fi
-            log_daemon_msg "Starting $NAME..."
-            if start-stop-daemon --start -q --oknodo -p $PIDFILE -c $REDIS_USER --exec $DAEMON -- $CONF; then
-                log_end_msg 0
-            else
-                log_end_msg 1
-            fi
+            log_end_msg 1
         fi
         ;;
     stop)
-        if [ -f $PIDFILE ]; then
-            PID=$(cat $PIDFILE)
+        if [ -f "$PIDFILE" ]; then
+            PID=$(cat "$PIDFILE")
             log_daemon_msg "Stopping $NAME..."
-            $CLIEXEC -h $BIND_ADDRESS -p $REDIS_PORT shutdown
+            $CLIEXEC shutdown
             while [ -x /proc/${PID} ]; do
                 log_daemon_msg "Waiting for Redis to shutdown ..."
                 sleep 1
@@ -71,7 +79,7 @@ case "$1" in
         fi
         ;;
     status)
-        status_of_proc -p $PIDFILE $DAEMON "$NAME" && exit 0 || exit $?
+        status_of_proc -p "$PIDFILE" $DAEMON "$NAME" && exit 0 || exit $?
         ;;
     restart|force-reload)
         ${0} stop
