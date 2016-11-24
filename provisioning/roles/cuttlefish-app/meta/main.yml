@@ -122,7 +122,7 @@ galaxy_info:
   #- web
 dependencies:
   - {role: ANXS.postgresql, postgresql_ext_install_dev_headers: yes}
-  - {role: rvm_io.ruby, rvm1_rubies: ['ruby-2.1.5'], rvm1_delete_ruby: 'ruby-1.9.3-p484', rvm1_rvm_check_for_updates: false}
+  - {role: rvm_io.ruby, rvm1_rubies: ['ruby-2.1.5'], rvm1_delete_ruby: 'ruby-1.9.3-p484', rvm1_rvm_check_for_updates: false, rvm1_install_path: '/usr/local/lib/rvm', rvm1_user: 'root'}
   - {role: abtris.nginx-passenger}
   - {role: MaximeThoonsen.autopostgresqlbackup}
   - {role: DavidWittman.redis, redis_bind: "127.0.0.1"}
