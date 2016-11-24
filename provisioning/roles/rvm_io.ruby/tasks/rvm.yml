@@ -30,6 +30,10 @@
   command: 'gpg --keyserver {{ rvm1_gpg_key_server }} --recv-keys {{ rvm1_gpg_keys }}'
   changed_when: False
   when: rvm1_gpg_keys != ''
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 5
 
 - name: Install rvm
   command: >
@@ -43,5 +47,5 @@
   when: rvm_binary.stat.exists and rvm1_rvm_check_for_updates
 
 - name: Configure rvm
-  command: '{{ rvm1_rvm }} autolibs 3'
+  command: '{{ rvm1_rvm }} autolibs {{ rvm1_autolib_mode }}'
   when: not rvm_binary.stat.exists
