@@ -1,0 +1,59 @@
+%h3 Using Ruby 2.3
+
+%p
+  Ruby has a default Net::SMTP class which can send email, but doesn't have STARTTLS turned on by default. To use Ruby 2.3 to send email via Cuttlefish.io, you need to create an SMTP object first using new(), turn on starttls and then call start().
+
+%p
+  Example code for how to do this:
+
+:coderay
+  #!/bin/ruby
+
+  require 'net/smtp'
+
+  # Send #{app.name} mails to Cuttlefish (see http://cuttlefish.io)
+  # NB you probably don't want your password exposed in a public git 
+  # repository
+  EMAIL_HOST = '#{Rails.configuration.cuttlefish_domain}'
+  EMAIL_PORT = #{Rails.configuration.cuttlefish_smtp_port}
+  EMAIL_HOST_USER = '#{app.smtp_username}'
+  EMAIL_HOST_PASSWORD = '#{app.smtp_password}'
+
+  FROM_ADDRESS = "from_address@domain.com"
+  DESTINATION_ADDRESS = "dest_addr@domain.com"
+
+  # NB this is probably better done as an inline block using 
+  # MESSAGE  = "<<END_MARKER" format
+
+  from_line = "\nFrom: From Name <# {FROM_ADDRESS}>"
+  to_line = "\nTo: # {DESTINATION_ADDRESS}"
+  mime_vers = "\nMIME-Version: 1.0"
+  content_type = "\nContent-type: text/html"
+  subject_line = "\nSubject: your subject line here"
+  blank_line = "\n " # needed before body as end of header
+  body_text = "\n add some body text ... la la la"
+
+  email_text = from_line + to_line + mime_vers +
+   content_type + subject_line + blank_line + body_text
+
+  smtp = Net::SMTP.new( EMAIL_HOST, EMAIL_PORT )
+
+  # This needs to be called on an existing object before start()
+  smtp.enable_starttls_auto 
+
+  smtp.start(
+    EMAIL_HOST,
+    EMAIL_HOST_USER,
+    EMAIL_HOST_PASSWORD,
+    :plain
+  )
+
+  smtp.send_message email_text,
+    FROM_ADDRESS,
+    DESTINATION_ADDRESS
+
+  # this can be omitted if the smtp.new() command is the start of
+  # an Net::SMTP.new( ... ) do |smtp| block as smtp object is 
+  # closed automatically at the end of the block
+  smtp.finish
+
