@@ -39,6 +39,22 @@
 - name: Allow deploy user to restart cuttlefish service
   lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish restart' validate='visudo -cf %s'"
 
+# TODO: Use this to create certificates
+- name: Download SSLMate APT source
+  get_url:
+    url: https://sslmate.com/apt/ubuntu1404/sslmate.list
+    dest: /etc/apt/sources.list.d/sslmate.list
+
+- name: Download SSLMate APT key
+  get_url:
+    url: https://sslmate.com/apt/ubuntu1404/sslmate.gpg
+    dest: /etc/apt/trusted.gpg.d/sslmate.gpg
+
+- name: Install SSLMate
+  apt:
+    name: sslmate
+    update_cache: yes
+
 - name: Allow deploy to read some log files (different from admin group) and ssl private keys
   user: name=deploy groups=adm,ssl-cert append=yes
 
