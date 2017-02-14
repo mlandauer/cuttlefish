@@ -39,13 +39,44 @@
 - name: Allow deploy user to restart cuttlefish service
   lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish restart' validate='visudo -cf %s'"
 
-- name: Allow deploy to read some log files (different from admin group) and ssl private keys
-  user: name=deploy groups=adm,ssl-cert append=yes
+# TODO: Use this to create certificates
+- name: Download SSLMate APT source
+  get_url:
+    url: https://sslmate.com/apt/ubuntu1404/sslmate.list
+    dest: /etc/apt/sources.list.d/sslmate.list
 
-- name: Add SSL certificate
-  copy: src=ssl-unified.crt dest=/etc/ssl/cuttlefish.oaf.org.au.pem owner=root group=root mode=0644
-  notify: nginx reload
+- name: Download SSLMate APT key
+  get_url:
+    url: https://sslmate.com/apt/ubuntu1404/sslmate.gpg
+    dest: /etc/apt/trusted.gpg.d/sslmate.gpg
+
+- name: Install SSLMate
+  apt:
+    name: sslmate
+    update_cache: yes
+
+- name: Copy SSLMate account configuration
+  template:
+    src: sslmate.conf
+    dest: /etc/sslmate.conf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Allow deploy to read some log files (different from admin group)
+  user: name=deploy groups=adm append=yes
 
 - name: Add private SSL key
-  copy: content="{{ private_ssl_key }}" dest=/etc/ssl/private/cuttlefish.oaf.org.au.key owner=root group=ssl-cert mode=0640
+  copy: content="{{ private_ssl_key }}" dest=/etc/sslmate/cuttlefish.oaf.org.au.key owner=root group=root mode=0600
   notify: nginx reload
+
+- name: Download SSLMate certificates
+  command: sslmate download cuttlefish.oaf.org.au creates=/etc/sslmate/cuttlefish.oaf.org.au.crt
+
+- name: Create SSLMate automated renewals cronjob
+  copy:
+    src: sslmate
+    dest: /etc/cron.daily/sslmate
+    owner: root
+    group: root
+    mode: 0744
