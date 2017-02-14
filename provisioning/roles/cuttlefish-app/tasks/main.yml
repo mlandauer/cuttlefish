@@ -66,10 +66,9 @@
 - name: Allow deploy to read some log files (different from admin group) and ssl private keys
   user: name=deploy groups=adm,ssl-cert append=yes
 
-- name: Add SSL certificate
-  copy: src=ssl-unified.crt dest=/etc/ssl/cuttlefish.oaf.org.au.pem owner=root group=root mode=0644
+- name: Add private SSL key
+  copy: content="{{ private_ssl_key }}" dest=/etc/sslmate/cuttlefish.oaf.org.au.key owner=root group=root mode=0600
   notify: nginx reload
 
-- name: Add private SSL key
-  copy: content="{{ private_ssl_key }}" dest=/etc/ssl/private/cuttlefish.oaf.org.au.key owner=root group=ssl-cert mode=0640
-  notify: nginx reload
+- name: Download SSLMate certificates
+  command: sslmate download cuttlefish.oaf.org.au creates=/etc/sslmate/cuttlefish.oaf.org.au.crt
