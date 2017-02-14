@@ -72,3 +72,11 @@
 
 - name: Download SSLMate certificates
   command: sslmate download cuttlefish.oaf.org.au creates=/etc/sslmate/cuttlefish.oaf.org.au.crt
+
+- name: Create SSLMate automated renewals cronjob
+  copy:
+    src: sslmate
+    dest: /etc/cron.daily/sslmate
+    owner: root
+    group: root
+    mode: 0744
