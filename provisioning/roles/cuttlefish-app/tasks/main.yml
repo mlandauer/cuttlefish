@@ -55,6 +55,14 @@
     name: sslmate
     update_cache: yes
 
+- name: Copy SSLMate account configuration
+  template:
+    src: sslmate.conf
+    dest: /etc/sslmate.conf
+    owner: root
+    group: root
+    mode: 0600
+
 - name: Allow deploy to read some log files (different from admin group) and ssl private keys
   user: name=deploy groups=adm,ssl-cert append=yes
 
