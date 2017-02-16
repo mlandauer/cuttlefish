@@ -103,7 +103,8 @@ cap foreman:restart
 
 9. Create a file `~/.cuttlefish_ansible_vault_pass.txt` which contains the password for encrypting the secret values used in the deploy. The encrypted variables are at `provisioning/roles/cuttlefish-app/vars/main.yml`.
 
-10. Provision the server with Ansible. You'll need to supply the root password you chose in step 5. On subsequent deploys you won't need this.
+10. To provision the server for the first time you will need to supply the root password you chose in step 5. On subsequent deploys you won't need this. To supply this password edit the `./provision_production.sh` script and temporily add the `--ask-pass` argument to the last command, then run the script:
+
 ```
 ./provision_production.sh
 ```
