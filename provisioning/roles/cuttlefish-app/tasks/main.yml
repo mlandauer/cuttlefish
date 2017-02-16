@@ -72,6 +72,7 @@
 
 - name: Download SSLMate certificates
   command: sslmate download cuttlefish.oaf.org.au creates=/etc/sslmate/cuttlefish.oaf.org.au.crt
+  notify: nginx reload
 
 - name: Create SSLMate automated renewals cronjob
   copy:
