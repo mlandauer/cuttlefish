@@ -66,6 +66,13 @@
 - name: Allow deploy to read some log files (different from admin group)
   user: name=deploy groups=adm append=yes
 
+- name: Ensure that /etc/sslmate exists
+  file:
+    path: /etc/sslmate
+    owner: root
+    group: root
+    state: directory
+
 - name: Add private SSL key
   copy: content="{{ private_ssl_key }}" dest=/etc/sslmate/cuttlefish.oaf.org.au.key owner=root group=root mode=0600
   notify: nginx reload
