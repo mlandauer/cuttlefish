@@ -4,7 +4,7 @@ galaxy_info:
   description: The official rvm role to install and manage your ruby versions.
   company:
   license: license (MIT)
-  min_ansible_version: 1.5
+  min_ansible_version: 2.2
 
   platforms:
   - name: EL

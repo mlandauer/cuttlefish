@@ -18,22 +18,22 @@
   get_url:
     url: '{{ rvm1_rvm_latest_installer }}'
     dest: '{{ rvm1_temp_download_path }}/rvm-installer.sh'
-  when: not rvm_installer.stat.exists
-
-- name: Configure rvm installer
-  file:
-    path: '{{ rvm1_temp_download_path }}/rvm-installer.sh'
     mode: 0755
-  when: not rvm_binary.stat.exists
+  when: not rvm_installer.stat.exists
 
 - name: Import GPG keys
   command: 'gpg --keyserver {{ rvm1_gpg_key_server }} --recv-keys {{ rvm1_gpg_keys }}'
   changed_when: False
   when: rvm1_gpg_keys != ''
-  register: result
-  until: result.rc == 0
+  register: gpg_result
+  until: gpg_result.rc == 0
   retries: 5
   delay: 5
+  ignore_errors: True
+
+- name: Import GPG keys the other way
+  shell: curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+  when: rvm1_gpg_keys != '' and gpg_result.rc != 0
 
 - name: Install rvm
   command: >

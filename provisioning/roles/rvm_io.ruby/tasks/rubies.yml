@@ -29,7 +29,7 @@
   with_items: '{{ rvm1_rubies }}'
   changed_when: False
   register: ruby_patch
-  always_run: yes # Run even when in --check mode (http://docs.ansible.com/ansible/playbooks_checkmode.html)
+  check_mode: no # Run in normal mode when in --check mode (http://docs.ansible.com/ansible/playbooks_checkmode.html)
 
 - name: Install bundler if not installed
   shell: >
