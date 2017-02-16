@@ -8,8 +8,12 @@
 - name: Ensure git is installed
   apt: pkg=git
 
-- name: Install bits for compiling mysql clients against
-  apt: pkg=libmysqlclient-dev
+- name: Install package dependencies that allow gem native extensions to be built
+  apt:
+    pkg: "{{ item }}"
+  with_items:
+    - libmysqlclient-dev
+    - g++
 
 - name: Ensure that .env exists
   template: src=env dest=/srv/www/shared/.env owner=deploy group=deploy
