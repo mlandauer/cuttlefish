@@ -16,6 +16,18 @@ namespace :cuttlefish do
     Email.all.each {|email| email.update_status! }
   end
 
+  desc "Archive all emails created more than 6 months ago"
+  task :archive_6_month_old_emails => :environment do
+    date_of_oldest_email = Delivery.order(:created_at).first.created_at.to_date
+    if date_of_oldest_email < 6.months.ago.to_date
+      (date_of_oldest_email...6.months.ago.to_date).each do |date|
+        Archiving.archive(date)
+      end
+    else
+      puts "No emails created longer than 6 months ago, nothing archived"
+    end
+  end
+
   desc "Archive all emails from a particular date (e.g. 2014-05-01)"
   task :archive, [:date1, :date2] => :environment do |t, args|
     args.with_defaults(:date2 => args.date1)
