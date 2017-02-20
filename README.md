@@ -72,7 +72,7 @@ vagrant up
 
 3. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker
 ```
-cap deploy:setup deploy:cold foreman:export foreman:restart
+bundle exec cap deploy:setup deploy:cold foreman:export foreman:restart
 ```
 
 4. Add to your local `/etc/hosts` file
