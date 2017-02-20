@@ -92,3 +92,11 @@
     owner: root
     group: root
     mode: 0744
+
+- name: Create old email archiving cronjob
+  copy:
+    src: archiving
+    dest: /etc/cron.daily/archiving
+    owner: deploy
+    group: deploy
+    mode: 0755
