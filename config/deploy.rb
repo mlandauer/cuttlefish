@@ -3,6 +3,7 @@ require "rvm/capistrano"
 require 'bundler/capistrano'
 # This links .env to shared
 require "dotenv/deployment/capistrano"
+require "honeybadger/capistrano"
 
 set :application, "cuttlefish"
 set :repository,  "https://github.com/mlandauer/cuttlefish.git"
