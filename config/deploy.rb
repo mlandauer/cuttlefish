@@ -2,7 +2,7 @@ require "rvm/capistrano"
 require 'bundler/capistrano'
 # This links .env to shared
 require "dotenv/deployment/capistrano"
-require "honeybadger/capistrano"
+require "honeybadger/capistrano" unless fetch(:local_deploy, false)
 
 set :application, "cuttlefish"
 set :repository,  "https://github.com/mlandauer/cuttlefish.git"
@@ -13,8 +13,11 @@ set :rvm_path, "/usr/local/lib/rvm"
 set :rvm_bin_path, "/usr/local/lib/rvm/bin"
 set :rvm_install_with_sudo, true
 
-#server "localhost:2222", :app, :web, :db, primary: true
-server "li743-35.members.linode.com", :app, :web, :db, primary: true
+if fetch(:local_deploy, false)
+  server "localhost:2222", :app, :web, :db, primary: true
+else
+  server "li743-35.members.linode.com", :app, :web, :db, primary: true
+end
 
 set :use_sudo, false
 set :deploy_via, :remote_cache

@@ -70,9 +70,9 @@ yet generic. Maybe you can [help with this](https://github.com/mlandauer/cuttlef
 vagrant up
 ```
 
-3. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker
+3. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker. We're using the `--set-before local_deploy=true` flag to deploy to your local test virtual machine instead of production.
 ```
-bundle exec cap deploy:setup deploy:cold foreman:export foreman:restart
+bundle exec cap --set-before local_deploy=true deploy:setup deploy:cold foreman:export foreman:restart
 ```
 
 4. Add to your local `/etc/hosts` file
