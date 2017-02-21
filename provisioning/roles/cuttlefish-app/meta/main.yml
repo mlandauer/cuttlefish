@@ -130,3 +130,11 @@ dependencies:
   - {role: abtris.nginx-passenger}
   - {role: MaximeThoonsen.autopostgresqlbackup}
   - {role: DavidWittman.redis, redis_bind: "127.0.0.1"}
+  - role: backup
+    backup_aws_access_key: "{{ encrypted_backup_aws_access_key }}"
+    backup_secret_access_key: "{{ encrypted_backup_secret_access_key }}"
+    backup_passphrase: "{{ encrypted_backup_passphrase }}"
+    backup_dest: s3+http://oaf-backups/cuttlefish/
+    backup_inclist:
+      - "/var/lib/database-backup"
+      - "/srv/www/shared/emails"
