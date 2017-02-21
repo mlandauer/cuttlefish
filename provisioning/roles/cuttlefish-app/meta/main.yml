@@ -128,7 +128,6 @@ dependencies:
     rvm1_install_path: '/usr/local/lib/rvm'
     rvm1_user: 'root'
   - {role: abtris.nginx-passenger}
-  - {role: MaximeThoonsen.autopostgresqlbackup}
   - {role: DavidWittman.redis, redis_bind: "127.0.0.1"}
   - role: backup
     backup_aws_access_key: "{{ encrypted_backup_aws_access_key }}"
