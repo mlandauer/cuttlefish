@@ -33,6 +33,11 @@
 - name: Create cuttlefish posgresql role
   postgresql_user: db=cuttlefish name=cuttlefish password={{ db_password }}
 
+- name: Create postgresql role for root so it can do backups
+  postgresql_user:
+    name: root
+    role_attr_flags: SUPERUSER
+
 - name: Copy over database configuration for application
   template: src=database.yml dest=/srv/www/shared/database.yml owner=deploy group=deploy
   notify: nginx restart
@@ -92,3 +97,18 @@
     owner: root
     group: root
     mode: 0744
+
+- name: Uninstall autopostgresqlbackup
+  apt:
+    pkg: autopostgresqlbackup
+    state: absent
+
+- name: Uninstall autopostgresqlbackup cronjob
+  cron:
+    name: autopostgresqlbackup
+    state: absent
+
+- name: Delete autopostgresqlbackup backups
+  file:
+    path: /var/lib/autopostgresqlbackup/
+    state: absent
