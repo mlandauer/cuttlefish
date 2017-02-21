@@ -97,18 +97,3 @@
     owner: root
     group: root
     mode: 0744
-
-- name: Uninstall autopostgresqlbackup
-  apt:
-    pkg: autopostgresqlbackup
-    state: absent
-
-- name: Uninstall autopostgresqlbackup cronjob
-  cron:
-    name: autopostgresqlbackup
-    state: absent
-
-- name: Delete autopostgresqlbackup backups
-  file:
-    path: /var/lib/autopostgresqlbackup/
-    state: absent
