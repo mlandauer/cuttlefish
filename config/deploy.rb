@@ -44,14 +44,12 @@ namespace :deploy do
     links = {
       "#{release_path}/config/database.yml"                => "#{shared_path}/database.yml",
       "#{release_path}/db/emails"                          => "#{shared_path}/emails",
-      "#{release_path}/db/user_agents"                     => "#{shared_path}/user_agents",
       "#{release_path}/db/archive"                         => "#{shared_path}/archive",
     }
     # Copy across the example database configuration file if there isn't already one
     run "test -f #{shared_path}/database.yml || cp #{release_path}/config/database.yml #{shared_path}/database.yml"
     run "test -f #{shared_path}/production.rb || cp #{release_path}/config/environments/production.rb #{shared_path}/production.rb"
     run "test -d #{shared_path}/emails || mkdir -p #{shared_path}/emails"
-    run "test -d #{shared_path}/user_agents || mkdir -p #{shared_path}/user_agents"
     # "ln -sf <a> <b>" creates a symbolic link but deletes <b> if it already exists
     run links.map {|a| "ln -sf #{a.last} #{a.first}"}.join(";")
   end
