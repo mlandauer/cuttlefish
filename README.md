@@ -16,8 +16,7 @@ imagemagick, libmagickwand-dev, libmysqld-dev
 We use [Vagrant](https://www.vagrantup.com/) and [Ansible](http://docs.ansible.com/) to automatically set up a fresh server with everything you need to run Cuttlefish. It's a fairly complicated affair as Cuttlefish does have quite a few moving
 parts but all of this is with the purpose of making it easier for the developer sending mail.
 
-These instructions are currently for installing the server at cuttlefish.oaf.org.au. They're not
-yet generic. Maybe you can [help with this](https://github.com/mlandauer/cuttlefish/issues/226)?
+These instructions are specifically for installing the server at cuttlefish.oaf.org.au.
 
 ### To install to a local test virtual machine
 
