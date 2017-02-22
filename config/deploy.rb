@@ -5,7 +5,7 @@ require 'bundler/capistrano'
 require "dotenv/deployment/capistrano"
 
 set :application, "cuttlefish"
-set :repository,  "https://github.com/mlandauer/cuttlefish.git"
+set :repository,  "https://github.com/openaustralia/cuttlefish.git"
 set :rvm_ruby_string, :local
 set :rvm_type, :system
 # The default for rvm_path is /usr/local/rvm
