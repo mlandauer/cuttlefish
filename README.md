@@ -1,50 +1,8 @@
-[![Stories in Ready](https://badge.waffle.io/mlandauer/cuttlefish.png?label=ready&title=Ready)](https://waffle.io/mlandauer/cuttlefish)
+# ![Cuttlefish](https://raw.github.com/openaustralia/cuttlefish/master/app/assets/images/cuttlefish_80x48.png) [Cuttlefish](https://cuttlefish.io) for [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au)
 
-# ![Cuttlefish](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/cuttlefish_80x48.png) Cuttlefish
+[![Build Status](https://travis-ci.org/openaustralia/cuttlefish.png?branch=master)](https://travis-ci.org/openaustralia/cuttlefish)
 
-[![Build Status](https://travis-ci.org/mlandauer/cuttlefish.png?branch=master)](https://travis-ci.org/mlandauer/cuttlefish) [![Coverage Status](https://coveralls.io/repos/mlandauer/cuttlefish/badge.png?branch=master)](https://coveralls.io/r/mlandauer/cuttlefish) [![Code Climate](https://codeclimate.com/github/mlandauer/cuttlefish.png)](https://codeclimate.com/github/mlandauer/cuttlefish)
-
-* Project site: [cuttlefish.io](https://cuttlefish.io)
-* Hosted version ([free](http://poplus.org/posts/email-is-your-secret-weapon/) for [Poplus.org](http://poplus.org/) community members): [cuttlefish.oaf.org.au](https://cuttlefish.oaf.org.au)
-* Github repo:  [github.com/mlandauer/cuttlefish](https://github.com/mlandauer/cuttlefish)
-
-Cuttlefish is a lovely, easy to set up transactional email server
-
-Sending a few emails from your app is easy. Sending lots becomes painful. There are so many hidden gotchas. Do your emails get delivered? Are you being considered a spammer? What about all those bounced emails?
-
-Let's make sending lots of emails fun again!
-
-And without the hidden dangers of vendor lock in of commercial transactional email services.
-
-* Send email from your application using smtp in the usual way and get all sorts of added benefits for no effort
-* A lovely web UI to browse what's happening
-* Monitor in real time which emails arrive at their destination and which bounce
-* Works with any web framework and language
-* Automatically not send emails to destinations that have hard bounced in the past
-* Track which emails are opened and which links are clicked
-* Statistics on emails sent, soft/hard bounced and held back
-* View the full email content for recently sent emails
-* Multiple applications can each have their own SMTP authentication
-* Check your IP reputation with one click
-* Easy to install and get going quickly
-* Built in, super easy to set up, automatic DKIM signing
-* Postfix, which you know and trust, handles email delivery
-* Open source, so no vendor lock in.
-
-Cuttlefish is in beta. It's been used in production on three of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s project for over a year and has sent well over 2 million emails.
-
-##Screenshots
-
-![Sign up](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/1.png)
-![Dashboard](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/2.png)
-![Email](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/3.png)
-
-##Things on the cards
-
-* REST API for deep integration with your application
-* Web callbacks on succesful delivery, hard bounces, open and click events
-* "out of office" and bounce reply filtering
-* Incoming email
+This is the [OpenAustralia Foundation's deployment](https://cuttlefish.oaf.org.au/) of the open source [Cuttlefish - Lovely Transactional Email](https://cuttlefish.io) project. It contains deployment-specific code like our Ansible server provisioning code. For more information on the open source project have a look at their [project site](https://cuttlefish.io) or [GitHub repo](https://github.com/mlandauer/cuttlefish).
 
 ##Dependencies
 Ruby 2.1.5, MySQL, Redis (2.4 or greater), Postfix
