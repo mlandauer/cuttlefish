@@ -7,6 +7,11 @@
     - duplicity
     - mailutils
 
+- name: Ensure git is installed
+  apt:
+    pkg: git
+    update_cache: yes
+
 - name: Clone database-backup repository
   git:
     repo: https://github.com/openaustralia/database-backup.git
