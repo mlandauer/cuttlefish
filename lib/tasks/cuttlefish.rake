@@ -17,7 +17,7 @@ namespace :cuttlefish do
   end
 
   desc "Archive all emails created more than 6 months ago"
-  task :archive_6_month_old_emails => :environment do
+  task :auto_archive => :environment do
     date_to_archive_until = 6.months.ago.to_date
     date_of_oldest_email = Delivery.order(:created_at).first.created_at.to_date
 
