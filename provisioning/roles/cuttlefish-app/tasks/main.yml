@@ -93,10 +93,10 @@
     group: root
     mode: 0744
 
-- name: Create old email archiving cronjob
-  copy:
-    src: archiving
-    dest: /etc/cron.daily/archiving
-    owner: deploy
-    group: deploy
-    mode: 0755
+- name: Create old email archiving daily cronjob for 1am
+  cron:
+    name: daily old email archiving
+    job:  "cd /srv/www/current && /usr/local/lib/rvm/bin/rvm . do bundle exec rake cuttlefish:archive_6_month_old_emails RAILS_ENV=production"
+    user: deploy
+    minute: 0
+    hour: 1
