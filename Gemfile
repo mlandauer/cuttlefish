@@ -87,11 +87,8 @@ group :development do
   gem 'rack-mini-profiler'
   gem "spring"
   gem "spring-commands-rspec"
-  # Deployment bits and bobs
-  # Later versions cause issues with backing up assets manifests file to release directory
-  # TODO: Fix this
-  gem "capistrano", "2.13.5"
-  gem 'rvm-capistrano', require: false
+  gem "capistrano", "~> 2"
+  gem 'rvm-capistrano', ">= 1.5.6", require: false
   # Newer versions don't support Ruby 2.1. Remove this when we upgrade Ruby
   gem "listen", "~> 2"
 end
