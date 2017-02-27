@@ -40,6 +40,12 @@
 - name: Allow deploy user to export foreman script
   lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/local/lib/rvm/wrappers/default/bundle exec foreman export upstart /etc/init -a cuttlefish -u deploy -l /srv/www/shared/log -f Procfile.production' validate='visudo -cf %s'"
 
+- name: Allow deploy user to start cuttlefish service
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish start' validate='visudo -cf %s'"
+
+- name: Allow deploy user to stop cuttlefish service
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish stop' validate='visudo -cf %s'"
+
 - name: Allow deploy user to restart cuttlefish service
   lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish restart' validate='visudo -cf %s'"
 
