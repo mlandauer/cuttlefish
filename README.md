@@ -27,12 +27,9 @@ These instructions are specifically for installing the server at https://cuttlef
 vagrant up
 ```
 
-3. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker
+3. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker. We're using the `--set-before local_deploy=true` flag to deploy to your local test virtual machine instead of production.
 ```
-cap deploy:setup
-cap deploy:cold
-cap foreman:export
-cap foreman:restart
+bundle exec cap --set-before local_deploy=true deploy:setup deploy:cold foreman:export foreman:start
 ```
 
 4. Add to your local `/etc/hosts` file
