@@ -24,6 +24,9 @@ namespace :cuttlefish do
     if date_of_oldest_email < date_to_archive_until
       (date_of_oldest_email...date_to_archive_until).each do |date|
         Archiving.archive(date)
+
+        # Remove the local archive file that's been uploaded to S3
+        File.delete("db/archive/#{date}.tar.gz")
       end
     else
       puts "No emails created before #{date_to_archive_until} to archive"
