@@ -94,7 +94,7 @@ describe Archiving do
     end
 
     it "removes the temp archive file it creates" do
-      delivery = Delivery.create!(
+      Delivery.create!(
         id: 5,
         email: email,
         address: to_address,
