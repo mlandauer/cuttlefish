@@ -34,6 +34,9 @@ class Archiving
       end
 
       copy_to_s3(date)
+
+      puts "Removing temp local archive file copied to S3"
+      File.delete("db/archive/#{date}.tar.gz")
     end
   end
 
