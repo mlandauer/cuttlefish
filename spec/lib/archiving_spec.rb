@@ -1,29 +1,37 @@
 require "spec_helper"
 
 describe Archiving do
-  it do
-    team = Team.create!
-    app = team.apps.create!(
+  let(:team) {Team.create!}
+  let(:app) do
+    team.apps.create!(
       id: 2,
       name: "Planning Alerts",
       from_domain: "planningalerts.org.au"
     )
-
-    from_address = Address.create!(
+  end
+  let(:from_address) do
+    Address.create!(
       id: 12,
       text: "bounces@planningalerts.org.au"
     )
-    to_address = Address.create!(
+  end
+  let(:to_address) do
+    Address.create!(
       id: 13,
       text: "foo@gmail.com"
     )
-    email = app.emails.create!(
+  end
+  let(:email) do
+    app.emails.create!(
       id: 1753541,
       from_address: from_address,
       data_hash: "aa126db79482378ce17b441347926570228f12ef",
       message_id: "538ef46757549_443e4bb0f901893332@kedumba.mail",
       subject: "1 new planning application"
     )
+  end
+
+  it do
     link1 = Link.create!(
       id: 123,
       url: "http://www.planningalerts.org.au/alerts/abc1234/area"
@@ -75,5 +83,32 @@ describe Archiving do
     delivery = Archiving.deserialise(s1)
     s2 = Archiving.serialise(delivery)
     expect(s1).to eq s2
+  end
+
+  describe ".archive" do
+    around do |example|
+      # Silence debugging output from this method
+      silence_stream(STDOUT) do
+        example.run
+      end
+    end
+
+    it "removes the temp archive file it creates" do
+      delivery = Delivery.create!(
+        id: 5,
+        email: email,
+        address: to_address,
+        created_at: "2014-06-04T20:26:51.000+10:00",
+        updated_at: "2014-06-04T20:26:55.000+10:00",
+        sent: true,
+        status: "delivered",
+        open_tracked: true,
+        postfix_queue_id: "38B72370AC41"
+      )
+
+      Archiving.archive("2014-06-04")
+
+      expect { File.open("db/archive/2014-06-04.tar.gz") }.to raise_exception.with_message /No such file or directory/
+    end
   end
 end
