@@ -101,5 +101,29 @@ describe Archiving do
 
       expect { File.open("db/archive/2014-06-04.tar.gz") }.to raise_exception.with_message /No such file or directory/
     end
+
+    context "when uploading to S3 doesn't happen" do
+      pending "don't delete the local copy" do
+        fail
+      end
+    end
+  end
+
+  describe ".copy_to_s3" do
+    pending "sends a copy to S3" do
+      fail "it does this but there's no test"
+    end
+
+    pending "does something useful if the ENV configs aren't set" do
+      fail "current it just silently skips everything"
+    end
+
+    pending "does something useful when the upload fails" do
+      fail "it probably raises an error currently, but I don't know"
+    end
+
+    pending "does something useful when the file isn't there to upload" do
+      fail "it probably raises an error currently, but I don't know"
+    end
   end
 end
