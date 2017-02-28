@@ -94,17 +94,8 @@ describe Archiving do
     end
 
     it "removes the temp archive file it creates" do
-      Delivery.create!(
-        id: 5,
-        email: email,
-        address: to_address,
-        created_at: "2014-06-04T20:26:51.000+10:00",
-        updated_at: "2014-06-04T20:26:55.000+10:00",
-        sent: true,
-        status: "delivered",
-        open_tracked: true,
-        postfix_queue_id: "38B72370AC41"
-      )
+      # TODO: We don't care about which email this is assigned to, so don't assign it
+      FactoryGirl.create(:delivery, created_at: "2014-06-04T20:26:51.000+10:00", email: email)
 
       Archiving.archive("2014-06-04")
 
