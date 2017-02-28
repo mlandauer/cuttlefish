@@ -27,10 +27,12 @@ class Archiving
           end
         end
       end
+
       puts "Removing archived data from database for #{date}..."
       deliveries.find_each do |delivery|
         delivery.destroy
       end
+
       copy_to_s3(date)
     end
   end
