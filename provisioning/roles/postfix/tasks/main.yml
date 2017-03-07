@@ -1,3 +1,14 @@
 ---
 - name: Install postfix
   apt: pkg=postfix
+
+- name: Check postfix opportunistic TLS
+  command: "postconf -h smtp_tls_security_level"
+  changed_when: False
+  register: postfix_smtp_tls_security_level
+
+- name: Enable postfix opportunistic TLS for encrypted outbound email
+  command: postconf -e smtp_tls_security_level=may
+  when: postfix_smtp_tls_security_level.stdout != "may"
+  notify:
+    - restart postfix
