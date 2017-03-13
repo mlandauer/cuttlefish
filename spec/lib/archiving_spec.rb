@@ -1,30 +1,17 @@
 require "spec_helper"
 
 describe Archiving do
-  let(:team) {Team.create!}
   let(:app) do
-    team.apps.create!(
+    FactoryGirl.create(:team).apps.create!(
       id: 2,
       name: "Planning Alerts",
       from_domain: "planningalerts.org.au"
     )
   end
-  let(:from_address) do
-    Address.create!(
-      id: 12,
-      text: "bounces@planningalerts.org.au"
-    )
-  end
-  let(:to_address) do
-    Address.create!(
-      id: 13,
-      text: "foo@gmail.com"
-    )
-  end
   let(:email) do
     app.emails.create!(
       id: 1753541,
-      from_address: from_address,
+      from_address: Address.create!( id: 12, text: "bounces@planningalerts.org.au"),
       data_hash: "aa126db79482378ce17b441347926570228f12ef",
       message_id: "538ef46757549_443e4bb0f901893332@kedumba.mail",
       subject: "1 new planning application"
@@ -35,7 +22,19 @@ describe Archiving do
     let(:link1) { Link.create!(id: 123, url: "http://www.planningalerts.org.au/alerts/abc1234/area") }
     let(:link2) { Link.create!(id: 321, url: "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe") }
     let(:click_event) { ClickEvent.create!(user_agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0", ip: "1.2.3.4", created_at: "2014-06-04T20:33:53.000+10:00") }
-    let(:delivery) { Delivery.create!(id: 5, email: email, address: to_address, created_at: "2014-06-04T20:26:51.000+10:00", updated_at: "2014-06-04T20:26:55.000+10:00", sent: true, status: "delivered", open_tracked: true, postfix_queue_id: "38B72370AC41") }
+    let(:delivery) do
+      Delivery.create!(
+        id: 5,
+        email: email,
+        address: Address.create!(id: 13, text: "foo@gmail.com"),
+        created_at: "2014-06-04T20:26:51.000+10:00",
+        updated_at: "2014-06-04T20:26:55.000+10:00",
+        sent: true,
+        status: "delivered",
+        open_tracked: true,
+        postfix_queue_id: "38B72370AC41"
+      )
+    end
 
     before do
       delivery.open_events.create!(
