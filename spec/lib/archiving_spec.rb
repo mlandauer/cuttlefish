@@ -80,7 +80,7 @@ describe Archiving do
 
     context "when uploading to S3 succeeds" do
       before do
-        # FIXME: Mock an actual success response, not true here
+        # Mock the success response from .copy_to_s3
         allow(Archiving).to receive(:copy_to_s3).with("2014-06-04").and_return(true)
       end
 
