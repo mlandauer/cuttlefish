@@ -102,6 +102,8 @@ class Archiving
   end
 
   def self.copy_to_s3(date)
+    archive_filename = "#{date}.tar.gz"
+
     if s3_bucket = ENV["S3_BUCKET"]
       puts "Copying #{date} archive to S3 bucket #{s3_bucket}..."
       s3_connection = Fog::Storage.new(
@@ -112,10 +114,10 @@ class Archiving
       directory = s3_connection.directories.get(s3_bucket)
       directory.files.create(
         key: "#{date}.tar.gz",
-        body: File.open("db/archive/#{date}.tar.gz"),
+        body: File.open("db/archive/#{archive_filename}"),
       )
     else
-      puts "Skipped upload of #{date}.tar.gz because S3 access not configured"
+      puts "Skipped upload of #{archive_filename} because S3 access not configured"
     end
   end
 end
