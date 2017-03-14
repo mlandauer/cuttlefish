@@ -10,7 +10,7 @@ class Archiving
       puts "Nothing to archive for #{date}"
     else
       FileUtils.mkdir_p("db/archive")
-      archive_filename = "#{date}.tar.gz"
+      archive_filename = archive_filename_for(date)
 
       puts "Archiving #{date}..."
       # TODO bzip2 gives better compression but I had trouble with the Ruby gem for it
@@ -102,7 +102,7 @@ class Archiving
   end
 
   def self.copy_to_s3(date)
-    archive_filename = "#{date}.tar.gz"
+    archive_filename = archive_filename_for(date)
 
     if s3_bucket = ENV["S3_BUCKET"]
       puts "Copying #{archive_filename} to S3 bucket #{s3_bucket}..."
@@ -119,5 +119,9 @@ class Archiving
     else
       puts "Skipped upload of #{archive_filename} because S3 access not configured"
     end
+  end
+
+  def self.archive_filename_for(date)
+    "#{date}.tar.gz"
   end
 end
