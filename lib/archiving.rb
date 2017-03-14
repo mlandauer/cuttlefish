@@ -33,10 +33,12 @@ class Archiving
         delivery.destroy
       end
 
-      copy_to_s3(date)
-
-      puts "Removing temp local file #{date}.tar.gz copied to S3..."
-      File.delete("db/archive/#{date}.tar.gz")
+      if copy_to_s3(date)
+        puts "Removing temp local file #{date}.tar.gz copied to S3..."
+        File.delete("db/archive/#{date}.tar.gz")
+      else
+        puts "Keeping file #{date}.tar.gz as it wasn't copied to S3"
+      end
     end
   end
 
@@ -110,6 +112,8 @@ class Archiving
         key: "#{date}.tar.gz",
         body: File.open("db/archive/#{date}.tar.gz"),
       )
+    else
+      puts "Skipped upload of #{date}.tar.gz because S3 access not configured"
     end
   end
 end

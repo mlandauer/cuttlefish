@@ -73,18 +73,38 @@ describe Archiving do
       end
     end
 
-    it "removes the temp archive file it creates" do
+    before do
       # TODO: We don't care about which email this is assigned to, so don't assign it
       FactoryGirl.create(:delivery, created_at: "2014-06-04T20:26:51.000+10:00", email: email)
+    end
 
-      Archiving.archive("2014-06-04")
+    context "when uploading to S3 succeeds" do
+      before do
+        # FIXME: Mock an actual success response, not true here
+        allow(Archiving).to receive(:copy_to_s3).with("2014-06-04").and_return(true)
+      end
 
-      expect { File.open("db/archive/2014-06-04.tar.gz") }.to raise_exception.with_message /No such file or directory/
+      it "removes the temp archive file it creates" do
+        Archiving.archive("2014-06-04")
+
+        expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be false
+      end
     end
 
     context "when uploading to S3 doesn't happen" do
-      pending "don't delete the local copy" do
-        fail
+      before do
+        allow(Archiving).to receive(:copy_to_s3).with("2014-06-04").and_return(nil)
+      end
+
+      after do
+        # Clean up file created
+        File.delete("db/archive/2014-06-04.tar.gz")
+      end
+
+      it "does not delete the local copy" do
+        Archiving.archive("2014-06-04")
+
+        expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be true
       end
     end
   end
