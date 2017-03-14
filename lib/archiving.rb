@@ -55,7 +55,10 @@ class Archiving
   end
 
   def self.serialise(delivery)
-    ActionController::Base.new.render_to_string(partial: "deliveries/delivery.json.jbuilder", locals: {delivery: delivery})
+    ActionController::Base.new.render_to_string(
+      partial: "deliveries/delivery.json.jbuilder",
+      locals: {delivery: delivery}
+    )
   end
 
   def self.deserialise(text)
