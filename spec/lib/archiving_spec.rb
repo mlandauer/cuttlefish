@@ -147,14 +147,6 @@ describe Archiving do
         expect(Archiving.copy_to_s3("2014-06-04")).to eq nil
       end
     end
-
-    pending "does something useful when the upload fails" do
-      fail "it probably raises an error currently, but I don't know"
-    end
-
-    pending "does something useful when the file isn't there to upload" do
-      fail "it probably raises an error currently, but I don't know"
-    end
   end
 end
 
