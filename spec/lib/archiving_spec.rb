@@ -1,14 +1,14 @@
 require "spec_helper"
 
 describe Archiving do
-  let(:app) do
+  let!(:app) do
     FactoryGirl.create(:team).apps.create!(
       id: 2,
       name: "Planning Alerts",
       from_domain: "planningalerts.org.au"
     )
   end
-  let(:email) do
+  let!(:email) do
     app.emails.create!(
       id: 1753541,
       from_address: Address.create!( id: 12, text: "bounces@planningalerts.org.au"),
@@ -106,6 +106,18 @@ describe Archiving do
 
         expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be true
       end
+    end
+  end
+
+  describe ".unarchive" do
+    before do
+      allow(Archiving).to receive(:archive_directory).and_return("spec/fixtures/archive")
+    end
+
+    it "reloads deliveries into the database" do
+      Archiving.unarchive("2014-06-04")
+
+      expect(Delivery.count).to eq 1
     end
   end
 
