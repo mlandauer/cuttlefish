@@ -9,12 +9,13 @@ class Archiving
     if deliveries.empty?
       puts "Nothing to archive for #{date}"
     else
-      FileUtils.mkdir_p("db/archive")
+      archive_directory = "db/archive"
+      FileUtils.mkdir_p(archive_directory)
       archive_filename = archive_filename_for(date)
 
       puts "Archiving #{date}..."
       # TODO bzip2 gives better compression but I had trouble with the Ruby gem for it
-      Zlib::GzipWriter.open("db/archive/#{archive_filename}") do |gzip|
+      Zlib::GzipWriter.open("#{archive_directory}/#{archive_filename}") do |gzip|
         Archive::Tar::Minitar::Writer.open(gzip) do |writer|
           # Get all the apps for these deliveries
           apps = App.find(Delivery.where(created_at: t0..t1).joins(:email).group(:app_id).pluck(:app_id))
@@ -37,7 +38,7 @@ class Archiving
 
       if copy_to_s3(date)
         puts "Removing local file #{archive_filename} copied to S3..."
-        File.delete("db/archive/#{archive_filename}")
+        File.delete("#{archive_directory}/#{archive_filename}")
       else
         puts "Keeping file #{archive_filename} as it wasn't copied to S3"
       end
@@ -103,6 +104,7 @@ class Archiving
 
   def self.copy_to_s3(date)
     archive_filename = archive_filename_for(date)
+    archive_directory = "db/archive"
 
     if s3_bucket = ENV["S3_BUCKET"]
       puts "Copying #{archive_filename} to S3 bucket #{s3_bucket}..."
@@ -114,7 +116,7 @@ class Archiving
       directory = s3_connection.directories.get(s3_bucket)
       directory.files.create(
         key: "#{date}.tar.gz",
-        body: File.open("db/archive/#{archive_filename}"),
+        body: File.open("#{archive_directory}/#{archive_filename}"),
       )
     else
       puts "Skipped upload of #{archive_filename} because S3 access not configured"
