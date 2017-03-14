@@ -109,8 +109,16 @@ describe Archiving do
       end
     end
 
-    pending "does something useful if the ENV configs aren't set" do
-      fail "current it just silently skips everything"
+    context "when AWS access is not configured" do
+      around do |test|
+        with_modified_env aws_credentials_missing do
+          test.run
+        end
+      end
+
+      it "fails silently" do
+        expect(Archiving.copy_to_s3("2014-06-04")).to eq nil
+      end
     end
 
     pending "does something useful when the upload fails" do
@@ -128,6 +136,14 @@ def mock_aws_credentials
     S3_BUCKET: "fake-s3-bucket",
     AWS_ACCESS_KEY_ID: "fake-aws-access-key-id",
     AWS_SECRET_ACCESS_KEY: "fake-aws-secret-access-key"
+  }
+end
+
+def aws_credentials_missing
+  {
+    S3_BUCKET: nil,
+    AWS_ACCESS_KEY_ID: nil,
+    AWS_SECRET_ACCESS_KEY: nil
   }
 end
 
