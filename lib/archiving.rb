@@ -9,7 +9,6 @@ class Archiving
     if deliveries.empty?
       puts "Nothing to archive for #{date}"
     else
-      archive_directory = "db/archive"
       FileUtils.mkdir_p(archive_directory)
       archive_filename = archive_filename_for(date)
 
@@ -104,7 +103,6 @@ class Archiving
 
   def self.copy_to_s3(date)
     archive_filename = archive_filename_for(date)
-    archive_directory = "db/archive"
 
     if s3_bucket = ENV["S3_BUCKET"]
       puts "Copying #{archive_filename} to S3 bucket #{s3_bucket}..."
@@ -121,6 +119,10 @@ class Archiving
     else
       puts "Skipped upload of #{archive_filename} because S3 access not configured"
     end
+  end
+
+  def self.archive_directory
+    "db/archive"
   end
 
   def self.archive_filename_for(date)
