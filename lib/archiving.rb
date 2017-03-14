@@ -104,6 +104,7 @@ class Archiving
 
   def self.copy_to_s3(date)
     archive_filename = archive_filename_for(date)
+    archive_file_path = "#{archive_directory}/#{archive_filename}"
 
     if s3_bucket = ENV["S3_BUCKET"]
       puts "Copying #{archive_filename} to S3 bucket #{s3_bucket}..."
@@ -115,7 +116,7 @@ class Archiving
       directory = s3_connection.directories.get(s3_bucket)
       directory.files.create(
         key: "#{date}.tar.gz",
-        body: File.open("#{archive_directory}/#{archive_filename}"),
+        body: File.open(archive_file_path),
       )
     else
       puts "Skipped upload of #{archive_filename} because S3 access not configured"
