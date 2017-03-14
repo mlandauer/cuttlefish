@@ -105,7 +105,7 @@ class Archiving
     archive_filename = "#{date}.tar.gz"
 
     if s3_bucket = ENV["S3_BUCKET"]
-      puts "Copying #{date} archive to S3 bucket #{s3_bucket}..."
+      puts "Copying #{archive_filename} to S3 bucket #{s3_bucket}..."
       s3_connection = Fog::Storage.new(
         provider: "AWS",
         aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
