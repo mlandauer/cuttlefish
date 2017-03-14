@@ -90,6 +90,13 @@ describe Archiving do
   end
 
   describe ".copy_to_s3" do
+    around do |example|
+      # Silence debugging output from this method
+      silence_stream(STDOUT) do
+        example.run
+      end
+    end
+
     context "when AWS access is configured" do
       around do |test|
         with_modified_env mock_aws_credentials do
