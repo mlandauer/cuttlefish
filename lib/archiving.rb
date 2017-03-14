@@ -44,7 +44,7 @@ class Archiving
   end
 
   def self.unarchive(date)
-    Zlib::GzipReader.open("db/archive/#{date}.tar.gz") do |gzip|
+    Zlib::GzipReader.open(archive_file_path_for(date)) do |gzip|
       Archive::Tar::Minitar::Reader.open(gzip) do |reader|
         reader.each do |entry|
           deserialise(entry.read)
