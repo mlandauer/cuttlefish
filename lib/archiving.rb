@@ -10,9 +10,11 @@ class Archiving
       puts "Nothing to archive for #{date}"
     else
       FileUtils.mkdir_p("db/archive")
+      archive_filename = "#{date}.tar.gz"
+
       puts "Archiving #{date}..."
       # TODO bzip2 gives better compression but I had trouble with the Ruby gem for it
-      Zlib::GzipWriter.open("db/archive/#{date}.tar.gz") do |gzip|
+      Zlib::GzipWriter.open("db/archive/#{archive_filename}") do |gzip|
         Archive::Tar::Minitar::Writer.open(gzip) do |writer|
           # Get all the apps for these deliveries
           apps = App.find(Delivery.where(created_at: t0..t1).joins(:email).group(:app_id).pluck(:app_id))
@@ -34,10 +36,10 @@ class Archiving
       end
 
       if copy_to_s3(date)
-        puts "Removing local file #{date}.tar.gz copied to S3..."
-        File.delete("db/archive/#{date}.tar.gz")
+        puts "Removing local file #{archive_filename} copied to S3..."
+        File.delete("db/archive/#{archive_filename}")
       else
-        puts "Keeping file #{date}.tar.gz as it wasn't copied to S3"
+        puts "Keeping file #{archive_filename} as it wasn't copied to S3"
       end
     end
   end
