@@ -10,7 +10,6 @@ class Archiving
       puts "Nothing to archive for #{date}"
     else
       FileUtils.mkdir_p(archive_directory)
-      archive_filename = archive_filename_for(date)
 
       puts "Archiving #{date}..."
       # TODO bzip2 gives better compression but I had trouble with the Ruby gem for it
@@ -36,10 +35,10 @@ class Archiving
       end
 
       if copy_to_s3(date)
-        puts "Removing local file #{archive_filename} copied to S3..."
+        puts "Removing local file #{archive_filename_for(date)} copied to S3..."
         File.delete(archive_file_path_for(date))
       else
-        puts "Keeping file #{archive_filename} as it wasn't copied to S3"
+        puts "Keeping file #{archive_filename_for(date)} as it wasn't copied to S3"
       end
     end
   end
@@ -102,10 +101,8 @@ class Archiving
   end
 
   def self.copy_to_s3(date)
-    archive_filename = archive_filename_for(date)
-
     if s3_bucket = ENV["S3_BUCKET"]
-      puts "Copying #{archive_filename} to S3 bucket #{s3_bucket}..."
+      puts "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..."
       s3_connection = Fog::Storage.new(
         provider: "AWS",
         aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
@@ -117,7 +114,7 @@ class Archiving
         body: File.open(archive_file_path_for(date)),
       )
     else
-      puts "Skipped upload of #{archive_filename} because S3 access not configured"
+      puts "Skipped upload of #{archive_filename_for(date)} because S3 access not configured"
     end
   end
 
