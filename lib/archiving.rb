@@ -34,7 +34,7 @@ class Archiving
       end
 
       if copy_to_s3(date)
-        puts "Removing temp local file #{date}.tar.gz copied to S3..."
+        puts "Removing local file #{date}.tar.gz copied to S3..."
         File.delete("db/archive/#{date}.tar.gz")
       else
         puts "Keeping file #{date}.tar.gz as it wasn't copied to S3"
