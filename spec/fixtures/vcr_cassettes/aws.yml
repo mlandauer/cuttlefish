@@ -1,0 +1,85 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://fake-s3-bucket.s3-ap-southeast-2.amazonaws.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.38.0 fog-core/1.38.0
+      X-Amz-Date:
+      - 20170314T064911Z
+      X-Amz-Content-Sha256:
+      - fake
+      Authorization:
+      - fake
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - fake
+      X-Amz-Request-Id:
+      - fake
+      Date:
+      - Tue, 14 Mar 2017 06:49:12 GMT
+      X-Amz-Bucket-Region:
+      - ap-southeast-2
+      Content-Type:
+      - application/xml
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>fake-s3-bucket</Name><Prefix></Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><IsTruncated>false</IsTruncated><Contents><Key>2017-03-14_test.txt</Key><LastModified>2017-03-14T02:00:46.000Z</LastModified><ETag>&quot;fake&quot;</ETag><Size>8</Size><Owner><ID>fake</ID><DisplayName>fake</DisplayName></Owner><StorageClass>STANDARD</StorageClass></Contents></ListBucketResult>
+    http_version: 
+  recorded_at: Tue, 14 Mar 2017 06:49:12 GMT
+- request:
+    method: put
+    uri: https://fake-s3-bucket.s3-ap-southeast-2.amazonaws.com/2014-06-04.tar.gz
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog/1.38.0 fog-core/1.38.0
+      Content-Type:
+      - application/gzip
+      X-Amz-Date:
+      - fake
+      X-Amz-Content-Sha256:
+      - fake
+      X-Amz-Decoded-Content-Length:
+      - '423'
+      Authorization:
+      - faked
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - fake
+      X-Amz-Request-Id:
+      - fake
+      Date:
+      - Tue, 14 Mar 2017 06:49:13 GMT
+      X-Amz-Version-Id:
+      - fake
+      Etag:
+      - '"fake"'
+      Content-Length:
+      - '0'
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 14 Mar 2017 06:49:12 GMT
+recorded_with: VCR 3.0.3

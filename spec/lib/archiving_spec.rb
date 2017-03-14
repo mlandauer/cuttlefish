@@ -90,8 +90,23 @@ describe Archiving do
   end
 
   describe ".copy_to_s3" do
-    pending "sends a copy to S3" do
-      fail "it does this but there's no test"
+    context "when AWS access is configured" do
+      around do |test|
+        with_modified_env mock_aws_credentials do
+          test.run
+        end
+      end
+
+      before do
+        fixture_archive_file = File.open("spec/fixtures/archive/2014-06-04.tar.gz")
+        allow(File).to receive(:open).with("db/archive/2014-06-04.tar.gz") { fixture_archive_file }
+      end
+
+      it "sends a copy to S3" do
+        VCR.use_cassette("aws") do
+          expect(Archiving.copy_to_s3("2014-06-04")).to be_instance_of Fog::Storage::AWS::File
+        end
+      end
     end
 
     pending "does something useful if the ENV configs aren't set" do
@@ -106,4 +121,16 @@ describe Archiving do
       fail "it probably raises an error currently, but I don't know"
     end
   end
+end
+
+def mock_aws_credentials
+  {
+    S3_BUCKET: "fake-s3-bucket",
+    AWS_ACCESS_KEY_ID: "fake-aws-access-key-id",
+    AWS_SECRET_ACCESS_KEY: "fake-aws-secret-access-key"
+  }
+end
+
+def with_modified_env(options, &block)
+  ClimateControl.modify(options, &block)
 end
