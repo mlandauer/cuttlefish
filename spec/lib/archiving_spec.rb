@@ -21,7 +21,7 @@ describe Archiving do
   end
 
   describe ".serialise" do
-    let(:click_event) { create(:click_event, user_agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0", ip: "1.2.3.4", created_at: "2014-06-04T20:33:53.000+10:00") }
+    let!(:click_event) { create(:click_event, user_agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0", ip: "1.2.3.4", created_at: "2014-06-04T20:33:53.000+10:00") }
     let(:delivery) do
       create(
         :delivery,
