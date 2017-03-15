@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://fake-s3-bucket.s3-ap-southeast-2.amazonaws.com/
+    uri: https://fake-s3-bucket.s3.amazonaws.com/
     body:
       encoding: US-ASCII
       string: ''
@@ -26,8 +26,6 @@ http_interactions:
       - fake
       Date:
       - Tue, 14 Mar 2017 06:49:12 GMT
-      X-Amz-Bucket-Region:
-      - ap-southeast-2
       Content-Type:
       - application/xml
       Server:
@@ -41,7 +39,7 @@ http_interactions:
   recorded_at: Tue, 14 Mar 2017 06:49:12 GMT
 - request:
     method: put
-    uri: https://fake-s3-bucket.s3-ap-southeast-2.amazonaws.com/2014-06-04.tar.gz
+    uri: https://fake-s3-bucket.s3.amazonaws.com/2014-06-04.tar.gz
     body:
       encoding: US-ASCII
       string: ''
