@@ -20,6 +20,62 @@ describe Archiving do
     )
   end
 
+  describe ".archive" do
+    around do |example|
+      # Silence debugging output from this method
+      silence_stream(STDOUT) do
+        example.run
+      end
+    end
+
+    before do
+      # TODO: We don't care about which email this is assigned to, so don't assign it
+      create(:delivery, created_at: "2014-06-04T20:26:51.000+10:00", email: email)
+    end
+
+    context "when uploading to S3 succeeds" do
+      before do
+        # Mock the success response from .copy_to_s3
+        allow(Archiving).to receive(:copy_to_s3).with("2014-06-04").and_return(true)
+      end
+
+      it "removes the temp archive file it creates" do
+        Archiving.archive("2014-06-04")
+
+        expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be false
+      end
+    end
+
+    context "when uploading to S3 doesn't happen" do
+      before do
+        allow(Archiving).to receive(:copy_to_s3).with("2014-06-04").and_return(nil)
+      end
+
+      after do
+        # Clean up file created
+        File.delete("db/archive/2014-06-04.tar.gz")
+      end
+
+      it "does not delete the local copy" do
+        Archiving.archive("2014-06-04")
+
+        expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be true
+      end
+    end
+  end
+
+  describe ".unarchive" do
+    before do
+      allow(Archiving).to receive(:archive_directory).and_return("spec/fixtures/archive")
+    end
+
+    it "reloads deliveries into the database" do
+      Archiving.unarchive("2014-06-04")
+
+      expect(Delivery.count).to eq 1
+    end
+  end
+
   describe ".serialise" do
     let!(:click_event) { create(:click_event, user_agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0", ip: "1.2.3.4", created_at: "2014-06-04T20:33:53.000+10:00") }
     let(:delivery) do
@@ -75,62 +131,6 @@ describe Archiving do
       s2 = Archiving.serialise(delivery)
 
       expect(s1).to eq s2
-    end
-  end
-
-  describe ".archive" do
-    around do |example|
-      # Silence debugging output from this method
-      silence_stream(STDOUT) do
-        example.run
-      end
-    end
-
-    before do
-      # TODO: We don't care about which email this is assigned to, so don't assign it
-      create(:delivery, created_at: "2014-06-04T20:26:51.000+10:00", email: email)
-    end
-
-    context "when uploading to S3 succeeds" do
-      before do
-        # Mock the success response from .copy_to_s3
-        allow(Archiving).to receive(:copy_to_s3).with("2014-06-04").and_return(true)
-      end
-
-      it "removes the temp archive file it creates" do
-        Archiving.archive("2014-06-04")
-
-        expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be false
-      end
-    end
-
-    context "when uploading to S3 doesn't happen" do
-      before do
-        allow(Archiving).to receive(:copy_to_s3).with("2014-06-04").and_return(nil)
-      end
-
-      after do
-        # Clean up file created
-        File.delete("db/archive/2014-06-04.tar.gz")
-      end
-
-      it "does not delete the local copy" do
-        Archiving.archive("2014-06-04")
-
-        expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be true
-      end
-    end
-  end
-
-  describe ".unarchive" do
-    before do
-      allow(Archiving).to receive(:archive_directory).and_return("spec/fixtures/archive")
-    end
-
-    it "reloads deliveries into the database" do
-      Archiving.unarchive("2014-06-04")
-
-      expect(Delivery.count).to eq 1
     end
   end
 
