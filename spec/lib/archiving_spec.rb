@@ -9,9 +9,11 @@ describe Archiving do
     )
   end
   let!(:email) do
-    app.emails.create!(
+    FactoryGirl.create(
+      :email,
+      app: app,
       id: 1753541,
-      from_address: Address.create!( id: 12, text: "bounces@planningalerts.org.au"),
+      from_address: FactoryGirl.create(:address, id: 12, text: "bounces@planningalerts.org.au"),
       data_hash: "aa126db79482378ce17b441347926570228f12ef",
       message_id: "538ef46757549_443e4bb0f901893332@kedumba.mail",
       subject: "1 new planning application"
@@ -19,14 +21,15 @@ describe Archiving do
   end
 
   describe ".serialise" do
-    let(:link1) { Link.create!(id: 123, url: "http://www.planningalerts.org.au/alerts/abc1234/area") }
-    let(:link2) { Link.create!(id: 321, url: "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe") }
-    let(:click_event) { ClickEvent.create!(user_agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0", ip: "1.2.3.4", created_at: "2014-06-04T20:33:53.000+10:00") }
+    let(:link1) { FactoryGirl.create(:link, id: 123, url: "http://www.planningalerts.org.au/alerts/abc1234/area") }
+    let(:link2) { FactoryGirl.create(:link, id: 321, url: "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe") }
+    let(:click_event) { FactoryGirl.create(:click_event, user_agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0", ip: "1.2.3.4", created_at: "2014-06-04T20:33:53.000+10:00") }
     let(:delivery) do
-      Delivery.create!(
+      FactoryGirl.create(
+        :delivery,
         id: 5,
         email: email,
-        address: Address.create!(id: 13, text: "foo@gmail.com"),
+        address: FactoryGirl.create(:address, id: 13, text: "foo@gmail.com"),
         created_at: "2014-06-04T20:26:51.000+10:00",
         updated_at: "2014-06-04T20:26:55.000+10:00",
         sent: true,
@@ -37,14 +40,18 @@ describe Archiving do
     end
 
     before do
-      delivery.open_events.create!(
+      FactoryGirl.create(
+        :open_event,
+        delivery: delivery,
         user_agent: "Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7 (via ggpht.com GoogleImageProxy)",
         ip: "2.3.4.5",
         created_at: "2014-10-06T16:05:52.000+11:00"
       )
-      delivery.delivery_links.create!(link: link1, click_events: [])
-      delivery.delivery_links.create!(link: link2, click_events: [click_event])
-      delivery.postfix_log_lines.create!(
+      FactoryGirl.create(:delivery_link, delivery: delivery, link: link1, click_events: [])
+      FactoryGirl.create(:delivery_link, delivery: delivery, link: link2, click_events: [])
+      FactoryGirl.create(
+        :postfix_log_line,
+        delivery: delivery,
         time: "2014-06-04T20:26:53.000+10:00",
         relay: "gmail-smtp-in.l.google.com[173.194.79.26]:25",
         delay: "1.7",
