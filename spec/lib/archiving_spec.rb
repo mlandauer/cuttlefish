@@ -29,7 +29,6 @@ describe Archiving do
     end
 
     before do
-      # TODO: We don't care about which email this is assigned to, so don't assign it
       create(:delivery, created_at: "2014-06-04T20:26:51.000+10:00", email: email)
     end
 
