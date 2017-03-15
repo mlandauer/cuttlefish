@@ -47,8 +47,8 @@ describe Archiving do
         ip: "2.3.4.5",
         created_at: "2014-10-06T16:05:52.000+11:00"
       )
-      create(:delivery_link, delivery: delivery, link: link1, click_events: [])
-      create(:delivery_link, delivery: delivery, link: link2, click_events: [])
+      create(:delivery_link, delivery: delivery, link: link1)
+      create(:delivery_link, delivery: delivery, link: link2)
       create(
         :postfix_log_line,
         delivery: delivery,

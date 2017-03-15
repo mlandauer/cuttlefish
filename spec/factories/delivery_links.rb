@@ -4,5 +4,6 @@ FactoryGirl.define do
   factory :delivery_link do
     delivery
     link
+    click_events []
   end
 end
