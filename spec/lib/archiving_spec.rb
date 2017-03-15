@@ -166,7 +166,8 @@ def mock_aws_credentials
   {
     S3_BUCKET: "fake-s3-bucket",
     AWS_ACCESS_KEY_ID: "fake-aws-access-key-id",
-    AWS_SECRET_ACCESS_KEY: "fake-aws-secret-access-key"
+    AWS_SECRET_ACCESS_KEY: "fake-aws-secret-access-key",
+    AWS_REGION: "ap-southeast-2"
   }
 end
 

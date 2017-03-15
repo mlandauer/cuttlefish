@@ -106,11 +106,15 @@ class Archiving
   def self.copy_to_s3(date)
     if s3_bucket = ENV["S3_BUCKET"]
       puts "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..."
-      s3_connection = Fog::Storage.new(
+
+      fog_storgage_details = {
         provider: "AWS",
         aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
         aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
-      )
+      }
+      fog_storgage_details.merge!(region: ENV["AWS_REGION"]) if ENV["AWS_REGION"]
+
+      s3_connection = Fog::Storage.new(fog_storgage_details)
       directory = s3_connection.directories.get(s3_bucket)
       directory.files.create(
         key: "#{date}.tar.gz",
