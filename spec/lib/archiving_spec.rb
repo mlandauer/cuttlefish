@@ -21,8 +21,6 @@ describe Archiving do
   end
 
   describe ".serialise" do
-    let(:link1) { create(:link, id: 123, url: "http://www.planningalerts.org.au/alerts/abc1234/area") }
-    let(:link2) { create(:link, id: 321, url: "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe") }
     let(:click_event) { create(:click_event, user_agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0", ip: "1.2.3.4", created_at: "2014-06-04T20:33:53.000+10:00") }
     let(:delivery) do
       create(
@@ -47,8 +45,16 @@ describe Archiving do
         ip: "2.3.4.5",
         created_at: "2014-10-06T16:05:52.000+11:00"
       )
-      create(:delivery_link, delivery: delivery, link: link1)
-      create(:delivery_link, delivery: delivery, link: link2)
+      create(
+        :delivery_link,
+        delivery: delivery,
+        link: create(:link, id: 123, url: "http://www.planningalerts.org.au/alerts/abc1234/area")
+      )
+      create(
+        :delivery_link,
+        delivery: delivery,
+        link: create(:link, id: 321, url: "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe")
+      )
       create(
         :postfix_log_line,
         delivery: delivery,
