@@ -103,3 +103,11 @@
     owner: root
     group: root
     mode: 0744
+
+- name: Create old email archiving daily cronjob for 12:00 UTC (22:00 AEST)
+  cron:
+    name: daily old email archiving
+    job:  "cd /srv/www/current && /usr/local/lib/rvm/bin/rvm . do bundle exec rake cuttlefish:auto_archive RAILS_ENV=production"
+    user: deploy
+    minute: 0
+    hour: 12

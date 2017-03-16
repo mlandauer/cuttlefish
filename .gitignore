@@ -11,6 +11,9 @@
 /log/*.log
 /tmp
 
+# Ignore .env.development so people can set their own env variables
+.env.development
+
 cuttlefish.sublime-workspace
 db/emails/development
 db/archive

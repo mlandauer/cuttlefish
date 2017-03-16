@@ -78,6 +78,7 @@ GEM
       timers (~> 4.0.0)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
+    climate_control (0.1.0)
     coderay (1.1.1)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -95,6 +96,8 @@ GEM
       simplecov (>= 0.7)
       term-ansicolor
       thor
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     css_parser (1.3.5)
       addressable
     daemons (1.1.9)
@@ -302,6 +305,7 @@ GEM
       haml (>= 3.1, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
+    hashdiff (0.3.2)
     highline (1.7.8)
     hitimes (1.2.4)
     honeybadger (1.16.7)
@@ -458,6 +462,7 @@ GEM
     rubyzip (1.1.6)
     rvm-capistrano (1.5.6)
       capistrano (~> 2.15.4)
+    safe_yaml (1.0.4)
     sass (3.4.22)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -523,8 +528,13 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     user_agent_parser (2.2.0)
+    vcr (3.0.3)
     warden (1.2.6)
       rack (>= 1.0)
+    webmock (2.3.2)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
     websocket (1.2.1)
     will_paginate (3.0.7)
     xml-simple (1.1.5)
@@ -539,6 +549,7 @@ DEPENDENCIES
   bootstrap-sass (~> 2.0)
   capistrano (~> 2)
   capybara
+  climate_control
   coffee-rails
   coveralls
   database_cleaner
@@ -597,7 +608,9 @@ DEPENDENCIES
   thin
   uglifier (>= 1.3.0)
   user_agent_parser
+  vcr
+  webmock
   will_paginate
 
 BUNDLED WITH
-   1.13.6
+   1.14.5

@@ -96,6 +96,9 @@ end
 group :test do
   gem 'coveralls', require: false
   gem 'database_cleaner'
+  gem 'climate_control'
+  gem "vcr"
+  gem "webmock"
 end
 
 group :development, :test do

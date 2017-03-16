@@ -9,10 +9,11 @@ class Archiving
     if deliveries.empty?
       puts "Nothing to archive for #{date}"
     else
-      FileUtils.mkdir_p("db/archive")
+      FileUtils.mkdir_p(archive_directory)
+
       puts "Archiving #{date}..."
       # TODO bzip2 gives better compression but I had trouble with the Ruby gem for it
-      Zlib::GzipWriter.open("db/archive/#{date}.tar.gz") do |gzip|
+      Zlib::GzipWriter.open(archive_file_path_for(date)) do |gzip|
         Archive::Tar::Minitar::Writer.open(gzip) do |writer|
           # Get all the apps for these deliveries
           apps = App.find(Delivery.where(created_at: t0..t1).joins(:email).group(:app_id).pluck(:app_id))
@@ -27,16 +28,23 @@ class Archiving
           end
         end
       end
+
       puts "Removing archived data from database for #{date}..."
       deliveries.find_each do |delivery|
         delivery.destroy
       end
-      copy_to_s3(date)
+
+      if copy_to_s3(date)
+        puts "Removing local file #{archive_filename_for(date)} copied to S3..."
+        File.delete(archive_file_path_for(date))
+      else
+        puts "Keeping file #{archive_filename_for(date)} as it wasn't copied to S3"
+      end
     end
   end
 
   def self.unarchive(date)
-    Zlib::GzipReader.open("db/archive/#{date}.tar.gz") do |gzip|
+    Zlib::GzipReader.open(archive_file_path_for(date)) do |gzip|
       Archive::Tar::Minitar::Reader.open(gzip) do |reader|
         reader.each do |entry|
           deserialise(entry.read)
@@ -47,7 +55,10 @@ class Archiving
   end
 
   def self.serialise(delivery)
-    ActionController::Base.new.render_to_string(partial: "deliveries/delivery.json.jbuilder", locals: {delivery: delivery})
+    ActionController::Base.new.render_to_string(
+      partial: "deliveries/delivery.json.jbuilder",
+      locals: {delivery: delivery}
+    )
   end
 
   def self.deserialise(text)
@@ -94,17 +105,38 @@ class Archiving
 
   def self.copy_to_s3(date)
     if s3_bucket = ENV["S3_BUCKET"]
-      puts "Copying #{date} archive to S3 bucket #{s3_bucket}..."
-      s3_connection = Fog::Storage.new(
-        provider: "AWS",
-        aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
-        aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
-      )
+      puts "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..."
+
+      s3_connection = Fog::Storage.new(fog_storgage_details)
       directory = s3_connection.directories.get(s3_bucket)
       directory.files.create(
         key: "#{date}.tar.gz",
-        body: File.open("db/archive/#{date}.tar.gz"),
+        body: File.open(archive_file_path_for(date)),
       )
+    else
+      puts "Skipped upload of #{archive_filename_for(date)} because S3 access not configured"
     end
+  end
+
+  def self.archive_directory
+    "db/archive"
+  end
+
+  def self.archive_filename_for(date)
+    "#{date}.tar.gz"
+  end
+
+  def self.archive_file_path_for(date)
+    "#{archive_directory}/#{archive_filename_for(date)}"
+  end
+
+  def self.fog_storgage_details
+    details = {
+      provider: "AWS",
+      aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+      aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
+    }
+    details.merge!(region: ENV["AWS_REGION"]) if ENV["AWS_REGION"]
+    details
   end
 end
