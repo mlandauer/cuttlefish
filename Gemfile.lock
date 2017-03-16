@@ -487,8 +487,6 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
-    skylight (1.0.1)
-      activesupport (>= 3.0.0)
     slop (3.6.0)
     spring (1.2.0)
     spring-commands-rspec (1.0.4)
@@ -589,7 +587,6 @@ DEPENDENCIES
   selenium-webdriver
   sidekiq
   sinatra
-  skylight
   spring
   spring-commands-rspec
   syslog_protocol
