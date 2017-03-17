@@ -51,7 +51,6 @@ gem 'haml-coderay'
 gem 'nokogiri'
 gem 'google-analytics-rails'
 gem 'premailer'
-gem "skylight"
 gem "archive-tar-minitar"
 gem "pundit"
 gem "friendly_id"
