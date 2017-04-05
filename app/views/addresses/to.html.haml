@@ -8,11 +8,13 @@
     = @address.text
     is on the blacklist
   %p
-    - unless @address.blacklist(current_admin.team).caused_by_delivery.subject.blank?
+    - if @address.blacklist(current_admin.team).caused_by_delivery && @address.blacklist(current_admin.team).caused_by_delivery.subject.present?
       Reason:
       = link_to truncate(@address.blacklist(current_admin.team).caused_by_delivery.postfix_log_lines.first.extended_status, length: 160), @address.blacklist(current_admin.team).caused_by_delivery
       = time_ago_in_words(@address.blacklist(current_admin.team).caused_by_delivery.postfix_log_lines.first.created_at)
       ago
+    - else
+      We don't know why this was blacklisted. The delivery that caused it may have been archived.
 
   - if policy(@address.blacklist(current_admin.team)).destroy?
     = button_to "Remove from blacklist", @address.blacklist(current_admin.team), method: :delete, class: "btn btn-danger"
