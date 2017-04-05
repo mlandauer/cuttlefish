@@ -8,7 +8,7 @@
     = @address.text
     is on the blacklist
   %p
-    - if @address.blacklist(current_admin.team).caused_by_delivery && @address.blacklist(current_admin.team).caused_by_delivery.subject.present?
+    - if @address.blacklist(current_admin.team).has_record_of_cause?
       Reason:
       = link_to truncate(@address.blacklist(current_admin.team).caused_by_delivery.postfix_log_lines.first.extended_status, length: 160), @address.blacklist(current_admin.team).caused_by_delivery
       = time_ago_in_words(@address.blacklist(current_admin.team).caused_by_delivery.postfix_log_lines.first.created_at)

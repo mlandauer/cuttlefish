@@ -19,7 +19,7 @@
           %tr
             %td= black_list.address.text
             %td
-              - if black_list.caused_by_delivery && black_list.caused_by_delivery.subject.present?
+              - if black_list.has_record_of_cause?
                 = link_to truncate(black_list.caused_by_delivery.postfix_log_lines.first.extended_status, length: 160), black_list.caused_by_delivery
               - else
                 We don't know why this was blacklisted. The delivery that caused it may have been archived.
