@@ -19,11 +19,14 @@
           %tr
             %td= black_list.address.text
             %td
-              - unless black_list.caused_by_delivery.subject.blank?
+              - if black_list.has_record_of_cause?
                 = link_to truncate(black_list.caused_by_delivery.postfix_log_lines.first.extended_status, length: 160), black_list.caused_by_delivery
+              - else
+                We don't know why this was blacklisted. The delivery that caused it may have been archived.
             %td
-              = time_ago_in_words(black_list.caused_by_delivery.postfix_log_lines.first.created_at)
-              ago
+              - if black_list.caused_by_delivery
+                = time_ago_in_words(black_list.caused_by_delivery.postfix_log_lines.first.created_at)
+                ago
             - if policy(black_list).destroy?
               %td
                 = button_to "Remove", black_list, method: :delete, class: "btn btn-danger"
