@@ -4,14 +4,14 @@
 
 This is the [OpenAustralia Foundation's deployment](https://cuttlefish.oaf.org.au/) of the open source [Cuttlefish - Lovely Transactional Email](https://cuttlefish.io) project. It contains deployment-specific code like our Ansible server provisioning code. For more information on the open source project have a look at their [project site](https://cuttlefish.io) or [GitHub repo](https://github.com/mlandauer/cuttlefish).
 
-##Dependencies
+## Dependencies
 Ruby 2.1.5, MySQL, Redis (2.4 or greater), Postfix
 (Postfix is optional for local development or just trying it out. Some things like the email deliverability just won't show anything)
 
 Also you need the following libraries:
 imagemagick, libmagickwand-dev, libmysqld-dev
 
-##To install:
+## To install:
 
 We use [Vagrant](https://www.vagrantup.com/) and [Ansible](http://docs.ansible.com/) to automatically set up a fresh server with everything you need to run Cuttlefish. It's a fairly complicated affair as Cuttlefish does have quite a few moving
 parts but all of this is with the purpose of making it easier for the developer sending mail.
