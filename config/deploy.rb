@@ -1,8 +1,8 @@
-#require 'new_relic/recipes'
 require "rvm/capistrano"
 require 'bundler/capistrano'
 # This links .env to shared
 require "dotenv/deployment/capistrano"
+require "honeybadger/capistrano" unless fetch(:local_deploy, false)
 
 set :application, "cuttlefish"
 set :repository,  "https://github.com/mlandauer/cuttlefish.git"
@@ -13,24 +13,23 @@ set :rvm_path, "/usr/local/lib/rvm"
 set :rvm_bin_path, "/usr/local/lib/rvm/bin"
 set :rvm_install_with_sudo, true
 
-#server "kedumba.openaustraliafoundation.org.au", :app, :web, :db, primary: true
-#server "localhost:2222", :app, :web, :db, primary: true
-server "li743-35.members.linode.com", :app, :web, :db, primary: true
+if fetch(:local_deploy, false)
+  server "localhost:2222", :app, :web, :db, primary: true
+else
+  server "li743-35.members.linode.com", :app, :web, :db, primary: true
+end
 
 set :use_sudo, false
 set :deploy_via, :remote_cache
 
 set :user, "deploy"
-#set :deploy_to, "/srv/www/cuttlefish.openaustraliafoundation.org.au"
 set :deploy_to, "/srv/www"
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
 
-#before 'deploy:setup', 'rvm:install_ruby'  # install Ruby and create gemset, or:
 before "deploy:restart", "foreman:restart"
 before "foreman:restart", "foreman:export"
-#after "deploy:restart", "newrelic:notice_deployment"
 
 namespace :deploy do
   task :start do ; end
@@ -59,7 +58,6 @@ end
 namespace :foreman do
   desc "Export the Procfile to Ubuntu's upstart scripts"
   task :export, roles: :app do
-    #run "cd #{current_path} && sudo bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log -f Procfile.production"
     run "cd #{current_path} && sudo /usr/local/lib/rvm/wrappers/default/bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log -f Procfile.production"
   end
 
