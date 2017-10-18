@@ -33,27 +33,27 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 
 Cuttlefish is in beta. It's been used in production on three of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s projects for over a year and has sent well over 2 million emails.
 
-##Screenshots
+## Screenshots
 
 ![Sign up](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/1.png)
 ![Dashboard](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/2.png)
 ![Email](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/3.png)
 
-##Things on the cards
+## Things on the cards
 
 * REST API for deep integration with your application
 * Web callbacks on succesful delivery, hard bounces, open and click events
 * "out of office" and bounce reply filtering
 * Incoming email
 
-##Dependencies
+## Dependencies
 Ruby 2.1.5, MySQL, Redis (2.4 or greater), Postfix
 (Postfix is optional for local development or just trying it out. Some things like the email deliverability just won't show anything)
 
 Also you need the following libraries:
 imagemagick, libmagickwand-dev, libmysqld-dev
 
-##To install:
+## To install:
 
 We use [Vagrant](https://www.vagrantup.com/) and [Ansible](http://docs.ansible.com/) to automatically set up a fresh server with everything you need to run Cuttlefish. It's a fairly complicated affair as Cuttlefish does have quite a few moving
 parts but all of this is with the purpose of making it easier for the developer sending mail.
