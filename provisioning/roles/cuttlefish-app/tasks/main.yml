@@ -57,7 +57,28 @@
 - name: Allow deploy to read some log files (different from admin group)
   user: name=deploy groups=adm append=yes
 
-# TODO: Use let's encrypt to get SSL certificates
+- name: Add certbot PPA
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+
+- name: Install certbot using their PPA
+  apt:
+    pkg: certbot
+    update_cache: true
+
+- name: Install certificate using certbot
+  include_role:
+    name: geerlingguy.certbot
+  vars:
+    certbot_auto_renew_user: root
+    certbot_auto_renew_minute: 10
+    certbot_auto_renew_hour: 7
+    certbot_create_if_missing: yes
+    certbot_certs:
+      - email: contact@oaf.org.au
+        domains:
+          - cuttlefish.oaf.org.au
+          # TODO: Add cuttlefish.io
 
 - name: Create old email archiving daily cronjob for 12:00 UTC (22:00 AEST)
   cron:
