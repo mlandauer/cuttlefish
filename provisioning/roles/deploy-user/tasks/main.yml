@@ -7,7 +7,7 @@
 - name: download pubkey from Github and placed as authorized_keys
   get_url: url=https://github.com/{{ item }}.keys dest=/tmp/{{ item }}.github_authorized_keys
   delegate_to: localhost
-  sudo: false
+  become: false
   with_items: "{{ github_users }}"
 
 - name: Create authorized_keys for deploy from the file that just downloaded
