@@ -3,6 +3,6 @@
   become: true
   #user: root
   roles:
-    - {role: deploy-user, github_users: ['mlandauer', 'henare', 'equivalentideas']}
+    - {role: deploy-user, github_users: ['mlandauer', 'henare']}
     - postfix
     - cuttlefish-app
