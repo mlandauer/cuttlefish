@@ -78,7 +78,7 @@
       - email: contact@oaf.org.au
         domains:
           - cuttlefish.oaf.org.au
-          # TODO: Add cuttlefish.io
+          - cuttlefish.io
 
 - name: Create old email archiving daily cronjob for 12:00 UTC (22:00 AEST)
   cron:
