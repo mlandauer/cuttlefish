@@ -123,7 +123,7 @@ galaxy_info:
 dependencies:
   - role: infrastructure-agent-ansible
     nrinfragent_config:
-      license_key: "{{ newrelic_license_key }}"
+      license_key: "{{ new_relic_license_key }}"
   - {role: ANXS.postgresql, postgresql_ext_install_dev_headers: yes}
   - role: rvm_io.ruby
     rvm1_rubies: ['ruby-2.1.5']
