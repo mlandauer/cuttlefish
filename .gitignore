@@ -20,3 +20,5 @@ db/archive
 config/newrelic.yml
 coverage
 .vagrant
+
+provisioning/roles/infrastructure-agent-ansible
