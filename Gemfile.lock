@@ -335,7 +335,7 @@ GEM
       less (~> 2.6.0)
       sprockets (> 2, < 4)
       tilt
-    libv8 (3.16.14.7)
+    libv8 (3.16.14.19)
     listen (2.10.1)
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
@@ -610,4 +610,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.14.5
+   1.16.2
