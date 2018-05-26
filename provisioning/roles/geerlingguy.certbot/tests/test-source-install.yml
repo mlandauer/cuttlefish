@@ -1,0 +1,23 @@
+---
+- hosts: all
+
+  vars:
+    certbot_install_from_source: yes
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=yes cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+      changed_when: false
+
+    - name: Install cron (RedHat).
+      yum: name=cronie state=present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install cron (Debian).
+      apt: name=cron state=present
+      when: ansible_os_family == 'Debian'
+
+  roles:
+    - geerlingguy.git
+    - role_under_test

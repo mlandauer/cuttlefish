@@ -45,58 +45,40 @@
 - name: Allow deploy user to export foreman script
   lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/local/lib/rvm/wrappers/default/bundle exec foreman export upstart /etc/init -a cuttlefish -u deploy -l /srv/www/shared/log -f Procfile.production' validate='visudo -cf %s'"
 
+- name: Allow deploy user to start cuttlefish service
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish start' validate='visudo -cf %s'"
+
+- name: Allow deploy user to stop cuttlefish service
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish stop' validate='visudo -cf %s'"
+
 - name: Allow deploy user to restart cuttlefish service
   lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish restart' validate='visudo -cf %s'"
-
-# TODO: Use this to create certificates
-- name: Download SSLMate APT source
-  get_url:
-    url: https://sslmate.com/apt/ubuntu1404/sslmate.list
-    dest: /etc/apt/sources.list.d/sslmate.list
-
-- name: Download SSLMate APT key
-  get_url:
-    url: https://sslmate.com/apt/ubuntu1404/sslmate.gpg
-    dest: /etc/apt/trusted.gpg.d/sslmate.gpg
-
-- name: Install SSLMate
-  apt:
-    name: sslmate
-    update_cache: yes
-
-- name: Copy SSLMate account configuration
-  template:
-    src: sslmate.conf
-    dest: /etc/sslmate.conf
-    owner: root
-    group: root
-    mode: 0600
 
 - name: Allow deploy to read some log files (different from admin group)
   user: name=deploy groups=adm append=yes
 
-- name: Ensure that /etc/sslmate exists
-  file:
-    path: /etc/sslmate
-    owner: root
-    group: root
-    state: directory
+- name: Add certbot PPA
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
 
-- name: Add private SSL key
-  copy: content="{{ private_ssl_key }}" dest=/etc/sslmate/cuttlefish.oaf.org.au.key owner=root group=root mode=0600
-  notify: nginx reload
+- name: Install certbot using their PPA
+  apt:
+    pkg: certbot
+    update_cache: true
 
-- name: Download SSLMate certificates
-  command: sslmate download cuttlefish.oaf.org.au creates=/etc/sslmate/cuttlefish.oaf.org.au.crt
-  notify: nginx reload
-
-- name: Create SSLMate automated renewals cronjob
-  copy:
-    src: sslmate
-    dest: /etc/cron.daily/sslmate
-    owner: root
-    group: root
-    mode: 0744
+- name: Install certificate using certbot
+  include_role:
+    name: geerlingguy.certbot
+  vars:
+    certbot_auto_renew_user: root
+    certbot_auto_renew_minute: 10
+    certbot_auto_renew_hour: 7
+    certbot_create_if_missing: yes
+    certbot_certs:
+      - email: contact@oaf.org.au
+        domains:
+          - cuttlefish.oaf.org.au
+          - cuttlefish.io
 
 - name: Create old email archiving daily cronjob for 12:00 UTC (22:00 AEST)
   cron:

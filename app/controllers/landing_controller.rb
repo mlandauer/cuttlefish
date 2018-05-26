@@ -3,8 +3,10 @@ class LandingController < ApplicationController
 
   def index
     # Ugly hack to show a special version of the page on cuttlefish.oaf.org.au
-    @poplus = (request.domain(3) == "cuttlefish.oaf.org.au")
-    @signup_form = SignupForm.new if @poplus
+    # Disabled now that it's not being funded by the grant and we're not offering accounts
+    # TODO: Remove this sign up code
+    # @poplus = (request.domain(3) == "cuttlefish.oaf.org.au")
+    # @signup_form = SignupForm.new if @poplus
     redirect_to dash_path if current_admin
   end
 

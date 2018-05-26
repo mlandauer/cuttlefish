@@ -31,15 +31,15 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Postfix, which you know and trust, handles email delivery
 * Open source, so no vendor lock in.
 
-Cuttlefish is in beta. It's been used in production on three of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s projects for over a year and has sent well over 2 million emails.
+Cuttlefish is in beta. It's been used in production on three of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s project for over a year and has sent well over 2 million emails.
 
-## Screenshots
+##Screenshots
 
 ![Sign up](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/1.png)
 ![Dashboard](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/2.png)
 ![Email](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/3.png)
 
-## Things on the cards
+##Things on the cards
 
 * REST API for deep integration with your application
 * Web callbacks on succesful delivery, hard bounces, open and click events
@@ -58,8 +58,7 @@ imagemagick, libmagickwand-dev, libmysqld-dev
 We use [Vagrant](https://www.vagrantup.com/) and [Ansible](http://docs.ansible.com/) to automatically set up a fresh server with everything you need to run Cuttlefish. It's a fairly complicated affair as Cuttlefish does have quite a few moving
 parts but all of this is with the purpose of making it easier for the developer sending mail.
 
-These instructions are currently for installing the server at cuttlefish.oaf.org.au. They're not
-yet generic. Maybe you can [help with this](https://github.com/mlandauer/cuttlefish/issues/226)?
+These instructions are specifically for installing the server at https://cuttlefish.oaf.org.au.
 
 ### To install to a local test virtual machine
 
@@ -70,12 +69,9 @@ yet generic. Maybe you can [help with this](https://github.com/mlandauer/cuttlef
 vagrant up
 ```
 
-3. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker
+3. Deploy the application. As this is the first deploy it will take quite a while (5 mins or so). Further deploys will be much quicker. We're using the `--set-before local_deploy=true` flag to deploy to your local test virtual machine instead of production.
 ```
-cap deploy:setup
-cap deploy:cold
-cap foreman:export
-cap foreman:restart
+bundle exec cap --set-before local_deploy=true deploy:setup deploy:cold foreman:export foreman:start
 ```
 
 4. Add to your local `/etc/hosts` file
