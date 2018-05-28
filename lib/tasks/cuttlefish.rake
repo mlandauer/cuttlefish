@@ -33,9 +33,9 @@ namespace :cuttlefish do
     end
   end
 
-  desc "Allow sending to addresses again that were blacklisted more than 6 months ago"
+  desc "Allow sending to addresses again that were blacklisted more than 1 week ago"
   task remove_old_blacklisted_items: :environment do
-    old_items = BlackList.where('updated_at < ?', 6.months.ago )
+    old_items = BlackList.where('updated_at < ?', 1.week.ago )
     puts "Removing #{old_items.count} items from the blacklist..."
     old_items.destroy_all
   end
