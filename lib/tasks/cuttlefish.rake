@@ -30,6 +30,13 @@ namespace :cuttlefish do
     end
   end
 
+  desc "Allow sending to addresses again that were blacklisted more than 6 months ago"
+  task remove_old_blacklisted_items: :environment do
+    old_items = BlackList.where('updated_at < ?', 6.months.ago )
+    puts "Removing #{old_items.count} items from the blacklist..."
+    old_items.destroy_all
+  end
+
   desc "Archive all emails from a particular date (e.g. 2014-05-01)"
   task :archive, [:date1, :date2] => :environment do |t, args|
     args.with_defaults(:date2 => args.date1)
