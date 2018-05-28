@@ -16,6 +16,9 @@ namespace :cuttlefish do
     Email.all.each {|email| email.update_status! }
   end
 
+  desc "Daily maintenance tasks to be run via cron job"
+  task :daily_tasks => [:auto_archive, :remove_old_blacklisted_items]
+
   desc "Archive all emails created more than 6 months ago"
   task :auto_archive => :environment do
     date_to_archive_until = 6.months.ago.to_date

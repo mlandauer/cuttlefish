@@ -80,10 +80,10 @@
           - cuttlefish.oaf.org.au
           - cuttlefish.io
 
-- name: Create old email archiving daily cronjob for 12:00 UTC (22:00 AEST)
+- name: Daily archiving and blacklist removal tasks
   cron:
     name: daily old email archiving
-    job:  "cd /srv/www/current && /usr/local/lib/rvm/bin/rvm . do bundle exec rake cuttlefish:auto_archive RAILS_ENV=production"
+    job:  "cd /srv/www/current && /usr/local/lib/rvm/bin/rvm . do bundle exec rake cuttlefish:daily_tasks RAILS_ENV=production"
     user: deploy
     minute: 0
     hour: 12
