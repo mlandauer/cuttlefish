@@ -3,7 +3,7 @@ class MainController < ApplicationController
   end
 
   def status_counts
-    render partial: "status_counts"
+    render partial: "status_counts", locals: { loading: false }
   end
 
   def reputation
