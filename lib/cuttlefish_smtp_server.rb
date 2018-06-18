@@ -103,6 +103,48 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     true
   end
 
+  # This is copied from https://github.com/eventmachine/eventmachine/blob/master/lib/em/protocols/smtpserver.rb
+  # so that it can be monkey-patched. We don't want to completely clear out the state at
+  # the end of a succesfull transaction, especially the auth information.
+  # That's why the `reset_protocol_state` is commented out in the succeeded proc.
+  # TODO: Put in an upstream patch to address this at source
+  def process_data_line ln
+    if ln == "."
+      if @databuffer.length > 0
+        receive_data_chunk @databuffer
+        @databuffer.clear
+      end
+
+
+      succeeded = proc {
+        send_data "250 Message accepted\r\n"
+        # reset_protocol_state
+      }
+      failed = proc {
+        send_data "550 Message rejected\r\n"
+        reset_protocol_state
+      }
+      d = receive_message
+
+      if d.respond_to?(:set_deferred_status)
+        d.callback(&succeeded)
+        d.errback(&failed)
+      else
+        (d ? succeeded : failed).call
+      end
+
+      @state -= [:data, :mail_from, :rcpt]
+    else
+      # slice off leading . if any
+      ln.slice!(0...1) if ln[0] == ?.
+      @databuffer << ln
+      if @databuffer.length > @@parms[:chunksize]
+        receive_data_chunk @databuffer
+        @databuffer.clear
+      end
+    end
+  end
+
   def receive_message
     current.received = true
     current.completed_at = Time.now
