@@ -158,7 +158,8 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     # It comes in with unknown encoding - so let's encode it as base64
     MailWorker.perform_async(current.recipients, Base64.encode64(current.data), current.app_id)
 
-    @current = OpenStruct.new
+    # Preserve the app_id as we are already authenticated
+    @current = OpenStruct.new(app_id: current.app_id)
     true
   end
 
