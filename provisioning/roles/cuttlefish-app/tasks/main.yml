@@ -68,6 +68,11 @@
     pkg: certbot
     update_cache: true
 
+- name: Install script for copying certs for cuttlefish daemon
+  template:
+    src: copy-cuttlefish-daemon-certs.sh
+    dest: /etc/letsencrypt/renewal-hooks/deploy/copy-cuttlefish-daemon-certs
+
 - name: Install certificate using certbot
   include_role:
     name: geerlingguy.certbot
