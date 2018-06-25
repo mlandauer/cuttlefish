@@ -72,6 +72,7 @@
   template:
     src: copy-cuttlefish-daemon-certs.sh
     dest: /etc/letsencrypt/renewal-hooks/deploy/copy-cuttlefish-daemon-certs
+    mode: 755
 
 - name: Install certificate using certbot
   include_role:
