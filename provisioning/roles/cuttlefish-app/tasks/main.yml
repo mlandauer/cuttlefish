@@ -81,6 +81,7 @@
     certbot_auto_renew_user: root
     certbot_auto_renew_minute: 10
     certbot_auto_renew_hour: 7
+    certbot_auto_renew_options: '--no-self-upgrade --pre-hook "service nginx stop" --post-hook "service nginx start"'
     certbot_create_if_missing: yes
     certbot_certs:
       - email: contact@oaf.org.au
