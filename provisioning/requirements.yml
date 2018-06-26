@@ -2,9 +2,7 @@
 # cd provisioning
 # ansible-galaxy install -r requirements.yml -p roles
 
-# Installing through ansible galaxy doesn't work`
-# See https://github.com/newrelic/infrastructure-agent-ansible/issues/39
-- src: https://github.com/newrelic/infrastructure-agent-ansible.git
+- src: newrelic.newrelic-infra
   version: 0.3.0
 
 - src: rvm_io.ruby

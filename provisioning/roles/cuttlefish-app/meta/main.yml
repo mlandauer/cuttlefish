@@ -121,7 +121,7 @@ galaxy_info:
   #- system
   #- web
 dependencies:
-  - role: infrastructure-agent-ansible
+  - role: newrelic.newrelic-infra
     nrinfragent_config:
       license_key: "{{ new_relic_license_key }}"
   - {role: ANXS.postgresql, postgresql_ext_install_dev_headers: yes}
