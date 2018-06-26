@@ -9,27 +9,17 @@
     shell: /bin/bash
     group: deploy
 
-- name: download pubkey from Github and placed as authorized_keys
-  get_url:
-    url: "https://github.com/{{ item }}.keys"
-    dest: "/tmp/{{ item }}.github_authorized_keys"
-  delegate_to: localhost
-  become: false
-  with_items: "{{ github_users }}"
-
-- name: Create authorized_keys for deploy from the file that just downloaded
+## This will ensure that the listed keys are present
+## but it does not remove other keys. If we have a need to revoke
+## access we'll have to do something different.
+- name: Create authorized_keys files for local accounts
   authorized_key:
-    user: deploy
-    key: "{{ lookup('file', '/tmp/{{ item }}.github_authorized_keys') }}"
-    comment: "{{ item }}"
-  with_items: "{{ github_users }}"
-
-- name: Create authorized_keys for root from the file that just downloaded
-  authorized_key:
-    user: root
-    key: "{{ lookup('file', '/tmp/{{ item }}.github_authorized_keys') }}"
-    comment: "{{ item }}"
-  with_items: "{{ github_users }}"
+    user: "{{ item[0] }}"
+    key: https://github.com/{{ item[1] }}.keys
+    comment: "{{ item[1] }}"
+  with_nested:
+    - ['deploy', 'ubuntu', 'root']
+    - "{{ github_users }}"
   register: add_authorized_keys
 
 - name: Only allow ssh access with keys
