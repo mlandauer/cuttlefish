@@ -22,3 +22,8 @@ coverage
 .vagrant
 
 provisioning/roles/infrastructure-agent-ansible
+provisioning/roles/rvm_io.ruby
+provisioning/roles/geerlingguy.certbot
+provisioning/roles/DavidWittman.redis
+provisioning/roles/ANXS.postgresql
+provisioning/roles/abtris.nginx-passenger
