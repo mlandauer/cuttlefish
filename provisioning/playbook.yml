@@ -4,5 +4,4 @@
   #user: root
   roles:
     - {role: deploy-user, github_users: ['mlandauer', 'henare', 'jamezpolley']}
-    - cuttlefish-postfix
     - cuttlefish-app

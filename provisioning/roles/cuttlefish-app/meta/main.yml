@@ -121,6 +121,7 @@ galaxy_info:
   #- system
   #- web
 dependencies:
+  - role: cuttlefish-postfix
   - role: newrelic.newrelic-infra
     nrinfragent_config:
       license_key: "{{ new_relic_license_key }}"
