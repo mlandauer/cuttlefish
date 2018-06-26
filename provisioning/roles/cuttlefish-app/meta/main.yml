@@ -133,7 +133,7 @@ dependencies:
     rvm1_user: 'root'
   - {role: abtris.nginx-passenger}
   - {role: DavidWittman.redis, redis_bind: "127.0.0.1"}
-  - role: backup
+  - role: cuttlefish-backup
     backup_aws_access_key: "{{ encrypted_backup_aws_access_key }}"
     backup_secret_access_key: "{{ encrypted_backup_secret_access_key }}"
     backup_passphrase: "{{ encrypted_backup_passphrase }}"
