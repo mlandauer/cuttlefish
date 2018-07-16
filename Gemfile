@@ -34,7 +34,7 @@ gem 'sinatra', :require => nil
 gem 'foreman'
 gem 'haml-rails'
 # Use pull request that has needed Rails 4 improvements https://github.com/pkurek/flatui-rails/pull/25
-gem 'flatui-rails', github: 'iffyuva/flatui-rails', ref: '3d3c423'
+gem 'flatui-rails', git: 'https://github.com/iffyuva/flatui-rails.git', ref: '3d3c423'
 gem 'font-awesome-rails'
 gem "file-tail"
 gem 'syslog_protocol'

@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/iffyuva/flatui-rails.git
+  remote: https://github.com/iffyuva/flatui-rails.git
   revision: 3d3c423d6bb58caa5d97d6fe2e3d03235e0d378e
   ref: 3d3c423
   specs:
