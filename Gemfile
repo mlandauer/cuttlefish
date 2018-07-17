@@ -57,6 +57,7 @@ gem 'newrelic_rpm'
 gem 'honeybadger'
 gem 'dkim'
 gem 'fog-aws'
+gem 'graphql'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -86,6 +87,7 @@ group :development do
   gem "capistrano", "~> 2"
   gem 'rvm-capistrano', ">= 1.5.6", require: false
   gem "listen"
+  gem 'graphiql-rails'
 end
 
 group :test do

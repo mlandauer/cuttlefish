@@ -168,6 +168,10 @@ GEM
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     google-analytics-rails (1.1.1)
+    graphiql-rails (1.4.10)
+      railties
+      sprockets-rails
+    graphql (1.8.5)
     gravatar_image_tag (1.2.0)
     grease (0.3.1)
     guard (2.14.2)
@@ -463,6 +467,8 @@ DEPENDENCIES
   formtastic-bootstrap!
   friendly_id
   google-analytics-rails
+  graphiql-rails
+  graphql
   gravatar_image_tag
   guard
   guard-livereload
