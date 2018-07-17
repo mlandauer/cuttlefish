@@ -344,7 +344,7 @@ GEM
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.10)
-    mail (2.6.4)
+    mail (2.6.6)
       mime-types (>= 1.16, < 4)
     mail_form (1.5.0)
       actionmailer (>= 3.2, < 5)
@@ -581,6 +581,7 @@ DEPENDENCIES
   jquery-rails
   less-rails
   listen (~> 2)
+  mail (< 2.7.0)
   mail_form
   newrelic_rpm
   nokogiri
