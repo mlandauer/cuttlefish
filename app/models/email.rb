@@ -12,8 +12,6 @@ class Email < ActiveRecord::Base
   delegate :custom_tracking_domain, :tracking_domain, :custom_tracking_domain?,
     :open_tracking_enabled?, :click_tracking_enabled?, to: :app
 
-  alias_attribute :received_at, :created_at
-
   # TODO Add validations
 
   attr_writer :data

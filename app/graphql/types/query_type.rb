@@ -3,8 +3,9 @@ class Types::QueryType < Types::BaseObject
   # They will be entry points for queries on your schema.
 
   field :email, Types::EmailType, null: false, description: "An email"
+  
   def email
-    Email.first
+    Delivery.first
   end
 
   # TODO: remove me
