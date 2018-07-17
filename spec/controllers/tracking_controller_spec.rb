@@ -9,7 +9,7 @@ describe TrackingController, type: :controller do
     it "should be succesful when the correct hash is used" do
       # Note that this request is being made via http (not https)
       get :open2, params: { delivery_id: 101, hash: "e4a8656f793ded530fb9d619af3c6c08a49ead7f" }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "should 404 when hash isn't recognised" do
@@ -27,7 +27,7 @@ describe TrackingController, type: :controller do
       it "should be succesful when the correct hash is used" do
         # Note that this request is being made via http (not https)
         get :open2, params: { delivery_id: 101, hash: "e4a8656f793ded530fb9d619af3c6c08a49ead7f" }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it "should not register the open event" do
