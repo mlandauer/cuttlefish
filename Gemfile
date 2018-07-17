@@ -5,7 +5,7 @@ gem 'dotenv-rails'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.10'
 
-gem 'pg'
+gem 'pg', '~> 0.15'
 
 # Gems used only for assets and not required
 # in production environments by default.
