@@ -59,7 +59,7 @@ gem "mail_form"
 gem 'newrelic_rpm'
 gem 'honeybadger'
 gem 'dkim'
-gem 'fog'
+gem 'fog-aws'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
