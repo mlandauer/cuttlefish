@@ -107,7 +107,7 @@ class Archiving
     if s3_bucket = ENV["S3_BUCKET"]
       puts "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..."
 
-      s3_connection = Fog::Storage.new(fog_storgage_details)
+      s3_connection = Fog::Storage.new(fog_storage_details)
       directory = s3_connection.directories.get(s3_bucket)
       directory.files.create(
         key: "#{date}.tar.gz",
@@ -130,7 +130,7 @@ class Archiving
     "#{archive_directory}/#{archive_filename_for(date)}"
   end
 
-  def self.fog_storgage_details
+  def self.fog_storage_details
     details = {
       provider: "AWS",
       aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
