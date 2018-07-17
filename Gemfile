@@ -19,7 +19,7 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', platforms: :ruby
 
-  gem 'uglifier', '>= 1.3.0'
+  gem 'uglifier'
   gem "less-rails"
 end
 
@@ -91,8 +91,7 @@ group :development do
   gem "spring-commands-rspec"
   gem "capistrano", "~> 2"
   gem 'rvm-capistrano', ">= 1.5.6", require: false
-  # Newer versions don't support Ruby 2.1. Remove this when we upgrade Ruby
-  gem "listen", "~> 2"
+  gem "listen"
 end
 
 group :test do

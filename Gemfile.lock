@@ -73,8 +73,6 @@ GEM
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       xpath (~> 3.1)
-    celluloid (0.16.0)
-      timers (~> 4.0.0)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.2.0)
@@ -197,7 +195,6 @@ GEM
       railties (>= 4.0.1)
     hashdiff (0.3.7)
     highline (2.0.0)
-    hitimes (1.3.0)
     honeybadger (3.3.0)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
@@ -226,10 +223,10 @@ GEM
       sprockets (> 2, < 4)
       tilt
     libv8 (3.16.14.19)
-    listen (2.10.1)
-      celluloid (~> 0.16.0)
-      rb-fsevent (>= 0.9.3)
-      rb-inotify (>= 0.9)
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
     loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -344,6 +341,7 @@ GEM
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
+    ruby_dep (1.5.0)
     ruby_parser (3.11.0)
       sexp_processor (~> 4.9)
     rubyzip (1.2.1)
@@ -405,8 +403,6 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    timers (4.0.4)
-      hitimes
     tins (1.16.3)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
@@ -461,7 +457,7 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   less-rails
-  listen (~> 2)
+  listen
   mail (< 2.7.0)
   mail_form
   minitar
@@ -489,7 +485,7 @@ DEPENDENCIES
   syslog_protocol
   therubyracer
   thin
-  uglifier (>= 1.3.0)
+  uglifier
   user_agent_parser
   vcr
   webmock
