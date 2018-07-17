@@ -48,9 +48,9 @@ describe CuttlefishSmtpConnection do
 
   describe "#receive_data_chunk" do
     it do
-      connection.current.data = "some data already received\n"
+      connection.current.data = "some data already received\r\n"
       expect(connection.receive_data_chunk(["foo", "bar"])).to eq true
-      expect(connection.current.data).to eq "some data already received\nfoo\nbar"
+      expect(connection.current.data).to eq "some data already received\r\nfoo\r\nbar"
     end
   end
 
@@ -79,7 +79,7 @@ describe CuttlefishSmtpConnection do
           "Date: Fri, 13 Mar 2015 14:42:20 -0000",
           "Message-ID: <20150313144220.12848.46019@paro-taktsang>",
           "",
-          "Contra toda autoridad!...excepto mi mamá!"].join("\n")
+          "Contra toda autoridad!...excepto mi mamá!"].join("\r\n")
       # Simulate the encoding that we would assume when the data is received
       # over the wire so to speak
       data.force_encoding("ASCII-8BIT")

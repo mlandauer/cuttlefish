@@ -73,8 +73,7 @@ gem 'fog-aws'
 # To use debugger
 # gem 'debugger'
 
-# mail 2.7.0 seems to have trouble parsing one of the mails in the tests
-gem 'mail', '< 2.7.0'
+gem 'mail'
 
 group :development do
   # Webrick gives us annoying warnings "could not determine content-length of response body"

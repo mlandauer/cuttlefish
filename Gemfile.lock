@@ -231,8 +231,8 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.13)
-    mail (2.6.6)
-      mime-types (>= 1.16, < 4)
+    mail (2.7.0)
+      mini_mime (>= 0.1.1)
     mail_form (1.7.1)
       actionmailer (>= 3.2, < 6)
       activemodel (>= 3.2, < 6)
@@ -458,7 +458,7 @@ DEPENDENCIES
   jquery-rails
   less-rails
   listen
-  mail (< 2.7.0)
+  mail
   mail_form
   minitar
   newrelic_rpm
