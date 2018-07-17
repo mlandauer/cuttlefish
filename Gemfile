@@ -73,8 +73,6 @@ gem 'fog-aws'
 # To use debugger
 # gem 'debugger'
 
-gem 'mail'
-
 group :development do
   # Webrick gives us annoying warnings "could not determine content-length of response body"
   gem "thin"

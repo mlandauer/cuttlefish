@@ -471,7 +471,6 @@ DEPENDENCIES
   jquery-rails
   less-rails
   listen
-  mail
   mail_form
   minitar
   newrelic_rpm
