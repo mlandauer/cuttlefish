@@ -126,10 +126,10 @@ GEM
     eventmachine (1.0.4)
     excon (0.49.0)
     execjs (2.2.2)
-    factory_girl (4.5.0)
+    factory_bot (4.10.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.5.0)
-      factory_girl (~> 4.5.0)
+    factory_bot_rails (4.10.0)
+      factory_bot (~> 4.10.0)
       railties (>= 3.0.0)
     ffi (1.9.14)
     file-tail (1.1.0)
@@ -559,7 +559,7 @@ DEPENDENCIES
   dnsbl-client
   dotenv-deployment
   eventmachine
-  factory_girl_rails
+  factory_bot_rails
   file-tail
   flatui-rails!
   fog

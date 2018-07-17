@@ -3,7 +3,7 @@ require 'spec_helper'
 describe TrackingController, type: :controller do
   describe "#open2" do
     before :each do
-      FactoryGirl.create(:delivery, id: 101)
+      FactoryBot.create(:delivery, id: 101)
     end
 
     it "should be succesful when the correct hash is used" do
@@ -39,7 +39,7 @@ describe TrackingController, type: :controller do
 
   describe "#click2" do
     before :each do
-      @delivery_link = FactoryGirl.create(:delivery_link, id: 204)
+      @delivery_link = FactoryBot.create(:delivery_link, id: 204)
       allow_any_instance_of(DeliveryLink).to receive(:url).and_return("http://foo.com")
     end
 
