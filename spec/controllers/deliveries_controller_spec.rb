@@ -17,7 +17,7 @@ describe DeliveriesController, type: :controller do
         delivery = FactoryBot.create(:delivery)
         # Make the email app part of this team
         delivery.email.app.update_attributes(team_id: team.id)
-        get :index, {}
+        get :index, params: {}
         expect(assigns(:deliveries)).to eq [delivery]
       end
     end
@@ -27,7 +27,7 @@ describe DeliveriesController, type: :controller do
         delivery = FactoryBot.create(:delivery)
         # Make the email app part of this team
         delivery.email.app.update_attributes(team_id: team.id)
-        get :show, {id: delivery.to_param}
+        get :show, params: {id: delivery.to_param}
         expect(assigns(:delivery)).to eq delivery
       end
     end

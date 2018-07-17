@@ -1,5 +1,5 @@
 class LandingController < ApplicationController
-  skip_filter :authenticate_admin!
+  skip_before_action :authenticate_admin!
 
   def index
     # Ugly hack to show a special version of the page on cuttlefish.oaf.org.au
