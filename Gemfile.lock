@@ -273,7 +273,7 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
-    pg (0.21.0)
+    pg (1.0.0)
     premailer (1.11.1)
       addressable
       css_parser (>= 1.6.0)
@@ -483,7 +483,7 @@ DEPENDENCIES
   minitar
   newrelic_rpm
   nokogiri
-  pg (~> 0.15)
+  pg
   premailer
   pundit
   rack-livereload
