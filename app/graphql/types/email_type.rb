@@ -10,4 +10,12 @@ class Types::EmailType < Types::BaseObject
 
   field :app, Types::AppType, null: true
   field :status, Types::StatusType, null: false
+  field :opened, Boolean, null: false
+  def opened
+    object.opened?
+  end
+  field :clicked, Boolean, null: false
+  def clicked
+    object.clicked?
+  end
 end
