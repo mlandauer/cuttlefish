@@ -31,11 +31,7 @@
   %tr
     %td.key
       %strong
-        -# TODO: sent at time should probably be updated_at?
-        - if @delivery.sent?
-          Sent
-        - else
-          Created
+        Created
     %td
       = time_ago_in_words(@delivery.created_at)
       ago (#{@delivery.created_at.to_formatted_s(:long)  })
