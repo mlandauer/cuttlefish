@@ -10,5 +10,4 @@ class Types::EmailType < Types::BaseObject
 
   field :app, Types::AppType, null: true
   field :status, Types::StatusType, null: false
-  # TODO: Need to rejig status types used internally to those exposed
 end
