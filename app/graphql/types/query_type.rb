@@ -2,13 +2,17 @@ class Types::QueryType < Types::BaseObject
   # Add root-level fields here.
   # They will be entry points for queries on your schema.
 
-  field :email, Types::EmailType, null: false, description: "An email"
-
-  def email
-    Delivery.first
+  # TODO: Add authentication
+  # TODO: Add authorization
+  field :email, Types::EmailType, null: false, description: "A single email" do
+    argument :id, ID, required: true
   end
 
-  field :emails, [Types::EmailType], null: true
+  def email(id:)
+    Delivery.find(id)
+  end
+
+  field :emails, [Types::EmailType], null: true, description: "All emails"
 
   # TODO: Add pagination
   # TODO: Add authentication
