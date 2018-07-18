@@ -79,7 +79,7 @@
           = render partial: "click_events", locals: {delivery: @delivery}
 
 %hr
-- if @delivery.data.nil?
+- unless @delivery.content_available?
   %p
     %em
       Full text of email is not available.

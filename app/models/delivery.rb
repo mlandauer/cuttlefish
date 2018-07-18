@@ -12,7 +12,7 @@ class Delivery < ActiveRecord::Base
     :click_tracking_enabled?, :open_tracking_enabled?, :subject, to: :email
 
   delegate :tracking_domain, :custom_tracking_domain?, to: :app
-  
+
   before_save :update_my_status!
   before_create :update_app_id!
 
@@ -94,5 +94,9 @@ class Delivery < ActiveRecord::Base
     n = deliveries.joins(:delivery_links).where("click_events_count > 0").select("distinct(deliveries.id)").count
     total =  deliveries.joins(:delivery_links).select("distinct(deliveries.id)").count
     (n.to_f / total) if total > 0
+  end
+
+  def content_available?
+    !data.nil?
   end
 end
