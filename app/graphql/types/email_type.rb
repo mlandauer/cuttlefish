@@ -22,27 +22,19 @@ class Types::EmailType < Types::BaseObject
   def logs
     object.postfix_log_lines
   end
+  field :open_events, [Types::OpenEventType], null: false
 end
 
 # TODO: Fields that still need to be included based on what's shown in the
 # admin interface for the delivery#show action
 
 # Delivery:
-#   open_events
 #   click_events
 #   # TODO: Group these together
 #   content_available?
 #   html_part
 #   text_part
 #   data
-#
-# OpenEvent:
-#   created_at
-#   ua_family
-#   ua_version
-#   os_family
-#   os_version
-#   ip
 #
 # ClickEvent:
 #   created_at
