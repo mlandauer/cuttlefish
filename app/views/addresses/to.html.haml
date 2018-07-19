@@ -26,6 +26,6 @@
         Switch to emails sent
         %strong from
         this address
-    = render "main/status_counts_period", deliveries: @address.deliveries_received(current_admin.team), link: false
+    = render "main/status_counts_period", deliveries: @address.deliveries_received(current_admin.team), link: false, loading: false
 
 = render partial: "deliveries/from", locals: {deliveries: @deliveries}
