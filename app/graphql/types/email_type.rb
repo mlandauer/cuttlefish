@@ -18,22 +18,16 @@ class Types::EmailType < Types::BaseObject
   def clicked
     object.clicked?
   end
+  field :logs, [Types::LogType], null: false
+  def logs
+    object.postfix_log_lines
+  end
 end
 
-# TODO: Fields that need to be included based on what's shown in the
+# TODO: Fields that still need to be included based on what's shown in the
 # admin interface for the delivery#show action
 
 # Delivery:
-#   subject
-#   status
-#   opened?
-#   clicked?
-#   id
-#   app
-#   from
-#   to
-#   created_at
-#   postfix_log_lines
 #   open_events
 #   click_events
 #   # TODO: Group these together
@@ -41,15 +35,6 @@ end
 #   html_part
 #   text_part
 #   data
-#
-# App:
-#   id
-#   name
-#
-# PostfixLogLine:
-#   time
-#   dsn
-#   extended_status
 #
 # OpenEvent:
 #   created_at
