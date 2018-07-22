@@ -22,4 +22,9 @@ class Types::QueryType < Types::BaseObject
   def emails
     Delivery.all
   end
+
+  field :configuration, Types::ConfigurationType, null: false
+  def configuration
+    Rails.configuration
+  end
 end

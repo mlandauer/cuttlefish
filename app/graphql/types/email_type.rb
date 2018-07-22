@@ -35,6 +35,3 @@ end
 #   html_part
 #   text_part
 #   data
-#
-# Configuration:
-#   max_no_emails_to_store
