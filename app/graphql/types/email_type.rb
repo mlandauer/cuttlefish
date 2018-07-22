@@ -23,27 +23,18 @@ class Types::EmailType < Types::BaseObject
     object.postfix_log_lines
   end
   field :open_events, [Types::OpenEventType], null: false
+  field :click_events, [Types::ClickEventType], null: false
 end
 
 # TODO: Fields that still need to be included based on what's shown in the
 # admin interface for the delivery#show action
 
 # Delivery:
-#   click_events
 #   # TODO: Group these together
 #   content_available?
 #   html_part
 #   text_part
 #   data
-#
-# ClickEvent:
-#   created_at
-#   url
-#   calculate_ua_family
-#   calculate_ua_version
-#   calculate_os_family
-#   calculate_os_version
-#   ip
 #
 # Configuration:
 #   max_no_emails_to_store
