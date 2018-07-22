@@ -3,9 +3,13 @@ class Types::EmailType < Types::BaseObject
   field :from, String, null: true
   field :to, String, null: false
   field :subject, String, null: true
-  field :data, String, null: true
-  field :text_part, String, null: true
-  field :html_part, String, null: true
+
+  field :content, Types::EmailContentType, null: true
+  def content
+    if object.data
+      { text: object.text_part, html: object.html_part, source: object.data }
+    end
+  end
   field :created_at, Types::DateTimeType, null: false
 
   field :app, Types::AppType, null: true
@@ -25,13 +29,3 @@ class Types::EmailType < Types::BaseObject
   field :open_events, [Types::OpenEventType], null: false
   field :click_events, [Types::ClickEventType], null: false
 end
-
-# TODO: Fields that still need to be included based on what's shown in the
-# admin interface for the delivery#show action
-
-# Delivery:
-#   # TODO: Group these together
-#   content_available?
-#   html_part
-#   text_part
-#   data
