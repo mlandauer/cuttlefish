@@ -1,3 +1,6 @@
+require "graphql/client"
+require "graphql/client/http"
+
 module Cuttlefish::ApiClient
   HTTP = GraphQL::Client::HTTP.new("http://localhost:5400/graphql") do
     def headers(context)
