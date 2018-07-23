@@ -11,6 +11,9 @@ module Cuttlefish::ApiClient
 
   EMAIL_QUERY = CLIENT.parse <<-'GRAPHQL'
     query($id: ID!) {
+      configuration {
+        maxNoEmailsToStore
+      }
       email(id: $id) {
         from
         to

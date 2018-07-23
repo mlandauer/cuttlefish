@@ -28,5 +28,6 @@ class DeliveriesController < ApplicationController
       context: { api_key: current_admin.api_key }
     )
     @delivery = result.data.email
+    @configuration = result.data.configuration
   end
 end
