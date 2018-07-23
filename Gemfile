@@ -58,6 +58,7 @@ gem 'honeybadger'
 gem 'dkim'
 gem 'fog-aws'
 gem 'graphql'
+gem 'graphql-client'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

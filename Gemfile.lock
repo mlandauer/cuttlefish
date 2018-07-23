@@ -172,6 +172,9 @@ GEM
       railties
       sprockets-rails
     graphql (1.8.5)
+    graphql-client (0.13.0)
+      activesupport (>= 3.0, < 6.0)
+      graphql (~> 1.6)
     gravatar_image_tag (1.2.0)
     grease (0.3.1)
     guard (2.14.2)
@@ -469,6 +472,7 @@ DEPENDENCIES
   google-analytics-rails
   graphiql-rails
   graphql
+  graphql-client
   gravatar_image_tag
   guard
   guard-livereload

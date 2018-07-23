@@ -13,16 +13,16 @@
   %tr
     %td.key
       %strong App
-    %td= link_to @delivery.app_name, @delivery.app
+    %td= link_to @delivery.app.name, app_path(@delivery.app.id)
   %tr
     %td.key
       %strong From
-    %td= link_to @delivery.from, from_address_path(@delivery.from_address)
+    %td= link_to @delivery.from, from_address_path(@delivery.from)
   %tr
     %td.key
       %strong To
     %td
-      = link_to @delivery.address.text, to_address_path(@delivery.address)
+      = link_to @delivery.to, to_address_path(@delivery.to)
   %tr
     %td.key
       %strong Subject
@@ -33,8 +33,8 @@
       %strong
         Created
     %td
-      = time_ago_in_words(@delivery.created_at)
-      ago (#{@delivery.created_at.to_formatted_s(:long)  })
+      = time_ago_in_words(Time.zone.parse(@delivery.created_at))
+      ago (#{Time.zone.parse(@delivery.created_at).to_formatted_s(:long)  })
   - if @delivery.status == "delivered" || @delivery.status == "soft_bounce" || @delivery.status == "hard_bounce"
     %tr
       %td.key
@@ -79,7 +79,7 @@
           = render partial: "click_events", locals: {delivery: @delivery}
 
 %hr
-- unless @delivery.content_available?
+- unless @delivery.content?
   %p
     %em
       Full text of email is not available.
@@ -90,29 +90,29 @@
 
 - else
   %ul.nav.nav-pills
-    - if @delivery.html_part && @delivery.text_part
+    - if @delivery.content.html && @delivery.content.text
       %li.active= link_to "HTML", "#html", data: {toggle: "pill"}
       %li= link_to "Text", "#text", data: {toggle: "pill"}
-    - elsif @delivery.html_part
+    - elsif @delivery.content.html
       %li.active= link_to "HTML", "#html", data: {toggle: "pill"}
     - else
       %li.active= link_to "Text", "#text", data: {toggle: "pill"}
     %li= link_to "Source", "#source", data: {toggle: "pill"}
 
   .tab-content
-    - if @delivery.html_part && @delivery.text_part
+    - if @delivery.content.html && @delivery.content.text
       %div.tab-pane.active#html
-        .well= clean_html_email_for_display(@delivery.html_part)
+        .well= clean_html_email_for_display(@delivery.content.html)
       %div.tab-pane#text
-        %pre= @delivery.text_part
-    - elsif @delivery.html_part
+        %pre= @delivery.content.text
+    - elsif @delivery.content.html
       %div.tab-pane.active#html
-        .well= clean_html_email_for_display(@delivery.html_part)
+        .well= clean_html_email_for_display(@delivery.content.html)
     - else
       %div.tab-pane.active#text
-        %pre= @delivery.text_part
+        %pre= @delivery.content.text
     %div.tab-pane#source
-      %pre= @delivery.data
+      %pre= @delivery.content.source
 
     %p.muted
       This shows the original email as sent by you to Cuttlefish

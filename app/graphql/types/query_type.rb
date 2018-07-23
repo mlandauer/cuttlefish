@@ -4,7 +4,7 @@ class Types::QueryType < Types::BaseObject
 
   # TODO: Add authentication
   # TODO: Add authorization
-  field :email, Types::EmailType, null: false, description: "A single email" do
+  field :email, Types::EmailType, null: true, description: "A single email" do
     argument :id, ID, required: true
   end
 
