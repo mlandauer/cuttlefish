@@ -28,4 +28,8 @@ class Types::EmailType < Types::BaseObject
   end
   field :open_events, [Types::OpenEventType], null: false
   field :click_events, [Types::ClickEventType], null: false
+
+  def self.authorized?(object, context)
+    Pundit.authorize context[:current_admin], object, :show?
+  end
 end
