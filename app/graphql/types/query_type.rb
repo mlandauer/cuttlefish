@@ -16,11 +16,10 @@ class Types::QueryType < Types::BaseObject
 
   # TODO: Add pagination
   # TODO: Add authentication
-  # TODO: Add authorization
   # TODO: Filter by app name
   # TODO: Filter by sent/bounced etc..
   def emails
-    Delivery.all
+    Pundit.policy_scope(context[:current_admin], Delivery)
   end
 
   field :configuration, Types::ConfigurationType, null: false
