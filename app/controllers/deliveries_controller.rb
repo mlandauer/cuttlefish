@@ -1,6 +1,3 @@
-require "graphql/client"
-require "graphql/client/http"
-
 class DeliveriesController < ApplicationController
   after_action :verify_policy_scoped, only: :index
 
