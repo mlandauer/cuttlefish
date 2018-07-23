@@ -9,7 +9,9 @@ class Types::QueryType < Types::BaseObject
   end
 
   def email(id:)
-    Delivery.find(id)
+    email = Delivery.find_by(id: id)
+    raise GraphQL::ExecutionError, "Email doesn't exist" if email.nil?
+    email
   end
 
   field :emails, [Types::EmailType], null: true, description: "All emails"
