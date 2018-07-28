@@ -30,12 +30,7 @@ class Types::EmailType < Types::BaseObject
   field :click_events, [Types::ClickEventType], null: false
 
   def self.authorized?(object, context)
-    return false unless context[:current_admin]
-    begin
-      Pundit.authorize(context[:current_admin], object, :show?)
-      true
-    rescue Pundit::NotAuthorizedError
-      false
-    end
+    context[:current_admin] &&
+      pundit_authorized?(context[:current_admin], object, :show?)
   end
 end
