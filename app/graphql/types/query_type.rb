@@ -28,4 +28,9 @@ class Types::QueryType < Types::BaseObject
   def configuration
     Rails.configuration
   end
+
+  field :viewer, Types::ViewerType, null: true
+  def viewer
+    context[:current_admin]
+  end
 end
