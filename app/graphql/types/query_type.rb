@@ -3,12 +3,10 @@ class Types::QueryType < Types::BaseObject
   # They will be entry points for queries on your schema.
   description "The query root for the Cuttlefish GraphQL API"
 
-  field :email,
-        Types::EmailType,
-        null: true,
-        description: "A single email" do
-          argument :id, ID, required: true
-        end
+  field :email, Types::EmailType, null: true do
+    argument :id, ID, required: true
+    description "A single email"
+  end
 
   def email(id:)
     email = Delivery.find_by(id: id)
@@ -16,10 +14,9 @@ class Types::QueryType < Types::BaseObject
     email
   end
 
-  field :emails,
-        [Types::EmailType],
-        null: true,
-        description: "All emails"
+  field :emails, [Types::EmailType], null: true do
+    description "All emails"
+  end
 
   # TODO: Add pagination
   # TODO: Add authentication
@@ -29,19 +26,17 @@ class Types::QueryType < Types::BaseObject
     Pundit.policy_scope(context[:current_admin], Delivery)
   end
 
-  field :configuration,
-        Types::ConfigurationType,
-        null: false,
-        description: "Application configuration settings"
+  field :configuration, Types::ConfigurationType, null: false do
+    description "Application configuration settings"
+  end
 
   def configuration
     Rails.configuration
   end
 
-  field :viewer,
-        Types::ViewerType,
-        null: true,
-        description: "The currently authenticated admin"
+  field :viewer, Types::ViewerType, null: true do
+    description "The currently authenticated admin"    
+  end
 
   def viewer
     context[:current_admin]
