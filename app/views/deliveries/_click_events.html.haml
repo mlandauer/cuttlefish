@@ -12,13 +12,13 @@
         %td
           = time_ago_in_words(event.created_at)
           ago
-        %td= link_to event.url
+        %td= link_to event.url, event.url
         %td
-          = event.calculate_ua_family
-          - if event.calculate_ua_version
-            %span.muted (#{event.calculate_ua_version})
+          = event.user_agent.family
+          - if event.user_agent.version
+            %span.muted (#{event.user_agent.version})
         %td
-          = event.calculate_os_family
-          - if event.calculate_os_version
-            %span.muted (#{event.calculate_os_version})
+          = event.os.family
+          - if event.os.version
+            %span.muted (#{event.os.version})
         %td= event.ip

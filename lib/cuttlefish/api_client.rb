@@ -34,7 +34,25 @@ module Cuttlefish::ApiClient
         }
         opened
         clicked
+        logs {
+          time
+          dsn
+          extendedStatus
+        }
         openEvents {
+          ip
+          userAgent {
+            family
+            version
+          }
+          os {
+            family
+            version
+          }
+          createdAt
+        }
+        clickEvents {
+          url
           ip
           userAgent {
             family

@@ -5,7 +5,7 @@
       %th DSN
       %th Status
   %tbody
-    - delivery.postfix_log_lines.each do |line|
+    - delivery.logs.each do |line|
       %tr
         %td
           = time_ago_in_words(line.time)
