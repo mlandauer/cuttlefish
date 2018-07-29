@@ -16,18 +16,19 @@ class Types::QueryType < Types::BaseObject
 
   field :emails, [Types::EmailType], null: true do
     argument :app_id, ID, required: false, default_value: nil
+    argument :status, String, required: false, default_value: nil
     description "All emails"
   end
 
   # TODO: Add pagination
-  # TODO: Filter by sent/bounced etc..
   # TODO: Make sure that there aren't a bazillion db requests for a single query
-  def emails(app_id:)
+  def emails(app_id:, status:)
     unless context[:current_admin]
       raise GraphQL::ExecutionError, "Need to be authenticated"
     end
     r = Pundit.policy_scope(context[:current_admin], Delivery)
     r = r.where(app_id: app_id) if app_id
+    r = r.where(status: status) if status
     r
   end
 
