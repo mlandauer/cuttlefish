@@ -89,6 +89,7 @@ group :development do
   gem 'rvm-capistrano', ">= 1.5.6", require: false
   gem "listen"
   gem 'graphiql-rails'
+  gem 'faker', git: 'https://github.com/stympy/faker.git', branch: 'master'
 end
 
 group :test do

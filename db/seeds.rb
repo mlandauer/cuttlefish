@@ -124,3 +124,18 @@ I'm sending another email here.
 )
 
 delivery = email.deliveries.create!(address_id: address2.id, sent: true)
+
+# Now let's make thirty fake emails
+(1..30).each do |i|
+
+  from = Address.find_or_create_by(text: Faker::Internet.email)
+  to = Address.find_or_create_by(text: Faker::Internet.email)
+
+  email = acting_app.emails.create!(
+    from_address_id: from.id,
+    data: "To: #{to.text}\nSubject: #{Faker::Book.title}\n\n#{Faker::TheITCrowd.quote}\n"
+  )
+
+  delivery = email.deliveries.create!(address_id: to.id, sent: true)
+
+end
