@@ -19,10 +19,12 @@ class Types::QueryType < Types::BaseObject
   end
 
   # TODO: Add pagination
-  # TODO: Add authentication
   # TODO: Filter by app name
   # TODO: Filter by sent/bounced etc..
   def emails
+    unless context[:current_admin]
+      raise GraphQL::ExecutionError, "Need to be authenticated"
+    end
     Pundit.policy_scope(context[:current_admin], Delivery)
   end
 
