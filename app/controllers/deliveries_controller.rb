@@ -27,6 +27,7 @@ class DeliveriesController < ApplicationController
       variables: {id: params[:id]},
       context: { api_key: current_admin.api_key }
     )
+    raise result.errors.messages["data"].join(", ") unless result.errors.empty?
     @delivery = result.data.email
     @configuration = result.data.configuration
   end
