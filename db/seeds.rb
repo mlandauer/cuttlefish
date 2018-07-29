@@ -105,3 +105,22 @@ delivery_link.click_events.create!(
   user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E302",
   ip: "1.1.1.1"
 )
+
+email = acting_app.emails.create!(
+  from_address_id: address1.id,
+  data: <<-EOF
+From: foo@bar.com
+To: foo@example.com
+Subject: This is another email
+Date: Fri, 27 Jul 2018 03:39:25 +0000
+Message-ID:
+ <ME2PR01MB380900AFED51A53176641AC0B12A0@ME2PR01MB3809.ausprd01.prod.outlook.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+I'm sending another email here.
+
+  EOF
+)
+
+delivery = email.deliveries.create!(address_id: address2.id, sent: true)
