@@ -3,7 +3,8 @@ class DeliveriesController < ApplicationController
 
   def index
     @deliveries = policy_scope(Delivery)
-
+    @apps = policy_scope(App)
+    
     if params[:search]
       @search = params[:search]
       @deliveries = @deliveries.joins(:address).where("addresses.text" => @search)
