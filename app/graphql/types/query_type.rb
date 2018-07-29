@@ -15,14 +15,14 @@ class Types::QueryType < Types::BaseObject
   end
 
   field :emails, [Types::EmailType], null: true do
-    argument :app_id, ID, required: false, default_value: nil
-    argument :status, String, required: false, default_value: nil
+    argument :app_id, ID, required: false
+    argument :status, Types::StatusType, required: false
     description "All emails"
   end
 
   # TODO: Add pagination
   # TODO: Make sure that there aren't a bazillion db requests for a single query
-  def emails(app_id:, status:)
+  def emails(app_id: nil, status: nil)
     unless context[:current_admin]
       raise GraphQL::ExecutionError, "Need to be authenticated"
     end
