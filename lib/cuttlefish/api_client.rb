@@ -85,6 +85,12 @@ module Cuttlefish::ApiClient
           clicked
         }
       }
+      apps {
+        nodes {
+          id
+          name
+        }
+      }
     }
   GRAPHQL
 end

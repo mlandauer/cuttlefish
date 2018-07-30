@@ -18,7 +18,7 @@ class Types::QueryType < Types::BaseObject
     argument :app_id, ID, required: false
     argument :status, Types::StatusType, required: false
     argument :skip, Int, required: false
-    description "All emails"
+    description "All emails. Most recent emails come first."
   end
 
   # TODO: Make sure that there aren't a bazillion db requests for a single query
@@ -32,6 +32,18 @@ class Types::QueryType < Types::BaseObject
     r = r.where(status: status) if status
     r = r.order("created_at DESC")
     r.offset(skip)
+  end
+
+  field :apps, Types::AppConnectionType, null: true do
+    argument :skip, Int, required: false
+    description "All apps"
+  end
+
+  def apps(skip: 0)
+    unless context[:current_admin]
+      raise GraphQL::ExecutionError, "Need to be authenticated"
+    end
+    Pundit.policy_scope(context[:current_admin], App).offset(skip).order(:name)
   end
 
   field :configuration, Types::ConfigurationType, null: false do

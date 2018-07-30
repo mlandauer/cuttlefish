@@ -1,6 +1,4 @@
 class DeliveriesController < ApplicationController
-  after_action :verify_policy_scoped, only: :index
-
   def index
     if params[:search]
       @deliveries = policy_scope(Delivery)
@@ -20,11 +18,10 @@ class DeliveriesController < ApplicationController
         # TODO: Show an error if graphql returns one
         pager.replace(result.data.emails.nodes)
         pager.total_entries = result.data.emails.total_count
-      end
 
-      # TODO: Replace these database lookups with graphql
-      @apps = policy_scope(App)
-      @app = App.find(params[:app_id]) if params[:app_id]
+        @apps = result.data.apps.nodes
+        @app = @apps.find{|a| a.id == params[:app_id]} if params[:app_id]
+      end
     end
   end
 
