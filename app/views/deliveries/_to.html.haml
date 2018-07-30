@@ -8,10 +8,10 @@
       - deliveries.each do |delivery|
         %tr
           %td.description
-            = link_to delivery.to, delivery, class: "rowlink"
+            = link_to delivery.to, delivery_path(delivery.id), class: "rowlink"
             %br
             = delivery.subject
-          %td.app.hidden-phone= delivery.app_name
+          %td.app.hidden-phone= delivery.app.name
           %td.time-and-labels
             %span{title: delivery.created_at}= time_ago_in_words(delivery.created_at)
             ago

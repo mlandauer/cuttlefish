@@ -30,6 +30,7 @@ class Types::QueryType < Types::BaseObject
     r = Pundit.policy_scope(context[:current_admin], Delivery)
     r = r.where(app_id: app_id) if app_id
     r = r.where(status: status) if status
+    r = r.order("created_at DESC")
     r.offset(skip)
   end
 
