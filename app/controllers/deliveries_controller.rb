@@ -10,10 +10,10 @@ class DeliveriesController < ApplicationController
     else
       @status = params[:status]
       @deliveries = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|
-        result = Cuttlefish::ApiClient::CLIENT.query(
+        result = Cuttlefish::ApiClient.query(
           Cuttlefish::ApiClient::EMAILS_QUERY,
           variables: { status: params[:status], appId: params[:app_id], first: pager.per_page, skip: pager.offset },
-          context: { api_key: current_admin.api_key }
+          current_admin: current_admin
         )
         # TODO: Show an error if graphql returns one
         pager.replace(result.data.emails.nodes)
@@ -27,10 +27,10 @@ class DeliveriesController < ApplicationController
 
 
   def show
-    result = Cuttlefish::ApiClient::CLIENT.query(
+    result = Cuttlefish::ApiClient.query(
       Cuttlefish::ApiClient::EMAIL_QUERY,
-      variables: {id: params[:id]},
-      context: { api_key: current_admin.api_key }
+      variables: { id: params[:id] },
+      current_admin: current_admin
     )
     raise result.errors.messages["data"].join(", ") unless result.errors.empty?
     @delivery = result.data.email

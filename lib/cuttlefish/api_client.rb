@@ -93,4 +93,12 @@ module Cuttlefish::ApiClient
       }
     }
   GRAPHQL
+
+  def self.query(q, variables:, current_admin:)
+    CLIENT.query(
+      q,
+      variables: variables,
+      context: { api_key: current_admin.api_key }
+    )
+  end
 end
