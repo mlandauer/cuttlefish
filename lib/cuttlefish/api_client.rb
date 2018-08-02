@@ -2,15 +2,20 @@ require "graphql/client"
 require "graphql/client/http"
 
 module Cuttlefish::ApiClient
-  HTTP = GraphQL::Client::HTTP.new("http://localhost:5400/graphql") do
-    def headers(context)
-      { "Authorization": context[:api_key] }
+  LOCAL_API = !Rails.env.production?
+
+  if LOCAL_API
+    CLIENT = GraphQL::Client.new(schema: CuttlefishSchema, execute: CuttlefishSchema)
+  else
+    HTTP = GraphQL::Client::HTTP.new("http://localhost:5400/graphql") do
+      def headers(context)
+        { "Authorization": context[:api_key] }
+      end
     end
+
+    SCHEMA = GraphQL::Client.load_schema(HTTP)
+    CLIENT = GraphQL::Client.new(schema: SCHEMA, execute: HTTP)
   end
-
-  SCHEMA = GraphQL::Client.load_schema(HTTP)
-
-  CLIENT = GraphQL::Client.new(schema: SCHEMA, execute: HTTP)
 
   EMAIL_QUERY = CLIENT.parse <<-'GRAPHQL'
     query($id: ID!) {
@@ -98,7 +103,8 @@ module Cuttlefish::ApiClient
     CLIENT.query(
       q,
       variables: variables,
-      context: { api_key: current_admin.api_key }
+      context: LOCAL_API ?
+        { current_admin: current_admin } :  { api_key: current_admin.api_key }
     )
   end
 end
