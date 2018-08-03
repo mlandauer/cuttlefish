@@ -14,16 +14,17 @@ class Types::QueryType < Types::BaseObject
     email
   end
 
-  field :emails, Types::EmailConnectionType, null: true do
+  field :emails, Types::EmailConnectionType, connection: false, null: true do
     argument :app_id, ID, required: false
     argument :status, Types::StatusType, required: false
+    argument :first, Int, required: false
     argument :skip, Int, required: false
     description "All emails. Most recent emails come first."
   end
 
   # TODO: Make sure that there aren't a bazillion db requests for a single query
   # TODO: Limit number of items in a page
-  def emails(app_id: nil, status: nil, skip: 0)
+  def emails(app_id: nil, status: nil, first: 10, skip: 0)
     unless context[:current_admin]
       raise GraphQL::ExecutionError, "Need to be authenticated"
     end
@@ -31,19 +32,21 @@ class Types::QueryType < Types::BaseObject
     r = r.where(app_id: app_id) if app_id
     r = r.where(status: status) if status
     r = r.order("created_at DESC")
-    r.offset(skip)
+    { nodes: r.offset(skip).limit(first), total_count: r.count }
   end
 
-  field :apps, Types::AppConnectionType, null: true do
+  field :apps, Types::AppConnectionType, connection: false, null: true do
+    argument :first, Int, required: false
     argument :skip, Int, required: false
     description "All apps"
   end
 
-  def apps(skip: 0)
+  def apps(first: 10, skip: 0)
     unless context[:current_admin]
       raise GraphQL::ExecutionError, "Need to be authenticated"
     end
-    Pundit.policy_scope(context[:current_admin], App).offset(skip).order(:name)
+    r = Pundit.policy_scope(context[:current_admin], App).order(:name)
+    { nodes: r.offset(skip).limit(first), total_count: r.count }
   end
 
   field :configuration, Types::ConfigurationType, null: false do
