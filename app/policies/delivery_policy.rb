@@ -1,6 +1,11 @@
 class DeliveryPolicy < ApplicationPolicy
   def show?
-    user.super_admin? || super
+    if user.super_admin?
+      true
+    else
+      app_ids = AppPolicy::Scope.new(user, App).resolve.pluck(:id)
+      app_ids.include?(record.app_id)
+    end
   end
 
   class Scope < Scope
