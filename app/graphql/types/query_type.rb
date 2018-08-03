@@ -22,7 +22,6 @@ class Types::QueryType < Types::BaseObject
     description "All emails. Most recent emails come first."
   end
 
-  # TODO: Make sure that there aren't a bazillion db requests for a single query
   # TODO: Limit number of items in a page
   def emails(app_id: nil, status: nil, first: 10, skip: 0)
     unless context[:current_admin]
@@ -41,6 +40,7 @@ class Types::QueryType < Types::BaseObject
     description "All apps"
   end
 
+  # TODO: Limit number of items in a page
   def apps(first: 10, skip: 0)
     unless context[:current_admin]
       raise GraphQL::ExecutionError, "Need to be authenticated"
