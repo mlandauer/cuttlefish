@@ -14,6 +14,10 @@ class DeliveryLink < ActiveRecord::Base
       user_agent: request.env['HTTP_USER_AGENT'],
       referer: request.referer,
       ip: request.remote_ip
-    )    
+    )
+  end
+
+  def clicked?
+    click_events.size > 0
   end
 end

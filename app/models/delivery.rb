@@ -73,7 +73,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def clicked?
-    delivery_links.any?{|delivery_link| delivery_link.click_events.size > 0}
+    delivery_links.any?{|delivery_link| delivery_link.clicked?}
   end
 
   def app_name
