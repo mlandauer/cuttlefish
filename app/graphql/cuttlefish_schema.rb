@@ -1,6 +1,8 @@
 class CuttlefishSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
+
+  use BatchLoader::GraphQL
   
   def self.unauthorized_object(error)
     # Add a top-level error to the response instead of just returning nil:

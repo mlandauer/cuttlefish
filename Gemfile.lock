@@ -71,6 +71,7 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
+    batch-loader (1.2.1)
     bcrypt (3.1.12)
     bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
@@ -455,6 +456,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  batch-loader
   bootstrap-sass (~> 2.0)
   capistrano (~> 2)
   capybara
