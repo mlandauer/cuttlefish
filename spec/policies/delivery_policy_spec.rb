@@ -18,6 +18,10 @@ describe DeliveryPolicy do
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
+    it 'is included in the scope' do
+      delivery
+      expect(DeliveryPolicy::Scope.new(user, Delivery.all).resolve).to include(delivery)
+    end
   end
 
   context "normal user in team two" do
@@ -28,6 +32,10 @@ describe DeliveryPolicy do
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
+    it 'is not included in the scope' do
+      delivery
+      expect(DeliveryPolicy::Scope.new(user, Delivery.all).resolve).to_not include(delivery)
+    end
   end
 
   context "super admin in team two" do
@@ -38,5 +46,9 @@ describe DeliveryPolicy do
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
+    it 'is not included in the scope' do
+      delivery
+      expect(DeliveryPolicy::Scope.new(user, Delivery.all).resolve).to_not include(delivery)
+    end
   end
 end
