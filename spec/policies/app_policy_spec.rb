@@ -20,6 +20,10 @@ describe AppPolicy do
     it { is_expected.to permit(:destroy) }
     it { is_expected.to permit(:dkim) }
     it { is_expected.to permit(:toggle_dkim) }
+    it 'should be in scope' do
+      app
+      expect(AppPolicy::Scope.new(user, App).resolve).to include(app)
+    end
   end
 
   context "normal user in team two" do
@@ -32,6 +36,10 @@ describe AppPolicy do
     it { is_expected.not_to permit(:destroy) }
     it { is_expected.not_to permit(:dkim) }
     it { is_expected.not_to permit(:toggle_dkim) }
+    it 'should not be in scope' do
+      app
+      expect(AppPolicy::Scope.new(user, App).resolve).to_not include(app)
+    end
   end
 
   context "super admin in team two" do
@@ -44,6 +52,14 @@ describe AppPolicy do
     it { is_expected.not_to permit(:destroy) }
     it { is_expected.not_to permit(:dkim) }
     it { is_expected.not_to permit(:toggle_dkim) }
+    # This is so that for super admins you don't by default see all the apps
+    # in the apps list. However, you can still view individual ones (and the
+    # emails contained within) if you really need to do by going to the team
+    # list
+    it 'should not be in scope' do
+      app
+      expect(AppPolicy::Scope.new(user, App).resolve).to_not include(app)
+    end
 
     context "cuttlefish app" do
       let(:app) { App.cuttlefish }
@@ -55,6 +71,10 @@ describe AppPolicy do
       it { is_expected.not_to permit(:destroy) }
       it { is_expected.to permit(:dkim) }
       it { is_expected.to permit(:toggle_dkim) }
+      it 'should not be in scope' do
+        app
+        expect(AppPolicy::Scope.new(user, App).resolve).to_not include(app)
+      end
     end
   end
 end
