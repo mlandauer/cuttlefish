@@ -425,6 +425,8 @@ GEM
     temple (0.8.0)
     term-ansicolor (1.6.0)
       tins (~> 1.0)
+    terminal-notifier (2.0.0)
+    terminal-notifier-guard (1.6.4)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -520,6 +522,8 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   syslog_protocol
+  terminal-notifier
+  terminal-notifier-guard
   thin
   uglifier
   user_agent_parser
