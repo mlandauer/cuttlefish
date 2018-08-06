@@ -66,13 +66,14 @@ describe CuttlefishSchema do
   end
 
   describe "emails" do
-    let(:query_string) { 'query($appId: ID) { emails(appId: $appId) { nodes { id } } }' }
+    let(:query_string) { 'query($appId: ID, $first: Int, $skip: Int) { emails(appId: $appId, first: $first, skip: $skip) { totalCount nodes { id } } }' }
 
     it "should return emails" do
       expect(result['data']['emails']['nodes']).to contain_exactly(
         {"id" => delivery1.id.to_s},
         {"id" => delivery2.id.to_s},
       )
+      expect(result['data']['emails']['totalCount']).to eq 2
       expect(result['errors']).to be_nil
     end
 
@@ -91,6 +92,7 @@ describe CuttlefishSchema do
 
       it "should return no emails" do
         expect(result['data']['emails']['nodes']).to be_empty
+        expect(result['data']['emails']['totalCount']).to eq 0
         expect(result['errors']).to be_nil
       end
     end
@@ -102,7 +104,32 @@ describe CuttlefishSchema do
         expect(result['data']['emails']['nodes']).to contain_exactly(
           {"id" => delivery1.id.to_s}
         )
+        expect(result['data']['emails']['totalCount']).to eq 1
         expect(result['errors']).to be_nil
+      end
+    end
+
+    context "page size of 1" do
+      let(:variables) { { first: 1 } }
+
+      it "should return just one email" do
+        expect(result['data']['emails']['nodes']).to contain_exactly(
+          {"id" => delivery2.id.to_s}
+        )
+        expect(result['data']['emails']['totalCount']).to eq 2
+        expect(result['errors']).to be_nil
+      end
+
+      context "offset of 1" do
+        let(:variables) { { first: 1, skip: 1 } }
+
+        it "should return just one email" do
+          expect(result['data']['emails']['nodes']).to contain_exactly(
+            {"id" => delivery1.id.to_s}
+          )
+          expect(result['data']['emails']['totalCount']).to eq 2
+          expect(result['errors']).to be_nil
+        end
       end
     end
   end
