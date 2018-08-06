@@ -92,6 +92,7 @@ group :development do
   gem 'rvm-capistrano', ">= 1.5.6", require: false
   gem "listen"
   gem 'graphiql-rails'
+  gem 'faker', git: 'https://github.com/stympy/faker.git', branch: 'master'
 end
 
 group :test do
@@ -113,5 +114,4 @@ group :development, :test do
   gem 'selenium-webdriver'
   # For resizing screenshots
   gem 'rmagick'
-  gem 'faker', git: 'https://github.com/stympy/faker.git', branch: 'master'
 end
