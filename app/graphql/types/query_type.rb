@@ -9,6 +9,9 @@ class Types::QueryType < Types::BaseObject
   end
 
   def email(id:)
+    unless context[:current_admin]
+      raise GraphQL::ExecutionError, "Need to be authenticated"
+    end
     email = Delivery.find_by(id: id)
     raise GraphQL::ExecutionError, "Email doesn't exist" if email.nil?
     email
