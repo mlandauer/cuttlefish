@@ -1,6 +1,4 @@
 language: ruby
-rvm:
-  - 2.1.5
 sudo: false
 before_script:
   - cp config/database.travis.yml config/database.yml
