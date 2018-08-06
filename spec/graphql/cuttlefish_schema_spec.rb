@@ -66,7 +66,7 @@ describe CuttlefishSchema do
   end
 
   describe "emails" do
-    let(:query_string) { '{ emails { nodes { id } } }' }
+    let(:query_string) { 'query($appId: ID) { emails(appId: $appId) { nodes { id } } }' }
 
     it "should return emails" do
       expect(result['data']['emails']['nodes']).to contain_exactly(
@@ -91,6 +91,17 @@ describe CuttlefishSchema do
 
       it "should return no emails" do
         expect(result['data']['emails']['nodes']).to be_empty
+        expect(result['errors']).to be_nil
+      end
+    end
+
+    context "result for one app" do
+      let(:variables) { { "appId" => app1.id } }
+
+      it "should return just one email" do
+        expect(result['data']['emails']['nodes']).to contain_exactly(
+          {"id" => delivery1.id.to_s}
+        )
         expect(result['errors']).to be_nil
       end
     end
