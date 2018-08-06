@@ -2,4 +2,4 @@ language: ruby
 sudo: false
 before_script:
   - cp config/database.travis.yml config/database.yml
-  - bundle exec rake db:setup
+  - bundle exec rake db:schema:load
