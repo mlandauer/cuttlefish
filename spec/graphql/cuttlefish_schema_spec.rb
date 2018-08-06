@@ -40,7 +40,7 @@ describe CuttlefishSchema do
       it "should return nil and error" do
         expect(result['data']['email']).to be_nil
         expect(result['errors'].length).to eq 1
-        expect(result['errors'][0]['message']).to eq "Need to be authenticated"
+        expect(result['errors'][0]['message']).to eq "Not authorized to access Query.email"
       end
     end
 
@@ -83,7 +83,7 @@ describe CuttlefishSchema do
       it "should return nil and error" do
         expect(result['data']['emails']).to be_nil
         expect(result['errors'].length).to eq 1
-        expect(result['errors'][0]['message']).to eq "Need to be authenticated"
+        expect(result['errors'][0]['message']).to eq "Not authorized to access Query.emails"
       end
     end
 

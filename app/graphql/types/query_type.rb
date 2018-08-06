@@ -3,15 +3,17 @@ class Types::QueryType < Types::BaseObject
   # They will be entry points for queries on your schema.
   description "The query root for the Cuttlefish GraphQL API"
 
+  guard ->(object, args, context) {
+    # We always need to be authenticated
+    !context[:current_admin].nil?
+  }
+
   field :email, Types::EmailType, null: true do
     argument :id, ID, required: true
     description "A single email"
   end
 
   def email(id:)
-    unless context[:current_admin]
-      raise GraphQL::ExecutionError, "Need to be authenticated"
-    end
     email = Delivery.find_by(id: id)
     raise GraphQL::ExecutionError, "Email doesn't exist" if email.nil?
     email
@@ -28,9 +30,6 @@ class Types::QueryType < Types::BaseObject
   # TODO: Limit number of items in a page
   # TODO: Switch over to more relay-like pagination
   def emails(app_id: nil, status: nil, limit: 10, offset: 0)
-    unless context[:current_admin]
-      raise GraphQL::ExecutionError, "Need to be authenticated"
-    end
     r = Pundit.policy_scope(context[:current_admin], Delivery)
     r = r.where(app_id: app_id) if app_id
     r = r.where(status: status) if status
@@ -47,9 +46,6 @@ class Types::QueryType < Types::BaseObject
   # TODO: Limit number of items in a page
   # TODO: Switch over to more relay-like pagination
   def apps(limit: 10, offset: 0)
-    unless context[:current_admin]
-      raise GraphQL::ExecutionError, "Need to be authenticated"
-    end
     r = Pundit.policy_scope(context[:current_admin], App).order(:name)
     { nodes: r.offset(offset).limit(limit), total_count: r.count }
   end
