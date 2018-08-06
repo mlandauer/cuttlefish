@@ -13,20 +13,24 @@ describe CuttlefishSchema do
   let(:team_two) { FactoryBot.create(:team) }
 
   let(:admin) { FactoryBot.create(:admin, team: team_one) }
-  let(:app) { FactoryBot.create(:app, team: team_one) }
-  let(:email) { FactoryBot.create(:email, app: app)}
-  let(:delivery) { FactoryBot.create(:delivery, email: email) }
+  let(:app1) { FactoryBot.create(:app, team: team_one) }
+  let(:app2) { FactoryBot.create(:app, team: team_one) }
+  let(:email1) { FactoryBot.create(:email, app: app1)}
+  let(:email2) { FactoryBot.create(:email, app: app2)}
+  let(:delivery1) { FactoryBot.create(:delivery, email: email1) }
+  let(:delivery2) { FactoryBot.create(:delivery, email: email2) }
 
   before :each do
-    delivery
+    delivery1
+    delivery2
   end
 
   describe "email" do
     let(:query_string) { 'query($id: ID!) { email(id: $id) { id } }' }
-    let(:variables) { { id: delivery.id } }
+    let(:variables) { { id: delivery1.id } }
 
     it "should return a valid result" do
-      expect(result['data']['email']['id']).to eq delivery.id.to_s
+      expect(result['data']['email']['id']).to eq delivery1.id.to_s
       expect(result['errors']).to be_nil
     end
 
@@ -51,7 +55,7 @@ describe CuttlefishSchema do
     end
 
     context "query for non existing email" do
-      let(:variables) { { id: (delivery.id + 1) } }
+      let(:variables) { { id: (delivery2.id + 1) } }
 
       it "should return nil and error" do
         expect(result['data']['email']).to be_nil
@@ -65,7 +69,10 @@ describe CuttlefishSchema do
     let(:query_string) { '{ emails { nodes { id } } }' }
 
     it "should return emails" do
-      expect(result['data']['emails']['nodes']).to contain_exactly({"id" => delivery.id.to_s})
+      expect(result['data']['emails']['nodes']).to contain_exactly(
+        {"id" => delivery1.id.to_s},
+        {"id" => delivery2.id.to_s},
+      )
       expect(result['errors']).to be_nil
     end
 
