@@ -50,7 +50,7 @@ describe CuttlefishSchema do
       it "should return nil and an error" do
         expect(result['data']['email']).to be_nil
         expect(result['errors'].length).to eq 1
-        expect(result['errors'][0]['message']).to eq "An object of type Email was hidden due to permissions"
+        expect(result['errors'][0]['message']).to eq "Not authorized to access Email.id"
       end
     end
 

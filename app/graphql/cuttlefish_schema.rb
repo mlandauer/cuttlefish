@@ -2,10 +2,8 @@ class CuttlefishSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
+  use GraphQL::Guard.new(
+    not_authorized: ->(type, field) { GraphQL::ExecutionError.new("Not authorized to access #{type}.#{field}") }
+  )
   use BatchLoader::GraphQL
-  
-  def self.unauthorized_object(error)
-    # Add a top-level error to the response instead of just returning nil:
-    raise GraphQL::ExecutionError, "An object of type #{error.type.graphql_name} was hidden due to permissions"
-  end
 end

@@ -58,6 +58,7 @@ gem 'honeybadger'
 gem 'dkim'
 gem 'fog-aws'
 gem 'graphql'
+gem 'graphql-guard'
 gem 'batch-loader'
 gem 'graphql-client'
 

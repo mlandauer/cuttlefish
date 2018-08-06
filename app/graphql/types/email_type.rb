@@ -1,4 +1,9 @@
 class Types::EmailType < Types::BaseObject
+  guard ->(object, args, context) {
+    context[:current_admin] &&
+      DeliveryPolicy.new(context[:current_admin], object.object).show?
+  }
+
   field :id, ID, null: false
   field :from, String, null: true
   field :to, String, null: false
@@ -35,11 +40,6 @@ class Types::EmailType < Types::BaseObject
   end
   field :open_events, [Types::OpenEventType], null: false
   field :click_events, [Types::ClickEventType], null: false
-
-  def self.authorized?(object, context)
-    context[:current_admin] &&
-      pundit_authorized?(context[:current_admin], object, :show?)
-  end
 
   private
 
