@@ -2,4 +2,6 @@ language: ruby
 sudo: false
 before_script:
   - cp config/database.travis.yml config/database.yml
+  # We don't want to seed the database for tests
+  - bundle exec rake db:create
   - bundle exec rake db:schema:load
