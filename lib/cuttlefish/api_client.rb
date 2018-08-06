@@ -74,8 +74,8 @@ module Cuttlefish::ApiClient
   GRAPHQL
 
   EMAILS_QUERY = CLIENT.parse <<-'GRAPHQL'
-    query($appId: ID, $status: Status, $first: Int, $skip: Int) {
-      emails(appId: $appId, status: $status, first: $first, skip: $skip) {
+    query($appId: ID, $status: Status, $limit: Int, $offset: Int) {
+      emails(appId: $appId, status: $status, limit: $limit, offset: $offset) {
         totalCount
         nodes {
           id

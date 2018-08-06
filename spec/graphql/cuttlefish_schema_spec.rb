@@ -66,7 +66,7 @@ describe CuttlefishSchema do
   end
 
   describe "emails" do
-    let(:query_string) { 'query($appId: ID, $first: Int, $skip: Int) { emails(appId: $appId, first: $first, skip: $skip) { totalCount nodes { id } } }' }
+    let(:query_string) { 'query($appId: ID, $limit: Int, $offset: Int) { emails(appId: $appId, limit: $limit, offset: $offset) { totalCount nodes { id } } }' }
 
     it "should return emails" do
       expect(result['data']['emails']['nodes']).to contain_exactly(
@@ -110,7 +110,7 @@ describe CuttlefishSchema do
     end
 
     context "page size of 1" do
-      let(:variables) { { first: 1 } }
+      let(:variables) { { limit: 1 } }
 
       it "should return just one email" do
         expect(result['data']['emails']['nodes']).to contain_exactly(
@@ -121,7 +121,7 @@ describe CuttlefishSchema do
       end
 
       context "offset of 1" do
-        let(:variables) { { first: 1, skip: 1 } }
+        let(:variables) { { limit: 1, offset: 1 } }
 
         it "should return just one email" do
           expect(result['data']['emails']['nodes']).to contain_exactly(

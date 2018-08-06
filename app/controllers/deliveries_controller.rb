@@ -12,7 +12,7 @@ class DeliveriesController < ApplicationController
       @deliveries = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|
         result = Cuttlefish::ApiClient.query(
           Cuttlefish::ApiClient::EMAILS_QUERY,
-          variables: { status: params[:status], appId: params[:app_id], first: pager.per_page, skip: pager.offset },
+          variables: { status: params[:status], appId: params[:app_id], limit: pager.per_page, offset: pager.offset },
           current_admin: current_admin
         )
         # TODO: Show an error if graphql returns one
