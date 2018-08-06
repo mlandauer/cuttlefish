@@ -60,4 +60,32 @@ describe CuttlefishSchema do
       end
     end
   end
+
+  describe "emails" do
+    let(:query_string) { '{ emails { nodes { id } } }' }
+
+    it "should return emails" do
+      expect(result['data']['emails']['nodes']).to contain_exactly({"id" => delivery.id.to_s})
+      expect(result['errors']).to be_nil
+    end
+
+    context "with no current user" do
+      let(:context) { {} }
+
+      it "should return nil and error" do
+        expect(result['data']['emails']).to be_nil
+        expect(result['errors'].length).to eq 1
+        expect(result['errors'][0]['message']).to eq "Need to be authenticated"
+      end
+    end
+
+    context "with a user in a different team" do
+      let(:admin) { FactoryBot.create(:admin, team: team_two) }
+
+      it "should return no emails" do
+        expect(result['data']['emails']['nodes']).to be_empty
+        expect(result['errors']).to be_nil
+      end
+    end
+  end
 end
