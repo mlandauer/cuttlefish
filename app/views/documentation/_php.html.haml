@@ -26,11 +26,11 @@
         account cuttlefish
         tls on
         tls_trust_file /etc/ssl/certs/ca-certificates.crt
-        host #{Rails.configuration.cuttlefish_domain}
-        port #{Rails.configuration.cuttlefish_smtp_port}
+        host #{app.smtp_server.hostname}
+        port #{app.smtp_server.port}
         auth on
-        user #{app.smtp_username}
-        password #{app.smtp_password}
+        user #{app.smtp_server.username}
+        password #{app.smtp_server.password}
         account default : cuttlefish
   %li
     Edit PHP configuration files

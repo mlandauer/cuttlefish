@@ -99,6 +99,23 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  DOCUMENTATION_QUERY = CLIENT.parse <<-'GRAPHQL'
+    {
+      apps {
+        nodes {
+          id
+          name
+          smtpServer {
+            hostname
+            port
+            username
+            password
+          }
+        }
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     CLIENT.query(
       q,

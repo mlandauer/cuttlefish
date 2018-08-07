@@ -32,6 +32,7 @@ class DeliveriesController < ApplicationController
       variables: { id: params[:id] },
       current_admin: current_admin
     )
+    # TODO: Move check of error inside above method
     raise result.errors.messages["data"].join(", ") unless result.errors.empty?
     @delivery = result.data.email
     @configuration = result.data.configuration

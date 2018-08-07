@@ -12,19 +12,19 @@
   %tr
     %td Host
     %td
-      %strong= Rails.configuration.cuttlefish_domain
+      %strong= app.smtp_server.hostname
   %tr
     %td Port
     %td
-      %strong= Rails.configuration.cuttlefish_smtp_port
+      %strong= app.smtp_server.port
   %tr
     %td Username
     %td
-      %strong= app.smtp_username
+      %strong= app.smtp_server.username
   %tr
     %td Password
     %td
-      %strong= app.smtp_password
+      %strong= app.smtp_server.password
   %tr
     %td Authentication
     %td
