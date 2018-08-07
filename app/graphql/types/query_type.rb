@@ -27,7 +27,6 @@ class Types::QueryType < Types::BaseObject
     description "All emails. Most recent emails come first."
   end
 
-  # TODO: Limit number of items in a page
   # TODO: Switch over to more relay-like pagination
   def emails(app_id: nil, status: nil, limit: 10, offset: 0)
     paginate(limit, offset) do
@@ -45,7 +44,6 @@ class Types::QueryType < Types::BaseObject
     description "All apps"
   end
 
-  # TODO: Limit number of items in a page
   # TODO: Switch over to more relay-like pagination
   def apps(limit: 10, offset: 0)
     paginate(limit, offset) do
@@ -73,6 +71,9 @@ class Types::QueryType < Types::BaseObject
 
   def paginate(limit, offset, &block)
     r = yield block
-    { nodes: r.offset(offset).limit(limit), total_count: r.count }
+    { nodes: r.offset(offset).limit([limit, MAX_LIMIT].min), total_count: r.count }
   end
+
+  # Limit can never be bigger than 50
+  MAX_LIMIT = 50
 end
