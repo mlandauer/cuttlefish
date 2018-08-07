@@ -30,11 +30,13 @@ class Types::QueryType < Types::BaseObject
   # TODO: Limit number of items in a page
   # TODO: Switch over to more relay-like pagination
   def emails(app_id: nil, status: nil, limit: 10, offset: 0)
-    r = Pundit.policy_scope(context[:current_admin], Delivery)
-    r = r.where(app_id: app_id) if app_id
-    r = r.where(status: status) if status
-    r = r.order("created_at DESC")
-    { nodes: r.offset(offset).limit(limit), total_count: r.count }
+    paginate(limit, offset) do
+      r = Pundit.policy_scope(context[:current_admin], Delivery)
+      r = r.where(app_id: app_id) if app_id
+      r = r.where(status: status) if status
+      r = r.order("created_at DESC")
+      r
+    end
   end
 
   field :apps, Types::AppConnectionType, connection: false, null: true do
@@ -46,8 +48,9 @@ class Types::QueryType < Types::BaseObject
   # TODO: Limit number of items in a page
   # TODO: Switch over to more relay-like pagination
   def apps(limit: 10, offset: 0)
-    r = Pundit.policy_scope(context[:current_admin], App).order(:name)
-    { nodes: r.offset(offset).limit(limit), total_count: r.count }
+    paginate(limit, offset) do
+      Pundit.policy_scope(context[:current_admin], App).order(:name)
+    end
   end
 
   field :configuration, Types::ConfigurationType, null: false do
@@ -64,5 +67,12 @@ class Types::QueryType < Types::BaseObject
 
   def viewer
     context[:current_admin]
+  end
+
+  private
+
+  def paginate(limit, offset, &block)
+    r = yield block
+    { nodes: r.offset(offset).limit(limit), total_count: r.count }
   end
 end
