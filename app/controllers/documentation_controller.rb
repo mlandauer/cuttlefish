@@ -8,7 +8,7 @@ class DocumentationController < ApplicationController
     # TODO: Move check of error inside above method
     raise result.errors.messages["data"].join(", ") unless result.errors.empty?
 
-    @apps = result.data.apps.nodes
+    @apps = result.data.apps
     @active_app = @apps.first
   end
 end

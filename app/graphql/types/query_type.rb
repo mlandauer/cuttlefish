@@ -38,17 +38,12 @@ class Types::QueryType < Types::BaseObject
     end
   end
 
-  field :apps, Types::AppConnectionType, connection: false, null: true do
-    argument :limit, Int, required: false, description: "For pagination: sets maximum number of items returned"
-    argument :offset, Int, required: false, description: "For pagination: sets offset"
+  field :apps, [Types::AppType], null: true do
     description "A list of Apps that this admin has access to, sorted alphabetically by name."
   end
 
-  # TODO: Switch over to more relay-like pagination
-  def apps(limit: 10, offset: 0)
-    paginate(limit, offset) do
-      Pundit.policy_scope(context[:current_admin], App).order(:name)
-    end
+  def apps
+    Pundit.policy_scope(context[:current_admin], App).order(:name)
   end
 
   field :configuration, Types::ConfigurationType, null: false do

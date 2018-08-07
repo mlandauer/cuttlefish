@@ -19,7 +19,7 @@ class DeliveriesController < ApplicationController
         pager.replace(result.data.emails.nodes)
         pager.total_entries = result.data.emails.total_count
 
-        @apps = result.data.apps.nodes
+        @apps = result.data.apps
         @app = @apps.find{|a| a.id == params[:app_id]} if params[:app_id]
       end
     end

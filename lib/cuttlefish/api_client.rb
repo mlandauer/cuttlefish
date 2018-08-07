@@ -91,10 +91,8 @@ module Cuttlefish::ApiClient
         }
       }
       apps {
-        nodes {
-          id
-          name
-        }
+        id
+        name
       }
     }
   GRAPHQL
@@ -102,15 +100,13 @@ module Cuttlefish::ApiClient
   DOCUMENTATION_QUERY = CLIENT.parse <<-'GRAPHQL'
     {
       apps {
-        nodes {
-          id
-          name
-          smtpServer {
-            hostname
-            port
-            username
-            password
-          }
+        id
+        name
+        smtpServer {
+          hostname
+          port
+          username
+          password
         }
       }
     }
