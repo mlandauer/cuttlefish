@@ -1,4 +1,5 @@
 class Types::StatusType < Types::BaseEnum
+  description "The delivery status of an email"
   value "not_sent", "Not sent because it's on the blacklist"
   value "sent", "Sent but not yet definitely delivered"
   value "delivered", "Delivered to its destination"

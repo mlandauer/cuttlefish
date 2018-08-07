@@ -9,8 +9,8 @@ class Types::QueryType < Types::BaseObject
   }
 
   field :email, Types::EmailType, null: true do
-    argument :id, ID, required: true
-    description "A single email"
+    argument :id, ID, required: true, description: "ID of Email to find"
+    description "Find a single Email"
   end
 
   def email(id:)
@@ -20,11 +20,11 @@ class Types::QueryType < Types::BaseObject
   end
 
   field :emails, Types::EmailConnectionType, connection: false, null: true do
-    argument :app_id, ID, required: false
-    argument :status, Types::StatusType, required: false
-    argument :limit, Int, required: false
-    argument :offset, Int, required: false
-    description "All emails. Most recent emails come first."
+    argument :app_id, ID, required: false, description: "Filter results by App"
+    argument :status, Types::StatusType, required: false, description: "Filter results by Email status"
+    argument :limit, Int, required: false, description: "For pagination: sets maximum number of items returned"
+    argument :offset, Int, required: false, description: "For pagination: sets offset"
+    description "A list of Emails that this admin has access to. Most recent emails come first."
   end
 
   # TODO: Switch over to more relay-like pagination
@@ -39,9 +39,9 @@ class Types::QueryType < Types::BaseObject
   end
 
   field :apps, Types::AppConnectionType, connection: false, null: true do
-    argument :limit, Int, required: false
-    argument :offset, Int, required: false
-    description "All apps"
+    argument :limit, Int, required: false, description: "For pagination: sets maximum number of items returned"
+    argument :offset, Int, required: false, description: "For pagination: sets offset"
+    description "A list of Apps that this admin has access to, sorted alphabetically by name."
   end
 
   # TODO: Switch over to more relay-like pagination
