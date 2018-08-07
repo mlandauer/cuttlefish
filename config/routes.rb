@@ -48,7 +48,6 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   root to: 'landing#index'
-  post 'request_invitation' => 'landing#request_invitation'
 
   get 'dash' => 'main#index'
   get 'status_counts' => 'main#status_counts'
