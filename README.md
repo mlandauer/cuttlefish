@@ -2,7 +2,7 @@
 
 # ![Cuttlefish](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/cuttlefish_80x48.png) Cuttlefish
 
-[![Build Status](https://travis-ci.org/mlandauer/cuttlefish.svg?branch=master)](https://travis-ci.org/mlandauer/cuttlefish) [![Coverage Status](https://coveralls.io/repos/github/mlandauer/cuttlefish/badge.svg?branch=master)](https://coveralls.io/github/mlandauer/cuttlefish?branch=master) [![Code Climate](https://codeclimate.com/github/mlandauer/cuttlefish.png)](https://codeclimate.com/github/mlandauer/cuttlefish)
+[![Build Status](https://travis-ci.org/mlandauer/cuttlefish.svg?branch=master)](https://travis-ci.org/mlandauer/cuttlefish) [![Coverage Status](https://coveralls.io/repos/github/mlandauer/cuttlefish/badge.svg?branch=master)](https://coveralls.io/github/mlandauer/cuttlefish?branch=master) [![Maintainability](https://api.codeclimate.com/v1/badges/abe94fb0811e8e8c512a/maintainability)](https://codeclimate.com/github/mlandauer/cuttlefish/maintainability)
 
 * Project site: [cuttlefish.io](https://cuttlefish.io)
 * Hosted version ([free](http://poplus.org/posts/email-is-your-secret-weapon/) for [Poplus.org](http://poplus.org/) community members): [cuttlefish.oaf.org.au](https://cuttlefish.oaf.org.au)
