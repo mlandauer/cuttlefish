@@ -15,7 +15,6 @@ class DeliveriesController < ApplicationController
           variables: { status: params[:status], appId: params[:app_id], limit: pager.per_page, offset: pager.offset },
           current_admin: current_admin
         )
-        # TODO: Show an error if graphql returns one
         pager.replace(result.data.emails.nodes)
         pager.total_entries = result.data.emails.total_count
 
@@ -32,8 +31,6 @@ class DeliveriesController < ApplicationController
       variables: { id: params[:id] },
       current_admin: current_admin
     )
-    # TODO: Move check of error inside above method
-    raise result.errors.messages["data"].join(", ") unless result.errors.empty?
     @delivery = result.data.email
     @configuration = result.data.configuration
   end

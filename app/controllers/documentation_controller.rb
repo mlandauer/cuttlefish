@@ -5,9 +5,6 @@ class DocumentationController < ApplicationController
       variables: {},
       current_admin: current_admin
     )
-    # TODO: Move check of error inside above method
-    raise result.errors.messages["data"].join(", ") unless result.errors.empty?
-
     @apps = result.data.apps
     @active_app = @apps.first
   end

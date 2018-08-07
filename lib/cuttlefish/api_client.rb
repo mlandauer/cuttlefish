@@ -113,11 +113,13 @@ module Cuttlefish::ApiClient
   GRAPHQL
 
   def self.query(q, variables:, current_admin:)
-    CLIENT.query(
+    result = CLIENT.query(
       q,
       variables: variables,
       context: LOCAL_API ?
         { current_admin: current_admin } :  { api_key: current_admin.api_key }
     )
+    raise result.errors.messages["data"].join(", ") unless result.errors.empty?
+    result
   end
 end
