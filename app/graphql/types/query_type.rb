@@ -29,12 +29,11 @@ class Types::QueryType < Types::BaseObject
 
   # TODO: Switch over to more relay-like pagination
   def emails(app_id: nil, status: nil, limit: 10, offset: 0)
-    paginate(limit, offset) do
-      r = Pundit.policy_scope(context[:current_admin], Delivery)
-      r = r.where(app_id: app_id) if app_id
-      r = r.where(status: status) if status
-      r = r.order("created_at DESC")
-      r
+    paginate(limit, offset, "created_at DESC") do
+      emails = Pundit.policy_scope(context[:current_admin], Delivery)
+      emails = emails.where(app_id: app_id) if app_id
+      emails = emails.where(status: status) if status
+      emails
     end
   end
 
@@ -64,9 +63,9 @@ class Types::QueryType < Types::BaseObject
 
   private
 
-  def paginate(limit, offset, &block)
-    r = yield block
-    { nodes: r.offset(offset).limit([limit, MAX_LIMIT].min), total_count: r.count }
+  def paginate(limit, offset, order, &block)
+    r = yield(block)
+    { all: r, nodes: r.order(order).offset(offset).limit([limit, MAX_LIMIT].min), total_count: r.count }
   end
 
   # Limit can never be bigger than 50
