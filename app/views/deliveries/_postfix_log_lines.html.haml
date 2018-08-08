@@ -5,10 +5,10 @@
       %th DSN
       %th Status
   %tbody
-    - delivery.logs.each do |line|
+    - delivery.delivery_events.each do |event|
       %tr
         %td
-          = time_ago_in_words(line.time)
+          = time_ago_in_words(event.time)
           ago
-        %td= line.dsn
-        %td.status= line.extended_status
+        %td= event.dsn
+        %td.status= event.extended_status

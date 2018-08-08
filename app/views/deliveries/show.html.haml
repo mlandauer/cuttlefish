@@ -42,7 +42,7 @@
           = status_name(@delivery.status)
       %td
         = link_to "#log", "data-toggle" => "collapse" do
-          = distance_of_time_in_words(@delivery.created_at, @delivery.logs.first.time, include_seconds: true)
+          = distance_of_time_in_words(@delivery.created_at, @delivery.delivery_events.first.time, include_seconds: true)
           after being sent
           %i.fa.fa-plus-square
         .collapse{id: "log"}

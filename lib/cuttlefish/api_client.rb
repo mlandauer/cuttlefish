@@ -39,7 +39,7 @@ module Cuttlefish::ApiClient
         }
         opened
         clicked
-        logs {
+        deliveryEvents {
           time
           dsn
           extendedStatus

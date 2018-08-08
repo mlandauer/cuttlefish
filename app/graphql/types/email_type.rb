@@ -15,8 +15,7 @@ class Types::EmailType < Types::BaseObject
   field :status, Types::StatusType, null: false, description: "The status of this email"
   field :opened, Boolean, null: false, description: "Whether this email was opened"
   field :clicked, Boolean, null: false, description: "Whether this email was clicked"
-  # TODO: Rename to delivery_events
-  field :logs, [Types::LogType], null: false, description: "A list of delivery events for this email"
+  field :delivery_events, [Types::DeliveryEventType], null: false, description: "A list of delivery events for this email"
   field :open_events, [Types::OpenEventType], null: false, description: "A list of open events for this email"
   field :click_events, [Types::ClickEventType], null: false, description: "A list of click events for this email"
 
@@ -42,7 +41,7 @@ class Types::EmailType < Types::BaseObject
     delivery_links.any?{|delivery_link| delivery_link.clicked?}
   end
 
-  def logs
+  def delivery_events
     object.postfix_log_lines
   end
 
