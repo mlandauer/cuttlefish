@@ -164,6 +164,19 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  ADMINS_QUERY = CLIENT.parse <<-'GRAPHQL'
+    {
+      admins {
+        name
+        email
+        displayName
+        invitationCreatedAt
+        invitationAcceptedAt
+        currentAdmin
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,

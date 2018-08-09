@@ -1,9 +1,12 @@
 class AdminsController < ApplicationController
-  after_action :verify_authorized, except: :index
-  after_action :verify_policy_scoped, only: :index
-
   def index
+    result = Cuttlefish::ApiClient.query(
+      Cuttlefish::ApiClient::ADMINS_QUERY,
+      variables: { },
+      current_admin: current_admin
+    )
+    @admins = result.data.admins
+
     @admin = Admin.new
-    @admins = policy_scope(Admin)
   end
 end

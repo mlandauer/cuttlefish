@@ -2,7 +2,7 @@
   %td= admin_gravatar(admin)
   %td
     = admin.display_name
-    - if admin == current_admin
+    - if admin.current_admin
       (You)
   %td
     - if admin.invitation_accepted_at

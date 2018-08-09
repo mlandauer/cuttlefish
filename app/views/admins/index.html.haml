@@ -3,9 +3,8 @@
 
 %table.table
   %tbody
-    = render current_admin
-    - @admins.where("id != ?", current_admin.id).each do |admin|
-      = render admin
+    - @admins.each do |admin|
+      = render "admin", admin: admin
 
 - if policy(:invitation).create?
   %h2 Invite a new administrator
