@@ -98,7 +98,7 @@ class Delivery < ActiveRecord::Base
 
   def self.stats(deliveries)
     OpenStruct.new(
-      created_count: deliveries.group("deliveries.status").count.values.sum || 0,
+      total_count: deliveries.count || 0,
       delivered_count: deliveries.group("deliveries.status").count["delivered"] || 0,
       soft_bounce_count: deliveries.group("deliveries.status").count["soft_bounce"] || 0,
       hard_bounce_count: deliveries.group("deliveries.status").count["hard_bounce"] || 0,

@@ -5,7 +5,7 @@
       %td
         - unless loading
           = link_to_if_block link, deliveries_path do
-            %span.pull-right{class: ["badge"]}= stats.created_count
+            %span.pull-right{class: ["badge"]}= stats.total_count
     %tr
       %td Delivered
       %td
