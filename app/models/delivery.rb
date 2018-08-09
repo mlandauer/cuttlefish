@@ -25,14 +25,6 @@ class Delivery < ActiveRecord::Base
     !address.blacklisted?(app.team)
   end
 
-  def self.today
-    where('deliveries.created_at > ?', Date.today.beginning_of_day)
-  end
-
-  def self.this_week
-    where('deliveries.created_at > ?', 7.days.ago)
-  end
-
   # This delivery is being open tracked
   def set_open_tracked!
     update_attributes(open_tracked: true)
