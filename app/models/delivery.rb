@@ -16,6 +16,9 @@ class Delivery < ActiveRecord::Base
   before_save :update_my_status!
   before_create :update_app_id!
 
+  scope :from_address, ->(address) { joins(:email).where(emails: {from_address: address}) }
+  scope :to_address, ->(address) { where(address: address) }
+
   # Should this email be sent to this address?
   # If not it's because the email has bounced
   def send?
