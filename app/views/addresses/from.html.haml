@@ -1,12 +1,12 @@
 .page-header
   %h1
     Emails sent from
-    = @address.text
+    = @from
 
 .row
   .span3
     %p
-      = link_to to_address_path(@address) do
+      = link_to to_address_path(@from) do
         Switch to emails sent
         %strong to
         this address

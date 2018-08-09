@@ -23,17 +23,25 @@ class Types::QueryType < Types::BaseObject
     argument :app_id, ID, required: false, description: "Filter results by App"
     argument :status, Types::StatusType, required: false, description: "Filter results by Email status"
     argument :since, Types::DateTimeType, required: false, description: "Filter result to emails created since time"
+    argument :from, String, required: false, description: "Filter results by Email from address"
+    argument :to, String, required: false, description: "Filter results by Email to address"
     argument :limit, Int, required: false, description: "For pagination: sets maximum number of items returned"
     argument :offset, Int, required: false, description: "For pagination: sets offset"
     description "A list of Emails that this admin has access to. Most recent emails come first."
   end
 
   # TODO: Switch over to more relay-like pagination
-  def emails(app_id: nil, status: nil, since: nil, limit: 10, offset: 0)
+  def emails(app_id: nil, status: nil, since: nil, from: nil, to: nil, limit: 10, offset: 0)
     emails = Pundit.policy_scope(context[:current_admin], Delivery)
     emails = emails.where(app_id: app_id) if app_id
     emails = emails.where(status: status) if status
     emails = emails.where('deliveries.created_at > ?', since) if since
+    if from
+      emails = emails.from_address(Address.find_or_initialize_by(text: from))
+    end
+    if to
+      emails = emails.to_address(Address.find_or_initialize_by(text: to))
+    end
     { all: emails, order: "created_at DESC", limit: limit, offset: offset }
   end
 

@@ -135,6 +135,35 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  ADDRESSES_FROM_QUERY = CLIENT.parse <<-'GRAPHQL'
+    query ($from: String!, $limit: Int, $offset: Int) {
+      emails(from: $from, limit: $limit, offset: $offset) {
+        totalCount
+        statistics {
+          totalCount
+          deliveredCount
+          softBounceCount
+          hardBounceCount
+          notSentCount
+          openRate
+          clickRate
+        }
+        nodes {
+          id
+          to
+          subject
+          app {
+            name
+          }
+          createdAt
+          status
+          opened
+          clicked
+        }
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,
