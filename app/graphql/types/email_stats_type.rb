@@ -1,30 +1,31 @@
 class Types::EmailStatsType < Types::BaseObject
   description "Statistics over a set of emails"
-  field :number_in_flight, Int, null: false, description: "Number of emails sent but not yet delivered or bounced"
-  field :number_delivered, Int, null: false, description: "Number of emails delivered"
-  field :number_soft_bounces, Int, null: false, description: "Number of emails that soft bounced"
-  field :number_hard_bounces, Int, null: false, description: "Number of emails that hard bounced"
-  field :number_not_sent, Int, null: false, description: "Number of emails not sent because of the blacklist"
+  field :sent_count, Int, null: false, description: "Number of emails sent but not yet delivered or bounced"
+  field :delivered_count, Int, null: false, description: "Number of emails delivered"
+  field :soft_bounce_count, Int, null: false, description: "Number of emails that soft bounced"
+  field :hard_bounce_count, Int, null: false, description: "Number of emails that hard bounced"
+  field :not_sent_count, Int, null: false, description: "Number of emails not sent because of the blacklist"
   field :open_rate, Float, null: true, description: "Fraction of emails opened"
   field :click_rate, Float, null: true, description: "Fraction of emails with links that were clicked"
 
-  def number_in_flight
+  # TODO: Rename this to "in_flight"
+  def sent_count
     status_counts["sent"] || 0
   end
 
-  def number_delivered
+  def delivered_count
     status_counts["delivered"] || 0
   end
 
-  def number_soft_bounces
+  def soft_bounce_count
     status_counts["soft_bounce"] || 0
   end
 
-  def number_hard_bounces
+  def hard_bounce_count
     status_counts["hard_bounce"] || 0
   end
 
-  def number_not_sent
+  def not_sent_count
     status_counts["not_sent"] || 0
   end
 
