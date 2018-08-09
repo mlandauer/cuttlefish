@@ -1,7 +1,7 @@
 .span3
   %h3 Today
-  = render "main/status_counts_period", deliveries: policy_scope(Delivery).today, link: true, loading: loading
+  = render "main/status_counts_period", deliveries: @deliveries_today, link: true, loading: loading
 
 .span3.offset3
   %h3 Last 7 days
-  = render "main/status_counts_period", deliveries: policy_scope(Delivery).this_week, link: true, loading: loading
+  = render "main/status_counts_period", deliveries: @deliveries_this_week, link: true, loading: loading
