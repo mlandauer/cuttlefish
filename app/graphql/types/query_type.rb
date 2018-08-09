@@ -27,7 +27,7 @@ class Types::QueryType < Types::BaseObject
     description "Application configuration settings"
   end
 
-  field :viewer, Types::ViewerType, null: true do
+  field :viewer, Types::AdminType, null: true do
     description "The currently authenticated admin"
   end
 
