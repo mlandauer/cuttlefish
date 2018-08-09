@@ -8,15 +8,6 @@ class Address < ActiveRecord::Base
   extend FriendlyId
   friendly_id :text
 
-  # Deliveries sent from this address
-  def deliveries_sent(team)
-    Delivery.where(app_id: team.apps).joins(:email).where(emails: {from_address_id: id})
-  end
-
-  def deliveries_received(team)
-    deliveries.where(app_id: team.apps)
-  end
-
   # Extract just the domain part of the address
   def domain
     text.split("@")[1]
