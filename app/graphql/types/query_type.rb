@@ -27,6 +27,10 @@ class Types::QueryType < Types::BaseObject
     description "Application configuration settings"
   end
 
+  field :admins, [Types::AdminType], null: false do
+    description "List of Admins that this admin has access to, sorted alphabetically by name."
+  end
+
   field :viewer, Types::AdminType, null: true do
     description "The currently authenticated admin"
   end
@@ -63,6 +67,10 @@ class Types::QueryType < Types::BaseObject
 
   def configuration
     Rails.configuration
+  end
+
+  def admins
+    Pundit.policy_scope(context[:current_admin], Admin).order(:name)
   end
 
   def viewer
