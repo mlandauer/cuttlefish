@@ -5,31 +5,31 @@
       %td
         - unless loading
           = link_to_if_block link, deliveries_path do
-            %span.pull-right{class: ["badge"]}= deliveries.group("deliveries.status").count.values.sum || 0
+            %span.pull-right{class: ["badge"]}= stats.created_count
     %tr
       %td Delivered
       %td
         - unless loading
           = link_to_if_block link, deliveries_path(status: "delivered") do
-            %span.pull-right{class: badge_class("delivered")}= deliveries.group("deliveries.status").count["delivered"] || 0
+            %span.pull-right{class: badge_class("delivered")}= stats.delivered_count
     %tr
       %td Soft bounces
       %td
         - unless loading
           = link_to_if_block link, deliveries_path(status: "soft_bounce") do
-            %span.pull-right{class: badge_class("soft_bounce")}= deliveries.group("deliveries.status").count["soft_bounce"] || 0
+            %span.pull-right{class: badge_class("soft_bounce")}= stats.soft_bounce_count
     %tr
       %td Hard bounces
       %td
         - unless loading
           = link_to_if_block link, deliveries_path(status: "hard_bounce") do
-            %span.pull-right{class: badge_class("hard_bounce")}= deliveries.group("deliveries.status").count["hard_bounce"] || 0
+            %span.pull-right{class: badge_class("hard_bounce")}= stats.hard_bounce_count
     %tr
       %td Held back
       %td
         - unless loading
           = link_to_if_block link, deliveries_path(status: "not_sent") do
-            %span.pull-right{class: badge_class("not_sent")}= deliveries.group("deliveries.status").count["not_sent"] || 0
+            %span.pull-right{class: badge_class("not_sent")}= stats.not_sent_count
 
 %table.table.table-condensed
   %tr
@@ -37,8 +37,8 @@
     %td
       %span.pull-right
         - unless loading
-          - if Delivery.open_rate(deliveries)
-            = "%0.0f%%" % (100.0 * Delivery.open_rate(deliveries))
+          - if stats.open_rate
+            = "%0.0f%%" % (100.0 * stats.open_rate)
           - else
             n/a
   %tr
@@ -46,7 +46,7 @@
     %td
       %span.pull-right
         - unless loading
-          - if Delivery.click_rate(deliveries)
-            = "%0.0f%%" % (100.0 * Delivery.click_rate(deliveries))
+          - if stats.click_rate
+            = "%0.0f%%" % (100.0 * stats.click_rate)
           - else
             n/a

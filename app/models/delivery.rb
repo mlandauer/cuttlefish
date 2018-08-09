@@ -96,6 +96,18 @@ class Delivery < ActiveRecord::Base
     (n.to_f / total) if total > 0
   end
 
+  def self.stats(deliveries)
+    OpenStruct.new(
+      created_count: deliveries.group("deliveries.status").count.values.sum || 0,
+      delivered_count: deliveries.group("deliveries.status").count["delivered"] || 0,
+      soft_bounce_count: deliveries.group("deliveries.status").count["soft_bounce"] || 0,
+      hard_bounce_count: deliveries.group("deliveries.status").count["hard_bounce"] || 0,
+      not_sent_count: deliveries.group("deliveries.status").count["not_sent"] || 0,
+      open_rate: open_rate(deliveries),
+      click_rate: click_rate(deliveries)
+    )
+  end
+
   def content_available?
     !data.nil?
   end
