@@ -112,6 +112,29 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  STATUS_COUNTS_QUERY = CLIENT.parse <<-'GRAPHQL'
+    query ($since1: DateTime!, $since2: DateTime!) {
+      emails1: emails(since: $since1) {
+        ...statistics
+      }
+      emails2: emails(since: $since2) {
+        ...statistics
+      }
+    }
+
+    fragment statistics on EmailConnection {
+      statistics {
+        totalCount
+        deliveredCount
+        softBounceCount
+        hardBounceCount
+        notSentCount
+        openRate
+        clickRate
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,

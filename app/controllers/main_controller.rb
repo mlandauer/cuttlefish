@@ -3,8 +3,17 @@ class MainController < ApplicationController
   end
 
   def status_counts
-    @stats_today = Delivery.stats(policy_scope(Delivery).today)
-    @stats_this_week = Delivery.stats(policy_scope(Delivery).this_week)
+    result = Cuttlefish::ApiClient.query(
+      Cuttlefish::ApiClient::STATUS_COUNTS_QUERY,
+      variables: {
+        since1: Date.today.beginning_of_day.utc.iso8601,
+        since2: 7.days.ago.utc.iso8601
+      },
+      current_admin: current_admin
+    )
+    @stats_today = result.data.emails1.statistics
+    @stats_this_week = result.data.emails2.statistics
+
     render partial: "status_counts", locals: { loading: false }
   end
 
