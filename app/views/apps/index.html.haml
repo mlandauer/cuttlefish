@@ -18,4 +18,4 @@
   %tbody(data-provides="rowlink")
     - @apps.each do |app|
       %tr
-        %td= link_to app.name, app
+        %td= link_to app.name, app_path(app.id)

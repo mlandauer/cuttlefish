@@ -177,6 +177,15 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  APPS_INDEX_QUERY = CLIENT.parse <<-'GRAPHQL'
+    {
+      apps {
+        id
+        name
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,

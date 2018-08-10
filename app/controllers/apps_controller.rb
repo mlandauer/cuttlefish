@@ -1,9 +1,13 @@
 class AppsController < ApplicationController
   after_action :verify_authorized, except: :index
-  after_action :verify_policy_scoped, only: :index
 
   def index
-    @apps = policy_scope(App).order(:name)
+    result = Cuttlefish::ApiClient.query(
+      Cuttlefish::ApiClient::APPS_INDEX_QUERY,
+      variables: {},
+      current_admin: current_admin
+    )
+    @apps = result.data.apps
   end
 
   def show
