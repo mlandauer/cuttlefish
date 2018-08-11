@@ -1,20 +1,21 @@
 .page-header
   %h1 Edit App
 
-= semantic_form_for @app, html: {class: "form-horizontal"} do |f|
+= semantic_form_for @app, as: :app, url: app_path(@app.id), method: :put, html: {class: "form-horizontal"} do |f|
   = f.semantic_errors
   = f.inputs "Basic" do
-    = f.input :name, placeholder: "Angelfish", input_html: {class: "span6"}
+    = f.input :name, placeholder: "Angelfish", input_html: {class: "span6"}, label: 'Name', hint: ''
   = f.inputs "Tracking" do
-    = f.input :click_tracking_enabled, hint: "Rewrite all the links in html emails so that you can find out when users click them"
-    = f.input :open_tracking_enabled, hint: "Adds a small transparent image to the end of html emails so that you can find out when an email is opened"
-    = f.input :custom_tracking_domain, placeholder: "email.angelfishsocute.com", hint: "Leave blank if you want to use default domain (#{Rails.configuration.cuttlefish_domain}) for open and link tracking. You can set this later too."
-  = f.actions
+    = f.input :click_tracking_enabled, as: :boolean, hint: "Rewrite all the links in html emails so that you can find out when users click them", label: "Click tracking enabled", placeholder: ""
+    = f.input :open_tracking_enabled, as: :boolean, hint: "Adds a small transparent image to the end of html emails so that you can find out when an email is opened", label: "Open tracking enabled", placeholder: ''
+    = f.input :custom_tracking_domain, label: 'Custom tracking domain', placeholder: "email.angelfishsocute.com", hint: "Leave blank if you want to use default domain (#{Rails.configuration.cuttlefish_domain}) for open and link tracking. You can set this later too."
+  = f.actions do
+    = f.action :submit, label: "Update App"
 
-- if policy(@app).destroy?
+- if @app.permissions.destroy?
   .alert.alert-block
     %h2 Remove this App
     %p
       Here lies danger. Removing the app from Cuttlefish will permanently delete the app, the associated emails and can not be undone!
     %p
-      = button_to "Remove App", @app, confirm: "Are you sure?", method: :delete, class: "btn btn-danger"
+      = button_to "Remove App", app_path(@app.id), confirm: "Are you sure?", method: :delete, class: "btn btn-danger"

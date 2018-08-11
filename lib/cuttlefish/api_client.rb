@@ -201,6 +201,21 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  APPS_EDIT_QUERY = CLIENT.parse <<-'GRAPHQL'
+    query($id: ID!) {
+      app(id: $id) {
+        id
+        name
+        clickTrackingEnabled
+        openTrackingEnabled
+        customTrackingDomain
+        permissions {
+          destroy
+        }
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,
