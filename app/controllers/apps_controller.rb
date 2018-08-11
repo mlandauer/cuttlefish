@@ -1,5 +1,5 @@
 class AppsController < ApplicationController
-  after_action :verify_authorized, except: :index
+  after_action :verify_authorized, except: [:index, :show]
 
   def index
     result = Cuttlefish::ApiClient.query(
@@ -11,9 +11,12 @@ class AppsController < ApplicationController
   end
 
   def show
-    @app = App.find(params[:id])
-    authorize @app
-    @policy = policy(App.find(params[:id]))
+    result = Cuttlefish::ApiClient.query(
+      Cuttlefish::ApiClient::APPS_SHOW_QUERY,
+      variables: { id: params[:id] },
+      current_admin: current_admin
+    )
+    @app = result.data.app
   end
 
   def new

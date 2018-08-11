@@ -186,6 +186,21 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  APPS_SHOW_QUERY = CLIENT.parse <<-'GRAPHQL'
+    query($id: ID!) {
+      app(id: $id) {
+        id
+        name
+        cuttlefish
+        dkimEnabled
+        permissions {
+          update
+          dkim
+        }
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,

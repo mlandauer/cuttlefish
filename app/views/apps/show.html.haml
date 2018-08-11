@@ -6,16 +6,16 @@
   - unless @app.cuttlefish?
     %li= link_to "How to send mail via Cuttlefish for #{@app.name}", documentation_path(anchor: "app-#{@app.id}")
 
-- if @policy.edit?
+- if @app.permissions.update?
   %p= link_to "Edit Settings", edit_app_path(@app.id), class: "btn"
 
-- if @app.dkim_enabled && @policy.toggle_dkim?
+- if @app.dkim_enabled && @app.permissions.dkim?
   %hr
   %h3 Improve delivery
   %p
     DomainKeys Identified Mail (DKIM) improves the delivery of your emails by automatically cryptographically
     signing each email so that the recipient can check that it was indeed sent by you.
   = button_to "Disable DKIM", toggle_dkim_app_path(@app.id), class: "btn btn-primary"
-- elsif !@app.dkim_enabled && @policy.dkim?
+- elsif !@app.dkim_enabled && @app.permissions.dkim?
   %h3 What to do next
   %p= link_to "Transparently send mail from your own domain", dkim_app_path(@app.id)
