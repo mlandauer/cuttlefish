@@ -13,6 +13,7 @@ class AppsController < ApplicationController
   def show
     @app = App.find(params[:id])
     authorize @app
+    @policy = policy(App.find(params[:id]))
   end
 
   def new

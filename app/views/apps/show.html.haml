@@ -2,20 +2,20 @@
   %h1= @app.name
 
 %ul
-  %li= link_to "Emails sent via this app", app_deliveries_path(@app)
+  %li= link_to "Emails sent via this app", app_deliveries_path(@app.id)
   - unless @app.cuttlefish?
     %li= link_to "How to send mail via Cuttlefish for #{@app.name}", documentation_path(anchor: "app-#{@app.id}")
 
-- if policy(@app).edit?
-  %p= link_to "Edit Settings", edit_app_path(@app), class: "btn"
+- if @policy.edit?
+  %p= link_to "Edit Settings", edit_app_path(@app.id), class: "btn"
 
-- if @app.dkim_enabled && policy(@app).toggle_dkim?
+- if @app.dkim_enabled && @policy.toggle_dkim?
   %hr
   %h3 Improve delivery
   %p
     DomainKeys Identified Mail (DKIM) improves the delivery of your emails by automatically cryptographically
     signing each email so that the recipient can check that it was indeed sent by you.
-  = button_to "Disable DKIM", toggle_dkim_app_path(@app), class: "btn btn-primary"
-- elsif !@app.dkim_enabled && policy(@app).dkim?
+  = button_to "Disable DKIM", toggle_dkim_app_path(@app.id), class: "btn btn-primary"
+- elsif !@app.dkim_enabled && @policy.dkim?
   %h3 What to do next
-  %p= link_to "Transparently send mail from your own domain", dkim_app_path(@app)
+  %p= link_to "Transparently send mail from your own domain", dkim_app_path(@app.id)
