@@ -11,6 +11,7 @@ class AppPolicy < ApplicationPolicy
     (user.super_admin? && record.cuttlefish? && !Rails.configuration.cuttlefish_read_only_mode) || update?
   end
 
+  # TODO: No reason for this to be seperate from dkim above
   def toggle_dkim?
     dkim?
   end
