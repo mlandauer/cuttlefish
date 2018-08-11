@@ -6,6 +6,9 @@ class Types::AppType < Types::BaseObject
   field :smtp_server, Types::SmtpServerType, null: false, description: "Details needed to send email to Cuttlefish for this app"
   field :cuttlefish, Boolean, null: false, description: "Whether this is the app used internally by cuttlefish for sending out its own emails"
   field :dkim_enabled, Boolean, null: false, description: "Whether DKIM is enabled for this app"
+  field :click_tracking_enabled, Boolean, null: false, description: "Whether click tracking is enabled for this app"
+  field :open_tracking_enabled, Boolean, null: false, description: "Whether open tracking is enabled for this app"
+  field :custom_tracking_domain, String, null: true, description: "Optional domain used for open and click tracking"
   field :permissions, Types::AppPermissionsType, null: false, description: "Permissions for current admin for accessing and editing this App" do
     # Permissions should be always accessible even on apps that you can't show
     guard ->(obj, args, ctx) { true }
