@@ -19,6 +19,11 @@ class Types::QueryType < Types::BaseObject
     description "A list of Emails that this admin has access to. Most recent emails come first."
   end
 
+  field :app, Types::AppType, null: true do
+    argument :id, ID, required: true, description: "ID of App to find"
+    description "Find a single App"
+  end
+
   field :apps, [Types::AppType], null: true do
     description "A list of Apps that this admin has access to, sorted alphabetically by name."
   end
@@ -59,6 +64,13 @@ class Types::QueryType < Types::BaseObject
       emails = emails.to_address(Address.find_or_initialize_by(text: to))
     end
     { all: emails, order: "created_at DESC", limit: limit, offset: offset }
+  end
+
+  # TODO: Generalise this to sensibly handling record not found exception
+  def app(id:)
+    app = App.find_by(id: id)
+    raise GraphQL::ExecutionError, "App doesn't exist" if app.nil?
+    app
   end
 
   def apps
