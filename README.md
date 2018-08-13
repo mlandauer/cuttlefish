@@ -32,16 +32,16 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 
 Cuttlefish is in beta. It's been used in production on three of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s project for over a year and has sent well over 2 million emails.
 
-##Screenshots
+## Screenshots
 
 ![Sign up](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/1.png)
 ![Dashboard](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/2.png)
 ![Email](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/3.png)
 
-##Things on the cards
+## Things on the cards
 
 * REST API for deep integration with your application
-* Web callbacks on succesful delivery, hard bounces, open and click events
+* Web callbacks on successful delivery, hard bounces, open and click events
 * "out of office" and bounce reply filtering
 * Incoming email
 
