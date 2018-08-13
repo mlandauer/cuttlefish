@@ -62,7 +62,7 @@ GEM
     bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
     builder (3.2.2)
-    capistrano (2.13.5)
+    capistrano (2.15.9)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -78,6 +78,7 @@ GEM
       timers (~> 4.0.0)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
+    climate_control (0.1.0)
     coderay (1.1.1)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -95,6 +96,8 @@ GEM
       simplecov (>= 0.7)
       term-ansicolor
       thor
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     css_parser (1.3.5)
       addressable
     daemons (1.1.9)
@@ -302,7 +305,8 @@ GEM
       haml (>= 3.1, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
-    highline (1.6.21)
+    hashdiff (0.3.2)
+    highline (1.7.8)
     hitimes (1.2.4)
     honeybadger (1.16.7)
       json
@@ -314,7 +318,7 @@ GEM
       ruby_parser (~> 3.1.1)
     htmlentities (4.3.3)
     http_parser.rb (0.6.0)
-    i18n (0.7.0)
+    i18n (0.8.1)
     inflecto (0.0.2)
     ipaddress (0.8.3)
     jbuilder (2.2.6)
@@ -323,7 +327,7 @@ GEM
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    json (1.8.3)
+    json (1.8.6)
     less (2.6.0)
       commonjs (~> 0.2.7)
     less-rails (2.8.0)
@@ -331,7 +335,7 @@ GEM
       less (~> 2.6.0)
       sprockets (> 2, < 4)
       tilt
-    libv8 (3.16.14.7)
+    libv8 (3.16.14.19)
     listen (2.10.1)
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
@@ -341,22 +345,19 @@ GEM
     lumberjack (1.0.10)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
-    mail_form (1.5.0)
-      actionmailer (>= 3.2, < 5)
-      activemodel (>= 3.2, < 5)
     method_source (0.8.2)
     mime-types (2.99.3)
     mini_portile2 (2.1.0)
-    minitest (5.9.1)
+    minitest (5.10.1)
     multi_json (1.11.2)
     nenv (0.3.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
-    net-ssh (2.9.1)
-    net-ssh-gateway (1.2.0)
-      net-ssh (>= 2.6.5)
+    net-ssh (4.1.0)
+    net-ssh-gateway (2.0.0)
+      net-ssh (>= 4.0.0)
     netrc (0.10.2)
     newrelic_rpm (3.9.8.273)
     nokogiri (1.6.8.1)
@@ -456,8 +457,9 @@ GEM
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
     rubyzip (1.1.6)
-    rvm-capistrano (1.4.1)
-      capistrano (>= 2.0.0)
+    rvm-capistrano (1.5.6)
+      capistrano (~> 2.15.4)
+    safe_yaml (1.0.4)
     sass (3.4.22)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -487,8 +489,6 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
-    skylight (0.5.2)
-      activesupport (>= 3.0.0)
     slop (3.6.0)
     spring (1.2.0)
     spring-commands-rspec (1.0.4)
@@ -511,7 +511,7 @@ GEM
       eventmachine (~> 1.0)
       rack (~> 1.0)
     thor (0.19.1)
-    thread_safe (0.3.5)
+    thread_safe (0.3.6)
     tilt (1.4.1)
     timers (4.0.4)
       hitimes
@@ -523,8 +523,13 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     user_agent_parser (2.2.0)
+    vcr (3.0.3)
     warden (1.2.6)
       rack (>= 1.0)
+    webmock (2.3.2)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
     websocket (1.2.1)
     will_paginate (3.0.7)
     xml-simple (1.1.5)
@@ -537,8 +542,9 @@ PLATFORMS
 DEPENDENCIES
   archive-tar-minitar
   bootstrap-sass (~> 2.0)
-  capistrano (= 2.13.5)
+  capistrano (~> 2)
   capybara
+  climate_control
   coffee-rails
   coveralls
   database_cleaner
@@ -569,7 +575,6 @@ DEPENDENCIES
   jquery-rails
   less-rails
   listen (~> 2)
-  mail_form
   newrelic_rpm
   nokogiri
   pg
@@ -584,12 +589,11 @@ DEPENDENCIES
   rmagick
   rspec-activemodel-mocks
   rspec-rails
-  rvm-capistrano
+  rvm-capistrano (>= 1.5.6)
   sass-rails
   selenium-webdriver
   sidekiq
   sinatra
-  skylight
   spring
   spring-commands-rspec
   syslog_protocol
@@ -597,7 +601,9 @@ DEPENDENCIES
   thin
   uglifier (>= 1.3.0)
   user_agent_parser
+  vcr
+  webmock
   will_paginate
 
 BUNDLED WITH
-   1.13.6
+   1.16.2

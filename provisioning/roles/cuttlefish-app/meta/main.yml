@@ -121,13 +121,23 @@ galaxy_info:
   #- system
   #- web
 dependencies:
+  - role: cuttlefish-postfix
+  - role: newrelic.newrelic-infra
+    nrinfragent_config:
+      license_key: "{{ new_relic_license_key }}"
   - {role: ANXS.postgresql, postgresql_ext_install_dev_headers: yes}
   - role: rvm_io.ruby
     rvm1_rubies: ['ruby-2.1.5']
-    rvm1_delete_ruby: 'ruby-1.9.3-p484'
     rvm1_rvm_check_for_updates: false
     rvm1_install_path: '/usr/local/lib/rvm'
     rvm1_user: 'root'
   - {role: abtris.nginx-passenger}
-  - {role: MaximeThoonsen.autopostgresqlbackup}
   - {role: DavidWittman.redis, redis_bind: "127.0.0.1"}
+  - role: cuttlefish-backup
+    backup_aws_access_key: "{{ encrypted_backup_aws_access_key }}"
+    backup_secret_access_key: "{{ encrypted_backup_secret_access_key }}"
+    backup_passphrase: "{{ encrypted_backup_passphrase }}"
+    backup_dest: s3+http://oaf-backups/cuttlefish/
+    backup_inclist:
+      - "/var/lib/database-backup"
+      - "/srv/www/shared/emails"

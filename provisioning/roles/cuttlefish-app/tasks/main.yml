@@ -8,8 +8,14 @@
 - name: Ensure git is installed
   apt: pkg=git
 
-- name: Install bits for compiling mysql clients against
-  apt: pkg=libmysqlclient-dev
+- name: Install package dependencies that allow gem native extensions to be built
+  apt:
+    pkg: "{{ item }}"
+  with_items:
+    - libmysqlclient-dev
+    - g++
+    # Required for encryption in eventmachine
+    - libssl-dev
 
 - name: Ensure that .env exists
   template: src=env dest=/srv/www/shared/.env owner=deploy group=deploy
@@ -29,6 +35,11 @@
 - name: Create cuttlefish posgresql role
   postgresql_user: db=cuttlefish name=cuttlefish password={{ db_password }}
 
+- name: Create postgresql role for root so it can do backups
+  postgresql_user:
+    name: root
+    role_attr_flags: SUPERUSER
+
 - name: Copy over database configuration for application
   template: src=database.yml dest=/srv/www/shared/database.yml owner=deploy group=deploy
   notify: nginx restart
@@ -36,16 +47,52 @@
 - name: Allow deploy user to export foreman script
   lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/local/lib/rvm/wrappers/default/bundle exec foreman export upstart /etc/init -a cuttlefish -u deploy -l /srv/www/shared/log -f Procfile.production' validate='visudo -cf %s'"
 
+- name: Allow deploy user to start cuttlefish service
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish start' validate='visudo -cf %s'"
+
+- name: Allow deploy user to stop cuttlefish service
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish stop' validate='visudo -cf %s'"
+
 - name: Allow deploy user to restart cuttlefish service
   lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish restart' validate='visudo -cf %s'"
 
-- name: Allow deploy to read some log files (different from admin group) and ssl private keys
-  user: name=deploy groups=adm,ssl-cert append=yes
+- name: Allow deploy to read some log files (different from admin group)
+  user: name=deploy groups=adm append=yes
 
-- name: Add SSL certificate
-  copy: src=ssl-unified.crt dest=/etc/ssl/cuttlefish.oaf.org.au.pem owner=root group=root mode=0644
-  notify: nginx reload
+- name: Add certbot PPA
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
 
-- name: Add private SSL key
-  copy: content="{{ private_ssl_key }}" dest=/etc/ssl/private/cuttlefish.oaf.org.au.key owner=root group=ssl-cert mode=0640
-  notify: nginx reload
+- name: Install certbot using their PPA
+  apt:
+    pkg: certbot
+    update_cache: true
+
+- name: Install script for copying certs for cuttlefish daemon
+  template:
+    src: copy-cuttlefish-daemon-certs.sh
+    dest: /etc/letsencrypt/renewal-hooks/deploy/copy-cuttlefish-daemon-certs
+    mode: 755
+
+- name: Install certificate using certbot
+  include_role:
+    name: geerlingguy.certbot
+  vars:
+    certbot_auto_renew_user: root
+    certbot_auto_renew_minute: 10
+    certbot_auto_renew_hour: 7
+    certbot_auto_renew_options: '--no-self-upgrade --pre-hook "service nginx stop" --post-hook "service nginx start"'
+    certbot_create_if_missing: yes
+    certbot_certs:
+      - email: contact@oaf.org.au
+        domains:
+          - cuttlefish.oaf.org.au
+          - cuttlefish.io
+
+- name: Daily archiving and blacklist removal tasks
+  cron:
+    name: daily old email archiving
+    job:  "cd /srv/www/current && /usr/local/lib/rvm/bin/rvm . do bundle exec rake cuttlefish:daily_tasks RAILS_ENV=production"
+    user: deploy
+    minute: 0
+    hour: 12

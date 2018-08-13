@@ -1,6 +1,0 @@
-# file: postgresql/handlers/main.yml
-
-- name: restart postgresql
-  service:
-    name: postgresql
-    state: restarted

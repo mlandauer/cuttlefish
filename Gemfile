@@ -51,12 +51,10 @@ gem 'haml-coderay'
 gem 'nokogiri'
 gem 'google-analytics-rails'
 gem 'premailer'
-gem "skylight"
 gem "archive-tar-minitar"
 gem "pundit"
 gem "friendly_id"
 gem "user_agent_parser"
-gem "mail_form"
 gem 'newrelic_rpm'
 gem 'honeybadger'
 gem 'dkim'
@@ -87,11 +85,8 @@ group :development do
   gem 'rack-mini-profiler'
   gem "spring"
   gem "spring-commands-rspec"
-  # Deployment bits and bobs
-  # Later versions cause issues with backing up assets manifests file to release directory
-  # TODO: Fix this
-  gem "capistrano", "2.13.5"
-  gem 'rvm-capistrano', require: false
+  gem "capistrano", "~> 2"
+  gem 'rvm-capistrano', ">= 1.5.6", require: false
   # Newer versions don't support Ruby 2.1. Remove this when we upgrade Ruby
   gem "listen", "~> 2"
 end
@@ -99,6 +94,9 @@ end
 group :test do
   gem 'coveralls', require: false
   gem 'database_cleaner'
+  gem 'climate_control'
+  gem "vcr"
+  gem "webmock"
 end
 
 group :development, :test do

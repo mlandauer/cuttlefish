@@ -3,6 +3,8 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
+  $("#status-counts").load "/status_counts", ->
+    $('tbody').rowlink()
   setInterval(->
     $("#status-counts").load "/status_counts", ->
       $('tbody').rowlink()
