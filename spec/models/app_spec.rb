@@ -121,6 +121,13 @@ describe App do
     end
   end
 
+  describe "#dkim_domain" do
+    it "should return the fully qualified domain name" do
+      app = FactoryBot.create(:app, from_domain: 'foo.com')
+      expect(app.dkim_domain).to eq "cuttlefish._domainkey.foo.com"
+    end
+  end
+
   describe ".cuttlefish" do
     before(:each) { allow(Rails.configuration).to receive(:cuttlefish_domain).and_return("cuttlefish.io")}
     let(:app) { App.cuttlefish }

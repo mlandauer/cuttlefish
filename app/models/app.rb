@@ -56,10 +56,14 @@ class App < ActiveRecord::Base
     dkim_public_key_dns_dnsmadeeasy.gsub('"', '')
   end
 
+  def dkim_domain
+    "cuttlefish._domainkey.#{from_domain}"
+  end
+
   def dkim_dns_entry
     # Use our default nameserver
     begin
-      Resolv::DNS.new.getresource("cuttlefish._domainkey.#{from_domain}", Resolv::DNS::Resource::IN::TXT).strings.join
+      Resolv::DNS.new.getresource(dkim_domain, Resolv::DNS::Resource::IN::TXT).strings.join
     rescue Resolv::ResolvError
       nil
     end

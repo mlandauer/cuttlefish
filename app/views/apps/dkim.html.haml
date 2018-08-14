@@ -55,7 +55,7 @@
           %th Value
       %tbody
         %tr
-          %td cuttlefish._domainkey.#{@app.from_domain}
+          %td= @app.dkim_domain
           %td
             %pre
               - if @provider.nil?
