@@ -1,13 +1,14 @@
 class DkimDns
-  attr_accessor :private_key, :domain
+  attr_accessor :private_key, :domain, :selector
 
-  def initialize(domain:, private_key:)
+  def initialize(domain:, private_key:, selector: 'cuttlefish')
     @private_key = private_key
     @domain = domain
+    @selector = selector
   end
 
   def dkim_domain
-    "cuttlefish._domainkey.#{domain}"
+    "#{selector}._domainkey.#{domain}"
   end
 
   # The string that needs to be inserted in DNS.
@@ -39,7 +40,7 @@ class DkimDns
   end
 
   def sign_mail(mail)
-    Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: private_key, domain: domain))
+    Mail.new(Dkim.sign(mail.to_s, selector: selector, private_key: private_key, domain: domain))
   end
 
   private
