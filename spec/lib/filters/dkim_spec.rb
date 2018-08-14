@@ -12,11 +12,15 @@ describe Filters::Dkim do
   let(:filter) {
     Filters::Dkim.new(
       enabled: false,
-      domain: "foo.com",
-      key: OpenSSL::PKey::RSA.new(2048),
+      dkim_dns: DkimDns.new(
+        domain: "foo.com",
+        private_key: OpenSSL::PKey::RSA.new(2048)
+      ),
       cuttlefish_enabled: false,
-      cuttlefish_domain: "cuttlefish.oaf.org.au",
-      cuttlefish_key: OpenSSL::PKey::RSA.new(2048),
+      cuttlefish_dkim_dns: DkimDns.new(
+        domain: "cuttlefish.oaf.org.au",
+        private_key: OpenSSL::PKey::RSA.new(2048)
+      ),
       sender_email: "sender@cuttlefish.oaf.org.au"
     )
   }

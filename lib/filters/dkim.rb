@@ -4,15 +4,9 @@ class Filters::Dkim < Filters::Base
 
   def initialize(options)
     @enabled = options[:enabled]
-    @dkim_dns = DkimDns.new(
-      domain: options[:domain],
-      private_key: options[:key]
-    )
+    @dkim_dns = options[:dkim_dns]
     @cuttlefish_enabled = options[:cuttlefish_enabled]
-    @cuttlefish_dkim_dns = DkimDns.new(
-      domain: options[:cuttlefish_domain],
-      private_key: options[:cuttlefish_key]
-    )
+    @cuttlefish_dkim_dns = options[:cuttlefish_dkim_dns]
     @sender_email = options[:sender_email]
   end
 
