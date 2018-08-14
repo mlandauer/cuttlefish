@@ -9,10 +9,8 @@
 - if @app.from_domain.present?
   = render "dns_configuration", app: @app, provider: @provider
 
-- if @app.from_domain.blank?
-  %h2 Set domain
-- else
-  %h2 Change domain
+%h2= @app.from_domain.blank? ? "Set domain" : "Change domain"
+
 = semantic_form_for @app, html: {class: "form-horizontal"} do |f|
   = f.semantic_errors
   = f.input :from_domain, label: "Email from domain", placeholder: "angelfishsocute.com", hint: "Domain that all emails in this app will be sent from"
