@@ -74,13 +74,6 @@ describe App do
     end
   end
 
-  describe "#dkim_public_key" do
-    it "should be generated automatically" do
-      app = FactoryBot.create(:app)
-      expect(app.dkim_public_key.split("\n").first).to eq "-----BEGIN PUBLIC KEY-----"
-    end
-  end
-
   describe "#dkim_public_key_dns_dnsmadeeasy" do
     it "should give me the dns record value" do
       app = FactoryBot.create(:app)

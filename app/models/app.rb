@@ -28,54 +28,49 @@ class App < ActiveRecord::Base
     end
   end
 
-  def dkim_key
-    OpenSSL::PKey::RSA.new(dkim_private_key)
-  end
-
-  def dkim_public_key
-    # We can generate the public key from the private key
-    dkim_key.public_key.to_pem
-  end
-
-  # The string that needs to be inserted in DNS.
-  # This string format works at least for the service DNS Made Easy.
   def dkim_public_key_dns_dnsmadeeasy
-    App.quote_long_dns_txt_record("k=rsa; p=" + dkim_public_key.split("\n")[1..-2].join)
+    dkim_dns.dkim_dns_value_quoted
   end
 
   def dkim_public_key_dns_generic
-    dkim_public_key_dns_cloudflare
+    dkim_dns.dkim_dns_value
   end
 
   def dkim_public_key_dns_cloudflare
-    dkim_public_key_dns_dnsmadeeasy.gsub('"', '')
+    dkim_dns.dkim_dns_value
   end
 
   # This is the expected form of the correctly configured TXT entry when we are doing a DNS lookup
   def dkim_public_key_dns_lookup
-    dkim_public_key_dns_dnsmadeeasy.gsub('"', '')
+    dkim_dns.dkim_dns_value
   end
 
   def dkim_domain
-    "cuttlefish._domainkey.#{from_domain}"
+    dkim_dns.dkim_domain
   end
 
   def dkim_dns_entry
-    # Use our default nameserver
-    begin
-      Resolv::DNS.new.getresource(dkim_domain, Resolv::DNS::Resource::IN::TXT).strings.join
-    rescue Resolv::ResolvError
-      nil
-    end
+    dkim_dns.resolve_dkim_dns_value
   end
 
+  def dkim_dns
+    DkimDns.new(domain: from_domain, private_key: dkim_key)
+  end
+
+  def dkim_key
+    OpenSSL::PKey::RSA.new(dkim_private_key)
+  end
+
+  # TODO: Automatically cast result to OpenSSL::PKey::RSA
   def dkim_private_key
-    update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem) if read_attribute(:dkim_private_key).nil?
+    if read_attribute(:dkim_private_key).nil?
+      update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem)
+    end
     read_attribute(:dkim_private_key)
   end
 
   def dkim_dns_configured?
-    dkim_dns_entry == dkim_public_key_dns_lookup
+    dkim_dns.dkim_dns_configured?
   end
 
   def tracking_domain
@@ -92,12 +87,6 @@ class App < ActiveRecord::Base
   end
 
   private
-
-  # If a DNS TXT record is longer than 255 characters it needs to be split into several
-  # separate strings
-  def self.quote_long_dns_txt_record(text)
-    text.scan(/.{1,255}/).map{|s| '"' + s + '"'}.join
-  end
 
   def self.lookup_dns_cname_record(domain)
     # Use our default nameserver
