@@ -74,53 +74,6 @@ describe App do
     end
   end
 
-  describe "#dkim_public_key_dns_dnsmadeeasy" do
-    it "should give me the dns record value" do
-      app = FactoryBot.create(:app)
-      # Test certain invariants
-      expect(app.dkim_public_key_dns_dnsmadeeasy[0..9]).to eq '"k=rsa; p='
-      expect(app.dkim_public_key_dns_dnsmadeeasy.count('"')).to eq 4
-      expect(app.dkim_public_key_dns_dnsmadeeasy.length).to eq 405
-    end
-  end
-
-  describe "#dkim_public_key_dns_generic" do
-    it "should give me the dns record value" do
-      app = FactoryBot.create(:app)
-      # Test certain invariants
-      expect(app.dkim_public_key_dns_generic[0..8]).to eq 'k=rsa; p='
-      expect(app.dkim_public_key_dns_generic.count('"')).to eq 0
-      expect(app.dkim_public_key_dns_generic.length).to eq 401
-    end
-  end
-
-  describe "#dkim_public_key_dns_cloudflare" do
-    it "should give me the dns record value" do
-      app = FactoryBot.create(:app)
-      # Test certain invariants
-      expect(app.dkim_public_key_dns_cloudflare[0..8]).to eq 'k=rsa; p='
-      expect(app.dkim_public_key_dns_cloudflare.count('"')).to eq 0
-      expect(app.dkim_public_key_dns_cloudflare.length).to eq 401
-    end
-  end
-
-  describe "#dkim_public_key_dns_lookup" do
-    it "should give me the dns record value" do
-      app = FactoryBot.create(:app)
-      # Test certain invariants
-      expect(app.dkim_public_key_dns_lookup[0..8]).to eq 'k=rsa; p='
-      expect(app.dkim_public_key_dns_lookup.count('"')).to eq 0
-      expect(app.dkim_public_key_dns_lookup.length).to eq 401
-    end
-  end
-
-  describe "#dkim_domain" do
-    it "should return the fully qualified domain name" do
-      app = FactoryBot.create(:app, from_domain: 'foo.com')
-      expect(app.dkim_domain).to eq "cuttlefish._domainkey.foo.com"
-    end
-  end
-
   describe ".cuttlefish" do
     before(:each) { allow(Rails.configuration).to receive(:cuttlefish_domain).and_return("cuttlefish.io")}
     let(:app) { App.cuttlefish }

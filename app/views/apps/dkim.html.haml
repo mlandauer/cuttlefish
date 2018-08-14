@@ -7,12 +7,12 @@
     email sent from your own domain by giving Cuttlefish permission to send email on your behalf.
 
 - if @app.from_domain.present?
-  - if @app.dkim_dns_configured?
+  - if @app.dkim_dns.dkim_dns_configured?
     %p Your DNS looks to be correctly configured.
     = button_to (@app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(@app), class: "btn btn-primary"
   - else
     .alert.alert-info
-      - if @app.dkim_dns_entry.nil?
+      - if @app.dkim_dns.resolve_dkim_dns_value.nil?
         You will need to add two TXT records to your DNS.
       - else
         Your DNS doesn't look to be set up correctly
@@ -55,15 +55,13 @@
           %th Value
       %tbody
         %tr
-          %td= @app.dkim_domain
+          %td= @app.dkim_dns.dkim_domain
           %td
             %pre
-              - if @provider.nil?
-                = @app.dkim_public_key_dns_generic
+              - if @provider.nil? || @provider == "cloudflare"
+                = @app.dkim_dns.dkim_dns_value
               - elsif @provider == "dns_made_easy"
-                = @app.dkim_public_key_dns_dnsmadeeasy
-              - elsif @provider == "cloudflare"
-                = @app.dkim_public_key_dns_cloudflare
+                = @app.dkim_dns.dkim_dns_value_quoted
               - else
                 raise
 

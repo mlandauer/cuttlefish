@@ -28,31 +28,6 @@ class App < ActiveRecord::Base
     end
   end
 
-  def dkim_public_key_dns_dnsmadeeasy
-    dkim_dns.dkim_dns_value_quoted
-  end
-
-  def dkim_public_key_dns_generic
-    dkim_dns.dkim_dns_value
-  end
-
-  def dkim_public_key_dns_cloudflare
-    dkim_dns.dkim_dns_value
-  end
-
-  # This is the expected form of the correctly configured TXT entry when we are doing a DNS lookup
-  def dkim_public_key_dns_lookup
-    dkim_dns.dkim_dns_value
-  end
-
-  def dkim_domain
-    dkim_dns.dkim_domain
-  end
-
-  def dkim_dns_entry
-    dkim_dns.resolve_dkim_dns_value
-  end
-
   def dkim_dns
     DkimDns.new(domain: from_domain, private_key: dkim_private_key)
   end
@@ -62,10 +37,6 @@ class App < ActiveRecord::Base
       update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem)
     end
     OpenSSL::PKey::RSA.new(read_attribute(:dkim_private_key))
-  end
-
-  def dkim_dns_configured?
-    dkim_dns.dkim_dns_configured?
   end
 
   def tracking_domain
