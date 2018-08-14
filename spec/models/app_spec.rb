@@ -54,6 +54,73 @@ describe App do
     end
   end
 
+  describe "#dkim_private_key" do
+    it "should be generated automatically" do
+      app = FactoryBot.create(:app)
+      expect(app.dkim_private_key.split("\n").first).to eq "-----BEGIN RSA PRIVATE KEY-----"
+    end
+
+    it "should be different for different apps" do
+      app1 = FactoryBot.create(:app)
+      app2 = FactoryBot.create(:app)
+      expect(app1.dkim_private_key).to_not eq app2.dkim_private_key
+    end
+
+    it "should be saved in the database" do
+      app = FactoryBot.create(:app)
+      value = app.dkim_private_key
+      app.reload
+      expect(app.dkim_private_key).to eq value
+    end
+  end
+
+  describe "#dkim_public_key" do
+    it "should be generated automatically" do
+      app = FactoryBot.create(:app)
+      expect(app.dkim_public_key.split("\n").first).to eq "-----BEGIN PUBLIC KEY-----"
+    end
+  end
+
+  describe "#dkim_public_key_dns_dnsmadeeasy" do
+    it "should give me the dns record value" do
+      app = FactoryBot.create(:app)
+      # Test certain invariants
+      expect(app.dkim_public_key_dns_dnsmadeeasy[0..9]).to eq '"k=rsa; p='
+      expect(app.dkim_public_key_dns_dnsmadeeasy.count('"')).to eq 4
+      expect(app.dkim_public_key_dns_dnsmadeeasy.length).to eq 405
+    end
+  end
+
+  describe "#dkim_public_key_dns_generic" do
+    it "should give me the dns record value" do
+      app = FactoryBot.create(:app)
+      # Test certain invariants
+      expect(app.dkim_public_key_dns_generic[0..8]).to eq 'k=rsa; p='
+      expect(app.dkim_public_key_dns_generic.count('"')).to eq 0
+      expect(app.dkim_public_key_dns_generic.length).to eq 401
+    end
+  end
+
+  describe "#dkim_public_key_dns_cloudflare" do
+    it "should give me the dns record value" do
+      app = FactoryBot.create(:app)
+      # Test certain invariants
+      expect(app.dkim_public_key_dns_cloudflare[0..8]).to eq 'k=rsa; p='
+      expect(app.dkim_public_key_dns_cloudflare.count('"')).to eq 0
+      expect(app.dkim_public_key_dns_cloudflare.length).to eq 401
+    end
+  end
+
+  describe "#dkim_public_key_dns_lookup" do
+    it "should give me the dns record value" do
+      app = FactoryBot.create(:app)
+      # Test certain invariants
+      expect(app.dkim_public_key_dns_lookup[0..8]).to eq 'k=rsa; p='
+      expect(app.dkim_public_key_dns_lookup.count('"')).to eq 0
+      expect(app.dkim_public_key_dns_lookup.length).to eq 401
+    end
+  end
+
   describe ".cuttlefish" do
     before(:each) { allow(Rails.configuration).to receive(:cuttlefish_domain).and_return("cuttlefish.io")}
     let(:app) { App.cuttlefish }
