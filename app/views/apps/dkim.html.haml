@@ -9,7 +9,7 @@
 - if @app.from_domain.present?
   = render "dns_configuration", app: @app, provider: @provider
 
-%h2= @app.from_domain.blank? ? "Set domain" : "Change domain"
+%h2 Domain
 
 = semantic_form_for @app, html: {class: "form-horizontal"} do |f|
   = f.semantic_errors
