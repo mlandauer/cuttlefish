@@ -13,7 +13,7 @@
   - else
     .alert.alert-info
       - if @app.dkim_dns.resolve_dkim_dns_value.nil?
-        You will need to add two TXT records to your DNS.
+        You will need to add a TXT record to your DNS.
       - else
         Your DNS doesn't look to be set up correctly
 
