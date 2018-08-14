@@ -1,5 +1,13 @@
-describe "DkimDns" do
-  let(:dkim_dns) { DkimDns.new(private_key: OpenSSL::PKey::RSA.new(2048), domain: 'foo.com') }
+require "spec_helper"
+
+describe DkimDns do
+  let(:dkim_dns) {
+    DkimDns.new(
+      private_key: OpenSSL::PKey::RSA.new(2048),
+      domain: 'foo.com',
+      selector: 'cuttlefish'
+    )
+  }
 
   describe "#dkim_dns_value_quoted" do
     it "should give me the dns record value" do

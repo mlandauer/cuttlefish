@@ -14,12 +14,14 @@ describe Filters::Dkim do
       enabled: false,
       dkim_dns: DkimDns.new(
         domain: "foo.com",
-        private_key: OpenSSL::PKey::RSA.new(2048)
+        private_key: OpenSSL::PKey::RSA.new(2048),
+        selector: 'cuttlefish'
       ),
       cuttlefish_enabled: false,
       cuttlefish_dkim_dns: DkimDns.new(
         domain: "cuttlefish.oaf.org.au",
-        private_key: OpenSSL::PKey::RSA.new(2048)
+        private_key: OpenSSL::PKey::RSA.new(2048),
+        selector: 'cuttlefish'
       ),
       sender_email: "sender@cuttlefish.oaf.org.au"
     )

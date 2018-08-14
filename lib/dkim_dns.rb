@@ -1,7 +1,7 @@
 class DkimDns
   attr_accessor :private_key, :domain, :selector
 
-  def initialize(domain:, private_key:, selector: 'cuttlefish')
+  def initialize(domain:, private_key:, selector:)
     @private_key = private_key
     @domain = domain
     @selector = selector

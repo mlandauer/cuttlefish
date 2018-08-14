@@ -29,7 +29,11 @@ class App < ActiveRecord::Base
   end
 
   def dkim_dns
-    DkimDns.new(domain: from_domain, private_key: dkim_private_key)
+    DkimDns.new(
+      domain: from_domain,
+      private_key: dkim_private_key,
+      selector: 'cuttlefish'
+    )
   end
 
   def dkim_private_key
