@@ -44,7 +44,7 @@ describe Filters::Dkim do
 
         # Note that this shouldn't happen in practise (see above)
         context "sender email is not in the cuttlefish domain" do
-          before(:each) {filter.cuttlefish_domain = "oaf.org.au"}
+          before(:each) {filter.cuttlefish_dkim_dns.domain = "oaf.org.au"}
           it { expect(filter.filter_mail(mail).header["DKIM-Signature"]).to be_nil }
           it {
             expect(filter.filter_mail(mail).sender).to eq "sender@cuttlefish.oaf.org.au"

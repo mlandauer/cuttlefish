@@ -1,5 +1,5 @@
 class DkimDns
-  attr_reader :private_key, :domain
+  attr_accessor :private_key, :domain
 
   def initialize(domain:, private_key:)
     @private_key = private_key
