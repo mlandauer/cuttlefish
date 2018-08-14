@@ -28,10 +28,10 @@ class Filters::Master < Filters::Base
     filter5 = Filters::Dkim.new(
       enabled: delivery.app.dkim_enabled,
       domain: delivery.app.from_domain,
-      key: delivery.app.dkim_key,
+      key: delivery.app.dkim_private_key,
       cuttlefish_enabled: App.cuttlefish.dkim_enabled,
       cuttlefish_domain: App.cuttlefish.from_domain,
-      cuttlefish_key: App.cuttlefish.dkim_key,
+      cuttlefish_key: App.cuttlefish.dkim_private_key,
       sender_email: Rails.configuration.cuttlefish_sender_email
     )
 

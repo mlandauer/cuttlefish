@@ -57,7 +57,7 @@ describe App do
   describe "#dkim_private_key" do
     it "should be generated automatically" do
       app = FactoryBot.create(:app)
-      expect(app.dkim_private_key.split("\n").first).to eq "-----BEGIN RSA PRIVATE KEY-----"
+      expect(app.dkim_private_key.to_pem.split("\n").first).to eq "-----BEGIN RSA PRIVATE KEY-----"
     end
 
     it "should be different for different apps" do
@@ -68,9 +68,9 @@ describe App do
 
     it "should be saved in the database" do
       app = FactoryBot.create(:app)
-      value = app.dkim_private_key
+      value = app.dkim_private_key.to_pem
       app.reload
-      expect(app.dkim_private_key).to eq value
+      expect(app.dkim_private_key.to_pem).to eq value
     end
   end
 
