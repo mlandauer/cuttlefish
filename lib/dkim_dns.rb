@@ -38,6 +38,10 @@ class DkimDns
     resolve_dkim_dns_value == dkim_dns_value
   end
 
+  def sign_mail(mail)
+    Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: private_key, domain: domain))
+  end
+
   private
 
   def public_key_der_encoded

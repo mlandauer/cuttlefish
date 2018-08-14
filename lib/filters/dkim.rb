@@ -28,7 +28,7 @@ class Filters::Dkim < Filters::Base
   # DKIM sign the email if it's coming from the correct domain
   def sign(mail, enabled, dkim_dns)
     if in_correct_domain?(mail, dkim_dns.domain) && enabled
-      Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: dkim_dns.private_key, domain: dkim_dns.domain))
+      dkim_dns.sign_mail(mail)
     else
       mail
     end
