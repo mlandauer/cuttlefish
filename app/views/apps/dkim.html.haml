@@ -7,7 +7,11 @@
     email sent from your own domain by giving Cuttlefish permission to send email on your behalf.
 
 - if @app.from_domain.present?
-  = render "dns_configuration", app: @app, provider: @provider, dkim_dns: @dkim_dns
+  - if @dkim_dns.dkim_dns_configured?
+    %p Your DNS looks to be correctly configured.
+    = button_to (@app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(@app), class: "btn btn-primary"
+  - else
+    = render 'setting_up_your_dns', provider: @provider, dkim_dns: @dkim_dns
 
 %h2 Domain
 
