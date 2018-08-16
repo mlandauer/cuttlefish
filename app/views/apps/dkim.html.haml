@@ -7,7 +7,7 @@
     email sent from your own domain by giving Cuttlefish permission to send email on your behalf.
 
 - if @app.from_domain.present?
-  = render "dns_configuration", app: @app, provider: @provider
+  = render "dns_configuration", app: @app, provider: @provider, dkim_dns: @dkim_dns
 
 %h2 Domain
 

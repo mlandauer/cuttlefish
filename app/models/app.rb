@@ -36,14 +36,6 @@ class App < ActiveRecord::Base
     end
   end
 
-  def dkim_dns
-    DkimDns.new(
-      domain: from_domain,
-      private_key: dkim_private_key,
-      selector: dkim_selector
-    )
-  end
-
   def dkim_private_key
     if read_attribute(:dkim_private_key).nil?
       update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem)

@@ -1,9 +1,9 @@
-- if app.dkim_dns.dkim_dns_configured?
+- if dkim_dns.dkim_dns_configured?
   %p Your DNS looks to be correctly configured.
   = button_to (app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(app), class: "btn btn-primary"
 - else
   .alert.alert-info
-    - if app.dkim_dns.resolve_dkim_dns_value.nil?
+    - if dkim_dns.resolve_dkim_dns_value.nil?
       You will need to add a TXT record to your DNS.
     - else
       Your DNS doesn't look to be set up correctly
@@ -46,13 +46,13 @@
         %th Value
     %tbody
       %tr
-        %td= app.dkim_dns.dkim_domain
+        %td= dkim_dns.dkim_domain
         %td
           %pre
             - if provider.nil? || provider == "cloudflare"
-              = app.dkim_dns.dkim_dns_value
+              = dkim_dns.dkim_dns_value
             - elsif provider == "dns_made_easy"
-              = app.dkim_dns.dkim_dns_value_quoted
+              = dkim_dns.dkim_dns_value_quoted
             - else
               raise
 

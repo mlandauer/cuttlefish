@@ -27,9 +27,17 @@ class Filters::Master < Filters::Base
     filter4 = Filters::MailerHeader.new(version: APP_VERSION)
     filter5 = Filters::Dkim.new(
       enabled: delivery.app.dkim_enabled,
-      dkim_dns: delivery.app.dkim_dns,
+      dkim_dns: DkimDns.new(
+        domain: delivery.app.from_domain,
+        private_key: delivery.app.dkim_private_key,
+        selector: delivery.app.dkim_selector
+      ),
       cuttlefish_enabled: App.cuttlefish.dkim_enabled,
-      cuttlefish_dkim_dns: App.cuttlefish.dkim_dns,
+      cuttlefish_dkim_dns: DkimDns.new(
+        domain: App.cuttlefish.from_domain,
+        private_key: App.cuttlefish.dkim_private_key,
+        selector: App.cuttlefish.dkim_selector
+      ),
       sender_email: Rails.configuration.cuttlefish_sender_email
     )
 

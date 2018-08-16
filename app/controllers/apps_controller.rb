@@ -71,6 +71,11 @@ class AppsController < ApplicationController
 
   def dkim
     @app = App.find(params[:id])
+    @dkim_dns = DkimDns.new(
+      domain: @app.from_domain,
+      private_key: @app.dkim_private_key,
+      selector: @app.dkim_selector
+    )
     authorize @app
     @provider = params[:provider]
   end
