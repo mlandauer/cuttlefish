@@ -29,7 +29,11 @@ class App < ActiveRecord::Base
   end
 
   def dkim_selector
-    'cuttlefish'
+    if legacy_dkim_selector
+      'cuttlefish'
+    else
+      "#{smtp_username}.cuttlefish"
+    end
   end
 
   def dkim_dns
