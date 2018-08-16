@@ -28,12 +28,16 @@ class App < ActiveRecord::Base
     end
   end
 
+  def dkim_selector_legacy_value
+    'cuttlefish'
+  end
+
+  def dkim_selector_current_value
+    "#{smtp_username}.cuttlefish"
+  end
+
   def dkim_selector
-    if legacy_dkim_selector
-      'cuttlefish'
-    else
-      "#{smtp_username}.cuttlefish"
-    end
+    legacy_dkim_selector ? dkim_selector_legacy_value : dkim_selector_current_value
   end
 
   def dkim_private_key
