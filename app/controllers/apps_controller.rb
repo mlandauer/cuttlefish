@@ -87,6 +87,14 @@ class AppsController < ApplicationController
     redirect_to app
   end
 
+  def upgrade_dkim
+    app = App.find(params[:id])
+    authorize app
+    app.update_attribute(:legacy_dkim_selector, false)
+    flash[:notice] = "App #{app.name} successfully upgraded to use the new DNS settings"
+    redirect_to app
+  end
+
   private
 
   def app_parameters
