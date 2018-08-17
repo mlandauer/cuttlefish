@@ -9,7 +9,10 @@
 - if @app.from_domain.present?
   - if @dkim_dns.dkim_dns_configured?
     %p Your DNS looks to be correctly configured.
-    = button_to (@app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(@app), class: "btn btn-primary"
+    - if @app.legacy_dkim_selector
+      = button_to "Switch to using new DNS record", upgrade_dkim_app_path(@app), class: "btn btn-primary"
+    - else
+      = button_to (@app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(@app), class: "btn btn-primary"
   - else
     = render 'setting_up_your_dns', provider: @provider, dkim_dns: @dkim_dns
 
