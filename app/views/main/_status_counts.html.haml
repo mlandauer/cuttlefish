@@ -1,5 +1,5 @@
 .span3
-  %h3 Today
+  %h3 Last 24 hours
   = render "main/status_counts_period", deliveries: policy_scope(Delivery).today, link: true, loading: loading
 
 .span3.offset3
