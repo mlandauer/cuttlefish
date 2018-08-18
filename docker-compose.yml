@@ -38,6 +38,7 @@ services:
       - .:/app
     links:
       - redis
+      - mailcatcher
 
   postfix:
     build:
@@ -45,3 +46,10 @@ services:
       dockerfile: dockerfiles/postfix
     volumes:
       - .:/app
+
+  mailcatcher:
+    build:
+      context: .
+      dockerfile: dockerfiles/mailcatcher
+    ports:
+      - "1080:1080"
