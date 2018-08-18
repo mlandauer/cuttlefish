@@ -12,10 +12,12 @@ services:
       - db
       - redis
       - smtp
+
   db:
     image: postgres:10.5
     ports:
       - "5432"
+
   smtp:
     build:
       context: .
@@ -24,8 +26,10 @@ services:
       - .:/app
     ports:
       - "2525:2525"
+
   redis:
     image: redis:4.0
+
   worker:
     build:
       context: .
@@ -34,6 +38,7 @@ services:
       - .:/app
     links:
       - redis
+
   postfix:
     build:
       context: .
