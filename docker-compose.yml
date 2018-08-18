@@ -4,7 +4,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/web
-    command: rails server -b '0.0.0.0'
     volumes:
       - .:/app
     ports:
