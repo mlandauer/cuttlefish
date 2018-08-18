@@ -1,0 +1,16 @@
+# Pick this to be the same as .ruby-version
+FROM ruby:2.5.1
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+  postfix
+
+# TODO: Enable opportunistic TLS
+
+RUN mkdir -p /app
+WORKDIR /app
+
+COPY Gemfile Gemfile.lock ./
+RUN gem install bundler && bundle install --jobs 20 --retry 5
+
+ENTRYPOINT ["bundle", "exec"]
+CMD ["rake", "cuttlefish:log"]

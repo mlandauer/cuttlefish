@@ -1,16 +1,24 @@
-web:
-  build: .
-  command: rails server -b '0.0.0.0'
-  volumes:
-    - .:/app
-  ports:
-    - "3000:3000"
-  links:
-    - db
-    - redis
-db:
-  image: postgres:10.5
-  ports:
-    - "5432"
-redis:
-  image: redis:4.0
+version: '3'
+services:
+  web:
+    build: .
+    command: rails server -b '0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    links:
+      - db
+      - redis
+  db:
+    image: postgres:10.5
+    ports:
+      - "5432"
+  redis:
+    image: redis:4.0
+  postfix:
+    build:
+      context: .
+      dockerfile: docker/postfix/Dockerfile
+    volumes:
+      - .:/app
