@@ -1,0 +1,6 @@
+.git*
+log/*
+tmp/*
+provisioning/*
+Dockerfile
+README.md
