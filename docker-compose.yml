@@ -1,7 +1,9 @@
 version: '3'
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfiles/web
     command: rails server -b '0.0.0.0'
     volumes:
       - .:/app
@@ -19,6 +21,6 @@ services:
   postfix:
     build:
       context: .
-      dockerfile: docker/postfix/Dockerfile
+      dockerfile: dockerfiles/postfix
     volumes:
       - .:/app
