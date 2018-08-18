@@ -11,10 +11,19 @@ services:
     links:
       - db
       - redis
+      - smtp
   db:
     image: postgres:10.5
     ports:
       - "5432"
+  smtp:
+    build:
+      context: .
+      dockerfile: dockerfiles/smtp
+    volumes:
+      - .:/app
+    ports:
+      - "2525:2525"
   redis:
     image: redis:4.0
   postfix:
