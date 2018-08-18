@@ -26,6 +26,14 @@ services:
       - "2525:2525"
   redis:
     image: redis:4.0
+  worker:
+    build:
+      context: .
+      dockerfile: dockerfiles/worker
+    volumes:
+      - .:/app
+    links:
+      - redis
   postfix:
     build:
       context: .
