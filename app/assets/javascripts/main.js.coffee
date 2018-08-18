@@ -5,10 +5,5 @@
 $ ->
   $("#status-counts").load "/status_counts", ->
     $('tbody').rowlink()
-  setInterval(->
-    $("#status-counts").load "/status_counts", ->
-      $('tbody').rowlink()
-  , 5000)
-
 $ ->
   $("#reputation").load("/reputation")
