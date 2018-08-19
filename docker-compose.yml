@@ -50,6 +50,8 @@ services:
       - SMTP_USERNAME=foo@bar.com
       - SMTP_PASSWORD=XXXXXXXX
       - SERVER_HOSTNAME=cuttlefish.io
+    volumes:
+      - ./postfix_log:/var/log
     links:
       - mailcatcher
 
