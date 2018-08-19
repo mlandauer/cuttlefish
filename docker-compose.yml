@@ -38,14 +38,20 @@ services:
       - .:/app
     links:
       - redis
-      - mailcatcher
+      - postfix
 
   postfix:
-    build:
-      context: .
-      dockerfile: dockerfiles/postfix
-    volumes:
-      - .:/app
+    image: juanluisbaptiste/postfix
+    environment:
+      - SMTP_SERVER=mailcatcher
+      - SMTP_PORT=1025
+      # The username and password are actually ignore by mailcatcher but need
+      # to be set to keep this container happy
+      - SMTP_USERNAME=foo@bar.com
+      - SMTP_PASSWORD=XXXXXXXX
+      - SERVER_HOSTNAME=cuttlefish.io
+    links:
+      - mailcatcher
 
   mailcatcher:
     build:
