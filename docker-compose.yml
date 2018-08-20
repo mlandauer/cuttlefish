@@ -37,6 +37,7 @@ services:
     volumes:
       - .:/app
     links:
+      - db
       - redis
       - postfix
 
@@ -61,3 +62,13 @@ services:
       dockerfile: dockerfiles/mailcatcher
     ports:
       - "1080:1080"
+
+  log:
+    build:
+      context: .
+      dockerfile: dockerfiles/log
+    volumes:
+      - .:/app
+      - ./postfix_log:/var/log
+    links:
+      - db
