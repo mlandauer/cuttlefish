@@ -81,6 +81,11 @@ To see the mailcatcher mail:
 
 http://localhost:1080
 
+To run the tests (do that from another window):
+```
+docker-compose exec web rake
+```
+
 ## To install:
 
 We use [Vagrant](https://www.vagrantup.com/) and [Ansible](http://docs.ansible.com/) to automatically set up a fresh server with everything you need to run Cuttlefish. It's a fairly complicated affair as Cuttlefish does have quite a few moving
