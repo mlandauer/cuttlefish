@@ -15,14 +15,14 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "addresses", id: :serial, force: :cascade do |t|
+  create_table "addresses", force: :cascade do |t|
     t.string "text", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["text"], name: "index_addresses_on_text"
   end
 
-  create_table "admins", id: :serial, force: :cascade do |t|
+  create_table "admins", force: :cascade do |t|
     t.string "email", limit: 255, default: "", null: false
     t.string "encrypted_password", limit: 255, default: ""
     t.string "reset_password_token", limit: 255
@@ -53,27 +53,27 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
     t.index ["team_id"], name: "index_admins_on_team_id"
   end
 
-  create_table "apps", id: :serial, force: :cascade do |t|
+  create_table "apps", force: :cascade do |t|
     t.string "smtp_username", limit: 255
     t.string "name", limit: 255
     t.string "smtp_password", limit: 255
     t.string "custom_tracking_domain", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "smtp_password_locked",                  default: false, null: false
-    t.boolean  "open_tracking_enabled",                 default: true,  null: false
-    t.boolean  "click_tracking_enabled",                default: true,  null: false
-    t.text     "dkim_private_key"
-    t.string   "from_domain",               limit: 255
-    t.boolean  "dkim_enabled",                          default: false, null: false
-    t.integer  "archived_deliveries_count",             default: 0,     null: false
-    t.integer  "team_id"
-    t.boolean  "cuttlefish",                            default: false, null: false
+    t.boolean "smtp_password_locked", default: false, null: false
+    t.boolean "open_tracking_enabled", default: true, null: false
+    t.boolean "click_tracking_enabled", default: true, null: false
+    t.text "dkim_private_key"
+    t.string "from_domain", limit: 255
+    t.boolean "dkim_enabled", default: false, null: false
+    t.integer "archived_deliveries_count", default: 0, null: false
+    t.integer "team_id"
+    t.boolean "cuttlefish", default: false, null: false
     t.boolean "legacy_dkim_selector", default: false, null: false
     t.index ["team_id"], name: "index_apps_on_team_id"
   end
 
-  create_table "black_lists", id: :serial, force: :cascade do |t|
+  create_table "black_lists", force: :cascade do |t|
     t.integer "address_id"
     t.integer "caused_by_delivery_id"
     t.datetime "created_at"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
     t.index ["team_id"], name: "index_black_lists_on_team_id"
   end
 
-  create_table "click_events", id: :serial, force: :cascade do |t|
+  create_table "click_events", force: :cascade do |t|
     t.integer "delivery_link_id"
     t.text "user_agent"
     t.text "referer"
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
     t.index ["delivery_link_id"], name: "index_click_events_on_delivery_link_id"
   end
 
-  create_table "deliveries", id: :serial, force: :cascade do |t|
+  create_table "deliveries", force: :cascade do |t|
     t.integer "email_id"
     t.integer "address_id"
     t.datetime "created_at"
@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
     t.index ["postfix_queue_id"], name: "index_deliveries_on_postfix_queue_id"
   end
 
-  create_table "delivery_links", id: :serial, force: :cascade do |t|
+  create_table "delivery_links", force: :cascade do |t|
     t.integer "delivery_id", null: false
     t.integer "link_id", null: false
     t.datetime "created_at"
@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
     t.index ["link_id"], name: "index_delivery_links_on_link_id"
   end
 
-  create_table "emails", id: :serial, force: :cascade do |t|
+  create_table "emails", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "from_address_id"
@@ -135,14 +135,14 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
     t.index ["message_id"], name: "index_emails_on_message_id"
   end
 
-  create_table "links", id: :serial, force: :cascade do |t|
+  create_table "links", force: :cascade do |t|
     t.string "url", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["url"], name: "index_links_on_url"
   end
 
-  create_table "open_events", id: :serial, force: :cascade do |t|
+  create_table "open_events", force: :cascade do |t|
     t.integer "delivery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -156,7 +156,7 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
     t.index ["delivery_id"], name: "index_open_events_on_delivery_id"
   end
 
-  create_table "postfix_log_lines", id: :serial, force: :cascade do |t|
+  create_table "postfix_log_lines", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "time", null: false
@@ -170,7 +170,7 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
     t.index ["time", "delivery_id"], name: "index_postfix_log_lines_on_time_and_delivery_id"
   end
 
-  create_table "teams", id: :serial, force: :cascade do |t|
+  create_table "teams", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
