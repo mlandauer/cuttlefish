@@ -1,0 +1,74 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: dockerfiles/web
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    links:
+      - db
+      - redis
+      - smtp
+
+  db:
+    image: postgres:10.5
+    ports:
+      - "5432"
+
+  smtp:
+    build:
+      context: .
+      dockerfile: dockerfiles/smtp
+    volumes:
+      - .:/app
+    ports:
+      - "2525:2525"
+
+  redis:
+    image: redis:4.0
+
+  worker:
+    build:
+      context: .
+      dockerfile: dockerfiles/worker
+    volumes:
+      - .:/app
+    links:
+      - db
+      - redis
+      - postfix
+
+  postfix:
+    image: juanluisbaptiste/postfix
+    environment:
+      - SMTP_SERVER=mailcatcher
+      - SMTP_PORT=1025
+      # The username and password are actually ignore by mailcatcher but need
+      # to be set to keep this container happy
+      - SMTP_USERNAME=foo@bar.com
+      - SMTP_PASSWORD=XXXXXXXX
+      - SERVER_HOSTNAME=cuttlefish.io
+    volumes:
+      - ./postfix_log:/var/log
+    links:
+      - mailcatcher
+
+  mailcatcher:
+    build:
+      context: .
+      dockerfile: dockerfiles/mailcatcher
+    ports:
+      - "1080:1080"
+
+  log:
+    build:
+      context: .
+      dockerfile: dockerfiles/log
+    volumes:
+      - .:/app
+      - ./postfix_log:/var/log
+    links:
+      - db

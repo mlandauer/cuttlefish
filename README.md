@@ -52,6 +52,39 @@ Ruby 2.5.1, PostgresQL, Redis (2.4 or greater), Postfix
 Also you need the following libraries:
 imagemagick, libmagickwand-dev, libmysqld-dev
 
+## Development
+
+Setting up a local development environment with all the correct dependencies and
+moving parts is now very straightforward by using [Docker](https://www.docker.com/).
+
+To start with:
+```
+docker-compose build
+docker-compose run web bundle exec rake db:setup
+```
+
+Then
+```
+docker-compose up
+```
+
+Those steps will take a little while as they download images and build
+the docker containers.
+
+When its stops spitting output to the console point your web browser at
+
+http://localhost:3000
+
+For development all mail sent out by Cuttlefish will actually go to mailcatcher.
+To see the mailcatcher mail:
+
+http://localhost:1080
+
+To run the tests (do that from another window):
+```
+docker-compose exec web rake
+```
+
 ## To install:
 
 We use [Vagrant](https://www.vagrantup.com/) and [Ansible](http://docs.ansible.com/) to automatically set up a fresh server with everything you need to run Cuttlefish. It's a fairly complicated affair as Cuttlefish does have quite a few moving
@@ -131,7 +164,6 @@ Some further things to ensure things work smoothly
 2. Ensure that the devise email address is set to contact@cuttlefish.oaf.org.au
 
 3. Set up reverse DNS. In the Linode Manager under "Remote Access" click "Reverse DNS" then for the hostname put in "cuttlefish.oaf.org.au" and follow the instructions. This step is necessary in order to be able to sign up to receive [Feedback loop emails](https://en.wikipedia.org/wiki/Feedback_loop_%28email%29).
-
 
 ## Screenshots
 Done some development work which updates the look of the main pages? To update the screenshots

@@ -1,7 +1,8 @@
 development:
   adapter: postgresql
   database: cuttlefish_development
-  host: localhost
+  username: postgres
+  host: db
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -9,4 +10,5 @@ development:
 test:
   adapter: postgresql
   database: cuttlefish_test
-  host: localhost
+  username: postgres
+  host: db

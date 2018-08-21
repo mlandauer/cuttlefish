@@ -117,9 +117,6 @@ GEM
     dotenv-rails (2.5.0)
       dotenv (= 2.5.0)
       railties (>= 3.2, < 6.0)
-    em-websocket (0.5.1)
-      eventmachine (>= 0.12.9)
-      http_parser.rb (~> 0.6.0)
     erubi (1.7.1)
     erubis (2.7.0)
     eventmachine (1.2.7)
@@ -173,11 +170,6 @@ GEM
       shellany (~> 0.0)
       thor (>= 0.18.1)
     guard-compat (1.2.1)
-    guard-livereload (2.5.2)
-      em-websocket (~> 0.5)
-      guard (~> 2.8)
-      guard-compat (~> 1.0)
-      multi_json (~> 1.8)
     guard-rspec (4.7.3)
       guard (~> 2.1)
       guard-compat (~> 1.1)
@@ -203,7 +195,6 @@ GEM
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
     htmlentities (4.3.4)
-    http_parser.rb (0.6.0)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     ipaddress (0.8.3)
@@ -274,8 +265,6 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.5)
-    rack-livereload (0.3.17)
-      rack
     rack-mini-profiler (1.0.0)
       rack (>= 1.2.0)
     rack-protection (2.0.3)
@@ -454,7 +443,6 @@ DEPENDENCIES
   google-analytics-rails
   gravatar_image_tag
   guard
-  guard-livereload
   guard-rspec
   haml-coderay
   haml-rails
@@ -469,7 +457,6 @@ DEPENDENCIES
   pg
   premailer
   pundit
-  rack-livereload
   rack-mini-profiler
   rails (= 5.2.0)
   rails-controller-testing

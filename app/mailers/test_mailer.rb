@@ -6,7 +6,7 @@ class TestMailer < ActionMailer::Base
         # We're connecting to localhost so that on local vm we don't need
         # to put anything in /etc/hosts for the name to resolve. This has some consequences
         # for the SSL connection (see below)
-        address: "localhost",
+        address: Rails.env.development? ? "smtp" : "localhost",
         port: Rails.configuration.cuttlefish_smtp_port,
         user_name: app.smtp_username,
         password: app.smtp_password,
