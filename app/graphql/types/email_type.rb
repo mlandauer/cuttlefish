@@ -38,7 +38,7 @@ class Types::EmailType < Types::BaseObject
   end
 
   def clicked
-    delivery_links.any?{|delivery_link| delivery_link.clicked?}
+    object.delivery_links.any?{|delivery_link| delivery_link.clicked?}
   end
 
   def delivery_events
