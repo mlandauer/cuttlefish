@@ -11,7 +11,6 @@ gem 'pg'
 # in production environments by default.
 group :assets do
   gem 'sass-rails'
-  gem 'coffee-rails'
   # Don't upgrade to Bootstrap 3. It's already responsive, for example, so there's a bunch
   # of things we need to do for the upgrade
   gem 'bootstrap-sass', '~> 2.0'
