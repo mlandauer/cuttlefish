@@ -5,7 +5,6 @@
 [![Build Status](https://travis-ci.org/mlandauer/cuttlefish.svg?branch=master)](https://travis-ci.org/mlandauer/cuttlefish) [![Coverage Status](https://coveralls.io/repos/github/mlandauer/cuttlefish/badge.svg?branch=master)](https://coveralls.io/github/mlandauer/cuttlefish?branch=master) [![Maintainability](https://api.codeclimate.com/v1/badges/abe94fb0811e8e8c512a/maintainability)](https://codeclimate.com/github/mlandauer/cuttlefish/maintainability)
 
 * Project site: [cuttlefish.io](https://cuttlefish.io)
-* Hosted version ([free](http://poplus.org/posts/email-is-your-secret-weapon/) for [Poplus.org](http://poplus.org/) community members): [cuttlefish.oaf.org.au](https://cuttlefish.oaf.org.au)
 * Github repo:  [github.com/mlandauer/cuttlefish](https://github.com/mlandauer/cuttlefish)
 
 Cuttlefish is a lovely, easy to set up transactional email server
@@ -31,23 +30,23 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Postfix, which you know and trust, handles email delivery
 * Open source, so no vendor lock in.
 
-Cuttlefish is in beta. It's been used in production on three of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s project for over a year and has sent well over 2 million emails.
+Cuttlefish is in beta. It's been used in production on three of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s projects for over a year and has sent well over 2 million emails.
 
-##Screenshots
+## Screenshots
 
 ![Sign up](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/1.png)
 ![Dashboard](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/2.png)
 ![Email](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/3.png)
 
-##Things on the cards
+## Things on the cards
 
 * REST API for deep integration with your application
-* Web callbacks on succesful delivery, hard bounces, open and click events
+* Web callbacks on successful delivery, hard bounces, open and click events
 * "out of office" and bounce reply filtering
 * Incoming email
 
 ## Dependencies
-Ruby 2.5.1, MySQL, Redis (2.4 or greater), Postfix
+Ruby 2.5.1, PostgresQL, Redis (2.4 or greater), Postfix
 (Postfix is optional for local development or just trying it out. Some things like the email deliverability just won't show anything)
 
 Also you need the following libraries:

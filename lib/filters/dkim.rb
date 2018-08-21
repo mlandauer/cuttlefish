@@ -1,30 +1,28 @@
 class Filters::Dkim < Filters::Base
-  attr_accessor :key, :domain, :sender_email, :enabled,
-    :cuttlefish_enabled, :cuttlefish_key, :cuttlefish_domain
+  attr_accessor :dkim_dns, :sender_email, :enabled,
+    :cuttlefish_enabled, :cuttlefish_dkim_dns
 
   def initialize(options)
     @enabled = options[:enabled]
-    @key = options[:key]
-    @domain = options[:domain]
+    @dkim_dns = options[:dkim_dns]
     @cuttlefish_enabled = options[:cuttlefish_enabled]
-    @cuttlefish_key = options[:cuttlefish_key]
-    @cuttlefish_domain = options[:cuttlefish_domain]
+    @cuttlefish_dkim_dns = options[:cuttlefish_dkim_dns]
     @sender_email = options[:sender_email]
   end
 
   def filter_mail(mail)
-    unless in_correct_domain?(mail, domain) && enabled
+    unless in_correct_domain?(mail, dkim_dns.domain) && enabled
       mail.sender = sender_email
     end
 
-    mail = sign(mail, enabled, domain, key)
-    sign(mail, cuttlefish_enabled, cuttlefish_domain, cuttlefish_key)
+    mail = sign(mail, enabled, dkim_dns)
+    sign(mail, cuttlefish_enabled, cuttlefish_dkim_dns)
   end
 
   # DKIM sign the email if it's coming from the correct domain
-  def sign(mail, enabled, domain, key)
-    if in_correct_domain?(mail, domain) && enabled
-      Mail.new(Dkim.sign(mail.to_s, selector: 'cuttlefish', private_key: key, domain: domain))
+  def sign(mail, enabled, dkim_dns)
+    if in_correct_domain?(mail, dkim_dns.domain) && enabled
+      dkim_dns.sign_mail(mail)
     else
       mail
     end

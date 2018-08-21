@@ -23,11 +23,11 @@ class Delivery < ActiveRecord::Base
   end
 
   def self.today
-    where('deliveries.created_at > ?', Date.today.beginning_of_day)
+    where('deliveries.created_at > ?', 1.day.ago)
   end
 
   def self.this_week
-    where('deliveries.created_at > ?', 7.days.ago)
+    where('deliveries.created_at > ?', 1.week.ago)
   end
 
   # This delivery is being open tracked

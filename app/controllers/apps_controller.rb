@@ -71,6 +71,12 @@ class AppsController < ApplicationController
 
   def dkim
     @app = App.find(params[:id])
+    @dkim_dns = DkimDns.new(
+      domain: @app.from_domain,
+      private_key: @app.dkim_private_key,
+      # Always use the new version of the selector
+      selector: @app.dkim_selector_current_value
+    )
     authorize @app
     @provider = params[:provider]
   end
@@ -79,6 +85,14 @@ class AppsController < ApplicationController
     app = App.find(params[:id])
     authorize app
     app.update_attribute(:dkim_enabled, !app.dkim_enabled)
+    redirect_to app
+  end
+
+  def upgrade_dkim
+    app = App.find(params[:id])
+    authorize app
+    app.update_attribute(:legacy_dkim_selector, false)
+    flash[:notice] = "App #{app.name} successfully upgraded to use the new DNS settings"
     redirect_to app
   end
 

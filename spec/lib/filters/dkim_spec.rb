@@ -12,11 +12,17 @@ describe Filters::Dkim do
   let(:filter) {
     Filters::Dkim.new(
       enabled: false,
-      domain: "foo.com",
-      key: OpenSSL::PKey::RSA.new(2048),
+      dkim_dns: DkimDns.new(
+        domain: "foo.com",
+        private_key: OpenSSL::PKey::RSA.new(2048),
+        selector: 'cuttlefish'
+      ),
       cuttlefish_enabled: false,
-      cuttlefish_domain: "cuttlefish.oaf.org.au",
-      cuttlefish_key: OpenSSL::PKey::RSA.new(2048),
+      cuttlefish_dkim_dns: DkimDns.new(
+        domain: "cuttlefish.oaf.org.au",
+        private_key: OpenSSL::PKey::RSA.new(2048),
+        selector: 'cuttlefish'
+      ),
       sender_email: "sender@cuttlefish.oaf.org.au"
     )
   }
@@ -44,7 +50,7 @@ describe Filters::Dkim do
 
         # Note that this shouldn't happen in practise (see above)
         context "sender email is not in the cuttlefish domain" do
-          before(:each) {filter.cuttlefish_domain = "oaf.org.au"}
+          before(:each) {filter.cuttlefish_dkim_dns.domain = "oaf.org.au"}
           it { expect(filter.filter_mail(mail).header["DKIM-Signature"]).to be_nil }
           it {
             expect(filter.filter_mail(mail).sender).to eq "sender@cuttlefish.oaf.org.au"
