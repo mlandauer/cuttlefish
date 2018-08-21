@@ -14,10 +14,10 @@
   # Send #{app.name} mails to Cuttlefish (see http://cuttlefish.io)
   # NB you probably don't want your password exposed in a public git 
   # repository
-  EMAIL_HOST = '#{Rails.configuration.cuttlefish_domain}'
-  EMAIL_PORT = #{Rails.configuration.cuttlefish_smtp_port}
-  EMAIL_HOST_USER = '#{app.smtp_username}'
-  EMAIL_HOST_PASSWORD = '#{app.smtp_password}'
+  EMAIL_HOST = '#{app.smtp_server.hostname}'
+  EMAIL_PORT = #{app.smtp_server.port}
+  EMAIL_HOST_USER = '#{app.smtp_server.username}'
+  EMAIL_HOST_PASSWORD = '#{app.smtp_server.password}'
 
   FROM_ADDRESS = "from_address@domain.com"
   DESTINATION_ADDRESS = "dest_addr@domain.com"
