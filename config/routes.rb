@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       post 'lock_password'
       get 'dkim'
       post 'toggle_dkim'
+      post 'upgrade_dkim'
     end
   end
 
