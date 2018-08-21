@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_23_075018) do
+ActiveRecord::Schema.define(version: 2018_08_16_045458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,15 +60,16 @@ ActiveRecord::Schema.define(version: 2018_07_23_075018) do
     t.string "custom_tracking_domain", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "smtp_password_locked", default: false, null: false
-    t.boolean "open_tracking_enabled", default: true, null: false
-    t.boolean "click_tracking_enabled", default: true, null: false
-    t.text "dkim_private_key"
-    t.string "from_domain", limit: 255
-    t.boolean "dkim_enabled", default: false, null: false
-    t.integer "archived_deliveries_count", default: 0, null: false
-    t.integer "team_id"
-    t.boolean "cuttlefish", default: false, null: false
+    t.boolean  "smtp_password_locked",                  default: false, null: false
+    t.boolean  "open_tracking_enabled",                 default: true,  null: false
+    t.boolean  "click_tracking_enabled",                default: true,  null: false
+    t.text     "dkim_private_key"
+    t.string   "from_domain",               limit: 255
+    t.boolean  "dkim_enabled",                          default: false, null: false
+    t.integer  "archived_deliveries_count",             default: 0,     null: false
+    t.integer  "team_id"
+    t.boolean  "cuttlefish",                            default: false, null: false
+    t.boolean "legacy_dkim_selector", default: false, null: false
     t.index ["team_id"], name: "index_apps_on_team_id"
   end
 

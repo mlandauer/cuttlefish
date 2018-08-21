@@ -8,8 +8,8 @@ describe OutgoingDelivery do
         @outgoing = OutgoingDelivery.new(@email.deliveries.first)
       end
 
-      it "should open an smtp connection to localhost port 1025" do
-        expect(Net::SMTP).to receive(:start).with("localhost", 1025)
+      it "should open an smtp connection to postfix port 25" do
+        expect(Net::SMTP).to receive(:start).with("postfix", 25)
         @outgoing.send
       end
 

@@ -1,7 +1,13 @@
 language: ruby
 sudo: false
 before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
   - cp config/database.travis.yml config/database.yml
+=======
   # We don't want to seed the database for tests
   - bundle exec rake db:create
   - bundle exec rake db:schema:load
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

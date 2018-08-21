@@ -6,8 +6,8 @@ class MainController < ApplicationController
     result = Cuttlefish::ApiClient.query(
       Cuttlefish::ApiClient::STATUS_COUNTS_QUERY,
       variables: {
-        since1: Date.today.beginning_of_day.utc.iso8601,
-        since2: 7.days.ago.utc.iso8601
+        since1: 1.day.ago.utc.iso8601,
+        since2: 1.week.ago.utc.iso8601
       },
       current_admin: current_admin
     )

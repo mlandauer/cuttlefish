@@ -54,6 +54,41 @@ describe App do
     end
   end
 
+  describe "#dkim_private_key" do
+    it "should be generated automatically" do
+      app = FactoryBot.create(:app)
+      expect(app.dkim_private_key.to_pem.split("\n").first).to eq "-----BEGIN RSA PRIVATE KEY-----"
+    end
+
+    it "should be different for different apps" do
+      app1 = FactoryBot.create(:app)
+      app2 = FactoryBot.create(:app)
+      expect(app1.dkim_private_key).to_not eq app2.dkim_private_key
+    end
+
+    it "should be saved in the database" do
+      app = FactoryBot.create(:app)
+      value = app.dkim_private_key.to_pem
+      app.reload
+      expect(app.dkim_private_key.to_pem).to eq value
+    end
+  end
+
+  describe "#dkim_selector" do
+    let(:app) { FactoryBot.create(:app, name: 'Book store', id: 15) }
+
+    it "should include the name and the id to be unique" do
+      expect(app.dkim_selector).to eq 'book_store_15.cuttlefish'
+    end
+
+    context "legacy dkim selector" do
+      let(:app) { FactoryBot.create(:app, legacy_dkim_selector: true) }
+      it "should just be cuttlefish" do
+        expect(app.dkim_selector).to eq 'cuttlefish'
+      end
+    end
+  end
+
   describe ".cuttlefish" do
     before(:each) { allow(Rails.configuration).to receive(:cuttlefish_domain).and_return("cuttlefish.io")}
     let(:app) { App.cuttlefish }

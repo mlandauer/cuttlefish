@@ -16,6 +16,10 @@ class AppPolicy < ApplicationPolicy
     dkim?
   end
 
+  def upgrade_dkim?
+    dkim?
+  end
+
   def create?
     !Rails.configuration.cuttlefish_read_only_mode
   end

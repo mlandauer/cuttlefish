@@ -2,10 +2,9 @@
 
 # ![Cuttlefish](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/cuttlefish_80x48.png) Cuttlefish
 
-[![Build Status](https://travis-ci.org/mlandauer/cuttlefish.png?branch=master)](https://travis-ci.org/mlandauer/cuttlefish) [![Coverage Status](https://coveralls.io/repos/mlandauer/cuttlefish/badge.png?branch=master)](https://coveralls.io/r/mlandauer/cuttlefish) [![Code Climate](https://codeclimate.com/github/mlandauer/cuttlefish.png)](https://codeclimate.com/github/mlandauer/cuttlefish)
+[![Build Status](https://travis-ci.org/mlandauer/cuttlefish.svg?branch=master)](https://travis-ci.org/mlandauer/cuttlefish) [![Coverage Status](https://coveralls.io/repos/github/mlandauer/cuttlefish/badge.svg?branch=master)](https://coveralls.io/github/mlandauer/cuttlefish?branch=master) [![Maintainability](https://api.codeclimate.com/v1/badges/abe94fb0811e8e8c512a/maintainability)](https://codeclimate.com/github/mlandauer/cuttlefish/maintainability)
 
 * Project site: [cuttlefish.io](https://cuttlefish.io)
-* Hosted version ([free](http://poplus.org/posts/email-is-your-secret-weapon/) for [Poplus.org](http://poplus.org/) community members): [cuttlefish.oaf.org.au](https://cuttlefish.oaf.org.au)
 * Github repo:  [github.com/mlandauer/cuttlefish](https://github.com/mlandauer/cuttlefish)
 
 Cuttlefish is a lovely, easy to set up transactional email server
@@ -31,27 +30,60 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Postfix, which you know and trust, handles email delivery
 * Open source, so no vendor lock in.
 
-Cuttlefish is in beta. It's been used in production on three of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s project for over a year and has sent well over 2 million emails.
+Cuttlefish is in beta. It's been used in production on three of [OpenAustralia Foundation](http://www.openaustraliafoundation.org.au)'s projects for over a year and has sent well over 2 million emails.
 
-##Screenshots
+## Screenshots
 
 ![Sign up](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/1.png)
 ![Dashboard](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/2.png)
 ![Email](https://raw.github.com/mlandauer/cuttlefish/master/app/assets/images/screenshots/3.png)
 
-##Things on the cards
+## Things on the cards
 
 * REST API for deep integration with your application
-* Web callbacks on succesful delivery, hard bounces, open and click events
+* Web callbacks on successful delivery, hard bounces, open and click events
 * "out of office" and bounce reply filtering
 * Incoming email
 
 ## Dependencies
-Ruby 2.5.1, MySQL, Redis (2.4 or greater), Postfix
+Ruby 2.5.1, PostgresQL, Redis (2.4 or greater), Postfix
 (Postfix is optional for local development or just trying it out. Some things like the email deliverability just won't show anything)
 
 Also you need the following libraries:
 imagemagick, libmagickwand-dev, libmysqld-dev
+
+## Development
+
+Setting up a local development environment with all the correct dependencies and
+moving parts is now very straightforward by using [Docker](https://www.docker.com/).
+
+To start with:
+```
+docker-compose build
+docker-compose run web bundle exec rake db:setup
+```
+
+Then
+```
+docker-compose up
+```
+
+Those steps will take a little while as they download images and build
+the docker containers.
+
+When its stops spitting output to the console point your web browser at
+
+http://localhost:3000
+
+For development all mail sent out by Cuttlefish will actually go to mailcatcher.
+To see the mailcatcher mail:
+
+http://localhost:1080
+
+To run the tests (do that from another window):
+```
+docker-compose exec web rake
+```
 
 ## To install:
 
@@ -132,7 +164,6 @@ Some further things to ensure things work smoothly
 2. Ensure that the devise email address is set to contact@cuttlefish.oaf.org.au
 
 3. Set up reverse DNS. In the Linode Manager under "Remote Access" click "Reverse DNS" then for the hostname put in "cuttlefish.oaf.org.au" and follow the instructions. This step is necessary in order to be able to sign up to receive [Feedback loop emails](https://en.wikipedia.org/wiki/Feedback_loop_%28email%29).
-
 
 ## Screenshots
 Done some development work which updates the look of the main pages? To update the screenshots

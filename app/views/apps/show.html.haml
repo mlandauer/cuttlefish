@@ -1,6 +1,18 @@
 .page-header
   %h1= @app.name
 
+- if @app.dkim_enabled && policy(@app).dkim? && @app.legacy_dkim_selector
+  .alert.alert-info
+    %p
+      %i.fa.fa-exclamation-circle
+      Please upgrade your DNS record for DKIM.
+    %p
+      To support multiple apps using
+      the same domain, we're updating the format of the DNS record for DKIM.
+      In the meantime things will continue to work with the old DNS record.
+    %p= link_to "Upgrade DNS settings", dkim_app_path(@app), class: "btn"
+
+
 %ul
   %li= link_to "Emails sent via this app", app_deliveries_path(@app.id)
   - unless @app.cuttlefish?
