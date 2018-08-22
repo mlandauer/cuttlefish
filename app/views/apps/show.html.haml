@@ -1,7 +1,7 @@
 .page-header
   %h1= @app.name
 
-- if @app.dkim_enabled && @app.permissions.dkim? && @app.legacy_dkim_selector
+- if @app.dkim.enabled && @app.permissions.dkim? && @app.dkim.legacy_selector
   .alert.alert-info
     %p
       %i.fa.fa-exclamation-circle
@@ -21,13 +21,13 @@
 - if @app.permissions.update?
   %p= link_to "Edit Settings", edit_app_path(@app.id), class: "btn"
 
-- if @app.dkim_enabled && @app.permissions.dkim?
+- if @app.dkim.enabled && @app.permissions.dkim?
   %hr
   %h3 Improve delivery
   %p
     DomainKeys Identified Mail (DKIM) improves the delivery of your emails by automatically cryptographically
     signing each email so that the recipient can check that it was indeed sent by you.
   = button_to "Disable DKIM", toggle_dkim_app_path(@app.id), class: "btn btn-primary"
-- elsif !@app.dkim_enabled && @app.permissions.dkim?
+- elsif !@app.dkim.enabled && @app.permissions.dkim?
   %h3 What to do next
   %p= link_to "Transparently send mail from your own domain", dkim_app_path(@app.id)
