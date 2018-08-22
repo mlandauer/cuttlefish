@@ -2,10 +2,10 @@ class Types::DkimDnsRecordType < Types::Base::Object
   description "Details of the DKIM DNS record"
 
   field :legacy_selector, Boolean, null: false, description: "Whether we're using the original form of the DNS record for DKIM"
-  field :dns_configured, Boolean, null: false, description: "Queries DNS to check whether the record for DKIM is correctly configured"
-  field :lookup_dns_value, String, null: true, description: "Queries DNS for the current value of the DKIM record. Returns null if there is no record."
-  field :dns_name, String, null: false, description: "The fully qualified domain name for the DKIM DNS record"
-  field :dns_value, String, null: false, description: "The value that the DKIM record should have"
+  field :name, String, null: false, description: "The fully qualified domain name for the DKIM DNS record"
+  field :lookup_value, String, null: true, description: "Queries DNS for the current value of the DKIM record. Returns null if there is no record."
+  field :target_value, String, null: false, description: "The value that the DKIM record should have"
+  field :configured, Boolean, null: false, description: "Queries DNS to check whether the record for DKIM is correctly configured"
 
   def enabled
     object.dkim_enabled
@@ -15,19 +15,19 @@ class Types::DkimDnsRecordType < Types::Base::Object
     object.legacy_dkim_selector
   end
 
-  def dns_configured
+  def configured
     dkim_dns.dkim_dns_configured?
   end
 
-  def lookup_dns_value
+  def lookup_value
     dkim_dns.resolve_dkim_dns_value
   end
 
-  def dns_name
+  def name
     dkim_dns.dkim_domain
   end
 
-  def dns_value
+  def target_value
     dkim_dns.dkim_dns_value
   end
 
