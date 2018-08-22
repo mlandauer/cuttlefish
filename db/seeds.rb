@@ -31,7 +31,12 @@ wu_team.admins.create!([
   { email: "liz@wu-industries.com", password: "password", name: "Lizzie Chan" }
 ])
 
-acting_app = smart_team.apps.create!({ name: "Acting Twins" })
+acting_app = smart_team.apps.create!(
+  name: "Acting Twins",
+  legacy_dkim_selector: true,
+  dkim_enabled: true,
+  from_domain: "foo.com"
+)
 key_app = smart_team.apps.create!({ name: "Key Popping Street Artists" })
 office_app = wu_team.apps.create!({ name: "Acting in My Office" })
 
