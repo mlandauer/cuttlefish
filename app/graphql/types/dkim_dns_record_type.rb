@@ -5,7 +5,7 @@ class Types::DkimDnsRecordType < Types::Base::Object
   field :name, String, null: false, description: "The fully qualified domain name for the DKIM DNS record"
   field :lookup_value, String, null: true, description: "Queries DNS for the current value of the DKIM record. Returns null if there is no record."
   field :target_value, String, null: false, description: "The value that the DKIM record should have"
-  field :configured, Boolean, null: false, description: "Queries DNS to check whether the record for DKIM is correctly configured"
+  field :configured, Boolean, null: false, description: "If lookupValue == targetValue. Queries DNS to check whether the record for DKIM is correctly configured"
 
   def enabled
     object.dkim_enabled
