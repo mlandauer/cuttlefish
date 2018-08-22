@@ -1,7 +1,7 @@
 .page-header
   %h1= @app.name
 
-- if @app.dkim_enabled && @app.permissions.dkim? && @app.dkim_dns_record.legacy_selector
+- if @app.dkim_enabled && @app.permissions.dkim? && @app.dkim_dns_record.upgrade_required
   .alert.alert-info
     %p
       %i.fa.fa-exclamation-circle

@@ -1,7 +1,7 @@
 class Types::DkimDnsRecordType < Types::Base::Object
   description "Details of the DKIM DNS record"
 
-  field :legacy_selector, Boolean, null: false, description: "Whether we're using the original form of the DNS record for DKIM"
+  field :upgrade_required, Boolean, null: false, description: "Whether a change to the the new form of the DKIM record is required"
   field :name, String, null: false, description: "The fully qualified domain name for the DKIM DNS record"
   field :lookup_value, String, null: true, description: "Queries DNS for the current value of the DKIM record. Returns null if there is no record."
   field :target_value, String, null: false, description: "The value that the DKIM record should have"
@@ -11,7 +11,7 @@ class Types::DkimDnsRecordType < Types::Base::Object
     object.dkim_enabled
   end
 
-  def legacy_selector
+  def upgrade_required
     object.legacy_dkim_selector
   end
 

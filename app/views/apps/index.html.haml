@@ -17,7 +17,7 @@
         Name
   %tbody(data-provides="rowlink")
     - @apps.each do |app|
-      - if app.dkim_enabled && app.dkim_dns_record.legacy_selector
+      - if app.dkim_enabled && app.dkim_dns_record.upgrade_required
         %tr.info
           %td
             %i.fa.fa-exclamation-circle
