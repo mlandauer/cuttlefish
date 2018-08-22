@@ -6,6 +6,7 @@ class Types::AppType < Types::BaseObject
   field :smtp_server, Types::SmtpServerType, null: false, description: "Details needed to send email to Cuttlefish for this app"
   field :cuttlefish, Boolean, null: false, description: "Whether this is the app used internally by cuttlefish for sending out its own emails"
   field :dkim_enabled, Boolean, null: false, description: "Whether DKIM is enabled for this app"
+  field :legacy_dkim_selector, Boolean, null: false, description: "Whether this app is using the original form of the DNS record for DKIM"
   field :from_domain, String, null: true, description: "Domain that email in this domain is from. Required for DKIM."
   field :click_tracking_enabled, Boolean, null: false, description: "Whether click tracking is enabled for this app"
   field :open_tracking_enabled, Boolean, null: false, description: "Whether open tracking is enabled for this app"

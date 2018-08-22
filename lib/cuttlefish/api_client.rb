@@ -182,6 +182,8 @@ module Cuttlefish::ApiClient
       apps {
         id
         name
+        dkimEnabled
+        legacyDkimSelector
       }
     }
   GRAPHQL
@@ -193,6 +195,7 @@ module Cuttlefish::ApiClient
         name
         cuttlefish
         dkimEnabled
+        legacyDkimSelector
         permissions {
           update
           dkim

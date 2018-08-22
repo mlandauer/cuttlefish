@@ -1,7 +1,7 @@
 .page-header
   %h1= @app.name
 
-- if @app.dkim_enabled && policy(@app).dkim? && @app.legacy_dkim_selector
+- if @app.dkim_enabled && @app.permissions.dkim? && @app.legacy_dkim_selector
   .alert.alert-info
     %p
       %i.fa.fa-exclamation-circle
@@ -10,7 +10,7 @@
       To support multiple apps using
       the same domain, we're updating the format of the DNS record for DKIM.
       In the meantime things will continue to work with the old DNS record.
-    %p= link_to "Upgrade DNS settings", dkim_app_path(@app), class: "btn"
+    %p= link_to "Upgrade DNS settings", dkim_app_path(@app.id), class: "btn"
 
 
 %ul
