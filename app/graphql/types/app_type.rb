@@ -21,12 +21,7 @@ class Types::AppType < Types::Base::Object
   }
 
   def smtp_server
-    {
-      hostname: Rails.configuration.cuttlefish_domain,
-      port: Rails.configuration.cuttlefish_smtp_port,
-      username: object.smtp_username,
-      password: object.smtp_password
-     }
+    object
   end
 
   def permissions

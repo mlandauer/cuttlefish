@@ -4,4 +4,20 @@ class Types::SmtpServerType < Types::Base::Object
   field :port, Int, null: false, description: "The port"
   field :username, String, null: false, description: "The username to authenticate"
   field :password, String, null: false, description: "The password to authenticate"
+
+  def hostname
+    Rails.configuration.cuttlefish_domain
+  end
+
+  def port
+    Rails.configuration.cuttlefish_smtp_port
+  end
+
+  def username
+    object.smtp_username
+  end
+
+  def password
+    object.smtp_password
+  end
 end
