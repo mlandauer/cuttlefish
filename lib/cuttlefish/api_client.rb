@@ -183,7 +183,7 @@ module Cuttlefish::ApiClient
         id
         name
         dkimEnabled
-        dkim {
+        dkimDnsRecord {
           legacySelector
         }
       }
@@ -197,7 +197,7 @@ module Cuttlefish::ApiClient
         name
         cuttlefish
         dkimEnabled
-        dkim {
+        dkimDnsRecord {
           legacySelector
         }
         permissions {

@@ -1,5 +1,5 @@
-class Types::DkimType < Types::Base::Object
-  description "Details of DKIM setup"
+class Types::DkimDnsRecordType < Types::Base::Object
+  description "Details of the DKIM DNS record"
 
   field :legacy_selector, Boolean, null: false, description: "Whether we're using the original form of the DNS record for DKIM"
   field :dns_configured, Boolean, null: false, description: "Queries DNS to check whether the record for DKIM is correctly configured"
