@@ -182,8 +182,8 @@ module Cuttlefish::ApiClient
       apps {
         id
         name
+        dkimEnabled
         dkim {
-          enabled
           legacySelector
         }
       }
@@ -196,8 +196,8 @@ module Cuttlefish::ApiClient
         id
         name
         cuttlefish
+        dkimEnabled
         dkim {
-          enabled
           legacySelector
         }
         permissions {
