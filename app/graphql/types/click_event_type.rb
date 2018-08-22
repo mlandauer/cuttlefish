@@ -1,4 +1,4 @@
-class Types::ClickEventType < Types::BaseObject
+class Types::ClickEventType < Types::Base::Object
   implements Types::UserAgentEventType
 
   description "Information about someone clicking on a link in an email"

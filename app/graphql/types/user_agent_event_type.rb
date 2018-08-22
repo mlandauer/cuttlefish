@@ -1,5 +1,5 @@
 module Types::UserAgentEventType
-  include Types::BaseInterface
+  include Types::Base::Interface
   description "An event initiated by someone from a browser / email client"
   field :created_at, Types::DateTimeType, null: true, description: "The time of the event"
   field :user_agent, Types::FamilyAndVersionType, null: true, description: "The browser / email client being used"

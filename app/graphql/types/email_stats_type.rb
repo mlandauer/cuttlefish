@@ -1,4 +1,4 @@
-class Types::EmailStatsType < Types::BaseObject
+class Types::EmailStatsType < Types::Base::Object
   description "Statistics over a set of emails"
   field :sent_count, Int, null: false, description: "Number of emails sent but not yet delivered or bounced"
   field :delivered_count, Int, null: false, description: "Number of emails delivered"

@@ -1,4 +1,4 @@
-class Types::AppType < Types::BaseObject
+class Types::AppType < Types::Base::Object
   description "An app in Cuttlefish"
 
   field :id, ID, null: false, description: "The database ID"

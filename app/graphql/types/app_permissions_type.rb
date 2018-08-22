@@ -1,4 +1,4 @@
-class Types::AppPermissionsType < Types::BaseObject
+class Types::AppPermissionsType < Types::Base::Object
   description "Permissions for current admin for accessing and editing an App"
 
   field :show, Boolean, null: false, method: :show?

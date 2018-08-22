@@ -1,4 +1,4 @@
-class Types::EmailType < Types::BaseObject
+class Types::EmailType < Types::Base::Object
   description "An email delivered to a single destination"
   guard ->(object, args, context) {
     context[:current_admin] &&

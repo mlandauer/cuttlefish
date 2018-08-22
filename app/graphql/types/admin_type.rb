@@ -1,4 +1,4 @@
-class Types::AdminType < Types::BaseObject
+class Types::AdminType < Types::Base::Object
   description "An administrator"
   field :email, String, null: false, description: "Their email address"
   field :name, String, null: true, description: "Their full name"

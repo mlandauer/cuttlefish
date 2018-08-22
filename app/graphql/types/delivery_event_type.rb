@@ -1,4 +1,4 @@
-class Types::DeliveryEventType < Types::BaseObject
+class Types::DeliveryEventType < Types::Base::Object
   description "Information about an attempt to deliver an email"
   field :time, Types::DateTimeType, null: false, description: "Time of the event"
   field :dsn, String, null: false, description: "The Delivery Status Notification"
