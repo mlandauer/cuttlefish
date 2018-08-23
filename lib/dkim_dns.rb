@@ -11,12 +11,6 @@ class DkimDns
     "#{selector}._domainkey.#{domain}"
   end
 
-  # The string that needs to be inserted in DNS.
-  # This string format works at least for the service DNS Made Easy.
-  def dkim_dns_value_quoted
-    DkimDns.quote_long_dns_txt_record(dkim_dns_value)
-  end
-
   def dkim_dns_value
     "k=rsa; p=#{public_key_der_encoded}"
   end
@@ -48,11 +42,4 @@ class DkimDns
   def public_key_der_encoded
     Base64.strict_encode64(public_key.to_der)
   end
-
-  # If a DNS TXT record is longer than 255 characters it needs to be split into several
-  # separate strings
-  def self.quote_long_dns_txt_record(text)
-    text.scan(/.{1,255}/).map{|s| '"' + s + '"'}.join
-  end
-
 end

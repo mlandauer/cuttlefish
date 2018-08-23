@@ -9,15 +9,6 @@ describe DkimDns do
     )
   }
 
-  describe "#dkim_dns_value_quoted" do
-    it "should give me the dns record value" do
-      # Test certain invariants
-      expect(dkim_dns.dkim_dns_value_quoted[0..9]).to eq '"k=rsa; p='
-      expect(dkim_dns.dkim_dns_value_quoted.count('"')).to eq 4
-      expect(dkim_dns.dkim_dns_value_quoted.length).to eq 405
-    end
-  end
-
   describe "#dkim_dns_value" do
     it "should give me the dns record value" do
       # Test certain invariants

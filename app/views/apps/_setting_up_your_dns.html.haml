@@ -48,7 +48,7 @@
           - if provider.nil? || provider == "cloudflare"
             = dkim_dns.dkim_dns_value
           - elsif provider == "dns_made_easy"
-            = dkim_dns.dkim_dns_value_quoted
+            = quote_long_dns_txt_record(dkim_dns.dkim_dns_value)
           - else
             raise
 
