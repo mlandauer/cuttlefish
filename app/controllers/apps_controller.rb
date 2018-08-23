@@ -1,5 +1,5 @@
 class AppsController < ApplicationController
-  after_action :verify_authorized, except: [:index, :show, :edit]
+  after_action :verify_authorized, except: [:index, :show, :edit, :dkim]
 
   def index
     result = Cuttlefish::ApiClient.query(
@@ -82,14 +82,12 @@ class AppsController < ApplicationController
   end
 
   def dkim
-    @app = App.find(params[:id])
-    @dkim_dns = DkimDns.new(
-      domain: @app.from_domain,
-      private_key: @app.dkim_private_key,
-      # Always use the new version of the selector
-      selector: @app.dkim_selector_current_value
+    result = Cuttlefish::ApiClient.query(
+      Cuttlefish::ApiClient::APPS_DKIM_QUERY,
+      variables: { id: params[:id] },
+      current_admin: current_admin
     )
-    authorize @app
+    @app = result.data.app
     @provider = params[:provider]
   end
 

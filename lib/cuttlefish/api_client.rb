@@ -223,6 +223,21 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  APPS_DKIM_QUERY = CLIENT.parse <<-'GRAPHQL'
+    query($id: ID!) {
+      app(id: $id) {
+        id
+        fromDomain
+        dkimDnsRecord {
+          configured
+          lookupValue
+          targetValue
+          name
+        }
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,

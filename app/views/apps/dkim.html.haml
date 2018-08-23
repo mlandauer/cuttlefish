@@ -7,18 +7,18 @@
     email sent from your own domain by giving Cuttlefish permission to send email on your behalf.
 
 - if @app.from_domain.present?
-  - if @dkim_dns.dkim_dns_configured?
+  - if @app.dkim_dns_record.configured?
     %p Your DNS looks to be correctly configured.
     - if @app.legacy_dkim_selector
       = button_to "Switch to using new DNS record", upgrade_dkim_app_path(@app.id), class: "btn btn-primary"
     - else
       = button_to (@app.dkim_enabled ? "Disable DKIM" : "Enable DKIM"), toggle_dkim_app_path(@app.id), class: "btn btn-primary"
   - else
-    = render 'setting_up_your_dns', provider: @provider, dkim_dns: @dkim_dns
+    = render 'setting_up_your_dns', provider: @provider, dkim_dns: @app.dkim_dns_record
 
 %h2 Domain
 
-= semantic_form_for @app, html: {class: "form-horizontal"} do |f|
+= semantic_form_for @app, as: :app, url: app_path(@app.id), method: :put, html: {class: "form-horizontal"} do |f|
   = f.semantic_errors
   = f.input :from_domain, label: "Email from domain", placeholder: "angelfishsocute.com", hint: "Domain that all emails in this app will be sent from"
   = f.actions do
