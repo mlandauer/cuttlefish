@@ -23,8 +23,24 @@ The Awesome Cuttlefish
     authorize :test_email
     app = App.find(params[:app_id])
     authorize app, :show?
-    TestMailer.test_email(app,
-      from: params[:from], to: params[:to], cc: params[:cc], subject: params[:subject], text: params[:text]).deliver_now
+
+    mail = Mail.new
+    mail.from = params[:from]
+    mail.to = params[:to]
+    mail.cc = params[:cc]
+    mail.subject = params[:subject]
+
+    text_part = Mail::Part.new
+    text_part.body = params[:text]
+
+    html_part = Mail::Part.new
+    html_part.body = simple_format(params[:text])
+
+    mail.text_part = text_part
+    mail.html_part = html_part
+
+    # TODO: Rejig form of "to" array so that we don't have to do this
+    MailWorker.perform_async(mail.to.map{|t| "<#{t}>"}, Base64.encode64(mail.to_s), app.id)
 
     flash[:notice] = "Test email sent"
     redirect_to deliveries_url
