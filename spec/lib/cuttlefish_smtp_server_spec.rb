@@ -32,8 +32,8 @@ describe CuttlefishSmtpConnection do
 
   describe "#receive_recipient" do
     it do
-      expect(connection.receive_recipient("matthew@foo.com")).to eq true
-      expect(connection.receive_recipient("bar@camp.com")).to eq true
+      expect(connection.receive_recipient("<matthew@foo.com>")).to eq true
+      expect(connection.receive_recipient("<bar@camp.com>")).to eq true
       expect(connection.current.recipients).to eq ["matthew@foo.com", "bar@camp.com"]
     end
   end

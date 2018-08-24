@@ -99,7 +99,8 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
   def receive_recipient(recipient)
     current.recipients = [] if current.recipients.nil?
-    current.recipients << recipient
+    # Convert "<foo@foo.com>" to foo@foo.com
+    current.recipients << recipient.match("<(.*)>")[1]
     true
   end
 

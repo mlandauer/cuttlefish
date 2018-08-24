@@ -39,8 +39,7 @@ The Awesome Cuttlefish
     mail.text_part = text_part
     mail.html_part = html_part
 
-    # TODO: Rejig form of "to" array so that we don't have to do this
-    MailWorker.perform_async(mail.to.map{|t| "<#{t}>"}, Base64.encode64(mail.to_s), app.id)
+    MailWorker.perform_async(mail.to, Base64.encode64(mail.to_s), app.id)
 
     flash[:notice] = "Test email sent"
     redirect_to deliveries_url

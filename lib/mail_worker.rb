@@ -15,7 +15,7 @@ class MailWorker
       from = Mail.new(data).from.first
 
       email = Email.create!(from: from,
-        to: recipients.map{|t| t.match("<(.*)>")[1]},
+        to: recipients,
         data: data,
         app_id: app_id)
 
