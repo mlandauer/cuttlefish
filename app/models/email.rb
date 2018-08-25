@@ -51,8 +51,9 @@ class Email < ActiveRecord::Base
     @data ||= email_cache.get(id)
   end
 
+  # TODO: Make sure that data doesn't get modified after creation otherwise this cache is invalid
   def mail
-    Mail.new(data)
+    @mail ||= Mail.new(data)
   end
 
   def text_part
@@ -108,14 +109,13 @@ class Email < ActiveRecord::Base
   end
 
   def update_subject
-    self.subject = Mail.new(data).subject
+    self.subject = mail.subject
   end
 
   def update_from
     # There can be multiple from addresses in the body of the mail
     # but we'll only take the first. See
     # https://github.com/mlandauer/cuttlefish/issues/315
-    froms = Mail.new(data).from
-    self.from = froms.first if froms
+    self.from = mail.from.first if mail.from
   end
 end
