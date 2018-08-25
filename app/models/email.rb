@@ -82,10 +82,6 @@ class Email < ActiveRecord::Base
     end
   end
 
-  def update_cache
-    email_cache.set(id, data)
-  end
-
   def opened?
     !open_events.empty?
   end
@@ -96,16 +92,16 @@ class Email < ActiveRecord::Base
 
   private
 
-  def update_message_id
-    # Just need to extract the Message-ID header. Could do this by parsing the whole email using
-    # the Mail gem but this seems wasteful.
-    match = data.match(/Message-ID: <([^>]+)>/) if data
-    # Would expect there always to be a message id but we will be more lenient for the time being
-    self.message_id = match[1] if match
+  def update_cache
+    email_cache.set(id, data)
   end
 
   def update_data_hash
     self.data_hash = Digest::SHA1.hexdigest(data) if data
+  end
+
+  def update_message_id
+    self.message_id = mail.message_id
   end
 
   def update_subject
