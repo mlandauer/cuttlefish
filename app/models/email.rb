@@ -7,7 +7,7 @@ class Email < ActiveRecord::Base
   has_many :click_events, through: :deliveries
 
   after_create :update_cache
-  before_save :update_message_id, :update_data_hash, :update_subject
+  before_save :update_message_id, :update_data_hash, :update_subject, :update_from
 
   delegate :custom_tracking_domain, :tracking_domain, :custom_tracking_domain?,
     :open_tracking_enabled?, :click_tracking_enabled?, to: :app
@@ -109,5 +109,13 @@ class Email < ActiveRecord::Base
 
   def update_subject
     self.subject = Mail.new(data).subject
+  end
+
+  def update_from
+    # There can be multiple from addresses in the body of the mail
+    # but we'll only take the first. See
+    # https://github.com/mlandauer/cuttlefish/issues/315
+    froms = Mail.new(data).from
+    self.from = froms.first if froms
   end
 end

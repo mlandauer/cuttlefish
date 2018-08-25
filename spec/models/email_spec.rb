@@ -5,7 +5,6 @@ describe Email do
     context "One email is created" do
       before :each do
         FactoryBot.create(:email,
-          from: "matthew@foo.com",
           to: "foo@bar.com",
           data: "From: contact@openaustraliafoundation.org.au\nTo: Matthew Landauer\nSubject: This is a subject\nMessage-ID: <5161ba1c90b10_7837557029c754c8@kedumba.mail>\n\nHello!"
         )
@@ -33,6 +32,10 @@ describe Email do
 
       it "should set the subject of the email based on the data" do
         expect(Email.first.subject).to eq "This is a subject"
+      end
+
+      it "should set the from address based on the content of the email" do
+        expect(Email.first.from).to eq "contact@openaustraliafoundation.org.au"
       end
     end
   end

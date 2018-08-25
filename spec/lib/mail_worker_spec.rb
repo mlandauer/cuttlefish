@@ -36,11 +36,4 @@ describe MailWorker, '#perform' do
 
     expect(Email.count).to eq 0
   end
-
-  it "should discard the return path email and use the email contents as the from address" do
-    expect_any_instance_of(OutgoingDelivery).to receive(:send)
-    expect(Email).to receive(:create!).with(from: "matthew@foo.com", to: ["foo@bar.com"], data: mail.encoded, app_id: app.id).and_call_original
-
-    MailWorker.new.perform(["foo@bar.com"], Base64.encode64(mail.encoded), app.id)
-  end
 end
