@@ -12,28 +12,17 @@ describe MailWorker, '#perform' do
       body "Let's say some stuff"
     end
   }
-
-
-  it "should save the email information and forward it" do
-    allow_any_instance_of(OutgoingDelivery).to receive(:send)
-    MailWorker.new.perform(["foo@bar.com"], Base64.encode64(mail.encoded), app.id)
-
-    expect(Email.count).to eq 1
-  end
+  let(:email) {
+    Email.create!(
+      to: ["foo@bar.com"],
+      data: mail.encoded,
+      app_id: app.id
+    )
+  }
 
   it "should forward the email information" do
     expect_any_instance_of(OutgoingDelivery).to receive(:send)
 
-    MailWorker.new.perform(["foo@bar.com"], Base64.encode64(mail.encoded), app.id)
-  end
-
-  it "should not save the email information if the forwarding fails" do
-    allow_any_instance_of(OutgoingDelivery).to receive(:send).and_raise("I can't contact the mail server")
-
-    expect {
-      MailWorker.new.perform(["foo@bar.com"], Base64.encode64(mail.encoded), app.id)
-    }.to raise_error("I can't contact the mail server")
-
-    expect(Email.count).to eq 0
+    MailWorker.new.perform(email.id)
   end
 end

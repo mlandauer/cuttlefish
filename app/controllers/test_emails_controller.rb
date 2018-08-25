@@ -39,7 +39,13 @@ The Awesome Cuttlefish
     mail.text_part = text_part
     mail.html_part = html_part
 
-    MailWorker.perform_async(mail.to, Base64.encode64(mail.to_s), app.id)
+    email = Email.create!(
+      to: mail.to,
+      data: mail.to_s,
+      app_id: app.id
+    )
+
+    MailWorker.perform_async(email.id)
 
     flash[:notice] = "Test email sent"
     redirect_to deliveries_url

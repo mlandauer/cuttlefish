@@ -152,12 +152,14 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
     # TODO No need to capture current.sender, current.received, current.completed_at
     # because we're not passing it on
-    #
-    # Before we send current.data to MailWorker we need to deal with the encoding
-    # because before it gets stored in redis it needs to be serialised to json
-    # which requires a conversion to utf8
-    # It comes in with unknown encoding - so let's encode it as base64
-    MailWorker.perform_async(current.recipients, Base64.encode64(current.data), current.app_id)
+
+    email = Email.create!(
+      to: current.recipients,
+      data: current.data,
+      app_id: current.app_id
+    )
+
+    MailWorker.perform_async(email.id)
 
     # Preserve the app_id as we are already authenticated
     @current = OpenStruct.new(app_id: current.app_id)
