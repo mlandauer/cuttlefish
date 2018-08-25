@@ -1,4 +1,4 @@
-class Types::Admin < Types::Base::Object
+class Types::Admin < GraphQL::Schema::Object
   description "An administrator"
   field :email, String, null: false, description: "Their email address"
   field :name, String, null: true, description: "Their full name"

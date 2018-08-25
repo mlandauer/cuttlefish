@@ -1,4 +1,4 @@
-class Types::SmtpServer < Types::Base::Object
+class Types::SmtpServer < GraphQL::Schema::Object
   description "Details needed to send email to the Cuttlefish SMTP server"
   field :hostname, String, null: false, description: "The hostname"
   field :port, Int, null: false, description: "The port"

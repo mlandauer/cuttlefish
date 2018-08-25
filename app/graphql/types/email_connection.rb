@@ -1,4 +1,4 @@
-class Types::EmailConnection < Types::Base::Object
+class Types::EmailConnection < GraphQL::Schema::Object
   description "A list of Emails"
   field :total_count, Integer, null: false, description: "The total count of items"
   field :nodes, [Types::Email], null: true, description: "A list of nodes"

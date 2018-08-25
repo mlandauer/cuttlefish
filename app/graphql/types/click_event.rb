@@ -1,4 +1,4 @@
-class Types::ClickEvent < Types::Base::Object
+class Types::ClickEvent < GraphQL::Schema::Object
   implements Types::UserAgentEvent
 
   description "Information about someone clicking on a link in an email"

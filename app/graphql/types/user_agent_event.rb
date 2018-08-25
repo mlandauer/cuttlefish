@@ -1,5 +1,5 @@
 module Types::UserAgentEvent
-  include Types::Base::Interface
+  include GraphQL::Schema::Interface
   description "An event initiated by someone from a browser / email client"
   field :created_at, Types::DateTime, null: true, description: "The time of the event"
   field :user_agent, Types::FamilyAndVersion, null: true, description: "The browser / email client being used"

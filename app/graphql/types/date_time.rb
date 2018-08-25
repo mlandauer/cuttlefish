@@ -1,4 +1,4 @@
-class Types::DateTime < Types::Base::Scalar
+class Types::DateTime < GraphQL::Schema::Scalar
   def self.coerce_input(input_value, _context)
     Time.zone.parse(input_value)
   end

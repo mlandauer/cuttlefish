@@ -1,4 +1,4 @@
-class Types::Email < Types::Base::Object
+class Types::Email < GraphQL::Schema::Object
   description "An email delivered to a single destination"
   guard ->(object, args, context) {
     context[:current_admin] &&

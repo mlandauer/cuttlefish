@@ -1,4 +1,4 @@
-class Types::App < Types::Base::Object
+class Types::App < GraphQL::Schema::Object
   description "An app in Cuttlefish"
 
   field :id, ID, null: false, description: "The database ID"

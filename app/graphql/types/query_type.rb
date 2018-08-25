@@ -1,4 +1,4 @@
-class Types::QueryType < Types::Base::Object
+class Types::QueryType < GraphQL::Schema::Object
   # Add root-level fields here.
   # They will be entry points for queries on your schema.
   description "The query root for the Cuttlefish GraphQL API"
