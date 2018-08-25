@@ -1,8 +1,8 @@
-class Types::EmailConnectionType < Types::Base::Object
+class Types::EmailConnection < Types::Base::Object
   description "A list of Emails"
   field :total_count, Integer, null: false, description: "The total count of items"
-  field :nodes, [Types::EmailType], null: true, description: "A list of nodes"
-  field :statistics, Types::EmailStatsType, null: false, description: "Statistics over emails (ignoring pagination)"
+  field :nodes, [Types::Email], null: true, description: "A list of nodes"
+  field :statistics, Types::EmailStats, null: false, description: "Statistics over emails (ignoring pagination)"
 
   def total_count
     object[:all].count

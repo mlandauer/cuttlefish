@@ -1,4 +1,4 @@
-class Types::DkimDnsRecordType < Types::Base::Object
+class Types::DkimDnsRecord < Types::Base::Object
   description "Details of the DKIM DNS record"
 
   field :upgrade_required, Boolean, null: false, description: "Whether a change to the the new form of the DKIM record is required"

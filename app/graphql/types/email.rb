@@ -1,4 +1,4 @@
-class Types::EmailType < Types::Base::Object
+class Types::Email < Types::Base::Object
   description "An email delivered to a single destination"
   guard ->(object, args, context) {
     context[:current_admin] &&
@@ -9,15 +9,15 @@ class Types::EmailType < Types::Base::Object
   field :from, String, null: true, description: "The email address which this email is from"
   field :to, String, null: false, description: "The destination email address"
   field :subject, String, null: true, description: "The subject of this email"
-  field :content, Types::EmailContentType, null: true, description: "The full content of this email (if it is available)"
-  field :created_at, Types::DateTimeType, null: false, description: "When the email was received by Cuttlefish"
-  field :app, Types::AppType, null: true, description: "The app associated with this email"
-  field :status, Types::StatusType, null: false, description: "The status of this email"
+  field :content, Types::EmailContent, null: true, description: "The full content of this email (if it is available)"
+  field :created_at, Types::DateTime, null: false, description: "When the email was received by Cuttlefish"
+  field :app, Types::App, null: true, description: "The app associated with this email"
+  field :status, Types::Status, null: false, description: "The status of this email"
   field :opened, Boolean, null: false, description: "Whether this email was opened"
   field :clicked, Boolean, null: false, description: "Whether this email was clicked"
-  field :delivery_events, [Types::DeliveryEventType], null: false, description: "A list of delivery events for this email"
-  field :open_events, [Types::OpenEventType], null: false, description: "A list of open events for this email"
-  field :click_events, [Types::ClickEventType], null: false, description: "A list of click events for this email"
+  field :delivery_events, [Types::DeliveryEvent], null: false, description: "A list of delivery events for this email"
+  field :open_events, [Types::OpenEvent], null: false, description: "A list of open events for this email"
+  field :click_events, [Types::ClickEvent], null: false, description: "A list of click events for this email"
 
   def to
     address.text

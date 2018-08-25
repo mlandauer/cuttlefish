@@ -3,15 +3,15 @@ class Types::QueryType < Types::Base::Object
   # They will be entry points for queries on your schema.
   description "The query root for the Cuttlefish GraphQL API"
 
-  field :email, Types::EmailType, null: true do
+  field :email, Types::Email, null: true do
     argument :id, ID, required: true, description: "ID of Email to find"
     description "Find a single Email"
   end
 
-  field :emails, Types::EmailConnectionType, connection: false, null: true do
+  field :emails, Types::EmailConnection, connection: false, null: true do
     argument :app_id, ID, required: false, description: "Filter results by App"
-    argument :status, Types::StatusType, required: false, description: "Filter results by Email status"
-    argument :since, Types::DateTimeType, required: false, description: "Filter result to emails created since time"
+    argument :status, Types::Status, required: false, description: "Filter results by Email status"
+    argument :since, Types::DateTime, required: false, description: "Filter result to emails created since time"
     argument :from, String, required: false, description: "Filter results by Email from address"
     argument :to, String, required: false, description: "Filter results by Email to address"
     argument :limit, Int, required: false, description: "For pagination: sets maximum number of items returned"
@@ -19,24 +19,24 @@ class Types::QueryType < Types::Base::Object
     description "A list of Emails that this admin has access to. Most recent emails come first."
   end
 
-  field :app, Types::AppType, null: true do
+  field :app, Types::App, null: true do
     argument :id, ID, required: true, description: "ID of App to find"
     description "Find a single App"
   end
 
-  field :apps, [Types::AppType], null: true do
+  field :apps, [Types::App], null: true do
     description "A list of Apps that this admin has access to, sorted alphabetically by name."
   end
 
-  field :configuration, Types::ConfigurationType, null: false do
+  field :configuration, Types::Configuration, null: false do
     description "Application configuration settings"
   end
 
-  field :admins, [Types::AdminType], null: false do
+  field :admins, [Types::Admin], null: false do
     description "List of Admins that this admin has access to, sorted alphabetically by name."
   end
 
-  field :viewer, Types::AdminType, null: true do
+  field :viewer, Types::Admin, null: true do
     description "The currently authenticated admin"
   end
 

@@ -1,4 +1,4 @@
-class Types::StatusType < Types::Base::Enum
+class Types::Status < Types::Base::Enum
   description "The delivery status of an email"
   value "not_sent", "Not sent because it's on the blacklist"
   # TODO: Rename this to in_flight to be clearer
