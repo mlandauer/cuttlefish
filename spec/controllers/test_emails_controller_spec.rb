@@ -22,8 +22,8 @@ describe TestEmailsController, type: :controller do
     describe "#create" do
       let(:app) { team.apps.create!(name: "Test") }
 
-      it "should send a test email" do
-        expect(MailWorker).to receive(:perform_async)
+      it "should create an email" do
+        expect(CreateEmail).to receive(:call)
         post :create, params: { from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", subject: "Test", text: "Hello. How are you?", app_id: app.id }
       end
 
