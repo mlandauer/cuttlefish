@@ -1,5 +1,15 @@
-class CreateEmail
-  def self.call(app_id:, from:, to:, cc:, subject:, text_part:, html_part:)
+class CreateEmail < ApplicationService
+  def initialize(app_id:, from:, to:, cc:, subject:, text_part:, html_part:)
+    @app_id = app_id
+    @from = from
+    @to = to
+    @cc = cc
+    @subject = subject
+    @text_part = text_part
+    @html_part = html_part
+  end
+
+  def call
     mail = Mail.new
     mail.from = from
     mail.to = to
@@ -23,4 +33,8 @@ class CreateEmail
     MailWorker.perform_async(email.id)
     email
   end
+
+  private
+
+  attr_reader :app_id, :from, :to, :cc, :subject, :text_part, :html_part
 end
