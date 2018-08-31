@@ -24,28 +24,16 @@ The Awesome Cuttlefish
     app = App.find(params[:app_id])
     authorize app, :show?
 
-    mail = Mail.new
-    mail.from = params[:from]
-    mail.to = params[:to]
-    mail.cc = params[:cc]
-    mail.subject = params[:subject]
-
-    text_part = Mail::Part.new
-    text_part.body = params[:text]
-
-    html_part = Mail::Part.new
-    html_part.body = simple_format(params[:text])
-
-    mail.text_part = text_part
-    mail.html_part = html_part
-
-    email = Email.create!(
-      to: mail.to,
-      data: mail.to_s,
-      app_id: app.id
+    # TODO: Handle errors
+    CreateEmail.call(
+      app_id: app.id,
+      from: params[:from],
+      to: params[:to],
+      cc: params[:cc],
+      subject: params[:subject],
+      text_part: params[:text],
+      html_part: simple_format(params[:text])
     )
-
-    MailWorker.perform_async(email.id)
 
     flash[:notice] = "Test email sent"
     redirect_to deliveries_url
