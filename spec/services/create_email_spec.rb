@@ -23,4 +23,8 @@ describe CreateEmail do
   it "should create an email" do
     expect { create_email }.to change { Email.count }.by(1)
   end
+
+  it "should return an email" do
+    expect(create_email).to be_an(Email)
+  end
 end

@@ -21,5 +21,6 @@ class CreateEmail
     )
 
     MailWorker.perform_async(email.id)
+    email
   end
 end
