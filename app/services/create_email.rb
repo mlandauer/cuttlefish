@@ -9,6 +9,8 @@ class CreateEmail < ApplicationService
     @html_part = html_part
   end
 
+  # TODO: Check for validation errors
+  # TODO: Check that at least one of html_part and text_part are non-null
   def call
     mail = Mail.new
     mail.from = from
@@ -16,13 +18,17 @@ class CreateEmail < ApplicationService
     mail.cc = cc
     mail.subject = subject
 
-    part = Mail::Part.new
-    part.body = text_part
-    mail.text_part = part
+    if text_part
+      part = Mail::Part.new
+      part.body = text_part
+      mail.text_part = part
+    end
 
-    part = Mail::Part.new
-    part.body = html_part
-    mail.html_part = part
+    if html_part
+      part = Mail::Part.new
+      part.body = html_part
+      mail.html_part = part
+    end
 
     email = Email.create!(
       to: mail.to,
