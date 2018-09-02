@@ -1,4 +1,4 @@
-FactoryBot.define do
+FactoryGirl.define do
   factory :app do
     team
     name "My App"

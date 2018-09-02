@@ -3,32 +3,32 @@ require 'spec_helper'
 describe App do
   describe "#smtp_password" do
     it "should create a password that is twenty characters long" do
-      expect(FactoryBot.create(:app).smtp_password.size).to eq 20
+      expect(FactoryGirl.create(:app).smtp_password.size).to eq 20
     end
 
     it "should create a password that is different every time" do
-      expect(FactoryBot.create(:app).smtp_password).to_not eq FactoryBot.create(:app).smtp_password
+      expect(FactoryGirl.create(:app).smtp_password).to_not eq FactoryGirl.create(:app).smtp_password
     end
   end
 
   describe "#name" do
     it "should allow upper and lower case letters, numbers, spaces and underscores" do
-      expect(FactoryBot.build(:app, name: "Foo12 Bar_Foo")).to be_valid
+      expect(FactoryGirl.build(:app, name: "Foo12 Bar_Foo")).to be_valid
     end
 
     it "should not allow other characters" do
-      expect(FactoryBot.build(:app, name: "*")).to_not be_valid
+      expect(FactoryGirl.build(:app, name: "*")).to_not be_valid
     end
   end
 
   describe "#smtp_username" do
     it "should set the smtp_username based on the name when created" do
-      app = FactoryBot.create(:app, name: "Planning Alerts", id: 15)
+      app = FactoryGirl.create(:app, name: "Planning Alerts", id: 15)
       expect(app.smtp_username).to eq "planning_alerts_15"
     end
 
     it "should not change the smtp_username if the name is updated" do
-      app = FactoryBot.create(:app, name: "Planning Alerts", id: 15)
+      app = FactoryGirl.create(:app, name: "Planning Alerts", id: 15)
       app.update_attributes(name: "Another description")
       expect(app.smtp_username).to eq "planning_alerts_15"
     end
@@ -36,19 +36,19 @@ describe App do
 
   describe "#custom_tracking_domain" do
     it "should look up the cname of the custom domain and check it points to the cuttlefish server" do
-      app = FactoryBot.build(:app, custom_tracking_domain: "email.myapp.com")
+      app = FactoryGirl.build(:app, custom_tracking_domain: "email.myapp.com")
       expect(App).to receive(:lookup_dns_cname_record).with("email.myapp.com").and_return("localhost.")
       expect(app).to be_valid
     end
 
     it "should look up the cname of the custom domain and check it points to the cuttlefish server" do
-      app = FactoryBot.build(:app, custom_tracking_domain: "email.foo.com")
+      app = FactoryGirl.build(:app, custom_tracking_domain: "email.foo.com")
       expect(App).to receive(:lookup_dns_cname_record).with("email.foo.com").and_return("foo.com.")
       expect(app).to_not be_valid
     end
 
     it "should not look up the cname if the custom domain hasn't been set" do
-      app = FactoryBot.build(:app)
+      app = FactoryGirl.build(:app)
       expect(App).to_not receive(:lookup_dns_cname_record)
       expect(app).to be_valid
     end

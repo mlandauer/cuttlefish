@@ -2,7 +2,7 @@ class Admins::RegistrationsController < Devise::RegistrationsController
   after_action :verify_authorized
 
   layout "login", except: [:edit, :update]
-  before_action :check_first_user, only: [:new, :create]
+  before_filter :check_first_user, only: [:new, :create]
 
   def edit
     authorize :registration

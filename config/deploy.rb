@@ -1,7 +1,7 @@
 require "rvm/capistrano"
 require 'bundler/capistrano'
 # This links .env to shared
-require "dotenv/load"
+require "dotenv/deployment/capistrano"
 require "honeybadger/capistrano" unless fetch(:local_deploy, false)
 
 set :application, "cuttlefish"
@@ -44,7 +44,6 @@ namespace :deploy do
       "#{release_path}/config/database.yml"                => "#{shared_path}/database.yml",
       "#{release_path}/db/emails"                          => "#{shared_path}/emails",
       "#{release_path}/db/archive"                         => "#{shared_path}/archive",
-      "#{release_path}/.env"                               => "#{shared_path}/.env",
     }
     # Copy across the example database configuration file if there isn't already one
     run "test -f #{shared_path}/database.yml || cp #{release_path}/config/database.yml #{shared_path}/database.yml"

@@ -10,6 +10,10 @@
     /[if lt IE 9]
       = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
     = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
+    %link(href="images/apple-touch-icon-144x144.png" rel="apple-touch-icon-precomposed" sizes="144x144")
+    %link(href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114")
+    %link(href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72")
+    %link(href="images/apple-touch-icon.png" rel="apple-touch-icon-precomposed")
     = favicon_link_tag 'cuttlefish.ico'
     = analytics_init if GA.valid_tracker?
 

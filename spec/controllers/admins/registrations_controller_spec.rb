@@ -9,12 +9,12 @@ describe Admins::RegistrationsController, type: :controller do
   context "This a new install of Cuttlefish with no users" do
     it "should allow an admin to register" do
       get :new
-      expect(response).to be_successful
+      expect(response).to be_success
     end
 
     it "should allow an admin to register" do
       post :create
-      expect(response).to be_successful
+      expect(response).to be_success
     end
   end
 
@@ -27,24 +27,24 @@ describe Admins::RegistrationsController, type: :controller do
 
     it "should not allow an admin to register" do
       get :new
-      expect(response).to_not be_successful
+      expect(response).to_not be_success
     end
 
     it "should not allow an admin to register" do
       post :create
-      expect(response).to_not be_successful
+      expect(response).to_not be_success
     end
 
     it "should allow an admin to update their account details" do
       sign_in admin
       get :edit
-      expect(response).to be_successful
+      expect(response).to be_success
     end
 
     it "should allow an admin to update their account details" do
       sign_in admin
       post :update
-      expect(response).to be_successful
+      expect(response).to be_success
     end
   end
 end

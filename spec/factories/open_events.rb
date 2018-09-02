@@ -1,4 +1,4 @@
-FactoryBot.define do
+FactoryGirl.define do
   factory :open_event do
   end
 end

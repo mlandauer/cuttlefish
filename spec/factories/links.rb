@@ -1,6 +1,6 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
-FactoryBot.define do
+FactoryGirl.define do
   factory :link do
     url "http://foo.com"
   end

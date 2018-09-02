@@ -5,13 +5,13 @@ describe AppPolicy do
   
   subject { AppPolicy.new(user, app) }
 
-  let(:team_one) { FactoryBot.create(:team) }
-  let(:team_two) { FactoryBot.create(:team) }
+  let(:team_one) { FactoryGirl.create(:team) }
+  let(:team_two) { FactoryGirl.create(:team) }
 
-  let(:app) { FactoryBot.create(:app, team: team_one) }
+  let(:app) { FactoryGirl.create(:app, team: team_one) }
 
   context "normal user in team one" do
-    let(:user) { FactoryBot.create(:admin, team: team_one)}
+    let(:user) { FactoryGirl.create(:admin, team: team_one)}
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:new) }
@@ -23,7 +23,7 @@ describe AppPolicy do
   end
 
   context "normal user in team two" do
-    let(:user) { FactoryBot.create(:admin, team: team_two)}
+    let(:user) { FactoryGirl.create(:admin, team: team_two)}
     it { is_expected.not_to permit(:show) }
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:new) }
@@ -35,7 +35,7 @@ describe AppPolicy do
   end
 
   context "super admin in team two" do
-    let(:user) { FactoryBot.create(:admin, team: team_two, super_admin: true)}
+    let(:user) { FactoryGirl.create(:admin, team: team_two, super_admin: true)}
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:new) }

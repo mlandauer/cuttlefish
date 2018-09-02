@@ -1,6 +1,6 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
-FactoryBot.define do
+FactoryGirl.define do
   factory :delivery_link do
     delivery
     link

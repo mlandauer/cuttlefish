@@ -39,7 +39,7 @@ describe Admins::SessionsController, type: :controller do
 
       it "should not redirect https" do
         get :new
-        expect(response).to be_successful
+        expect(response).to be_success
       end
     end
   end

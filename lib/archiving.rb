@@ -2,16 +2,16 @@
 class Archiving
   # Archive all the emails for a particular date (in UTC)
   # TODO Check that we're not trying to archive today's email
-  def self.archive(date, noisy = true)
+  def self.archive(date)
     t0 = date.to_datetime
     t1 = t0.next_day
     deliveries = Delivery.where(created_at: t0..t1).includes(:links, :click_events, :open_events, :address, :postfix_log_lines, {:email => [:from_address, :app]})
     if deliveries.empty?
-      puts "Nothing to archive for #{date}" if noisy
+      puts "Nothing to archive for #{date}"
     else
       FileUtils.mkdir_p(archive_directory)
 
-      puts "Archiving #{date}..." if noisy
+      puts "Archiving #{date}..."
       # TODO bzip2 gives better compression but I had trouble with the Ruby gem for it
       Zlib::GzipWriter.open(archive_file_path_for(date)) do |gzip|
         Archive::Tar::Minitar::Writer.open(gzip) do |writer|
@@ -29,16 +29,16 @@ class Archiving
         end
       end
 
-      puts "Removing archived data from database for #{date}..." if noisy
+      puts "Removing archived data from database for #{date}..."
       deliveries.find_each do |delivery|
         delivery.destroy
       end
 
       if copy_to_s3(date)
-        puts "Removing local file #{archive_filename_for(date)} copied to S3..." if noisy
+        puts "Removing local file #{archive_filename_for(date)} copied to S3..."
         File.delete(archive_file_path_for(date))
       else
-        puts "Keeping file #{archive_filename_for(date)} as it wasn't copied to S3" if noisy
+        puts "Keeping file #{archive_filename_for(date)} as it wasn't copied to S3"
       end
     end
   end
@@ -103,18 +103,18 @@ class Archiving
     delivery
   end
 
-  def self.copy_to_s3(date, noisy = true)
+  def self.copy_to_s3(date)
     if s3_bucket = ENV["S3_BUCKET"]
-      puts "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..." if noisy
+      puts "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..."
 
-      s3_connection = Fog::Storage.new(fog_storage_details)
+      s3_connection = Fog::Storage.new(fog_storgage_details)
       directory = s3_connection.directories.get(s3_bucket)
       directory.files.create(
         key: "#{date}.tar.gz",
         body: File.open(archive_file_path_for(date)),
       )
     else
-      puts "Skipped upload of #{archive_filename_for(date)} because S3 access not configured" if noisy
+      puts "Skipped upload of #{archive_filename_for(date)} because S3 access not configured"
     end
   end
 
@@ -130,7 +130,7 @@ class Archiving
     "#{archive_directory}/#{archive_filename_for(date)}"
   end
 
-  def self.fog_storage_details
+  def self.fog_storgage_details
     details = {
       provider: "AWS",
       aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],

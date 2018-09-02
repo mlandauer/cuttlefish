@@ -181,7 +181,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
   end
 
   def receive_data_chunk(data)
-    current.data << data.join("\r\n")
+    current.data << data.join("\n")
     true
   end
 
