@@ -9,7 +9,7 @@ describe PostfixLogLine do
 
   context "one log line" do
     let (:l) do
-      email = FactoryGirl.create(:email, to: "foo@bar.com")
+      email = FactoryBot.create(:email, to: "foo@bar.com")
       email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
       PostfixLogLine.create_from_line(line1)
       PostfixLogLine.first
@@ -34,7 +34,7 @@ describe PostfixLogLine do
 
   describe ".create_from_line" do
     it "should have an empty log lines on the delivery to start with" do
-      email = FactoryGirl.create(:email, to: "foo@bar.com")
+      email = FactoryBot.create(:email, to: "foo@bar.com")
       email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
       expect(email.deliveries.first.postfix_log_lines).to be_empty
     end
@@ -42,7 +42,7 @@ describe PostfixLogLine do
     context "one log line" do
       let(:address) { Address.create!(text: "foo@bar.com")}
       let(:email) do
-        email = FactoryGirl.create(:email, to_addresses: [address])
+        email = FactoryBot.create(:email, to_addresses: [address])
         email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
         email
       end
@@ -80,7 +80,7 @@ describe PostfixLogLine do
       let(:address1) { Address.create!(text: "foo@bar.com") }
       let(:address2) { Address.create!(text: "anincorrectemailaddress@openaustralia.org") }
       let(:email) do
-        email = FactoryGirl.create(:email, to_addresses: [address1, address2])
+        email = FactoryBot.create(:email, to_addresses: [address1, address2])
         email.deliveries.each {|d| d.update_attribute(:postfix_queue_id, "39D9336AFA81")}
         email
       end
@@ -101,7 +101,7 @@ describe PostfixLogLine do
 
     it "should not reprocess duplicate lines" do
       address = Address.create!(text: "foo@bar.com")
-      email = FactoryGirl.create(:email, to_addresses: [address])
+      email = FactoryBot.create(:email, to_addresses: [address])
       delivery = Delivery.find_by(email: email, address: address)
       delivery.update_attribute(:postfix_queue_id, "39D9336AFA81")
 
@@ -111,8 +111,8 @@ describe PostfixLogLine do
     end
 
     it "should recognise timeouts" do
-      address = FactoryGirl.create(:address, text: "foobar@optusnet.com.au")
-      delivery = FactoryGirl.create(:delivery, postfix_queue_id: "773A9CBBC", address: address)
+      address = FactoryBot.create(:address, text: "foobar@optusnet.com.au")
+      delivery = FactoryBot.create(:delivery, postfix_queue_id: "773A9CBBC", address: address)
       line = "Dec 21 07:41:10 localhost postfix/error[29539]: 773A9CBBC: to=<foobar@optusnet.com.au>, relay=none, delay=334, delays=304/31/0/0, dsn=4.4.1, status=deferred (delivery temporarily suspended: connect to extmail.optusnet.com.au[211.29.133.14]:25: Connection timed out)"
       PostfixLogLine.create_from_line(line)
       expect(PostfixLogLine.count).to eq 1
@@ -126,7 +126,7 @@ describe PostfixLogLine do
 
     it "should show a message if the address isn't recognised in a log line" do
       expect(PostfixLogLine).to receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
-      email = FactoryGirl.create(:email)
+      email = FactoryBot.create(:email)
       PostfixLogLine.create_from_line(line1)
     end
 
@@ -138,12 +138,12 @@ describe PostfixLogLine do
     context "two emails with the same queue id" do
       let(:address) { Address.create!(text: "foo@bar.com") }
       let(:email1) do
-        email = FactoryGirl.create(:email, to_addresses: [address], created_at: 10.minutes.ago)
+        email = FactoryBot.create(:email, to_addresses: [address], created_at: 10.minutes.ago)
         email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
         email
       end
       let(:email2) do
-        email = FactoryGirl.create(:email, to_addresses: [address], created_at: 5.minutes.ago)
+        email = FactoryBot.create(:email, to_addresses: [address], created_at: 5.minutes.ago)
         email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
         email
       end
@@ -161,7 +161,7 @@ describe PostfixLogLine do
 
     it "should log and skip unrecognised lines" do
       expect(PostfixLogLine).to receive(:puts).with("Skipping unrecognised line: Oct 25 17:36:47 vps331845 postfix[6084]: Postfix is running with backwards-compatible default setting")
-      email = FactoryGirl.create(:email)
+      email = FactoryBot.create(:email)
       result = PostfixLogLine.create_from_line(line5)
       expect(result).to be_nil
     end

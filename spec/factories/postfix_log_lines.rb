@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :postfix_log_line do
     delivery
     
