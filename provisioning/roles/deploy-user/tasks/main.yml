@@ -18,7 +18,8 @@
     key: https://github.com/{{ item[1] }}.keys
     comment: "{{ item[1] }}"
   with_nested:
-    - ['deploy', 'ubuntu', 'root']
+    #- ['deploy', 'ubuntu', 'root']
+    - ['deploy', 'root']
     - "{{ github_users }}"
   register: add_authorized_keys
 
