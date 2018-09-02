@@ -1,3 +1,4 @@
+HOME=/home/deploy
 GOOGLE_ANALYTICS_CODE={{ google_analytics_code }}
 SECRET_KEY_BASE={{ secret_key_base }}
 DEVISE_SECRET_KEY={{ devise_secret_key }}
