@@ -28,7 +28,7 @@ describe DeliveriesHelper, type: :helper do
   </body>
 </html>
       EOF
-      expect(helper.clean_html_email_for_display(html).strip).to eq "<div style=\"font-size: 40px\">\n\n    <p style=\"font-size: 20px\">Some text</p>\n  </div>"
+      expect(helper.clean_html_email_for_display(html).strip).to eq "<div style=\"font-size: 40px;\">\n    <p style=\"font-size: 20px;\">Some text</p>\n  </div>"
     end
 
     it "should preserve UTF-8 characters" do

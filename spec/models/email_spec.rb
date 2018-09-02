@@ -4,7 +4,7 @@ describe Email do
   describe "create!" do
     context "One email is created" do
       before :each do
-        FactoryGirl.create(:email,
+        FactoryBot.create(:email,
           from: "matthew@foo.com",
           to: "foo@bar.com",
           data: "From: contact@openaustraliafoundation.org.au\nTo: Matthew Landauer\nSubject: This is a subject\nMessage-ID: <5161ba1c90b10_7837557029c754c8@kedumba.mail>\n\nHello!"
@@ -21,13 +21,13 @@ describe Email do
 
       it "should have an identical hash to another email with identical content" do
         first_email = Email.first
-        email = FactoryGirl.create(:email, from: "geoff@foo.com", to: "people@bar.com", data: first_email.data)
+        email = FactoryBot.create(:email, from: "geoff@foo.com", to: "people@bar.com", data: first_email.data)
         expect(email.data_hash).to eq first_email.data_hash
       end
 
       it "should have a different hash to another email with different content" do
         first_email = Email.first
-        email = FactoryGirl.create(:email, from: "geoff@foo.com", to: "people@bar.com", data: "Something else")
+        email = FactoryBot.create(:email, from: "geoff@foo.com", to: "people@bar.com", data: "Something else")
         expect(email.data_hash).to_not eq first_email.data_hash
       end
 
@@ -39,19 +39,19 @@ describe Email do
 
   describe "#from" do
     it "should return a string for the from email address" do
-      email = FactoryGirl.create(:email, from_address: Address.create!(text: "matthew@foo.com"))
+      email = FactoryBot.create(:email, from_address: Address.create!(text: "matthew@foo.com"))
       expect(email.from).to eq "matthew@foo.com"
     end
 
     it "should allow the from_address to be set by a string" do
-      email = FactoryGirl.create(:email, from: "matthew@foo.com")
+      email = FactoryBot.create(:email, from: "matthew@foo.com")
       expect(email.from).to eq "matthew@foo.com"
     end
   end
 
   describe "#from_address" do
     it "should return an Address object" do
-      email = FactoryGirl.create(:email, from: "matthew@foo.org")
+      email = FactoryBot.create(:email, from: "matthew@foo.org")
       a1 = Address.find_by_text("matthew@foo.org")
       expect(a1).to_not be_nil
       expect(email.from_address).to eq a1
@@ -60,7 +60,7 @@ describe Email do
 
   describe "#to" do
     it "should return an array for all the email addresses" do
-      email = FactoryGirl.create(:email, to: ["mlandauer@foo.org", "matthew@bar.com"])
+      email = FactoryBot.create(:email, to: ["mlandauer@foo.org", "matthew@bar.com"])
       expect(email.to).to eq ["mlandauer@foo.org", "matthew@bar.com"]
     end
 
@@ -70,14 +70,14 @@ describe Email do
     end
 
     it "should set created_at for deliveries too" do
-      email = FactoryGirl.create(:email, to: "mlandauer@foo.org")
+      email = FactoryBot.create(:email, to: "mlandauer@foo.org")
       expect(email.deliveries.first.created_at).to_not be_nil
     end
   end
 
   describe "#to_addresses" do
     it "should return an array of Address objects" do
-      email = FactoryGirl.create(:email, to: ["mlandauer@foo.org", "matthew@bar.com"])
+      email = FactoryBot.create(:email, to: ["mlandauer@foo.org", "matthew@bar.com"])
       a1 = Address.find_by_text("mlandauer@foo.org")
       a2 = Address.find_by_text("matthew@bar.com")
       expect(a1).to_not be_nil
@@ -89,7 +89,7 @@ describe Email do
   describe "#data" do
     context "one email" do
       before :each do
-        FactoryGirl.create(:email, id: 10, data: "This is a main data section")
+        FactoryBot.create(:email, id: 10, data: "This is a main data section")
       end
       let(:email) { Email.find(10) }
 
@@ -105,8 +105,8 @@ describe Email do
 
     it "should only keep the full data of a certain number of the emails around" do
       allow(Rails.configuration).to receive(:max_no_emails_to_store).and_return(2)
-      app = FactoryGirl.create(:app)
-      4.times { FactoryGirl.create(:email, data: "This is a main section", app_id: app.id) }
+      app = FactoryBot.create(:app)
+      4.times { FactoryBot.create(:email, data: "This is a main section", app_id: app.id) }
       expect(Dir.glob(File.join(Email.first.email_cache.data_filesystem_directory, "*")).count).to eq 2
     end
   end

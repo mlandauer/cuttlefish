@@ -2,10 +2,10 @@ require 'simplecov'
 require 'coveralls'
 
 # Generate coverage locally in html as well as in coveralls.io
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::HTMLFormatter,
   Coveralls::SimpleCov::Formatter
-]
+])
 SimpleCov.start('rails')
 
 require 'capybara/rspec'
@@ -86,5 +86,5 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 end

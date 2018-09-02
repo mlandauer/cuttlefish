@@ -14,20 +14,20 @@ describe DeliveriesController, type: :controller do
 
     describe "GET index" do
       it "assigns all deliveries as @deliveries" do
-        delivery = FactoryGirl.create(:delivery)
+        delivery = FactoryBot.create(:delivery)
         # Make the email app part of this team
         delivery.email.app.update_attributes(team_id: team.id)
-        get :index, {}
+        get :index, params: {}
         expect(assigns(:deliveries)).to eq [delivery]
       end
     end
 
     describe "GET show" do
       it "assigns the requested delivery as @delivery" do
-        delivery = FactoryGirl.create(:delivery)
+        delivery = FactoryBot.create(:delivery)
         # Make the email app part of this team
         delivery.email.app.update_attributes(team_id: team.id)
-        get :show, {id: delivery.to_param}
+        get :show, params: {id: delivery.to_param}
         expect(assigns(:delivery)).to eq delivery
       end
     end

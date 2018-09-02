@@ -37,7 +37,7 @@
     %td.pull-right
       - unless loading
         - if Delivery.open_rate(deliveries)
-          = "%0.0f%" % (100.0 * Delivery.open_rate(deliveries))
+          = "%0.0f%%" % (100.0 * Delivery.open_rate(deliveries))
         - else
           n/a
   %tr
@@ -45,6 +45,6 @@
     %td.pull-right
       - unless loading
         - if Delivery.click_rate(deliveries)
-          = "%0.0f%" % (100.0 * Delivery.click_rate(deliveries))
+          = "%0.0f%%" % (100.0 * Delivery.click_rate(deliveries))
         - else
           n/a

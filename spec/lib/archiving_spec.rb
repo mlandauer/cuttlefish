@@ -21,13 +21,6 @@ describe Archiving do
   end
 
   describe ".archive" do
-    around do |example|
-      # Silence debugging output from this method
-      silence_stream(STDOUT) do
-        example.run
-      end
-    end
-
     before do
       create(:delivery, created_at: "2014-06-04T20:26:51.000+10:00", email: email)
     end
@@ -39,7 +32,7 @@ describe Archiving do
       end
 
       it "removes the temp archive file it creates" do
-        Archiving.archive("2014-06-04")
+        Archiving.archive("2014-06-04", false)
 
         expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be false
       end
@@ -56,7 +49,7 @@ describe Archiving do
       end
 
       it "does not delete the local copy" do
-        Archiving.archive("2014-06-04")
+        Archiving.archive("2014-06-04", false)
 
         expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be true
       end
@@ -134,13 +127,6 @@ describe Archiving do
   end
 
   describe ".copy_to_s3" do
-    around do |example|
-      # Silence debugging output from this method
-      silence_stream(STDOUT) do
-        example.run
-      end
-    end
-
     context "when AWS access is configured" do
       around do |test|
         with_modified_env mock_aws_credentials do
@@ -155,7 +141,8 @@ describe Archiving do
 
       it "sends a copy to S3" do
         VCR.use_cassette("aws") do
-          expect(Archiving.copy_to_s3("2014-06-04")).to be_instance_of Fog::Storage::AWS::File
+          # TODO: Silence debugging output from this method
+          expect(Archiving.copy_to_s3("2014-06-04", false)).to be_instance_of Fog::Storage::AWS::File
         end
       end
     end
@@ -168,7 +155,8 @@ describe Archiving do
       end
 
       it "fails silently" do
-        expect(Archiving.copy_to_s3("2014-06-04")).to eq nil
+        # TODO: Silence debugging output from this method
+        expect(Archiving.copy_to_s3("2014-06-04", false)).to eq nil
       end
     end
   end
