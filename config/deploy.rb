@@ -1,7 +1,7 @@
 require "rvm/capistrano"
 require 'bundler/capistrano'
 # This links .env to shared
-require "dotenv/deployment/capistrano"
+require "dotenv/load"
 require "honeybadger/capistrano" unless fetch(:local_deploy, false)
 
 set :application, "cuttlefish"
