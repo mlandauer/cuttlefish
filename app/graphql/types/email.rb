@@ -49,7 +49,7 @@ class Types::Email < GraphQL::Schema::Object
 
   def email
     BatchLoader.for(object.email_id).batch do |email_ids, loader|
-      Email.where(id: email_ids).each { |email| loader.call(email.id, email) }
+      ::Email.where(id: email_ids).each { |email| loader.call(email.id, email) }
     end
   end
 
