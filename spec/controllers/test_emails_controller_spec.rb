@@ -21,14 +21,16 @@ describe TestEmailsController, type: :controller do
 
     describe "#create" do
       let(:app) { team.apps.create!(name: "Test") }
+      let(:email) { mock_model('Email', deliveries: []) }
+      let(:create_email) { instance_double('CreateEmail', result: email) }
 
       it "should create an email" do
-        expect(CreateEmail).to receive(:call)
+        expect(CreateEmail).to receive(:call).and_return(create_email)
         post :create, params: { from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", subject: "Test", text: "Hello. How are you?", app_id: app.id }
       end
 
       it "should redirect to the list of recent emails" do
-        allow(MailWorker).to receive(:perform_async)
+        allow(CreateEmail).to receive(:call).and_return(create_email)
         post :create, params: { from: "contact@cuttlefish.io", to: "matthew@openaustralia.org", subject: "Test", text: "Hello. How are you?", app_id: app.id }
         expect(response).to redirect_to deliveries_url
       end

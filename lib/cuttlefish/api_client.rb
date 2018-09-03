@@ -238,6 +238,16 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  CREATE_EMAILS_MUTATION = CLIENT.parse <<-'GRAPHQL'
+    mutation ($appId: ID!, $from: String!, $to: [String!]!, $subject: String!, $textPart: String, $htmlPart: String) {
+      createEmails(appId: $appId, from: $from, to: $to, subject: $subject, textPart: $textPart, htmlPart: $htmlPart) {
+        emails {
+          id
+        }
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,

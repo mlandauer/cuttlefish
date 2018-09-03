@@ -1,5 +1,5 @@
 class TestEmailsController < ApplicationController
-  after_action :verify_authorized
+  after_action :verify_authorized, except: :create
 
   # We're using the simple_format helper below. Ugly but quick by bringing it into the controller
   include ActionView::Helpers::TextHelper
@@ -20,19 +20,19 @@ The Awesome Cuttlefish
 
   # Send a test email
   def create
-    authorize :test_email
-    app = App.find(params[:app_id])
-    authorize app, :show?
-
-    # TODO: Handle errors
-    CreateEmail.call(
-      app_id: app.id,
-      from: params[:from],
-      to: params[:to],
-      cc: params[:cc],
-      subject: params[:subject],
-      text_part: params[:text],
-      html_part: simple_format(params[:text])
+    # TODO: Check for errors
+    result = Cuttlefish::ApiClient.query(
+      Cuttlefish::ApiClient::CREATE_EMAILS_MUTATION,
+      variables: {
+        appId: params[:app_id],
+        from: params[:from],
+        to: params[:to],
+        cc: params[:cc],
+        subject: params[:subject],
+        textPart: params[:text],
+        htmlPart: simple_format(params[:text])
+      },
+      current_admin: current_admin
     )
 
     flash[:notice] = "Test email sent"
