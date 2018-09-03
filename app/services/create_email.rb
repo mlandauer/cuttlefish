@@ -26,6 +26,7 @@ class CreateEmail < ApplicationService
 
     if html_part
       part = Mail::Part.new
+      part.content_type = 'text/html; charset=UTF-8'
       part.body = html_part
       mail.html_part = part
     end
