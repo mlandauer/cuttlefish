@@ -15,6 +15,9 @@ group :assets do
   # of things we need to do for the upgrade
   gem 'bootstrap-sass', '~> 2.0'
 
+  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  gem 'therubyracer', platforms: :ruby
+
   gem 'uglifier'
   gem "less-rails"
 end
