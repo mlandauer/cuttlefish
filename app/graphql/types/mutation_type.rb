@@ -1,8 +1,8 @@
 class Types::MutationType < GraphQL::Schema::Object
-  # TODO: remove me
-  field :test_field, String, null: false,
-    description: "An example field added by the generator"
-  def test_field
-    "Hello World"
+  field :create_emails, mutation: Mutations::CreateEmails do
+    guard ->(object, args, context) {
+      app = App.find_by_id(args['appId'])
+      !context[:current_admin].nil? && app && AppPolicy.new(context[:current_admin], app).show?
+    }
   end
 end
