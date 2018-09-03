@@ -8,6 +8,10 @@ class DeliveryPolicy < ApplicationPolicy
     end
   end
 
+  def create?
+    !Rails.configuration.cuttlefish_read_only_mode
+  end
+
   class Scope < Scope
     def resolve
       # Avoid using join here as it was a lot slower

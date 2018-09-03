@@ -13,8 +13,8 @@ describe DeliveryPolicy do
   context "normal user in team one" do
     let(:user) { FactoryBot.create(:admin, team: team_one)}
     it { is_expected.to permit(:show) }
-    it { is_expected.not_to permit(:create) }
-    it { is_expected.not_to permit(:new) }
+    it { is_expected.to permit(:create) }
+    it { is_expected.to permit(:new) }
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
@@ -27,8 +27,8 @@ describe DeliveryPolicy do
   context "normal user in team two" do
     let(:user) { FactoryBot.create(:admin, team: team_two)}
     it { is_expected.not_to permit(:show) }
-    it { is_expected.not_to permit(:create) }
-    it { is_expected.not_to permit(:new) }
+    it { is_expected.to permit(:create) }
+    it { is_expected.to permit(:new) }
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
@@ -41,8 +41,8 @@ describe DeliveryPolicy do
   context "super admin in team two" do
     let(:user) { FactoryBot.create(:admin, team: team_two, super_admin: true)}
     it { is_expected.to permit(:show) }
-    it { is_expected.not_to permit(:create) }
-    it { is_expected.not_to permit(:new) }
+    it { is_expected.to permit(:create) }
+    it { is_expected.to permit(:new) }
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
