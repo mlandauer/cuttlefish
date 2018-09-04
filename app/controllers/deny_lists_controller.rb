@@ -3,7 +3,7 @@ class DenyListsController < ApplicationController
   after_action :verify_policy_scoped, only: :index
 
   def index
-    @black_lists = policy_scope(BlackList).order(created_at: :desc).page(params[:page])
+    @deny_lists = policy_scope(BlackList).order(created_at: :desc).page(params[:page])
   end
 
   def destroy

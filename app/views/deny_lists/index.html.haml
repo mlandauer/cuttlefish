@@ -5,9 +5,9 @@
     in this list will be "held back" and not sent.
 
 
-= paginated_section @black_lists, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Address" do
-  %p.count= page_entries_info @black_lists, model: "deny listed email addresses"
-  - if @black_lists.size > 0
+= paginated_section @deny_lists, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Address" do
+  %p.count= page_entries_info @deny_lists, model: "deny listed email addresses"
+  - if @deny_lists.size > 0
     %table.table.table-striped
       %thead
         %tr
@@ -15,18 +15,18 @@
           %th Reason deny listed
           %th When
       %tbody
-        - @black_lists.each do |black_list|
+        - @deny_lists.each do |deny_list|
           %tr
-            %td= black_list.address.text
+            %td= deny_list.address.text
             %td
-              - if black_list.has_record_of_cause?
-                = link_to truncate(black_list.caused_by_delivery.postfix_log_lines.first.extended_status, length: 160), black_list.caused_by_delivery
+              - if deny_list.has_record_of_cause?
+                = link_to truncate(deny_list.caused_by_delivery.postfix_log_lines.first.extended_status, length: 160), deny_list.caused_by_delivery
               - else
                 We don't know why this was deny listed. The delivery that caused it may have been archived.
             %td
-              - if black_list.caused_by_delivery
-                = time_ago_in_words(black_list.caused_by_delivery.postfix_log_lines.first.created_at)
+              - if deny_list.caused_by_delivery
+                = time_ago_in_words(deny_list.caused_by_delivery.postfix_log_lines.first.created_at)
                 ago
-            - if policy(black_list).destroy?
+            - if policy(deny_list).destroy?
               %td
-                = button_to "Remove", black_list, method: :delete, class: "btn btn-danger"
+                = button_to "Remove", deny_list, method: :delete, class: "btn btn-danger"
