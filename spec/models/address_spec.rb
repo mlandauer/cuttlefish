@@ -64,16 +64,16 @@ describe Address do
       end
     end
 
-    describe "#blacklisted?" do
+    describe "#deny_listed?" do
       let(:team) { Team.create! }
 
       context "address1 is not deny listed" do
-        it { expect(address1.blacklisted?(team)).to_not be_truthy}
+        it { expect(address1.deny_listed?(team)).to_not be_truthy}
       end
 
       context "address1 is deny listed" do
-        before(:each) { team.black_lists.create(address: address1)}
-        it { expect(address1.blacklisted?(team)).to be_truthy}
+        before(:each) { team.deny_lists.create(address: address1)}
+        it { expect(address1.deny_listed?(team)).to be_truthy}
       end
     end
   end

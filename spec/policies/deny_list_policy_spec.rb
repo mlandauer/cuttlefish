@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe BlackListPolicy do
-  subject { BlackListPolicy.new(user, black_list) }
+describe DenyListPolicy do
+  subject { DenyListPolicy.new(user, deny_list) }
 
   let(:team_one) { FactoryBot.create(:team) }
   let(:team_two) { FactoryBot.create(:team) }
 
-  let(:black_list) { FactoryBot.create(:black_list, team: team_one) }
+  let(:deny_list) { FactoryBot.create(:deny_list, team: team_one) }
 
   context "normal user in team one" do
     let(:user) { FactoryBot.create(:admin, team: team_one)}
@@ -18,8 +18,8 @@ describe BlackListPolicy do
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:destroy) }
     it 'should be in scope' do
-      black_list
-      expect(BlackListPolicy::Scope.new(user, BlackList).resolve).to include(black_list)
+      deny_list
+      expect(DenyListPolicy::Scope.new(user, DenyList).resolve).to include(deny_list)
     end
 
     context "in read only mode" do
@@ -39,8 +39,8 @@ describe BlackListPolicy do
     it { is_expected.not_to permit(:show) }
     it { is_expected.not_to permit(:destroy) }
     it 'should not be in scope' do
-      black_list
-      expect(BlackListPolicy::Scope.new(user, BlackList).resolve).to_not include(black_list)
+      deny_list
+      expect(DenyListPolicy::Scope.new(user, DenyList).resolve).to_not include(deny_list)
     end
   end
 end

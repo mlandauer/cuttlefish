@@ -3,13 +3,13 @@ class DenyListsController < ApplicationController
   after_action :verify_policy_scoped, only: :index
 
   def index
-    @deny_lists = policy_scope(BlackList).order(created_at: :desc).page(params[:page])
+    @deny_lists = policy_scope(DenyList).order(created_at: :desc).page(params[:page])
   end
 
   def destroy
-    black_list = BlackList.find(params[:id])
-    authorize black_list
-    black_list.destroy
+    deny_list = DenyList.find(params[:id])
+    authorize deny_list
+    deny_list.destroy
     redirect_to :back
   end
 end
