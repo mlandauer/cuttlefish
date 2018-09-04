@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :black_lists, only: [:index, :destroy]
+  resources :deny_lists, only: [:index, :destroy]
   resources :teams, only: :index do
     collection do
       post 'invite'

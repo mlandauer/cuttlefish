@@ -1,4 +1,4 @@
-class BlackList < ActiveRecord::Base
+class DenyList < ActiveRecord::Base
   belongs_to :team
   belongs_to :address
   belongs_to :caused_by_delivery, class_name: "Delivery"

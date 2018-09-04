@@ -1,13 +1,13 @@
 - listings = DNSBL::Client.new.lookup(Reputation.local_ip)
 
 - if listings.empty?
-  %p This server is not listed on any known blacklists
+  %p This server is not listed on any known deny lists
 - else
-  %p.text-error Unfortunately, this server is listed on some blacklists. That will likely severely impact your ability to send email.
+  %p.text-error Unfortunately, this server is listed on some deny lists. That will likely severely impact your ability to send email.
   %table.table
     %thead
       %tr
-        %th Blacklist
+        %th Deny list
         %th Result
     %tbody
       - listings.each do |listing|

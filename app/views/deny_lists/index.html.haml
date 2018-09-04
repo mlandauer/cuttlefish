@@ -1,0 +1,32 @@
+.page-header
+  %h1 Deny listed email addresses
+  %p
+    This list is auto-populated with any email addresses that bounce. Any further emails to addresses
+    in this list will be "held back" and not sent.
+
+
+= paginated_section @deny_lists, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Address" do
+  %p.count= page_entries_info @deny_lists, model: "deny listed email addresses"
+  - if @deny_lists.size > 0
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Email address
+          %th Reason deny listed
+          %th When
+      %tbody
+        - @deny_lists.each do |deny_list|
+          %tr
+            %td= deny_list.address.text
+            %td
+              - if deny_list.has_record_of_cause?
+                = link_to truncate(deny_list.caused_by_delivery.postfix_log_lines.first.extended_status, length: 160), deny_list.caused_by_delivery
+              - else
+                We don't know why this was deny listed. The delivery that caused it may have been archived.
+            %td
+              - if deny_list.caused_by_delivery
+                = time_ago_in_words(deny_list.caused_by_delivery.postfix_log_lines.first.created_at)
+                ago
+            - if policy(deny_list).destroy?
+              %td
+                = button_to "Remove", deny_list, method: :delete, class: "btn btn-danger"

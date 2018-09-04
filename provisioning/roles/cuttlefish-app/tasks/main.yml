@@ -89,7 +89,7 @@
           - cuttlefish.oaf.org.au
           - cuttlefish.io
 
-- name: Daily archiving and blacklist removal tasks
+- name: Daily archiving and deny list removal tasks
   cron:
     name: daily old email archiving
     job:  "cd /srv/www/current && /usr/local/lib/rvm/bin/rvm . do bundle exec rake cuttlefish:daily_tasks RAILS_ENV=production"

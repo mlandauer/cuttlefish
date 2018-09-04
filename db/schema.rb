@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_16_045458) do
+ActiveRecord::Schema.define(version: 2018_09_04_022131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,15 +73,6 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
     t.index ["team_id"], name: "index_apps_on_team_id"
   end
 
-  create_table "black_lists", force: :cascade do |t|
-    t.integer "address_id"
-    t.integer "caused_by_delivery_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "team_id", null: false
-    t.index ["team_id"], name: "index_black_lists_on_team_id"
-  end
-
   create_table "click_events", force: :cascade do |t|
     t.integer "delivery_link_id"
     t.text "user_agent"
@@ -119,6 +110,15 @@ ActiveRecord::Schema.define(version: 2018_08_16_045458) do
     t.integer "click_events_count", default: 0, null: false
     t.index ["delivery_id"], name: "index_delivery_links_on_delivery_id"
     t.index ["link_id"], name: "index_delivery_links_on_link_id"
+  end
+
+  create_table "deny_lists", force: :cascade do |t|
+    t.integer "address_id"
+    t.integer "caused_by_delivery_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer "team_id", null: false
+    t.index ["team_id"], name: "index_deny_lists_on_team_id"
   end
 
   create_table "emails", force: :cascade do |t|

@@ -3,7 +3,7 @@ class Address < ActiveRecord::Base
   has_many :deliveries
   has_many :postfix_log_lines, through: :deliveries
   has_many :emails_received, through: :deliveries, source: :email
-  has_many :black_lists
+  has_many :deny_lists
 
   extend FriendlyId
   friendly_id :text
@@ -22,13 +22,13 @@ class Address < ActiveRecord::Base
     most_recent_log_line ? most_recent_log_line.status : "sent"
   end
 
-  def blacklist(team)
-    # If there is no team there is no blacklist
-    # In concrete terms the internal cuttlefish app doesn't have a blacklist and isn't part of a team
-    team && black_lists.find_by(team_id: team.id)
+  def deny_list(team)
+    # If there is no team there is no deny list
+    # In concrete terms the internal cuttlefish app doesn't have a deny list and isn't part of a team
+    team && deny_lists.find_by(team_id: team.id)
   end
 
-  def blacklisted?(team)
-    !blacklist(team).nil?
+  def deny_listed?(team)
+    !deny_list(team).nil?
   end
 end

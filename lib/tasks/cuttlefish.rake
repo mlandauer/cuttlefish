@@ -17,7 +17,7 @@ namespace :cuttlefish do
   end
 
   desc "Daily maintenance tasks to be run via cron job"
-  task :daily_tasks => [:auto_archive, :remove_old_blacklisted_items]
+  task :daily_tasks => [:auto_archive, :remove_old_deny_listed_items]
 
   desc "Archive all emails created more than 6 months ago"
   task :auto_archive => :environment do
@@ -33,10 +33,10 @@ namespace :cuttlefish do
     end
   end
 
-  desc "Allow sending to addresses again that were blacklisted more than 1 week ago"
-  task remove_old_blacklisted_items: :environment do
-    old_items = BlackList.where('updated_at < ?', 1.week.ago )
-    puts "Removing #{old_items.count} items from the blacklist..."
+  desc "Allow sending to addresses again that were deny listed more than 1 week ago"
+  task remove_old_deny_listed_items: :environment do
+    old_items = DenyList.where('updated_at < ?', 1.week.ago )
+    puts "Removing #{old_items.count} items from the deny list..."
     old_items.destroy_all
   end
 
