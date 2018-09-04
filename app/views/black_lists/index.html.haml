@@ -1,18 +1,18 @@
 .page-header
-  %h1 Blacklisted email addresses
+  %h1 Deny listed email addresses
   %p
     This list is auto-populated with any email addresses that bounce. Any further emails to addresses
     in this list will be "held back" and not sent.
 
 
 = paginated_section @black_lists, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Address" do
-  %p.count= page_entries_info @black_lists, model: "blacklisted email addresses"
+  %p.count= page_entries_info @black_lists, model: "deny listed email addresses"
   - if @black_lists.size > 0
     %table.table.table-striped
       %thead
         %tr
           %th Email address
-          %th Reason blacklisted
+          %th Reason deny listed
           %th When
       %tbody
         - @black_lists.each do |black_list|
@@ -22,7 +22,7 @@
               - if black_list.has_record_of_cause?
                 = link_to truncate(black_list.caused_by_delivery.postfix_log_lines.first.extended_status, length: 160), black_list.caused_by_delivery
               - else
-                We don't know why this was blacklisted. The delivery that caused it may have been archived.
+                We don't know why this was deny listed. The delivery that caused it may have been archived.
             %td
               - if black_list.caused_by_delivery
                 = time_ago_in_words(black_list.caused_by_delivery.postfix_log_lines.first.created_at)

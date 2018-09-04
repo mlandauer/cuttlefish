@@ -23,8 +23,8 @@ class Address < ActiveRecord::Base
   end
 
   def blacklist(team)
-    # If there is no team there is no blacklist
-    # In concrete terms the internal cuttlefish app doesn't have a blacklist and isn't part of a team
+    # If there is no team there is no deny list
+    # In concrete terms the internal cuttlefish app doesn't have a deny list and isn't part of a team
     team && black_lists.find_by(team_id: team.id)
   end
 

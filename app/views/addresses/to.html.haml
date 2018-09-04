@@ -6,7 +6,7 @@
 - if @address.blacklisted?(current_admin.team)
   %h2
     = @address.text
-    is on the blacklist
+    is on the deny list
   %p
     - if @address.blacklist(current_admin.team).has_record_of_cause?
       Reason:
@@ -14,10 +14,10 @@
       = time_ago_in_words(@address.blacklist(current_admin.team).caused_by_delivery.postfix_log_lines.first.created_at)
       ago
     - else
-      We don't know why this was blacklisted. The delivery that caused it may have been archived.
+      We don't know why this was deny listed. The delivery that caused it may have been archived.
 
   - if policy(@address.blacklist(current_admin.team)).destroy?
-    = button_to "Remove from blacklist", @address.blacklist(current_admin.team), method: :delete, class: "btn btn-danger"
+    = button_to "Remove from deny list", @address.blacklist(current_admin.team), method: :delete, class: "btn btn-danger"
 
 .row
   .span3
