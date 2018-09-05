@@ -3,4 +3,9 @@ class Types::DeliveryEvent < GraphQL::Schema::Object
   field :time, Types::DateTime, null: false, description: "Time of the event"
   field :dsn, String, null: false, description: "The Delivery Status Notification"
   field :extended_status, String, null: false, description: "An extended status description of the event"
+  field :email, Types::Email, null: false, description: "The email which was being delivered"
+
+  def email
+    object.delivery
+  end
 end

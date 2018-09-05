@@ -36,6 +36,10 @@ class Types::QueryType < GraphQL::Schema::Object
     description "List of Admins that this admin has access to, sorted alphabetically by name."
   end
 
+  field :blocked_addresses, [Types::BlockedAddress], null: false do
+    description "Auto-populated list of email addresses which bounced within the last week. Further emails to these address will be 'held back' and not sent"
+  end
+
   field :viewer, Types::Admin, null: true do
     description "The currently authenticated admin"
   end
@@ -83,6 +87,11 @@ class Types::QueryType < GraphQL::Schema::Object
 
   def admins
     Pundit.policy_scope(context[:current_admin], Admin).order(:name)
+  end
+
+  # TODO: Paging
+  def blocked_addresses
+    Pundit.policy_scope(context[:current_admin], DenyList).order(created_at: :desc)
   end
 
   def viewer
