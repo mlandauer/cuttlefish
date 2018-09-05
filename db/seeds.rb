@@ -136,11 +136,27 @@ delivery = email.deliveries.create!(address_id: address2.id, sent: true)
   from = Address.find_or_create_by(text: Faker::Internet.email)
   to = Address.find_or_create_by(text: Faker::Internet.email)
 
-  email = acting_app.emails.create!(
+  email = key_app.emails.create!(
     from_address_id: from.id,
     data: "To: #{to.text}\nSubject: #{Faker::Book.title}\n\n#{Faker::TheITCrowd.quote}\n"
   )
 
   delivery = email.deliveries.create!(address_id: to.id, sent: true)
 
+end
+
+# And add some bounced emails (caused by the first five emails)
+key_app.emails.limit(5).each do |email|
+  delivery = email.deliveries.first
+  PostfixLogLine.create!(
+    delivery_id: delivery.id,
+    time: DateTime.now,
+    dsn: "5.1.1",
+    extended_status: "bounced (host said: 550 5.1.1 recipient rejected. Recipient does not exist. IB603a (in reply to RCPT TO command))",
+    # We don't show the values below in the UI
+    relay: "",
+    delay: "",
+    delays: ""
+  )
+  DenyList.create(team_id: smart_team.id, address: delivery.address, caused_by_delivery: delivery)
 end
