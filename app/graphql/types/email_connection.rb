@@ -3,6 +3,7 @@ class Types::EmailConnection < Types::BaseConnection
   field :statistics, Types::EmailStats, null: false, description: "Statistics over emails (ignoring pagination)"
 
   def statistics
-    object[:all]
+    # Remove the order so that we keep postgres happy
+    object[:all].reorder(nil)
   end
 end

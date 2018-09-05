@@ -67,7 +67,8 @@ class Types::QueryType < GraphQL::Schema::Object
     if to
       emails = emails.to_address(Address.find_or_initialize_by(text: to))
     end
-    { all: emails, order: "created_at DESC", limit: limit, offset: offset }
+    emails = emails.order("created_at DESC")
+    { all: emails, limit: limit, offset: offset }
   end
 
   # TODO: Generalise this to sensibly handling record not found exception

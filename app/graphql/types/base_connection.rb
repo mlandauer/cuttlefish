@@ -8,7 +8,7 @@ class Types::BaseConnection < GraphQL::Schema::Object
 
   def nodes
     limit = [object[:limit], MAX_LIMIT].min
-    object[:all].order(object[:order]).offset(object[:offset]).limit(limit)
+    object[:all].offset(object[:offset]).limit(limit)
   end
 
   # Limit can never be bigger than 50
