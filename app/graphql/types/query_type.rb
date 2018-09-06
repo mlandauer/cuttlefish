@@ -38,7 +38,7 @@ class Types::QueryType < GraphQL::Schema::Object
 
   # TODO: Switch over to more relay-like pagination
   field :blocked_addresses, Types::BlockedAddressConnection, connection: false, null: false do
-    description "Auto-populated list of email addresses which bounced within the last week. Further emails to these address will be 'held back' and not sent"
+    description "Auto-populated list of email addresses which bounced within the last week. Further emails to these addresses will be 'held back' and not sent"
     argument :limit, Int, required: false, description: "For pagination: sets maximum number of items returned"
     argument :offset, Int, required: false, description: "For pagination: sets offset"
   end
