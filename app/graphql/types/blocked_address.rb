@@ -7,6 +7,6 @@ class Types::BlockedAddress < GraphQL::Schema::Object
   end
 
   def because_of_delivery_event
-    object.caused_by_delivery.postfix_log_lines.first
+    object.caused_by_postfix_log_line
   end
 end

@@ -10,8 +10,8 @@
   %p
     - if @address.deny_list(current_admin.team).has_record_of_cause?
       Reason:
-      = link_to truncate(@address.deny_list(current_admin.team).caused_by_delivery.postfix_log_lines.first.extended_status, length: 160), @address.deny_list(current_admin.team).caused_by_delivery
-      = time_ago_in_words(@address.deny_list(current_admin.team).caused_by_delivery.postfix_log_lines.first.created_at)
+      = link_to truncate(@address.deny_list(current_admin.team).caused_by_postfix_log_line.extended_status, length: 160), @address.deny_list(current_admin.team).caused_by_delivery
+      = time_ago_in_words(@address.deny_list(current_admin.team).caused_by_postfix_log_line.created_at)
       ago
     - else
       We don't know why this was deny listed. The delivery that caused it may have been archived.
