@@ -17,16 +17,15 @@
       %tbody
         - @deny_lists.each do |deny_list|
           %tr
-            %td= deny_list.address.text
+            %td= deny_list.address
             %td
-              - if deny_list.caused_by_postfix_log_line
-                = link_to truncate(deny_list.caused_by_postfix_log_line.extended_status, length: 160), deny_list.caused_by_delivery
+              - if deny_list.because_of_delivery_event
+                = link_to truncate(deny_list.because_of_delivery_event.extended_status, length: 160), delivery_path(deny_list.because_of_delivery_event.email.id)
               - else
                 We don't know why this was deny listed. The delivery that caused it may have been archived.
             %td
-              - if deny_list.caused_by_delivery
-                = time_ago_in_words(deny_list.caused_by_postfix_log_line.created_at)
+              - if deny_list.because_of_delivery_event
+                = time_ago_in_words(deny_list.because_of_delivery_event.time)
                 ago
-            - if policy(deny_list).destroy?
-              %td
-                = button_to "Remove", deny_list, method: :delete, class: "btn btn-danger"
+            %td
+              = button_to "Remove", deny_list_path(deny_list.id), method: :delete, class: "btn btn-danger"

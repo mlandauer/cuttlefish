@@ -1,9 +1,16 @@
 class DenyListsController < ApplicationController
   after_action :verify_authorized, except: :index
-  after_action :verify_policy_scoped, only: :index
 
   def index
-    @deny_lists = policy_scope(DenyList).order(created_at: :desc).page(params[:page])
+    @deny_lists = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|
+      result = Cuttlefish::ApiClient.query(
+        Cuttlefish::ApiClient::DENY_LISTS_INDEX_QUERY,
+        variables: { limit: pager.per_page, offset: pager.offset },
+        current_admin: current_admin
+      )
+      pager.replace(result.data.blocked_addresses.nodes)
+      pager.total_entries = result.data.blocked_addresses.total_count
+    end
   end
 
   def destroy

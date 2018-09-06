@@ -248,6 +248,25 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  DENY_LISTS_INDEX_QUERY = CLIENT.parse <<-'GRAPHQL'
+    {
+      blockedAddresses {
+        totalCount
+        nodes {
+          id
+          address
+          becauseOfDeliveryEvent {
+            extendedStatus
+            time
+            email {
+              id
+            }
+          }
+        }
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,
