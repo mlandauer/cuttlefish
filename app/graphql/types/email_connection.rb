@@ -1,5 +1,6 @@
 class Types::EmailConnection < Types::BaseConnection
   description "A list of Emails"
+  field :nodes, [Types::Email], null: true, description: "A list of nodes"
   field :statistics, Types::EmailStats, null: false, description: "Statistics over emails (ignoring pagination)"
 
   def statistics

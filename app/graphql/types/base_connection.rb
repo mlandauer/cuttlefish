@@ -1,6 +1,5 @@
 class Types::BaseConnection < GraphQL::Schema::Object
   field :total_count, Integer, null: false, description: "The total count of items"
-  field :nodes, [Types::Email], null: true, description: "A list of nodes"
 
   def total_count
     object[:all].count

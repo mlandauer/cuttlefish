@@ -36,8 +36,11 @@ class Types::QueryType < GraphQL::Schema::Object
     description "List of Admins that this admin has access to, sorted alphabetically by name."
   end
 
-  field :blocked_addresses, [Types::BlockedAddress], null: false do
+  # TODO: Switch over to more relay-like pagination
+  field :blocked_addresses, Types::BlockedAddressConnection, connection: false, null: false do
     description "Auto-populated list of email addresses which bounced within the last week. Further emails to these address will be 'held back' and not sent"
+    argument :limit, Int, required: false, description: "For pagination: sets maximum number of items returned"
+    argument :offset, Int, required: false, description: "For pagination: sets offset"
   end
 
   field :viewer, Types::Admin, null: true do
@@ -90,9 +93,9 @@ class Types::QueryType < GraphQL::Schema::Object
     Pundit.policy_scope(context[:current_admin], Admin).order(:name)
   end
 
-  # TODO: Paging
-  def blocked_addresses
-    Pundit.policy_scope(context[:current_admin], DenyList).order(created_at: :desc)
+  def blocked_addresses(limit: 10, offset: 0)
+    b = Pundit.policy_scope(context[:current_admin], DenyList).order(created_at: :desc)
+    { all: b, limit: limit, offset: offset }
   end
 
   def viewer
