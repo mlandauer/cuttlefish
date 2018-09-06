@@ -46,29 +46,29 @@ describe TrackingController, type: :controller do
     context "When the correct hash and id are used" do
       context "the delivery_link exists" do
         it "should redirect" do
-          get :click2, params: { delivery_link_id: 204, url: "http://foo.com", hash: HashId2.hash("204-http://foo.com") }
+          get :click2, params: { delivery_link_id: 204, url: "http://foo.com", hash: HashId.hash("204-http://foo.com") }
           expect(response).to redirect_to("http://foo.com")
         end
 
         it "should log the event" do
-          allow(HashId2).to receive(:valid?).and_return(true)
+          allow(HashId).to receive(:valid?).and_return(true)
           delivery_link = mock_model(DeliveryLink, url: "http://foo.com")
           expect(DeliveryLink).to receive(:find_by_id).with("204").and_return(delivery_link)
           expect(delivery_link).to receive(:add_click_event)
-          get :click2, params: { delivery_link_id: 204, url: "http://foo.com", hash: HashId2.hash("204") }
+          get :click2, params: { delivery_link_id: 204, url: "http://foo.com", hash: HashId.hash("204") }
         end
       end
 
       context "the delivery_link doesn't exist and url provided" do
         it "should redirect to to the given url" do
-          get :click2, params: { delivery_link_id: 123, hash: HashId2.hash("123-http://bar.com?foo=baz"), url: "http://bar.com?foo=baz" }
+          get :click2, params: { delivery_link_id: 123, hash: HashId.hash("123-http://bar.com?foo=baz"), url: "http://bar.com?foo=baz" }
           expect(response).to redirect_to("http://bar.com?foo=baz")
         end
       end
 
       context "the url has been changed" do
         it "should not redirect to the given url" do
-          expect{ get :click2, params: { delivery_link_id: 123, hash: HashId2.hash("123-http://bar.com?foo=baz"), url: "http://bar.com2?foo=baz" } }.to raise_error(ActiveRecord::RecordNotFound)
+          expect{ get :click2, params: { delivery_link_id: 123, hash: HashId.hash("123-http://bar.com?foo=baz"), url: "http://bar.com2?foo=baz" } }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
     end
@@ -77,12 +77,12 @@ describe TrackingController, type: :controller do
       before(:each) { allow(Rails.configuration).to receive(:cuttlefish_read_only_mode).and_return(true)}
 
       it "should redirect" do
-        get :click2, params: { delivery_link_id: 204, hash: HashId2.hash("204-http://foo.com"), url: "http://foo.com" }
+        get :click2, params: { delivery_link_id: 204, hash: HashId.hash("204-http://foo.com"), url: "http://foo.com" }
         expect(response).to redirect_to("http://foo.com")
       end
 
       it "should not log the event" do
-        get :click2, params: { delivery_link_id: 204, hash: HashId2.hash("204-http://foo.com"), url: "http://foo.com" }
+        get :click2, params: { delivery_link_id: 204, hash: HashId.hash("204-http://foo.com"), url: "http://foo.com" }
         expect(DeliveryLink.find(204).click_events.count).to eq 0
       end
     end

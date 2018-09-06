@@ -4,7 +4,7 @@ class TrackingController < ApplicationController
   # SSL redirection is also disabled for this controller. See ApplicationController force_ssl.
 
   def open2
-    if HashId2.valid?(params[:delivery_id], params[:hash])
+    if HashId.valid?(params[:delivery_id], params[:hash])
       delivery = Delivery.find(params[:delivery_id])
       delivery.add_open_event(request) unless Rails.configuration.cuttlefish_read_only_mode
       # TODO Check that we are asking for a gif and only accept those for the time being
@@ -16,7 +16,7 @@ class TrackingController < ApplicationController
   end
 
   def click2
-    if HashId2.valid?("#{params[:delivery_link_id]}-#{params[:url]}", params[:hash])
+    if HashId.valid?("#{params[:delivery_link_id]}-#{params[:url]}", params[:hash])
       delivery_link = DeliveryLink.find_by_id(params[:delivery_link_id])
       # If there is no delivery_link this is probably an old email
       # which has been archived and the delivery_link record doesn't exist anymore.

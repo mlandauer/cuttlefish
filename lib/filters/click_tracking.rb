@@ -16,7 +16,7 @@ class Filters::ClickTracking < Filters::Tracking
       host: host,
       protocol: protocol,
       delivery_link_id: delivery_link.id,
-      hash: HashId2.hash("#{delivery_link.id}-#{url}"),
+      hash: HashId.hash("#{delivery_link.id}-#{url}"),
       url: url
     )
   end

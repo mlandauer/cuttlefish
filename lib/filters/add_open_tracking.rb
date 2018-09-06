@@ -29,7 +29,7 @@ class Filters::AddOpenTracking < Filters::Tracking
       host: host,
       protocol: protocol,
       delivery_id: delivery_id,
-      hash: HashId2.hash(delivery_id.to_s),
+      hash: HashId.hash(delivery_id.to_s),
       format: :gif
     )
   end
