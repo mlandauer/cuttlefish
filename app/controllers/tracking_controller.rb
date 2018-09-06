@@ -3,7 +3,7 @@ class TrackingController < ApplicationController
   skip_before_action :authenticate_admin!
   # SSL redirection is also disabled for this controller. See ApplicationController force_ssl.
 
-  def open2
+  def open
     if HashId.valid?(params[:delivery_id], params[:hash])
       delivery = Delivery.find(params[:delivery_id])
       delivery.add_open_event(request) unless Rails.configuration.cuttlefish_read_only_mode
@@ -15,7 +15,7 @@ class TrackingController < ApplicationController
     end
   end
 
-  def click2
+  def click
     if HashId.valid?("#{params[:delivery_link_id]}-#{params[:url]}", params[:hash])
       delivery_link = DeliveryLink.find_by_id(params[:delivery_link_id])
       # If there is no delivery_link this is probably an old email

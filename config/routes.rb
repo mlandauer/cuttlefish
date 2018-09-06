@@ -55,10 +55,10 @@ Rails.application.routes.draw do
   get 'reputation' => 'main#reputation'
 
   # Open tracking gifs
-  get 'o2/:delivery_id/:hash' => 'tracking#open2', as: "tracking_open2"
+  get 'o2/:delivery_id/:hash' => 'tracking#open', as: "tracking_open"
 
   # Link tracking
-  get 'l2/:delivery_link_id/:hash' => 'tracking#click2', as: "tracking_click2"
+  get 'l2/:delivery_link_id/:hash' => 'tracking#click', as: "tracking_click"
 
   get '/documentation' => 'documentation#index'
 

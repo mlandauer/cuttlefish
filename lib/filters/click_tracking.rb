@@ -12,7 +12,7 @@ class Filters::ClickTracking < Filters::Tracking
   def rewrite_url(url)
     link = Link.find_or_create_by(url: url)
     delivery_link = DeliveryLink.find_or_create_by(delivery_id: delivery_id, link_id: link.id)
-    tracking_click2_url(
+    tracking_click_url(
       host: host,
       protocol: protocol,
       delivery_link_id: delivery_link.id,
