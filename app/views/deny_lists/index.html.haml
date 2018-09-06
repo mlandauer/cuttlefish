@@ -19,7 +19,7 @@
           %tr
             %td= deny_list.address.text
             %td
-              - if deny_list.has_record_of_cause?
+              - if deny_list.caused_by_postfix_log_line
                 = link_to truncate(deny_list.caused_by_postfix_log_line.extended_status, length: 160), deny_list.caused_by_delivery
               - else
                 We don't know why this was deny listed. The delivery that caused it may have been archived.

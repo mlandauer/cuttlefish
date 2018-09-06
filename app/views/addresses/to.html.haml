@@ -8,7 +8,7 @@
     = @address.text
     is on the deny list
   %p
-    - if @address.deny_list(current_admin.team).has_record_of_cause?
+    - if @address.deny_list(current_admin.team).caused_by_postfix_log_line
       Reason:
       = link_to truncate(@address.deny_list(current_admin.team).caused_by_postfix_log_line.extended_status, length: 160), @address.deny_list(current_admin.team).caused_by_delivery
       = time_ago_in_words(@address.deny_list(current_admin.team).caused_by_postfix_log_line.created_at)
