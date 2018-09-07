@@ -20,7 +20,8 @@ module Cuttlefish
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    config.autoload_paths += %W(#{config.root}/lib)
+    # See https://stackoverflow.com/questions/38198668/rails-5-load-lib-files-in-production
+    config.eager_load_paths += %W(#{config.root}/lib)
 
     # We only use the ip address to track open and click events. If the client forges the
     # the HTTP_CLIENT_IP header in the request by default rails will throw an exception
