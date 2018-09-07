@@ -27,7 +27,7 @@ Rails.application.configure do
 
   # Compress JavaScripts and CSS.
   # Support ES6 in uglifier. See https://github.com/lautis/uglifier#rails
-  config.assets.js_compressor = Uglifier.new(harmony: true)
+  config.assets.js_compressor = Uglifier.new(harmony: true) if defined? Uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
