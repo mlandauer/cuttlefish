@@ -165,6 +165,26 @@ Some further things to ensure things work smoothly
 
 3. Set up reverse DNS. In the Linode Manager under "Remote Access" click "Reverse DNS" then for the hostname put in "cuttlefish.oaf.org.au" and follow the instructions. This step is necessary in order to be able to sign up to receive [Feedback loop emails](https://en.wikipedia.org/wiki/Feedback_loop_%28email%29).
 
+## Deploying to production
+
+One gotcha is that we're still on Capistrano 2 which doesn't apply database migrations
+by default on deploys.
+
+For normal deploys
+```
+cap deploy
+```
+
+To rollback a failed deploy
+```
+cap deploy:rollback
+```
+
+To deploy and run the migrations
+```
+cap deploy:migrations
+```
+
 ## Screenshots
 Done some development work which updates the look of the main pages? To update the screenshots
 ```
