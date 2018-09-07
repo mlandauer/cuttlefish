@@ -3,6 +3,7 @@ require 'ostruct'
 require 'eventmachine'
 require 'mail'
 require File.expand_path File.join(File.dirname(__FILE__), "..", "app", "models", "app")
+require File.expand_path File.join(File.dirname(__FILE__), "..", "app", "models", "email")
 
 class CuttlefishSmtpServer
   attr_accessor :connections
