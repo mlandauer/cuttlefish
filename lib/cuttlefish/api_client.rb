@@ -251,8 +251,8 @@ module Cuttlefish::ApiClient
   GRAPHQL
 
   DENY_LISTS_INDEX_QUERY = CLIENT.parse <<-'GRAPHQL'
-    {
-      blockedAddresses {
+    query($limit: Int, $offset: Int) {
+      blockedAddresses(limit: $limit, offset: $offset) {
         totalCount
         nodes {
           id
