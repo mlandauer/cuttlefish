@@ -2,7 +2,9 @@ require "graphql/client"
 require "graphql/client/http"
 
 module Cuttlefish::ApiClient
-  LOCAL_API = !Rails.env.production?
+  # Temporarily force production to use graphql api directly rather than through http
+  # LOCAL_API = !Rails.env.production?
+  LOCAL_API = true
 
   if LOCAL_API
     CLIENT = GraphQL::Client.new(schema: CuttlefishSchema, execute: CuttlefishSchema)
