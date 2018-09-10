@@ -10,7 +10,7 @@ class RemoveAdmin < ApplicationService
       admin.destroy
       success!
     else
-      fail!
+      fail! "You don't have permission to remove this admin"
     end
   end
 

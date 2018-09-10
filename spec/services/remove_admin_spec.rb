@@ -29,5 +29,9 @@ describe RemoveAdmin do
     it "should not be successful" do
       expect(remove_admin.success?).to be false
     end
+
+    it "should give a sensible error message" do
+      expect(remove_admin.message).to eq "You don't have permission to remove this admin"
+    end
   end
 end

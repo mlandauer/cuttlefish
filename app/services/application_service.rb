@@ -12,13 +12,16 @@ class ApplicationService
     @success = true
   end
 
-  def fail!
+  def fail!(message)
     @success = false
+    @message = message
   end
 
   def success?
     @success
   end
+
+  attr_reader :message
 
   private
   attr_writer :result
