@@ -4,5 +4,6 @@ FactoryBot.define do
       "person#{n}@foo.com"
     end
     password "password"
+    team
   end
 end
