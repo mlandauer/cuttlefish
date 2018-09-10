@@ -1,14 +1,20 @@
 class RemoveAdmin < ApplicationService
-  def initialize(id:)
+  def initialize(current_admin:, id:)
+    @current_admin = current_admin
     @id = id
   end
 
   def call
-    # TODO: Authorize
-    Admin.find(id).destroy
+    admin = Admin.find(id)
+    if AdminPolicy.new(current_admin, admin).destroy?
+      admin.destroy
+      success!
+    else
+      fail!
+    end
   end
 
   private
 
-  attr_reader :id
+  attr_reader :id, :current_admin
 end

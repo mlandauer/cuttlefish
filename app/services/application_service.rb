@@ -8,6 +8,18 @@ class ApplicationService
     object
   end
 
+  def success!
+    @success = true
+  end
+
+  def fail!
+    @success = false
+  end
+
+  def success?
+    @success
+  end
+
   private
   attr_writer :result
 end
