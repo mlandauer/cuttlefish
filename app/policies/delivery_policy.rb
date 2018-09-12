@@ -1,6 +1,6 @@
 class DeliveryPolicy < ApplicationPolicy
   def show?
-    if user.super_admin?
+    if user && user.super_admin?
       true
     else
       app_ids = AppPolicy::Scope.new(user, App).resolve.pluck(:id)
@@ -9,7 +9,7 @@ class DeliveryPolicy < ApplicationPolicy
   end
 
   def create?
-    !Rails.configuration.cuttlefish_read_only_mode
+    user && !Rails.configuration.cuttlefish_read_only_mode
   end
 
   class Scope < Scope
