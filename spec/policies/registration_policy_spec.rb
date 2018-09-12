@@ -21,4 +21,13 @@ describe RegistrationPolicy do
       it { is_expected.not_to permit(:destroy)  }
     end
   end
+
+  context "unauthenticated user" do
+    let(:user) { nil }
+
+    it { is_expected.not_to permit(:create) }
+    it { is_expected.not_to permit(:update)  }
+    it { is_expected.not_to permit(:edit) }
+    it { is_expected.not_to permit(:destroy)  }
+  end
 end
