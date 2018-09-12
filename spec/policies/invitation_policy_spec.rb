@@ -17,4 +17,11 @@ describe InvitationPolicy do
       it { is_expected.not_to permit(:update)  }
     end
   end
+
+  context "unauthenticated user" do
+    let(:user) { nil }
+
+    it { is_expected.not_to permit(:create) }
+    it { is_expected.not_to permit(:update)  }
+  end
 end
