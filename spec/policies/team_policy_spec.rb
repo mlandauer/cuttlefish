@@ -19,6 +19,18 @@ describe TeamPolicy do
     it { is_expected.not_to permit(:destroy) }
   end
 
+  context "unauthenticated user" do
+    let(:user) { nil }
+    it { is_expected.not_to permit(:show) }
+    it { is_expected.not_to permit(:update)  }
+    it { is_expected.not_to permit(:edit)    }
+    it { is_expected.not_to permit(:index) }
+    it { is_expected.not_to permit(:create) }
+    it { is_expected.not_to permit(:new) }
+    it { is_expected.not_to permit(:invite) }
+    it { is_expected.not_to permit(:destroy) }
+  end
+
   context "normal user in team two" do
     let(:user) { FactoryBot.create(:admin, team: team_two)}
     it { is_expected.not_to permit(:show) }
