@@ -1,5 +1,7 @@
 class Types::Admin < GraphQL::Schema::Object
   description "An administrator"
+
+  field :id, ID, null: false, description: "The database ID"
   field :email, String, null: false, description: "Their email address"
   field :name, String, null: true, description: "Their full name"
   field :display_name, String, null: false, description: "The name if it's available, otherwise the email"
