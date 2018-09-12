@@ -10,6 +10,22 @@ describe AppPolicy do
 
   let(:app) { FactoryBot.create(:app, team: team_one) }
 
+  context "not authenticated" do
+    let(:user) { nil }
+    it { is_expected.not_to permit(:show) }
+    it { is_expected.not_to permit(:create) }
+    it { is_expected.not_to permit(:new) }
+    it { is_expected.not_to permit(:update)  }
+    it { is_expected.not_to permit(:edit)    }
+    it { is_expected.not_to permit(:destroy) }
+    it { is_expected.not_to permit(:dkim) }
+    it { is_expected.not_to permit(:toggle_dkim) }
+    it 'should have empty scope' do
+      app
+      expect(AppPolicy::Scope.new(user, App).resolve).to eq []
+    end
+  end
+
   context "normal user in team one" do
     let(:user) { FactoryBot.create(:admin, team: team_one)}
     it { is_expected.to permit(:show) }
