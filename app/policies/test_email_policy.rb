@@ -4,6 +4,6 @@ class TestEmailPolicy < ApplicationPolicy
   end
 
   def create?
-    !Rails.configuration.cuttlefish_read_only_mode
+    user && !Rails.configuration.cuttlefish_read_only_mode
   end
 end

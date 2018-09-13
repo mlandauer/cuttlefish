@@ -17,4 +17,11 @@ describe TestEmailPolicy do
       it { is_expected.not_to permit(:create) }
     end
   end
+
+  context "unauthenticated user" do
+    let(:user) { nil }
+
+    it { is_expected.not_to permit(:new) }
+    it { is_expected.not_to permit(:create) }
+  end
 end
