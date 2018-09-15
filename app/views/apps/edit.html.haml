@@ -18,4 +18,4 @@
     %p
       Here lies danger. Removing the app from Cuttlefish will permanently delete the app, the associated emails and can not be undone!
     %p
-      = button_to "Remove App", app_path(@app.id), confirm: "Are you sure?", method: :delete, class: "btn btn-danger"
+      = button_to "Remove App", app_path(@app.id), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"
