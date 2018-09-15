@@ -7,8 +7,8 @@ class RemoveAdmin < ApplicationService
   def call
     admin = Admin.find(id)
     if AdminPolicy.new(current_admin, admin).destroy?
-      admin.destroy
       success!
+      admin.destroy
     else
       fail! "You don't have permission to remove this admin"
     end

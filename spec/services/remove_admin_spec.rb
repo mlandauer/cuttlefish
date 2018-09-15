@@ -13,6 +13,10 @@ describe RemoveAdmin do
     expect { remove_admin }.to change { Admin.count }.by(-1)
   end
 
+  it "should return the removed admin as the result" do
+    expect(remove_admin.result).to eq admin
+  end
+
   it "should be successful" do
     expect(remove_admin.success?).to be true
   end
