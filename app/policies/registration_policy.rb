@@ -1,6 +1,6 @@
 class RegistrationPolicy < ApplicationPolicy
   def edit?
-    user && !Rails.configuration.cuttlefish_read_only_mode
+    !Rails.configuration.cuttlefish_read_only_mode
   end
 
   def update?
