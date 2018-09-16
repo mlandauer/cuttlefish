@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-  resources :admins, only: [:index]
+  resources :admins, only: [:index, :destroy]
   resources :emails, only: [:index, :show], as: :deliveries, controller: "deliveries"
   # Allow "." in the id's by using the constraint
   resources :addresses, only: [], constraints: {id: /[^\/]+/} do

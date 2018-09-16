@@ -30,6 +30,21 @@ describe DenyListPolicy do
     end
   end
 
+  context "unauthenticated user" do
+    let(:user) { nil }
+    it { is_expected.not_to permit(:create) }
+    it { is_expected.not_to permit(:new) }
+    it { is_expected.not_to permit(:update)  }
+    it { is_expected.not_to permit(:edit)    }
+    it { is_expected.not_to permit(:show) }
+    it { is_expected.not_to permit(:destroy) }
+
+    it 'should be in scope' do
+      deny_list
+      expect(DenyListPolicy::Scope.new(user, DenyList).resolve).to be_empty
+    end
+  end
+
   context "normal user in team two" do
     let(:user) { FactoryBot.create(:admin, team: team_two)}
     it { is_expected.not_to permit(:create) }

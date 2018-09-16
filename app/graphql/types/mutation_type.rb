@@ -8,4 +8,6 @@ class Types::MutationType < GraphQL::Schema::Object
         DeliveryPolicy.new(context[:current_admin], Delivery).create?
     }
   end
+
+  field :remove_admin, mutation: Mutations::RemoveAdmin
 end

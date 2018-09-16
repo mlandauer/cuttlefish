@@ -169,6 +169,7 @@ module Cuttlefish::ApiClient
   ADMINS_QUERY = CLIENT.parse <<-'GRAPHQL'
     {
       admins {
+        id
         name
         email
         displayName
@@ -264,6 +265,16 @@ module Cuttlefish::ApiClient
               id
             }
           }
+        }
+      }
+    }
+  GRAPHQL
+
+  REMOVE_ADMIN_MUTATION = CLIENT.parse <<-'GRAPHQL'
+    mutation ($id: ID!) {
+      removeAdmin(id: $id) {
+        admin {
+          displayName
         }
       }
     }

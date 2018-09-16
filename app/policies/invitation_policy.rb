@@ -1,6 +1,6 @@
 class InvitationPolicy < ApplicationPolicy
   def create?
-    !Rails.configuration.cuttlefish_read_only_mode
+    user && !Rails.configuration.cuttlefish_read_only_mode
   end
 
   def update?
