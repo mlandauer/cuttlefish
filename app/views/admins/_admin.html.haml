@@ -13,5 +13,5 @@
       = time_ago_in_words(admin.invitation_created_at)
       ago
   %td
-    - if admin.permissions.destroy
+    - unless admin.current_admin
       = button_to "Remove", admin_path(admin.id), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"

@@ -176,9 +176,6 @@ module Cuttlefish::ApiClient
         invitationCreatedAt
         invitationAcceptedAt
         currentAdmin
-        permissions {
-          destroy
-        }
       }
     }
   GRAPHQL

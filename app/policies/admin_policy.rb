@@ -9,9 +9,7 @@ class AdminPolicy < ApplicationPolicy
   end
 
   def destroy?
-    !Rails.configuration.cuttlefish_read_only_mode &&
-      in_same_team? &&
-      user.id != record.id
+    !Rails.configuration.cuttlefish_read_only_mode && in_same_team?
   end
 
   class Scope < Scope

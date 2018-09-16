@@ -50,7 +50,7 @@ describe AdminPolicy do
 
     context "user and admin are the same" do
       let(:user) { admin }
-      it { is_expected.not_to permit(:destroy) }
+      it { is_expected.to permit(:destroy) }
     end
   end
 
