@@ -11,15 +11,17 @@ class AdminsController < ApplicationController
   end
 
   def destroy
-    # TODO: Check for errors
     result = Cuttlefish::ApiClient.query(
       Cuttlefish::ApiClient::REMOVE_ADMIN_MUTATION,
       variables: { id: params[:id] },
       current_admin: current_admin
     )
     admin = result.data.remove_admin.admin
-
-    flash[:notice] = "#{admin.display_name} removed"
+    if admin
+      flash[:notice] = "#{admin.display_name} removed"
+    else
+      flash[:alert] = "Couldn't remove admin. You probably don't have the necessary permissions."
+    end
     redirect_to admins_url
   end
 end
