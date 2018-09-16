@@ -15,6 +15,7 @@ class ApplicationService
   def fail!(message)
     @success = false
     @message = message
+    nil
   end
 
   def success?

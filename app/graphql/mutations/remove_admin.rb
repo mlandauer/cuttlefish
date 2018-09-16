@@ -10,16 +10,8 @@ class Mutations::RemoveAdmin < GraphQL::Schema::Mutation
   field :admin, Types::Admin, null: true
 
   def resolve(id:)
-    begin
-      remove_admin = ::RemoveAdmin.call(id: id, current_admin: context[:current_admin])
-      if remove_admin.success?
-        { admin: remove_admin.result }
-      else
-        { admin: nil }
-      end
-    rescue ActiveRecord::RecordNotFound
-      { admin: nil }
-    end
+    remove_admin = ::RemoveAdmin.call(id: id, current_admin: context[:current_admin])
+    { admin: remove_admin.result }
   end
 
 end

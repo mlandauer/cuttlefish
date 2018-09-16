@@ -30,12 +30,30 @@ describe RemoveAdmin do
       expect { remove_admin }.to_not change { Admin.count }
     end
 
+    it "should return nil" do
+      expect(remove_admin.result).to be_nil
+    end
+
     it "should not be successful" do
       expect(remove_admin.success?).to be false
     end
+  end
 
-    it "should give a sensible error message" do
-      expect(remove_admin.message).to eq "You don't have permission to remove this admin"
+  context "admin doesn't exist" do
+    before(:each) { admin.destroy! }
+
+    it "should do nothing" do
+      admin
+      current_admin
+      expect { remove_admin }.to_not change { Admin.count }
+    end
+
+    it "should return nil" do
+      expect(remove_admin.result).to be_nil
+    end
+
+    it "should not be successful" do
+      expect(remove_admin.success?).to be false
     end
   end
 end
