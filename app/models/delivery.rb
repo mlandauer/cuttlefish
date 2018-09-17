@@ -22,7 +22,7 @@ class Delivery < ActiveRecord::Base
   # Should this email be sent to this address?
   # If not it's because the email has bounced
   def send?
-    !address.deny_listed?(app.team)
+    address.deny_list(app.team).nil?
   end
 
   # This delivery is being open tracked

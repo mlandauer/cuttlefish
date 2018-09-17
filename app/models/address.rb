@@ -27,8 +27,4 @@ class Address < ActiveRecord::Base
     # In concrete terms the internal cuttlefish app doesn't have a deny list and isn't part of a team
     team && deny_lists.find_by(team_id: team.id)
   end
-
-  def deny_listed?(team)
-    !deny_list(team).nil?
-  end
 end
