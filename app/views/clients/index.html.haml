@@ -16,7 +16,7 @@
       %th Client
       %th Count
   %tbody
-    - policy_scope(Delivery).joins(:open_events).group(:ua_family).order("count_all desc").count.each do |ua_family, count|
+    - @client_counts.each do |ua_family, count|
       %tr
         %td= ua_family
         %td= count
