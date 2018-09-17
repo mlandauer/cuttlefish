@@ -166,6 +166,48 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  ADDRESSES_TO_QUERY = CLIENT.parse <<-'GRAPHQL'
+    query ($to: String!, $limit: Int, $offset: Int) {
+      emails(to: $to, limit: $limit, offset: $offset) {
+        totalCount
+        statistics {
+          totalCount
+          deliveredCount
+          softBounceCount
+          hardBounceCount
+          notSentCount
+          openRate
+          clickRate
+        }
+        nodes {
+          id
+          from
+          subject
+          app {
+            name
+          }
+          createdAt
+          status
+          opened
+          clicked
+        }
+      }
+      blockedAddress(address: $to) {
+        id
+        becauseOfDeliveryEvent {
+          time
+          extendedStatus
+          email {
+            id
+          }
+        }
+        permissions {
+          destroy
+        }
+      }
+    }
+  GRAPHQL
+
   ADMINS_QUERY = CLIENT.parse <<-'GRAPHQL'
     {
       admins {

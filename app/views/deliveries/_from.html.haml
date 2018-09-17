@@ -10,7 +10,7 @@
             = delivery.subject
           %td.app.hidden-phone= delivery.app.name
           %td.time-and-labels
-            = link_to delivery, class: "rowlink" do
+            = link_to delivery_path(delivery.id), class: "rowlink" do
               = time_ago_in_words(delivery.created_at)
               ago
             %br
