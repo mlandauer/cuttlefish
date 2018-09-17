@@ -1,28 +1,28 @@
 .page-header
   %h1
     Emails sent to
-    = @address.text
+    = @to
 
-- if @address.deny_listed?(current_admin.team)
+- if @deny_list
   %h2
-    = @address.text
+    = @to
     is on the deny list
   %p
-    - if @address.deny_list(current_admin.team).caused_by_postfix_log_line
+    - if @deny_list.caused_by_postfix_log_line
       Reason:
-      = link_to truncate(@address.deny_list(current_admin.team).caused_by_postfix_log_line.extended_status, length: 160), @address.deny_list(current_admin.team).caused_by_delivery
-      = time_ago_in_words(@address.deny_list(current_admin.team).caused_by_postfix_log_line.created_at)
+      = link_to truncate(@deny_list.caused_by_postfix_log_line.extended_status, length: 160), @deny_list.caused_by_delivery
+      = time_ago_in_words(@deny_list.caused_by_postfix_log_line.created_at)
       ago
     - else
       We don't know why this was deny listed. The delivery that caused it may have been archived.
 
-  - if policy(@address.deny_list(current_admin.team)).destroy?
-    = button_to "Remove from deny list", @address.deny_list(current_admin.team), method: :delete, class: "btn btn-danger"
+  - if policy(@deny_list).destroy?
+    = button_to "Remove from deny list", @deny_list, method: :delete, class: "btn btn-danger"
 
 .row
   .span3
     %p
-      = link_to from_address_path(@address.text) do
+      = link_to from_address_path(@to) do
         Switch to emails sent
         %strong from
         this address
