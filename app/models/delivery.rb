@@ -22,7 +22,9 @@ class Delivery < ActiveRecord::Base
   # Should this email be sent to this address?
   # If not it's because the email has bounced
   def send?
-    address.deny_list(app.team).nil?
+    # If there is no team there is no deny list
+    # In concrete terms the internal cuttlefish app doesn't have a deny list and isn't part of a team
+    app.team.nil? || address.deny_lists.find_by(team_id: app.team.id).nil?
   end
 
   # This delivery is being open tracked
