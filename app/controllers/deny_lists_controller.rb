@@ -17,6 +17,6 @@ class DenyListsController < ApplicationController
     deny_list = DenyList.find(params[:id])
     authorize deny_list
     deny_list.destroy
-    redirect_to :back
+    redirect_back(fallback_location: deny_lists_url)
   end
 end
