@@ -323,14 +323,18 @@ module Cuttlefish::ApiClient
   GRAPHQL
 
   CLIENT_QUERY = CLIENT.parse <<-'GRAPHQL'
-    {
-      emails {
+    query($appId: ID) {
+      emails(appId: $appId) {
         statistics {
           userAgentFamilyCounts {
             name
             count
           }
         }
+      }
+      apps {
+        id
+        name
       }
     }
   GRAPHQL

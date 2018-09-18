@@ -10,6 +10,18 @@
     Note that if people have image loading disabled or are using a text-only
     email clients they are not included in these results.
 
+.btn-group
+  %button.btn.dropdown-toggle(data-toggle="dropdown")
+    - if @app.nil?
+      All Apps
+    - else
+      = @app.name
+    %span.caret
+  %ul.dropdown-menu
+    %li= link_to "All Apps", clients_path
+    - @apps.each do |app|
+      %li= link_to app.name, app_clients_path(app.id)
+
 %table.table
   %thead
     %tr
