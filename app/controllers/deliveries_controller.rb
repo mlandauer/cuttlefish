@@ -1,12 +1,7 @@
 class DeliveriesController < ApplicationController
   def index
     if params[:search]
-      @deliveries = policy_scope(Delivery)
-      @apps = policy_scope(App)
-
-      @search = params[:search]
-      @deliveries = @deliveries.joins(:address).where("addresses.text" => @search)
-      @deliveries = @deliveries.includes(:delivery_links, :postfix_log_lines, :email, :address).order("deliveries.created_at DESC").page(params[:page])
+      redirect_to to_address_url(id: params[:search])
     else
       @status = params[:status]
       @deliveries = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|
