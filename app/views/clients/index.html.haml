@@ -16,7 +16,7 @@
       %th Client
       %th Count
   %tbody
-    - @client_counts.each do |ua_family, count|
+    - @client_counts.each do |client_count|
       %tr
-        %td= ua_family
-        %td= count
+        %td= client_count.name
+        %td= client_count.count

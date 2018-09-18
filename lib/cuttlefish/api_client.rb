@@ -322,6 +322,19 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  CLIENT_QUERY = CLIENT.parse <<-'GRAPHQL'
+    {
+      emails {
+        statistics {
+          userAgentFamilyCounts {
+            name
+            count
+          }
+        }
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,
