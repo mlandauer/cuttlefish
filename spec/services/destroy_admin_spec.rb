@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe RemoveAdmin do
+describe DestroyAdmin do
   let(:team_one) { create(:team) }
   let(:team_two) { create(:team) }
   let(:admin) { create(:admin, team: team_one) }
   let(:current_admin) { create(:admin, team: team_one) }
-  let(:remove_admin) { RemoveAdmin.call(current_admin: current_admin, id: admin.id) }
+  let(:remove_admin) { DestroyAdmin.call(current_admin: current_admin, id: admin.id) }
 
   it "should remove an admin" do
     admin

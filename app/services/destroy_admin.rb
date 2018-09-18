@@ -1,4 +1,4 @@
-class RemoveAdmin < ApplicationService
+class DestroyAdmin < ApplicationService
   def initialize(current_admin:, id:)
     @current_admin = current_admin
     @id = id

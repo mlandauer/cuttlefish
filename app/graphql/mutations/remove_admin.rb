@@ -10,7 +10,7 @@ class Mutations::RemoveAdmin < GraphQL::Schema::Mutation
   field :admin, Types::Admin, null: true
 
   def resolve(id:)
-    remove_admin = ::RemoveAdmin.call(id: id, current_admin: context[:current_admin])
+    remove_admin = ::DestroyAdmin.call(id: id, current_admin: context[:current_admin])
     { admin: remove_admin.result }
   end
 
