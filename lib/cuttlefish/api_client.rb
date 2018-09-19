@@ -339,6 +339,16 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  REMOVE_BLOCKED_ADDRESS_MUTATION = CLIENT.parse <<-'GRAPHQL'
+    mutation($id: ID!) {
+      removeBlockedAddress(id: $id) {
+        blockedAddress {
+          address
+        }
+      }
+    }
+  GRAPHQL
+
   def self.query(q, variables:, current_admin:)
     result = CLIENT.query(
       q,

@@ -12,9 +12,14 @@ class DenyListsController < ApplicationController
   end
 
   def destroy
-    destroy_deny_list = DestroyDenyList.call(current_admin: current_admin, id: params[:id])
-    if destroy_deny_list.result
-      flash[:notice] = "#{destroy_deny_list.result.address.text} removed from deny list"
+    result = Cuttlefish::ApiClient.query(
+      Cuttlefish::ApiClient::REMOVE_BLOCKED_ADDRESS_MUTATION,
+      variables: { id: params[:id] },
+      current_admin: current_admin
+    )
+    blocked_address = result.data.remove_blocked_address.blocked_address
+    if blocked_address
+      flash[:notice] = "#{blocked_address.address} removed from deny list"
     else
       flash[:alert] = "Couldn't remove from deny list. You probably don't have the necessary permissions."
     end

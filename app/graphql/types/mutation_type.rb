@@ -10,4 +10,6 @@ class Types::MutationType < GraphQL::Schema::Object
   end
 
   field :remove_admin, mutation: Mutations::RemoveAdmin
+
+  field :remove_blocked_address, mutation: Mutations::RemoveBlockedAddress
 end
