@@ -1,10 +1,6 @@
 class DocumentationController < ApplicationController
   def index
-    result = Cuttlefish::ApiClient.query(
-      Cuttlefish::ApiClient::DOCUMENTATION_QUERY,
-      variables: {},
-      current_admin: current_admin
-    )
+    result = api_query :documentation_query
     @apps = result.data.apps
     @active_app = @apps.first
   end

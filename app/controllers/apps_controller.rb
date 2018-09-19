@@ -2,20 +2,12 @@ class AppsController < ApplicationController
   after_action :verify_authorized, except: [:index, :show, :edit, :dkim]
 
   def index
-    result = Cuttlefish::ApiClient.query(
-      Cuttlefish::ApiClient::APPS_INDEX_QUERY,
-      variables: {},
-      current_admin: current_admin
-    )
+    result = api_query :apps_index_query
     @apps = result.data.apps
   end
 
   def show
-    result = Cuttlefish::ApiClient.query(
-      Cuttlefish::ApiClient::APPS_SHOW_QUERY,
-      variables: { id: params[:id] },
-      current_admin: current_admin
-    )
+    result = api_query :apps_show_query, id: params[:id]
     @app = result.data.app
   end
 
@@ -44,11 +36,7 @@ class AppsController < ApplicationController
   end
 
   def edit
-    result = Cuttlefish::ApiClient.query(
-      Cuttlefish::ApiClient::APPS_EDIT_QUERY,
-      variables: { id: params[:id] },
-      current_admin: current_admin
-    )
+    result = api_query :apps_edit_query, id: params[:id]
     @app = result.data.app
   end
 
@@ -82,11 +70,7 @@ class AppsController < ApplicationController
   end
 
   def dkim
-    result = Cuttlefish::ApiClient.query(
-      Cuttlefish::ApiClient::APPS_DKIM_QUERY,
-      variables: { id: params[:id] },
-      current_admin: current_admin
-    )
+    result = api_query :apps_dkim_query, id: params[:id]
     @app = result.data.app
     @provider = params[:provider]
   end

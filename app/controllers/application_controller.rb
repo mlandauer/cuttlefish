@@ -13,6 +13,14 @@ class ApplicationController < ActionController::Base
 
   force_ssl :if => Proc.new{ force_ssl? }
 
+  def api_query(query_name, variables = {})
+    result = Cuttlefish::ApiClient.query(
+      Cuttlefish::ApiClient.const_get(query_name.to_s.upcase),
+      variables: variables,
+      current_admin: current_admin
+    )
+  end
+
   private
 
   def configure_permitted_parameters

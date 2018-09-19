@@ -1,21 +1,13 @@
 class AdminsController < ApplicationController
   def index
-    result = Cuttlefish::ApiClient.query(
-      Cuttlefish::ApiClient::ADMINS_QUERY,
-      variables: { },
-      current_admin: current_admin
-    )
+    result = api_query :admins_query
     @admins = result.data.admins
 
     @admin = Admin.new
   end
 
   def destroy
-    result = Cuttlefish::ApiClient.query(
-      Cuttlefish::ApiClient::REMOVE_ADMIN_MUTATION,
-      variables: { id: params[:id] },
-      current_admin: current_admin
-    )
+    result = api_query :remove_admin_mutation, id: params[:id]
     admin = result.data.remove_admin.admin
     if admin
       flash[:notice] = "#{admin.display_name} removed"

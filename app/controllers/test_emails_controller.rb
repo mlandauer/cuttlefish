@@ -21,19 +21,14 @@ The Awesome Cuttlefish
   # Send a test email
   def create
     # TODO: Check for errors
-    result = Cuttlefish::ApiClient.query(
-      Cuttlefish::ApiClient::CREATE_EMAILS_MUTATION,
-      variables: {
-        appId: params[:app_id],
-        from: params[:from],
-        to: params[:to],
-        cc: params[:cc],
-        subject: params[:subject],
-        textPart: params[:text],
-        htmlPart: simple_format(params[:text])
-      },
-      current_admin: current_admin
-    )
+    result = api_query :create_emails_mutation,
+      appId: params[:app_id],
+      from: params[:from],
+      to: params[:to],
+      cc: params[:cc],
+      subject: params[:subject],
+      textPart: params[:text],
+      htmlPart: simple_format(params[:text])
 
     flash[:notice] = "Test email sent"
     redirect_to deliveries_url

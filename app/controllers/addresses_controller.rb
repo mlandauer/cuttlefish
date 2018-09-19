@@ -1,11 +1,8 @@
 class AddressesController < ApplicationController
   def from
     @deliveries = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|
-      result = Cuttlefish::ApiClient.query(
-        Cuttlefish::ApiClient::ADDRESSES_FROM_QUERY,
-        variables: { from: params[:id], limit: pager.per_page, offset: pager.offset },
-        current_admin: current_admin
-      )
+      result = api_query :addresses_from_query,
+        from: params[:id], limit: pager.per_page, offset: pager.offset
 
       @from = params[:id]
       @stats = result.data.emails.statistics
@@ -17,11 +14,8 @@ class AddressesController < ApplicationController
 
   def to
     @deliveries = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|
-      result = Cuttlefish::ApiClient.query(
-        Cuttlefish::ApiClient::ADDRESSES_TO_QUERY,
-        variables: { to: params[:id], limit: pager.per_page, offset: pager.offset },
-        current_admin: current_admin
-      )
+      result = api_query :addresses_to_query,
+        to: params[:id], limit: pager.per_page, offset: pager.offset
 
       @to = params[:id]
       @stats = result.data.emails.statistics
