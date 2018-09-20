@@ -14,11 +14,10 @@
       %ul
         - team.apps.each do |app|
           %li= link_to app.name, app
-  - if current_admin.super_admin?
-    %li
-      Cuttlefish team
-      %ul
-        %li= link_to App.cuttlefish.name, App.cuttlefish
+  %li
+    Cuttlefish team
+    %ul
+      %li= link_to App.cuttlefish.name, App.cuttlefish
 
 - if policy(:team).invite?
   %h2 Invite a new team
