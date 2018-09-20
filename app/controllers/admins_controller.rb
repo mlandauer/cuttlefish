@@ -1,13 +1,13 @@
 class AdminsController < ApplicationController
   def index
-    result = api_query :admins_query
+    result = api_query :admins
     @admins = result.data.admins
 
     @admin = Admin.new
   end
 
   def destroy
-    result = api_query :remove_admin_mutation, id: params[:id]
+    result = api_query :remove_admin, id: params[:id]
     admin = result.data.remove_admin.admin
     if admin
       flash[:notice] = "#{admin.display_name} removed"
