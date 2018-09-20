@@ -22,10 +22,12 @@ smart_team = Team.create!
 # Wu Industries
 wu_team = Team.create!
 
-smart_team.admins.create!([
-  { email: "joy@smart-unlimited.com", password: "password", name: "Joy Rice" },
+smart_team.admins.create!(
+  { email: "joy@smart-unlimited.com", password: "password", name: "Joy Rice", super_admin: true },
+)
+smart_team.admins.create!(
   { email: "taliyah@smart-unlimited.com", password: "password", name: "Taliyah Parsons" }
-])
+)
 
 wu_team.admins.create!([
   { email: "liz@wu-industries.com", password: "password", name: "Lizzie Chan" }
@@ -110,6 +112,46 @@ delivery_link.click_events.create!(
   user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E302",
   ip: "1.1.1.1"
 )
+
+email = office_app.emails.create!(
+  from_address_id: address1.id,
+  data: <<-EOF
+From: foo@bar.com
+To: foo@example.com
+Subject: This is a test email
+Date: Fri, 27 Jul 2018 03:39:25 +0000
+Message-ID:
+ <ME2PR01MB380900AFED51A53176641AC0B12A0@ME2PR01MB3809.ausprd01.prod.outlook.com>
+Content-Type: multipart/related;
+	boundary="_004_ME2PR01MB380900AFED51A53176641AC0B12A0ME2PR01MB3809ausp_";
+	type="multipart/alternative"
+MIME-Version: 1.0
+
+--_004_ME2PR01MB380900AFED51A53176641AC0B12A0ME2PR01MB3809ausp_
+Content-Type: multipart/alternative;
+	boundary="_000_ME2PR01MB380900AFED51A53176641AC0B12A0ME2PR01MB3809ausp_"
+
+--_000_ME2PR01MB380900AFED51A53176641AC0B12A0ME2PR01MB3809ausp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+This is a test email. Isn't it exciting?
+
+--_000_ME2PR01MB380900AFED51A53176641AC0B12A0ME2PR01MB3809ausp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<p>Hello,</p>
+<p>This is a test email. Isn't it exciting?</p>
+
+--_000_ME2PR01MB380900AFED51A53176641AC0B12A0ME2PR01MB3809ausp_--
+
+  EOF
+)
+
+delivery = email.deliveries.create!(address_id: address2.id, sent: true)
 
 email = acting_app.emails.create!(
   from_address_id: address1.id,
