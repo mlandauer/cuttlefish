@@ -61,9 +61,9 @@ describe DeliveryPolicy do
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
-    it 'is not included in the scope' do
+    it 'is included in the scope' do
       delivery
-      expect(DeliveryPolicy::Scope.new(user, Delivery.all).resolve).to_not include(delivery)
+      expect(DeliveryPolicy::Scope.new(user, Delivery.all).resolve).to include(delivery)
     end
   end
 end
