@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: dockerfiles/web
     volumes:
-      - .:/app
+      - .:/app:cached
     ports:
       - "3000:3000"
     links:
@@ -23,7 +23,7 @@ services:
       context: .
       dockerfile: dockerfiles/smtp
     volumes:
-      - .:/app
+      - .:/app:cached
     ports:
       - "2525:2525"
 
@@ -35,7 +35,7 @@ services:
       context: .
       dockerfile: dockerfiles/worker
     volumes:
-      - .:/app
+      - .:/app:cached
     links:
       - db
       - redis
@@ -52,7 +52,7 @@ services:
       - SMTP_PASSWORD=XXXXXXXX
       - SERVER_HOSTNAME=cuttlefish.io
     volumes:
-      - ./postfix_log:/var/log
+      - ./postfix_log:/var/log:cached
     links:
       - mailcatcher
 
@@ -68,7 +68,7 @@ services:
       context: .
       dockerfile: dockerfiles/log
     volumes:
-      - .:/app
-      - ./postfix_log:/var/log
+      - .:/app:cached
+      - ./postfix_log:/var/log:cached
     links:
       - db
