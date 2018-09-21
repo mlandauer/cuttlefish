@@ -1,6 +1,6 @@
 class DeliveryPolicy < ApplicationPolicy
   def show?
-    if user && user.super_admin?
+    if user && user.site_admin?
       true
     else
       app_ids = AppPolicy::Scope.new(user, App).resolve.pluck(:id)
@@ -18,7 +18,7 @@ class DeliveryPolicy < ApplicationPolicy
       # However, they aren't shown by default in the admin UI because it only
       # lists the apps that the admin is attached to. To see the emails for an
       # app belonging to another team, they need to navigate via the teams list.
-      if user && user.super_admin?
+      if user && user.site_admin?
         scope
       else
         # Avoid using join here as it was a lot slower

@@ -23,7 +23,7 @@ smart_team = Team.create!
 wu_team = Team.create!
 
 smart_team.admins.create!(
-  { email: "joy@smart-unlimited.com", password: "password", name: "Joy Rice", super_admin: true },
+  { email: "joy@smart-unlimited.com", password: "password", name: "Joy Rice", site_admin: true },
 )
 smart_team.admins.create!(
   { email: "taliyah@smart-unlimited.com", password: "password", name: "Taliyah Parsons" }

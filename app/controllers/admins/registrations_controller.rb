@@ -37,6 +37,6 @@ class Admins::RegistrationsController < Devise::RegistrationsController
 
   def sign_up_params
     team = Team.create!
-    devise_parameter_sanitizer.sanitize(:sign_up).merge(team_id: team.id, super_admin: true)
+    devise_parameter_sanitizer.sanitize(:sign_up).merge(team_id: team.id, site_admin: true)
   end
 end

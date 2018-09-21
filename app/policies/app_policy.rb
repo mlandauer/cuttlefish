@@ -8,7 +8,7 @@ class AppPolicy < ApplicationPolicy
   end
 
   def dkim?
-    (user && user.super_admin? && record.cuttlefish? && !Rails.configuration.cuttlefish_read_only_mode) || update?
+    (user && user.site_admin? && record.cuttlefish? && !Rails.configuration.cuttlefish_read_only_mode) || update?
   end
 
   # TODO: No reason for this to be seperate from dkim above
@@ -25,7 +25,7 @@ class AppPolicy < ApplicationPolicy
   end
 
   def show?
-    (user && user.super_admin?) || super
+    (user && user.site_admin?) || super
   end
 
   class Scope < Scope

@@ -60,7 +60,7 @@
               = nav_menu_item_show_active admins_path do
                 %i.fa.fa-user.fa-fw
                 Administrators
-              - if current_admin.super_admin?
+              - if current_admin.site_admin?
                 %li.nav-header Site Admin
                 - if policy(:team).index?
                   = nav_menu_item_show_active teams_path do

@@ -54,7 +54,7 @@ describe DeliveryPolicy do
   end
 
   context "super admin in team two" do
-    let(:user) { FactoryBot.create(:admin, team: team_two, super_admin: true)}
+    let(:user) { FactoryBot.create(:admin, team: team_two, site_admin: true)}
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:new) }

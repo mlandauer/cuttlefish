@@ -10,11 +10,11 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def index?
-    user && user.super_admin?
+    user && user.site_admin?
   end
 
   def invite?
-    user && user.super_admin? && !Rails.configuration.cuttlefish_read_only_mode
+    user && user.site_admin? && !Rails.configuration.cuttlefish_read_only_mode
   end
 
   # TODO: Add scope
