@@ -17,5 +17,14 @@ class TeamPolicy < ApplicationPolicy
     user && user.site_admin? && !Rails.configuration.cuttlefish_read_only_mode
   end
 
-  # TODO: Add scope
+  class Scope < Scope
+    def resolve
+      if user && user.site_admin?
+        scope.all
+      else
+        # Perhaps this should return just your current team instead in this case?
+        scope.none
+      end
+    end
+  end
 end

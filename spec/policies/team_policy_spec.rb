@@ -17,6 +17,10 @@ describe TeamPolicy do
     it { is_expected.not_to permit(:new) }
     it { is_expected.not_to permit(:invite) }
     it { is_expected.not_to permit(:destroy) }
+
+    it 'should have an empty scope' do
+      expect(TeamPolicy::Scope.new(user, Team).resolve).to be_empty
+    end
   end
 
   context "unauthenticated user" do
@@ -29,6 +33,10 @@ describe TeamPolicy do
     it { is_expected.not_to permit(:new) }
     it { is_expected.not_to permit(:invite) }
     it { is_expected.not_to permit(:destroy) }
+
+    it 'should have an empty scope' do
+      expect(TeamPolicy::Scope.new(user, Team).resolve).to be_empty
+    end
   end
 
   context "normal user in team two" do
@@ -42,12 +50,20 @@ describe TeamPolicy do
     it { is_expected.not_to permit(:new) }
     it { is_expected.not_to permit(:invite) }
     it { is_expected.not_to permit(:destroy) }
+
+    it 'should have an empty scope' do
+      expect(TeamPolicy::Scope.new(user, Team).resolve).to be_empty
+    end
   end
 
   context "super admin in team two" do
     let(:user) { FactoryBot.create(:admin, team: team_two, site_admin: true)}
     it { is_expected.to permit(:index) }
     it { is_expected.to permit(:invite) }
+
+    it 'should have all teams in scope' do
+      expect(TeamPolicy::Scope.new(user, Team).resolve).to include(team_one, team_two)
+    end
 
     context "in read only mode" do
       before :each do

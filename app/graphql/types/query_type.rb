@@ -95,10 +95,10 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def teams
-    unless TeamPolicy.new(context[:current_admin], Team).index?
+    unless TeamPolicy.new(context[:current_admin], ::Team).index?
       raise GraphQL::ExecutionError, "Not authorized to access Query.teams"
     end
-    ::Team.all
+    Pundit.policy_scope(context[:current_admin], ::Team)
   end
 
   def configuration
