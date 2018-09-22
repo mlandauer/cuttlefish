@@ -6,7 +6,7 @@ class TeamsController < ApplicationController
     result = api_query :teams
     @teams = result.data.teams
     @cuttlefish_app = result.data.cuttlefish_app
-    @admin = Admin.new
+    @admin = OpenStruct.new(email: nil)
   end
 
   def invite
