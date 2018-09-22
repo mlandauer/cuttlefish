@@ -28,6 +28,10 @@ class Types::QueryType < GraphQL::Schema::Object
     description "A list of Apps that this admin has access to, sorted alphabetically by name."
   end
 
+  field :teams, [Types::Team], null: true do
+    description "A list of all teams. Only accessible by a site admin."
+  end
+
   field :configuration, Types::Configuration, null: false do
     description "Application configuration settings"
   end
@@ -88,6 +92,11 @@ class Types::QueryType < GraphQL::Schema::Object
 
   def apps
     Pundit.policy_scope(context[:current_admin], App).order(:name)
+  end
+
+  def teams
+    # TODO Authorization
+    ::Team.all
   end
 
   def configuration

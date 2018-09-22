@@ -13,8 +13,8 @@ describe CuttlefishSchema do
   let(:team_two) { FactoryBot.create(:team) }
 
   let(:admin) { FactoryBot.create(:admin, team: team_one) }
-  let(:app1) { FactoryBot.create(:app, team: team_one) }
-  let(:app2) { FactoryBot.create(:app, team: team_one) }
+  let(:app1) { FactoryBot.create(:app, team: team_one, name: 'App Z') }
+  let(:app2) { FactoryBot.create(:app, team: team_one, name: 'App A') }
   let(:email1) { FactoryBot.create(:email, app: app1)}
   let(:email2) { FactoryBot.create(:email, app: app2)}
   let(:delivery1) { FactoryBot.create(:delivery, email: email1) }
@@ -130,6 +130,32 @@ describe CuttlefishSchema do
           expect(result['data']['emails']['totalCount']).to eq 2
           expect(result['errors']).to be_nil
         end
+      end
+    end
+  end
+
+  describe "teams" do
+    let(:query_string) { '{ teams { admins { name } apps { name } } }' }
+    before(:each) {
+      team_one
+      team_two
+    }
+    context "admin is a site admin" do
+      let(:admin) {
+        FactoryBot.create(:admin, team: team_one, site_admin: true, name: "Matthew")
+      }
+
+      it "should return all the teams" do
+        expect(result['data']['teams']).to eq [
+          {
+            'admins' => [{ 'name' => 'Matthew' }],
+            'apps' => [{ "name" => "App A" }, { "name" => "App Z" }]
+          },
+          {
+            'admins' => [],
+            'apps' => []
+          }
+        ]
       end
     end
   end
