@@ -17,7 +17,7 @@
   %li
     Cuttlefish team
     %ul
-      %li= link_to @cuttlefish_app.name, @cuttlefish_app
+      %li= link_to @cuttlefish_app.name, app_path(@cuttlefish_app.id)
 
 - if policy(:team).invite?
   %h2 Invite a new team

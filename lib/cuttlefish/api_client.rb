@@ -361,6 +361,10 @@ module Cuttlefish::ApiClient
           name
         }
       }
+      cuttlefishApp {
+        id
+        name
+      }
     }
   EOF
 

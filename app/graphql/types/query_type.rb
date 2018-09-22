@@ -32,6 +32,10 @@ class Types::QueryType < GraphQL::Schema::Object
     description "A list of all teams. Only accessible by a site admin."
   end
 
+  field :cuttlefish_app, Types::App, null: false do
+    description "The App used by Cuttlefish to send its own email"
+  end
+
   field :configuration, Types::Configuration, null: false do
     description "Application configuration settings"
   end
@@ -99,6 +103,10 @@ class Types::QueryType < GraphQL::Schema::Object
       raise GraphQL::ExecutionError, "Not authorized to access Query.teams"
     end
     Pundit.policy_scope(context[:current_admin], ::Team)
+  end
+
+  def cuttlefish_app
+    App.cuttlefish
   end
 
   def configuration

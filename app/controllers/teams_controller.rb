@@ -5,7 +5,7 @@ class TeamsController < ApplicationController
     # TODO Check for errors
     result = api_query :teams
     @teams = result.data.teams
-    @cuttlefish_app = App.cuttlefish
+    @cuttlefish_app = result.data.cuttlefish_app
     @admin = Admin.new
   end
 
