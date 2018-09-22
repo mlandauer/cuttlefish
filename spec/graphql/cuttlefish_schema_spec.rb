@@ -140,6 +140,15 @@ describe CuttlefishSchema do
       team_one
       team_two
     }
+
+    it "should return null" do
+      expect(result['data']['teams']).to be_nil
+    end
+
+    it "should return an error" do
+      expect(result['errors'][0]['message']).to eq 'Not authorized to access Query.teams'
+    end
+
     context "admin is a site admin" do
       let(:admin) {
         FactoryBot.create(:admin, team: team_one, site_admin: true, name: "Matthew")

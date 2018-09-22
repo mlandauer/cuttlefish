@@ -95,7 +95,9 @@ class Types::QueryType < GraphQL::Schema::Object
   end
 
   def teams
-    # TODO Authorization
+    unless TeamPolicy.new(context[:current_admin], Team).index?
+      raise GraphQL::ExecutionError, "Not authorized to access Query.teams"
+    end
     ::Team.all
   end
 
