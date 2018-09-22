@@ -349,6 +349,21 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  TEAMS = GRAPHQL_CLIENT.parse <<-EOF
+    {
+      teams {
+        admins {
+          email
+          displayName
+        }
+        apps {
+          id
+          name
+        }
+      }
+    }
+  EOF
+
   def self.query(q, variables:, current_admin:)
     result = GRAPHQL_CLIENT.query(
       q,

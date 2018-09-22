@@ -13,7 +13,7 @@
       (#{team.admins.map{|a| mail_to h(a.email), h(a.display_name)}.to_sentence.html_safe})
       %ul
         - team.apps.each do |app|
-          %li= link_to app.name, app
+          %li= link_to app.name, app_path(app.id)
   %li
     Cuttlefish team
     %ul

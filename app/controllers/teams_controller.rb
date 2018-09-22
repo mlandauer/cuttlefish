@@ -1,9 +1,10 @@
 class TeamsController < ApplicationController
-  after_action :verify_authorized
+  after_action :verify_authorized, except: :index
 
   def index
-    authorize :team
-    @teams = Team.all
+    # TODO Check for errors
+    result = api_query :teams
+    @teams = result.data.teams
     @admin = Admin.new
   end
 
