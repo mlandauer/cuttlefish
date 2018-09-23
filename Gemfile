@@ -62,6 +62,7 @@ gem 'graphql'
 gem 'graphql-guard'
 gem 'batch-loader'
 gem 'graphql-client'
+gem 'virtus'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

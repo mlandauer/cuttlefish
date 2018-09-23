@@ -12,8 +12,8 @@ class AppsController < ApplicationController
   end
 
   def new
-    @app = App.new
-    authorize @app
+    @app = AppForm.new
+    authorize :app
   end
 
   def create
