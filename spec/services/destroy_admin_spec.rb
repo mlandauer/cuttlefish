@@ -21,6 +21,10 @@ describe DestroyAdmin do
     expect(remove_admin.success?).to be true
   end
 
+  it "should not have an error message" do
+    expect(remove_admin.message).to be_nil
+  end
+
   context "admin is in another team" do
     let(:admin) { create(:admin, team: team_two) }
 
@@ -36,6 +40,10 @@ describe DestroyAdmin do
 
     it "should not be successful" do
       expect(remove_admin.success?).to be false
+    end
+
+    it "should give an error message" do
+      expect(remove_admin.message).to eq "You can't remove the admin with this id"
     end
   end
 
@@ -54,6 +62,10 @@ describe DestroyAdmin do
 
     it "should not be successful" do
       expect(remove_admin.success?).to be false
+    end
+
+    it "should give an error message" do
+      expect(remove_admin.message).to eq "You can't remove the admin with this id"
     end
   end
 end
