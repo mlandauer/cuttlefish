@@ -41,7 +41,23 @@ describe Mutations::CreateApp do
     })
   end
 
-  pending "shouldn't do anything if it doesn't have permission"
+  context "user does not have permission" do
+    let(:app_policy) { double }
+    before :each do
+      expect(AppPolicy).to receive(:new) { app_policy }
+      expect(app_policy).to receive(:create?) { false }
+    end
+
+    it "should return an error" do
+      expect(result['data']['createApp']).to eq ({
+        'app' => nil,
+        'errors' => [{
+          "message" => "You don't have permissions to do this",
+          "path" => []
+        }]
+      })
+    end
+  end
 
   context "invalid name" do
     let(:name) { 'sd^&' }

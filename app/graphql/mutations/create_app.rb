@@ -25,14 +25,18 @@ class Mutations::CreateApp < GraphQL::Schema::Mutation
     if create_app.success?
       { app: create_app.result, errors: [] }
     else
-      # Convert Rails model errors into GraphQL-ready error hashes
-      user_errors = create_app.result.errors.map do |attribute, message|
-        # This is the GraphQL argument which corresponds to the validation error:
-        path = ["attributes", attribute.to_s.camelize(:lower)]
-        {
-         path: path,
-         message: message,
-        }
+      if create_app.result
+        # Convert Rails model errors into GraphQL-ready error hashes
+        user_errors = create_app.result.errors.map do |attribute, message|
+          # This is the GraphQL argument which corresponds to the validation error:
+          path = ["attributes", attribute.to_s.camelize(:lower)]
+          {
+           path: path,
+           message: message,
+          }
+        end
+      else
+        user_errors = [{ path: [], message: create_app.message}]
       end
       { app: nil, errors: user_errors}
     end

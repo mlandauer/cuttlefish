@@ -17,7 +17,7 @@ class CreateApp < ApplicationService
       custom_tracking_domain: custom_tracking_domain
     )
     unless AppPolicy.new(current_admin, app).create?
-      fail! "Do not have permission"
+      fail! "You don't have permissions to do this"
       return
     end
     if app.save
