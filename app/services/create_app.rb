@@ -11,6 +11,7 @@ class CreateApp < ApplicationService
   end
 
   def call
+    success!
     App.create!(
       team: current_admin.team,
       name: name,

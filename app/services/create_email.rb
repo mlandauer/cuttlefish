@@ -38,6 +38,7 @@ class CreateEmail < ApplicationService
     )
 
     MailWorker.perform_async(email.id)
+    success!
     email
   end
 
