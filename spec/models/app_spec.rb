@@ -102,6 +102,13 @@ describe App do
     end
   end
 
+  describe "#open_tracking_enabled" do
+    it "should not validate with nil value" do
+      app = FactoryBot.build(:app, open_tracking_enabled: nil)
+      expect(app).to_not be_valid
+    end
+  end
+
   # The following two tests are commented out because they require a network connection and
   # are testing real things in DNS so in general it makes the tests fragile. Though, if you're
   # working on the lookup_dns_cname_record method it's probably a good idea to uncomment them!

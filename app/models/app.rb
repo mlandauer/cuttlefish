@@ -5,6 +5,14 @@ class App < ActiveRecord::Base
 
   validates :name, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "Only letters, numbers, spaces and underscores"}
   validate :custom_tracking_domain_points_to_correct_place
+  # Validating booleans so that they can't have nil values.
+  # See https://stackoverflow.com/questions/34759092/to-validate-or-not-to-validate-boolean-field
+  validates :smtp_password_locked, :inclusion => {:in => [true, false]}
+  validates :open_tracking_enabled, :inclusion => {:in => [true, false]}
+  validates :click_tracking_enabled, :inclusion => {:in => [true, false]}
+  validates :dkim_enabled, :inclusion => {:in => [true, false]}
+  validates :cuttlefish, :inclusion => {:in => [true, false]}
+  validates :legacy_dkim_selector, :inclusion => {:in => [true, false]}
 
   before_create :set_smtp_password
   after_create :set_smtp_username
