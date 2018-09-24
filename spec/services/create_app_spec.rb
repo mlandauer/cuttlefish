@@ -9,8 +9,7 @@ describe CreateApp do
       name: name,
       open_tracking_enabled: false,
       click_tracking_enabled: false,
-      custom_tracking_domain: nil,
-      from_domain: "foo.com"
+      custom_tracking_domain: nil
     )
   }
 
@@ -24,7 +23,6 @@ describe CreateApp do
     expect(app.open_tracking_enabled).to eq false
     expect(app.click_tracking_enabled).to eq false
     expect(app.custom_tracking_domain).to be_nil
-    expect(app.from_domain).to eq "foo.com"
   end
 
   it "should create the app in the same team as the admin" do

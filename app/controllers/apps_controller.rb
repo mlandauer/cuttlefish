@@ -22,8 +22,7 @@ class AppsController < ApplicationController
       name: params['app']['name'],
       open_tracking_enabled: params['app']['open_tracking_enabled'],
       click_tracking_enabled: params['app']['click_tracking_enabled'],
-      custom_tracking_domain: params['app']['custom_tracking_domain'],
-      from_domain: params['app']['from_domain']
+      custom_tracking_domain: params['app']['custom_tracking_domain']
     )
     @app = create_app.result
     if create_app.success?
