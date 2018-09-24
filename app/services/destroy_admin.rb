@@ -6,14 +6,13 @@ class DestroyAdmin < ApplicationService
 
   def call
     admin = Admin.find_by_id(id)
-    if admin && AdminPolicy.new(current_admin, admin).destroy?
-      admin.destroy
-    else
+    if admin.nil? || !AdminPolicy.new(current_admin, admin).destroy?
       # Give a generic error message that covers "permissions" and "not found".
       # This is because we don't want clients to be able to distinguish these two
       # errors because it leaks information
       raise Failure, "You can't remove the admin with this id"
     end
+    admin.destroy
   end
 
   private
