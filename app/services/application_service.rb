@@ -1,21 +1,22 @@
 class ApplicationService
   attr_reader :result
 
+  class Failure < StandardError; end
+
   # Give services a slightly more concise way of being called
   def self.call(params)
     object = new(params)
-    object.instance_eval { |o| @result = call }
+    object.instance_eval do |o|
+      begin
+        @result = call
+        @success = true
+        result
+      rescue Failure => e
+        @success = false
+        @message = e.message
+      end
+    end
     object
-  end
-
-  def success!
-    @success = true
-  end
-
-  def fail!(message)
-    @success = false
-    @message = message
-    nil
   end
 
   def success?
