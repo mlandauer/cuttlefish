@@ -35,7 +35,10 @@ describe Mutations::CreateApp do
   end
 
   it "should return the created app" do
-    expect(result['data']['createApp']['app']['name']).to eq name
+    expect(result['data']['createApp']).to eq ({
+      'app' => { 'name' => name },
+      'errors' => []
+    })
   end
 
   pending "shouldn't do anything if it doesn't have permission"
@@ -43,16 +46,14 @@ describe Mutations::CreateApp do
   context "invalid name" do
     let(:name) { 'sd^&' }
 
-    it "should return a nil app" do
-      expect(result['data']['createApp']['app']).to be_nil
+    it "should return a nil app and a validation error" do
+      expect(result['data']['createApp']).to eq ({
+        'app' => nil,
+        'errors' => [{
+          "message" => "Only letters, numbers, spaces and underscores",
+          "path" => ["attributes", "name"]
+        }]
+      })
     end
-
-    it "should return a validation error" do
-      expect(result['data']['createApp']['errors']).to eq [{
-        "message" => "Only letters, numbers, spaces and underscores",
-        "path" => ["attributes", "name"]
-      }]
-    end
-
   end
 end
