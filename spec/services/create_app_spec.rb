@@ -34,4 +34,15 @@ describe CreateApp do
   it "should be successfull" do
     expect(create_app).to be_success
   end
+
+  context "name is blank" do
+    let(:name) { "" }
+    it "should not be succesfull" do
+      expect(create_app).to_not be_success
+    end
+
+    it "should return the unsaved app" do
+      expect(create_app.result).to_not be_persisted
+    end
+  end
 end

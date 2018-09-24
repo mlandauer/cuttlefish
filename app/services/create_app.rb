@@ -11,8 +11,7 @@ class CreateApp < ApplicationService
   end
 
   def call
-    success!
-    App.create!(
+    app = App.new(
       team: current_admin.team,
       name: name,
       open_tracking_enabled: open_tracking_enabled,
@@ -20,6 +19,12 @@ class CreateApp < ApplicationService
       custom_tracking_domain: custom_tracking_domain,
       from_domain: from_domain
     )
+    if app.save
+      success!
+    else
+      fail! "Save failed"
+    end
+    app
   end
 
   private
