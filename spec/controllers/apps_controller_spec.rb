@@ -12,7 +12,11 @@ describe AppsController, type: :controller do
       before(:each) { sign_in admin }
 
       it "should create an app that is part of the current user's team" do
-        post :create, params: { app: {name: "My New App"} }
+        post :create, params: { app: {
+          name: "My New App",
+          open_tracking_enabled: false,
+          click_tracking_enabled: false
+        } }
         app = App.where(cuttlefish: false).first
         expect(app.name).to eq "My New App"
         expect(app.team).to eq team
