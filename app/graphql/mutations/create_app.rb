@@ -7,6 +7,7 @@ class Mutations::CreateApp < GraphQL::Schema::Mutation
   argument :custom_tracking_domain, String, required: false, description: "Optional domain used for open and click tracking"
 
   field :app, Types::App, null: true
+  field :errors, [Types::UserError], null: false
 
   def resolve(
     name:,
@@ -21,6 +22,19 @@ class Mutations::CreateApp < GraphQL::Schema::Mutation
       click_tracking_enabled: click_tracking_enabled,
       custom_tracking_domain: custom_tracking_domain
     )
-    { app: create_app.result }
+    if create_app.success?
+      { app: create_app.result, errors: [] }
+    else
+      # Convert Rails model errors into GraphQL-ready error hashes
+      user_errors = create_app.result.errors.map do |attribute, message|
+        # This is the GraphQL argument which corresponds to the validation error:
+        path = ["attributes", attribute.to_s.camelize(:lower)]
+        {
+         path: path,
+         message: message,
+        }
+      end
+      { app: nil, errors: user_errors}
+    end
   end
 end

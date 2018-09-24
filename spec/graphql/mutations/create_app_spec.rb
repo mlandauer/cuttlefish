@@ -13,12 +13,17 @@ describe Mutations::CreateApp do
         app {
           name
         }
+        errors {
+          message
+          path
+        }
       }
     }
     EOF
   }
   let(:context) { { current_admin: current_admin }}
-  let(:variables) { { name: 'An App' } }
+  let(:name) { 'An App' }
+  let(:variables) { { name: name } }
   let(:current_admin) { FactoryBot.create(:admin) }
 
   it 'should not return any errors' do
@@ -30,6 +35,24 @@ describe Mutations::CreateApp do
   end
 
   it "should return the created app" do
-    expect(result['data']['createApp']['app']['name']).to eq 'An App'
+    expect(result['data']['createApp']['app']['name']).to eq name
+  end
+
+  pending "shouldn't do anything if it doesn't have permission"
+
+  context "invalid name" do
+    let(:name) { 'sd^&' }
+
+    it "should return a nil app" do
+      expect(result['data']['createApp']['app']).to be_nil
+    end
+
+    it "should return a validation error" do
+      expect(result['data']['createApp']['errors']).to eq [{
+        "message" => "Only letters, numbers, spaces and underscores",
+        "path" => ["attributes", "name"]
+      }]
+    end
+
   end
 end
