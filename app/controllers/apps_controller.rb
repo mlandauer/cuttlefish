@@ -1,5 +1,5 @@
 class AppsController < ApplicationController
-  after_action :verify_authorized, except: [:index, :show, :edit, :dkim]
+  after_action :verify_authorized, except: [:index, :show, :create, :edit, :dkim]
 
   def index
     result = api_query :apps_index
@@ -17,9 +17,16 @@ class AppsController < ApplicationController
   end
 
   def create
-    @app = current_admin.team.apps.build(app_parameters)
-    authorize @app
-    if @app.save
+    create_app = CreateApp.call(
+      current_admin: current_admin,
+      name: params['app']['name'],
+      open_tracking_enabled: params['app']['open_tracking_enabled'],
+      click_tracking_enabled: params['app']['click_tracking_enabled'],
+      custom_tracking_domain: params['app']['custom_tracking_domain'],
+      from_domain: params['app']['from_domain']
+    )
+    @app = create_app.result
+    if create_app.success?
       flash[:notice] = "App #{@app.name} successfully created"
       redirect_to @app
     else
