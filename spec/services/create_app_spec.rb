@@ -45,4 +45,16 @@ describe CreateApp do
       expect(create_app.result).to_not be_persisted
     end
   end
+
+  context "user does not have permission" do
+    let(:app_policy) { double }
+    before :each do
+      expect(AppPolicy).to receive(:new) { app_policy }
+      expect(app_policy).to receive(:create?) { false }
+    end
+
+    it "should not be successfull" do
+      expect(create_app).to_not be_success
+    end
+  end
 end
