@@ -19,6 +19,10 @@ class ApplicationService
     object
   end
 
+  def call
+    raise "You need to add a call method on a class inheriting from ApplicationService"
+  end
+
   def success?
     @success
   end
