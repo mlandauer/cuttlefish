@@ -19,7 +19,7 @@ module Cuttlefish::ApiClient
     GRAPHQL_CLIENT = GraphQL::Client.new(schema: SCHEMA, execute: HTTP)
   end
 
-  EMAIL = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  DELIVERIES_SHOW = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
     query($id: ID!) {
       configuration {
         maxNoEmailsToStore
@@ -75,7 +75,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  EMAILS = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  DELIVERIES_INDEX = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
     query($appId: ID, $status: Status, $limit: Int, $offset: Int) {
       emails(appId: $appId, status: $status, limit: $limit, offset: $offset) {
         totalCount
@@ -99,7 +99,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  DOCUMENTATION = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  DOCUMENTATION_INDEX = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
     {
       apps {
         id
@@ -114,7 +114,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  STATUS_COUNTS = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  MAIN_STATUS_COUNTS = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
     query ($since1: DateTime!, $since2: DateTime!) {
       emails1: emails(since: $since1) {
         ...statistics
@@ -208,7 +208,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  ADMINS = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  ADMINS_INDEX = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
     {
       admins {
         id
@@ -283,7 +283,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  CREATE_EMAILS = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  TEST_EMAILS_CREATE = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
     mutation ($appId: ID!, $from: String!, $to: [String!]!, $subject: String!, $textPart: String, $htmlPart: String) {
       createEmails(appId: $appId, from: $from, to: $to, subject: $subject, textPart: $textPart, htmlPart: $htmlPart) {
         emails {
@@ -312,7 +312,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  REMOVE_ADMIN = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  ADMINS_DESTROY = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
     mutation ($id: ID!) {
       removeAdmin(id: $id) {
         admin {
@@ -322,7 +322,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  CLIENT = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  CLIENTS_INDEX = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
     query($appId: ID) {
       emails(appId: $appId) {
         statistics {
@@ -339,7 +339,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  REMOVE_BLOCKED_ADDRESS = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  DENY_LISTS_DESTROY = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
     mutation($id: ID!) {
       removeBlockedAddress(id: $id) {
         blockedAddress {
@@ -349,7 +349,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  TEAMS = GRAPHQL_CLIENT.parse <<-EOF
+  TEAMS_INDEX = GRAPHQL_CLIENT.parse <<-EOF
     {
       teams {
         admins {

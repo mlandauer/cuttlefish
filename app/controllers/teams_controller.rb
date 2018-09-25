@@ -3,7 +3,7 @@ class TeamsController < ApplicationController
 
   def index
     # TODO Check for errors
-    result = api_query :teams
+    result = api_query2
     @teams = result.data.teams
     @cuttlefish_app = result.data.cuttlefish_app
     @admin = OpenStruct.new(email: nil)

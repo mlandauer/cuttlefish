@@ -1,8 +1,7 @@
 class AddressesController < ApplicationController
   def from
     @deliveries = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|
-      result = api_query :addresses_from,
-        from: params[:id], limit: pager.per_page, offset: pager.offset
+      result = api_query2 from: params[:id], limit: pager.per_page, offset: pager.offset
 
       @from = params[:id]
       @stats = result.data.emails.statistics
@@ -14,8 +13,7 @@ class AddressesController < ApplicationController
 
   def to
     @deliveries = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|
-      result = api_query :addresses_to,
-        to: params[:id], limit: pager.per_page, offset: pager.offset
+      result = api_query2 to: params[:id], limit: pager.per_page, offset: pager.offset
 
       @to = params[:id]
       @stats = result.data.emails.statistics

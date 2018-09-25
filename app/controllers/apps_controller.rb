@@ -2,12 +2,12 @@ class AppsController < ApplicationController
   after_action :verify_authorized, except: [:index, :show, :create, :edit, :dkim]
 
   def index
-    result = api_query :apps_index
+    result = api_query2
     @apps = result.data.apps
   end
 
   def show
-    result = api_query :apps_show, id: params[:id]
+    result = api_query2 id: params[:id]
     @app = result.data.app
   end
 
@@ -42,7 +42,7 @@ class AppsController < ApplicationController
   end
 
   def edit
-    result = api_query :apps_edit, id: params[:id]
+    result = api_query2 id: params[:id]
     @app = result.data.app
   end
 
@@ -76,7 +76,7 @@ class AppsController < ApplicationController
   end
 
   def dkim
-    result = api_query :apps_dkim, id: params[:id]
+    result = api_query2 id: params[:id]
     @app = result.data.app
     @provider = params[:provider]
   end
