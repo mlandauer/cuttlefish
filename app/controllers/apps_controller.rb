@@ -19,17 +19,11 @@ class AppsController < ApplicationController
   def create
     # Using the form object to do type casting before we pass values
     # to the graphql api
-    @app = AppForm.new(
-      name: params['app']['name'],
-      open_tracking_enabled: params['app']['open_tracking_enabled'],
-      click_tracking_enabled: params['app']['click_tracking_enabled'],
-      custom_tracking_domain: params['app']['custom_tracking_domain']
-    )
+    # TODO: Actually no need for strong parameters here as form object
+    # constrains the parameters that are allowed
+    @app = AppForm.new(app_parameters)
 
-    result = api_query name: @app.name,
-      open_tracking_enabled: @app.open_tracking_enabled,
-      click_tracking_enabled: @app.click_tracking_enabled,
-      custom_tracking_domain: @app.custom_tracking_domain
+    result = api_query @app.attributes
     if result.data.create_app.errors.empty?
       @app = result.data.create_app.app
       flash[:notice] = "App #{@app.name} successfully created"
