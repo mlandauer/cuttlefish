@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
   def index
-    result = api_query2 appId: params[:app_id]
+    result = api_query appId: params[:app_id]
     @client_counts = result.data.emails.statistics.user_agent_family_counts
     @apps = result.data.apps
     @app = @apps.find{|a| a.id == params[:app_id]} if params[:app_id]
