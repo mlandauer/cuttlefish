@@ -268,6 +268,21 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
+  APPS_CREATE = CLIENT.parse <<-EOF
+    mutation($name: String!, $clickTrackingEnabled: Boolean, $openTrackingEnabled: Boolean, $customTrackingDomain: String) {
+      createApp(name: $name, clickTrackingEnabled: $clickTrackingEnabled, openTrackingEnabled: $openTrackingEnabled, customTrackingDomain: $customTrackingDomain) {
+        app {
+          id
+          name
+        }
+        errors {
+          message
+          path
+        }
+      }
+    }
+  EOF
+
   APPS_DKIM = CLIENT.parse <<-'GRAPHQL'
     query($id: ID!) {
       app(id: $id) {

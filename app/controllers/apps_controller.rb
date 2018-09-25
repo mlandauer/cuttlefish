@@ -17,18 +17,31 @@ class AppsController < ApplicationController
   end
 
   def create
-    create_app = CreateApp.call(
-      current_admin: current_admin,
+    # Using the form object to do type casting before we pass values
+    # to the graphql api
+    @app = AppForm.new(
       name: params['app']['name'],
       open_tracking_enabled: params['app']['open_tracking_enabled'],
       click_tracking_enabled: params['app']['click_tracking_enabled'],
       custom_tracking_domain: params['app']['custom_tracking_domain']
     )
-    @app = create_app.result
-    if create_app.success?
+
+    result = api_query name: @app.name,
+      openTrackingEnabled: @app.open_tracking_enabled,
+      clickTrackingEnabled: @app.click_tracking_enabled,
+      customTrackingDomain: @app.custom_tracking_domain
+    if result.data.create_app.errors.empty?
+      @app = result.data.create_app.app
       flash[:notice] = "App #{@app.name} successfully created"
-      redirect_to @app
+      redirect_to app_url(@app.id)
     else
+      result.data.create_app.errors.each do |error|
+        if error.path[0] == 'attributes'
+          # TODO: Get type of error from graphql api too
+          # (Currently we're hardcoding to :invalid)
+          @app.errors.add(error.path[1].underscore, :invalid, message: error.message)
+        end
+      end
       render :new
     end
   end
