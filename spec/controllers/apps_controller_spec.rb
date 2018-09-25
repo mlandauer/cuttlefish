@@ -22,6 +22,17 @@ describe AppsController, type: :controller do
         expect(app.team).to eq team
         expect(response).to redirect_to app
       end
+
+      it "should have errors on the variable when there's a validation error" do
+        post :create, params: { app: {
+          name: "%",
+          open_tracking_enabled: false,
+          click_tracking_enabled: false
+        } }
+        expect(assigns(:app).errors.messages).to eq ({
+          name: ["Only letters, numbers, spaces and underscores"]
+        })
+      end
     end
   end
 
