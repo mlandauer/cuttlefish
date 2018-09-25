@@ -7,7 +7,7 @@ module Cuttlefish::ApiClient
   LOCAL_API = true
 
   if LOCAL_API
-    GRAPHQL_CLIENT = GraphQL::Client.new(schema: CuttlefishSchema, execute: CuttlefishSchema)
+    CLIENT = GraphQL::Client.new(schema: CuttlefishSchema, execute: CuttlefishSchema)
   else
     HTTP = GraphQL::Client::HTTP.new("http://localhost:5400/graphql") do
       def headers(context)
@@ -16,10 +16,10 @@ module Cuttlefish::ApiClient
     end
 
     SCHEMA = GraphQL::Client.load_schema(HTTP)
-    GRAPHQL_CLIENT = GraphQL::Client.new(schema: SCHEMA, execute: HTTP)
+    CLIENT = GraphQL::Client.new(schema: SCHEMA, execute: HTTP)
   end
 
-  DELIVERIES_SHOW = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  DELIVERIES_SHOW = CLIENT.parse <<-'GRAPHQL'
     query($id: ID!) {
       configuration {
         maxNoEmailsToStore
@@ -75,7 +75,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  DELIVERIES_INDEX = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  DELIVERIES_INDEX = CLIENT.parse <<-'GRAPHQL'
     query($appId: ID, $status: Status, $limit: Int, $offset: Int) {
       emails(appId: $appId, status: $status, limit: $limit, offset: $offset) {
         totalCount
@@ -99,7 +99,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  DOCUMENTATION_INDEX = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  DOCUMENTATION_INDEX = CLIENT.parse <<-'GRAPHQL'
     {
       apps {
         id
@@ -114,7 +114,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  MAIN_STATUS_COUNTS = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  MAIN_STATUS_COUNTS = CLIENT.parse <<-'GRAPHQL'
     query ($since1: DateTime!, $since2: DateTime!) {
       emails1: emails(since: $since1) {
         ...statistics
@@ -137,7 +137,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  ADDRESSES_FROM = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  ADDRESSES_FROM = CLIENT.parse <<-'GRAPHQL'
     query ($from: String!, $limit: Int, $offset: Int) {
       emails(from: $from, limit: $limit, offset: $offset) {
         totalCount
@@ -166,7 +166,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  ADDRESSES_TO = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  ADDRESSES_TO = CLIENT.parse <<-'GRAPHQL'
     query ($to: String!, $limit: Int, $offset: Int) {
       emails(to: $to, limit: $limit, offset: $offset) {
         totalCount
@@ -208,7 +208,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  ADMINS_INDEX = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  ADMINS_INDEX = CLIENT.parse <<-'GRAPHQL'
     {
       admins {
         id
@@ -222,7 +222,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  APPS_INDEX = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  APPS_INDEX = CLIENT.parse <<-'GRAPHQL'
     {
       apps {
         id
@@ -235,7 +235,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  APPS_SHOW = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  APPS_SHOW = CLIENT.parse <<-'GRAPHQL'
     query($id: ID!) {
       app(id: $id) {
         id
@@ -253,7 +253,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  APPS_EDIT = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  APPS_EDIT = CLIENT.parse <<-'GRAPHQL'
     query($id: ID!) {
       app(id: $id) {
         id
@@ -268,7 +268,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  APPS_DKIM = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  APPS_DKIM = CLIENT.parse <<-'GRAPHQL'
     query($id: ID!) {
       app(id: $id) {
         id
@@ -283,7 +283,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  TEST_EMAILS_CREATE = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  TEST_EMAILS_CREATE = CLIENT.parse <<-'GRAPHQL'
     mutation ($appId: ID!, $from: String!, $to: [String!]!, $subject: String!, $textPart: String, $htmlPart: String) {
       createEmails(appId: $appId, from: $from, to: $to, subject: $subject, textPart: $textPart, htmlPart: $htmlPart) {
         emails {
@@ -293,7 +293,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  DENY_LISTS_INDEX = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  DENY_LISTS_INDEX = CLIENT.parse <<-'GRAPHQL'
     query($limit: Int, $offset: Int) {
       blockedAddresses(limit: $limit, offset: $offset) {
         totalCount
@@ -312,7 +312,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  ADMINS_DESTROY = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  ADMINS_DESTROY = CLIENT.parse <<-'GRAPHQL'
     mutation ($id: ID!) {
       removeAdmin(id: $id) {
         admin {
@@ -322,7 +322,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  CLIENTS_INDEX = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  CLIENTS_INDEX = CLIENT.parse <<-'GRAPHQL'
     query($appId: ID) {
       emails(appId: $appId) {
         statistics {
@@ -339,7 +339,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  DENY_LISTS_DESTROY = GRAPHQL_CLIENT.parse <<-'GRAPHQL'
+  DENY_LISTS_DESTROY = CLIENT.parse <<-'GRAPHQL'
     mutation($id: ID!) {
       removeBlockedAddress(id: $id) {
         blockedAddress {
@@ -349,7 +349,7 @@ module Cuttlefish::ApiClient
     }
   GRAPHQL
 
-  TEAMS_INDEX = GRAPHQL_CLIENT.parse <<-EOF
+  TEAMS_INDEX = CLIENT.parse <<-EOF
     {
       teams {
         admins {
@@ -369,7 +369,7 @@ module Cuttlefish::ApiClient
   EOF
 
   def self.query(q, variables:, current_admin:)
-    result = GRAPHQL_CLIENT.query(
+    result = CLIENT.query(
       q,
       variables: variables,
       context: LOCAL_API ?
