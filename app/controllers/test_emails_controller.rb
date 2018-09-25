@@ -21,7 +21,7 @@ The Awesome Cuttlefish
   # Send a test email
   def create
     # TODO: Check for errors
-    result = api_query appId: params[:app_id],
+    result = api_query app_id: params[:app_id],
       from: params[:from],
       to: params[:to],
       cc: params[:cc],

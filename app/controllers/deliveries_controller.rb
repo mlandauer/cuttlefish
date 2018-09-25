@@ -5,7 +5,7 @@ class DeliveriesController < ApplicationController
     else
       @status = params[:status]
       @deliveries = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|
-        result = api_query status: params[:status], appId: params[:app_id],
+        result = api_query status: params[:status], app_id: params[:app_id],
           limit: pager.per_page, offset: pager.offset
         pager.replace(result.data.emails.nodes)
         pager.total_entries = result.data.emails.total_count

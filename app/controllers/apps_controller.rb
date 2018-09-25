@@ -27,9 +27,9 @@ class AppsController < ApplicationController
     )
 
     result = api_query name: @app.name,
-      openTrackingEnabled: @app.open_tracking_enabled,
-      clickTrackingEnabled: @app.click_tracking_enabled,
-      customTrackingDomain: @app.custom_tracking_domain
+      open_tracking_enabled: @app.open_tracking_enabled,
+      click_tracking_enabled: @app.click_tracking_enabled,
+      custom_tracking_domain: @app.custom_tracking_domain
     if result.data.create_app.errors.empty?
       @app = result.data.create_app.app
       flash[:notice] = "App #{@app.name} successfully created"
