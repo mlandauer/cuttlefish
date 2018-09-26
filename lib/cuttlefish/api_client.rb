@@ -278,6 +278,7 @@ module Cuttlefish::ApiClient
         errors {
           message
           path
+          type
         }
       }
     }

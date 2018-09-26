@@ -25,12 +25,21 @@ describe AppsController, type: :controller do
 
       it "should have errors on the variable when there's a validation error" do
         post :create, params: { app: {
-          name: "%",
+          name: "",
           open_tracking_enabled: false,
           click_tracking_enabled: false
         } }
         expect(assigns(:app).errors.messages).to eq ({
-          name: ["Only letters, numbers, spaces and underscores"]
+          name: [
+            "can't be blank",
+            "Only letters, numbers, spaces and underscores"
+          ]
+        })
+        expect(assigns(:app).errors.details).to eq ({
+          name: [
+            { error: :blank },
+            { error: :invalid }
+          ]
         })
       end
     end

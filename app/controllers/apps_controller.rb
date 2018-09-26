@@ -31,9 +31,11 @@ class AppsController < ApplicationController
     else
       result.data.create_app.errors.each do |error|
         if error.path[0] == 'attributes'
-          # TODO: Get type of error from graphql api too
-          # (Currently we're hardcoding to :invalid)
-          @app.errors.add(error.path[1].underscore, :invalid, message: error.message)
+          @app.errors.add(
+            error.path[1].underscore,
+            error.type.downcase.to_sym,
+            message: error.message
+          )
         end
       end
       render :new
