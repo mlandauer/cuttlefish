@@ -261,9 +261,6 @@ module Cuttlefish::ApiClient
         clickTrackingEnabled
         openTrackingEnabled
         customTrackingDomain
-        permissions {
-          destroy
-        }
       }
     }
   GRAPHQL
