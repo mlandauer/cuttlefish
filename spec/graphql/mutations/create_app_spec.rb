@@ -14,8 +14,9 @@ describe Mutations::CreateApp do
           name
         }
         errors {
-          message
           path
+          message
+          type
         }
       }
     }
@@ -53,6 +54,7 @@ describe Mutations::CreateApp do
         'app' => nil,
         'errors' => [{
           "message" => "You don't have permissions to do this",
+          "type" => "PERMISSION",
           "path" => []
         }]
       })
@@ -67,6 +69,7 @@ describe Mutations::CreateApp do
         'app' => nil,
         'errors' => [{
           "message" => "Only letters, numbers, spaces and underscores",
+          "type" => "INVALID",
           "path" => ["attributes", "name"]
         }]
       })

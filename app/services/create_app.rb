@@ -17,16 +17,20 @@ class CreateApp < ApplicationService
       custom_tracking_domain: custom_tracking_domain
     )
     unless AppPolicy.new(current_admin, app).create?
+      @error_type = 'PERMISSION'
       fail! "You don't have permissions to do this"
       return
     end
     if app.save
       success!
     else
+      @error_type = 'SAVE'
       fail! "Save failed"
     end
     app
   end
+
+  attr_reader :error_type
 
   private
 
