@@ -23,6 +23,19 @@ class ApplicationController < ActionController::Base
     )
   end
 
+  # Take graphql object with errors and attach them to the given form object
+  def copy_graphql_errors(graphql, form)
+    graphql.errors.each do |error|
+      if error.path[0] == 'attributes'
+        form.errors.add(
+          error.path[1].underscore,
+          error.type.downcase.to_sym,
+          message: error.message
+        )
+      end
+    end
+  end
+
   private
 
   def configure_permitted_parameters

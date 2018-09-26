@@ -24,20 +24,12 @@ class AppsController < ApplicationController
     @app = AppForm.new(app_parameters)
 
     result = api_query @app.attributes
-    if result.data.create_app.errors.empty?
+    if result.data.create_app.app
       @app = result.data.create_app.app
       flash[:notice] = "App #{@app.name} successfully created"
       redirect_to app_url(@app.id)
     else
-      result.data.create_app.errors.each do |error|
-        if error.path[0] == 'attributes'
-          @app.errors.add(
-            error.path[1].underscore,
-            error.type.downcase.to_sym,
-            message: error.message
-          )
-        end
-      end
+      copy_graphql_errors(result.data.create_app, @app)
       render :new
     end
   end
