@@ -267,7 +267,7 @@ module Cuttlefish::ApiClient
 
   APPS_CREATE = CLIENT.parse <<-EOF
     mutation($name: String!, $clickTrackingEnabled: Boolean, $openTrackingEnabled: Boolean, $customTrackingDomain: String) {
-      createApp(name: $name, clickTrackingEnabled: $clickTrackingEnabled, openTrackingEnabled: $openTrackingEnabled, customTrackingDomain: $customTrackingDomain) {
+      createApp(attributes: {name: $name, clickTrackingEnabled: $clickTrackingEnabled, openTrackingEnabled: $openTrackingEnabled, customTrackingDomain: $customTrackingDomain}) {
         app {
           id
           name

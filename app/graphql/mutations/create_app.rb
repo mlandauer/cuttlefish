@@ -1,26 +1,22 @@
 class Mutations::CreateApp < GraphQL::Schema::Mutation
-  argument :name, String, required: true, description: "The name of the app"
-  argument :open_tracking_enabled, Boolean, required: false,
-    description: "Whether tracking of email opens is enabled for this app. Defaults to true."
-  argument :click_tracking_enabled, Boolean, required: false,
-    description: "Whether tracking of email link clicks is enabled for this app. Defaults to true."
-  argument :custom_tracking_domain, String, required: false, description: "Optional domain used for open and click tracking"
+  argument :attributes, Types::AppAttributes, required: true
 
   field :app, Types::App, null: true
   field :errors, [Types::UserError], null: false
 
-  def resolve(
-    name:,
-    open_tracking_enabled: true,
-    click_tracking_enabled: true,
-    custom_tracking_domain: nil
-  )
+  def resolve(attributes:)
+    # Handle default values
+    open_tracking_enabled = attributes.open_tracking_enabled
+    open_tracking_enabled = true if open_tracking_enabled.nil?
+    click_tracking_enabled = attributes.click_tracking_enabled
+    click_tracking_enabled = true if click_tracking_enabled.nil?
+
     create_app = ::CreateApp.call(
       current_admin: context[:current_admin],
-      name: name,
+      name: attributes.name,
       open_tracking_enabled: open_tracking_enabled,
       click_tracking_enabled: click_tracking_enabled,
-      custom_tracking_domain: custom_tracking_domain
+      custom_tracking_domain: attributes.custom_tracking_domain
     )
     if create_app.success?
       { app: create_app.result, errors: [] }

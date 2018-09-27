@@ -9,7 +9,7 @@ describe Mutations::CreateApp do
   let(:query_string) {
     <<-EOF
     mutation ($name: String!) {
-      createApp(name: $name) {
+      createApp(attributes: { name: $name }) {
         app {
           name
         }
