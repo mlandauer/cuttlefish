@@ -1,5 +1,5 @@
 class AppsController < ApplicationController
-  after_action :verify_authorized, except: [:index, :show, :create, :edit, :dkim]
+  after_action :verify_authorized, except: [:index, :show, :create, :edit, :update, :dkim]
 
   def index
     result = api_query
@@ -49,7 +49,9 @@ class AppsController < ApplicationController
 
   def update
     @app = App.find(params[:id])
-    authorize @app
+    if !AppPolicy.new(current_admin, @app).update?
+      raise NotAuthorizedError, "Permission error"
+    end
     if @app.update_attributes(app_parameters)
       flash[:notice] = "App #{@app.name} successfully updated"
       if app_parameters.has_key?(:from_domain)
