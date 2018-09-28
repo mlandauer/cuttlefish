@@ -18,11 +18,13 @@ class UpdateApp < ApplicationService
   end
 
   def call
+    # TODO: Handle id not found
     app = App.find(id)
     if !AppPolicy.new(current_admin, app).update?
-      # TODO: Make this returned as part of a a struct in an error
-      @error_type = :permission
-      fail! "You don't have permissions to do this"
+      fail! OpenStruct.new(
+        type: :permission,
+        message: "You don't have permissions to do this"
+      )
       return
     end
     if app.update_attributes(
@@ -34,13 +36,13 @@ class UpdateApp < ApplicationService
     )
       success!
     else
-      @error_type = :save
-      fail! "Save failed"
+      fail! OpenStruct.new(
+        type: :save,
+        message: "Save failed"
+      )
     end
     app
   end
-
-  attr_reader :error_type
 
   private
 

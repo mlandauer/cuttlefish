@@ -18,19 +18,22 @@ class CreateApp < ApplicationService
     )
     unless AppPolicy.new(current_admin, app).create?
       @error_type = :permission
-      fail! "You don't have permissions to do this"
+      fail! OpenStruct.new(
+        type: :permission,
+        message: "You don't have permissions to do this"
+      )
       return
     end
     if app.save
       success!
     else
-      @error_type = :save
-      fail! "Save failed"
+      fail! OpenStruct.new(
+        type: :save,
+        message: "Save failed"
+      )
     end
     app
   end
-
-  attr_reader :error_type
 
   private
 

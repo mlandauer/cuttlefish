@@ -67,7 +67,7 @@ class AppsController < ApplicationController
         redirect_to @app
       end
     else
-      if update_app.error_type == :permission
+      if update_app.error.type == :permission
         raise NotAuthorizedError, "Permission error"
       end
       render :edit
