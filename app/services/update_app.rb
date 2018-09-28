@@ -18,9 +18,8 @@ class UpdateApp < ApplicationService
   end
 
   def call
-    # TODO: Handle id not found
-    app = App.find(id)
-    if !AppPolicy.new(current_admin, app).update?
+    app = App.find_by(id: id)
+    if app.nil? || !AppPolicy.new(current_admin, app).update?
       fail! OpenStruct.new(
         type: :permission,
         message: "You don't have permissions to do this"
