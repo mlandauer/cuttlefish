@@ -16,7 +16,8 @@ class Mutations::CreateApp < Mutations::Base
       name: attributes.name,
       open_tracking_enabled: open_tracking_enabled,
       click_tracking_enabled: click_tracking_enabled,
-      custom_tracking_domain: attributes.custom_tracking_domain
+      custom_tracking_domain: attributes.custom_tracking_domain,
+      from_domain: attributes.from_domain
     )
     if create_app.success?
       { app: create_app.result, errors: [] }

@@ -1,4 +1,6 @@
 class Types::MutationType < GraphQL::Schema::Object
+  # TODO: Provide descriptions for these mutations
+  
   field :create_emails, mutation: Mutations::CreateEmails do
     guard ->(object, args, context) {
       app = App.find_by_id(args['appId'])
@@ -12,4 +14,5 @@ class Types::MutationType < GraphQL::Schema::Object
   field :remove_admin, mutation: Mutations::RemoveAdmin
   field :remove_blocked_address, mutation: Mutations::RemoveBlockedAddress
   field :create_app, mutation: Mutations::CreateApp
+  field :update_app, mutation: Mutations::UpdateApp
 end

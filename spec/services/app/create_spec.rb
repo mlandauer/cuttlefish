@@ -9,7 +9,8 @@ describe App::Create do
       name: name,
       open_tracking_enabled: false,
       click_tracking_enabled: false,
-      custom_tracking_domain: nil
+      custom_tracking_domain: nil,
+      from_domain: nil
     )
   }
 
