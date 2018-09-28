@@ -41,7 +41,7 @@ class Mutations::CreateApp < GraphQL::Schema::Mutation
         user_errors = [{
           path: [],
           message: create_app.message,
-          type: create_app.error_type
+          type: create_app.error_type.to_s.upcase
         }]
       end
       { app: nil, errors: user_errors}

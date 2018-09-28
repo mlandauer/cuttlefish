@@ -20,9 +20,8 @@ class UpdateApp < ApplicationService
   def call
     app = App.find(id)
     if !AppPolicy.new(current_admin, app).update?
-      # TODO: Make this a symbol
       # TODO: Make this returned as part of a a struct in an error
-      @error_type = 'PERMISSION'
+      @error_type = :permission
       fail! "You don't have permissions to do this"
       return
     end
@@ -35,7 +34,7 @@ class UpdateApp < ApplicationService
     )
       success!
     else
-      @error_type = 'SAVE'
+      @error_type = :save
       fail! "Save failed"
     end
     app
