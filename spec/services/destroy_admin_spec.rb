@@ -22,7 +22,7 @@ describe DestroyAdmin do
   end
 
   it "should not have an error message" do
-    expect(remove_admin.message).to be_nil
+    expect(remove_admin.error).to be_nil
   end
 
   context "admin is in another team" do
@@ -43,7 +43,7 @@ describe DestroyAdmin do
     end
 
     it "should give an error message" do
-      expect(remove_admin.message).to eq "You can't remove the admin with this id"
+      expect(remove_admin.error).to eq "You can't remove the admin with this id"
     end
   end
 
@@ -65,7 +65,7 @@ describe DestroyAdmin do
     end
 
     it "should give an error message" do
-      expect(remove_admin.message).to eq "You can't remove the admin with this id"
+      expect(remove_admin.error).to eq "You can't remove the admin with this id"
     end
   end
 end

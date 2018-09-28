@@ -16,9 +16,10 @@ class ApplicationService
     @success = true
   end
 
-  def fail!(message)
+  # error can be a string or an object
+  def fail!(error)
     @success = false
-    @message = message
+    @error = error
     nil
   end
 
@@ -26,7 +27,7 @@ class ApplicationService
     @success
   end
 
-  attr_reader :message
+  attr_reader :error
 
   private
   attr_writer :result
