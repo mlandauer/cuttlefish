@@ -10,11 +10,13 @@ class App::Update < ApplicationService
   )
     @current_admin = current_admin
     @id = id
-    @name = name
-    @open_tracking_enabled = open_tracking_enabled
-    @click_tracking_enabled = click_tracking_enabled
-    @custom_tracking_domain = custom_tracking_domain
-    @from_domain = from_domain
+    @attributes = {
+      name: name,
+      open_tracking_enabled: open_tracking_enabled,
+      click_tracking_enabled: click_tracking_enabled,
+      custom_tracking_domain: custom_tracking_domain,
+      from_domain: from_domain
+    }
   end
 
   def call
@@ -26,13 +28,7 @@ class App::Update < ApplicationService
       )
       return
     end
-    if app.update_attributes(
-      name: name,
-      open_tracking_enabled: open_tracking_enabled,
-      click_tracking_enabled: click_tracking_enabled,
-      custom_tracking_domain: custom_tracking_domain,
-      from_domain: from_domain
-    )
+    if app.update_attributes(attributes)
       success!
     else
       fail! OpenStruct.new(
@@ -45,6 +41,5 @@ class App::Update < ApplicationService
 
   private
 
-  attr_reader :current_admin, :id, :name, :open_tracking_enabled,
-    :click_tracking_enabled, :custom_tracking_domain, :from_domain
+  attr_reader :current_admin, :id, :attributes
 end

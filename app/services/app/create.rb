@@ -4,22 +4,17 @@ class App::Create < ApplicationService
     from_domain:
   )
     @current_admin = current_admin
-    @name = name
-    @open_tracking_enabled = open_tracking_enabled
-    @click_tracking_enabled = click_tracking_enabled
-    @custom_tracking_domain = custom_tracking_domain
-    @from_domain = from_domain
-  end
-
-  def call
-    app = App.new(
-      team: current_admin.team,
+    @attributes = {
       name: name,
       open_tracking_enabled: open_tracking_enabled,
       click_tracking_enabled: click_tracking_enabled,
       custom_tracking_domain: custom_tracking_domain,
       from_domain: from_domain
-    )
+    }
+  end
+
+  def call
+    app = App.new(@attributes.merge(team: current_admin.team))
     unless AppPolicy.new(current_admin, app).create?
       @error_type = :permission
       fail! OpenStruct.new(
@@ -41,7 +36,5 @@ class App::Create < ApplicationService
 
   private
 
-  attr_reader :current_admin, :name,
-    :open_tracking_enabled, :click_tracking_enabled, :custom_tracking_domain,
-    :from_domain
+  attr_reader :current_admin, :attributes
 end
