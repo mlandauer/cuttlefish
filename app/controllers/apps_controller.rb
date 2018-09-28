@@ -48,11 +48,18 @@ class AppsController < ApplicationController
   end
 
   def update
-    @app = App.find(params[:id])
-    if !AppPolicy.new(current_admin, @app).update?
-      raise NotAuthorizedError, "Permission error"
-    end
-    if @app.update_attributes(app_parameters)
+    update_app = UpdateApp.call(
+      current_admin: current_admin,
+      id: params[:id],
+      name: app_parameters['name'],
+      open_tracking_enabled: app_parameters['open_tracking_enabled'],
+      click_tracking_enabled: app_parameters['click_tracking_enabled'],
+      custom_tracking_domain: app_parameters['custom_tracking_domain'],
+      from_domain: app_parameters['from_domain']
+    )
+
+    @app = update_app.result
+    if update_app.success?
       flash[:notice] = "App #{@app.name} successfully updated"
       if app_parameters.has_key?(:from_domain)
         redirect_to dkim_app_path(@app)
@@ -60,6 +67,9 @@ class AppsController < ApplicationController
         redirect_to @app
       end
     else
+      if update_app.error_type == 'PERMISSION'
+        raise NotAuthorizedError, "Permission error"
+      end
       render :edit
     end
   end
