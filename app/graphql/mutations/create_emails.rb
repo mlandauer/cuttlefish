@@ -1,4 +1,4 @@
-class Mutations::CreateEmails < GraphQL::Schema::Mutation
+class Mutations::CreateEmails < Mutations::Base
   null true
 
   # TODO: Give descriptions for arguments and fields

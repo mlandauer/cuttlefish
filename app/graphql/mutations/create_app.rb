@@ -1,27 +1,8 @@
-class Mutations::CreateApp < GraphQL::Schema::Mutation
+class Mutations::CreateApp < Mutations::Base
   argument :attributes, Types::AppAttributes, required: true
 
   field :app, Types::App, null: true
   field :errors, [Types::UserError], null: false
-
-  def user_errors_from_form_errors(errors, root_path)
-    user_errors = []
-    # Convert Rails model errors into GraphQL-ready error hashes
-    errors.keys.each do |attribute|
-      m = errors.messages[attribute]
-      d = errors.details[attribute]
-      m.zip(d).each do |message, detail|
-        # This is the GraphQL argument which corresponds to the validation error:
-        path = root_path + [attribute.to_s.camelize(:lower)]
-        user_errors << {
-          path: path,
-          message: message,
-          type: detail[:error].to_s.upcase
-        }
-      end
-    end
-    user_errors
-  end
 
   def resolve(attributes:)
     # Handle default values

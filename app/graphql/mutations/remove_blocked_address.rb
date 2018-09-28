@@ -1,4 +1,4 @@
-class Mutations::RemoveBlockedAddress < GraphQL::Schema::Mutation
+class Mutations::RemoveBlockedAddress < Mutations::Base
   argument :id, ID, required: true, description: "The database ID of the blocked address you want to remove"
 
   field :blocked_address, Types::BlockedAddress, null: true, description: "Returns the blocked address it successfully removed. Returns null otherwise."
