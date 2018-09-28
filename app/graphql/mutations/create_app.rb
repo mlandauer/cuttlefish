@@ -11,7 +11,7 @@ class Mutations::CreateApp < GraphQL::Schema::Mutation
     click_tracking_enabled = attributes.click_tracking_enabled
     click_tracking_enabled = true if click_tracking_enabled.nil?
 
-    create_app = ::CreateApp.call(
+    create_app = App::Create.call(
       current_admin: context[:current_admin],
       name: attributes.name,
       open_tracking_enabled: open_tracking_enabled,

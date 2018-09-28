@@ -1,9 +1,9 @@
-describe UpdateApp do
+describe App::Update do
   let(:app) { create(:app, team: team) }
   let(:current_admin) { create(:admin, team: team) }
   let(:team) { create(:team) }
   let(:update_app) {
-    UpdateApp.call(
+    App::Update.call(
       current_admin: current_admin,
       id: app.id,
       name: name,
@@ -58,6 +58,6 @@ describe UpdateApp do
 
     it "should not be successfull" do
       expect(update_app).to_not be_success
-    end    
+    end
   end
 end

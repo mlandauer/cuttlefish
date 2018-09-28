@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe DestroyDenyList do
+describe DenyList::Destroy do
   let(:team) { create(:team) }
   let(:current_admin) { create(:admin, team: team) }
   let(:deny_list) { create(:deny_list, team: team) }
-  let(:destroy_deny_list) { DestroyDenyList.call(current_admin: current_admin, id: deny_list.id) }
+  let(:destroy_deny_list) { DenyList::Destroy.call(current_admin: current_admin, id: deny_list.id) }
 
   it "should remove a deny list entry" do
     deny_list

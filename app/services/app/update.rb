@@ -1,4 +1,4 @@
-class UpdateApp < ApplicationService
+class App::Update < ApplicationService
   def initialize(
     current_admin:,
     id:,

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe CreateEmail do
+describe Email::Create do
   # let(:app) { team.apps.create!(name: "Test") }
   let(:app) { create(:app) }
   let(:create_email) {
-    CreateEmail.call(
+    Email::Create.call(
       from: "contact@cuttlefish.io",
       to: "matthew@openaustralia.org",
       cc: nil,
@@ -25,7 +25,7 @@ describe CreateEmail do
   end
 
   it "should return the service object" do
-    expect(create_email).to be_a(CreateEmail)
+    expect(create_email).to be_a(Email::Create)
   end
 
   it "should return an email" do

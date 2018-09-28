@@ -48,7 +48,7 @@ class AppsController < ApplicationController
   end
 
   def update
-    update_app = UpdateApp.call(
+    update_app = App::Update.call(
       current_admin: current_admin,
       id: params[:id],
       name: app_parameters['name'],
