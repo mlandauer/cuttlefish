@@ -37,10 +37,13 @@ class AppsController < ApplicationController
   end
 
   def destroy
-    @app = App.find(params[:id])
-    if AppPolicy.new(current_admin, @app).destroy?
+    destroy = App::Destroy.(
+      current_admin: current_admin,
+      id: params[:id]
+    )
+    if destroy.success?
+      @app = destroy.result
       flash[:notice] = "App #{@app.name} successfully removed"
-      @app.destroy
     else
       flash[:alert] = "Couldn't remove app. You probably don't have the necessary permissions."
     end
