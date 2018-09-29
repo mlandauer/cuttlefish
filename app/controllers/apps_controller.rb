@@ -42,7 +42,7 @@ class AppsController < ApplicationController
       @app = destroy.result
       flash[:notice] = "App #{@app.name} successfully removed"
     else
-      flash[:alert] = destroy.error
+      flash[:alert] = destroy.error.message
     end
     redirect_to apps_path
   end
