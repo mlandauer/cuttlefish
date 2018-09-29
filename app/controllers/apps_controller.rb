@@ -1,5 +1,7 @@
 class AppsController < ApplicationController
-  after_action :verify_authorized, except: [:index, :show, :create, :edit, :update, :dkim]
+  after_action :verify_authorized, except: [
+    :index, :show, :create, :destroy, :edit, :update, :dkim
+  ]
 
   def index
     result = api_query
@@ -36,9 +38,12 @@ class AppsController < ApplicationController
 
   def destroy
     @app = App.find(params[:id])
-    authorize @app
-    flash[:notice] = "App #{@app.name} successfully removed"
-    @app.destroy
+    if AppPolicy.new(current_admin, @app).destroy?
+      flash[:notice] = "App #{@app.name} successfully removed"
+      @app.destroy
+    else
+      flash[:alert] = "Couldn't remove app. You probably don't have the necessary permissions."
+    end
     redirect_to apps_path
   end
 
