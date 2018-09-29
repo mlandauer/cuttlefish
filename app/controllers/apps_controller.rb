@@ -42,7 +42,7 @@ class AppsController < ApplicationController
       @app = destroy.result
       flash[:notice] = "App #{@app.name} successfully removed"
     else
-      flash[:alert] = "Couldn't remove app. You probably don't have the necessary permissions."
+      flash[:alert] = destroy.error
     end
     redirect_to apps_path
   end
