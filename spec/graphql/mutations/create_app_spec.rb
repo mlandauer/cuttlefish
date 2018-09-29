@@ -68,7 +68,7 @@ describe Mutations::CreateApp do
       expect(result['data']['createApp']).to eq ({
         'app' => nil,
         'errors' => [{
-          "message" => "Only letters, numbers, spaces and underscores",
+          "message" => "only letters, numbers, spaces and underscores",
           "type" => "INVALID",
           "path" => ["attributes", "name"]
         }]

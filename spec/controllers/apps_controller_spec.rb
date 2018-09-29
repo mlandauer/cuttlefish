@@ -32,7 +32,7 @@ describe AppsController, type: :controller do
         expect(assigns(:app).errors.messages).to eq ({
           name: [
             "can't be blank",
-            "Only letters, numbers, spaces and underscores"
+            "only letters, numbers, spaces and underscores"
           ]
         })
         expect(assigns(:app).errors.details).to eq ({

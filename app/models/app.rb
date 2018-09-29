@@ -3,7 +3,7 @@ class App < ActiveRecord::Base
   has_many :deliveries
   belongs_to :team
 
-  validates :name, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "Only letters, numbers, spaces and underscores"}
+  validates :name, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "only letters, numbers, spaces and underscores"}
   validate :custom_tracking_domain_points_to_correct_place
   # Validating booleans so that they can't have nil values.
   # See https://stackoverflow.com/questions/34759092/to-validate-or-not-to-validate-boolean-field
