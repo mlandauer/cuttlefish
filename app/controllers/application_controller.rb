@@ -26,9 +26,16 @@ class ApplicationController < ActionController::Base
   # Take graphql object with errors and attach them to the given form object
   def copy_graphql_errors(graphql, form)
     graphql.errors.each do |error|
+      # TODO Make root path configurable
       if error.path[0] == 'attributes'
         form.errors.add(
           error.path[1].underscore,
+          error.type.downcase.to_sym,
+          message: error.message
+        )
+      elsif error.path == []
+        form.errors.add(
+          :base,
           error.type.downcase.to_sym,
           message: error.message
         )

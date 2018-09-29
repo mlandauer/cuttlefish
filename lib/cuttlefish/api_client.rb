@@ -281,6 +281,22 @@ module Cuttlefish::ApiClient
     }
   EOF
 
+  APPS_UPDATE = CLIENT.parse <<-EOF
+    mutation($id: ID!, $name: String!, $clickTrackingEnabled: Boolean, $openTrackingEnabled: Boolean, $customTrackingDomain: String) {
+      updateApp(id: $id, attributes: {name: $name, clickTrackingEnabled: $clickTrackingEnabled, openTrackingEnabled: $openTrackingEnabled, customTrackingDomain: $customTrackingDomain}) {
+        app {
+          id
+          name
+        }
+        errors {
+          message
+          path
+          type
+        }
+      }
+    }
+  EOF
+
   APPS_DKIM = CLIENT.parse <<-'GRAPHQL'
     query($id: ID!) {
       app(id: $id) {

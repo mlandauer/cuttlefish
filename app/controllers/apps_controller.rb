@@ -48,28 +48,18 @@ class AppsController < ApplicationController
   end
 
   def update
-    update_app = App::Update.call(
-      current_admin: current_admin,
-      id: params[:id],
-      name: app_parameters['name'],
-      open_tracking_enabled: app_parameters['open_tracking_enabled'],
-      click_tracking_enabled: app_parameters['click_tracking_enabled'],
-      custom_tracking_domain: app_parameters['custom_tracking_domain'],
-      from_domain: app_parameters['from_domain']
-    )
-
-    @app = update_app.result
-    if update_app.success?
+    @app = AppForm.new(app_parameters.merge(id: params[:id]))
+    result = api_query @app.attributes.merge(id: params[:id])
+    if result.data.update_app.app
+      @app = result.data.update_app.app
       flash[:notice] = "App #{@app.name} successfully updated"
       if app_parameters.has_key?(:from_domain)
         redirect_to dkim_app_path(@app)
       else
-        redirect_to @app
+        redirect_to app_path(@app.id)
       end
     else
-      if update_app.error.type == :permission
-        raise NotAuthorizedError, "Permission error"
-      end
+      copy_graphql_errors(result.data.update_app, @app)
       render :edit
     end
   end
