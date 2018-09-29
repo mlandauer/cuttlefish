@@ -29,7 +29,7 @@ class AppsController < ApplicationController
       flash[:notice] = "App #{@app.name} successfully created"
       redirect_to app_url(@app.id)
     else
-      copy_graphql_errors(result.data.create_app, @app)
+      copy_graphql_errors(result.data.create_app, @app, ['attributes'])
       render :new
     end
   end
@@ -59,7 +59,7 @@ class AppsController < ApplicationController
         redirect_to app_path(@app.id)
       end
     else
-      copy_graphql_errors(result.data.update_app, @app)
+      copy_graphql_errors(result.data.update_app, @app, ['attributes'])
       render :edit
     end
   end
