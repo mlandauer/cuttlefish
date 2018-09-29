@@ -3,7 +3,7 @@ describe App::Update do
   let(:current_admin) { create(:admin, team: team) }
   let(:team) { create(:team) }
   let(:update_app) {
-    App::Update.call(
+    App::Update.(
       current_admin: current_admin,
       id: app.id,
       name: name,

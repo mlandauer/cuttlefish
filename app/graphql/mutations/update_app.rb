@@ -6,7 +6,7 @@ class Mutations::UpdateApp < Mutations::Base
   field :errors, [Types::UserError], null: false
 
   def resolve(id:, attributes:)
-    update = App::Update.call(
+    update = App::Update.(
       current_admin: context[:current_admin],
       id: id,
       name: attributes.name,

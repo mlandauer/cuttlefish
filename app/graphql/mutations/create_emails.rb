@@ -19,7 +19,7 @@ class Mutations::CreateEmails < Mutations::Base
   field :emails, [Types::Email], null: true
 
   def resolve(app_id:, from:, to:, cc: [], subject:, text_part: nil, html_part: nil)
-    create_email = Email::Create.call(
+    create_email = Email::Create.(
       app_id: app_id,
       from: from,
       to: to,

@@ -4,7 +4,7 @@ describe Email::Create do
   # let(:app) { team.apps.create!(name: "Test") }
   let(:app) { create(:app) }
   let(:create_email) {
-    Email::Create.call(
+    Email::Create.(
       from: "contact@cuttlefish.io",
       to: "matthew@openaustralia.org",
       cc: nil,

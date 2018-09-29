@@ -37,10 +37,7 @@ class AppsController < ApplicationController
   end
 
   def destroy
-    destroy = App::Destroy.(
-      current_admin: current_admin,
-      id: params[:id]
-    )
+    destroy = App::Destroy.(current_admin: current_admin,id: params[:id])
     if destroy.success?
       @app = destroy.result
       flash[:notice] = "App #{@app.name} successfully removed"
