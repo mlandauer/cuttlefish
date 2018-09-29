@@ -15,4 +15,5 @@ class Types::MutationType < GraphQL::Schema::Object
   field :remove_blocked_address, mutation: Mutations::RemoveBlockedAddress
   field :create_app, mutation: Mutations::CreateApp
   field :update_app, mutation: Mutations::UpdateApp
+  field :remove_app, mutation: Mutations::RemoveApp
 end
