@@ -12,7 +12,7 @@ class App::Destroy < ApplicationService
     else
       fail! OpenStruct.new(
         type: :permission,
-        message: "Couldn't remove app. You probably don't have the necessary permissions."
+        message: "Couldn't remove app. You don't have the necessary permissions or the app with the given id doesn't exist."
       )
     end
   end
