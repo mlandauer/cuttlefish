@@ -10,8 +10,8 @@ class Mutations::UpdateApp < Mutations::Base
       current_admin: context[:current_admin],
       id: id,
       name: attributes.name,
-      open_tracking_enabled: open_tracking_enabled,
-      click_tracking_enabled: click_tracking_enabled,
+      open_tracking_enabled: attributes.open_tracking_enabled,
+      click_tracking_enabled: attributes.click_tracking_enabled,
       custom_tracking_domain: attributes.custom_tracking_domain,
       from_domain: attributes.from_domain
     )
