@@ -9,11 +9,13 @@ class Mutations::UpdateApp < Mutations::Base
     update = App::Update.(
       current_admin: context[:current_admin],
       id: id,
-      name: attributes.name,
-      open_tracking_enabled: attributes.open_tracking_enabled,
-      click_tracking_enabled: attributes.click_tracking_enabled,
-      custom_tracking_domain: attributes.custom_tracking_domain,
-      from_domain: attributes.from_domain
+      attributes: {
+        name: attributes.name,
+        open_tracking_enabled: attributes.open_tracking_enabled,
+        click_tracking_enabled: attributes.click_tracking_enabled,
+        custom_tracking_domain: attributes.custom_tracking_domain,
+        from_domain: attributes.from_domain        
+      }
     )
     if update.success?
       { app: update.result, errors: [] }
