@@ -63,4 +63,16 @@ describe App::Update do
       expect(update_app).to_not be_success
     end
   end
+
+  context "just updating from domain" do
+    let(:attributes) { { from_domain: 'foo.com' } }
+
+    it "should be successfull" do
+      expect(update_app).to be_success
+    end
+
+    it "should return the updated app" do
+      expect(update_app.result.from_domain).to eq 'foo.com'
+    end
+  end
 end

@@ -1,4 +1,12 @@
 class App::Update < ApplicationService
+  VALID_ATTRIBUTES = [
+    :name,
+    :open_tracking_enabled,
+    :click_tracking_enabled,
+    :custom_tracking_domain,
+    :from_domain
+  ]
+
   def initialize(
     current_admin:,
     id:,
@@ -6,14 +14,7 @@ class App::Update < ApplicationService
   )
     @current_admin = current_admin
     @id = id
-    # Really crude way to enforce only allow certain attributes
-    @attributes = {
-      name: attributes[:name],
-      open_tracking_enabled: attributes[:open_tracking_enabled],
-      click_tracking_enabled: attributes[:click_tracking_enabled],
-      custom_tracking_domain: attributes[:custom_tracking_domain],
-      from_domain: attributes[:from_domain]
-    }
+    @attributes = attributes.select { |k, v| VALID_ATTRIBUTES.include?(k) }
   end
 
   def call
