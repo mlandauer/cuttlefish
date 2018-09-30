@@ -6,15 +6,16 @@ describe App::Update do
     App::Update.(
       current_admin: current_admin,
       id: app.id,
-      attributes: {
-        name: name,
-        open_tracking_enabled: app.open_tracking_enabled,
-        click_tracking_enabled: app.click_tracking_enabled,
-        custom_tracking_domain: app.custom_tracking_domain,
-        from_domain: app.from_domain        
-      }
+      attributes: attributes
     )
   }
+  let(:attributes) { {
+    name: name,
+    open_tracking_enabled: app.open_tracking_enabled,
+    click_tracking_enabled: app.click_tracking_enabled,
+    custom_tracking_domain: app.custom_tracking_domain,
+    from_domain: app.from_domain
+  } }
   let(:name) { "An updated name" }
 
   it "should update the app name" do
