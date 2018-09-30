@@ -46,11 +46,11 @@ describe AppsController, type: :controller do
 
     describe "#update" do
       it "should be able to update just the from domain" do
-        app = create(:app)
+        app = create(:app, team: team)
         put :update, params: { id: app.id, app: { from_domain: 'foo.com' } }
+        expect(response).to redirect_to dkim_app_path(app)
         app.reload
         expect(app.from_domain).to eq 'foo.com'
-        expect(response).to redirect_to dkim_app_path(app)
       end
     end
   end

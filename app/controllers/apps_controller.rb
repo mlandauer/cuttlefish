@@ -59,12 +59,13 @@ class AppsController < ApplicationController
 
   def update
     @app = AppForm.new(app_parameters.merge(id: params[:id]))
-    result = api_query @app.attributes.merge(id: params[:id])
+    attributes = app_parameters.to_h.transform_keys { |p| p.to_s.camelize(:lower) }
+    result = api_query id: params[:id], attributes: attributes
     if result.data.update_app.app
       @app = result.data.update_app.app
       flash[:notice] = "App #{@app.name} successfully updated"
       if app_parameters.has_key?(:from_domain)
-        redirect_to dkim_app_path(@app)
+        redirect_to dkim_app_path(@app.id)
       else
         redirect_to app_path(@app.id)
       end

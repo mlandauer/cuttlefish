@@ -282,8 +282,8 @@ module Cuttlefish::ApiClient
   EOF
 
   APPS_UPDATE = CLIENT.parse <<-EOF
-    mutation($id: ID!, $name: String!, $clickTrackingEnabled: Boolean, $openTrackingEnabled: Boolean, $customTrackingDomain: String) {
-      updateApp(id: $id, attributes: {name: $name, clickTrackingEnabled: $clickTrackingEnabled, openTrackingEnabled: $openTrackingEnabled, customTrackingDomain: $customTrackingDomain}) {
+    mutation($id: ID!, $attributes: AppAttributes!) {
+      updateApp(id: $id, attributes: $attributes) {
         app {
           id
           name
