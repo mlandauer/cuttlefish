@@ -37,14 +37,19 @@ class AppsController < ApplicationController
   end
 
   def destroy
-    destroy = App::Destroy.(current_admin: current_admin,id: params[:id])
-    if destroy.success?
-      @app = destroy.result
+    result = api_query id: params[:id]
+    if result.data.remove_app.errors.empty?
+      @app = result.data.remove_app.app
       flash[:notice] = "App #{@app.name} successfully removed"
+      redirect_to apps_path
     else
-      flash[:alert] = destroy.error.message
+      # Convert errors to a single string using a form object
+      app = AppForm.new
+      copy_graphql_errors(result.data.remove_app, app, ['attributes'])
+
+      flash[:alert] = app.errors.full_messages.join(', ')
+      redirect_to edit_app_path(params[:id])
     end
-    redirect_to apps_path
   end
 
   def edit

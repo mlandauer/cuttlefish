@@ -297,6 +297,22 @@ module Cuttlefish::ApiClient
     }
   EOF
 
+  APPS_DESTROY = CLIENT.parse <<-EOF
+    mutation($id: ID!) {
+      removeApp(id: $id) {
+        app {
+          id
+          name
+        }
+        errors {
+          message
+          path
+          type
+        }
+      }
+    }
+  EOF
+
   APPS_DKIM = CLIENT.parse <<-'GRAPHQL'
     query($id: ID!) {
       app(id: $id) {
