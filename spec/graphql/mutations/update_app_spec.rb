@@ -68,7 +68,7 @@ describe Mutations::UpdateApp do
         "data" => {
           "updateApp" => {
             "app" => {
-              "name" => "An App",
+              "name" => "My App",
               "fromDomain" => "foo.com"
             },
             "errors" => []
