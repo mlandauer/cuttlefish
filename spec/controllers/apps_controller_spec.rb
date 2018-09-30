@@ -5,12 +5,12 @@ describe AppsController, type: :controller do
     request.env['HTTPS'] = 'on'
   end
 
-  describe "POST create" do
-    context "signed in" do
-      let(:team) { Team.create! }
-      let(:admin) { team.admins.create!(email: "matthew@foo.bar", password: "foobar") }
-      before(:each) { sign_in admin }
+  context "signed in" do
+    let(:team) { Team.create! }
+    let(:admin) { team.admins.create!(email: "matthew@foo.bar", password: "foobar") }
+    before(:each) { sign_in admin }
 
+    describe "POST create" do
       it "should create an app that is part of the current user's team" do
         post :create, params: { app: {
           name: "My New App",
@@ -43,6 +43,15 @@ describe AppsController, type: :controller do
         })
       end
     end
-  end
 
+    describe "#update" do
+      it "should be able to update just the from domain" do
+        app = create(:app)
+        put :update, params: { id: app.id, app: { from_domain: 'foo.com' } }
+        app.reload
+        expect(app.from_domain).to eq 'foo.com'
+        expect(response).to redirect_to dkim_app_path(app)
+      end
+    end
+  end
 end
