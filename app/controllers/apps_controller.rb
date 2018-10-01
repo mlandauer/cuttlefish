@@ -59,7 +59,12 @@ class AppsController < ApplicationController
 
   def update
     @app = AppForm.new(app_parameters.merge(id: params[:id]))
-    attributes = app_parameters.to_h.transform_keys { |p| p.to_s.camelize(:lower) }
+    # Use the form object for type conversion but only copy across
+    # attributes when they're present in app_parameters because the form
+    # object doesn't currently support optional attributes
+    attributes = Hash[app_parameters.to_h.map {|k, v|
+      [k.to_s.camelize(:lower), @app.attributes[k.to_sym]]
+    }]
     result = api_query id: params[:id], attributes: attributes
     if result.data.update_app.app
       @app = result.data.update_app.app

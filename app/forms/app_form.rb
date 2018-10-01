@@ -7,4 +7,5 @@ class AppForm
   attribute :click_tracking_enabled, Boolean, default: true
   attribute :open_tracking_enabled, Boolean, default: true
   attribute :custom_tracking_domain, String
+  attribute :from_domain, String
 end
