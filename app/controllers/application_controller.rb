@@ -42,6 +42,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def coerce_params(params, form_klass)
+    # Use the form object for type coercion but only copy across
+    # attributes when they're present in params because the form
+    # object always returns all the defined attributes even if they
+    # haven't been set
+    form = form_klass.new(params)
+    Hash[params.to_h.map {|k, v|
+      [k.to_s.camelize(:lower), form.attributes[k.to_sym]]
+    }]
+  end
+
   private
 
   def configure_permitted_parameters

@@ -19,18 +19,15 @@ class AppsController < ApplicationController
   end
 
   def create
-    # Using the form object to do type casting before we pass values
-    # to the graphql api
     # TODO: Actually no need for strong parameters here as form object
     # constrains the parameters that are allowed
-    @app = AppForm.new(app_parameters)
-
-    result = api_query @app.attributes
+    result = api_query coerce_params(app_parameters, AppForm)
     if result.data.create_app.app
       @app = result.data.create_app.app
       flash[:notice] = "App #{@app.name} successfully created"
       redirect_to app_url(@app.id)
     else
+      @app = AppForm.new(app_parameters)
       copy_graphql_errors(result.data.create_app, @app, ['attributes'])
       render :new
     end
@@ -58,14 +55,8 @@ class AppsController < ApplicationController
   end
 
   def update
-    @app = AppForm.new(app_parameters.merge(id: params[:id]))
-    # Use the form object for type conversion but only copy across
-    # attributes when they're present in app_parameters because the form
-    # object doesn't currently support optional attributes
-    attributes = Hash[app_parameters.to_h.map {|k, v|
-      [k.to_s.camelize(:lower), @app.attributes[k.to_sym]]
-    }]
-    result = api_query id: params[:id], attributes: attributes
+    result = api_query id: params[:id],
+                       attributes: coerce_params(app_parameters, AppForm)
     if result.data.update_app.app
       @app = result.data.update_app.app
       flash[:notice] = "App #{@app.name} successfully updated"
@@ -75,6 +66,7 @@ class AppsController < ApplicationController
         redirect_to app_path(@app.id)
       end
     else
+      @app = AppForm.new(app_parameters.merge(id: params[:id]))
       copy_graphql_errors(result.data.update_app, @app, ['attributes'])
       render :edit
     end
