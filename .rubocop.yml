@@ -1,0 +1,3 @@
+# Disabling temporarily
+Style/Documentation:
+  Enabled: false
