@@ -94,6 +94,7 @@ group :development do
   gem "listen"
   gem 'graphiql-rails'
   gem 'faker', git: 'https://github.com/stympy/faker.git', branch: 'master'
+  gem 'rubocop', require: false
 end
 
 group :test do
