@@ -9,7 +9,7 @@ module Filters
     end
 
     def filter(content)
-      filter_mail(Mail.new(content)).to_s
+      filter_mail(::Mail.new(content)).to_s
     end
 
     def filter_mail(mail)

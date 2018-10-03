@@ -31,12 +31,12 @@ describe DeliveriesHelper, type: :helper do
       HTML
       expected_html = <<~HTML
         <div style="font-size: 40px;">
-          <p style="font-size: 20px;">Some text</p>
-        </div>
+            <p style="font-size: 20px;">Some text</p>
+          </div>
       HTML
 
-      h = helper.clean_html_email_for_display(html).strip
-      expect(h).to eq expected_html
+      h = helper.clean_html_email_for_display(html)
+      expect(h).to eq expected_html.strip
     end
 
     it "should preserve UTF-8 characters" do
