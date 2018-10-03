@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe LandingController, type: :controller do
   before :each do
-    request.env['HTTPS'] = 'on'
+    request.env["HTTPS"] = "on"
   end
 
   describe "GET index" do
@@ -16,7 +16,10 @@ describe LandingController, type: :controller do
     context "signed in" do
       before :each do
         team = Team.create!
-        admin = team.admins.create!(email: "foo@bar.com", password: "guess this")
+        admin = team.admins.create!(
+          email: "foo@bar.com",
+          password: "guess this"
+        )
         sign_in admin
       end
 

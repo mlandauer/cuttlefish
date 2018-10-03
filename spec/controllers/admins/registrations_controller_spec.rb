@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe Admins::RegistrationsController, type: :controller do
   before :each do
     request.env["devise.mapping"] = Devise.mappings[:admin]
-    request.env['HTTPS'] = 'on'
+    request.env["HTTPS"] = "on"
   end
 
   context "This a new install of Cuttlefish with no users" do
@@ -22,7 +22,9 @@ describe Admins::RegistrationsController, type: :controller do
 
   context "There is already one admin registered" do
     let(:team) { Team.create! }
-    let(:admin) { team.admins.create!(email: "foo@bar.com", password: "guess this") }
+    let(:admin) do
+      team.admins.create!(email: "foo@bar.com", password: "guess this")
+    end
     before :each do
       admin
     end

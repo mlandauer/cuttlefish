@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe AppsController, type: :controller do
   before :each do
-    request.env['HTTPS'] = 'on'
+    request.env["HTTPS"] = "on"
   end
 
   context "signed in" do
     let(:team) { Team.create! }
-    let(:admin) { team.admins.create!(email: "matthew@foo.bar", password: "foobar") }
+    let(:admin) do
+      team.admins.create!(email: "matthew@foo.bar", password: "foobar")
+    end
     before(:each) { sign_in admin }
 
     describe "POST create" do
@@ -31,18 +33,18 @@ describe AppsController, type: :controller do
           open_tracking_enabled: false,
           click_tracking_enabled: false
         } }
-        expect(assigns(:app).errors.messages).to eq ({
+        expect(assigns(:app).errors.messages).to eq(
           name: [
             "can't be blank",
             "only letters, numbers, spaces and underscores"
           ]
-        })
-        expect(assigns(:app).errors.details).to eq ({
+        )
+        expect(assigns(:app).errors.details).to eq(
           name: [
             { error: :blank },
             { error: :invalid }
           ]
-        })
+        )
       end
     end
 
@@ -50,17 +52,17 @@ describe AppsController, type: :controller do
       let(:app) { create(:app, team: team) }
 
       it "should be able to update just the open_tracking_enabled" do
-        put :update, params: { id: app.id, app: { open_tracking_enabled: '0' } }
+        put :update, params: { id: app.id, app: { open_tracking_enabled: "0" } }
         expect(response).to redirect_to app_path(app)
         app.reload
         expect(app.open_tracking_enabled).to eq false
       end
 
       it "should be able to update just the from domain" do
-        put :update, params: { id: app.id, app: { from_domain: 'foo.com' } }
+        put :update, params: { id: app.id, app: { from_domain: "foo.com" } }
         expect(response).to redirect_to dkim_app_path(app)
         app.reload
-        expect(app.from_domain).to eq 'foo.com'
+        expect(app.from_domain).to eq "foo.com"
       end
     end
   end

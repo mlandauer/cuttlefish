@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe DeliveriesController, type: :controller do
   before :each do
-    request.env['HTTPS'] = 'on'
+    request.env["HTTPS"] = "on"
   end
 
   context "signed in" do
@@ -22,7 +22,9 @@ describe DeliveriesController, type: :controller do
         get :index, params: {}
         expect(assigns(:deliveries).count).to eq 1
         expect(assigns(:deliveries).first.to).to eq delivery.to
-        expect(assigns(:deliveries).first.created_at).to eq delivery.created_at.utc.iso8601
+        expect(assigns(:deliveries).first.created_at).to eq(
+          delivery.created_at.utc.iso8601
+        )
         expect(assigns(:deliveries).first.status).to eq delivery.status
       end
     end
@@ -32,9 +34,11 @@ describe DeliveriesController, type: :controller do
         delivery = FactoryBot.create(:delivery)
         # Make the email app part of this team
         delivery.email.app.update_attributes(team_id: team.id)
-        get :show, params: {id: delivery.to_param}
+        get :show, params: { id: delivery.to_param }
         expect(assigns(:delivery).to).to eq delivery.to
-        expect(assigns(:delivery).created_at).to eq delivery.created_at.utc.iso8601
+        expect(assigns(:delivery).created_at).to eq(
+          delivery.created_at.utc.iso8601
+        )
         expect(assigns(:delivery).status).to eq delivery.status
       end
     end
