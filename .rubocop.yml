@@ -1,3 +1,13 @@
+AllCops:
+  Exclude:
+      - 'vendor/**/*'
+      - '.git/**/*'
+      # Really not fussed too much about the quality of the migrations code
+      - 'db/migrate/*'
+
 # Disabling temporarily
 Style/Documentation:
   Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
