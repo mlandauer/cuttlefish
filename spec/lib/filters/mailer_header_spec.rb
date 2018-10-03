@@ -6,7 +6,7 @@ describe Filters::MailerHeader do
   let(:mail) do
     Mail.new do
       text_part do
-        body 'An email with some text and headers'
+        body "An email with some text and headers"
       end
     end
   end
@@ -14,14 +14,18 @@ describe Filters::MailerHeader do
 
   describe "#data" do
     context "Version 1.2 of the app" do
-      before(:each) { filter.version = "1.2"}
+      before(:each) { filter.version = "1.2" }
 
       it "should add an X-Mailer header" do
-        expect(filter.filter_mail(mail).header["X-Mailer"].to_s).to eq "Cuttlefish 1.2"
+        expect(filter.filter_mail(mail).header["X-Mailer"].to_s).to eq(
+          "Cuttlefish 1.2"
+        )
       end
 
       it "shouldn't alter anything else" do
-        expect(filter.filter_mail(mail).text_part.decoded).to eq 'An email with some text and headers'
+        expect(filter.filter_mail(mail).text_part.decoded).to eq(
+          "An email with some text and headers"
+        )
       end
     end
   end

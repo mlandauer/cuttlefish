@@ -1,10 +1,10 @@
-# coding: utf-8
 # frozen_string_literal: true
+
 require "spec_helper"
 
 describe Filters::AddOpenTracking do
-  let(:delivery) { double(Delivery, :set_open_tracked! => true) }
-  let(:filter) {
+  let(:delivery) { double(Delivery, set_open_tracked!: true) }
+  let(:filter) do
     Filters::AddOpenTracking.new(
       delivery: delivery,
       delivery_id: 673,
@@ -12,7 +12,7 @@ describe Filters::AddOpenTracking do
       tracking_domain: "localhost",
       using_custom_tracking_domain: false
     )
-  }
+  end
 
   describe "#url" do
     it "should normally be an https url to the default domain" do
@@ -33,14 +33,18 @@ describe Filters::AddOpenTracking do
       let(:mail) do
         Mail.new do
           html_part do
-            content_type 'text/html; charset=UTF-8'
-            body '<h1>This is HTML with “some” UTF-8</h1>'
+            content_type "text/html; charset=UTF-8"
+            body "<h1>This is HTML with “some” UTF-8</h1>"
           end
         end
       end
 
       it "should insert an image at the bottom of the html" do
-        expect(filter.filter_mail(mail).parts.first.decoded).to eq '<h1>This is HTML with “some” UTF-8</h1><img src="https://localhost/o2/673/05c6b2136e9c1297c0264427a17aa3cf4ea40b3e.gif" />'
+        hash = "05c6b2136e9c1297c0264427a17aa3cf4ea40b3e"
+        expect(filter.filter_mail(mail).parts.first.decoded).to eq(
+          "<h1>This is HTML with “some” UTF-8</h1>" \
+          "<img src=\"https://localhost/o2/673/#{hash}.gif\" />"
+        )
       end
 
       it "should record that it has been open tracked" do
@@ -64,7 +68,7 @@ describe Filters::AddOpenTracking do
       let(:mail) do
         Mail.new do
           text_part do
-            body 'Some plain text'
+            body "Some plain text"
           end
         end
       end
@@ -82,7 +86,7 @@ describe Filters::AddOpenTracking do
     context "a text email with a single part" do
       let(:mail) do
         Mail.new do
-          body 'Some plain text'
+          body "Some plain text"
         end
       end
 
@@ -98,17 +102,17 @@ describe Filters::AddOpenTracking do
 
     context "an html email with one part" do
       let(:body) do
-        <<-EOF
-From: They Vote For You <contact@theyvoteforyou.org.au>
-To: matthew@openaustralia.org
-Subject: An html email
-Mime-Version: 1.0
-Content-Type: text/html;
- charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        <<~EMAIL
+          From: They Vote For You <contact@theyvoteforyou.org.au>
+          To: matthew@openaustralia.org
+          Subject: An html email
+          Mime-Version: 1.0
+          Content-Type: text/html;
+           charset=UTF-8
+          Content-Transfer-Encoding: 7bit
 
-<p>Hello This an html email</p>
-        EOF
+          <p>Hello This an html email</p>
+        EMAIL
       end
 
       let(:mail) do
@@ -116,35 +120,45 @@ Content-Transfer-Encoding: 7bit
       end
 
       it "should add an image" do
-        expect(filter.filter_mail(mail).body).to eq "<p>Hello This an html email</p>\n<img src=\"https://localhost/o2/673/05c6b2136e9c1297c0264427a17aa3cf4ea40b3e.gif\" />"
+        hash = "05c6b2136e9c1297c0264427a17aa3cf4ea40b3e"
+        expect(filter.filter_mail(mail).body).to eq(
+          "<p>Hello This an html email</p>\n" \
+          "<img src=\"https://localhost/o2/673/#{hash}.gif\" />"
+        )
       end
     end
 
     context "an email with a text part and an html part" do
-        let(:mail) do
-          Mail.new do
-            text_part do
-              body 'Some plain text'
-            end
-            html_part do
-              content_type 'text/html; charset=UTF-8'
-              body '<table>I like css</table>'
-            end
+      let(:mail) do
+        Mail.new do
+          text_part do
+            body "Some plain text"
+          end
+          html_part do
+            content_type "text/html; charset=UTF-8"
+            body "<table>I like css</table>"
           end
         end
+      end
 
-        it "should do nothing to the text part of the email" do
-          expect(filter.filter_mail(mail).text_part.decoded).to eq "Some plain text"
-        end
+      it "should do nothing to the text part of the email" do
+        expect(filter.filter_mail(mail).text_part.decoded).to eq(
+          "Some plain text"
+        )
+      end
 
-        it "should append an image to the html part of the email" do
-          expect(filter.filter_mail(mail).html_part.decoded).to eq "<table>I like css</table><img src=\"https://localhost/o2/673/05c6b2136e9c1297c0264427a17aa3cf4ea40b3e.gif\" />"
-        end
+      it "should append an image to the html part of the email" do
+        hash = "05c6b2136e9c1297c0264427a17aa3cf4ea40b3e"
+        expect(filter.filter_mail(mail).html_part.decoded).to eq(
+          "<table>I like css</table>" \
+          "<img src=\"https://localhost/o2/673/#{hash}.gif\" />"
+        )
+      end
 
-        it "should record that it has been open tracked" do
-          expect(delivery).to receive(:set_open_tracked!)
-          filter.filter_mail(mail)
-        end
+      it "should record that it has been open tracked" do
+        expect(delivery).to receive(:set_open_tracked!)
+        filter.filter_mail(mail)
+      end
     end
   end
 end

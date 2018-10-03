@@ -18,6 +18,8 @@ describe Filters::Master do
     email = Email.create!(app_id: app.id)
     delivery = Delivery.create!(email: email, app: app)
     mail2 = Filters::Master.new(delivery).filter_mail(mail)
-    expect(Nokogiri::HTML(mail2.html_part.decoded).at("p").inner_text).to eq "vašem"
+    expect(Nokogiri::HTML(mail2.html_part.decoded).at("p").inner_text).to eq(
+      "vašem"
+    )
   end
 end

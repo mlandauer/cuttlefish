@@ -7,8 +7,11 @@ AllCops:
       - 'db/schema.rb'
       - 'provisioning/**/*'
 
+# We prefer double quotes here and it we're making liberal use of multi-line
+# strings so it makes sense to enforce those to be consistent oo
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+  ConsistentQuotesInMultiline: true
 
 # This one I disagree with. Putting seperators in large numbers makes sense
 # in some circumstances but in others (an example id in a database table)
