@@ -7,7 +7,7 @@ module UserAgent
 
   def calculate_ua_version
     v = parsed_user_agent.version
-    v.to_s if v
+    v&.to_s
   end
 
   def calculate_os_family
@@ -16,7 +16,7 @@ module UserAgent
 
   def calculate_os_version
     v = parsed_user_agent.os.version
-    v.to_s if v
+    v&.to_s
   end
 
   private
@@ -26,9 +26,14 @@ module UserAgent
     user_agent_parser.parse(user_agent)
   end
 
-  # Cache this between requests so that we don't keep reloading the user agent database
-  # TODO Put in a PR to the main project to update the default regexes with the google image proxy
+  # Cache this between requests so that we don't keep reloading the
+  # user agent database
+  # TODO Put in a PR to the main project to update the default regexes
+  # with the google image proxy
+  # rubocop:disable Style/ClassVars
   def user_agent_parser
-    @@user_agent_parser ||= UserAgentParser::Parser.new(patterns_path: "lib/regexes.yaml")
+    @@user_agent_parser ||=
+      UserAgentParser::Parser.new(patterns_path: "lib/regexes.yaml")
   end
+  # rubocop:enable Style/ClassVars
 end
