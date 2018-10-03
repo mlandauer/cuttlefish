@@ -24,11 +24,12 @@ class DkimDns
 
   def resolve_dkim_dns_value
     # Use our default nameserver
-    begin
-      Resolv::DNS.new.getresource(dkim_domain, Resolv::DNS::Resource::IN::TXT).strings.join
-    rescue Resolv::ResolvError
-      nil
-    end
+    Resolv::DNS.new.getresource(
+      dkim_domain,
+      Resolv::DNS::Resource::IN::TXT
+    ).strings.join
+  rescue Resolv::ResolvError
+    nil
   end
 
   def dkim_dns_configured?
@@ -36,7 +37,14 @@ class DkimDns
   end
 
   def sign_mail(mail)
-    Mail.new(Dkim.sign(mail.to_s, selector: selector, private_key: private_key, domain: domain))
+    Mail.new(
+      Dkim.sign(
+        mail.to_s,
+        selector: selector,
+        private_key: private_key,
+        domain: domain
+      )
+    )
   end
 
   private
