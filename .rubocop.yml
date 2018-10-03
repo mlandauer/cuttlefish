@@ -5,6 +5,7 @@ AllCops:
       # Really not fussed too much about the quality of the migrations code
       - 'db/migrate/*'
       - 'db/schema.rb'
+      - 'provisioning/**/*'
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

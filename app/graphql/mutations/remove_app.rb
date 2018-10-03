@@ -8,7 +8,7 @@ class Mutations::RemoveApp < Mutations::Base
   field :errors, [Types::UserError], null: false
 
   def resolve(id:)
-    destroy = App::Destroy.(id: id, current_admin: context[:current_admin])
+    destroy = App::Destroy.call(id: id, current_admin: context[:current_admin])
     user_errors = if destroy.success?
       []
     else

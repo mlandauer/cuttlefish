@@ -6,7 +6,7 @@ describe App::Create do
   let(:current_admin) { create(:admin) }
   let(:name) { "An app" }
   let(:create_app) {
-    App::Create.(
+    App::Create.call(
       current_admin: current_admin,
       name: name,
       open_tracking_enabled: false,

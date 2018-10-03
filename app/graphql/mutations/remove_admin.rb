@@ -12,7 +12,7 @@ class Mutations::RemoveAdmin < Mutations::Base
   field :admin, Types::Admin, null: true
 
   def resolve(id:)
-    remove_admin = Admin::Destroy.(id: id, current_admin: context[:current_admin])
+    remove_admin = Admin::Destroy.call(id: id, current_admin: context[:current_admin])
     { admin: remove_admin.result }
   end
 
