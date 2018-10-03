@@ -1,14 +1,22 @@
 # frozen_string_literal: true
 
-require File.expand_path File.join(File.dirname(__FILE__), 'mail_worker')
-require File.expand_path File.join(File.dirname(__FILE__), 'email_data_cache')
-require 'ostruct'
-require 'eventmachine'
-require 'mail'
-require File.expand_path File.join(File.dirname(__FILE__), "..", "app", "models", "app")
-require File.expand_path File.join(File.dirname(__FILE__), "..", "app", "models", "email")
-require File.expand_path File.join(File.dirname(__FILE__), "..", "app", "models", "address")
-require File.expand_path File.join(File.dirname(__FILE__), "..", "app", "models", "delivery")
+require File.expand_path File.join(File.dirname(__FILE__), "mail_worker")
+require File.expand_path File.join(File.dirname(__FILE__), "email_data_cache")
+require "ostruct"
+require "eventmachine"
+require "mail"
+require File.expand_path File.join(
+  File.dirname(__FILE__), "..", "app", "models", "app"
+)
+require File.expand_path File.join(
+  File.dirname(__FILE__), "..", "app", "models", "email"
+)
+require File.expand_path File.join(
+  File.dirname(__FILE__), "..", "app", "models", "address"
+)
+require File.expand_path File.join(
+  File.dirname(__FILE__), "..", "app", "models", "delivery"
+)
 
 class CuttlefishSmtpServer
   attr_accessor :connections
@@ -17,16 +25,18 @@ class CuttlefishSmtpServer
     @connections = []
   end
 
-  def start(host = 'localhost', port = 1025)
-    trap("TERM") {
+  def start(host = "localhost", port = 1025)
+    trap("TERM") do
       puts "Received SIGTERM"
       stop
-    }
-    trap("INT") {
+    end
+    trap("INT") do
       puts "Received SIGINT"
       stop!
-    }
-    @server = EM.start_server host, port, CuttlefishSmtpConnection do |connection|
+    end
+    @server = EM.start_server host,
+                              port,
+                              CuttlefishSmtpConnection do |connection|
       connection.server = self
       @connections << connection
     end
@@ -90,6 +100,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     server.connections.delete(self)
   end
 
+  # rubocop:disable Naming/AccessorMethodName
   def get_server_domain
     Rails.configuration.cuttlefish_domain
   end
@@ -97,6 +108,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
   def get_server_greeting
     "Cuttlefish SMTP server waves its arms and tentacles and says hello"
   end
+  # rubocop:enable Naming/AccessorMethodName
 
   def receive_sender(sender)
     current.sender = sender
@@ -110,18 +122,19 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     true
   end
 
-  # This is copied from https://github.com/eventmachine/eventmachine/blob/master/lib/em/protocols/smtpserver.rb
-  # so that it can be monkey-patched. We don't want to completely clear out the state at
-  # the end of a succesfull transaction, especially the auth information.
-  # That's why the `reset_protocol_state` is commented out in the succeeded proc.
+  # This is copied from
+  # https://github.com/eventmachine/eventmachine/blob/master/lib/em/protocols/smtpserver.rb
+  # so that it can be monkey-patched. We don't want to completely clear out the
+  # state at the end of a succesfull transaction, especially the auth
+  # information. That's why the `reset_protocol_state` is commented out in the
+  # succeeded proc.
   # TODO: Put in an upstream patch to address this at source
-  def process_data_line ln
-    if ln == "."
-      if @databuffer.length > 0
+  def process_data_line(line)
+    if line == "."
+      unless @databuffer.empty?
         receive_data_chunk @databuffer
         @databuffer.clear
       end
-
 
       succeeded = proc {
         send_data "250 Message accepted\r\n"
@@ -140,11 +153,11 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
         (d ? succeeded : failed).call
       end
 
-      @state -= [:data, :mail_from, :rcpt]
+      @state -= %i[data mail_from rcpt]
     else
       # slice off leading . if any
-      ln.slice!(0...1) if ln[0] == ?.
-      @databuffer << ln
+      line.slice!(0...1) if line[0] == "."
+      @databuffer << line
       if @databuffer.length > @@parms[:chunksize]
         receive_data_chunk @databuffer
         @databuffer.clear
@@ -156,8 +169,8 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     current.received = true
     current.completed_at = Time.now
 
-    # TODO No need to capture current.sender, current.received, current.completed_at
-    # because we're not passing it on
+    # TODO: No need to capture current.sender, current.received,
+    # current.completed_at because we're not passing it on
 
     email = Email.create!(
       to: current.recipients,

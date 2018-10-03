@@ -16,6 +16,9 @@ Style/StringLiterals:
 Style/Documentation:
   Enabled: false
 
+Style/GuardClause:
+  Enabled: false
+
 Metrics/ClassLength:
   Enabled: false
 
