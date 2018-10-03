@@ -9,18 +9,18 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_admin!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  def after_sign_in_path_for(resource)
-   dash_path
+  def after_sign_in_path_for(_resource)
+    dash_path
   end
 
-  force_ssl :if => Proc.new{ force_ssl? }
+  force_ssl if: proc { force_ssl? }
 
   def api_query(variables = {})
     query_name = "#{controller_name}_#{action_name}".upcase
     Cuttlefish::ApiClient.query(
       Cuttlefish::ApiClient.const_get(query_name),
       # Convert variable names to camelcase for graphql
-      variables: Hash[variables.map{ |k, v| [k.to_s.camelize(:lower), v]}],
+      variables: Hash[variables.map { |k, v| [k.to_s.camelize(:lower), v] }],
       current_admin: current_admin
     )
   end
@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
     # object always returns all the defined attributes even if they
     # haven't been set
     form = form_klass.new(params)
-    Hash[params.to_h.map {|k, v|
+    Hash[params.to_h.map { |k, _v|
       [k.to_s.camelize(:lower), form.attributes[k.to_sym]]
     }]
   end
@@ -65,7 +65,9 @@ class ApplicationController < ActionController::Base
 
   # Don't use SSL for the TrackingController and in development
   def force_ssl?
-   controller_name != "tracking" && !Rails.env.development? && !Rails.configuration.disable_ssl
+    controller_name != 'tracking' &&
+      !Rails.env.development? &&
+      !Rails.configuration.disable_ssl
   end
 
   def pundit_user

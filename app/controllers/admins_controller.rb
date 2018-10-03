@@ -14,7 +14,8 @@ class AdminsController < ApplicationController
     if admin
       flash[:notice] = "#{admin.display_name} removed"
     else
-      flash[:alert] = "Couldn't remove admin. You probably don't have the necessary permissions."
+      flash[:alert] = "Couldn't remove admin. " \
+        "You probably don't have the necessary permissions."
     end
     redirect_to admins_url
   end
