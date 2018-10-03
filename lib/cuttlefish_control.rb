@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require File.expand_path File.join(File.dirname(__FILE__), 'cuttlefish_smtp_server')
+require File.expand_path File.join(
+  File.dirname(__FILE__), "cuttlefish_smtp_server"
+)
 
 module CuttlefishControl
   def self.smtp_start
@@ -18,16 +20,20 @@ module CuttlefishControl
       # Sleep forever
       sleep
     else
-      activerecord_config = YAML.load(File.read(File.join(File.dirname(__FILE__), '..', 'config', 'database.yml')))
+      activerecord_config = YAML.safe_load(
+        File.read(
+          File.join(File.dirname(__FILE__), "..", "config", "database.yml")
+        )
+      )
       ActiveRecord::Base.establish_connection(activerecord_config[environment])
 
-      EM.run {
+      EM.run do
         CuttlefishSmtpServer.new.start(host, port)
 
         puts "My eight arms and two tentacles are quivering in anticipation."
         puts "I'm listening for emails via SMTP on #{host} port #{port}"
         puts "I'm in the #{environment} environment"
-      }
+      end
     end
   end
 
@@ -41,18 +47,18 @@ module CuttlefishControl
       # Sleep forever
       sleep
     else
-      puts "Sucking up log entries in #{Rails.configuration.postfix_log_path}..."
+      puts "Sucking up log entries" \
+        " in #{Rails.configuration.postfix_log_path}..."
       CuttlefishLogDaemon.start(Rails.configuration.postfix_log_path)
     end
   end
-
-  private
 
   def self.read_only_mode?
     Rails.configuration.cuttlefish_read_only_mode
   end
 
   def self.how_to_disable_read_only_mode
-    "To disable unset the environment variable CUTTLEFISH_READ_ONLY_MODE and restart."
+    "To disable unset the environment variable CUTTLEFISH_READ_ONLY_MODE " \
+      "and restart."
   end
 end
