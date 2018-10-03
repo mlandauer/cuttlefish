@@ -10,6 +10,12 @@ AllCops:
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
+# This one I disagree with. Putting seperators in large numbers makes sense
+# in some circumstances but in others (an example id in a database table)
+# it's just nonsensical. Also, I think this one might also be a bit US centric.
+Style/NumericLiterals:
+  Enabled: false
+
 # Everything below here we are disabling temporarily just so that we can
 # get most of the code in a good state with respect to fairly trivial
 # code changes
