@@ -50,8 +50,8 @@ describe CuttlefishSmtpConnection do
 
   describe "#receive_data_chunk" do
     it do
-      connection.current.data = "some data already received\r\n"
-      expect(connection.receive_data_chunk(["foo", "bar"])).to eq true
+      connection.current.data = +"some data already received\r\n"
+      expect(connection.receive_data_chunk(%w[foo bar])).to eq true
       expect(connection.current.data).to eq "some data already received\r\nfoo\r\nbar"
     end
   end
