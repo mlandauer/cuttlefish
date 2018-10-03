@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ClientsController < ApplicationController
   def index
     result = api_query app_id: params[:app_id]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AppPolicy < ApplicationPolicy
   def update?
     user && user.team_id == record.team_id && !Rails.configuration.cuttlefish_read_only_mode

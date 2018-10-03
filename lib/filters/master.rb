@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Filters::Master < Filters::Base
   attr_reader :delivery
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::AppPermissions < GraphQL::Schema::Object
   description "Permissions for current admin for accessing and editing an App"
 

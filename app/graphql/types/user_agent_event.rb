@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types::UserAgentEvent
   include GraphQL::Schema::Interface
   description "An event initiated by someone from a browser / email client"

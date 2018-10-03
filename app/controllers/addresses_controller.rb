@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddressesController < ApplicationController
   def from
     @deliveries = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|

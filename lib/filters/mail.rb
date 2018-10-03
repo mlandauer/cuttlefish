@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Filter mail content by splitting out html and text parts
 # and handling them separately
 class Filters::Mail < Filters::Base

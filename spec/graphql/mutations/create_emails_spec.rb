@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Mutations::CreateEmails do
   let(:context) { { current_admin: admin }}
   let(:variables) { {} }

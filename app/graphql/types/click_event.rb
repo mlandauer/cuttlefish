@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::ClickEvent < GraphQL::Schema::Object
   implements Types::UserAgentEvent
 

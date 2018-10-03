@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTeamIdToAdmins < ActiveRecord::Migration
   def change
     reversible do |dir|

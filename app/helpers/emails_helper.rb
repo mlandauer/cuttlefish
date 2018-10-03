@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EmailsHelper
   # Mapping from status strings to bootstrap classes
   # The naming of the bootstrap classes is not entirely consistent. There are two variants

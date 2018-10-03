@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Insert a tracking image at the bottom of the html email
 class Filters::AddOpenTracking < Filters::Tracking
   include ActionView::Helpers::AssetTagHelper

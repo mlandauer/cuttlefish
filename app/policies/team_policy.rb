@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TeamPolicy < ApplicationPolicy
   # This isn't currently used
   def show?

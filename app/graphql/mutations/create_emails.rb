@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Mutations::CreateEmails < Mutations::Base
   null true
 

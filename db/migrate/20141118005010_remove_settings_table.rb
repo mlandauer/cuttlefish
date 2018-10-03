@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveSettingsTable < ActiveRecord::Migration
   def change
     drop_table "settings" do |t|

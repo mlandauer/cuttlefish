@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::QueryType < GraphQL::Schema::Object
   # Add root-level fields here.
   # They will be entry points for queries on your schema.

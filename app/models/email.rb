@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Email < ActiveRecord::Base
   belongs_to :from_address, class_name: "Address"
   has_many :deliveries, dependent: :destroy

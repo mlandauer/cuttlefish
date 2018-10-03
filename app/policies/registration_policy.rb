@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RegistrationPolicy < ApplicationPolicy
   def edit?
     !Rails.configuration.cuttlefish_read_only_mode

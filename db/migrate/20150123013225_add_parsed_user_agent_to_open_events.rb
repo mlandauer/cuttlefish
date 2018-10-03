@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddParsedUserAgentToOpenEvents < ActiveRecord::Migration
   # The counter_cache on the association was causing a memory leak even
   # when using OpenEvent.find_each below. So just for this migration use

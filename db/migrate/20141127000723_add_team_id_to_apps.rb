@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTeamIdToApps < ActiveRecord::Migration
   def change
     add_reference :apps, :team, index: true, null: false, default: 1

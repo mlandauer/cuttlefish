@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Mutations::RemoveBlockedAddress < Mutations::Base
   argument :id, ID, required: true, description: "The database ID of the blocked address you want to remove"
 

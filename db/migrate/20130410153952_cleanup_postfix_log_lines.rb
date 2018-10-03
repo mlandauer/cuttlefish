@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CleanupPostfixLogLines < ActiveRecord::Migration
   def change
     remove_column :postfix_log_lines, :text, :text

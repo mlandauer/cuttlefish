@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::Team < GraphQL::Schema::Object
   description "A team"
 

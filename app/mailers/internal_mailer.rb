@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def database_exists?
   ActiveRecord::Base.connection
 rescue ActiveRecord::NoDatabaseError

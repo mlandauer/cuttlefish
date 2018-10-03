@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Mutations::Base < GraphQL::Schema::Mutation
   def user_errors_from_form_errors(errors, root_path)
     user_errors = []

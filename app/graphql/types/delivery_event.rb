@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::DeliveryEvent < GraphQL::Schema::Object
   description "Information about an attempt to deliver an email"
   field :time, Types::DateTime, null: false, description: "Time of the event"

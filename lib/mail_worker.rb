@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # For Sidekiq
 class MailWorker
   include Sidekiq::Worker

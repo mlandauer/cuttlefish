@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Filters::Tracking < Filters::Mail
   attr_accessor :tracking_domain, :using_custom_tracking_domain
 

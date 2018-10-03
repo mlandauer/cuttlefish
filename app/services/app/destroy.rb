@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class App::Destroy < ApplicationService
   def initialize(current_admin:, id:)
     @current_admin = current_admin

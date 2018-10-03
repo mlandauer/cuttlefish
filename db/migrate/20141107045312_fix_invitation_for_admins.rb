@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixInvitationForAdmins < ActiveRecord::Migration
   def change
     add_column :admins, :invitation_created_at, :datetime

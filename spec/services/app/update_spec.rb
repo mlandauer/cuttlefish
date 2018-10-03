@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe App::Update do
   let(:app) { create(:app, team: team) }
   let(:current_admin) { create(:admin, team: team) }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLinkEvents < ActiveRecord::Migration
   def change
     create_table :link_events do |t|

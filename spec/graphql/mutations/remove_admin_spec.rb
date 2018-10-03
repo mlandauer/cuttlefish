@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Mutations::RemoveAdmin do
   let(:result) {
     CuttlefishSchema.execute(

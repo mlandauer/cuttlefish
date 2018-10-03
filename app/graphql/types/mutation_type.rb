@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Types::MutationType < GraphQL::Schema::Object
   # TODO: Provide descriptions for these mutations
-  
+
   field :create_emails, mutation: Mutations::CreateEmails do
     guard ->(object, args, context) {
       app = App.find_by_id(args['appId'])

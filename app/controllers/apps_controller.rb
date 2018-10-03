@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AppsController < ApplicationController
   after_action :verify_authorized, except: [
     :index, :show, :create, :destroy, :edit, :update, :dkim

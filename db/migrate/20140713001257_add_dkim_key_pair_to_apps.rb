@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDkimKeyPairToApps < ActiveRecord::Migration
   def change
     add_column :apps, :dkim_public_key, :text

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIndexesToTables < ActiveRecord::Migration
   def change
     add_index :emails, :postfix_queue_id

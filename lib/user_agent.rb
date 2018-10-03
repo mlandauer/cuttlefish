@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UserAgent
   def calculate_ua_family
     parsed_user_agent.family

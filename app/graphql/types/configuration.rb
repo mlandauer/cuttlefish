@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::Configuration < GraphQL::Schema::Object
   description "Application configuration settings"
   field :max_no_emails_to_store, Int, null: false, description: "The maximum number of emails for which the full content is stored"

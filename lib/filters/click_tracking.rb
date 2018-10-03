@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Filters::ClickTracking < Filters::Tracking
   include Rails.application.routes.url_helpers
 

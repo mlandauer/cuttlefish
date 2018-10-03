@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AdminPolicy < ApplicationPolicy
   # This is currently unused
   def index?

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Email::Create < ApplicationService
   def initialize(app_id:, from:, to:, cc:, subject:, text_part:, html_part:)
     @app_id = app_id

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe AppsController, type: :controller do
@@ -51,7 +53,7 @@ describe AppsController, type: :controller do
         put :update, params: { id: app.id, app: { open_tracking_enabled: '0' } }
         expect(response).to redirect_to app_path(app)
         app.reload
-        expect(app.open_tracking_enabled).to eq false  
+        expect(app.open_tracking_enabled).to eq false
       end
 
       it "should be able to update just the from domain" do

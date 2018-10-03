@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class App::Update < ApplicationService
   VALID_ATTRIBUTES = [
     :name,

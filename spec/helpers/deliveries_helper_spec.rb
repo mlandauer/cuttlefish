@@ -1,4 +1,6 @@
 # coding: utf-8
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 # Specs in this file have access to a helper object that includes

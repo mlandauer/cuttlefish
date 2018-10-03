@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddStructuredDataInPostfixLogLines < ActiveRecord::Migration
   def change
     add_column :postfix_log_lines, :to, :string

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Admins::RegistrationsController < Devise::RegistrationsController
   after_action :verify_authorized
 

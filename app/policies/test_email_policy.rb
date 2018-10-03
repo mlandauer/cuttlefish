@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TestEmailPolicy < ApplicationPolicy
   def new?
     create?

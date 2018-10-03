@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OutgoingDelivery
   attr_reader :delivery
 

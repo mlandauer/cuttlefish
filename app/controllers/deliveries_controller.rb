@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeliveriesController < ApplicationController
   def index
     if params[:search]

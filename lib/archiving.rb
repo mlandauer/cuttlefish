@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Archive (and restore) emails in the database
 class Archiving
   # Archive all the emails for a particular date (in UTC)

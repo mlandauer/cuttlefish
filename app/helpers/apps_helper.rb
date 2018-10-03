@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AppsHelper
   # If a DNS TXT record is longer than 255 characters it needs to be split into several
   # separate strings. Some DNS hosting services (e.g. DNS Made Easy) expect strings

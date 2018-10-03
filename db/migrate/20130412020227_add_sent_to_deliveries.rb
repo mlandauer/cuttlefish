@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSentToDeliveries < ActiveRecord::Migration
   def change
     # For any preexisting rows set the value to true

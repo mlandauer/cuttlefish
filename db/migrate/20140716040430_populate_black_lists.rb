@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PopulateBlackLists < ActiveRecord::Migration
   def change
     Address.all.each do |address|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostfixLogLine < ActiveRecord::Base
   belongs_to :delivery, inverse_of: :postfix_log_lines
 

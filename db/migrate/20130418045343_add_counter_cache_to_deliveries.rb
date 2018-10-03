@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCounterCacheToDeliveries < ActiveRecord::Migration
   def change
     add_column :deliveries, :open_events_count, :integer, null: false, default: 0

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameTableEmailAddresses < ActiveRecord::Migration
   def change
     rename_table :email_addresses, :addresses

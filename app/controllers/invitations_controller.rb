@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InvitationsController < Devise::InvitationsController
   after_action :verify_authorized, except: :edit
 

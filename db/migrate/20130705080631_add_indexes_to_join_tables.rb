@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIndexesToJoinTables < ActiveRecord::Migration
   def change
     add_index :delivery_links, :delivery_id

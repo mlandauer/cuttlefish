@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Reputation
   def self.local_ip
     orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  # turn off reverse DNS resolution temporarily

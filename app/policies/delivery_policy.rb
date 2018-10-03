@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeliveryPolicy < ApplicationPolicy
   def show?
     if user && user.site_admin?

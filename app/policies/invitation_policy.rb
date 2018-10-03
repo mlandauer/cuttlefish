@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InvitationPolicy < ApplicationPolicy
   def create?
     user && !Rails.configuration.cuttlefish_read_only_mode

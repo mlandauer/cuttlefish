@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CuttlefishLogDaemon
   def self.start(file)
     begin

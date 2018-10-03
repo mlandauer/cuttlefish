@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DenyList < ActiveRecord::Base
   belongs_to :team
   belongs_to :address

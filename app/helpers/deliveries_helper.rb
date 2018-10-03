@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DeliveriesHelper
   def canonical_deliveries_path(app, status, search)
     if app

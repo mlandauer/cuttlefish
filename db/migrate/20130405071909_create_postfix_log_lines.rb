@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreatePostfixLogLines < ActiveRecord::Migration
   def change
     create_table :postfix_log_lines do |t|

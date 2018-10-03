@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::Count < GraphQL::Schema::Object
   description "A bucket to hold the number of times a particular thing happens"
 

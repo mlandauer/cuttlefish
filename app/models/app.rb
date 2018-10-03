@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class App < ActiveRecord::Base
   has_many :emails
   has_many :deliveries

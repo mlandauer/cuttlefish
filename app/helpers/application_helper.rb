@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   ALERT_TYPES = ["error", "info", "success", "warning"]
 

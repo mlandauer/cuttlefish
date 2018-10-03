@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DkimDns
   attr_accessor :private_key, :domain, :selector
 

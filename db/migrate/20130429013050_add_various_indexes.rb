@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVariousIndexes < ActiveRecord::Migration
   def change
     add_index :emails, :from_address_id

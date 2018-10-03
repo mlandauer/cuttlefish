@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddLegacyDkimSelectorToApps < ActiveRecord::Migration[5.2]
   class App < ActiveRecord::Base
   end

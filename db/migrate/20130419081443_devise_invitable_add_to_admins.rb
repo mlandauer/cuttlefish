@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeviseInvitableAddToAdmins < ActiveRecord::Migration
   def up
     change_table :admins do |t|

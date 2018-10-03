@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Mutations::RemoveApp < Mutations::Base
   # TODO: Give descriptions for arguments and fields
   argument :id, ID, required: true

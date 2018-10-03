@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddForeignKeyConstraintsToEmails < ActiveRecord::Migration
   def change
     add_foreign_key(:emails, :apps, dependent: :delete)

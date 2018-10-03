@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropDelayedJobsTable < ActiveRecord::Migration
   def up
     drop_table :delayed_jobs

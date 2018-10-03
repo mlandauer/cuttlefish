@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TeamsController < ApplicationController
   after_action :verify_authorized, except: :index
 

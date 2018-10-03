@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddNullConstraintsToPostfixLogLines < ActiveRecord::Migration
   def change
     PostfixLogLine.where(delivery_id: nil).delete_all

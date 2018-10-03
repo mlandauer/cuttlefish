@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::App < GraphQL::Schema::Object
   description "An app in Cuttlefish"
 

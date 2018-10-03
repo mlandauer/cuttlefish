@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Filters::Dkim < Filters::Base
   attr_accessor :dkim_dns, :sender_email, :enabled,
     :cuttlefish_enabled, :cuttlefish_dkim_dns

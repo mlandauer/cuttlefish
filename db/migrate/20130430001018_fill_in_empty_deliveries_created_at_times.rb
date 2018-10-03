@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FillInEmptyDeliveriesCreatedAtTimes < ActiveRecord::Migration
   def change
     # Delivery.where("deliveries.created_at IS NULL").joins(:email).update_all("deliveries.created_at = emails.created_at")

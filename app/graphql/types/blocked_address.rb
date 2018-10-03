@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::BlockedAddress < GraphQL::Schema::Object
   field :id, ID, null: false, description: "The database ID"
   field :address, String, null: false, description: "Email address"

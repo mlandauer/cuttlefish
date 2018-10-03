@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::BaseConnection < GraphQL::Schema::Object
   field :total_count, Integer, null: false, description: "The total count of items"
 

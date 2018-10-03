@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TweakPostfixLogLinesIndexOrder < ActiveRecord::Migration
   def change
     add_index :postfix_log_lines, [:time, :delivery_id]

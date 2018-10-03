@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::AppAttributes < GraphQL::Schema::InputObject
   description "Attributes for creating or updating an app"
   argument :name, String, required: false, description: "The name of the app"

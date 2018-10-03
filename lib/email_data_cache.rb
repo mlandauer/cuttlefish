@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EmailDataCache
   attr_reader :scope, :max_no_emails_to_store_data
 

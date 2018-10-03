@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAppIdToDeliveries < ActiveRecord::Migration
   def change
     add_column :deliveries, :app_id, :integer

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Adapted from https://github.com/yrgoldteeth/bootstrap-will_paginate/blob/master/config/initializers/will_paginate.rb
 
 class BootstrapLinkRenderer < WillPaginate::ActionView::LinkRenderer

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Filters::MailerHeader < Filters::Base
   attr_accessor :version
 

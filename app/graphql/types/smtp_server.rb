@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::SmtpServer < GraphQL::Schema::Object
   description "Details needed to send email to the Cuttlefish SMTP server"
   field :hostname, String, null: false, description: "The hostname"

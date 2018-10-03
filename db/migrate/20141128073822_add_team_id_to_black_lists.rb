@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTeamIdToBlackLists < ActiveRecord::Migration
   def change
     add_reference :black_lists, :team, index: true, null: false, default: 1

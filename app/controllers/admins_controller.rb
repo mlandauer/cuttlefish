@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AdminsController < ApplicationController
   def index
     result = api_query

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::EmailContent < GraphQL::Schema::Object
   description "The full content of an email"
   field :text, String, null: true, description: "The plain text part of the email"

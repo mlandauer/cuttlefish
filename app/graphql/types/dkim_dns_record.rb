@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::DkimDnsRecord < GraphQL::Schema::Object
   description "Details of the DKIM DNS record"
 

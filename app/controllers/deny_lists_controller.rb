@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DenyListsController < ApplicationController
   def index
     @deny_lists = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|

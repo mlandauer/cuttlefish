@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::Status < GraphQL::Schema::Enum
   description "The delivery status of an email"
   value "not_sent", "Not sent because it's on the deny list"

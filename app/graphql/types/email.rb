@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::Email < GraphQL::Schema::Object
   description "An email delivered to a single destination"
   guard ->(object, args, context) {

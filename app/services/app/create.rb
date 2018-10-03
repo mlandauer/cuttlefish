@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class App::Create < ApplicationService
   def initialize(current_admin:, name:,
     open_tracking_enabled:, click_tracking_enabled:, custom_tracking_domain:,

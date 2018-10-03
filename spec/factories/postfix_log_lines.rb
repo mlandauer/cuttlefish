@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :postfix_log_line do
     delivery
-    
+
     time Time.now
     relay "foo.com[1.2.3.4]:25"
     delay "2.1"

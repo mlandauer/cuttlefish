@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HashId
   def self.hash(message)
     # TODO Rename configuration - it's not a salt, it's a key

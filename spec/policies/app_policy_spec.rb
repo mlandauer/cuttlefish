@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe AppPolicy do
   # TODO Test effect of read only mode
-  
+
   subject { AppPolicy.new(user, app) }
 
   let(:team_one) { FactoryBot.create(:team) }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddForeignKeyConstraintsToPostfixLogLines < ActiveRecord::Migration
   def change
     # Remove any postfix_log_lines that don't belong to a delivery anymore

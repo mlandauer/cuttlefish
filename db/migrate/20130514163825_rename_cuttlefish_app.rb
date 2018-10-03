@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameCuttlefishApp < ActiveRecord::Migration
   def change
     # This doesn't work anymore because App.default will fail at this

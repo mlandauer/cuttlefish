@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Mutations::CreateApp < Mutations::Base
   argument :attributes, Types::AppAttributes, required: true
 

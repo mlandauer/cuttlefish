@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Mutations::UpdateApp do
   let(:result) {
     CuttlefishSchema.execute(

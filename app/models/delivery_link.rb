@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeliveryLink < ActiveRecord::Base
   belongs_to :link
   belongs_to :delivery

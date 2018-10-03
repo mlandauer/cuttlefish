@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSubjectToEmails < ActiveRecord::Migration
   def change
     add_column :emails, :subject, :string

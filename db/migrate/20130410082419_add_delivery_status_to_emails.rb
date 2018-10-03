@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDeliveryStatusToEmails < ActiveRecord::Migration
   def change
     add_column :emails, :delivery_status, :string

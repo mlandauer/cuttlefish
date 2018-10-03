@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::UserError < GraphQL::Schema::Object
   description "A user-readable error"
 

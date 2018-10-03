@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Admin < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
