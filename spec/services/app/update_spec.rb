@@ -4,20 +4,22 @@ describe App::Update do
   let(:app) { create(:app, team: team) }
   let(:current_admin) { create(:admin, team: team) }
   let(:team) { create(:team) }
-  let(:update_app) {
+  let(:update_app) do
     App::Update.call(
       current_admin: current_admin,
       id: app.id,
       attributes: attributes
     )
-  }
-  let(:attributes) { {
-    name: name,
-    open_tracking_enabled: app.open_tracking_enabled,
-    click_tracking_enabled: app.click_tracking_enabled,
-    custom_tracking_domain: app.custom_tracking_domain,
-    from_domain: app.from_domain
-  } }
+  end
+  let(:attributes) do
+    {
+      name: name,
+      open_tracking_enabled: app.open_tracking_enabled,
+      click_tracking_enabled: app.click_tracking_enabled,
+      custom_tracking_domain: app.custom_tracking_domain,
+      from_domain: app.from_domain
+    }
+  end
   let(:name) { "An updated name" }
 
   it "should update the app name" do
@@ -67,14 +69,14 @@ describe App::Update do
   end
 
   context "just updating from domain" do
-    let(:attributes) { { from_domain: 'foo.com' } }
+    let(:attributes) { { from_domain: "foo.com" } }
 
     it "should be successfull" do
       expect(update_app).to be_success
     end
 
     it "should return the updated app" do
-      expect(update_app.result.from_domain).to eq 'foo.com'
+      expect(update_app.result.from_domain).to eq "foo.com"
     end
   end
 end

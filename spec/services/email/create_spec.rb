@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe Email::Create do
   # let(:app) { team.apps.create!(name: "Test") }
   let(:app) { create(:app) }
-  let(:create_email) {
+  let(:create_email) do
     Email::Create.call(
       from: "contact@cuttlefish.io",
       to: "matthew@openaustralia.org",
@@ -15,7 +15,7 @@ describe Email::Create do
       html_part: "<p>Hello. How are you?</p>",
       app_id: app.id
     )
-  }
+  end
 
   it "should send a test email" do
     expect(MailWorker).to receive(:perform_async)
@@ -35,8 +35,6 @@ describe Email::Create do
   end
 
   it "should not be possible to write to the result" do
-    expect {
-      create_email.result = nil
-    }.to raise_error(NoMethodError)
+    expect { create_email.result = nil }.to raise_error(NoMethodError)
   end
 end

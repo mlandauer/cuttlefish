@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe App::Create do
   let(:current_admin) { create(:admin) }
   let(:name) { "An app" }
-  let(:create_app) {
+  let(:create_app) do
     App::Create.call(
       current_admin: current_admin,
       name: name,
@@ -14,7 +14,7 @@ describe App::Create do
       custom_tracking_domain: nil,
       from_domain: nil
     )
-  }
+  end
 
   it "should create an app" do
     expect { create_app }.to change { App.count }.by(1)

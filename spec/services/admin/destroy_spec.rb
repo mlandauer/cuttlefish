@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe Admin::Destroy do
   let(:team_one) { create(:team) }
   let(:team_two) { create(:team) }
   let(:admin) { create(:admin, team: team_one) }
   let(:current_admin) { create(:admin, team: team_one) }
-  let(:remove_admin) { Admin::Destroy.call(current_admin: current_admin, id: admin.id) }
+  let(:remove_admin) do
+    Admin::Destroy.call(current_admin: current_admin, id: admin.id)
+  end
 
   it "should remove an admin" do
     admin
@@ -33,7 +35,7 @@ describe Admin::Destroy do
     it "should do nothing" do
       admin
       current_admin
-      expect { remove_admin }.to_not change { Admin.count }
+      expect { remove_admin }.to_not change(Admin, :count)
     end
 
     it "should return nil" do
@@ -55,7 +57,7 @@ describe Admin::Destroy do
     it "should do nothing" do
       admin
       current_admin
-      expect { remove_admin }.to_not change { Admin.count }
+      expect { remove_admin }.to_not change(Admin, :count)
     end
 
     it "should return nil" do
