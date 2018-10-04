@@ -12,7 +12,12 @@ class GraphqlController < ApplicationController
     context = {
       current_admin: current_admin
     }
-    result = CuttlefishSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    result = CuttlefishSchema.execute(
+      query,
+      variables: variables,
+      context: context,
+      operation_name: operation_name
+    )
     render json: result
   # rubocop:disable Style/RescueStandardError
   rescue => e
@@ -29,7 +34,8 @@ class GraphqlController < ApplicationController
   # end
 
   def current_admin
-    @current_admin ||= Admin.find_by(api_key: request.headers["HTTP_AUTHORIZATION"])
+    @current_admin ||=
+      Admin.find_by(api_key: request.headers["HTTP_AUTHORIZATION"])
   end
 
   # Handle form data, JSON body, or a blank value
@@ -54,6 +60,10 @@ class GraphqlController < ApplicationController
     logger.error error.message
     logger.error error.backtrace.join("\n")
 
-    render json: { error: { message: error.message, backtrace: error.backtrace }, data: {} }, status: 500
+    json = {
+      error: { message: error.message, backtrace: error.backtrace },
+      data: {}
+    }
+    render json: json, status: 500
   end
 end

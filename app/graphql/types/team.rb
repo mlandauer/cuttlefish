@@ -5,11 +5,13 @@ module Types
     description "A team"
 
     field :admins, [Types::Admin], null: false do
-      description "Admins that belong to this team, sorted alphabetically by name."
+      description "Admins that belong to this team, sorted " \
+                  "alphabetically by name."
     end
 
     field :apps, [Types::App], null: true do
-      description "Apps that belong to this team, sorted alphabetically by name."
+      description "Apps that belong to this team, " \
+                  "sorted alphabetically by name."
     end
 
     def admins

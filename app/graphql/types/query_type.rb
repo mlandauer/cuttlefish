@@ -12,14 +12,31 @@ module Types
     end
 
     field :emails, Types::EmailConnection, connection: false, null: true do
-      argument :app_id, ID, required: false, description: "Filter results by App"
-      argument :status, Types::Status, required: false, description: "Filter results by Email status"
-      argument :since, Types::DateTime, required: false, description: "Filter result to emails created since time"
-      argument :from, String, required: false, description: "Filter results by Email from address"
-      argument :to, String, required: false, description: "Filter results by Email to address"
-      argument :limit, Int, required: false, description: "For pagination: sets maximum number of items returned"
-      argument :offset, Int, required: false, description: "For pagination: sets offset"
-      description "A list of Emails that this admin has access to. Most recent emails come first."
+      description "A list of Emails that this admin has access to. " \
+                  "Most recent emails come first."
+
+      argument :app_id, ID,
+               required: false,
+               description: "Filter results by App"
+      argument :status, Types::Status,
+               required: false,
+               description: "Filter results by Email status"
+      argument :since, Types::DateTime,
+               required: false,
+               description: "Filter result to emails created since time"
+      argument :from, String,
+               required: false,
+               description: "Filter results by Email from address"
+      argument :to, String,
+               required: false,
+               description: "Filter results by Email to address"
+      argument :limit, Int,
+               required: false,
+               description:
+                "For pagination: sets maximum number of items returned"
+      argument :offset, Int,
+               required: false,
+               description: "For pagination: sets offset"
     end
 
     field :app, Types::App, null: true do
@@ -28,7 +45,8 @@ module Types
     end
 
     field :apps, [Types::App], null: true do
-      description "A list of Apps that this admin has access to, sorted alphabetically by name."
+      description "A list of Apps that this admin has access to, " \
+                  "sorted alphabetically by name."
     end
 
     field :teams, [Types::Team], null: true do
@@ -44,7 +62,8 @@ module Types
     end
 
     field :admins, [Types::Admin], null: false do
-      description "List of Admins that this admin has access to, sorted alphabetically by name."
+      description "List of Admins that this admin has access to, " \
+                  "sorted alphabetically by name."
     end
 
     field :blocked_address, Types::BlockedAddress, null: true do
@@ -53,10 +72,18 @@ module Types
     end
 
     # TODO: Switch over to more relay-like pagination
-    field :blocked_addresses, Types::BlockedAddressConnection, connection: false, null: false do
-      description "Auto-populated list of email addresses which bounced within the last week. Further emails to these addresses will be 'held back' and not sent"
-      argument :limit, Int, required: false, description: "For pagination: sets maximum number of items returned"
-      argument :offset, Int, required: false, description: "For pagination: sets offset"
+    field :blocked_addresses, Types::BlockedAddressConnection,
+          connection: false, null: false do
+      description "Auto-populated list of email addresses which bounced " \
+                  "within the last week. Further emails to these addresses " \
+                  "will be 'held back' and not sent"
+      argument :limit, Int,
+               required: false,
+               description:
+                "For pagination: sets maximum number of items returned"
+      argument :offset, Int,
+               required: false,
+               description: "For pagination: sets offset"
     end
 
     field :viewer, Types::Admin, null: true do
@@ -76,7 +103,10 @@ module Types
     end
 
     # TODO: Switch over to more relay-like pagination
-    def emails(app_id: nil, status: nil, since: nil, from: nil, to: nil, limit: 10, offset: 0)
+    def emails(
+      app_id: nil, status: nil, since: nil, from: nil, to: nil,
+      limit: 10, offset: 0
+    )
       emails = Pundit.policy_scope(context[:current_admin], Delivery)
       emails = emails.where(app_id: app_id) if app_id
       emails = emails.where(status: status) if status
@@ -128,12 +158,14 @@ module Types
     def blocked_address(address:)
       a = Address.find_by(text: address)
       if a
-        Pundit.policy_scope(context[:current_admin], DenyList).where(address: a).first
+        Pundit.policy_scope(context[:current_admin], DenyList)
+              .where(address: a).first
       end
     end
 
     def blocked_addresses(limit: 10, offset: 0)
-      b = Pundit.policy_scope(context[:current_admin], DenyList).order(created_at: :desc)
+      b = Pundit.policy_scope(context[:current_admin], DenyList)
+                .order(created_at: :desc)
       { all: b, limit: limit, offset: offset }
     end
 

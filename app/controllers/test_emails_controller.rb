@@ -3,7 +3,8 @@
 class TestEmailsController < ApplicationController
   after_action :verify_authorized, except: :create
 
-  # We're using the simple_format helper below. Ugly but quick by bringing it into the controller
+  # We're using the simple_format helper below. Ugly but quick by bringing it
+  # into the controller
   include ActionView::Helpers::TextHelper
 
   def new

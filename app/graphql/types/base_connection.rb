@@ -2,7 +2,9 @@
 
 module Types
   class BaseConnection < GraphQL::Schema::Object
-    field :total_count, Integer, null: false, description: "The total count of items"
+    field :total_count, Integer,
+          null: false,
+          description: "The total count of items"
 
     def total_count
       object[:all].count

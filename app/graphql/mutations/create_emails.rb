@@ -22,7 +22,9 @@ module Mutations
     field :emails, [Types::Email], null: true
 
     # rubocop:disable UncommunicativeMethodParamName
-    def resolve(app_id:, from:, to:, cc: [], subject:, text_part: nil, html_part: nil)
+    def resolve(
+      app_id:, from:, to:, cc: [], subject:, text_part: nil, html_part: nil
+    )
       create_email = EmailServices::Create.call(
         app_id: app_id,
         from: from,

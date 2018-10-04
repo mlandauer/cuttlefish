@@ -9,7 +9,8 @@ module Mutations
         m = errors.messages[attribute]
         d = errors.details[attribute]
         m.zip(d).each do |message, detail|
-          # This is the GraphQL argument which corresponds to the validation error:
+          # This is the GraphQL argument which corresponds to the
+          # validation error:
           path = root_path + [attribute.to_s.camelize(:lower)]
           user_errors << {
             path: path,

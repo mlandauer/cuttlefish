@@ -105,7 +105,8 @@ class AppsController < ApplicationController
     app = App.find(params[:id])
     authorize app
     app.update_attribute(:legacy_dkim_selector, false)
-    flash[:notice] = "App #{app.name} successfully upgraded to use the new DNS settings"
+    flash[:notice] =
+      "App #{app.name} successfully upgraded to use the new DNS settings"
     redirect_to app
   end
 

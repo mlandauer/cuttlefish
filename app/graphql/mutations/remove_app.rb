@@ -9,7 +9,9 @@ module Mutations
     field :errors, [Types::UserError], null: false
 
     def resolve(id:)
-      destroy = AppServices::Destroy.call(id: id, current_admin: context[:current_admin])
+      destroy = AppServices::Destroy.call(
+        id: id, current_admin: context[:current_admin]
+      )
       user_errors = if destroy.success?
                       []
                     else

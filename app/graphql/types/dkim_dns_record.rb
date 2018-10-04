@@ -4,11 +4,25 @@ module Types
   class DkimDnsRecord < GraphQL::Schema::Object
     description "Details of the DKIM DNS record"
 
-    field :upgrade_required, Boolean, null: false, description: "Whether a change to the the new form of the DKIM record is required"
-    field :name, String, null: false, description: "The fully qualified domain name for the DKIM DNS record"
-    field :lookup_value, String, null: true, description: "Queries DNS for the current value of the DKIM record. Returns null if there is no record."
-    field :target_value, String, null: false, description: "The value that the DKIM record should have"
-    field :configured, Boolean, null: false, description: "If lookupValue == targetValue. Queries DNS to check whether the record for DKIM is correctly configured"
+    field :upgrade_required, Boolean,
+          null: false,
+          description: "Whether a change to the the new form of the DKIM " \
+                       "record is required"
+    field :name, String,
+          null: false,
+          description: "The fully qualified domain name for the DKIM DNS record"
+    field :lookup_value, String,
+          null: true,
+          description:
+            "Queries DNS for the current value of the DKIM record. " \
+            "Returns null if there is no record."
+    field :target_value, String,
+          null: false,
+          description: "The value that the DKIM record should have"
+    field :configured, Boolean,
+          null: false,
+          description: "If lookupValue == targetValue. Queries DNS to check " \
+                       "whether the record for DKIM is correctly configured"
 
     def enabled
       object.dkim_enabled

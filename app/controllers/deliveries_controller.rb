@@ -6,7 +6,10 @@ class DeliveriesController < ApplicationController
       redirect_to to_address_url(id: params[:search])
     else
       @status = params[:status]
-      @deliveries = WillPaginate::Collection.create(params[:page] || 1, WillPaginate.per_page) do |pager|
+      @deliveries = WillPaginate::Collection.create(
+        params[:page] || 1,
+        WillPaginate.per_page
+      ) do |pager|
         result = api_query status: params[:status], app_id: params[:app_id],
                            limit: pager.per_page, offset: pager.offset
         pager.replace(result.data.emails.nodes)
