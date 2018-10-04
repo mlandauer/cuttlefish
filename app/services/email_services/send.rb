@@ -8,12 +8,14 @@ module EmailServices
 
     def call
       success!
-      email.deliveries.each do |delivery|
-        OutgoingDelivery.new(delivery).send
-      end
+      email.deliveries.each { |delivery| send(delivery) }
     end
 
     private
+
+    def send(delivery)
+      OutgoingDelivery.new(delivery).send
+    end
 
     attr_reader :email
   end
