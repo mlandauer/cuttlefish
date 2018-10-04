@@ -12,20 +12,20 @@ describe InternalMailer do
     it { expect(email.to).to eq ["foo@bar.com"] }
     it { expect(email.subject).to eq "Matthew invites you to Cuttlefish" }
     it do
-      expect(email.body.to_s).to eq <<-EOF
-<p>Matthew invites you to Cuttlefish - an easy to use transactional email server with a lovely user interface</p>
+      expect(email.body.to_s).to eq <<~HTML
+        <p>Matthew invites you to Cuttlefish - an easy to use transactional email server with a lovely user interface</p>
 
-<p>Accept the invitation through the link below.</p>
+        <p>Accept the invitation through the link below.</p>
 
-<p><a href="https://localhost/admins/invitation/accept?invitation_token=abc123">Accept invitation</a></p>
+        <p><a href="https://localhost/admins/invitation/accept?invitation_token=abc123">Accept invitation</a></p>
 
-<p>If you don't want to accept the invitation, please ignore this email.<br />
-Your account won't be created until you access the link above and set your password.</p>
-      EOF
+        <p>If you don't want to accept the invitation, please ignore this email.<br />
+        Your account won't be created until you access the link above and set your password.</p>
+      HTML
     end
 
     it do
-      expect(email.delivery_method.settings).to eq ({
+      expect(email.delivery_method.settings).to eq(
         address: "localhost",
         port: 2525,
         user_name: App.cuttlefish.smtp_username,
@@ -34,7 +34,7 @@ Your account won't be created until you access the link above and set your passw
         # disabling the check.
         openssl_verify_mode: "none",
         authentication: :plain
-      })
+      )
     end
   end
 end
