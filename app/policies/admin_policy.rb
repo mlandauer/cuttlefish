@@ -3,7 +3,7 @@
 class AdminPolicy < ApplicationPolicy
   # This is currently unused
   def index?
-    !!user
+    !user.nil?
   end
 
   def show?

@@ -12,16 +12,16 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def index?
-    user && user.site_admin?
+    user&.site_admin?
   end
 
   def invite?
-    user && user.site_admin? && !Rails.configuration.cuttlefish_read_only_mode
+    user&.site_admin? && !Rails.configuration.cuttlefish_read_only_mode
   end
 
   class Scope < Scope
     def resolve
-      if user && user.site_admin?
+      if user&.site_admin?
         scope.all
       else
         # Perhaps this should return just your current team instead in this case?
