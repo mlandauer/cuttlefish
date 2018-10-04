@@ -40,7 +40,7 @@ describe "getting a bunch of screenshots", js: true do
           content_type "text/html; charset=UTF-8"
           body <<~HTML
             <div>
-              It's pretty good to be able to wake up and go for a walk in place like this five minutes from where you live.
+              It's pretty good to be able to wake up and go for a walk in a place like this five minutes from where you live.
             </div>
             <div>
               <br>
