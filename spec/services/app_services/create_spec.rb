@@ -2,11 +2,11 @@
 
 require "spec_helper"
 
-describe App::Create do
+describe AppServices::Create do
   let(:current_admin) { create(:admin) }
   let(:name) { "An app" }
   let(:create_app) do
-    App::Create.call(
+    AppServices::Create.call(
       current_admin: current_admin,
       name: name,
       open_tracking_enabled: false,

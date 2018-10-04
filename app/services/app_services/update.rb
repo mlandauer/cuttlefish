@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class App::Update < ApplicationService
+class AppServices::Update < ApplicationService
   VALID_ATTRIBUTES = %i[
     name
     open_tracking_enabled
