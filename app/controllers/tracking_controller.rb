@@ -9,7 +9,7 @@ class TrackingController < ApplicationController
     if HashId.valid?(params[:delivery_id], params[:hash])
       delivery = Delivery.find(params[:delivery_id])
       delivery.add_open_event(request) unless Rails.configuration.cuttlefish_read_only_mode
-      # TODO Check that we are asking for a gif and only accept those for the time being
+      # TODO: Check that we are asking for a gif and only accept those for the time being
       # This sends a 1x1 transparent gif
       send_data(Base64.decode64("R0lGODlhAQABAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="), type: "image/gif", disposition: "inline")
     else

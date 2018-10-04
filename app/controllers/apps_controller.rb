@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class AppsController < ApplicationController
-  after_action :verify_authorized, except: [
-    :index, :show, :create, :destroy, :edit, :update, :dkim
+  after_action :verify_authorized, except: %i[
+    index show create destroy edit update dkim
   ]
 
   def index
@@ -30,7 +30,7 @@ class AppsController < ApplicationController
       redirect_to app_url(@app.id)
     else
       @app = AppForm.new(app_parameters)
-      copy_graphql_errors(result.data.create_app, @app, ['attributes'])
+      copy_graphql_errors(result.data.create_app, @app, ["attributes"])
       render :new
     end
   end
@@ -44,9 +44,9 @@ class AppsController < ApplicationController
     else
       # Convert errors to a single string using a form object
       app = AppForm.new
-      copy_graphql_errors(result.data.remove_app, app, ['attributes'])
+      copy_graphql_errors(result.data.remove_app, app, ["attributes"])
 
-      flash[:alert] = app.errors.full_messages.join(', ')
+      flash[:alert] = app.errors.full_messages.join(", ")
       redirect_to edit_app_path(params[:id])
     end
   end
@@ -62,14 +62,14 @@ class AppsController < ApplicationController
     if result.data.update_app.app
       @app = result.data.update_app.app
       flash[:notice] = "App #{@app.name} successfully updated"
-      if app_parameters.has_key?(:from_domain)
+      if app_parameters.key?(:from_domain)
         redirect_to dkim_app_path(@app.id)
       else
         redirect_to app_path(@app.id)
       end
     else
       @app = AppForm.new(app_parameters.merge(id: params[:id]))
-      copy_graphql_errors(result.data.update_app, @app, ['attributes'])
+      copy_graphql_errors(result.data.update_app, @app, ["attributes"])
       render :edit
     end
   end
@@ -112,7 +112,9 @@ class AppsController < ApplicationController
   private
 
   def app_parameters
-    params.require(:app).permit(:name, :url, :custom_tracking_domain, :open_tracking_enabled,
-      :click_tracking_enabled, :from_domain)
+    params.require(:app).permit(
+      :name, :url, :custom_tracking_domain, :open_tracking_enabled,
+      :click_tracking_enabled, :from_domain
+    )
   end
 end

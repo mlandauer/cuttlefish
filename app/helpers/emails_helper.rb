@@ -12,7 +12,8 @@ module EmailsHelper
     }
     map["hard_bounce"] = variant ? "important" : "error"
 
-    raise "Unknown status" unless map.has_key?(status)
+    raise "Unknown status" unless map.key?(status)
+
     map[status]
   end
 

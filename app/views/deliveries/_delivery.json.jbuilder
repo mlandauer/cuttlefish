@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id delivery.id
 json.from_address do
   json.id delivery.email.from_address.id

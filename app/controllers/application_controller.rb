@@ -50,9 +50,10 @@ class ApplicationController < ActionController::Base
     # object always returns all the defined attributes even if they
     # haven't been set
     form = form_klass.new(params)
-    Hash[params.to_h.map { |k, _v|
+    t = params.to_h.map do |k, _v|
       [k.to_s.camelize(:lower), form.attributes[k.to_sym]]
-    }]
+    end
+    Hash[t]
   end
 
   private
@@ -65,7 +66,7 @@ class ApplicationController < ActionController::Base
 
   # Don't use SSL for the TrackingController and in development
   def force_ssl?
-    controller_name != 'tracking' &&
+    controller_name != "tracking" &&
       !Rails.env.development? &&
       !Rails.configuration.disable_ssl
   end

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class MainController < ApplicationController
-  def index
-  end
+  def index; end
 
   def status_counts
     result = api_query since1: 1.day.ago.utc.iso8601, since2: 1.week.ago.utc.iso8601
@@ -13,10 +12,6 @@ class MainController < ApplicationController
   end
 
   def reputation
-    if request.xhr?
-      render partial: "reputation"
-      return
-    end
+    render partial: "reputation" if request.xhr?
   end
-
 end
