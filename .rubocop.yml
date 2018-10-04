@@ -6,6 +6,7 @@ AllCops:
       - 'db/migrate/*'
       - 'db/schema.rb'
       - 'provisioning/**/*'
+      - 'bin/*'
 
 # We prefer double quotes here and it we're making liberal use of multi-line
 # strings so it makes sense to enforce those to be consistent oo

@@ -1,6 +1,8 @@
-require File.expand_path('../boot', __FILE__)
+# frozen_string_literal: true
 
-require 'rails/all'
+require File.expand_path("boot", __dir__)
+
+require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -14,14 +16,14 @@ module Cuttlefish
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    config.time_zone = 'Sydney'
+    config.time_zone = "Sydney"
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
     # See https://stackoverflow.com/questions/38198668/rails-5-load-lib-files-in-production
-    config.eager_load_paths += %W(#{config.root}/lib)
+    config.eager_load_paths += %W[#{config.root}/lib]
 
     # We only use the ip address to track open and click events. If the client forges the
     # the HTTP_CLIENT_IP header in the request by default rails will throw an exception
@@ -38,7 +40,7 @@ module Cuttlefish
     #####################################################
 
     config.cuttlefish_domain = ENV["CUTTLEFISH_DOMAIN"] || "cuttlefish.io"
-    # TODO Rename the certificate to generic name that doesn't include domain
+    # TODO: Rename the certificate to generic name that doesn't include domain
     config.cuttlefish_domain_cert_chain_file =
       ENV["CUTTLEFISH_DOMAIN_CERT_CHAIN_FILE"] || "/etc/ssl/cuttlefish.oaf.org.au.pem"
     config.cuttlefish_domain_private_key_file =

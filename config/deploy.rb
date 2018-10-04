@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require "rvm/capistrano"
-require 'bundler/capistrano'
+require "bundler/capistrano"
 # This links .env to shared
 require "dotenv/load"
 require "honeybadger/capistrano" unless fetch(:local_deploy, false)
@@ -32,10 +34,10 @@ before "deploy:restart", "foreman:restart"
 before "foreman:restart", "foreman:export"
 
 namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
+  task :start, {}
+  task :stop, {}
   task :restart, roles: :app, except: { no_release: true } do
-    run "touch #{File.join(current_path,'tmp','restart.txt')}"
+    run "touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   desc "After a code update, we link additional config and data directories"
@@ -44,16 +46,15 @@ namespace :deploy do
       "#{release_path}/config/database.yml"                => "#{shared_path}/database.yml",
       "#{release_path}/db/emails"                          => "#{shared_path}/emails",
       "#{release_path}/db/archive"                         => "#{shared_path}/archive",
-      "#{release_path}/.env"                               => "#{shared_path}/.env",
+      "#{release_path}/.env"                               => "#{shared_path}/.env"
     }
     # Copy across the example database configuration file if there isn't already one
     run "test -f #{shared_path}/database.yml || cp #{release_path}/config/database.yml #{shared_path}/database.yml"
     run "test -f #{shared_path}/production.rb || cp #{release_path}/config/environments/production.rb #{shared_path}/production.rb"
     run "test -d #{shared_path}/emails || mkdir -p #{shared_path}/emails"
     # "ln -sf <a> <b>" creates a symbolic link but deletes <b> if it already exists
-    run links.map {|a| "ln -sf #{a.last} #{a.first}"}.join(";")
+    run links.map { |a| "ln -sf #{a.last} #{a.first}" }.join(";")
   end
-
 end
 
 namespace :foreman do
