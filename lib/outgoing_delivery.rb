@@ -20,9 +20,8 @@ class OutgoingDelivery
         delivery.return_path,
         [delivery.to]
       )
-      # TODO: Combine two updates below?
-      delivery.update_attributes(open_tracked: true) if delivery.open_tracking_enabled?
       delivery.update_attributes(
+        open_tracked: delivery.open_tracking_enabled?,
         postfix_queue_id:
           OutgoingDelivery.extract_postfix_queue_id_from_smtp_message(
             response.message
