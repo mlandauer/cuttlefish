@@ -98,7 +98,7 @@ describe CuttlefishSmtpConnection do
   end
   describe "#receive_message" do
     it do
-      allow_any_instance_of(OutgoingDelivery).to receive(:send)
+      allow(EmailServices::Send).to receive(:call)
       data = [
         "MIME-Version: 1.0",
         "Content-Type: text/plain; charset=\"utf-8\"",

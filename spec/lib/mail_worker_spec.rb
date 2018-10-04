@@ -23,7 +23,7 @@ describe MailWorker, "#perform" do
   end
 
   it "should forward the email information" do
-    expect_any_instance_of(OutgoingDelivery).to receive(:send)
+    expect(EmailServices::Send).to receive(:call)
 
     MailWorker.new.perform(email.id)
   end
