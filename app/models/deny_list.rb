@@ -6,6 +6,6 @@ class DenyList < ActiveRecord::Base
   belongs_to :caused_by_delivery, class_name: "Delivery"
 
   def caused_by_postfix_log_line
-    caused_by_delivery.postfix_log_lines.first if caused_by_delivery
+    caused_by_delivery&.postfix_log_lines&.first
   end
 end

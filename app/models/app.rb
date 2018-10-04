@@ -5,16 +5,16 @@ class App < ActiveRecord::Base
   has_many :deliveries
   belongs_to :team
 
-  validates :name, presence: true, format: {with: /\A[a-zA-Z0-9_ ]+\z/, message: "only letters, numbers, spaces and underscores"}
+  validates :name, presence: true, format: { with: /\A[a-zA-Z0-9_ ]+\z/, message: "only letters, numbers, spaces and underscores" }
   validate :custom_tracking_domain_points_to_correct_place
   # Validating booleans so that they can't have nil values.
   # See https://stackoverflow.com/questions/34759092/to-validate-or-not-to-validate-boolean-field
-  validates :smtp_password_locked, :inclusion => {:in => [true, false]}
-  validates :open_tracking_enabled, :inclusion => {:in => [true, false]}
-  validates :click_tracking_enabled, :inclusion => {:in => [true, false]}
-  validates :dkim_enabled, :inclusion => {:in => [true, false]}
-  validates :cuttlefish, :inclusion => {:in => [true, false]}
-  validates :legacy_dkim_selector, :inclusion => {:in => [true, false]}
+  validates :smtp_password_locked, inclusion: { in: [true, false] }
+  validates :open_tracking_enabled, inclusion: { in: [true, false] }
+  validates :click_tracking_enabled, inclusion: { in: [true, false] }
+  validates :dkim_enabled, inclusion: { in: [true, false] }
+  validates :cuttlefish, inclusion: { in: [true, false] }
+  validates :legacy_dkim_selector, inclusion: { in: [true, false] }
 
   before_create :set_smtp_password
   after_create :set_smtp_username
@@ -39,7 +39,7 @@ class App < ActiveRecord::Base
   end
 
   def dkim_selector_legacy_value
-    'cuttlefish'
+    "cuttlefish"
   end
 
   def dkim_selector_current_value
@@ -70,23 +70,21 @@ class App < ActiveRecord::Base
     custom_tracking_domain.present?
   end
 
-  private
-
   def self.lookup_dns_cname_record(domain)
     # Use our default nameserver
-    begin
-      n = Resolv::DNS.new.getresource(domain, Resolv::DNS::Resource::IN::CNAME).name
-      # Doing this to maintain compatibility with previous implementation
-      # of this method
-      if n.absolute?
-        n.to_s + "."
-      else
-        n.to_s
-      end
-    rescue Resolv::ResolvError
-      nil
+    n = Resolv::DNS.new.getresource(domain, Resolv::DNS::Resource::IN::CNAME).name
+    # Doing this to maintain compatibility with previous implementation
+    # of this method
+    if n.absolute?
+      n.to_s + "."
+    else
+      n.to_s
     end
+  rescue Resolv::ResolvError
+    nil
   end
+
+  private
 
   def custom_tracking_domain_points_to_correct_place
     # In DNS speak putting a "." after the domain makes it a full domain name rather than just relative
@@ -105,6 +103,6 @@ class App < ActiveRecord::Base
 
   def set_smtp_username
     # By appending the id we can be confident that this name is globally unique
-    update_attributes(smtp_username: name.downcase.gsub(" ", "_") + "_" + id.to_s)
+    update_attributes(smtp_username: name.downcase.tr(" ", "_") + "_" + id.to_s)
   end
 end

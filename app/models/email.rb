@@ -12,33 +12,34 @@ class Email < ActiveRecord::Base
   before_save :update_message_id, :update_data_hash, :update_subject, :update_from
 
   delegate :custom_tracking_domain, :tracking_domain, :custom_tracking_domain?,
-    :open_tracking_enabled?, :click_tracking_enabled?, to: :app
+           :open_tracking_enabled?, :click_tracking_enabled?,
+           to: :app
 
-  # TODO Add validations
+  # TODO: Add validations
 
   attr_writer :data
 
   def from
     # TODO: Remove the "if" once we've added validations
-    from_address.text if from_address
+    from_address&.text
   end
 
   def from_domain
     # TODO: Remove the "if" once we've added validations
-    from_address.domain if from_address
+    from_address&.domain
   end
 
-  def from=(a)
-    self.from_address = Address.find_or_create_by(text: a)
+  def from=(text)
+    self.from_address = Address.find_or_create_by(text: text)
   end
 
   def to
-    to_addresses.map{|t| t.text}
+    to_addresses.map(&:text)
   end
 
-  def to=(a)
-    a = [a] unless a.respond_to?(:map)
-    self.to_addresses = a.map{|t| Address.find_or_create_by(text: t)}
+  def to=(addresses)
+    addresses = [addresses] unless addresses.respond_to?(:map)
+    self.to_addresses = addresses.map { |t| Address.find_or_create_by(text: t) }
   end
 
   def to_as_string
@@ -72,15 +73,11 @@ class Email < ActiveRecord::Base
     section = mail if section.nil?
     if section.multipart?
       section.parts.each do |p|
-        if part(mime_type, p)
-          return part(mime_type, p)
-        end
+        return part(mime_type, p) if part(mime_type, p)
       end
       nil
-    else
-      if (section.mime_type == mime_type) || (section.mime_type.nil? && mime_type == "text/plain")
-        section.decoded
-      end
+    elsif (section.mime_type == mime_type) || (section.mime_type.nil? && mime_type == "text/plain")
+      section.decoded
     end
   end
 

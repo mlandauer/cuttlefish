@@ -45,12 +45,12 @@ class PostfixLogLine < ActiveRecord::Base
     # Only log delivery attempts
     # Note that timeouts in connecting to the remote mail server appear in the program "error". So,
     # we're including those
-    if program == "smtp" || program == "error"
+    if %w[smtp error].include?(program)
       delivery = Delivery.joins(:email, :address).order("emails.created_at DESC").find_by("addresses.text" => to, postfix_queue_id: queue_id)
 
       if delivery
-          # Don't resave duplicates
-          PostfixLogLine.find_or_create_by(values.merge(delivery_id: delivery.id))
+        # Don't resave duplicates
+        PostfixLogLine.find_or_create_by(values.merge(delivery_id: delivery.id))
       else
         puts "Skipping address #{to} from postfix queue id #{queue_id} - it's not recognised: #{line}"
       end
@@ -60,7 +60,7 @@ class PostfixLogLine < ActiveRecord::Base
   def self.match_main_content(line)
     # Assume the log file was written using syslog and parse accordingly
     p = SyslogProtocol.parse("<13>" + line)
-    content_match = p.content.match /^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)/
+    content_match = p.content.match %r{^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)}
     if content_match.nil?
       puts "Skipping unrecognised line: #{line}"
       return nil
@@ -77,7 +77,7 @@ class PostfixLogLine < ActiveRecord::Base
     result = {
       time: p.time,
       program: content_match[1],
-      queue_id: content_match[4],
+      queue_id: content_match[4]
     }
     result[:to] = to_match[1] if to_match
     result[:relay] = relay_match[1] if relay_match
@@ -88,5 +88,4 @@ class PostfixLogLine < ActiveRecord::Base
 
     result
   end
-
 end
