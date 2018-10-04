@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-class Types::OpenEvent < GraphQL::Schema::Object
-  implements Types::UserAgentEvent
+module Types
+  class OpenEvent < GraphQL::Schema::Object
+    implements Types::UserAgentEvent
 
-  description "Information about someone opening an email"
+    description "Information about someone opening an email"
+  end
 end
