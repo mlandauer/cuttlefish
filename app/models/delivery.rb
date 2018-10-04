@@ -32,11 +32,6 @@ class Delivery < ActiveRecord::Base
     app.team.nil? || address.deny_lists.find_by(team_id: app.team.id).nil?
   end
 
-  # This delivery is being open tracked
-  def set_open_tracked!
-    update_attributes(open_tracked: true)
-  end
-
   def add_open_event(request)
     open_events.create!(
       user_agent: request.env["HTTP_USER_AGENT"],
