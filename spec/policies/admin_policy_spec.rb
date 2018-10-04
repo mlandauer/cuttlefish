@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe AdminPolicy do
   subject { AdminPolicy.new(user, admin) }
@@ -21,14 +21,14 @@ describe AdminPolicy do
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
 
-    it 'should have an empty scope' do
+    it "should have an empty scope" do
       admin
       expect(AdminPolicy::Scope.new(user, Admin).resolve).to be_empty
     end
   end
 
   context "normal user in team one" do
-    let(:user) { FactoryBot.create(:admin, team: team_one)}
+    let(:user) { FactoryBot.create(:admin, team: team_one) }
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:index) }
     it { is_expected.to permit(:destroy) }
@@ -38,7 +38,7 @@ describe AdminPolicy do
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
 
-    it 'should be in scope' do
+    it "should be in scope" do
       admin
       expect(AdminPolicy::Scope.new(user, Admin).resolve).to include(admin)
     end
@@ -57,7 +57,7 @@ describe AdminPolicy do
   end
 
   context "normal user in team two" do
-    let(:user) { FactoryBot.create(:admin, team: team_two)}
+    let(:user) { FactoryBot.create(:admin, team: team_two) }
     it { is_expected.to permit(:index) }
 
     it { is_expected.not_to permit(:show) }
@@ -67,7 +67,7 @@ describe AdminPolicy do
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
 
-    it 'should not be in scope' do
+    it "should not be in scope" do
       admin
       expect(AdminPolicy::Scope.new(user, Admin).resolve).to_not include(admin)
     end

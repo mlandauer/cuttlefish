@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe TestEmailPolicy do
   subject { TestEmailPolicy.new(user, nil) }
 
   context "normal user" do
-    let(:user) { FactoryBot.create(:admin)}
+    let(:user) { FactoryBot.create(:admin) }
 
     it { is_expected.to permit(:new) }
     it { is_expected.to permit(:create) }
