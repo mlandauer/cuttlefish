@@ -9,8 +9,8 @@ else
 end
 
 class InternalMailer < Devise::Mailer
-  # Hacky way to not try to create cuttlefish app if apps table doesn't yet exist.
-  # This can happen when you're doing a "rake db:setup"
+  # Hacky way to not try to create cuttlefish app if apps table doesn't
+  # yet exist. This can happen when you're doing a "rake db:setup"
   if database_exists? &&
      ActiveRecord::Base.connection.table_exists?(:apps) &&
      ActiveRecord::Base.connection.column_exists?(:apps, :cuttlefish)
@@ -27,7 +27,8 @@ class InternalMailer < Devise::Mailer
   end
 
   def invitation_instructions(record, token, opts = {})
-    opts[:subject] = "#{record.invited_by.display_name} invites you to Cuttlefish"
+    opts[:subject] =
+      "#{record.invited_by.display_name} invites you to Cuttlefish"
     super
   end
 end

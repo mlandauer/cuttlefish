@@ -5,7 +5,11 @@ class App < ActiveRecord::Base
   has_many :deliveries
   belongs_to :team
 
-  validates :name, presence: true, format: { with: /\A[a-zA-Z0-9_ ]+\z/, message: "only letters, numbers, spaces and underscores" }
+  validates :name, presence: true,
+                   format: {
+                     with: /\A[a-zA-Z0-9_ ]+\z/,
+                     message: "only letters, numbers, spaces and underscores"
+                   }
   validate :custom_tracking_domain_points_to_correct_place
   # Validating booleans so that they can't have nil values.
   # See https://stackoverflow.com/questions/34759092/to-validate-or-not-to-validate-boolean-field
@@ -20,7 +24,8 @@ class App < ActiveRecord::Base
   after_create :set_smtp_username
 
   def self.cuttlefish
-    App.find_by(cuttlefish: true) || App.create(cuttlefish: true, name: "Cuttlefish")
+    App.find_by(cuttlefish: true) ||
+      App.create(cuttlefish: true, name: "Cuttlefish")
   end
 
   def new_password!
@@ -47,7 +52,11 @@ class App < ActiveRecord::Base
   end
 
   def dkim_selector
-    legacy_dkim_selector ? dkim_selector_legacy_value : dkim_selector_current_value
+    if legacy_dkim_selector
+      dkim_selector_legacy_value
+    else
+      dkim_selector_current_value
+    end
   end
 
   def dkim_private_key
@@ -72,7 +81,9 @@ class App < ActiveRecord::Base
 
   def self.lookup_dns_cname_record(domain)
     # Use our default nameserver
-    n = Resolv::DNS.new.getresource(domain, Resolv::DNS::Resource::IN::CNAME).name
+    n = Resolv::DNS.new.getresource(
+      domain, Resolv::DNS::Resource::IN::CNAME
+    ).name
     # Doing this to maintain compatibility with previous implementation
     # of this method
     if n.absolute?
@@ -87,18 +98,22 @@ class App < ActiveRecord::Base
   private
 
   def custom_tracking_domain_points_to_correct_place
-    # In DNS speak putting a "." after the domain makes it a full domain name rather than just relative
-    # to the current higher level domain
+    # In DNS speak putting a "." after the domain makes it a full domain
+    # name rather than just relative to the current higher level domain
     cname_domain = Rails.configuration.cuttlefish_domain + "."
     unless custom_tracking_domain.blank?
       if App.lookup_dns_cname_record(custom_tracking_domain) != cname_domain
-        errors.add(:custom_tracking_domain, "Doesn't have a CNAME record that points to #{cname_domain}")
+        errors.add(
+          :custom_tracking_domain,
+          "Doesn't have a CNAME record that points to #{cname_domain}"
+        )
       end
     end
   end
 
   def set_smtp_password
-    self.smtp_password = Digest::MD5.base64digest(rand.to_s + Time.now.to_s)[0...20]
+    self.smtp_password =
+      Digest::MD5.base64digest(rand.to_s + Time.now.to_s)[0...20]
   end
 
   def set_smtp_username

@@ -24,7 +24,8 @@ class TeamPolicy < ApplicationPolicy
       if user&.site_admin?
         scope.all
       else
-        # Perhaps this should return just your current team instead in this case?
+        # Perhaps this should return just your current team instead in
+        # this case?
         scope.none
       end
     end

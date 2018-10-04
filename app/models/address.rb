@@ -16,7 +16,8 @@ class Address < ActiveRecord::Base
   end
 
   def emails
-    Email.joins(:from_address, :to_addresses).where("addresses.id = ? OR deliveries.address_id = ?", id, id)
+    Email.joins(:from_address, :to_addresses)
+         .where("addresses.id = ? OR deliveries.address_id = ?", id, id)
   end
 
   def status

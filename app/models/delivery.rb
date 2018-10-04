@@ -19,14 +19,16 @@ class Delivery < ActiveRecord::Base
   before_save :update_my_status!
   before_create :update_app_id!
 
-  scope :from_address, ->(address) { joins(:email).where(emails: { from_address: address }) }
+  scope :from_address,
+        ->(address) { joins(:email).where(emails: { from_address: address }) }
   scope :to_address, ->(address) { where(address: address) }
 
   # Should this email be sent to this address?
   # If not it's because the email has bounced
   def send?
     # If there is no team there is no deny list
-    # In concrete terms the internal cuttlefish app doesn't have a deny list and isn't part of a team
+    # In concrete terms the internal cuttlefish app doesn't have a deny
+    # list and isn't part of a team
     app.team.nil? || address.deny_lists.find_by(team_id: app.team.id).nil?
   end
 
@@ -80,8 +82,9 @@ class Delivery < ActiveRecord::Base
     app.name
   end
 
-  # A value between 0 and 1. The fraction of deliveries with open tracking for which the delivery was opened
-  # Returns nil when there are no deliveries with open tracking (which would otherwise cause a division by
+  # A value between 0 and 1. The fraction of deliveries with open tracking
+  # for which the delivery was opened. Returns nil when there are no
+  # deliveries with open tracking (which would otherwise cause a division by
   # zero error)
   def self.open_rate(deliveries)
     n = deliveries.where("open_events_count > 0").count
@@ -90,19 +93,26 @@ class Delivery < ActiveRecord::Base
   end
 
   def self.click_rate(deliveries)
-    # By doing an _inner_ join we only end up counting deliveries that have click_events
-    n = deliveries.joins(:delivery_links).where("click_events_count > 0").select("distinct(deliveries.id)").count
-    total = deliveries.joins(:delivery_links).select("distinct(deliveries.id)").count
+    # By doing an _inner_ join we only end up counting deliveries that
+    # have click_events
+    n = deliveries.joins(:delivery_links).where("click_events_count > 0")
+                  .select("distinct(deliveries.id)").count
+    total = deliveries.joins(:delivery_links)
+                      .select("distinct(deliveries.id)").count
     (n.to_f / total) if total.positive?
   end
 
   def self.stats(deliveries)
     OpenStruct.new(
       total_count: deliveries.count || 0,
-      delivered_count: deliveries.group("deliveries.status").count["delivered"] || 0,
-      soft_bounce_count: deliveries.group("deliveries.status").count["soft_bounce"] || 0,
-      hard_bounce_count: deliveries.group("deliveries.status").count["hard_bounce"] || 0,
-      not_sent_count: deliveries.group("deliveries.status").count["not_sent"] || 0,
+      delivered_count:
+        deliveries.group("deliveries.status").count["delivered"] || 0,
+      soft_bounce_count:
+        deliveries.group("deliveries.status").count["soft_bounce"] || 0,
+      hard_bounce_count:
+        deliveries.group("deliveries.status").count["hard_bounce"] || 0,
+      not_sent_count:
+        deliveries.group("deliveries.status").count["not_sent"] || 0,
       open_rate: open_rate(deliveries),
       click_rate: click_rate(deliveries)
     )

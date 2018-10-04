@@ -43,16 +43,22 @@ class PostfixLogLine < ActiveRecord::Base
     queue_id = values.delete(:queue_id)
 
     # Only log delivery attempts
-    # Note that timeouts in connecting to the remote mail server appear in the program "error". So,
-    # we're including those
+    # Note that timeouts in connecting to the remote mail server appear in
+    # the program "error". So, we're including those
     if %w[smtp error].include?(program)
-      delivery = Delivery.joins(:email, :address).order("emails.created_at DESC").find_by("addresses.text" => to, postfix_queue_id: queue_id)
+      delivery = Delivery.joins(:email, :address)
+                         .order("emails.created_at DESC")
+                         .find_by(
+                           "addresses.text" => to,
+                           postfix_queue_id: queue_id
+                         )
 
       if delivery
         # Don't resave duplicates
         PostfixLogLine.find_or_create_by(values.merge(delivery_id: delivery.id))
       else
-        puts "Skipping address #{to} from postfix queue id #{queue_id} - it's not recognised: #{line}"
+        puts "Skipping address #{to} from postfix queue id #{queue_id} - " \
+             "it's not recognised: #{line}"
       end
     end
   end
@@ -60,7 +66,8 @@ class PostfixLogLine < ActiveRecord::Base
   def self.match_main_content(line)
     # Assume the log file was written using syslog and parse accordingly
     p = SyslogProtocol.parse("<13>" + line)
-    content_match = p.content.match %r{^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)}
+    content_match =
+      p.content.match %r{^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)}
     if content_match.nil?
       puts "Skipping unrecognised line: #{line}"
       return nil

@@ -13,8 +13,8 @@ gem "pg"
 # in production environments by default.
 group :assets do
   gem "sass-rails"
-  # Don't upgrade to Bootstrap 3. It's already responsive, for example, so there's a bunch
-  # of things we need to do for the upgrade
+  # Don't upgrade to Bootstrap 3. It's already responsive, for example, so
+  # there's a bunch of things we need to do for the upgrade
   gem "bootstrap-sass", "~> 2.0"
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -42,7 +42,8 @@ gem "file-tail"
 gem "foreman"
 gem "formtastic"
 # Use pull request that has needed Rails 4 improvements https://github.com/pkurek/flatui-rails/pull/25
-gem "flatui-rails", git: "https://github.com/iffyuva/flatui-rails.git", ref: "3d3c423"
+gem "flatui-rails", git: "https://github.com/iffyuva/flatui-rails.git",
+                    ref: "3d3c423"
 gem "fog-aws"
 gem "font-awesome-rails"
 gem "friendly_id"
@@ -56,7 +57,9 @@ gem "honeybadger"
 gem "syslog_protocol"
 gem "will_paginate"
 # Need commit c9331088146e456a69bd6e94298c80d09be3ee74
-gem "formtastic-bootstrap", git: "https://github.com/mjbellantoni/formtastic-bootstrap.git", ref: "f86eaef93bea0a06879b3977d7554864964a623f"
+gem "formtastic-bootstrap",
+    git: "https://github.com/mjbellantoni/formtastic-bootstrap.git",
+    ref: "f86eaef93bea0a06879b3977d7554864964a623f"
 gem "haml-coderay"
 gem "minitar"
 gem "newrelic_rpm"
@@ -95,7 +98,8 @@ group :development do
   gem "spring-commands-rspec"
   gem "terminal-notifier"
   gem "terminal-notifier-guard"
-  # Webrick gives us annoying warnings "could not determine content-length of response body"
+  # Webrick gives us annoying warnings "could not determine content-length
+  # of response body"
   gem "thin"
 end
 

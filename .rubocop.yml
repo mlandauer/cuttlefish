@@ -52,8 +52,5 @@ Metrics/BlockLength:
 Metrics/ModuleLength:
   Enabled: false
 
-Metrics/LineLength:
-  Enabled: false
-
 Metrics/ParameterLists:
   Enabled: false

@@ -9,7 +9,8 @@ class Email < ActiveRecord::Base
   has_many :click_events, through: :deliveries
 
   after_create :update_cache
-  before_save :update_message_id, :update_data_hash, :update_subject, :update_from
+  before_save :update_message_id, :update_data_hash, :update_subject,
+              :update_from
 
   delegate :custom_tracking_domain, :tracking_domain, :custom_tracking_domain?,
            :open_tracking_enabled?, :click_tracking_enabled?,
@@ -47,14 +48,18 @@ class Email < ActiveRecord::Base
   end
 
   def email_cache
-    EmailDataCache.new(File.join(Rails.env, app_id.to_s), Rails.configuration.max_no_emails_to_store)
+    EmailDataCache.new(
+      File.join(Rails.env, app_id.to_s),
+      Rails.configuration.max_no_emails_to_store
+    )
   end
 
   def data
     @data ||= email_cache.get(id)
   end
 
-  # TODO: Make sure that data doesn't get modified after creation otherwise this cache is invalid
+  # TODO: Make sure that data doesn't get modified after creation otherwise
+  # this cache is invalid
   def mail
     @mail ||= Mail.new(data)
   end
@@ -76,7 +81,8 @@ class Email < ActiveRecord::Base
         return part(mime_type, p) if part(mime_type, p)
       end
       nil
-    elsif (section.mime_type == mime_type) || (section.mime_type.nil? && mime_type == "text/plain")
+    elsif (section.mime_type == mime_type) ||
+          (section.mime_type.nil? && mime_type == "text/plain")
       section.decoded
     end
   end

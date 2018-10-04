@@ -2,7 +2,9 @@
 
 class AppPolicy < ApplicationPolicy
   def update?
-    user && user.team_id == record.team_id && !Rails.configuration.cuttlefish_read_only_mode
+    user &&
+      user.team_id == record.team_id &&
+      !Rails.configuration.cuttlefish_read_only_mode
   end
 
   def destroy?
@@ -10,7 +12,11 @@ class AppPolicy < ApplicationPolicy
   end
 
   def dkim?
-    (user&.site_admin? && record.cuttlefish? && !Rails.configuration.cuttlefish_read_only_mode) || update?
+    (
+      user&.site_admin? &&
+      record.cuttlefish? &&
+      !Rails.configuration.cuttlefish_read_only_mode
+    ) || update?
   end
 
   # TODO: No reason for this to be seperate from dkim above
