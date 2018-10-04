@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe Email do
   describe "create!" do
     context "One email is created" do
       before :each do
-        FactoryBot.create(:email,
+        FactoryBot.create(
+          :email,
           to: "foo@bar.com",
           data: "From: contact@openaustraliafoundation.org.au\nTo: Matthew Landauer\nSubject: This is a subject\nMessage-ID: <5161ba1c90b10_7837557029c754c8@kedumba.mail>\n\nHello!"
         )
@@ -120,12 +121,12 @@ describe Email do
     let(:mail) do
       Mail.new do
         text_part do
-          body 'This is plain text'
+          body "This is plain text"
         end
 
         html_part do
-          content_type 'text/html; charset=UTF-8'
-          body '<h1>This is HTML</h1>'
+          content_type "text/html; charset=UTF-8"
+          body "<h1>This is HTML</h1>"
         end
       end
     end
@@ -135,7 +136,7 @@ describe Email do
 
     describe "#html_part" do
       it { expect(email.html_part).to eq "<h1>This is HTML</h1>" }
-      it { expect(email.html_part.encoding.to_s).to eq "UTF-8"}
+      it { expect(email.html_part.encoding.to_s).to eq "UTF-8" }
     end
 
     describe "#text_part" do
@@ -146,7 +147,7 @@ describe Email do
   context "an email which just consistents of a single text part" do
     let(:mail) do
       Mail.new do
-        body 'This is plain text'
+        body "This is plain text"
       end
     end
     let(:email) do
@@ -164,13 +165,13 @@ describe Email do
 
   context "another email which is just a single text part" do
     let(:data) do
-      <<-EOF
-To: web-administrators@openaustralia.org
-Subject: Email alert statistics
-From: Email Alerts <contact@openaustralia.org>
+      <<~DATA
+        To: web-administrators@openaustralia.org
+        Subject: Email alert statistics
+        From: Email Alerts <contact@openaustralia.org>
 
-Some text
-      EOF
+        Some text
+      DATA
     end
 
     let(:email) do
@@ -185,8 +186,8 @@ Some text
   context "an email which just consistents of a single html part" do
     let(:mail) do
       Mail.new do
-        content_type 'text/html; charset=UTF-8'
-        body '<p>This is some html</p>'
+        content_type "text/html; charset=UTF-8"
+        body "<p>This is some html</p>"
       end
     end
     let(:email) do
@@ -205,18 +206,18 @@ Some text
   context "an email which consistents of a part that is itself multipart" do
     let(:html_part) do
       Mail::Part.new do
-        content_type  'text/html; charset=UTF-8'
-        body '<p>This is some html</p>'
+        content_type  "text/html; charset=UTF-8"
+        body "<p>This is some html</p>"
       end
     end
     let(:text_part) do
       Mail::Part.new do
-        body 'This is plain text'
+        body "This is plain text"
       end
     end
     let(:mail) do
       mail = Mail.new
-      mail.part :content_type => "multipart/alternative" do |p|
+      mail.part content_type: "multipart/alternative" do |p|
         p.html_part = html_part
         p.text_part = text_part
       end
@@ -231,7 +232,7 @@ Some text
     end
 
     describe "#text_part" do
-      it { expect(email.text_part).to eq 'This is plain text' }
+      it { expect(email.text_part).to eq "This is plain text" }
     end
   end
 end

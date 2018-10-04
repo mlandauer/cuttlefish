@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe Delivery do
   let(:delivery) { FactoryBot.create(:delivery) }

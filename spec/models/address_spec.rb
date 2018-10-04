@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe Address do
   context "three emails" do
-    let (:address1) { Address.create!(text: "matthew@foo.com") }
-    let (:address2) { Address.create!(text: "peter@bar.com") }
+    let(:address1) { Address.create!(text: "matthew@foo.com") }
+    let(:address2) { Address.create!(text: "peter@bar.com") }
     before :each do
       @email1 = FactoryBot.create(:email, from_address: address1, to_addresses: [address1])
       @email2 = FactoryBot.create(:email, from_address: address1, to_addresses: [address2])

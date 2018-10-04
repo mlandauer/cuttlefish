@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe PostfixLogLine do
   let(:line1) { "Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))" }
@@ -10,7 +10,7 @@ describe PostfixLogLine do
   let(:line5) { "Oct 25 17:36:47 vps331845 postfix[6084]: Postfix is running with backwards-compatible default setting" }
 
   context "one log line" do
-    let (:l) do
+    let(:l) do
       email = FactoryBot.create(:email, to: "foo@bar.com")
       email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
       PostfixLogLine.create_from_line(line1)
@@ -42,7 +42,7 @@ describe PostfixLogLine do
     end
 
     context "one log line" do
-      let(:address) { Address.create!(text: "foo@bar.com")}
+      let(:address) { Address.create!(text: "foo@bar.com") }
       let(:email) do
         email = FactoryBot.create(:email, to_addresses: [address])
         email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
@@ -63,7 +63,7 @@ describe PostfixLogLine do
         expect(line.delays).to eq "92777/0.03/1.6/0.91"
         expect(line.dsn).to eq "4.3.0"
         expect(line.extended_status).to eq "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
-        expect(line.time).to eq Time.local(Time.now.year,4,5,16,41,54)
+        expect(line.time).to eq Time.local(Time.now.year, 4, 5, 16, 41, 54)
       end
 
       it "should attach it to the delivery" do
@@ -74,7 +74,7 @@ describe PostfixLogLine do
         expect(line.delays).to eq "92777/0.03/1.6/0.91"
         expect(line.dsn).to eq "4.3.0"
         expect(line.extended_status).to eq "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
-        expect(line.time).to eq Time.local(Time.now.year,4,5,16,41,54)
+        expect(line.time).to eq Time.local(Time.now.year, 4, 5, 16, 41, 54)
       end
     end
 
@@ -83,7 +83,7 @@ describe PostfixLogLine do
       let(:address2) { Address.create!(text: "anincorrectemailaddress@openaustralia.org") }
       let(:email) do
         email = FactoryBot.create(:email, to_addresses: [address1, address2])
-        email.deliveries.each {|d| d.update_attribute(:postfix_queue_id, "39D9336AFA81")}
+        email.deliveries.each { |d| d.update_attribute(:postfix_queue_id, "39D9336AFA81") }
         email
       end
       let(:delivery1) { Delivery.find_by(email: email, address: address1) }
@@ -114,7 +114,7 @@ describe PostfixLogLine do
 
     it "should recognise timeouts" do
       address = FactoryBot.create(:address, text: "foobar@optusnet.com.au")
-      delivery = FactoryBot.create(:delivery, postfix_queue_id: "773A9CBBC", address: address)
+      FactoryBot.create(:delivery, postfix_queue_id: "773A9CBBC", address: address)
       line = "Dec 21 07:41:10 localhost postfix/error[29539]: 773A9CBBC: to=<foobar@optusnet.com.au>, relay=none, delay=334, delays=304/31/0/0, dsn=4.4.1, status=deferred (delivery temporarily suspended: connect to extmail.optusnet.com.au[211.29.133.14]:25: Connection timed out)"
       PostfixLogLine.create_from_line(line)
       expect(PostfixLogLine.count).to eq 1
@@ -128,7 +128,7 @@ describe PostfixLogLine do
 
     it "should show a message if the address isn't recognised in a log line" do
       expect(PostfixLogLine).to receive(:puts).with("Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))")
-      email = FactoryBot.create(:email)
+      FactoryBot.create(:email)
       PostfixLogLine.create_from_line(line1)
     end
 
@@ -163,34 +163,40 @@ describe PostfixLogLine do
 
     it "should log and skip unrecognised lines" do
       expect(PostfixLogLine).to receive(:puts).with("Skipping unrecognised line: Oct 25 17:36:47 vps331845 postfix[6084]: Postfix is running with backwards-compatible default setting")
-      email = FactoryBot.create(:email)
+      FactoryBot.create(:email)
       result = PostfixLogLine.create_from_line(line5)
       expect(result).to be_nil
     end
   end
 
   describe ".match_main_content" do
-    it { expect(PostfixLogLine.match_main_content(line1)).to eq ({
-      time: Time.local(Time.now.year,4,5,16,41,54),
-      program: "smtp",
-      queue_id: "39D9336AFA81",
-      to: "foo@bar.com",
-      relay: "foo.bar.com[1.2.3.4]:25",
-      delay: "92780",
-      delays: "92777/0.03/1.6/0.91",
-      dsn: "4.3.0",
-      extended_status: "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
-    })}
-    it { expect(PostfixLogLine.match_main_content(line2)).to eq ({
-      time: Time.local(Time.now.year,4,5,18,41,58),
-      program: "qmgr",
-      queue_id: "E69DB36D4A2B",
-    })}
-    it { expect(PostfixLogLine.match_main_content(line3)).to eq ({
-      time: Time.local(Time.now.year,4,5,17,11,7),
-      program: "smtpd",
-      queue_id: nil,
-    })}
+    it {
+      expect(PostfixLogLine.match_main_content(line1)).to eq(
+        time: Time.local(Time.now.year, 4, 5, 16, 41, 54),
+        program: "smtp",
+        queue_id: "39D9336AFA81",
+        to: "foo@bar.com",
+        relay: "foo.bar.com[1.2.3.4]:25",
+        delay: "92780",
+        delays: "92777/0.03/1.6/0.91",
+        dsn: "4.3.0",
+        extended_status: "deferred (host foo.bar.com[1.2.3.4] said: 451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
+      )
+    }
+    it {
+      expect(PostfixLogLine.match_main_content(line2)).to eq(
+        time: Time.local(Time.now.year, 4, 5, 18, 41, 58),
+        program: "qmgr",
+        queue_id: "E69DB36D4A2B"
+      )
+    }
+    it {
+      expect(PostfixLogLine.match_main_content(line3)).to eq(
+        time: Time.local(Time.now.year, 4, 5, 17, 11, 7),
+        program: "smtpd",
+        queue_id: nil
+      )
+    }
   end
 
   describe "#status" do

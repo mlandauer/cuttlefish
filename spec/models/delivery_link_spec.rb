@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe DeliveryLink do
   describe "#add_click_event" do
     it "should log the link event with some info from the current request" do
-      request = double("Request", env: {"HTTP_USER_AGENT" => "some user agent info"},
-        referer: "http://foo.com", remote_ip: "1.2.3.4")
+      request = double(
+        "Request",
+        env: { "HTTP_USER_AGENT" => "some user agent info" },
+        referer: "http://foo.com",
+        remote_ip: "1.2.3.4"
+      )
       delivery_link = FactoryBot.create(:delivery_link)
       delivery_link.add_click_event(request)
       expect(delivery_link.click_events.count).to eq 1

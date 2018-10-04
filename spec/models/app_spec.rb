@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe App do
   describe "#smtp_password" do
@@ -77,22 +77,22 @@ describe App do
   end
 
   describe "#dkim_selector" do
-    let(:app) { FactoryBot.create(:app, name: 'Book store', id: 15) }
+    let(:app) { FactoryBot.create(:app, name: "Book store", id: 15) }
 
     it "should include the name and the id to be unique" do
-      expect(app.dkim_selector).to eq 'book_store_15.cuttlefish'
+      expect(app.dkim_selector).to eq "book_store_15.cuttlefish"
     end
 
     context "legacy dkim selector" do
       let(:app) { FactoryBot.create(:app, legacy_dkim_selector: true) }
       it "should just be cuttlefish" do
-        expect(app.dkim_selector).to eq 'cuttlefish'
+        expect(app.dkim_selector).to eq "cuttlefish"
       end
     end
   end
 
   describe ".cuttlefish" do
-    before(:each) { allow(Rails.configuration).to receive(:cuttlefish_domain).and_return("cuttlefish.io")}
+    before(:each) { allow(Rails.configuration).to receive(:cuttlefish_domain).and_return("cuttlefish.io") }
     let(:app) { App.cuttlefish }
 
     it { expect(app.name).to eq "Cuttlefish" }
