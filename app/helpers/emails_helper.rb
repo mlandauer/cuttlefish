@@ -2,7 +2,8 @@
 
 module EmailsHelper
   # Mapping from status strings to bootstrap classes
-  # The naming of the bootstrap classes is not entirely consistent. There are two variants
+  # The naming of the bootstrap classes is not entirely consistent. There are
+  # two variants
   def bootstrap_status_class(status, variant = false)
     map = {
       "not_sent" => "info",
@@ -18,7 +19,10 @@ module EmailsHelper
   end
 
   def label_class(status)
-    ["label", ("label-#{bootstrap_status_class(status, true)}" if bootstrap_status_class(status, true))]
+    if bootstrap_status_class(status, true)
+      label_class = "label-#{bootstrap_status_class(status, true)}"
+    end
+    ["label", label_class]
   end
 
   def badge_class(status)

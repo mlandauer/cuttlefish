@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
+  # Settings specified here will take precedence over those in
+  # config/application.rb.
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -33,7 +34,9 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
-  config.action_mailer.default_url_options = { host: "#{config.cuttlefish_domain}:3000" }
+  config.action_mailer.default_url_options = {
+    host: "#{config.cuttlefish_domain}:3000"
+  }
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end

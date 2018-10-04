@@ -43,16 +43,21 @@ namespace :deploy do
   desc "After a code update, we link additional config and data directories"
   before "deploy:assets:precompile" do
     links = {
-      "#{release_path}/config/database.yml"                => "#{shared_path}/database.yml",
-      "#{release_path}/db/emails"                          => "#{shared_path}/emails",
-      "#{release_path}/db/archive"                         => "#{shared_path}/archive",
-      "#{release_path}/.env"                               => "#{shared_path}/.env"
+      "#{release_path}/config/database.yml" => "#{shared_path}/database.yml",
+      "#{release_path}/db/emails"           => "#{shared_path}/emails",
+      "#{release_path}/db/archive"          => "#{shared_path}/archive",
+      "#{release_path}/.env"                => "#{shared_path}/.env"
     }
-    # Copy across the example database configuration file if there isn't already one
-    run "test -f #{shared_path}/database.yml || cp #{release_path}/config/database.yml #{shared_path}/database.yml"
-    run "test -f #{shared_path}/production.rb || cp #{release_path}/config/environments/production.rb #{shared_path}/production.rb"
+    # Copy across the example database configuration file if there isn't
+    # already one
+    run "test -f #{shared_path}/database.yml || " \
+        "cp #{release_path}/config/database.yml #{shared_path}/database.yml"
+    run "test -f #{shared_path}/production.rb || " \
+        "cp #{release_path}/config/environments/production.rb " \
+        "#{shared_path}/production.rb"
     run "test -d #{shared_path}/emails || mkdir -p #{shared_path}/emails"
-    # "ln -sf <a> <b>" creates a symbolic link but deletes <b> if it already exists
+    # "ln -sf <a> <b>" creates a symbolic link but deletes <b> if it
+    # already exists
     run links.map { |a| "ln -sf #{a.last} #{a.first}" }.join(";")
   end
 end
@@ -60,7 +65,14 @@ end
 namespace :foreman do
   desc "Export the Procfile to Ubuntu's upstart scripts"
   task :export, roles: :app do
-    run "cd #{current_path} && sudo /usr/local/lib/rvm/wrappers/default/bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log -f Procfile.production"
+    run "cd #{current_path} && " \
+        "sudo /usr/local/lib/rvm/wrappers/default/bundle exec " \
+        "foreman export upstart " \
+        "/etc/init " \
+        "-a #{application} " \
+        "-u #{user} " \
+        "-l #{shared_path}/log " \
+        "-f Procfile.production"
   end
 
   desc "Start the application services"

@@ -13,9 +13,9 @@ module AdminServices
         success!
         admin.destroy
       else
-        # Give a generic error message that covers "permissions" and "not found".
-        # This is because we don't want clients to be able to distinguish these two
-        # errors because it leaks information
+        # Give a generic error message that covers "permissions" and
+        # "not found". This is because we don't want clients to be able to
+        # distinguish these two errors because it leaks information
         fail! "You can't remove the admin with this id"
       end
     end
