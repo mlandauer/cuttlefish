@@ -6,7 +6,7 @@ class ApplicationService
   # Give services a slightly more concise way of being called
   def self.call(params)
     object = new(params)
-    object.instance_eval { |o| @result = call }
+    object.instance_eval { @result = call }
     object
   end
 
@@ -32,5 +32,6 @@ class ApplicationService
   attr_reader :error
 
   private
+
   attr_writer :result
 end

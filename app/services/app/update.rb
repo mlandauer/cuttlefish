@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class App::Update < ApplicationService
-  VALID_ATTRIBUTES = [
-    :name,
-    :open_tracking_enabled,
-    :click_tracking_enabled,
-    :custom_tracking_domain,
-    :from_domain
-  ]
+  VALID_ATTRIBUTES = %i[
+    name
+    open_tracking_enabled
+    click_tracking_enabled
+    custom_tracking_domain
+    from_domain
+  ].freeze
 
   def initialize(
     current_admin:,
@@ -16,7 +16,7 @@ class App::Update < ApplicationService
   )
     @current_admin = current_admin
     @id = id
-    @attributes = attributes.select { |k, v| VALID_ATTRIBUTES.include?(k) }
+    @attributes = attributes.select { |k, _v| VALID_ATTRIBUTES.include?(k) }
   end
 
   def call

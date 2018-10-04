@@ -53,3 +53,6 @@ Metrics/ModuleLength:
 
 Metrics/LineLength:
   Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false

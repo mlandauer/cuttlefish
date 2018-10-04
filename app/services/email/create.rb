@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Email::Create < ApplicationService
+  # rubocop:disable Naming/UncommunicativeMethodParamName
   def initialize(app_id:, from:, to:, cc:, subject:, text_part:, html_part:)
     @app_id = app_id
     @from = from
@@ -10,6 +11,7 @@ class Email::Create < ApplicationService
     @text_part = text_part
     @html_part = html_part
   end
+  # rubocop:enable Naming/UncommunicativeMethodParamName
 
   # TODO: Check for validation errors
   # TODO: Check that at least one of html_part and text_part are non-null
@@ -28,7 +30,7 @@ class Email::Create < ApplicationService
 
     if html_part
       part = Mail::Part.new
-      part.content_type = 'text/html; charset=UTF-8'
+      part.content_type = "text/html; charset=UTF-8"
       part.body = html_part
       mail.html_part = part
     end
