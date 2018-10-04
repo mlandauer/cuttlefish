@@ -38,7 +38,7 @@ describe Mutations::UpdateApp do
   let(:context) { { current_admin: current_admin } }
   let(:name) { "An updated App" }
   let(:variables) { { id: app.id, attributes: attributes } }
-  let(:current_admin) { FactoryBot.create(:admin, team: team) }
+  let(:current_admin) { create(:admin, team: team) }
   let(:app) { create(:app, team: team) }
   let(:team) { create(:team) }
 

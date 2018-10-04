@@ -5,10 +5,10 @@ require "spec_helper"
 describe AdminPolicy do
   subject { AdminPolicy.new(user, admin) }
 
-  let(:team_one) { FactoryBot.create(:team) }
-  let(:team_two) { FactoryBot.create(:team) }
+  let(:team_one) { create(:team) }
+  let(:team_two) { create(:team) }
 
-  let(:admin) { FactoryBot.create(:admin, team: team_one) }
+  let(:admin) { create(:admin, team: team_one) }
 
   context "not authenticated" do
     let(:user) { nil }
@@ -28,7 +28,7 @@ describe AdminPolicy do
   end
 
   context "normal user in team one" do
-    let(:user) { FactoryBot.create(:admin, team: team_one) }
+    let(:user) { create(:admin, team: team_one) }
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:index) }
     it { is_expected.to permit(:destroy) }
@@ -59,7 +59,7 @@ describe AdminPolicy do
   end
 
   context "normal user in team two" do
-    let(:user) { FactoryBot.create(:admin, team: team_two) }
+    let(:user) { create(:admin, team: team_two) }
     it { is_expected.to permit(:index) }
 
     it { is_expected.not_to permit(:show) }

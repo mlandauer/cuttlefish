@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe Delivery do
-  let(:delivery) { FactoryBot.create(:delivery) }
+  let(:delivery) { create(:delivery) }
 
   describe "#status" do
     context "delivery is sent" do

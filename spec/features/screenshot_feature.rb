@@ -79,7 +79,7 @@ describe "getting a bunch of screenshots", js: true do
       )
       @delivery = @email.deliveries.first
       @delivery.update_attributes(sent: true, open_tracked: true)
-      FactoryBot.create(
+      create(
         :postfix_log_line,
         delivery: @delivery,
         time: 5.minutes.ago,
@@ -87,7 +87,7 @@ describe "getting a bunch of screenshots", js: true do
         extended_status:
           "sent (250 2.0.0 r6ay1l02Y4aTF9m016ayyY mail accepted for delivery)"
       )
-      FactoryBot.create(
+      create(
         :open_event,
         delivery: @delivery,
         created_at: 2.minutes.ago,
@@ -97,7 +97,7 @@ describe "getting a bunch of screenshots", js: true do
           "Chrome/26.0.1410.65 Safari/537.31",
         ip: "1.2.3.4"
       )
-      FactoryBot.create(:delivery_link, delivery_id: @delivery.id)
+      create(:delivery_link, delivery_id: @delivery.id)
 
       visit new_admin_session_path
       fill_in "Email", with: "matthew@openaustralia.org"

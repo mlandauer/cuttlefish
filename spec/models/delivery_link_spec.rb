@@ -11,7 +11,7 @@ describe DeliveryLink do
         referer: "http://foo.com",
         remote_ip: "1.2.3.4"
       )
-      delivery_link = FactoryBot.create(:delivery_link)
+      delivery_link = create(:delivery_link)
       delivery_link.add_click_event(request)
       expect(delivery_link.click_events.count).to eq 1
       e = delivery_link.click_events.first

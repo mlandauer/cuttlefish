@@ -5,13 +5,13 @@ require "spec_helper"
 describe DenyListPolicy do
   subject { DenyListPolicy.new(user, deny_list) }
 
-  let(:team_one) { FactoryBot.create(:team) }
-  let(:team_two) { FactoryBot.create(:team) }
+  let(:team_one) { create(:team) }
+  let(:team_two) { create(:team) }
 
-  let(:deny_list) { FactoryBot.create(:deny_list, team: team_one) }
+  let(:deny_list) { create(:deny_list, team: team_one) }
 
   context "normal user in team one" do
-    let(:user) { FactoryBot.create(:admin, team: team_one) }
+    let(:user) { create(:admin, team: team_one) }
     it { is_expected.not_to permit(:create) }
     it { is_expected.not_to permit(:new) }
     it { is_expected.not_to permit(:update)  }
@@ -52,7 +52,7 @@ describe DenyListPolicy do
   end
 
   context "normal user in team two" do
-    let(:user) { FactoryBot.create(:admin, team: team_two) }
+    let(:user) { create(:admin, team: team_two) }
     it { is_expected.not_to permit(:create) }
     it { is_expected.not_to permit(:new) }
     it { is_expected.not_to permit(:update)  }

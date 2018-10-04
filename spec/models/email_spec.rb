@@ -6,7 +6,7 @@ describe Email do
   describe "create!" do
     context "One email is created" do
       before :each do
-        FactoryBot.create(
+        create(
           :email,
           to: "foo@bar.com",
           data:
@@ -33,7 +33,7 @@ describe Email do
 
       it "should have the same hash as other email with identical content" do
         first_email = Email.first
-        email = FactoryBot.create(
+        email = create(
           :email,
           from: "geoff@foo.com",
           to: "people@bar.com",
@@ -44,7 +44,7 @@ describe Email do
 
       it "should have a different hash to other email with different content" do
         first_email = Email.first
-        email = FactoryBot.create(
+        email = create(
           :email,
           from: "geoff@foo.com",
           to: "people@bar.com",
@@ -65,7 +65,7 @@ describe Email do
 
   describe "#from" do
     it "should return a string for the from email address" do
-      email = FactoryBot.create(
+      email = create(
         :email,
         from_address: Address.create!(text: "matthew@foo.com")
       )
@@ -73,14 +73,14 @@ describe Email do
     end
 
     it "should allow the from_address to be set by a string" do
-      email = FactoryBot.create(:email, from: "matthew@foo.com")
+      email = create(:email, from: "matthew@foo.com")
       expect(email.from).to eq "matthew@foo.com"
     end
   end
 
   describe "#from_address" do
     it "should return an Address object" do
-      email = FactoryBot.create(:email, from: "matthew@foo.org")
+      email = create(:email, from: "matthew@foo.org")
       a1 = Address.find_by_text("matthew@foo.org")
       expect(a1).to_not be_nil
       expect(email.from_address).to eq a1
@@ -89,7 +89,7 @@ describe Email do
 
   describe "#to" do
     it "should return an array for all the email addresses" do
-      email = FactoryBot.create(
+      email = create(
         :email,
         to: ["mlandauer@foo.org", "matthew@bar.com"]
       )
@@ -102,14 +102,14 @@ describe Email do
     end
 
     it "should set created_at for deliveries too" do
-      email = FactoryBot.create(:email, to: "mlandauer@foo.org")
+      email = create(:email, to: "mlandauer@foo.org")
       expect(email.deliveries.first.created_at).to_not be_nil
     end
   end
 
   describe "#to_addresses" do
     it "should return an array of Address objects" do
-      email = FactoryBot.create(
+      email = create(
         :email,
         to: ["mlandauer@foo.org", "matthew@bar.com"]
       )
@@ -124,7 +124,7 @@ describe Email do
   describe "#data" do
     context "one email" do
       before :each do
-        FactoryBot.create(:email, id: 10, data: "This is a main data section")
+        create(:email, id: 10, data: "This is a main data section")
       end
       let(:email) { Email.find(10) }
 
@@ -142,9 +142,9 @@ describe Email do
       allow(Rails.configuration).to receive(
         :max_no_emails_to_store
       ).and_return(2)
-      app = FactoryBot.create(:app)
+      app = create(:app)
       4.times do
-        FactoryBot.create(
+        create(
           :email, data: "This is a main section", app_id: app.id
         )
       end

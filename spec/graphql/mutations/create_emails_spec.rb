@@ -11,12 +11,12 @@ describe Mutations::CreateEmails do
     )
   end
 
-  let(:team_one) { FactoryBot.create(:team) }
-  let(:team_two) { FactoryBot.create(:team) }
+  let(:team_one) { create(:team) }
+  let(:team_two) { create(:team) }
 
-  let(:admin) { FactoryBot.create(:admin, team: team_one) }
-  let(:app1) { FactoryBot.create(:app, team: team_one) }
-  let(:app2) { FactoryBot.create(:app, team: team_two) }
+  let(:admin) { create(:admin, team: team_one) }
+  let(:app1) { create(:app, team: team_one) }
+  let(:app2) { create(:app, team: team_two) }
 
   let(:query_string) do
     <<~GRAPHQL

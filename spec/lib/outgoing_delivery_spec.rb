@@ -6,7 +6,7 @@ describe OutgoingDelivery do
   describe "#send" do
     context "an email with one recipient" do
       before :each do
-        @email = FactoryBot.create(
+        @email = create(
           :email,
           to: "foo@bar.com",
           data: "from: contact@foo.com\nto: foo@bar.com\n\nMy original data"

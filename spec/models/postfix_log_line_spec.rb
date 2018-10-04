@@ -34,7 +34,7 @@ describe PostfixLogLine do
 
   context "one log line" do
     let(:l) do
-      email = FactoryBot.create(:email, to: "foo@bar.com")
+      email = create(:email, to: "foo@bar.com")
       email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
       PostfixLogLine.create_from_line(line1)
       PostfixLogLine.first
@@ -65,7 +65,7 @@ describe PostfixLogLine do
 
   describe ".create_from_line" do
     it "should have an empty log lines on the delivery to start with" do
-      email = FactoryBot.create(:email, to: "foo@bar.com")
+      email = create(:email, to: "foo@bar.com")
       email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
       expect(email.deliveries.first.postfix_log_lines).to be_empty
     end
@@ -73,7 +73,7 @@ describe PostfixLogLine do
     context "one log line" do
       let(:address) { Address.create!(text: "foo@bar.com") }
       let(:email) do
-        email = FactoryBot.create(:email, to_addresses: [address])
+        email = create(:email, to_addresses: [address])
         email.deliveries.first.update_attribute(
           :postfix_queue_id,
           "39D9336AFA81"
@@ -124,7 +124,7 @@ describe PostfixLogLine do
         Address.create!(text: "anincorrectemailaddress@openaustralia.org")
       end
       let(:email) do
-        email = FactoryBot.create(:email, to_addresses: [address1, address2])
+        email = create(:email, to_addresses: [address1, address2])
         email.deliveries.each do |d|
           d.update_attribute(:postfix_queue_id, "39D9336AFA81")
         end
@@ -147,7 +147,7 @@ describe PostfixLogLine do
 
     it "should not reprocess duplicate lines" do
       address = Address.create!(text: "foo@bar.com")
-      email = FactoryBot.create(:email, to_addresses: [address])
+      email = create(:email, to_addresses: [address])
       delivery = Delivery.find_by(email: email, address: address)
       delivery.update_attribute(:postfix_queue_id, "39D9336AFA81")
 
@@ -157,8 +157,8 @@ describe PostfixLogLine do
     end
 
     it "should recognise timeouts" do
-      address = FactoryBot.create(:address, text: "foobar@optusnet.com.au")
-      FactoryBot.create(
+      address = create(:address, text: "foobar@optusnet.com.au")
+      create(
         :delivery,
         postfix_queue_id: "773A9CBBC",
         address: address
@@ -196,7 +196,7 @@ describe PostfixLogLine do
         "<bounces@planningalerts.org.au>: Temporary lookup failure " \
         "(in reply to RCPT TO command))"
       )
-      FactoryBot.create(:email)
+      create(:email)
       PostfixLogLine.create_from_line(line1)
     end
 
@@ -208,7 +208,7 @@ describe PostfixLogLine do
     context "two emails with the same queue id" do
       let(:address) { Address.create!(text: "foo@bar.com") }
       let(:email1) do
-        email = FactoryBot.create(
+        email = create(
           :email,
           to_addresses: [address],
           created_at: 10.minutes.ago
@@ -219,7 +219,7 @@ describe PostfixLogLine do
         email
       end
       let(:email2) do
-        email = FactoryBot.create(
+        email = create(
           :email,
           to_addresses: [address],
           created_at: 5.minutes.ago
@@ -246,7 +246,7 @@ describe PostfixLogLine do
         "Skipping unrecognised line: Oct 25 17:36:47 vps331845 postfix[6084]" \
         ": Postfix is running with backwards-compatible default setting"
       )
-      FactoryBot.create(:email)
+      create(:email)
       result = PostfixLogLine.create_from_line(line5)
       expect(result).to be_nil
     end

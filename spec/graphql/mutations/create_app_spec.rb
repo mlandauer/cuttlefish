@@ -27,7 +27,7 @@ describe Mutations::CreateApp do
   let(:context) { { current_admin: current_admin } }
   let(:name) { "An App" }
   let(:variables) { { name: name } }
-  let(:current_admin) { FactoryBot.create(:admin) }
+  let(:current_admin) { create(:admin) }
 
   it "should not return any errors" do
     expect(result["errors"]).to be_nil

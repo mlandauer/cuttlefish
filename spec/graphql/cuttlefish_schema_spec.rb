@@ -11,16 +11,16 @@ describe CuttlefishSchema do
     )
   end
 
-  let(:team_one) { FactoryBot.create(:team) }
-  let(:team_two) { FactoryBot.create(:team) }
+  let(:team_one) { create(:team) }
+  let(:team_two) { create(:team) }
 
-  let(:admin) { FactoryBot.create(:admin, team: team_one) }
-  let(:app1) { FactoryBot.create(:app, team: team_one, name: "App Z") }
-  let(:app2) { FactoryBot.create(:app, team: team_one, name: "App A") }
-  let(:email1) { FactoryBot.create(:email, app: app1) }
-  let(:email2) { FactoryBot.create(:email, app: app2) }
-  let(:delivery1) { FactoryBot.create(:delivery, email: email1) }
-  let(:delivery2) { FactoryBot.create(:delivery, email: email2) }
+  let(:admin) { create(:admin, team: team_one) }
+  let(:app1) { create(:app, team: team_one, name: "App Z") }
+  let(:app2) { create(:app, team: team_one, name: "App A") }
+  let(:email1) { create(:email, app: app1) }
+  let(:email2) { create(:email, app: app2) }
+  let(:delivery1) { create(:delivery, email: email1) }
+  let(:delivery2) { create(:delivery, email: email2) }
 
   before :each do
     delivery1
@@ -49,7 +49,7 @@ describe CuttlefishSchema do
     end
 
     context "with a user in a different team" do
-      let(:admin) { FactoryBot.create(:admin, team: team_two) }
+      let(:admin) { create(:admin, team: team_two) }
 
       it "should return nil and an error" do
         expect(result["data"]["email"]).to be_nil
@@ -107,7 +107,7 @@ describe CuttlefishSchema do
     end
 
     context "with a user in a different team" do
-      let(:admin) { FactoryBot.create(:admin, team: team_two) }
+      let(:admin) { create(:admin, team: team_two) }
 
       it "should return no emails" do
         expect(result["data"]["emails"]["nodes"]).to be_empty
@@ -172,7 +172,7 @@ describe CuttlefishSchema do
 
     context "admin is a site admin" do
       let(:admin) do
-        FactoryBot.create(
+        create(
           :admin,
           team: team_one,
           site_admin: true,

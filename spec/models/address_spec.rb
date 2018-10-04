@@ -7,13 +7,13 @@ describe Address do
     let(:address1) { Address.create!(text: "matthew@foo.com") }
     let(:address2) { Address.create!(text: "peter@bar.com") }
     before :each do
-      @email1 = FactoryBot.create(
+      @email1 = create(
         :email, from_address: address1, to_addresses: [address1]
       )
-      @email2 = FactoryBot.create(
+      @email2 = create(
         :email, from_address: address1, to_addresses: [address2]
       )
-      @email3 = FactoryBot.create(
+      @email3 = create(
         :email, from_address: address2, to_addresses: [address2]
       )
     end

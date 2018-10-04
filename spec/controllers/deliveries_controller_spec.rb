@@ -16,7 +16,7 @@ describe DeliveriesController, type: :controller do
 
     describe "GET index" do
       it "assigns all deliveries as @deliveries" do
-        delivery = FactoryBot.create(:delivery)
+        delivery = create(:delivery)
         # Make the email app part of this team
         delivery.email.app.update_attributes(team_id: team.id)
         get :index, params: {}
@@ -31,7 +31,7 @@ describe DeliveriesController, type: :controller do
 
     describe "GET show" do
       it "assigns the requested delivery as @delivery" do
-        delivery = FactoryBot.create(:delivery)
+        delivery = create(:delivery)
         # Make the email app part of this team
         delivery.email.app.update_attributes(team_id: team.id)
         get :show, params: { id: delivery.to_param }

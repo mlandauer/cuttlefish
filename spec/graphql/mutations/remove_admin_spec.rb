@@ -21,10 +21,10 @@ describe Mutations::RemoveAdmin do
   end
   let(:context) { { current_admin: current_admin } }
   let(:variables) { { id: admin.id } }
-  let(:current_admin) { FactoryBot.create(:admin, team: team_one) }
-  let(:admin) { FactoryBot.create(:admin, team: team_one) }
-  let(:team_one) { FactoryBot.create(:team) }
-  let(:team_two) { FactoryBot.create(:team) }
+  let(:current_admin) { create(:admin, team: team_one) }
+  let(:admin) { create(:admin, team: team_one) }
+  let(:team_one) { create(:team) }
+  let(:team_two) { create(:team) }
 
   it "should remove an admin" do
     admin
@@ -59,7 +59,7 @@ describe Mutations::RemoveAdmin do
   end
 
   context "trying to remove an admin in another team" do
-    let(:admin) { FactoryBot.create(:admin, team: team_two) }
+    let(:admin) { create(:admin, team: team_two) }
 
     it "should return nil for the result" do
       expect(result).to eq(

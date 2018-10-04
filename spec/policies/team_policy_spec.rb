@@ -5,11 +5,11 @@ require "spec_helper"
 describe TeamPolicy do
   subject { TeamPolicy.new(user, team_one) }
 
-  let(:team_one) { FactoryBot.create(:team) }
-  let(:team_two) { FactoryBot.create(:team) }
+  let(:team_one) { create(:team) }
+  let(:team_two) { create(:team) }
 
   context "normal user in team one" do
-    let(:user) { FactoryBot.create(:admin, team: team_one) }
+    let(:user) { create(:admin, team: team_one) }
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:update) }
     it { is_expected.to permit(:edit) }
@@ -42,7 +42,7 @@ describe TeamPolicy do
   end
 
   context "normal user in team two" do
-    let(:user) { FactoryBot.create(:admin, team: team_two) }
+    let(:user) { create(:admin, team: team_two) }
     it { is_expected.not_to permit(:show) }
     it { is_expected.not_to permit(:update) }
     it { is_expected.not_to permit(:edit) }
@@ -59,7 +59,7 @@ describe TeamPolicy do
   end
 
   context "super admin in team two" do
-    let(:user) { FactoryBot.create(:admin, team: team_two, site_admin: true) }
+    let(:user) { create(:admin, team: team_two, site_admin: true) }
     it { is_expected.to permit(:index) }
     it { is_expected.to permit(:invite) }
 
