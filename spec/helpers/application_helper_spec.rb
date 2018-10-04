@@ -15,8 +15,8 @@ describe ApplicationHelper, type: :helper do
       expect(helper.bootstrap_flash).to eq(
         '<div class="alert fade in alert-error">' \
         '<button class="close" data-dismiss="alert">&times;</button>' \
-        "This is a bad thing" \
-        "</div>"
+        'This is a bad thing' \
+        '</div>'
       )
     end
 
@@ -27,8 +27,8 @@ describe ApplicationHelper, type: :helper do
       expect(helper.bootstrap_flash).to eq(
         '<div class="alert fade in alert-success">' \
         '<button class="close" data-dismiss="alert">&times;</button>' \
-        "This is interesting" \
-        "</div>"
+        'This is interesting' \
+        '</div>'
       )
     end
 

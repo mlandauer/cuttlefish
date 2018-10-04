@@ -18,14 +18,22 @@ describe OutgoingDelivery do
       it "should send an email with a return-path" do
         smtp = double
         expect_any_instance_of(Delivery).to receive(:return_path).and_return("bounce-address@cuttlefish.io")
-        expect(smtp).to receive(:send_message).with(anything(), "bounce-address@cuttlefish.io", anything()).and_return(double(message: ""))
+        expect(smtp).to receive(:send_message).with(
+          anything,
+          "bounce-address@cuttlefish.io",
+          anything
+        ).and_return(double(message: ""))
         expect(Net::SMTP).to receive(:start).and_yield(smtp)
         @outgoing.send
       end
 
       it "should send an email to foo@bar.com" do
         smtp = double
-        expect(smtp).to receive(:send_message).with(anything(), anything(), ["foo@bar.com"]).and_return(double(message: ""))
+        expect(smtp).to receive(:send_message).with(
+          anything,
+          anything,
+          ["foo@bar.com"]
+        ).and_return(double(message: ""))
         expect(Net::SMTP).to receive(:start).and_yield(smtp)
         @outgoing.send
       end
@@ -36,7 +44,11 @@ describe OutgoingDelivery do
           body "My altered data"
         end
         allow_any_instance_of(Filters::Master).to receive(:filter_mail).and_return(filtered_mail)
-        expect(smtp).to receive(:send_message).with(filtered_mail.to_s, anything(), anything()).and_return(double(message: ""))
+        expect(smtp).to receive(:send_message).with(
+          filtered_mail.to_s,
+          anything,
+          anything
+        ).and_return(double(message: ""))
         expect(Net::SMTP).to receive(:start).and_yield(smtp)
         @outgoing.send
       end
@@ -47,7 +59,7 @@ describe OutgoingDelivery do
         allow(Net::SMTP).to receive(:start).and_yield(smtp)
         expect(OutgoingDelivery).to receive(:extract_postfix_queue_id_from_smtp_message).with("250 2.0.0 Ok: queued as A123").and_return("A123")
         @outgoing.send
-        @email.deliveries.each{|d| expect(d.postfix_queue_id).to eq "A123"}
+        @email.deliveries.each { |d| expect(d.postfix_queue_id).to eq "A123" }
       end
 
       context "deliveries is empty" do
@@ -56,7 +68,7 @@ describe OutgoingDelivery do
         end
 
         it "should send no emails" do
-          # TODO Ideally it shouldn't open a connection to the smtp server at all
+          # TODO: Ideally it shouldn't open a connection to the smtp server at all
           smtp = double
           expect(smtp).to_not receive(:send_message)
           allow(Net::SMTP).to receive(:start).and_yield(smtp)

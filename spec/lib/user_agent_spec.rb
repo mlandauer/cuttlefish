@@ -22,7 +22,7 @@ describe UserAgent do
 
   context "Google image proxy for Gmail" do
     let(:u) { UserAgentTest.new("Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 (via ggpht.com GoogleImageProxy)") }
-    it { expect(u.calculate_ua_family).to eq "Gmail"}
+    it { expect(u.calculate_ua_family).to eq "Gmail" }
     # Not quite sure what to do with these values below
     it { expect(u.calculate_ua_version).to be_nil }
     it { expect(u.calculate_os_family).to be_nil }
