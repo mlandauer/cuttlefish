@@ -7,7 +7,9 @@ describe DenyListServices::Destroy do
   let(:current_admin) { create(:admin, team: team) }
   let(:deny_list) { create(:deny_list, team: team) }
   let(:destroy_deny_list) do
-    DenyListServices::Destroy.call(current_admin: current_admin, id: deny_list.id)
+    DenyListServices::Destroy.call(
+      current_admin: current_admin, id: deny_list.id
+    )
   end
 
   it "should remove a deny list entry" do

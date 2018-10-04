@@ -8,13 +8,17 @@ describe EmailDataCache do
   describe ".set" do
     it "should persist the main part of the email in the filesystem" do
       cache.set(10, "This is a main data section")
-      expect(File.read(File.join(cache.data_filesystem_directory, "10.eml"))).to eq "This is a main data section"
+      expect(
+        File.read(File.join(cache.data_filesystem_directory, "10.eml"))
+      ).to eq "This is a main data section"
     end
 
-    it "should only keep the full data of a certain number of the emails around" do
+    it "should only keep the full data of a certain no of the emails around" do
       allow(cache).to receive(:max_no_emails_to_store_data).and_return(2)
       (1..4).each { |id| cache.set(id, "This a main section") }
-      expect(Dir.glob(File.join(cache.data_filesystem_directory, "*")).count).to eq 2
+      expect(
+        Dir.glob(File.join(cache.data_filesystem_directory, "*")).count
+      ).to eq 2
     end
   end
 

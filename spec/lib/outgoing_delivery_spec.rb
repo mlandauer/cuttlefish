@@ -6,7 +6,11 @@ describe OutgoingDelivery do
   describe "#send" do
     context "an email with one recipient" do
       before :each do
-        @email = FactoryBot.create(:email, to: "foo@bar.com", data: "from: contact@foo.com\nto: foo@bar.com\n\nMy original data")
+        @email = FactoryBot.create(
+          :email,
+          to: "foo@bar.com",
+          data: "from: contact@foo.com\nto: foo@bar.com\n\nMy original data"
+        )
         @outgoing = OutgoingDelivery.new(@email.deliveries.first)
       end
 
@@ -17,7 +21,8 @@ describe OutgoingDelivery do
 
       it "should send an email with a return-path" do
         smtp = double
-        expect_any_instance_of(Delivery).to receive(:return_path).and_return("bounce-address@cuttlefish.io")
+        expect_any_instance_of(Delivery).to receive(:return_path)
+          .and_return("bounce-address@cuttlefish.io")
         expect(smtp).to receive(:send_message).with(
           anything,
           "bounce-address@cuttlefish.io",
@@ -43,7 +48,8 @@ describe OutgoingDelivery do
         filtered_mail = Mail.new do
           body "My altered data"
         end
-        allow_any_instance_of(Filters::Master).to receive(:filter_mail).and_return(filtered_mail)
+        allow_any_instance_of(Filters::Master).to receive(:filter_mail)
+          .and_return(filtered_mail)
         expect(smtp).to receive(:send_message).with(
           filtered_mail.to_s,
           anything,
@@ -53,11 +59,14 @@ describe OutgoingDelivery do
         @outgoing.send
       end
 
-      it "should set the postfix queue id on the deliveries based on the response from the server" do
+      it "should set the postfix queue id on the deliveries based on " \
+         "the response from the server" do
         response = double(message: "250 2.0.0 Ok: queued as A123")
         smtp = double(send_message: response)
         allow(Net::SMTP).to receive(:start).and_yield(smtp)
-        expect(OutgoingDelivery).to receive(:extract_postfix_queue_id_from_smtp_message).with("250 2.0.0 Ok: queued as A123").and_return("A123")
+        expect(OutgoingDelivery).to receive(
+          :extract_postfix_queue_id_from_smtp_message
+        ).with("250 2.0.0 Ok: queued as A123").and_return("A123")
         @outgoing.send
         @email.deliveries.each { |d| expect(d.postfix_queue_id).to eq "A123" }
       end
@@ -68,7 +77,7 @@ describe OutgoingDelivery do
         end
 
         it "should send no emails" do
-          # TODO: Ideally it shouldn't open a connection to the smtp server at all
+          # TODO: Ideally it shouldn't open a connection to the smtp server
           smtp = double
           expect(smtp).to_not receive(:send_message)
           allow(Net::SMTP).to receive(:start).and_yield(smtp)
@@ -96,11 +105,19 @@ describe OutgoingDelivery do
 
   describe ".extract_postfix_queue_id_from_smtp_message" do
     it "should extract the queue id" do
-      expect(OutgoingDelivery.extract_postfix_queue_id_from_smtp_message("250 2.0.0 Ok: queued as 2F63736D4A27\n")).to eq "2F63736D4A27"
+      expect(
+        OutgoingDelivery.extract_postfix_queue_id_from_smtp_message(
+          "250 2.0.0 Ok: queued as 2F63736D4A27\n"
+        )
+      ).to eq "2F63736D4A27"
     end
 
     it "should ignore any other form" do
-      expect(OutgoingDelivery.extract_postfix_queue_id_from_smtp_message("250 250 Message accepted")).to be_nil
+      expect(
+        OutgoingDelivery.extract_postfix_queue_id_from_smtp_message(
+          "250 250 Message accepted"
+        )
+      ).to be_nil
     end
   end
 end

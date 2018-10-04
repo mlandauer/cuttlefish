@@ -18,7 +18,17 @@ describe Mutations::CreateEmails do
   let(:app1) { FactoryBot.create(:app, team: team_one) }
   let(:app2) { FactoryBot.create(:app, team: team_two) }
 
-  let(:query_string) { 'mutation($id:ID!) { createEmails(appId: $id, from: "foo@foo.com", to: "bar@foo.com", subject: "An email", textPart: "Text!") { emails { id } } }' }
+  let(:query_string) do
+    <<~GRAPHQL
+      mutation($id:ID!) {
+        createEmails(appId: $id, from: "foo@foo.com", to: "bar@foo.com", subject: "An email", textPart: "Text!") {
+          emails {
+            id
+          }
+        }
+      }
+    GRAPHQL
+  end
   let(:variables) { { id: app1.id } }
 
   it "should return a created email" do
@@ -32,7 +42,9 @@ describe Mutations::CreateEmails do
       expect(result["data"]["createEmails"]).to be_nil
       expect(result["errors"].length).to eq 1
       # TODO: Would be better to have a clearer error message for this situation
-      expect(result["errors"][0]["message"]).to eq "Not authorized to access Mutation.createEmails"
+      expect(result["errors"][0]["message"]).to eq(
+        "Not authorized to access Mutation.createEmails"
+      )
     end
   end
 
@@ -42,8 +54,11 @@ describe Mutations::CreateEmails do
     it "should return nil and an error" do
       expect(result["data"]["createEmails"]).to be_nil
       expect(result["errors"].length).to eq 1
-      # TODO: Would be better to have a clearer (and more specific) error message for this situation
-      expect(result["errors"][0]["message"]).to eq "Not authorized to access Mutation.createEmails"
+      # TODO: Would be better to have a clearer (and more specific) error
+      # message for this situation
+      expect(result["errors"][0]["message"]).to eq(
+        "Not authorized to access Mutation.createEmails"
+      )
     end
   end
 
@@ -54,10 +69,12 @@ describe Mutations::CreateEmails do
       expect(result["data"]["createEmails"]).to be_nil
       expect(result["errors"].length).to eq 1
       # This gives the same error message as line 44 so that one can't
-      # tell the difference between a non-existent app and one that you don't have
-      # access to but
+      # tell the difference between a non-existent app and one that you don't
+      # have access to but
       # TODO: Improve this error message
-      expect(result["errors"][0]["message"]).to eq "Not authorized to access Mutation.createEmails"
+      expect(result["errors"][0]["message"]).to eq(
+        "Not authorized to access Mutation.createEmails"
+      )
     end
   end
 end

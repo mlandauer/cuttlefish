@@ -11,18 +11,35 @@ describe CuttlefishSmtpConnection do
   let(:app) { App.create!(name: "test") }
 
   describe "#receive_plain_auth" do
-    it { expect(connection.receive_plain_auth("foo", "bar")).to eq false }
-    it { expect(connection.receive_plain_auth(app.smtp_username, "bar")).to eq false }
-    it { expect(connection.receive_plain_auth(app.smtp_username, app.smtp_password)).to eq true }
+    it {
+      expect(
+        connection.receive_plain_auth("foo", "bar")
+      ).to eq false
+    }
+    it {
+      expect(
+        connection.receive_plain_auth(app.smtp_username, "bar")
+      ).to eq false
+    }
+    it {
+      expect(
+        connection.receive_plain_auth(app.smtp_username, app.smtp_password)
+      ).to eq true
+    }
   end
 
   describe "#get_server_greeting" do
-    it { expect(connection.get_server_greeting).to eq "Cuttlefish SMTP server waves its arms and tentacles and says hello" }
+    it {
+      expect(connection.get_server_greeting).to eq(
+        "Cuttlefish SMTP server waves its arms and tentacles and says hello"
+      )
+    }
   end
 
   describe "#get_server_domain" do
     it do
-      expect(Rails.configuration).to receive(:cuttlefish_domain).and_return("cuttlefish.io")
+      expect(Rails.configuration).to receive(:cuttlefish_domain)
+        .and_return("cuttlefish.io")
       expect(connection.get_server_domain).to eq "cuttlefish.io"
     end
   end
@@ -38,7 +55,9 @@ describe CuttlefishSmtpConnection do
     it do
       expect(connection.receive_recipient("<matthew@foo.com>")).to eq true
       expect(connection.receive_recipient("<bar@camp.com>")).to eq true
-      expect(connection.current.recipients).to eq ["matthew@foo.com", "bar@camp.com"]
+      expect(connection.current.recipients).to eq(
+        ["matthew@foo.com", "bar@camp.com"]
+      )
     end
   end
 
@@ -54,17 +73,24 @@ describe CuttlefishSmtpConnection do
     it do
       connection.current.data = +"some data already received\r\n"
       expect(connection.receive_data_chunk(%w[foo bar])).to eq true
-      expect(connection.current.data).to eq "some data already received\r\nfoo\r\nbar"
+      expect(connection.current.data).to eq(
+        "some data already received\r\nfoo\r\nbar"
+      )
     end
   end
 
   describe ".default_parameters" do
-    it { expect(CuttlefishSmtpConnection.default_parameters[:auth]).to eq :required }
-    it { expect(CuttlefishSmtpConnection.default_parameters[:starttls]).to eq :required }
+    let(:defaults) { CuttlefishSmtpConnection.default_parameters }
+    it { expect(defaults[:auth]).to eq :required }
+    it { expect(defaults[:starttls]).to eq :required }
     it do
-      expect(Rails.configuration).to receive(:cuttlefish_domain_cert_chain_file).and_return("/foo/bar")
-      expect(Rails.configuration).to receive(:cuttlefish_domain_private_key_file).and_return("/foo/private")
-      expect(CuttlefishSmtpConnection.default_parameters[:starttls_options]).to eq(
+      expect(Rails.configuration).to receive(
+        :cuttlefish_domain_cert_chain_file
+      ).and_return("/foo/bar")
+      expect(Rails.configuration).to receive(
+        :cuttlefish_domain_private_key_file
+      ).and_return("/foo/private")
+      expect(defaults[:starttls_options]).to eq(
         cert_chain_file: "/foo/bar",
         private_key_file: "/foo/private"
       )
@@ -78,7 +104,8 @@ describe CuttlefishSmtpConnection do
         "Content-Type: text/plain; charset=\"utf-8\"",
         "Content-Transfer-Encoding: 8bit",
         "Subject: [WriteIT] Message: asdasd",
-        "From: Felipe <felipe@fiera-feroz.cl>, Matthew <matthew@fiera-feroz.cl>",
+        "From: Felipe <felipe@fiera-feroz.cl>, " \
+          "Matthew <matthew@fiera-feroz.cl>",
         "To: felipe@fiera-feroz.cl",
         "Date: Fri, 13 Mar 2015 14:42:20 -0000",
         "Message-ID: <20150313144220.12848.46019@paro-taktsang>",
@@ -98,7 +125,9 @@ describe CuttlefishSmtpConnection do
       end
       expect(Email.count).to eq 1
       mail = Email.first
-      expect(Mail.new(mail.data).decoded).to eq("Contra toda autoridad!...excepto mi mamá!")
+      expect(Mail.new(mail.data).decoded).to eq(
+        "Contra toda autoridad!...excepto mi mamá!"
+      )
     end
   end
 end

@@ -42,7 +42,9 @@ describe CuttlefishSchema do
       it "should return nil and error" do
         expect(result["data"]["email"]).to be_nil
         expect(result["errors"].length).to eq 1
-        expect(result["errors"][0]["message"]).to eq "Not authorized to access Query.email"
+        expect(result["errors"][0]["message"]).to eq(
+          "Not authorized to access Query.email"
+        )
       end
     end
 
@@ -52,7 +54,9 @@ describe CuttlefishSchema do
       it "should return nil and an error" do
         expect(result["data"]["email"]).to be_nil
         expect(result["errors"].length).to eq 1
-        expect(result["errors"][0]["message"]).to eq "Not authorized to access Email.id"
+        expect(result["errors"][0]["message"]).to eq(
+          "Not authorized to access Email.id"
+        )
       end
     end
 
@@ -68,7 +72,18 @@ describe CuttlefishSchema do
   end
 
   describe "emails" do
-    let(:query_string) { "query($appId: ID, $limit: Int, $offset: Int) { emails(appId: $appId, limit: $limit, offset: $offset) { totalCount nodes { id } } }" }
+    let(:query_string) do
+      <<~GRAPHQL
+        query($appId: ID, $limit: Int, $offset: Int) {
+          emails(appId: $appId, limit: $limit, offset: $offset) {
+            totalCount
+            nodes {
+              id
+            }
+          }
+        }
+      GRAPHQL
+    end
 
     it "should return emails" do
       expect(result["data"]["emails"]["nodes"]).to contain_exactly(
@@ -85,7 +100,9 @@ describe CuttlefishSchema do
       it "should return nil and error" do
         expect(result["data"]["emails"]).to be_nil
         expect(result["errors"].length).to eq 1
-        expect(result["errors"][0]["message"]).to eq "Not authorized to access Query.emails"
+        expect(result["errors"][0]["message"]).to eq(
+          "Not authorized to access Query.emails"
+        )
       end
     end
 
@@ -148,12 +165,19 @@ describe CuttlefishSchema do
     end
 
     it "should return an error" do
-      expect(result["errors"][0]["message"]).to eq "Not authorized to access Query.teams"
+      expect(result["errors"][0]["message"]).to eq(
+        "Not authorized to access Query.teams"
+      )
     end
 
     context "admin is a site admin" do
       let(:admin) do
-        FactoryBot.create(:admin, team: team_one, site_admin: true, name: "Matthew")
+        FactoryBot.create(
+          :admin,
+          team: team_one,
+          site_admin: true,
+          name: "Matthew"
+        )
       end
 
       it "should return all the teams" do

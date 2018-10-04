@@ -64,12 +64,16 @@ describe TeamPolicy do
     it { is_expected.to permit(:invite) }
 
     it "should have all teams in scope" do
-      expect(TeamPolicy::Scope.new(user, Team).resolve).to include(team_one, team_two)
+      expect(
+        TeamPolicy::Scope.new(user, Team).resolve
+      ).to include(team_one, team_two)
     end
 
     context "in read only mode" do
       before :each do
-        allow(Rails.configuration).to receive(:cuttlefish_read_only_mode) { true }
+        allow(Rails.configuration).to receive(:cuttlefish_read_only_mode) {
+          true
+        }
       end
       it { is_expected.not_to permit(:invite) }
     end

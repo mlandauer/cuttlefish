@@ -21,12 +21,16 @@ describe DenyListPolicy do
     it { is_expected.to permit(:destroy) }
     it "should be in scope" do
       deny_list
-      expect(DenyListPolicy::Scope.new(user, DenyList).resolve).to include(deny_list)
+      expect(
+        DenyListPolicy::Scope.new(user, DenyList).resolve
+      ).to include(deny_list)
     end
 
     context "in read only mode" do
       before :each do
-        allow(Rails.configuration).to receive(:cuttlefish_read_only_mode) { true }
+        allow(Rails.configuration).to receive(:cuttlefish_read_only_mode) {
+          true
+        }
       end
       it { is_expected.not_to permit(:destroy) }
     end
@@ -57,7 +61,9 @@ describe DenyListPolicy do
     it { is_expected.not_to permit(:destroy) }
     it "should not be in scope" do
       deny_list
-      expect(DenyListPolicy::Scope.new(user, DenyList).resolve).to_not include(deny_list)
+      expect(
+        DenyListPolicy::Scope.new(user, DenyList).resolve
+      ).to_not include(deny_list)
     end
   end
 end
