@@ -21,12 +21,14 @@ Style/StringLiterals:
 Style/NumericLiterals:
   Enabled: false
 
+# For Rails it feels a little overkill to have to write a description for
+# each class because so much is naming conventions. So, disabling this
+Style/Documentation:
+  Enabled: false
+
 # Everything below here we are disabling temporarily just so that we can
 # get most of the code in a good state with respect to fairly trivial
 # code changes
-
-Style/Documentation:
-  Enabled: false
 
 Style/GuardClause:
   Enabled: false
