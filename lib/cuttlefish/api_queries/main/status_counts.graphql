@@ -1,0 +1,20 @@
+query ($since1: DateTime!, $since2: DateTime!) {
+  emails1: emails(since: $since1) {
+    ...statistics
+  }
+  emails2: emails(since: $since2) {
+    ...statistics
+  }
+}
+
+fragment statistics on EmailConnection {
+  statistics {
+    totalCount
+    deliveredCount
+    softBounceCount
+    hardBounceCount
+    notSentCount
+    openRate
+    clickRate
+  }
+}

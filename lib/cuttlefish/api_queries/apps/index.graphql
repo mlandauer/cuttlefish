@@ -1,0 +1,10 @@
+{
+  apps {
+    id
+    name
+    dkimEnabled
+    dkimDnsRecord {
+      upgradeRequired
+    }
+  }
+}

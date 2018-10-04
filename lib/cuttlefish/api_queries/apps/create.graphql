@@ -1,0 +1,13 @@
+mutation($name: String!, $clickTrackingEnabled: Boolean, $openTrackingEnabled: Boolean, $customTrackingDomain: String) {
+  createApp(attributes: {name: $name, clickTrackingEnabled: $clickTrackingEnabled, openTrackingEnabled: $openTrackingEnabled, customTrackingDomain: $customTrackingDomain}) {
+    app {
+      id
+      name
+    }
+    errors {
+      message
+      path
+      type
+    }
+  }
+}

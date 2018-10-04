@@ -1,0 +1,21 @@
+query($appId: ID, $status: Status, $limit: Int, $offset: Int) {
+  emails(appId: $appId, status: $status, limit: $limit, offset: $offset) {
+    totalCount
+    nodes {
+      id
+      to
+      subject
+      app {
+        name
+      }
+      createdAt
+      status
+      opened
+      clicked
+    }
+  }
+  apps {
+    id
+    name
+  }
+}

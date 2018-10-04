@@ -1,0 +1,16 @@
+{
+  teams {
+    admins {
+      email
+      displayName
+    }
+    apps {
+      id
+      name
+    }
+  }
+  cuttlefishApp {
+    id
+    name
+  }
+}

@@ -1,0 +1,13 @@
+mutation($id: ID!, $attributes: AppAttributes!) {
+  updateApp(id: $id, attributes: $attributes) {
+    app {
+      id
+      name
+    }
+    errors {
+      message
+      path
+      type
+    }
+  }
+}

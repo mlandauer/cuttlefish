@@ -1,0 +1,26 @@
+query ($from: String!, $limit: Int, $offset: Int) {
+  emails(from: $from, limit: $limit, offset: $offset) {
+    totalCount
+    statistics {
+      totalCount
+      deliveredCount
+      softBounceCount
+      hardBounceCount
+      notSentCount
+      openRate
+      clickRate
+    }
+    nodes {
+      id
+      to
+      subject
+      app {
+        name
+      }
+      createdAt
+      status
+      opened
+      clicked
+    }
+  }
+}

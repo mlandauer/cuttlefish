@@ -1,0 +1,16 @@
+query($limit: Int, $offset: Int) {
+  blockedAddresses(limit: $limit, offset: $offset) {
+    totalCount
+    nodes {
+      id
+      address
+      becauseOfDeliveryEvent {
+        extendedStatus
+        time
+        email {
+          id
+        }
+      }
+    }
+  }
+}

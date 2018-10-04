@@ -1,0 +1,11 @@
+{
+  admins {
+    id
+    name
+    email
+    displayName
+    invitationCreatedAt
+    invitationAcceptedAt
+    currentAdmin
+  }
+}

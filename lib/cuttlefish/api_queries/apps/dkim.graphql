@@ -1,0 +1,12 @@
+query($id: ID!) {
+  app(id: $id) {
+    id
+    fromDomain
+    dkimDnsRecord {
+      configured
+      lookupValue
+      targetValue
+      name
+    }
+  }
+}

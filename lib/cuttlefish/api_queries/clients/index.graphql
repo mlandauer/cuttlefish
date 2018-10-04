@@ -1,0 +1,14 @@
+query($appId: ID) {
+  emails(appId: $appId) {
+    statistics {
+      userAgentFamilyCounts {
+        name
+        count
+      }
+    }
+  }
+  apps {
+    id
+    name
+  }
+}

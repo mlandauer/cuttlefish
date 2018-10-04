@@ -1,0 +1,15 @@
+query($id: ID!) {
+  app(id: $id) {
+    id
+    name
+    cuttlefish
+    dkimEnabled
+    dkimDnsRecord {
+      upgradeRequired
+    }
+    permissions {
+      update
+      dkim
+    }
+  }
+}

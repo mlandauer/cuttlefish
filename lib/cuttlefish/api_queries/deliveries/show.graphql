@@ -1,0 +1,53 @@
+query($id: ID!) {
+  configuration {
+    maxNoEmailsToStore
+  }
+  email(id: $id) {
+    from
+    to
+    subject
+    content {
+      html
+      text
+      source
+    }
+    createdAt
+    status
+    app {
+      id
+      name
+    }
+    opened
+    clicked
+    deliveryEvents {
+      time
+      dsn
+      extendedStatus
+    }
+    openEvents {
+      ip
+      userAgent {
+        family
+        version
+      }
+      os {
+        family
+        version
+      }
+      createdAt
+    }
+    clickEvents {
+      url
+      ip
+      userAgent {
+        family
+        version
+      }
+      os {
+        family
+        version
+      }
+      createdAt
+    }
+  }
+}

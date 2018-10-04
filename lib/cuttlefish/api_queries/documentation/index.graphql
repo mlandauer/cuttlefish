@@ -1,0 +1,12 @@
+{
+  apps {
+    id
+    name
+    smtpServer {
+      hostname
+      port
+      username
+      password
+    }
+  }
+}
