@@ -29,11 +29,14 @@ describe "getting a bunch of screenshots", js: true do
     let(:team) { Team.create! }
 
     before :each do
-      team.admins.create!(email: "matthew@openaustralia.org", password: "caplin")
+      team.admins.create!(
+        email: "matthew@openaustralia.org", password: "caplin"
+      )
       mail = Mail.new do
         subject "Hello!"
         text_part do
-          body "This can be anything because it isn't actually seen in the screenshot"
+          body "This can be anything because it isn't actually " \
+               "seen in the screenshot"
         end
 
         html_part do
@@ -69,7 +72,11 @@ describe "getting a bunch of screenshots", js: true do
       end
 
       @app = team.apps.create!(name: "My first App")
-      @email = @app.emails.create!(from: "hello@cuttlefish.io", to: "matthew@openaustralia.org", data: mail.encoded)
+      @email = @app.emails.create!(
+        from: "hello@cuttlefish.io",
+        to: "matthew@openaustralia.org",
+        data: mail.encoded
+      )
       @delivery = @email.deliveries.first
       @delivery.update_attributes(sent: true, open_tracked: true)
       FactoryBot.create(
@@ -77,13 +84,17 @@ describe "getting a bunch of screenshots", js: true do
         delivery: @delivery,
         time: 5.minutes.ago,
         dsn: "2.0.0",
-        extended_status: "sent (250 2.0.0 r6ay1l02Y4aTF9m016ayyY mail accepted for delivery)"
+        extended_status:
+          "sent (250 2.0.0 r6ay1l02Y4aTF9m016ayyY mail accepted for delivery)"
       )
       FactoryBot.create(
         :open_event,
         delivery: @delivery,
         created_at: 2.minutes.ago,
-        user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31",
+        user_agent:
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) " \
+          "AppleWebKit/537.31 (KHTML, like Gecko) " \
+          "Chrome/26.0.1410.65 Safari/537.31",
         ip: "1.2.3.4"
       )
       FactoryBot.create(:delivery_link, delivery_id: @delivery.id)

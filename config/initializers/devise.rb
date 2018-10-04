@@ -5,7 +5,8 @@
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
-  # note that it will be overwritten if you use your own mailer class with default "from" parameter.
+  # note that it will be overwritten if you use your own mailer class with
+  # default "from" parameter.
   config.mailer_sender = Rails.configuration.devise_emails_from
 
   # Configure the class responsible to send e-mails.
@@ -22,16 +23,21 @@ Devise.setup do |config|
   # just :email. You can configure it to use [:username, :subdomain], so for
   # authenticating a user, both parameters are required. Remember that those
   # parameters are used only when authenticating and not when retrieving from
-  # session. If you need permissions, you should implement that in a before filter.
+  # session. If you need permissions, you should implement that in a before
+  # filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
   # config.authentication_keys = [ :email ]
 
-  # Configure parameters from the request object used for authentication. Each entry
+  # Configure parameters from the request object used for authentication. Each
+  # entry
   # given should be a request method and it will automatically be passed to the
-  # find_for_authentication method and considered in your model lookup. For instance,
-  # if you set :request_keys to [:subdomain], :subdomain will be used on authentication.
-  # The same considerations mentioned for authentication_keys also apply to request_keys.
+  # find_for_authentication method and considered in your model lookup. For
+  # instance,
+  # if you set :request_keys to [:subdomain], :subdomain will be used on
+  # authentication.
+  # The same considerations mentioned for authentication_keys also apply to
+  # request_keys.
   # config.request_keys = []
 
   # Configure which authentication keys should be case-insensitive.
@@ -41,7 +47,8 @@ Devise.setup do |config|
 
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
-  # modifying a user and when used to authenticate or find a user. Default is :email.
+  # modifying a user and when used to authenticate or find a user. Default is
+  # :email.
   config.strip_whitespace_keys = [:email]
 
   # Tell if authentication through request.params is enabled. True by default.
@@ -63,15 +70,17 @@ Devise.setup do |config|
 
   # ==> Configuration for :database_authenticatable
   # For bcrypt, this is the cost for hashing the password and defaults to 10. If
-  # using other encryptors, it sets how many times you want the password re-encrypted.
+  # using other encryptors, it sets how many times you want the password
+  # re-encrypted.
   #
-  # Limiting the stretches to just one in testing will increase the performance of
+  # Limiting the stretches to just one in testing will increase the performance
+  # of
   # your test suite dramatically. However, it is STRONGLY RECOMMENDED to not use
   # a value less than 10 in other environments.
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = "ddb5cb8164715aafe48cfbe908a3cdebf8db81810827ce3b6f957aab34368391cb3f71f4db5189b348ce431c1fe9122b4b73bf9eff22afbd96484774a4efade0"
+  # config.pepper = "ddb5cb8164715aafe48cfbe908a3cdebf8db81810827ce3b6f957aab3"
 
   # ==> Configuration for :invitable
   # The period the generated invitation token is valid, after
@@ -139,7 +148,8 @@ Devise.setup do |config|
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.
-  # :failed_attempts = Locks an account after a number of failed attempts to sign in.
+  # :failed_attempts = Locks an account after a number of failed attempts to
+  # sign in.
   # :none            = No lock strategy. You should handle locking by yourself.
   # config.lock_strategy = :failed_attempts
 
@@ -148,7 +158,8 @@ Devise.setup do |config|
 
   # Defines which strategy will be used to unlock an account.
   # :email = Sends an unlock link to the user email
-  # :time  = Re-enables login after a certain amount of time (see :unlock_in below)
+  # :time  = Re-enables login after a certain amount of time (see :unlock_in
+  # below)
   # :both  = Enables both strategies
   # :none  = No unlock strategy. You should handle unlocking by yourself.
   # config.unlock_strategy = :both
@@ -171,10 +182,14 @@ Devise.setup do |config|
   config.reset_password_within = 2.hours
 
   # ==> Configuration for :encryptable
-  # Allow you to use another encryption algorithm besides bcrypt (default). You can use
-  # :sha1, :sha512 or encryptors from others authentication tools as :clearance_sha1,
-  # :authlogic_sha512 (then you should set stretches above to 20 for default behavior)
-  # and :restful_authentication_sha1 (then you should set stretches to 10, and copy
+  # Allow you to use another encryption algorithm besides bcrypt (default). You
+  # can use
+  # :sha1, :sha512 or encryptors from others authentication tools as
+  # :clearance_sha1,
+  # :authlogic_sha512 (then you should set stretches above to 20 for default
+  # behavior)
+  # and :restful_authentication_sha1 (then you should set stretches to 10, and
+  # copy
   # REST_AUTH_SITE_KEY to pepper)
   # config.encryptor = :sha512
 
@@ -182,12 +197,15 @@ Devise.setup do |config|
   # Defines name of the authentication token params key
   # config.token_authentication_key = :auth_token
 
-  # If true, authentication through token does not store user in session and needs
-  # to be supplied on each request. Useful if you are using the token as API token.
+  # If true, authentication through token does not store user in session and
+  # needs
+  # to be supplied on each request. Useful if you are using the token as API
+  # token.
   # config.stateless_token = false
 
   # ==> Scopes configuration
-  # Turn scoped views on. Before rendering "sessions/new", it will first check for
+  # Turn scoped views on. Before rendering "sessions/new", it will first check
+  # for
   # "users/sessions/new". It's turned off by default because it's slower if you
   # are using only default views.
   # config.scoped_views = false
@@ -197,8 +215,10 @@ Devise.setup do |config|
   # config.default_scope = :user
 
   # Configure sign_out behavior.
-  # Sign_out action can be scoped (i.e. /users/sign_out affects only :user scope).
-  # The default is true, which means any logout action will sign out all active scopes.
+  # Sign_out action can be scoped (i.e. /users/sign_out affects only :user
+  # scope).
+  # The default is true, which means any logout action will sign out all active
+  # scopes.
   # config.sign_out_all_scopes = true
 
   # ==> Navigation configuration
@@ -223,7 +243,8 @@ Devise.setup do |config|
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
-  # change the failure app, you can configure them inside the config.warden block.
+  # change the failure app, you can configure them inside the config.warden
+  # block.
   #
   # config.warden do |manager|
   #   manager.intercept_401 = false
