@@ -9,12 +9,14 @@ describe App do
     end
 
     it "should create a password that is different every time" do
-      expect(FactoryBot.create(:app).smtp_password).to_not eq FactoryBot.create(:app).smtp_password
+      expect(FactoryBot.create(:app).smtp_password).to_not eq(
+        FactoryBot.create(:app).smtp_password
+      )
     end
   end
 
   describe "#name" do
-    it "should allow upper and lower case letters, numbers, spaces and underscores" do
+    it "should allow letters, numbers, spaces and underscores" do
       expect(FactoryBot.build(:app, name: "Foo12 Bar_Foo")).to be_valid
     end
 
@@ -37,15 +39,19 @@ describe App do
   end
 
   describe "#custom_tracking_domain" do
-    it "should look up the cname of the custom domain and check it points to the cuttlefish server" do
+    it "should look up the cname of the custom domain and check " \
+       "it points to the cuttlefish server" do
       app = FactoryBot.build(:app, custom_tracking_domain: "email.myapp.com")
-      expect(App).to receive(:lookup_dns_cname_record).with("email.myapp.com").and_return("localhost.")
+      expect(App).to receive(:lookup_dns_cname_record)
+        .with("email.myapp.com").and_return("localhost.")
       expect(app).to be_valid
     end
 
-    it "should look up the cname of the custom domain and check it points to the cuttlefish server" do
+    it "should look up the cname of the custom domain and check " \
+       "it points to the cuttlefish server" do
       app = FactoryBot.build(:app, custom_tracking_domain: "email.foo.com")
-      expect(App).to receive(:lookup_dns_cname_record).with("email.foo.com").and_return("foo.com.")
+      expect(App).to receive(:lookup_dns_cname_record)
+        .with("email.foo.com").and_return("foo.com.")
       expect(app).to_not be_valid
     end
 
@@ -59,7 +65,9 @@ describe App do
   describe "#dkim_private_key" do
     it "should be generated automatically" do
       app = FactoryBot.create(:app)
-      expect(app.dkim_private_key.to_pem.split("\n").first).to eq "-----BEGIN RSA PRIVATE KEY-----"
+      expect(app.dkim_private_key.to_pem.split("\n").first).to eq(
+        "-----BEGIN RSA PRIVATE KEY-----"
+      )
     end
 
     it "should be different for different apps" do
@@ -92,7 +100,10 @@ describe App do
   end
 
   describe ".cuttlefish" do
-    before(:each) { allow(Rails.configuration).to receive(:cuttlefish_domain).and_return("cuttlefish.io") }
+    before(:each) do
+      allow(Rails.configuration).to receive(:cuttlefish_domain)
+        .and_return("cuttlefish.io")
+    end
     let(:app) { App.cuttlefish }
 
     it { expect(app.name).to eq "Cuttlefish" }
@@ -111,17 +122,22 @@ describe App do
     end
   end
 
-  # The following two tests are commented out because they require a network connection and
-  # are testing real things in DNS so in general it makes the tests fragile. Though, if you're
-  # working on the lookup_dns_cname_record method it's probably a good idea to uncomment them!
+  # The following two tests are commented out because they require a network
+  # connection and are testing real things in DNS so in general it makes the
+  # tests fragile. Though, if you're working on the lookup_dns_cname_record
+  # method it's probably a good idea to uncomment them!
 
   # describe "#lookup_dns_cname_record" do
   #   it "should resolve the cname of www.openaustralia.org" do
-  #     expect(App.lookup_dns_cname_record("www.openaustralia.org")).to eq "kedumba.openaustralia.org."
+  #     expect(App.lookup_dns_cname_record("www.openaustralia.org")).to eq(
+  #       "kedumba.openaustralia.org."
+  #     )
   #   end
   #
   #   it "should not resolve the cname of twiddlesticks.openaustralia.org" do
-  #    expect(App.lookup_dns_cname_record("twiddlesticks.openaustralia.org")).to be_nil
+  #     expect(
+  #       App.lookup_dns_cname_record("twiddlesticks.openaustralia.org")
+  #     ).to be_nil
   #   end
   # end
 end

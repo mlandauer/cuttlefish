@@ -13,13 +13,27 @@ describe Delivery do
 
       it "should be delivered if the status is sent" do
         # TODO: Replace with factory_girl
-        delivery.postfix_log_lines.create(dsn: "2.0.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
+        delivery.postfix_log_lines.create(
+          dsn: "2.0.0",
+          time: Time.now,
+          relay: "",
+          delay: "",
+          delays: "",
+          extended_status: ""
+        )
         expect(delivery.status).to eq "delivered"
       end
 
       it "should be soft_bounce if the status was deferred" do
         # TODO: Replace with factory_girl
-        delivery.postfix_log_lines.create(dsn: "4.3.0", time: Time.now, relay: "", delay: "", delays: "", extended_status: "")
+        delivery.postfix_log_lines.create(
+          dsn: "4.3.0",
+          time: Time.now,
+          relay: "",
+          delay: "",
+          delays: "",
+          extended_status: ""
+        )
         expect(delivery.status).to eq "soft_bounce"
       end
 
@@ -27,10 +41,24 @@ describe Delivery do
         expect(delivery.status).to eq "sent"
       end
 
-      it "should be delivered if the most recent status was a succesful delivery" do
+      it "should be delivered if most recent status was a succesful delivery" do
         # TODO: Replace with factory_girl
-        delivery.postfix_log_lines.create(dsn: "4.3.0", time: 1.hour.ago, relay: "", delay: "", delays: "", extended_status: "")
-        delivery.postfix_log_lines.create(dsn: "2.0.0", time: 5.minutes.ago, relay: "", delay: "", delays: "", extended_status: "")
+        delivery.postfix_log_lines.create(
+          dsn: "4.3.0",
+          time: 1.hour.ago,
+          relay: "",
+          delay: "",
+          delays: "",
+          extended_status: ""
+        )
+        delivery.postfix_log_lines.create(
+          dsn: "2.0.0",
+          time: 5.minutes.ago,
+          relay: "",
+          delay: "",
+          delays: "",
+          extended_status: ""
+        )
         expect(delivery.status).to eq "delivered"
       end
     end
