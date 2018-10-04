@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
@@ -27,15 +29,15 @@ guard :rspec, cmd: "bin/rspec" do
   dsl.watch_spec_files_for(ruby.lib_files)
 
   # Rails files
-  rails = dsl.rails(view_extensions: %w(erb haml slim))
+  rails = dsl.rails(view_extensions: %w[erb haml slim])
   dsl.watch_spec_files_for(rails.app_files)
   dsl.watch_spec_files_for(rails.views)
 
   watch(rails.controllers) do |m|
     [
-      rspec.spec.("routing/#{m[1]}_routing"),
-      rspec.spec.("controllers/#{m[1]}_controller"),
-      rspec.spec.("acceptance/#{m[1]}")
+      rspec.spec.call("routing/#{m[1]}_routing"),
+      rspec.spec.call("controllers/#{m[1]}_controller"),
+      rspec.spec.call("acceptance/#{m[1]}")
     ]
   end
 
@@ -45,7 +47,7 @@ guard :rspec, cmd: "bin/rspec" do
   watch(rails.app_controller)  { "#{rspec.spec_dir}/controllers" }
 
   # Capybara features specs
-  watch(rails.view_dirs)     { |m| rspec.spec.("features/#{m[1]}") }
+  watch(rails.view_dirs) { |m| rspec.spec.call("features/#{m[1]}") }
 
   # Turnip features and steps
   watch(%r{^spec/acceptance/(.+)\.feature$})
