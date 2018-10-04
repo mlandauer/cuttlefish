@@ -6,10 +6,9 @@ module Filters
     include ActionView::Helpers::AssetTagHelper
     include Rails.application.routes.url_helpers
 
-    attr_accessor :delivery, :delivery_id, :enabled
+    attr_accessor :delivery_id, :enabled
 
     def initialize(options)
-      @delivery = options[:delivery]
       @delivery_id = options[:delivery_id]
       @enabled = options[:enabled]
       super(options)
@@ -17,8 +16,6 @@ module Filters
 
     def filter_html(input)
       if enabled
-        # TODO: This feels out of place in a filter as it's writing
-        delivery.set_open_tracked!
         # TODO: Add image tag in a place to keep html valid (not just the
         # end of the document)
         input + image_tag(url, alt: nil)

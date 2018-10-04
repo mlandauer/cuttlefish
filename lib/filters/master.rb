@@ -14,7 +14,6 @@ module Filters
 
     def filter_mail(mail)
       filter1 = Filters::AddOpenTracking.new(
-        delivery: delivery,
         delivery_id: delivery.id,
         enabled: delivery.open_tracking_enabled?,
         tracking_domain: delivery.tracking_domain,

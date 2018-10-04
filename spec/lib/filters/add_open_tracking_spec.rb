@@ -3,10 +3,8 @@
 require "spec_helper"
 
 describe Filters::AddOpenTracking do
-  let(:delivery) { double(Delivery, set_open_tracked!: true) }
   let(:filter) do
     Filters::AddOpenTracking.new(
-      delivery: delivery,
       delivery_id: 673,
       enabled: true,
       tracking_domain: "localhost",
@@ -47,19 +45,9 @@ describe Filters::AddOpenTracking do
         )
       end
 
-      it "should record that it has been open tracked" do
-        expect(delivery).to receive(:set_open_tracked!)
-        filter.filter_mail(mail)
-      end
-
       context "app has disabled open tracking" do
         before :each do
           filter.enabled = false
-        end
-
-        it "should record that it has not been open tracked" do
-          expect(delivery).to_not receive(:set_open_tracked!)
-          filter.filter_mail(mail)
         end
       end
     end
@@ -76,11 +64,6 @@ describe Filters::AddOpenTracking do
       it "should do nothing to the content of the email" do
         expect(filter.filter_mail(mail).to_s).to eq mail.encoded
       end
-
-      it "should record that it has not been open tracked" do
-        expect(delivery).to_not receive(:set_open_tracked!)
-        filter.filter_mail(mail)
-      end
     end
 
     context "a text email with a single part" do
@@ -92,11 +75,6 @@ describe Filters::AddOpenTracking do
 
       it "should do nothing to the content of the email" do
         expect(filter.filter_mail(mail).to_s).to eq mail.encoded
-      end
-
-      it "should record that it has not been open tracked" do
-        expect(delivery).to_not receive(:set_open_tracked!)
-        filter.filter_mail(mail)
       end
     end
 
@@ -153,11 +131,6 @@ describe Filters::AddOpenTracking do
           "<table>I like css</table>" \
           "<img src=\"https://localhost/o2/673/#{hash}.gif\" />"
         )
-      end
-
-      it "should record that it has been open tracked" do
-        expect(delivery).to receive(:set_open_tracked!)
-        filter.filter_mail(mail)
       end
     end
   end
