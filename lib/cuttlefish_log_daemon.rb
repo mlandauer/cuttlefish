@@ -12,11 +12,9 @@ class CuttlefishLogDaemon
       end
     end
   rescue SignalException => e
-    if e.to_s == "SIGTERM"
-      puts "Received SIGTERM. Shutting down..."
-    else
-      raise e
-    end
+    raise e if e.to_s != "SIGTERM"
+
+    puts "Received SIGTERM. Shutting down..."
   end
 
   def self.process(line)

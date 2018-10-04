@@ -29,10 +29,10 @@ class App < ActiveRecord::Base
   end
 
   def new_password!
-    unless smtp_password_locked?
-      set_smtp_password
-      save!
-    end
+    return if smtp_password_locked?
+
+    set_smtp_password
+    save!
   end
 
   def from_domain
@@ -101,14 +101,15 @@ class App < ActiveRecord::Base
     # In DNS speak putting a "." after the domain makes it a full domain
     # name rather than just relative to the current higher level domain
     cname_domain = Rails.configuration.cuttlefish_domain + "."
-    unless custom_tracking_domain.blank?
-      if App.lookup_dns_cname_record(custom_tracking_domain) != cname_domain
-        errors.add(
-          :custom_tracking_domain,
-          "Doesn't have a CNAME record that points to #{cname_domain}"
-        )
-      end
+    return if custom_tracking_domain.blank?
+    if App.lookup_dns_cname_record(custom_tracking_domain) == cname_domain
+      return
     end
+
+    errors.add(
+      :custom_tracking_domain,
+      "Doesn't have a CNAME record that points to #{cname_domain}"
+    )
   end
 
   def set_smtp_password

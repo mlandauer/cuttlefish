@@ -57,9 +57,9 @@ module Types
     end
 
     def content
-      if object.data
-        { text: object.text_part, html: object.html_part, source: object.data }
-      end
+      return if object.data.nil?
+
+      { text: object.text_part, html: object.html_part, source: object.data }
     end
 
     def opened

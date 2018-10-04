@@ -7,24 +7,24 @@ class TrackingController < ApplicationController
   # ApplicationController force_ssl.
 
   def open
-    if HashId.valid?(params[:delivery_id], params[:hash])
-      delivery = Delivery.find(params[:delivery_id])
-      unless Rails.configuration.cuttlefish_read_only_mode
-        delivery.add_open_event(request)
-      end
-      # TODO: Check that we are asking for a gif and only accept those for
-      # the time being
-      # This sends a 1x1 transparent gif
-      send_data(
-        Base64.decode64(
-          "R0lGODlhAQABAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-        ),
-        type: "image/gif",
-        disposition: "inline"
-      )
-    else
+    unless HashId.valid?(params[:delivery_id], params[:hash])
       raise ActiveRecord::RecordNotFound
     end
+
+    delivery = Delivery.find(params[:delivery_id])
+    unless Rails.configuration.cuttlefish_read_only_mode
+      delivery.add_open_event(request)
+    end
+    # TODO: Check that we are asking for a gif and only accept those for
+    # the time being
+    # This sends a 1x1 transparent gif
+    send_data(
+      Base64.decode64(
+        "R0lGODlhAQABAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+      ),
+      type: "image/gif",
+      disposition: "inline"
+    )
   end
 
   def click

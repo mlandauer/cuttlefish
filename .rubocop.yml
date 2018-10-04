@@ -26,20 +26,16 @@ Style/NumericLiterals:
 Style/Documentation:
   Enabled: false
 
-# Everything below here we are disabling temporarily just so that we can
-# get most of the code in a good state with respect to fairly trivial
-# code changes
-
-Style/GuardClause:
-  Enabled: false
-
-Metrics/ClassLength:
-  Enabled: false
-
+# Disable a bunch of metrics to do with code complexity. These as are all
+# a bit hard-nosed. Maybe after we've done a pass with Code Climate we
+# can revisit these
 Metrics/AbcSize:
   Enabled: false
 
-Metrics/PerceivedComplexity:
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
   Enabled: false
 
 Metrics/CyclomaticComplexity:
@@ -48,11 +44,11 @@ Metrics/CyclomaticComplexity:
 Metrics/MethodLength:
   Enabled: false
 
-Metrics/BlockLength:
-  Enabled: false
-
 Metrics/ModuleLength:
   Enabled: false
 
 Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
   Enabled: false

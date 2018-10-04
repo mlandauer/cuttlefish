@@ -10,9 +10,10 @@ module DenyListServices
     def call
       success!
       deny_list = DenyList.find_by_id(id)
-      if deny_list && DenyListPolicy.new(current_admin, deny_list).destroy?
-        deny_list.destroy!
-      end
+      return if deny_list.nil?
+      return unless DenyListPolicy.new(current_admin, deny_list).destroy?
+
+      deny_list.destroy!
     end
 
     private

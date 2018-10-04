@@ -45,12 +45,12 @@ class EmailDataCache
 
   def save_data_to_filesystem(id, data)
     # Don't overwrite the data that's already on the filesystem
-    unless data_on_filesystem?(id)
-      # Save the data part of the email to the filesystem
-      create_data_filesystem_directory
-      File.open(data_filesystem_path(id), "wb") do |f|
-        f.write(data)
-      end
+    return if data_on_filesystem?(id)
+
+    # Save the data part of the email to the filesystem
+    create_data_filesystem_directory
+    File.open(data_filesystem_path(id), "wb") do |f|
+      f.write(data)
     end
   end
 
@@ -59,10 +59,10 @@ class EmailDataCache
     # remove the oldest ones
     entries = Dir.glob(File.join(data_filesystem_directory, "*"))
     no_to_remove = entries.count - max_no_emails_to_store_data
-    if no_to_remove.positive?
-      # Oldest first
-      to_remove = entries.sort_by { |f| File.mtime f }[0...no_to_remove]
-      to_remove.each { |f| EmailDataCache.safe_file_delete f }
-    end
+    return if no_to_remove <= 0
+
+    # Oldest first
+    to_remove = entries.sort_by { |f| File.mtime f }[0...no_to_remove]
+    to_remove.each { |f| EmailDataCache.safe_file_delete f }
   end
 end

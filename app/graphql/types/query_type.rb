@@ -157,10 +157,10 @@ module Types
 
     def blocked_address(address:)
       a = Address.find_by(text: address)
-      if a
-        Pundit.policy_scope(context[:current_admin], DenyList)
-              .where(address: a).first
-      end
+      return if a.nil?
+
+      Pundit.policy_scope(context[:current_admin], DenyList)
+            .where(address: a).first
     end
 
     def blocked_addresses(limit: 10, offset: 0)

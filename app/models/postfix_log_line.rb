@@ -7,11 +7,9 @@ class PostfixLogLine < ActiveRecord::Base
 
   def dsn_class
     match = dsn.match(/^(\d)\.(\d+)\.(\d+)/)
-    if match
-      match[1].to_i
-    else
-      raise "Unexpected form for dsn code"
-    end
+    raise "Unexpected form for dsn code" if match.nil?
+
+    match[1].to_i
   end
 
   def status
@@ -45,21 +43,21 @@ class PostfixLogLine < ActiveRecord::Base
     # Only log delivery attempts
     # Note that timeouts in connecting to the remote mail server appear in
     # the program "error". So, we're including those
-    if %w[smtp error].include?(program)
-      delivery = Delivery.joins(:email, :address)
-                         .order("emails.created_at DESC")
-                         .find_by(
-                           "addresses.text" => to,
-                           postfix_queue_id: queue_id
-                         )
+    return unless %w[smtp error].include?(program)
 
-      if delivery
-        # Don't resave duplicates
-        PostfixLogLine.find_or_create_by(values.merge(delivery_id: delivery.id))
-      else
-        puts "Skipping address #{to} from postfix queue id #{queue_id} - " \
-             "it's not recognised: #{line}"
-      end
+    delivery = Delivery.joins(:email, :address)
+                       .order("emails.created_at DESC")
+                       .find_by(
+                         "addresses.text" => to,
+                         postfix_queue_id: queue_id
+                       )
+
+    if delivery
+      # Don't resave duplicates
+      PostfixLogLine.find_or_create_by(values.merge(delivery_id: delivery.id))
+    else
+      puts "Skipping address #{to} from postfix queue id #{queue_id} - " \
+           "it's not recognised: #{line}"
     end
   end
 

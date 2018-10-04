@@ -47,10 +47,10 @@ class CuttlefishSmtpServer
     puts "Stopping server gracefully..."
     EM.stop_server @server
 
-    unless wait_for_connections_and_stop
-      # Still some connections running, schedule a check later
-      EventMachine.add_periodic_timer(1) { wait_for_connections_and_stop }
-    end
+    return if wait_for_connections_and_stop
+
+    # Still some connections running, schedule a check later
+    EventMachine.add_periodic_timer(1) { wait_for_connections_and_stop }
   end
 
   def wait_for_connections_and_stop
