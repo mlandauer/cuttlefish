@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
 describe Mutations::RemoveAdmin do
-  let(:result) {
+  let(:result) do
     CuttlefishSchema.execute(
       query_string,
       context: context,
       variables: variables
     )
-  }
-  let(:query_string) {
-    <<-EOF
-    mutation ($id: ID!) {
-      removeAdmin(id: $id) {
-        admin {
-          id
+  end
+  let(:query_string) do
+    <<~GRAPHQL
+      mutation ($id: ID!) {
+        removeAdmin(id: $id) {
+          admin {
+            id
+          }
         }
       }
-    }
-    EOF
-  }
-  let(:context) { { current_admin: current_admin }}
+    GRAPHQL
+  end
+  let(:context) { { current_admin: current_admin } }
   let(:variables) { { id: admin.id } }
   let(:current_admin) { FactoryBot.create(:admin, team: team_one) }
   let(:admin) { FactoryBot.create(:admin, team: team_one) }
@@ -33,28 +33,28 @@ describe Mutations::RemoveAdmin do
   end
 
   it "should return the deleted admin" do
-    expect(result).to eq ({
-      'data' => {
-        'removeAdmin' => {
-          'admin' => {
-            'id' => admin.id.to_s
+    expect(result).to eq(
+      "data" => {
+        "removeAdmin" => {
+          "admin" => {
+            "id" => admin.id.to_s
           }
         }
       }
-    })
+    )
   end
 
   context "trying to remove non-existent admin" do
     before(:each) { admin.destroy! }
 
     it "should return nil for the result" do
-      expect(result).to eq ({
-        'data' => {
-          'removeAdmin' => {
-            'admin' => nil
+      expect(result).to eq(
+        "data" => {
+          "removeAdmin" => {
+            "admin" => nil
           }
         }
-      })
+      )
     end
   end
 
@@ -62,13 +62,13 @@ describe Mutations::RemoveAdmin do
     let(:admin) { FactoryBot.create(:admin, team: team_two) }
 
     it "should return nil for the result" do
-      expect(result).to eq ({
-        'data' => {
-          'removeAdmin' => {
-            'admin' => nil
+      expect(result).to eq(
+        "data" => {
+          "removeAdmin" => {
+            "admin" => nil
           }
         }
-      })
+      )
     end
   end
 end

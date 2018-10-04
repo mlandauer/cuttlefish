@@ -1,36 +1,36 @@
 # frozen_string_literal: true
 
 describe Mutations::CreateApp do
-  let(:result) {
+  let(:result) do
     CuttlefishSchema.execute(
       query_string,
       context: context,
       variables: variables
     )
-  }
-  let(:query_string) {
-    <<-EOF
-    mutation ($name: String!) {
-      createApp(attributes: { name: $name }) {
-        app {
-          name
-        }
-        errors {
-          path
-          message
-          type
+  end
+  let(:query_string) do
+    <<~GRAPHQL
+      mutation ($name: String!) {
+        createApp(attributes: { name: $name }) {
+          app {
+            name
+          }
+          errors {
+            path
+            message
+            type
+          }
         }
       }
-    }
-    EOF
-  }
-  let(:context) { { current_admin: current_admin }}
-  let(:name) { 'An App' }
+    GRAPHQL
+  end
+  let(:context) { { current_admin: current_admin } }
+  let(:name) { "An App" }
   let(:variables) { { name: name } }
   let(:current_admin) { FactoryBot.create(:admin) }
 
-  it 'should not return any errors' do
-    expect(result['errors']).to be_nil
+  it "should not return any errors" do
+    expect(result["errors"]).to be_nil
   end
 
   it "should create an app" do
@@ -38,10 +38,10 @@ describe Mutations::CreateApp do
   end
 
   it "should return the created app" do
-    expect(result['data']['createApp']).to eq ({
-      'app' => { 'name' => name },
-      'errors' => []
-    })
+    expect(result["data"]["createApp"]).to eq(
+      "app" => { "name" => name },
+      "errors" => []
+    )
   end
 
   context "user does not have permission" do
@@ -52,29 +52,29 @@ describe Mutations::CreateApp do
     end
 
     it "should return an error" do
-      expect(result['data']['createApp']).to eq ({
-        'app' => nil,
-        'errors' => [{
+      expect(result["data"]["createApp"]).to eq(
+        "app" => nil,
+        "errors" => [{
           "message" => "You don't have permissions to do this",
           "type" => "PERMISSION",
           "path" => []
         }]
-      })
+      )
     end
   end
 
   context "invalid name" do
-    let(:name) { 'sd^&' }
+    let(:name) { "sd^&" }
 
     it "should return a nil app and a validation error" do
-      expect(result['data']['createApp']).to eq ({
-        'app' => nil,
-        'errors' => [{
+      expect(result["data"]["createApp"]).to eq(
+        "app" => nil,
+        "errors" => [{
           "message" => "only letters, numbers, spaces and underscores",
           "type" => "INVALID",
-          "path" => ["attributes", "name"]
+          "path" => %w[attributes name]
         }]
-      })
+      )
     end
   end
 end

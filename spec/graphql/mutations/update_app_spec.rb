@@ -1,47 +1,49 @@
 # frozen_string_literal: true
 
 describe Mutations::UpdateApp do
-  let(:result) {
+  let(:result) do
     CuttlefishSchema.execute(
       query_string,
       context: context,
       variables: variables
     )
-  }
+  end
 
-  let(:query_string) {
-    <<-EOF
-    mutation ($id: ID!, $attributes: AppAttributes!) {
-      updateApp(id: $id, attributes: $attributes) {
-        app {
-          name
-          fromDomain
-        }
-        errors {
-          path
-          message
-          type
+  let(:query_string) do
+    <<~GRAPHQL
+      mutation ($id: ID!, $attributes: AppAttributes!) {
+        updateApp(id: $id, attributes: $attributes) {
+          app {
+            name
+            fromDomain
+          }
+          errors {
+            path
+            message
+            type
+          }
         }
       }
+    GRAPHQL
+  end
+  let(:attributes) do
+    {
+      "name" => name,
+      "openTrackingEnabled" => true,
+      "clickTrackingEnabled" => true,
+      "customTrackingDomain" => nil,
+      "fromDomain" => "foo.com"
     }
-    EOF
-  }
-  let(:attributes) { {
-    'name' => name,
-    'openTrackingEnabled' => true,
-    'clickTrackingEnabled' => true,
-    'customTrackingDomain' => nil,
-    'fromDomain' => 'foo.com'
-  } }
-  let(:context) { { current_admin: current_admin }}
-  let(:name) { 'An updated App' }
+  end
+  let(:context) { { current_admin: current_admin } }
+  let(:name) { "An updated App" }
   let(:variables) { { id: app.id, attributes: attributes } }
   let(:current_admin) { FactoryBot.create(:admin, team: team) }
   let(:app) { create(:app, team: team) }
   let(:team) { create(:team) }
 
-  it 'should not return any errors and return the updated app' do
-    expect(result).to eq ({
+  it "should not return any errors and return the updated app" do
+    expect(result).to eq(
       "data" => {
         "updateApp" => {
           "app" => {
@@ -51,7 +53,7 @@ describe Mutations::UpdateApp do
           "errors" => []
         }
       }
-    })
+    )
   end
 
   it "should update the name" do
@@ -61,12 +63,10 @@ describe Mutations::UpdateApp do
   end
 
   context "just updating the from domain" do
-    let(:attributes) { {
-      'fromDomain' => 'foo.com'
-    } }
+    let(:attributes) { { "fromDomain" => "foo.com" } }
 
-    it 'should not return any errors and return the updated app' do
-      expect(result).to eq ({
+    it "should not return any errors and return the updated app" do
+      expect(result).to eq(
         "data" => {
           "updateApp" => {
             "app" => {
@@ -76,7 +76,7 @@ describe Mutations::UpdateApp do
             "errors" => []
           }
         }
-      })
+      )
     end
   end
 end

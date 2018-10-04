@@ -13,7 +13,7 @@ describe EmailDataCache do
 
     it "should only keep the full data of a certain number of the emails around" do
       allow(cache).to receive(:max_no_emails_to_store_data).and_return(2)
-      (1..4).each {|id| cache.set(id, "This a main section") }
+      (1..4).each { |id| cache.set(id, "This a main section") }
       expect(Dir.glob(File.join(cache.data_filesystem_directory, "*")).count).to eq 2
     end
   end
