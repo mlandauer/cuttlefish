@@ -5,12 +5,13 @@ module Filters
     attr_accessor :dkim_dns, :sender_email, :enabled,
                   :cuttlefish_enabled, :cuttlefish_dkim_dns
 
-    def initialize(options)
-      @enabled = options[:enabled]
-      @dkim_dns = options[:dkim_dns]
-      @cuttlefish_enabled = options[:cuttlefish_enabled]
-      @cuttlefish_dkim_dns = options[:cuttlefish_dkim_dns]
-      @sender_email = options[:sender_email]
+    def initialize(enabled:, dkim_dns:, cuttlefish_enabled:,
+                   cuttlefish_dkim_dns:, sender_email:)
+      @enabled = enabled
+      @dkim_dns = dkim_dns
+      @cuttlefish_enabled = cuttlefish_enabled
+      @cuttlefish_dkim_dns = cuttlefish_dkim_dns
+      @sender_email = sender_email
     end
 
     def filter_mail(mail)

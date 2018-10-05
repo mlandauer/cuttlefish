@@ -6,10 +6,14 @@ module Filters
 
     attr_accessor :delivery_id, :enabled
 
-    def initialize(options)
-      @delivery_id = options[:delivery_id]
-      @enabled = options[:enabled]
-      super(options)
+    def initialize(delivery_id:, enabled:,
+                   tracking_domain:, using_custom_tracking_domain:)
+      @delivery_id = delivery_id
+      @enabled = enabled
+      super(
+        tracking_domain: tracking_domain,
+        using_custom_tracking_domain: using_custom_tracking_domain
+      )
     end
 
     def rewrite_url(url)

@@ -4,8 +4,8 @@ module Filters
   class MailerHeader < Filters::Base
     attr_accessor :version
 
-    def initialize(options)
-      @version = options[:version]
+    def initialize(version:)
+      @version = version
     end
 
     def filter_mail(mail)
