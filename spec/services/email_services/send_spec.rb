@@ -112,5 +112,23 @@ describe EmailServices::Send do
 
       expect(email.deliveries.first).to be_sent
     end
+
+    it "should record that the deliveries are being open tracked" do
+      send
+
+      expect(email.deliveries.first).to be_open_tracked
+    end
+
+    context "app has disabled open tracking" do
+      before(:each) do
+        email.app.update_attributes(open_tracking_enabled: false)
+      end
+
+      it "should record that the deliveries are not being open tracked" do
+        send
+
+        expect(email.deliveries.first).to_not be_open_tracked
+      end
+    end
   end
 end
