@@ -22,7 +22,7 @@ module EmailServices
         Rails.configuration.postfix_smtp_port
       ) do |smtp|
         response = smtp.send_message(
-          Filters::Master.new(delivery).filter(delivery.data),
+          Filters::Master.new(delivery: delivery).filter(delivery.data),
           delivery.return_path,
           [delivery.to]
         )
