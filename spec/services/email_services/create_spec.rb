@@ -18,7 +18,7 @@ describe EmailServices::Create do
   end
 
   it "should send a test email" do
-    expect(MailWorker).to receive(:perform_async)
+    expect(SendEmailWorker).to receive(:perform_async)
     create_email
   end
 

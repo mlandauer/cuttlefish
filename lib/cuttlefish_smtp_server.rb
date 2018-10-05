@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path File.join(File.dirname(__FILE__), "mail_worker")
+require File.expand_path File.join(File.dirname(__FILE__), "send_email_worker")
 require File.expand_path File.join(File.dirname(__FILE__), "email_data_cache")
 require "ostruct"
 require "eventmachine"
@@ -178,7 +178,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
       app_id: current.app_id
     )
 
-    MailWorker.perform_async(email.id)
+    SendEmailWorker.perform_async(email.id)
 
     # Preserve the app_id as we are already authenticated
     @current = OpenStruct.new(app_id: current.app_id)

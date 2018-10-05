@@ -3,7 +3,7 @@
 require "spec_helper"
 require "ostruct"
 
-describe MailWorker, "#perform" do
+describe SendEmailWorker, "#perform" do
   let(:team) { Team.create! }
   let(:app) { team.apps.create!(name: "test") }
   let(:mail) do
@@ -25,6 +25,6 @@ describe MailWorker, "#perform" do
   it "should forward the email information" do
     expect(EmailServices::Send).to receive(:call)
 
-    MailWorker.new.perform(email.id)
+    SendEmailWorker.new.perform(email.id)
   end
 end

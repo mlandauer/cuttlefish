@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # For Sidekiq
-class MailWorker
+class SendEmailWorker
   include Sidekiq::Worker
 
   def perform(email_id)

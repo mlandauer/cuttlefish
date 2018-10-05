@@ -42,7 +42,7 @@ module EmailServices
         app_id: app_id
       )
 
-      MailWorker.perform_async(email.id)
+      SendEmailWorker.perform_async(email.id)
       success!
       email
     end
