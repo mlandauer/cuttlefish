@@ -69,14 +69,14 @@ RSpec.configure do |config|
 
   config.before :each do
     cache = EmailDataCache.new(
-      Rails.env, Rails.configuration.max_no_emails_to_store
+      Rails.env.to_s, Rails.configuration.max_no_emails_to_store
     )
     FileUtils.rm_rf cache.data_filesystem_directory
   end
 
   config.after :each do
     cache = EmailDataCache.new(
-      Rails.env, Rails.configuration.max_no_emails_to_store
+      Rails.env.to_s, Rails.configuration.max_no_emails_to_store
     )
     FileUtils.rm_rf cache.data_filesystem_directory
   end

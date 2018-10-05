@@ -3,12 +3,13 @@
 require "spec_helper"
 
 describe Filters::ClickTracking do
+  let(:using_custom_tracking_domain) { false }
   let(:filter) do
     Filters::ClickTracking.new(
       delivery_id: 673,
       enabled: true,
-      tracking_domain: "localhost",
-      using_custom_tracking_domain: false
+      tracking_domain: "links.bar.com",
+      using_custom_tracking_domain: using_custom_tracking_domain
     )
   end
 
@@ -47,7 +48,49 @@ describe Filters::ClickTracking do
         .and_return(double(DeliveryLink, id: 321))
       allow(HashId).to receive(:hash)
         .with("321-http://foo.com?a=2").and_return("sdfsd")
-      expect(filter.rewrite_url("http://foo.com?a=2")).to eq "https://localhost/l2/321/sdfsd?url=http%3A%2F%2Ffoo.com%3Fa%3D2"
+      expect(filter.rewrite_url("http://foo.com?a=2")).to eq "https://links.bar.com/l2/321/sdfsd?url=http%3A%2F%2Ffoo.com%3Fa%3D2"
+    end
+  end
+
+  describe "#host" do
+    it "should return the tracking_domain" do
+      expect(filter.host).to eq "links.bar.com"
+    end
+
+    context "in development environment" do
+      before(:each) do
+        allow(Rails).to receive_message_chain(:env, :development?) { true }
+        allow(Rails).to receive_message_chain(:env, :to_s) { "development" }
+      end
+
+      it "should always give you the localhost" do
+        expect(filter.host).to eq "localhost:3000"
+      end
+    end
+  end
+
+  describe "#protocol" do
+    it "should use https" do
+      expect(filter.protocol).to eq "https"
+    end
+
+    context "using custom tracking domain" do
+      let(:using_custom_tracking_domain) { true }
+
+      it "should use http" do
+        expect(filter.protocol).to eq "http"
+      end
+    end
+
+    context "in development environment" do
+      before(:each) do
+        allow(Rails).to receive_message_chain(:env, :development?) { true }
+        allow(Rails).to receive_message_chain(:env, :to_s) { "development" }
+      end
+
+      it "should use http" do
+        expect(filter.protocol).to eq "http"
+      end
     end
   end
 end
