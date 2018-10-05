@@ -17,8 +17,8 @@ class ApplicationController < ActionController::Base
 
   def api_query(variables = {})
     query_name = "#{controller_name}_#{action_name}".upcase
-    Cuttlefish::ApiClient.query(
-      Cuttlefish::ApiClient.const_get(query_name),
+    Api.query(
+      Api::Queries.const_get(query_name),
       # Convert variable names to camelcase for graphql
       variables: Hash[variables.map { |k, v| [k.to_s.camelize(:lower), v] }],
       current_admin: current_admin
