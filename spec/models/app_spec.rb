@@ -62,6 +62,60 @@ describe App do
     end
   end
 
+  describe "#tracking_domain" do
+    let(:custom_tracking_domain) { nil }
+    let(:app) { build(:app, custom_tracking_domain: custom_tracking_domain) }
+
+    it "should by default return the cuttlefish domain" do
+      expect(app.tracking_domain).to eq Rails.configuration.cuttlefish_domain
+    end
+
+    context "with a custom tracking domain" do
+      let(:custom_tracking_domain) { "foo.com" }
+
+      it "should return the custom tracking domain" do
+        expect(app.tracking_domain).to eq "foo.com"
+      end
+    end
+
+    context "in development environment" do
+      before(:each) do
+        allow(Rails).to receive_message_chain(:env, :development?) { true }
+      end
+
+      it "should return the localhost" do
+        expect(app.tracking_domain).to eq "localhost:3000"
+      end
+    end
+  end
+
+  describe "#tracking_protocol" do
+    let(:custom_tracking_domain) { nil }
+    let(:app) { build(:app, custom_tracking_domain: custom_tracking_domain) }
+
+    it "should by default use https" do
+      expect(app.tracking_protocol).to eq "https"
+    end
+
+    context "with a custom tracking domain" do
+      let(:custom_tracking_domain) { "foo.com" }
+
+      it "should use http" do
+        expect(app.tracking_protocol).to eq "http"
+      end
+    end
+
+    context "in development environment" do
+      before(:each) do
+        allow(Rails).to receive_message_chain(:env, :development?) { true }
+      end
+
+      it "should use http" do
+        expect(app.tracking_protocol).to eq "http"
+      end
+    end
+  end
+
   describe "#dkim_private_key" do
     it "should be generated automatically" do
       app = create(:app)
