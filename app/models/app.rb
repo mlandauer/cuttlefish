@@ -66,7 +66,7 @@ class App < ActiveRecord::Base
     OpenSSL::PKey::RSA.new(read_attribute(:dkim_private_key))
   end
 
-  def tracking_domain2
+  def tracking_domain
     if Rails.env.development?
       "localhost:3000"
     elsif custom_tracking_domain?
