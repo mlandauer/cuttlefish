@@ -66,22 +66,25 @@ class App < ActiveRecord::Base
     OpenSSL::PKey::RSA.new(read_attribute(:dkim_private_key))
   end
 
-  def tracking_domain
+  def tracking_domain_info
     if Rails.env.development?
-      "localhost:3000"
+      { protocol: "http", domain: "localhost:3000" }
     elsif custom_tracking_domain?
-      custom_tracking_domain
+      # We can't use https with a custom tracking domain because otherwise
+      # we would need an SSL certificate installed for every custom domain used
+      # and that's going to be way too much hassle for users
+      { protocol: "http", domain: custom_tracking_domain }
     else
-      Rails.configuration.cuttlefish_domain
+      { protocol: "https", domain: Rails.configuration.cuttlefish_domain }
     end
   end
 
+  def tracking_domain
+    tracking_domain_info[:domain]
+  end
+
   def tracking_protocol
-    if custom_tracking_domain? || Rails.env.development?
-      "http"
-    else
-      "https"
-    end
+    tracking_domain_info[:protocol]
   end
 
   # Are we using a custom tracking domain?
