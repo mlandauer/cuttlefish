@@ -66,19 +66,13 @@ class App < ActiveRecord::Base
     OpenSSL::PKey::RSA.new(read_attribute(:dkim_private_key))
   end
 
-  def tracking_domain
-    if custom_tracking_domain?
-      custom_tracking_domain
-    else
-      Rails.configuration.cuttlefish_domain
-    end
-  end
-
   def tracking_domain2
     if Rails.env.development?
       "localhost:3000"
+    elsif custom_tracking_domain?
+      custom_tracking_domain
     else
-      tracking_domain
+      Rails.configuration.cuttlefish_domain
     end
   end
 
