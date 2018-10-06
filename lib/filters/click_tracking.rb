@@ -4,19 +4,13 @@ module Filters
   class ClickTracking < Filters::Mail
     include Rails.application.routes.url_helpers
 
-    attr_accessor :delivery_id, :enabled
-    attr_reader :host, :protocol
+    attr_accessor :delivery_id, :enabled, :host, :protocol
 
-    def initialize(delivery_id:, enabled:,
-                   tracking_domain:, using_custom_tracking_domain:)
+    def initialize(delivery_id:, enabled:, host:, protocol:)
       @delivery_id = delivery_id
       @enabled = enabled
-      @host = Rails.env.development? ? "localhost:3000" : tracking_domain
-      @protocol = if using_custom_tracking_domain || Rails.env.development?
-                    "http"
-                  else
-                    "https"
-                  end
+      @host = host
+      @protocol = protocol
     end
 
     def rewrite_url(url)

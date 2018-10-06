@@ -19,11 +19,22 @@ module Filters
         tracking_domain: delivery.tracking_domain,
         using_custom_tracking_domain: delivery.custom_tracking_domain?
       )
+
+      host = if Rails.env.development?
+               "localhost:3000"
+             else
+               delivery.tracking_domain
+             end
+      protocol = if delivery.custom_tracking_domain? || Rails.env.development?
+                   "http"
+                 else
+                   "https"
+                 end
       filter2 = Filters::ClickTracking.new(
         delivery_id: delivery.id,
         enabled: delivery.click_tracking_enabled?,
-        tracking_domain: delivery.tracking_domain,
-        using_custom_tracking_domain: delivery.custom_tracking_domain?
+        host: host,
+        protocol: protocol
       )
       filter3 = Filters::InlineCss.new
       filter4 = Filters::MailerHeader.new(version: APP_VERSION)
