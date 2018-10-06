@@ -3,12 +3,14 @@
 require "spec_helper"
 
 describe Filters::AddOpenTracking do
+  let(:tracking_domain) { "localhost" }
+  let(:using_custom_tracking_domain) { false }
   let(:filter) do
     Filters::AddOpenTracking.new(
       delivery_id: 673,
       enabled: true,
-      tracking_domain: "localhost",
-      using_custom_tracking_domain: false
+      tracking_domain: tracking_domain,
+      using_custom_tracking_domain: using_custom_tracking_domain
     )
   end
 
@@ -17,12 +19,15 @@ describe Filters::AddOpenTracking do
       expect(filter.url).to eq "https://localhost/o2/673/05c6b2136e9c1297c0264427a17aa3cf4ea40b3e.gif"
     end
 
-    it "should use a custom domain if it is set (and also not use ssl)" do
-      # This is not nice. Far too much knowledge of other classes
-      # TODO Refactor
-      filter.tracking_domain = "email.planningalerts.org.au"
-      filter.using_custom_tracking_domain = true
-      expect(filter.url).to eq "http://email.planningalerts.org.au/o2/673/05c6b2136e9c1297c0264427a17aa3cf4ea40b3e.gif"
+    context "using a custom domain" do
+      let(:tracking_domain) { "email.planningalerts.org.au" }
+      let(:using_custom_tracking_domain) { true }
+
+      it "should use a custom domain if it is set (and also not use ssl)" do
+        # This is not nice. Far too much knowledge of other classes
+        # TODO Refactor
+        expect(filter.url).to eq "http://email.planningalerts.org.au/o2/673/05c6b2136e9c1297c0264427a17aa3cf4ea40b3e.gif"
+      end
     end
   end
 
