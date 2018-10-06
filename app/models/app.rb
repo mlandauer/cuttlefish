@@ -74,6 +74,22 @@ class App < ActiveRecord::Base
     end
   end
 
+  def tracking_domain2
+    if Rails.env.development?
+      "localhost:3000"
+    else
+      tracking_domain
+    end
+  end
+
+  def tracking_protocol
+    if custom_tracking_domain? || Rails.env.development?
+      "http"
+    else
+      "https"
+    end
+  end
+
   # Are we using a custom tracking domain?
   def custom_tracking_domain?
     custom_tracking_domain.present?

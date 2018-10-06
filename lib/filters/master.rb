@@ -13,28 +13,17 @@ module Filters
     end
 
     def filter_mail(mail)
-      host = if Rails.env.development?
-               "localhost:3000"
-             else
-               delivery.tracking_domain
-             end
-      protocol = if delivery.custom_tracking_domain? || Rails.env.development?
-                   "http"
-                 else
-                   "https"
-                 end
-
       filter1 = Filters::AddOpenTracking.new(
         delivery_id: delivery.id,
         enabled: delivery.open_tracking_enabled?,
-        host: host,
-        protocol: protocol
+        host: delivery.app.tracking_domain2,
+        protocol: delivery.app.tracking_protocol
       )
       filter2 = Filters::ClickTracking.new(
         delivery_id: delivery.id,
         enabled: delivery.click_tracking_enabled?,
-        host: host,
-        protocol: protocol
+        host: delivery.app.tracking_domain2,
+        protocol: delivery.app.tracking_protocol
       )
       filter3 = Filters::InlineCss.new
       filter4 = Filters::MailerHeader.new(version: APP_VERSION)
