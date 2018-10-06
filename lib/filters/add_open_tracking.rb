@@ -6,13 +6,14 @@ module Filters
     include ActionView::Helpers::AssetTagHelper
     include Rails.application.routes.url_helpers
 
-    attr_accessor :delivery_id, :enabled, :host, :protocol
+    attr_accessor :delivery_id, :enabled, :tracking_domain, :tracking_protocol
 
-    def initialize(delivery_id:, enabled:, host:, protocol:)
+    def initialize(delivery_id:, enabled:,
+                   tracking_domain:, tracking_protocol:)
       @delivery_id = delivery_id
       @enabled = enabled
-      @host = host
-      @protocol = protocol
+      @tracking_domain = tracking_domain
+      @tracking_protocol = tracking_protocol
     end
 
     def filter_html(input)
@@ -28,8 +29,8 @@ module Filters
     # The url for the tracking image
     def url
       tracking_open_url(
-        host: host,
-        protocol: protocol,
+        host: tracking_domain,
+        protocol: tracking_protocol,
         delivery_id: delivery_id,
         hash: HashId.hash(delivery_id.to_s),
         format: :gif
