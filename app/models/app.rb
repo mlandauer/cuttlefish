@@ -107,11 +107,14 @@ class App < ActiveRecord::Base
 
   private
 
-  def valid_dns_for_custom_tracking_domain
+  def cname_domain
     # In DNS speak putting a "." after the domain makes it a full domain
     # name rather than just relative to the current higher level domain
-    App.lookup_dns_cname_record(custom_tracking_domain) ==
-      Rails.configuration.cuttlefish_domain + "."
+    Rails.configuration.cuttlefish_domain + "."
+  end
+
+  def valid_dns_for_custom_tracking_domain
+    App.lookup_dns_cname_record(custom_tracking_domain) == cname_domain
   end
 
   def custom_tracking_domain_points_to_correct_place
