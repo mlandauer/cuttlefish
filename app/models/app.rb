@@ -11,6 +11,7 @@ class App < ActiveRecord::Base
                      message: "only letters, numbers, spaces and underscores"
                    }
   validate :custom_tracking_domain_points_to_correct_place
+  validate :validate_dkim_settings
   # Validating booleans so that they can't have nil values.
   # See https://stackoverflow.com/questions/34759092/to-validate-or-not-to-validate-boolean-field
   validates :smtp_password_locked, inclusion: { in: [true, false] }
@@ -101,6 +102,30 @@ class App < ActiveRecord::Base
   end
 
   private
+
+  def validate_dkim_settings
+    return unless dkim_enabled?
+
+    if from_domain.present?
+      # Check that DNS is setup
+      dkim = DkimDns.new(
+        domain: from_domain,
+        private_key: dkim_private_key,
+        selector: dkim_selector
+      )
+      return if dkim.dkim_dns_configured?
+
+      errors.add(
+        :from_domain,
+        "Doesn't have a DNS record configured correctly for #{dkim.dkim_domain}"
+      )
+    else
+      errors.add(
+        :dkim_enabled,
+        "Can't be enabled if from_domain is not set"
+      )
+    end
+  end
 
   def cname_domain
     # In DNS speak putting a "." after the domain makes it a full domain

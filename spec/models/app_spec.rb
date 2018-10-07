@@ -62,6 +62,74 @@ describe App do
     end
   end
 
+  describe "dkim validation" do
+    context "dkim enabled but no from domain specified" do
+      let(:app) { build(:app, dkim_enabled: true, from_domain: nil) }
+
+      it "should not be valid" do
+        expect(app).to_not be_valid
+      end
+
+      it "should have a sensible error message" do
+        app.valid?
+        expect(app.errors.messages).to eq(
+          dkim_enabled: ["Can't be enabled if from_domain is not set"]
+        )
+      end
+    end
+
+    context "dkim disabled and a from domain specified" do
+      let(:app) { build(:app, dkim_enabled: false, from_domain: "foo.com") }
+
+      it "should be valid" do
+        expect(app).to be_valid
+      end
+    end
+
+    context "dkim enabled and a from domain specified that has dns setup" do
+      let(:app) do
+        app = create(:app)
+        app.dkim_enabled = true
+        app.from_domain = "foo.com"
+        app
+      end
+
+      before(:each) do
+        allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
+          true
+        }
+      end
+
+      it "should be valid" do
+        expect(app).to be_valid
+      end
+    end
+
+    context "dkim enabled and a from domain that has no dns setup" do
+      let(:app) do
+        # Doing this initial create to ensure that smtp_username gets populated
+        app = create(:app, id: 12)
+        app.dkim_enabled = true
+        app.from_domain = "foo.com"
+        app
+      end
+
+      it "should not be valid" do
+        expect(app).to_not be_valid
+      end
+
+      it "should have an error message" do
+        app.valid?
+        expect(app.errors.messages).to eq(
+          from_domain: [
+            "Doesn't have a DNS record configured correctly for " \
+            "my_app_12.cuttlefish._domainkey.foo.com"
+          ]
+        )
+      end
+    end
+  end
+
   describe "#tracking_domain_info" do
     let(:custom_tracking_domain) { nil }
     let(:app) { build(:app, custom_tracking_domain: custom_tracking_domain) }
