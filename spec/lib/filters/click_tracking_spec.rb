@@ -7,8 +7,10 @@ describe Filters::ClickTracking do
     Filters::ClickTracking.new(
       delivery_id: 673,
       enabled: true,
-      tracking_domain: "links.bar.com",
-      tracking_protocol: "https"
+      tracking_domain_info: {
+        protocol: "https",
+        domain: "links.bar.com"
+      }
     )
   end
 

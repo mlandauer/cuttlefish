@@ -3,14 +3,12 @@
 require "spec_helper"
 
 describe Filters::AddOpenTracking do
-  let(:tracking_protocol) { "https" }
-  let(:tracking_domain) { "localhost" }
+  let(:tracking_domain_info) { { protocol: "https", domain: "localhost" } }
   let(:filter) do
     Filters::AddOpenTracking.new(
       delivery_id: 673,
       enabled: true,
-      tracking_protocol: tracking_protocol,
-      tracking_domain: tracking_domain
+      tracking_domain_info: tracking_domain_info
     )
   end
 
@@ -20,8 +18,9 @@ describe Filters::AddOpenTracking do
     end
 
     context "using a different domain over http" do
-      let(:tracking_protocol) { "http" }
-      let(:tracking_domain) { "email.planningalerts.org.au" }
+      let(:tracking_domain_info) do
+        { protocol: "http", domain: "email.planningalerts.org.au" }
+      end
 
       it "should use a custom domain if it is set (and also not use ssl)" do
         expect(filter.url).to eq "http://email.planningalerts.org.au/o2/673/05c6b2136e9c1297c0264427a17aa3cf4ea40b3e.gif"
