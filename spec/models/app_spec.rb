@@ -63,69 +63,72 @@ describe App do
   end
 
   describe "dkim validation" do
-    context "dkim enabled but no from domain specified" do
-      let(:app) { build(:app, dkim_enabled: true, from_domain: nil) }
+    let(:app) { create(:app, id: 12) }
 
-      it "should not be valid" do
-        expect(app).to_not be_valid
-      end
+    context "dkim disabled" do
+      before(:each) { app.dkim_enabled = false }
 
-      it "should have a sensible error message" do
-        app.valid?
-        expect(app.errors.messages).to eq(
-          dkim_enabled: ["Can't be enabled if from_domain is not set"]
-        )
-      end
-    end
+      context "a from domain specified" do
+        before(:each) { app.from_domain = "foo.com" }
 
-    context "dkim disabled and a from domain specified" do
-      let(:app) { build(:app, dkim_enabled: false, from_domain: "foo.com") }
-
-      it "should be valid" do
-        expect(app).to be_valid
+        it "should be valid" do
+          expect(app).to be_valid
+        end
       end
     end
 
-    context "dkim enabled and a from domain specified that has dns setup" do
-      let(:app) do
-        app = create(:app)
-        app.dkim_enabled = true
-        app.from_domain = "foo.com"
-        app
+    context "dkim enabled" do
+      before(:each) { app.dkim_enabled = true }
+
+      context "no from domain specified" do
+        it "should not be valid" do
+          expect(app).to_not be_valid
+        end
+
+        it "should have a sensible error message" do
+          app.valid?
+          expect(app.errors.messages).to eq(
+            dkim_enabled: ["Can't be enabled if from_domain is not set"]
+          )
+        end
       end
 
-      before(:each) do
-        allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
-          true
-        }
-      end
+      context "a from domain specified" do
+        before(:each) { app.from_domain = "foo.com" }
 
-      it "should be valid" do
-        expect(app).to be_valid
-      end
-    end
+        context "that has dns setup" do
+          before(:each) do
+            allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
+              true
+            }
+          end
 
-    context "dkim enabled and a from domain that has no dns setup" do
-      let(:app) do
-        # Doing this initial create to ensure that smtp_username gets populated
-        app = create(:app, id: 12)
-        app.dkim_enabled = true
-        app.from_domain = "foo.com"
-        app
-      end
+          it "should be valid" do
+            expect(app).to be_valid
+          end
+        end
 
-      it "should not be valid" do
-        expect(app).to_not be_valid
-      end
+        context "that has no dns setup" do
+          before(:each) do
+            allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
+              false
+            }
+          end
 
-      it "should have an error message" do
-        app.valid?
-        expect(app.errors.messages).to eq(
-          from_domain: [
-            "Doesn't have a DNS record configured correctly for " \
-            "my_app_12.cuttlefish._domainkey.foo.com"
-          ]
-        )
+          it "should not be valid" do
+            expect(app).to_not be_valid
+          end
+
+          it "should have an error message" do
+            app.valid?
+            expect(app.errors.messages).to eq(
+              from_domain: [
+                "Doesn't have a DNS record configured correctly for " \
+                "my_app_12.cuttlefish._domainkey.foo.com"
+              ]
+            )
+          end
+        end
       end
     end
   end
