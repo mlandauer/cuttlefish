@@ -62,21 +62,25 @@ describe App do
     end
   end
 
-  describe "#tracking_domain" do
+  describe "#tracking_domain_info" do
     let(:custom_tracking_domain) { nil }
     let(:app) { build(:app, custom_tracking_domain: custom_tracking_domain) }
 
-    it "should by default return the cuttlefish domain" do
-      expect(app.tracking_domain_info[:domain]).to eq(
-        Rails.configuration.cuttlefish_domain
+    it "should by default return the cuttlefish domain and use https" do
+      expect(app.tracking_domain_info).to eq(
+        protocol: "https",
+        domain: Rails.configuration.cuttlefish_domain
       )
     end
 
     context "with a custom tracking domain" do
       let(:custom_tracking_domain) { "foo.com" }
 
-      it "should return the custom tracking domain" do
-        expect(app.tracking_domain_info[:domain]).to eq "foo.com"
+      it "should return the custom tracking domain and use http" do
+        expect(app.tracking_domain_info).to eq(
+          protocol: "http",
+          domain: "foo.com"
+        )
       end
     end
 
@@ -85,35 +89,11 @@ describe App do
         allow(Rails).to receive_message_chain(:env, :development?) { true }
       end
 
-      it "should return the localhost" do
-        expect(app.tracking_domain_info[:domain]).to eq "localhost:3000"
-      end
-    end
-  end
-
-  describe "#tracking_protocol" do
-    let(:custom_tracking_domain) { nil }
-    let(:app) { build(:app, custom_tracking_domain: custom_tracking_domain) }
-
-    it "should by default use https" do
-      expect(app.tracking_domain_info[:protocol]).to eq "https"
-    end
-
-    context "with a custom tracking domain" do
-      let(:custom_tracking_domain) { "foo.com" }
-
-      it "should use http" do
-        expect(app.tracking_domain_info[:protocol]).to eq "http"
-      end
-    end
-
-    context "in development environment" do
-      before(:each) do
-        allow(Rails).to receive_message_chain(:env, :development?) { true }
-      end
-
-      it "should use http" do
-        expect(app.tracking_domain_info[:protocol]).to eq "http"
+      it "should return the localhost and use http" do
+        expect(app.tracking_domain_info).to eq(
+          protocol: "http",
+          domain: "localhost:3000"
+        )
       end
     end
   end
