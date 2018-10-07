@@ -67,14 +67,16 @@ describe App do
     let(:app) { build(:app, custom_tracking_domain: custom_tracking_domain) }
 
     it "should by default return the cuttlefish domain" do
-      expect(app.tracking_domain).to eq Rails.configuration.cuttlefish_domain
+      expect(app.tracking_domain_info[:domain]).to eq(
+        Rails.configuration.cuttlefish_domain
+      )
     end
 
     context "with a custom tracking domain" do
       let(:custom_tracking_domain) { "foo.com" }
 
       it "should return the custom tracking domain" do
-        expect(app.tracking_domain).to eq "foo.com"
+        expect(app.tracking_domain_info[:domain]).to eq "foo.com"
       end
     end
 
@@ -84,7 +86,7 @@ describe App do
       end
 
       it "should return the localhost" do
-        expect(app.tracking_domain).to eq "localhost:3000"
+        expect(app.tracking_domain_info[:domain]).to eq "localhost:3000"
       end
     end
   end
@@ -94,14 +96,14 @@ describe App do
     let(:app) { build(:app, custom_tracking_domain: custom_tracking_domain) }
 
     it "should by default use https" do
-      expect(app.tracking_protocol).to eq "https"
+      expect(app.tracking_domain_info[:protocol]).to eq "https"
     end
 
     context "with a custom tracking domain" do
       let(:custom_tracking_domain) { "foo.com" }
 
       it "should use http" do
-        expect(app.tracking_protocol).to eq "http"
+        expect(app.tracking_domain_info[:protocol]).to eq "http"
       end
     end
 
@@ -111,7 +113,7 @@ describe App do
       end
 
       it "should use http" do
-        expect(app.tracking_protocol).to eq "http"
+        expect(app.tracking_domain_info[:protocol]).to eq "http"
       end
     end
   end

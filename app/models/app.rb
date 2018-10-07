@@ -79,14 +79,6 @@ class App < ActiveRecord::Base
     end
   end
 
-  def tracking_domain
-    tracking_domain_info[:domain]
-  end
-
-  def tracking_protocol
-    tracking_domain_info[:protocol]
-  end
-
   # Are we using a custom tracking domain?
   def custom_tracking_domain?
     custom_tracking_domain.present?

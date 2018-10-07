@@ -16,14 +16,14 @@ module Filters
       filter1 = Filters::AddOpenTracking.new(
         delivery_id: delivery.id,
         enabled: delivery.open_tracking_enabled?,
-        tracking_domain: delivery.tracking_domain,
-        tracking_protocol: delivery.tracking_protocol
+        tracking_domain: delivery.tracking_domain_info[:domain],
+        tracking_protocol: delivery.tracking_domain_info[:protocol]
       )
       filter2 = Filters::ClickTracking.new(
         delivery_id: delivery.id,
         enabled: delivery.click_tracking_enabled?,
-        tracking_domain: delivery.tracking_domain,
-        tracking_protocol: delivery.tracking_protocol
+        tracking_domain: delivery.tracking_domain_info[:domain],
+        tracking_protocol: delivery.tracking_domain_info[:protocol]
       )
       filter3 = Filters::InlineCss.new
       filter4 = Filters::MailerHeader.new(version: APP_VERSION)

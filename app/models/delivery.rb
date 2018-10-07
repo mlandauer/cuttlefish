@@ -14,7 +14,7 @@ class Delivery < ActiveRecord::Base
            :click_tracking_enabled?, :open_tracking_enabled?, :subject,
            to: :email
 
-  delegate :tracking_domain, :tracking_protocol, to: :app
+  delegate :tracking_domain_info, to: :app
 
   before_save :update_my_status!
   before_create :update_app_id!
