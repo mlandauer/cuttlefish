@@ -8,6 +8,7 @@ module AppServices
       click_tracking_enabled
       custom_tracking_domain
       from_domain
+      dkim_enabled
     ].freeze
 
     def initialize(

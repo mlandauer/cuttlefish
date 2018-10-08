@@ -13,6 +13,8 @@ module Mutations
       open_tracking_enabled = true if open_tracking_enabled.nil?
       click_tracking_enabled = attributes.click_tracking_enabled
       click_tracking_enabled = true if click_tracking_enabled.nil?
+      dkim_enabled = attributes.dkim_enabled
+      dkim_enabled = false if dkim_enabled.nil?
 
       create_app = AppServices::Create.call(
         current_admin: context[:current_admin],
@@ -20,7 +22,8 @@ module Mutations
         open_tracking_enabled: open_tracking_enabled,
         click_tracking_enabled: click_tracking_enabled,
         custom_tracking_domain: attributes.custom_tracking_domain,
-        from_domain: attributes.from_domain
+        from_domain: attributes.from_domain,
+        dkim_enabled: dkim_enabled
       )
       if create_app.success?
         { app: create_app.result, errors: [] }

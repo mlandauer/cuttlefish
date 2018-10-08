@@ -4,7 +4,7 @@ module AppServices
   class Create < ApplicationService
     def initialize(
       current_admin:, name:, open_tracking_enabled:, click_tracking_enabled:,
-      custom_tracking_domain:, from_domain:
+      custom_tracking_domain:, from_domain:, dkim_enabled:
     )
       @current_admin = current_admin
       @attributes = {
@@ -12,7 +12,8 @@ module AppServices
         open_tracking_enabled: open_tracking_enabled,
         click_tracking_enabled: click_tracking_enabled,
         custom_tracking_domain: custom_tracking_domain,
-        from_domain: from_domain
+        from_domain: from_domain,
+        dkim_enabled: dkim_enabled
       }
     end
 

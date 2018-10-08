@@ -12,7 +12,8 @@ describe AppServices::Create do
       open_tracking_enabled: false,
       click_tracking_enabled: false,
       custom_tracking_domain: nil,
-      from_domain: nil
+      from_domain: nil,
+      dkim_enabled: false
     )
   end
 
