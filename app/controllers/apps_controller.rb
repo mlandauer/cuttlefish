@@ -2,7 +2,7 @@
 
 class AppsController < ApplicationController
   after_action :verify_authorized, except: %i[
-    index show create destroy edit update dkim
+    index show create destroy edit update dkim toggle_dkim
   ]
 
   def index
@@ -95,12 +95,21 @@ class AppsController < ApplicationController
   end
 
   def toggle_dkim
-    app = App.find(params[:id])
-    authorize app
+    # First do a query
     result = api_query :toggle_dkim_query, id: params[:id]
     dkim_enabled = result.data.app.dkim_enabled
-    app.update_attributes!(dkim_enabled: !dkim_enabled)
-    redirect_to app
+    # Then write the changes using the api
+    result = api_query :update,
+                       id: params[:id],
+                       attributes: { dkimEnabled: !dkim_enabled }
+    if result.data.update_app.app.nil?
+      # Convert errors to a single string using a form object
+      app = AppForm.new
+      copy_graphql_errors(result.data.update_app, app, ["attributes"])
+
+      flash[:alert] = app.errors.full_messages.join(", ")
+    end
+    redirect_to app_url(params[:id])
   end
 
   def upgrade_dkim

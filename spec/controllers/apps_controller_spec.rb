@@ -69,10 +69,11 @@ describe AppsController, type: :controller do
     describe "#toggle_dkim" do
       let(:app) { create(:app, team: team, from_domain: "foo.com") }
 
-      it "should raise an error" do
-        expect do
-          post :toggle_dkim, params: { id: app.id }
-        end.to raise_error ActiveRecord::RecordInvalid
+      it "should show an error" do
+        post :toggle_dkim, params: { id: app.id }
+        expect(flash[:alert]).to include(
+          "From domain doesn't have a DNS record configured correctly"
+        )
       end
 
       context "DNS for DKIM is correctly configured" do
