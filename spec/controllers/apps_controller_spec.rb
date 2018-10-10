@@ -65,5 +65,54 @@ describe AppsController, type: :controller do
         expect(app.from_domain).to eq "foo.com"
       end
     end
+
+    describe "#toggle_dkim" do
+      let(:app) { create(:app, team: team, from_domain: "foo.com") }
+
+      it "should raise an error" do
+        expect do
+          post :toggle_dkim, params: { id: app.id }
+        end.to raise_error ActiveRecord::RecordInvalid
+      end
+
+      context "DNS for DKIM is correctly configured" do
+        before(:each) do
+          allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
+            true
+          }
+        end
+
+        it "should be able to enable DKIM" do
+          post :toggle_dkim, params: { id: app.id }
+          app.reload
+          expect(app.dkim_enabled).to eq true
+        end
+
+        it "should redirect to the app" do
+          post :toggle_dkim, params: { id: app.id }
+          expect(response).to redirect_to app_url(app)
+        end
+      end
+
+      context "DKIM is enabled" do
+        before :each do
+          allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
+            true
+          }
+          app.update_attributes!(dkim_enabled: true)
+        end
+
+        it "should be able to disable DKIM" do
+          post :toggle_dkim, params: { id: app.id }
+          app.reload
+          expect(app.dkim_enabled).to eq false
+        end
+
+        it "should redirect to the app" do
+          post :toggle_dkim, params: { id: app.id }
+          expect(response).to redirect_to app_url(app)
+        end
+      end
+    end
   end
 end
