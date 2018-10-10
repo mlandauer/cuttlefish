@@ -97,7 +97,9 @@ class AppsController < ApplicationController
   def toggle_dkim
     app = App.find(params[:id])
     authorize app
-    app.update_attributes!(dkim_enabled: !app.dkim_enabled)
+    result = api_query :toggle_dkim_query, id: params[:id]
+    dkim_enabled = result.data.app.dkim_enabled
+    app.update_attributes!(dkim_enabled: !dkim_enabled)
     redirect_to app
   end
 
