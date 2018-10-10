@@ -84,7 +84,7 @@ class AppsController < ApplicationController
 
   def lock_password
     app = App.find(params[:id])
-    app.update_attribute(:smtp_password_locked, true)
+    app.update_attributes!(smtp_password_locked: true)
     redirect_to app
   end
 
@@ -97,14 +97,14 @@ class AppsController < ApplicationController
   def toggle_dkim
     app = App.find(params[:id])
     authorize app
-    app.update_attribute(:dkim_enabled, !app.dkim_enabled)
+    app.update_attributes!(dkim_enabled: !app.dkim_enabled)
     redirect_to app
   end
 
   def upgrade_dkim
     app = App.find(params[:id])
     authorize app
-    app.update_attribute(:legacy_dkim_selector, false)
+    app.update_attributes!(legacy_dkim_selector: false)
     flash[:notice] =
       "App #{app.name} successfully upgraded to use the new DNS settings"
     redirect_to app
