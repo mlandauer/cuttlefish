@@ -88,7 +88,7 @@ describe App do
         it "should have a sensible error message" do
           app.valid?
           expect(app.errors.messages).to eq(
-            dkim_enabled: ["Can't be enabled if from_domain is not set"]
+            dkim_enabled: ["can't be enabled if from_domain is not set"]
           )
         end
       end
@@ -123,7 +123,7 @@ describe App do
             app.valid?
             expect(app.errors.messages).to eq(
               from_domain: [
-                "Doesn't have a DNS record configured correctly for " \
+                "doesn't have a DNS record configured correctly for " \
                 "my_app_12.cuttlefish._domainkey.foo.com"
               ]
             )

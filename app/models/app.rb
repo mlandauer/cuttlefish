@@ -117,12 +117,12 @@ class App < ActiveRecord::Base
 
       errors.add(
         :from_domain,
-        "Doesn't have a DNS record configured correctly for #{dkim.dkim_domain}"
+        "doesn't have a DNS record configured correctly for #{dkim.dkim_domain}"
       )
     else
       errors.add(
         :dkim_enabled,
-        "Can't be enabled if from_domain is not set"
+        "can't be enabled if from_domain is not set"
       )
     end
   end
@@ -143,7 +143,7 @@ class App < ActiveRecord::Base
 
     errors.add(
       :custom_tracking_domain,
-      "Doesn't have a CNAME record that points to #{cname_domain}"
+      "doesn't have a CNAME record that points to #{cname_domain}"
     )
   end
 
