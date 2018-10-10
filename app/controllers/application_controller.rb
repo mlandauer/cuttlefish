@@ -15,8 +15,16 @@ class ApplicationController < ActionController::Base
 
   force_ssl if: proc { force_ssl? }
 
-  def api_query(variables = {})
-    query_name = "#{controller_name}_#{action_name}".upcase
+  # Either use api_query id: 2 or api_query :other_name, id: 2
+  def api_query(params1 = {}, params2 = nil)
+    if params2
+      file_prefix = params1.to_s
+      variables = params2
+    else
+      file_prefix = action_name
+      variables = params1
+    end
+    query_name = "#{controller_name}_#{file_prefix}".upcase
     Api.query(
       Api::Queries.const_get(query_name),
       # Convert variable names to camelcase for graphql
