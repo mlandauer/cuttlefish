@@ -14,7 +14,6 @@ class App < ActiveRecord::Base
   validate :validate_dkim_settings
   # Validating booleans so that they can't have nil values.
   # See https://stackoverflow.com/questions/34759092/to-validate-or-not-to-validate-boolean-field
-  validates :smtp_password_locked, inclusion: { in: [true, false] }
   validates :open_tracking_enabled, inclusion: { in: [true, false] }
   validates :click_tracking_enabled, inclusion: { in: [true, false] }
   validates :dkim_enabled, inclusion: { in: [true, false] }
@@ -27,13 +26,6 @@ class App < ActiveRecord::Base
   def self.cuttlefish
     App.find_by(cuttlefish: true) ||
       App.create(cuttlefish: true, name: "Cuttlefish")
-  end
-
-  def new_password!
-    return if smtp_password_locked?
-
-    set_smtp_password
-    save!
   end
 
   def from_domain

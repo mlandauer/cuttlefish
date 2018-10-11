@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_21_001452) do
+ActiveRecord::Schema.define(version: 2018_10_11_045125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,7 +60,6 @@ ActiveRecord::Schema.define(version: 2018_09_21_001452) do
     t.string "custom_tracking_domain", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "smtp_password_locked", default: false, null: false
     t.boolean "open_tracking_enabled", default: true, null: false
     t.boolean "click_tracking_enabled", default: true, null: false
     t.text "dkim_private_key"

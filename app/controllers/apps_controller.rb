@@ -74,20 +74,6 @@ class AppsController < ApplicationController
     end
   end
 
-  # New password and lock password are currently not linked to from anywhere
-
-  def new_password
-    app = App.find(params[:id])
-    app.new_password!
-    redirect_to app
-  end
-
-  def lock_password
-    app = App.find(params[:id])
-    app.update_attributes!(smtp_password_locked: true)
-    redirect_to app
-  end
-
   def dkim
     result = api_query id: params[:id]
     @app = result.data.app

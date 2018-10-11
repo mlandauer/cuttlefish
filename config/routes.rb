@@ -32,8 +32,6 @@ Rails.application.routes.draw do
     resources :emails, only: :index, as: :deliveries, controller: "deliveries"
     resources :clients, only: :index, as: :clients, controller: "clients"
     member do
-      post "new_password"
-      post "lock_password"
       get "dkim"
       post "toggle_dkim"
       post "upgrade_dkim"
