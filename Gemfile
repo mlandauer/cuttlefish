@@ -85,22 +85,24 @@ group :development do
   gem "capistrano", "~> 2"
   gem "faker", git: "https://github.com/stympy/faker.git", branch: "master"
   gem "graphiql-rails"
-  gem "guard"
-  gem "guard-rspec"
-  gem "listen"
   gem "rack-mini-profiler"
-  gem "rb-fchange", require: false
-  gem "rb-fsevent", require: false
-  gem "rb-inotify", require: false
   gem "rubocop", require: false
   gem "rvm-capistrano", ">= 1.5.6", require: false
   gem "spring"
   gem "spring-commands-rspec"
-  gem "terminal-notifier"
-  gem "terminal-notifier-guard"
   # Webrick gives us annoying warnings "could not determine content-length
   # of response body"
   gem "thin"
+
+  gem "guard"
+  gem "guard-rspec"
+  gem "listen"
+  gem "rb-fchange", require: false
+  gem "rb-fsevent", require: false
+  gem "rb-inotify", require: false
+  gem "ruby_gntp"
+  gem "terminal-notifier"
+  gem "terminal-notifier-guard"
 end
 
 group :test do

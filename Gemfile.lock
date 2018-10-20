@@ -382,6 +382,7 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
+    ruby_gntp (0.3.4)
     ruby_parser (3.11.0)
       sexp_processor (~> 4.9)
     rubyzip (1.2.2)
@@ -530,6 +531,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-rails
   rubocop
+  ruby_gntp
   rvm-capistrano (>= 1.5.6)
   sass-rails
   selenium-webdriver

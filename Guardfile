@@ -12,6 +12,11 @@
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
+# This is so that the growl network notification goes to the host where
+# growl is running and will show the notification
+# Currently I think this only works under OS X
+notification :gntp, host: "host.docker.internal"
+
 guard :rspec, cmd: "bin/rspec" do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
