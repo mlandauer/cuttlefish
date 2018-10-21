@@ -115,5 +115,60 @@ describe AppsController, type: :controller do
         end
       end
     end
+
+    describe "#upgrade_dkim" do
+      context "with a legacy dkim selector" do
+        let(:app) { create(:app, team: team, legacy_dkim_selector: true) }
+
+        it "should upgrade the dkim selector" do
+          post :upgrade_dkim, params: { id: app.id }
+          app.reload
+          expect(app.legacy_dkim_selector).to eq false
+        end
+
+        it "redirects back to the app" do
+          post :upgrade_dkim, params: { id: app.id }
+          expect(response).to redirect_to app_url(app)
+        end
+
+        it "lets the user know that it all worked" do
+          post :upgrade_dkim, params: { id: app.id }
+          expect(flash[:notice]).to eq(
+            "App My App successfully upgraded to use the new DNS settings"
+          )
+        end
+      end
+
+      context "dkim selector already upgraded" do
+        let(:app) { create(:app, team: team, legacy_dkim_selector: false) }
+
+        it "shouldn't change the selector" do
+          post :upgrade_dkim, params: { id: app.id }
+          app.reload
+          expect(app.legacy_dkim_selector).to eq false
+        end
+      end
+
+      context "app is in a different team" do
+        let(:app) { create(:app, legacy_dkim_selector: true) }
+
+        it "should raise an error" do
+          expect do
+            post :upgrade_dkim, params: { id: app.id }
+          end.to raise_error(Pundit::NotAuthorizedError)
+        end
+      end
+
+      context "app doesn't exist" do
+        let(:app) { create(:app, team: team, legacy_dkim_selector: false) }
+        before(:each) { app.destroy }
+
+        it "should raise an error" do
+          expect do
+            post :upgrade_dkim, params: { id: app.id }
+          end.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+    end
   end
 end
