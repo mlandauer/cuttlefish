@@ -2,7 +2,7 @@
 
 class AppsController < ApplicationController
   after_action :verify_authorized, except: %i[
-    index show create destroy edit update dkim toggle_dkim
+    index show create destroy edit update dkim toggle_dkim upgrade_dkim
   ]
 
   def index
@@ -99,9 +99,10 @@ class AppsController < ApplicationController
   end
 
   def upgrade_dkim
-    app = App.find(params[:id])
-    authorize app
-    app.update_attributes!(legacy_dkim_selector: false)
+    upgrade_dkim = AppServices::UpgradeDkim.call(
+      current_admin: current_admin, id: params[:id]
+    )
+    app = upgrade_dkim.result
     flash[:notice] =
       "App #{app.name} successfully upgraded to use the new DNS settings"
     redirect_to app
