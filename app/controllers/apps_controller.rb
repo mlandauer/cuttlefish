@@ -102,6 +102,8 @@ class AppsController < ApplicationController
     upgrade_dkim = AppServices::UpgradeDkim.call(
       current_admin: current_admin, id: params[:id]
     )
+    raise ActiveRecord::RecordNotFound unless upgrade_dkim.success?
+
     app = upgrade_dkim.result
     flash[:notice] =
       "App #{app.name} successfully upgraded to use the new DNS settings"
