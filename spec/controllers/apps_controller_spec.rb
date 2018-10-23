@@ -14,6 +14,25 @@ describe AppsController, type: :controller do
     end
     before(:each) { sign_in admin }
 
+    describe "#show" do
+      let(:app) { create(:app, team: team) }
+
+      it "should be able to show" do
+        get :show, params: { id: app.id }
+        expect(response).to be_successful
+      end
+
+      context "app doesn't exist" do
+        before(:each) { app.destroy }
+
+        it "should 404" do
+          expect do
+            get :show, params: { id: app.id }
+          end.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+    end
+
     describe "POST create" do
       it "should create an app that is part of the current user's team" do
         post :create, params: { app: {

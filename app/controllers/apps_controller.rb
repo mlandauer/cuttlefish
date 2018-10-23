@@ -13,6 +13,7 @@ class AppsController < ApplicationController
   def show
     result = api_query id: params[:id]
     @app = result.data.app
+    raise ActiveRecord::RecordNotFound if @app.nil?
   end
 
   def new
