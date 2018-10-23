@@ -55,6 +55,7 @@ class AppsController < ApplicationController
   def edit
     result = api_query id: params[:id]
     @app = result.data.app
+    raise ActiveRecord::RecordNotFound if @app.nil?
   end
 
   def update
@@ -79,6 +80,7 @@ class AppsController < ApplicationController
     result = api_query id: params[:id]
     @app = result.data.app
     @provider = params[:provider]
+    raise ActiveRecord::RecordNotFound if @app.nil?
   end
 
   def toggle_dkim
