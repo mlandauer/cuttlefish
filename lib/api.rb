@@ -28,7 +28,7 @@ module Api
   # Find all the graphql queries, parse them and populate constants
   # The graphql queries themselves are in lib/api
   module Queries
-    Dir.glob("lib/api/**/*.graphql") do |f|
+    Dir.glob("lib/api/controllers/**/*.graphql") do |f|
       m = f.match %r{/([^/]*)/([^/]*).graphql}
       const_set("#{m[1]}_#{m[2]}".upcase, CLIENT.parse(File.read(f)))
     end
