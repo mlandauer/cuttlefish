@@ -1,0 +1,13 @@
+fragment ShowFragment on App {
+  id
+  name
+  cuttlefish
+  dkimEnabled
+  dkimDnsRecord {
+    upgradeRequired
+  }
+  permissions {
+    update
+    dkim
+  }
+}
