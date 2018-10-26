@@ -174,7 +174,7 @@ describe AppsController, type: :controller do
         it "should raise an error" do
           expect do
             post :upgrade_dkim, params: { id: app.id }
-          end.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(Pundit::NotAuthorizedError)
         end
       end
 

@@ -102,14 +102,9 @@ class AppsController < ApplicationController
   end
 
   def upgrade_dkim
-    begin
-      upgrade_dkim = AppServices::UpgradeDkim.call(
-        current_admin: current_admin, id: params[:id]
-      )
-    rescue Pundit::NotAuthorizedError
-      raise ActiveRecord::RecordNotFound
-    end
-
+    upgrade_dkim = AppServices::UpgradeDkim.call(
+      current_admin: current_admin, id: params[:id]
+    )
     app = upgrade_dkim.result
     flash[:notice] =
       "App #{app.name} successfully upgraded to use the new DNS settings"
