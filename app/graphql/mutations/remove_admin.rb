@@ -16,6 +16,12 @@ module Mutations
       remove_admin = AdminServices::Destroy.call(
         id: id, current_admin: context[:current_admin]
       )
+      if remove_admin.result.nil?
+        raise GraphQL::ExecutionError.new(
+          "Admin doesn't exist or you are not authorized",
+          extensions: { "type" => "NOT_FOUND" }
+        )
+      end
       { admin: remove_admin.result }
     end
   end

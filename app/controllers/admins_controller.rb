@@ -10,8 +10,8 @@ class AdminsController < ApplicationController
 
   def destroy
     result = api_query id: params[:id]
-    admin = result.data.remove_admin.admin
-    if admin
+    if result.data.remove_admin
+      admin = result.data.remove_admin.admin
       flash[:notice] = "#{admin.display_name} removed"
     else
       flash[:alert] = "Couldn't remove admin. " \

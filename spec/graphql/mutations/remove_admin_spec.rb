@@ -47,13 +47,15 @@ describe Mutations::RemoveAdmin do
   context "trying to remove non-existent admin" do
     before(:each) { admin.destroy! }
 
-    it "should return nil for the result" do
+    it "should return nil for the result and an error" do
       expect(result).to eq(
-        "data" => {
-          "removeAdmin" => {
-            "admin" => nil
-          }
-        }
+        "data" => { "removeAdmin" => nil },
+        "errors" => [{
+          "message"    => "Admin doesn't exist or you are not authorized",
+          "locations"  => [{ "line" => 2, "column" => 3 }],
+          "path"       => ["removeAdmin"],
+          "extensions" => { "type" => "NOT_FOUND" }
+        }]
       )
     end
   end
@@ -61,13 +63,15 @@ describe Mutations::RemoveAdmin do
   context "trying to remove an admin in another team" do
     let(:admin) { create(:admin, team: team_two) }
 
-    it "should return nil for the result" do
-      expect(result).to eq(
-        "data" => {
-          "removeAdmin" => {
-            "admin" => nil
-          }
-        }
+    it "should return nil for the result and an error" do
+      expect(result.to_h).to eq(
+        "data" => { "removeAdmin" => nil },
+        "errors" => [{
+          "message"    => "Admin doesn't exist or you are not authorized",
+          "locations"  => [{ "line" => 2, "column" => 3 }],
+          "path"       => ["removeAdmin"],
+          "extensions" => { "type" => "NOT_FOUND" }
+        }]
       )
     end
   end
