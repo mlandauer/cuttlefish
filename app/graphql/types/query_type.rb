@@ -163,7 +163,7 @@ module Types
     end
 
     def admins
-      Pundit.policy_scope(context[:current_admin], Admin).order(:name)
+      Pundit.policy_scope(context[:current_admin], ::Admin).order(:name)
     end
 
     def blocked_address(address:)
