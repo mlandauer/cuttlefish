@@ -51,7 +51,7 @@ describe Mutations::RemoveAdmin do
       expect(result).to eq(
         "data" => { "removeAdmin" => nil },
         "errors" => [{
-          "message"    => "Admin doesn't exist or you are not authorized",
+          "message"    => "Admin doesn't exist",
           "locations"  => [{ "line" => 2, "column" => 3 }],
           "path"       => ["removeAdmin"],
           "extensions" => { "type" => "NOT_FOUND" }
@@ -67,10 +67,10 @@ describe Mutations::RemoveAdmin do
       expect(result.to_h).to eq(
         "data" => { "removeAdmin" => nil },
         "errors" => [{
-          "message"    => "Admin doesn't exist or you are not authorized",
+          "message"    => "Not authorized to remove this Admin",
           "locations"  => [{ "line" => 2, "column" => 3 }],
           "path"       => ["removeAdmin"],
-          "extensions" => { "type" => "NOT_FOUND" }
+          "extensions" => { "type" => "NOT_AUTHORIZED" }
         }]
       )
     end
