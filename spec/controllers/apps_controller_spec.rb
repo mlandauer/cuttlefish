@@ -31,6 +31,16 @@ describe AppsController, type: :controller do
           end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
+
+      context "app is in a different team" do
+        let(:app) { create(:app) }
+
+        it "should raise an error" do
+          expect do
+            get :show, params: { id: app.id }
+          end.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
     end
 
     describe "POST create" do
