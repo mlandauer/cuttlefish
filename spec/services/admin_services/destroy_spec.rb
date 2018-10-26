@@ -32,44 +32,16 @@ describe AdminServices::Destroy do
   context "admin is in another team" do
     let(:admin) { create(:admin, team: team_two) }
 
-    it "should do nothing" do
-      admin
-      current_admin
-      expect { remove_admin }.to_not change(Admin, :count)
-    end
-
-    it "should return nil" do
-      expect(remove_admin.result).to be_nil
-    end
-
-    it "should not be successful" do
-      expect(remove_admin.success?).to be false
-    end
-
-    it "should give an error message" do
-      expect(remove_admin.error).to eq "You can't remove the admin with this id"
+    it "should raise an error" do
+      expect { remove_admin }.to raise_error(Pundit::NotAuthorizedError)
     end
   end
 
   context "admin doesn't exist" do
     before(:each) { admin.destroy! }
 
-    it "should do nothing" do
-      admin
-      current_admin
-      expect { remove_admin }.to_not change(Admin, :count)
-    end
-
-    it "should return nil" do
-      expect(remove_admin.result).to be_nil
-    end
-
-    it "should not be successful" do
-      expect(remove_admin.success?).to be false
-    end
-
-    it "should give an error message" do
-      expect(remove_admin.error).to eq "You can't remove the admin with this id"
+    it "should raise an error" do
+      expect { remove_admin }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

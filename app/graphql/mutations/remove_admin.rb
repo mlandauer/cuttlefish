@@ -13,10 +13,11 @@ module Mutations
     field :admin, Types::Admin, null: true
 
     def resolve(id:)
-      remove_admin = AdminServices::Destroy.call(
-        id: id, current_admin: context[:current_admin]
-      )
-      if remove_admin.result.nil?
+      begin
+        remove_admin = AdminServices::Destroy.call(
+          id: id, current_admin: context[:current_admin]
+        )
+      rescue ActiveRecord::RecordNotFound, Pundit::NotAuthorizedError
         raise GraphQL::ExecutionError.new(
           "Admin doesn't exist or you are not authorized",
           extensions: { "type" => "NOT_FOUND" }

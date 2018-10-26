@@ -9,14 +9,13 @@ module AdminServices
 
     def call
       admin = Admin.find_by_id(id)
-      if admin && AdminPolicy.new(current_admin, admin).destroy?
+      if admin.nil?
+        raise ActiveRecord::RecordNotFound
+      elsif !AdminPolicy.new(current_admin, admin).destroy?
+        raise Pundit::NotAuthorizedError
+      else
         success!
         admin.destroy
-      else
-        # Give a generic error message that covers "permissions" and
-        # "not found". This is because we don't want clients to be able to
-        # distinguish these two errors because it leaks information
-        fail! "You can't remove the admin with this id"
       end
     end
 
