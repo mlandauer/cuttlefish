@@ -102,10 +102,13 @@ class AppsController < ApplicationController
   end
 
   def upgrade_dkim
-    upgrade_dkim = AppServices::UpgradeDkim.call(
-      current_admin: current_admin, id: params[:id]
-    )
-    raise ActiveRecord::RecordNotFound unless upgrade_dkim.success?
+    begin
+      upgrade_dkim = AppServices::UpgradeDkim.call(
+        current_admin: current_admin, id: params[:id]
+      )
+    rescue Pundit::NotAuthorizedError
+      raise ActiveRecord::RecordNotFound
+    end
 
     app = upgrade_dkim.result
     flash[:notice] =

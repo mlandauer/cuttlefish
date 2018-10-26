@@ -11,17 +11,10 @@ module AppServices
     end
 
     def call
-      app = App.find_by(id: id)
-      if app.nil? || !AppPolicy.new(current_admin, app).upgrade_dkim?
-        fail! OpenStruct.new(
-          type: :permission,
-          message: "You don't have permissions to do this"
-        )
-        return
-      end
-      success!
-
+      app = App.find(id)
+      Pundit.authorize(current_admin, app, :upgrade_dkim?)
       app.update_attributes!(legacy_dkim_selector: false)
+      success!
       app
     end
 
