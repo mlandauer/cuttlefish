@@ -45,6 +45,7 @@ describe CuttlefishSchema do
         expect(result["errors"][0]["message"]).to eq(
           "Not authorized to access Query.email"
         )
+        expect(result["errors"][0]["extensions"]["type"]).to eq "NOT_AUTHORIZED"
       end
     end
 

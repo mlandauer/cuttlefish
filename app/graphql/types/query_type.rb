@@ -137,7 +137,10 @@ module Types
 
     def teams
       unless TeamPolicy.new(context[:current_admin], ::Team).index?
-        raise GraphQL::ExecutionError, "Not authorized to access Query.teams"
+        raise GraphQL::ExecutionError.new(
+          "Not authorized to access Query.teams",
+          extensions: { "type" => "NOT_AUTHORIZED" }
+        )
       end
 
       Pundit.policy_scope(context[:current_admin], ::Team)
