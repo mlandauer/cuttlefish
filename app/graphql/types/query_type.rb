@@ -97,8 +97,12 @@ module Types
 
     def email(id:)
       email = Delivery.find_by(id: id)
-      raise GraphQL::ExecutionError, "Email doesn't exist" if email.nil?
-
+      if email.nil?
+        raise GraphQL::ExecutionError.new(
+          "Email doesn't exist",
+          extensions: { "type" => "NOT_FOUND" }
+        )
+      end
       email
     end
 
@@ -126,8 +130,12 @@ module Types
     # TODO: Generalise this to sensibly handling record not found exception
     def app(id:)
       app = ::App.find_by(id: id)
-      raise GraphQL::ExecutionError, "App doesn't exist" if app.nil?
-
+      if app.nil?
+        raise GraphQL::ExecutionError.new(
+          "App doesn't exist",
+          extensions: { "type" => "NOT_FOUND" }
+        )
+      end
       app
     end
 
