@@ -25,10 +25,6 @@ describe AdminServices::Destroy do
     expect(remove_admin.success?).to be true
   end
 
-  it "should not have an error message" do
-    expect(remove_admin.error).to be_nil
-  end
-
   context "admin is in another team" do
     let(:admin) { create(:admin, team: team_two) }
 

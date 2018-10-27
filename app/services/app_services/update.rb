@@ -27,10 +27,7 @@ module AppServices
       if app.update_attributes(attributes)
         success!
       else
-        fail! OpenStruct.new(
-          type: :save,
-          message: "Save failed"
-        )
+        fail!
       end
       app
     end

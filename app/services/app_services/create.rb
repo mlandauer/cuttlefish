@@ -23,10 +23,7 @@ module AppServices
       if app.save
         success!
       else
-        fail! OpenStruct.new(
-          type: :save,
-          message: "Save failed"
-        )
+        fail!
       end
       app
     end

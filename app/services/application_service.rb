@@ -20,17 +20,14 @@ class ApplicationService
   end
 
   # error can be a string or an object
-  def fail!(error)
+  def fail!
     @success = false
-    @error = error
     nil
   end
 
   def success?
     @success
   end
-
-  attr_reader :error
 
   private
 

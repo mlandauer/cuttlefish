@@ -26,24 +26,13 @@ module Mutations
           from_domain: attributes.from_domain,
           dkim_enabled: dkim_enabled
         )
-        result = create_app.result
-        success = create_app.success?
-        error = create_app.error
-        if success
-          { app: result, errors: [] }
+        if create_app.success?
+          { app: create_app.result, errors: [] }
         else
-          user_errors = if result
-                          user_errors_from_form_errors(
-                            result.errors,
-                            ["attributes"]
-                          )
-                        else
-                          [{
-                            path: [],
-                            message: error.message,
-                            type: error.type.to_s.upcase
-                          }]
-                        end
+          user_errors = user_errors_from_form_errors(
+            create_app.result.errors,
+            ["attributes"]
+          )
           { app: nil, errors: user_errors }
         end
       rescue Pundit::NotAuthorizedError
