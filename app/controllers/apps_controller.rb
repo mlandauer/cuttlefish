@@ -38,6 +38,19 @@ class AppsController < ApplicationController
 
   def destroy
     result = api_query id: params[:id]
+    result.data.errors.details.each do |_path, details|
+      details.each do |detail|
+        case detail["extensions"]["type"]
+        when "NOT_AUTHORIZED"
+          # TODO: Put the message in the error too
+          raise Pundit::NotAuthorizedError
+        when "NOT_FOUND"
+          # TODO: Put the message in the error too
+          raise ActiveRecord::RecordNotFound
+        end
+      end
+    end
+
     if result.data.remove_app.errors.empty?
       @app = result.data.remove_app.app
       flash[:notice] = "App #{@app.name} successfully removed"

@@ -8,17 +8,10 @@ module AppServices
     end
 
     def call
-      app = App.find_by(id: id)
-      if app && AppPolicy.new(current_admin, app).destroy?
-        success!
-        app.destroy
-      else
-        fail! OpenStruct.new(
-          type: :permission,
-          message: "Couldn't remove app. You don't have the necessary " \
-                   "permissions or the app with the given id doesn't exist."
-        )
-      end
+      app = App.find(id)
+      Pundit.authorize(current_admin, app, :destroy?)
+      app.destroy
+      success!
     end
 
     private

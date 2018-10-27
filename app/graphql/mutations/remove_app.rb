@@ -6,22 +6,27 @@ module Mutations
     argument :id, ID, required: true
 
     field :app, Types::App, null: true
+    # TODO: Do we remove errors here?
     field :errors, [Types::UserError], null: false
 
     def resolve(id:)
-      destroy = AppServices::Destroy.call(
-        id: id, current_admin: context[:current_admin]
-      )
-      user_errors = if destroy.success?
-                      []
-                    else
-                      [{
-                        path: [],
-                        message: destroy.error.message,
-                        type: destroy.error.type.to_s.upcase
-                      }]
-                    end
-      { app: destroy.result, errors: user_errors }
+      begin
+        destroy = AppServices::Destroy.call(
+          id: id, current_admin: context[:current_admin]
+        )
+      rescue ActiveRecord::RecordNotFound
+        raise GraphQL::ExecutionError.new(
+          "App doesn't exist",
+          extensions: { "type" => "NOT_FOUND" }
+        )
+      rescue Pundit::NotAuthorizedError
+        raise GraphQL::ExecutionError.new(
+          "Not authorized to remove this App",
+          extensions: { "type" => "NOT_AUTHORIZED" }
+        )
+      end
+
+      { app: destroy.result, errors: [] }
     end
   end
 end
