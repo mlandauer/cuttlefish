@@ -16,22 +16,15 @@ module Mutations
       dkim_enabled = attributes.dkim_enabled
       dkim_enabled = false if dkim_enabled.nil?
 
-      begin
-        create_app = AppServices::Create.call(
-          current_admin: context[:current_admin],
-          name: attributes.name,
-          open_tracking_enabled: open_tracking_enabled,
-          click_tracking_enabled: click_tracking_enabled,
-          custom_tracking_domain: attributes.custom_tracking_domain,
-          from_domain: attributes.from_domain,
-          dkim_enabled: dkim_enabled
-        )
-      rescue Pundit::NotAuthorizedError
-        raise GraphQL::ExecutionError.new(
-          "You don't have permissions to do this",
-          extensions: { "type" => "NOT_AUTHORIZED" }
-        )
-      end
+      create_app = AppServices::Create.call(
+        current_admin: context[:current_admin],
+        name: attributes.name,
+        open_tracking_enabled: open_tracking_enabled,
+        click_tracking_enabled: click_tracking_enabled,
+        custom_tracking_domain: attributes.custom_tracking_domain,
+        from_domain: attributes.from_domain,
+        dkim_enabled: dkim_enabled
+      )
       if create_app.success?
         { app: create_app.result, errors: [] }
       else

@@ -32,13 +32,6 @@ module Mutations
                       end
         { app: nil, errors: user_errors }
       end
-    rescue Pundit::NotAuthorizedError
-      user_errors = [{
-        path: [],
-        message: "You don't have permissions to do this",
-        type: "PERMISSION"
-      }]
-      { app: nil, errors: user_errors }
     end
   end
 end

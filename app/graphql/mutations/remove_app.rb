@@ -10,16 +10,9 @@ module Mutations
     field :errors, [Types::UserError], null: false
 
     def resolve(id:)
-      begin
-        destroy = AppServices::Destroy.call(
-          id: id, current_admin: context[:current_admin]
-        )
-      rescue Pundit::NotAuthorizedError
-        raise GraphQL::ExecutionError.new(
-          "Not authorized to remove this App",
-          extensions: { "type" => "NOT_AUTHORIZED" }
-        )
-      end
+      destroy = AppServices::Destroy.call(
+        id: id, current_admin: context[:current_admin]
+      )
 
       { app: destroy.result, errors: [] }
     end

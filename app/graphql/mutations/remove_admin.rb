@@ -8,16 +8,9 @@ module Mutations
     field :admin, Types::Admin, null: true
 
     def resolve(id:)
-      begin
-        remove_admin = AdminServices::Destroy.call(
-          id: id, current_admin: context[:current_admin]
-        )
-      rescue Pundit::NotAuthorizedError
-        raise GraphQL::ExecutionError.new(
-          "Not authorized to remove this Admin",
-          extensions: { "type" => "NOT_AUTHORIZED" }
-        )
-      end
+      remove_admin = AdminServices::Destroy.call(
+        id: id, current_admin: context[:current_admin]
+      )
       { admin: remove_admin.result }
     end
   end

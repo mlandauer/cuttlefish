@@ -22,4 +22,11 @@ GraphQL::Errors.configure(CuttlefishSchema) do
       extensions: { "type" => "NOT_FOUND" }
     )
   end
+
+  rescue_from Pundit::NotAuthorizedError do |_exception|
+    GraphQL::ExecutionError.new(
+      "You don't have permissions to do this",
+      extensions: { "type" => "NOT_AUTHORIZED" }
+    )
+  end
 end
