@@ -23,9 +23,9 @@ GraphQL::Errors.configure(CuttlefishSchema) do
     )
   end
 
-  rescue_from Pundit::NotAuthorizedError do |_exception|
+  rescue_from Pundit::NotAuthorizedError do |_e, _object, _arguments, context|
     GraphQL::ExecutionError.new(
-      "You don't have permissions to do this",
+      "Not authorized to access #{context.parent_type}.#{context.field.name}",
       extensions: { "type" => "NOT_AUTHORIZED" }
     )
   end

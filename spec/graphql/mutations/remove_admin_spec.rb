@@ -67,7 +67,7 @@ describe Mutations::RemoveAdmin do
       expect(result.to_h).to eq(
         "data" => { "removeAdmin" => nil },
         "errors" => [{
-          "message"    => "You don't have permissions to do this",
+          "message"    => "Not authorized to access Mutation.removeAdmin",
           "locations"  => [{ "line" => 2, "column" => 3 }],
           "path"       => ["removeAdmin"],
           "extensions" => { "type" => "NOT_AUTHORIZED" }

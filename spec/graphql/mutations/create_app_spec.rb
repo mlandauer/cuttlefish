@@ -55,7 +55,7 @@ describe Mutations::CreateApp do
       expect(result).to eq(
         "data" => { "createApp" => nil },
         "errors" => [{
-          "message" => "You don't have permissions to do this",
+          "message" => "Not authorized to access Mutation.createApp",
           "locations" => [{ "line" => 2, "column" => 3 }],
           "path" => ["createApp"],
           "extensions" => { "type" => "NOT_AUTHORIZED" }
