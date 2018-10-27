@@ -52,12 +52,13 @@ describe Mutations::CreateApp do
     end
 
     it "should return an error" do
-      expect(result["data"]["createApp"]).to eq(
-        "app" => nil,
+      expect(result).to eq(
+        "data" => { "createApp" => nil },
         "errors" => [{
           "message" => "You don't have permissions to do this",
-          "type" => "PERMISSION",
-          "path" => []
+          "locations" => [{ "line" => 2, "column" => 3 }],
+          "path" => ["createApp"],
+          "extensions" => { "type" => "NOT_AUTHORIZED" }
         }]
       )
     end

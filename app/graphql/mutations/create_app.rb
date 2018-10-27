@@ -26,21 +26,19 @@ module Mutations
           from_domain: attributes.from_domain,
           dkim_enabled: dkim_enabled
         )
-        if create_app.success?
-          { app: create_app.result, errors: [] }
-        else
-          user_errors = user_errors_from_form_errors(
-            create_app.result.errors,
-            ["attributes"]
-          )
-          { app: nil, errors: user_errors }
-        end
       rescue Pundit::NotAuthorizedError
-        user_errors = [{
-          path: [],
-          message: "You don't have permissions to do this",
-          type: "PERMISSION"
-        }]
+        raise GraphQL::ExecutionError.new(
+          "You don't have permissions to do this",
+          extensions: { "type" => "NOT_AUTHORIZED" }
+        )
+      end
+      if create_app.success?
+        { app: create_app.result, errors: [] }
+      else
+        user_errors = user_errors_from_form_errors(
+          create_app.result.errors,
+          ["attributes"]
+        )
         { app: nil, errors: user_errors }
       end
     end
