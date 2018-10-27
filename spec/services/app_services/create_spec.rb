@@ -56,7 +56,7 @@ describe AppServices::Create do
     end
 
     it "should not be successfull" do
-      expect(create_app).to_not be_success
+      expect { create_app }.to raise_error(Pundit::NotAuthorizedError)
     end
   end
 end

@@ -19,14 +19,7 @@ module AppServices
 
     def call
       app = App.new(@attributes.merge(team: current_admin.team))
-      unless AppPolicy.new(current_admin, app).create?
-        @error_type = :permission
-        fail! OpenStruct.new(
-          type: :permission,
-          message: "You don't have permissions to do this"
-        )
-        return
-      end
+      Pundit.authorize(current_admin, app, :create?)
       if app.save
         success!
       else

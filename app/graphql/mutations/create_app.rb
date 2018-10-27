@@ -16,30 +16,42 @@ module Mutations
       dkim_enabled = attributes.dkim_enabled
       dkim_enabled = false if dkim_enabled.nil?
 
-      create_app = AppServices::Create.call(
-        current_admin: context[:current_admin],
-        name: attributes.name,
-        open_tracking_enabled: open_tracking_enabled,
-        click_tracking_enabled: click_tracking_enabled,
-        custom_tracking_domain: attributes.custom_tracking_domain,
-        from_domain: attributes.from_domain,
-        dkim_enabled: dkim_enabled
-      )
-      if create_app.success?
-        { app: create_app.result, errors: [] }
-      else
-        user_errors = if create_app.result
-                        user_errors_from_form_errors(
-                          create_app.result.errors,
-                          ["attributes"]
-                        )
-                      else
-                        [{
-                          path: [],
-                          message: create_app.error.message,
-                          type: create_app.error.type.to_s.upcase
-                        }]
-                      end
+      begin
+        create_app = AppServices::Create.call(
+          current_admin: context[:current_admin],
+          name: attributes.name,
+          open_tracking_enabled: open_tracking_enabled,
+          click_tracking_enabled: click_tracking_enabled,
+          custom_tracking_domain: attributes.custom_tracking_domain,
+          from_domain: attributes.from_domain,
+          dkim_enabled: dkim_enabled
+        )
+        result = create_app.result
+        success = create_app.success?
+        error = create_app.error
+        if success
+          { app: result, errors: [] }
+        else
+          user_errors = if result
+                          user_errors_from_form_errors(
+                            result.errors,
+                            ["attributes"]
+                          )
+                        else
+                          [{
+                            path: [],
+                            message: error.message,
+                            type: error.type.to_s.upcase
+                          }]
+                        end
+          { app: nil, errors: user_errors }
+        end
+      rescue Pundit::NotAuthorizedError
+        user_errors = [{
+          path: [],
+          message: "You don't have permissions to do this",
+          type: "PERMISSION"
+        }]
         { app: nil, errors: user_errors }
       end
     end
