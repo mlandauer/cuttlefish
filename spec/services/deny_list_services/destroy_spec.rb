@@ -24,8 +24,8 @@ describe DenyListServices::Destroy do
   context "entry does not exist" do
     before(:each) { deny_list.destroy! }
 
-    it "should return nil" do
-      expect(destroy_deny_list.result).to be_nil
+    it "should error" do
+      expect { destroy_deny_list }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
@@ -36,8 +36,8 @@ describe DenyListServices::Destroy do
       expect(deny_list_policy).to receive(:destroy?) { false }
     end
 
-    it "should return nil" do
-      expect(destroy_deny_list.result).to be_nil
+    it "should error" do
+      expect { destroy_deny_list }.to raise_error(Pundit::NotAuthorizedError)
     end
   end
 end

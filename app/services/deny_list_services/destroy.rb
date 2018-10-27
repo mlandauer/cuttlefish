@@ -8,12 +8,11 @@ module DenyListServices
     end
 
     def call
-      success!
-      deny_list = DenyList.find_by_id(id)
-      return if deny_list.nil?
-      return unless DenyListPolicy.new(current_admin, deny_list).destroy?
-
+      deny_list = DenyList.find(id)
+      Pundit.authorize(current_admin, deny_list, :destroy?)
       deny_list.destroy!
+      success!
+      deny_list
     end
 
     private
