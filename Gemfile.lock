@@ -184,6 +184,8 @@ GEM
     graphql-client (0.13.0)
       activesupport (>= 3.0, < 6.0)
       graphql (~> 1.6)
+    graphql-errors (0.2.0)
+      graphql (>= 1.6.0, < 2)
     graphql-guard (1.2.0)
       graphql (>= 1.6.0, < 2)
     gravatar_image_tag (1.2.0)
@@ -504,6 +506,7 @@ DEPENDENCIES
   graphiql-rails
   graphql
   graphql-client
+  graphql-errors
   graphql-guard
   gravatar_image_tag
   guard
@@ -552,4 +555,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.16.5
+   1.16.6

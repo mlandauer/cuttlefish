@@ -51,7 +51,7 @@ describe Mutations::RemoveAdmin do
       expect(result).to eq(
         "data" => { "removeAdmin" => nil },
         "errors" => [{
-          "message"    => "Admin doesn't exist",
+          "message"    => "We couldn't find what you were looking for",
           "locations"  => [{ "line" => 2, "column" => 3 }],
           "path"       => ["removeAdmin"],
           "extensions" => { "type" => "NOT_FOUND" }

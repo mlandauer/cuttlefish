@@ -17,7 +17,7 @@ module Mutations
         id: id, current_admin: context[:current_admin]
       )
       { blocked_address: destroy_blocked_address.result }
-    rescue ActiveRecord::RecordNotFound, Pundit::NotAuthorizedError
+    rescue Pundit::NotAuthorizedError
       { blocked_address: nil }
     end
   end

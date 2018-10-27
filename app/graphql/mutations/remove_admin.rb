@@ -12,11 +12,6 @@ module Mutations
         remove_admin = AdminServices::Destroy.call(
           id: id, current_admin: context[:current_admin]
         )
-      rescue ActiveRecord::RecordNotFound
-        raise GraphQL::ExecutionError.new(
-          "Admin doesn't exist",
-          extensions: { "type" => "NOT_FOUND" }
-        )
       rescue Pundit::NotAuthorizedError
         raise GraphQL::ExecutionError.new(
           "Not authorized to remove this Admin",

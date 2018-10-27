@@ -14,3 +14,12 @@ class CuttlefishSchema < GraphQL::Schema
   )
   use BatchLoader::GraphQL
 end
+
+GraphQL::Errors.configure(CuttlefishSchema) do
+  rescue_from ActiveRecord::RecordNotFound do |_exception|
+    GraphQL::ExecutionError.new(
+      "We couldn't find what you were looking for",
+      extensions: { "type" => "NOT_FOUND" }
+    )
+  end
+end

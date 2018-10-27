@@ -14,11 +14,6 @@ module Mutations
         destroy = AppServices::Destroy.call(
           id: id, current_admin: context[:current_admin]
         )
-      rescue ActiveRecord::RecordNotFound
-        raise GraphQL::ExecutionError.new(
-          "App doesn't exist",
-          extensions: { "type" => "NOT_FOUND" }
-        )
       rescue Pundit::NotAuthorizedError
         raise GraphQL::ExecutionError.new(
           "Not authorized to remove this App",
