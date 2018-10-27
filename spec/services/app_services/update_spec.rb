@@ -56,7 +56,7 @@ describe AppServices::Update do
     end
 
     it "should not be successfull" do
-      expect(update_app).to_not be_success
+      expect { update_app }.to raise_error(Pundit::NotAuthorizedError)
     end
   end
 
@@ -64,7 +64,7 @@ describe AppServices::Update do
     before(:each) { app.destroy! }
 
     it "should not be successfull" do
-      expect(update_app).to_not be_success
+      expect { update_app }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 

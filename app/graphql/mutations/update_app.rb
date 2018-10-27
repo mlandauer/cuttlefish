@@ -15,7 +15,8 @@ module Mutations
         attributes: attributes.to_h
       )
       if update.success?
-        { app: update.result, errors: [] }
+        user_errors = []
+        { app: update.result, errors: user_errors }
       else
         user_errors = if update.result
                         user_errors_from_form_errors(
@@ -31,6 +32,13 @@ module Mutations
                       end
         { app: nil, errors: user_errors }
       end
+    rescue ActiveRecord::RecordNotFound, Pundit::NotAuthorizedError
+      user_errors = [{
+        path: [],
+        message: "You don't have permissions to do this",
+        type: "PERMISSION"
+      }]
+      { app: nil, errors: user_errors }
     end
   end
 end

@@ -22,14 +22,8 @@ module AppServices
     end
 
     def call
-      app = App.find_by(id: id)
-      if app.nil? || !AppPolicy.new(current_admin, app).update?
-        fail! OpenStruct.new(
-          type: :permission,
-          message: "You don't have permissions to do this"
-        )
-        return
-      end
+      app = App.find(id)
+      Pundit.authorize(current_admin, app, :update?)
       if app.update_attributes(attributes)
         success!
       else
