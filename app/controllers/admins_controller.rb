@@ -14,18 +14,6 @@ class AdminsController < ApplicationController
       admin = result.data.remove_admin.admin
       flash[:notice] = "#{admin.display_name} removed"
     else
-      result.data.errors.details.each do |_path, details|
-        details.each do |detail|
-          case detail["extensions"]["type"]
-          when "NOT_AUTHORIZED"
-            # TODO: Put the message in the error too
-            raise Pundit::NotAuthorizedError
-          when "NOT_FOUND"
-            # TODO: Put the message in the error too
-            raise ActiveRecord::RecordNotFound
-          end
-        end
-      end
       flash[:alert] = "Couldn't remove admin."
     end
     redirect_to admins_url

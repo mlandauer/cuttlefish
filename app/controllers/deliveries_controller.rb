@@ -25,6 +25,5 @@ class DeliveriesController < ApplicationController
     result = api_query id: params[:id]
     @delivery = result.data.email
     @configuration = result.data.configuration
-    raise ActiveRecord::RecordNotFound if @delivery.nil?
   end
 end

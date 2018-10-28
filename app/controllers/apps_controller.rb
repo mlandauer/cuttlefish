@@ -13,7 +13,6 @@ class AppsController < ApplicationController
   def show
     result = api_query id: params[:id]
     @app = result.data.app
-    raise ActiveRecord::RecordNotFound if @app.nil?
   end
 
   def new
@@ -38,18 +37,6 @@ class AppsController < ApplicationController
 
   def destroy
     result = api_query id: params[:id]
-    result.data.errors.details.each do |_path, details|
-      details.each do |detail|
-        case detail["extensions"]["type"]
-        when "NOT_AUTHORIZED"
-          # TODO: Put the message in the error too
-          raise Pundit::NotAuthorizedError
-        when "NOT_FOUND"
-          # TODO: Put the message in the error too
-          raise ActiveRecord::RecordNotFound
-        end
-      end
-    end
 
     if result.data.remove_app.errors.empty?
       @app = result.data.remove_app.app
@@ -68,7 +55,6 @@ class AppsController < ApplicationController
   def edit
     result = api_query id: params[:id]
     @app = result.data.app
-    raise ActiveRecord::RecordNotFound if @app.nil?
   end
 
   def update
@@ -93,7 +79,6 @@ class AppsController < ApplicationController
     result = api_query id: params[:id]
     @app = result.data.app
     @provider = params[:provider]
-    raise ActiveRecord::RecordNotFound if @app.nil?
   end
 
   def toggle_dkim
