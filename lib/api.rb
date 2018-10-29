@@ -50,8 +50,6 @@ module Api
       context: context
     )
 
-    raise result.errors.messages["data"].join(", ") unless result.errors.empty?
-
     result.data.errors.details.each do |_path, details|
       details.each do |detail|
         case detail["extensions"]["type"]
