@@ -49,6 +49,18 @@ module Api
 
     raise result.errors.messages["data"].join(", ") unless result.errors.empty?
 
+    result.data.errors.details.each do |_path, details|
+      details.each do |detail|
+        case detail["extensions"]["type"]
+        when "NOT_AUTHORIZED"
+          # TODO: Put the message in the error too
+          raise Pundit::NotAuthorizedError
+        when "NOT_FOUND"
+          # TODO: Put the message in the error too
+          raise ActiveRecord::RecordNotFound
+        end
+      end
+    end
     result
   end
 end

@@ -25,25 +25,15 @@ class ApplicationController < ActionController::Base
       variables = params1
     end
     query_name = "#{controller_name}_#{file_prefix}".upcase
-    result = Api.query(
-      Api::Queries.const_get(query_name),
-      # Convert variable names to camelcase for graphql
-      variables: Hash[variables.map { |k, v| [k.to_s.camelize(:lower), v] }],
+    query = Api::Queries.const_get(query_name)
+    # Convert variable names to camelcase for graphql
+    variables = Hash[variables.map { |k, v| [k.to_s.camelize(:lower), v] }]
+
+    Api.query(
+      query,
+      variables: variables,
       current_admin: current_admin
     )
-    result.data.errors.details.each do |_path, details|
-      details.each do |detail|
-        case detail["extensions"]["type"]
-        when "NOT_AUTHORIZED"
-          # TODO: Put the message in the error too
-          raise Pundit::NotAuthorizedError
-        when "NOT_FOUND"
-          # TODO: Put the message in the error too
-          raise ActiveRecord::RecordNotFound
-        end
-      end
-    end
-    result
   end
 
   # Take graphql object with errors and attach them to the given form object
