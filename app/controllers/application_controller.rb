@@ -26,8 +26,6 @@ class ApplicationController < ActionController::Base
     end
     query_name = "#{controller_name}_#{file_prefix}".upcase
     query = Api::Queries.const_get(query_name)
-    # Convert variable names to camelcase for graphql
-    variables = Hash[variables.map { |k, v| [k.to_s.camelize(:lower), v] }]
 
     Api.query(
       query,
