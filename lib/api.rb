@@ -27,6 +27,8 @@ module Api
 
   # Find all the graphql queries, parse them and populate constants
   # The graphql queries themselves are in lib/api
+  # TODO: Load them dynamically in development so we don't need to keep
+  # restarting the server
   module Queries
     Dir.glob("lib/api/**/*.graphql") do |f|
       m = f.match %r{/([^/]*)/([^/]*).graphql}
