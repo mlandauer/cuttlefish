@@ -56,11 +56,9 @@ module Api
       details.each do |detail|
         case detail["extensions"]["type"]
         when "NOT_AUTHORIZED"
-          # TODO: Put the message in the error too
-          raise Pundit::NotAuthorizedError
+          raise Pundit::NotAuthorizedError, detail["message"]
         when "NOT_FOUND"
-          # TODO: Put the message in the error too
-          raise ActiveRecord::RecordNotFound
+          raise ActiveRecord::RecordNotFound, detail["message"]
         end
       end
     end
