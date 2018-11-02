@@ -19,5 +19,6 @@ module Types
     field :create_app, mutation: Mutations::CreateApp
     field :update_app, mutation: Mutations::UpdateApp
     field :remove_app, mutation: Mutations::RemoveApp
+    field :upgrade_app_dkim, mutation: Mutations::UpgradeAppDkim
   end
 end
