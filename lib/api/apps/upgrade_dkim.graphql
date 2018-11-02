@@ -1,0 +1,8 @@
+mutation($id: ID!) {
+  upgradeAppDkim(id: $id) {
+    app {
+      id
+      name
+    }
+  }
+}

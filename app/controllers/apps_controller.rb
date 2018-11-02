@@ -100,13 +100,11 @@ class AppsController < ApplicationController
   end
 
   def upgrade_dkim
-    upgrade_dkim = AppServices::UpgradeDkim.call(
-      current_admin: current_admin, id: params[:id]
-    )
-    app = upgrade_dkim.result
+    result = api_query id: params[:id]
+    app = result.data.upgrade_app_dkim.app
     flash[:notice] =
       "App #{app.name} successfully upgraded to use the new DNS settings"
-    redirect_to app
+    redirect_to app_url(app.id)
   end
 
   private

@@ -11,7 +11,7 @@ module Mutations
 
     def resolve(id:)
       upgrade_dkim = AppServices::UpgradeDkim.call(
-        current_admin: current_admin, id: id
+        current_admin: context[:current_admin], id: id
       )
       { app: upgrade_dkim.result }
     end
