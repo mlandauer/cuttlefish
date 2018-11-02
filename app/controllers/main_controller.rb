@@ -13,6 +13,11 @@ class MainController < ApplicationController
   end
 
   def reputation
-    render partial: "reputation" if request.xhr?
+    return unless request.xhr?
+
+    render partial: "reputation", locals: {
+      listings: DNSBL::Client.new.lookup(Reputation.local_ip),
+      ip: Reputation.local_ip
+    }
   end
 end

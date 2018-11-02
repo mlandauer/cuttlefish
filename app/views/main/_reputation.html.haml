@@ -1,5 +1,3 @@
-- listings = DNSBL::Client.new.lookup(Reputation.local_ip)
-
 - if listings.empty?
   %p This server is not listed on any known deny lists
 - else
@@ -16,6 +14,6 @@
           %td= listing.meaning
   %p
     Your server IP address
-    %strong= Reputation.local_ip
+    %strong= ip
   %p
     (You will need this if you want to check things by hand)
