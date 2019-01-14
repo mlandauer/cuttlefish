@@ -198,12 +198,12 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
   end
 
   def receive_data_command
-    current.data = ""
+    current.data = +""
     true
   end
 
   def receive_data_chunk(data)
-    current.data << data.join("\r\n").dup
+    current.data << data.join("\r\n")
     true
   end
 
