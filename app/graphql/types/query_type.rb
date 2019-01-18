@@ -155,7 +155,7 @@ module Types
     end
 
     def cuttlefish_app
-      App.cuttlefish
+      ::App.cuttlefish
     end
 
     def configuration
