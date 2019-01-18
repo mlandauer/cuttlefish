@@ -2,7 +2,7 @@
 
 class AppsController < ApplicationController
   after_action :verify_authorized, except: %i[
-    index show create destroy edit update dkim toggle_dkim upgrade_dkim
+    index show new create destroy edit update dkim toggle_dkim upgrade_dkim
   ]
 
   def index
