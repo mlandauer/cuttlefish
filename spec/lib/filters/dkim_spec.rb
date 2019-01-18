@@ -7,7 +7,13 @@ describe Filters::Dkim do
     Mail.new do
       from "Contact <contact@foo.com>"
       text_part do
-        body "An email with some text and headers"
+        body "An email with some text and headers\nYes"
+      end
+      html_part do
+        # Using this encoding to expose the problem of the body being
+        # changed by the dkim signing process
+        content_transfer_encoding "quoted-printable"
+        body "<p>Hello</p>\n<p>Yes</p>"
       end
     end
   end
@@ -65,6 +71,15 @@ describe Filters::Dkim do
           # salt). So, we're just going to test for the presence of the header
           expect(filter_mail.header["DKIM-Signature"]).to_not be_nil
         }
+        it "should not alter the body of the email in any way" do
+          # The dkim signing library puts a different line ending on the
+          # body of the email than the Mail gem does. When Mail reparses
+          # it ends up changing the body. Not quite sure who is right here
+          # but what I do know is that the body of the email should be
+          # identical before and after the filter is applied
+          expect(filter_mail.text_part.body.to_s).to eq mail.text_part.body.to_s
+          expect(filter_mail.html_part.body.to_s).to eq mail.html_part.body.to_s
+        end
         it { expect(filter_mail.sender).to be_nil }
       end
 

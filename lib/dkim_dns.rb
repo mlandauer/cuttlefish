@@ -37,14 +37,21 @@ class DkimDns
   end
 
   def sign_mail(mail)
-    Mail.new(
-      Dkim.sign(
-        mail.to_s,
-        selector: selector,
-        private_key: private_key,
-        domain: domain
-      )
-    )
+    # Directly inserting the header for the dkim signature into the mail
+    # This is to avoid a problem where the interaction between the signing
+    # of the complete email using the dkim library followed by a reparsing
+    # of the whole email was causing the body to change slightly causing
+    # the dkim signature to not work.
+    dkim_header = Dkim::SignedMail.new(
+      mail.to_s,
+      selector: selector,
+      private_key: private_key,
+      domain: domain
+    ).dkim_header
+
+    signed_mail = mail.clone
+    signed_mail.header[dkim_header.key] = dkim_header.value
+    signed_mail
   end
 
   private
