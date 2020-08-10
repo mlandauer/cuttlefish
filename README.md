@@ -59,8 +59,13 @@ moving parts is now very straightforward by using [Docker](https://www.docker.co
 
 To start with:
 ```
-docker-compose build
-docker-compose run web bundle exec rake db:setup
+docker-compose run web bundle exec rake db:create db:schema:load
+```
+
+Now add some example seed data. This will also create a site admin with email "joy@smart-unlimited.com" and password "password". You'll need these details later to sign in. Skip this step if you don't want seed data.
+
+```
+docker-compose run web bundle exec rake db:seed
 ```
 
 Then
