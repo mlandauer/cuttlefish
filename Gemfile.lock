@@ -245,7 +245,7 @@ GEM
       less (~> 2.6.0)
       sprockets (> 2, < 4)
       tilt
-    libv8 (8.4.255.0)
+    libv8 (3.16.14.19)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -265,8 +265,6 @@ GEM
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    mini_racer (0.3.1)
-      libv8 (~> 8.4.255)
     minitar (0.6.1)
     minitest (5.14.1)
     multi_json (1.13.1)
@@ -349,6 +347,7 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.4)
+    ref (2.0.0)
     rmagick (2.16.0)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
@@ -443,6 +442,9 @@ GEM
       tins (~> 1.0)
     terminal-notifier (2.0.0)
     terminal-notifier-guard (1.6.4)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
+      ref
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -519,7 +521,6 @@ DEPENDENCIES
   jquery-rails
   less-rails
   listen
-  mini_racer
   minitar
   newrelic_rpm
   nokogiri
@@ -547,6 +548,7 @@ DEPENDENCIES
   syslog_protocol
   terminal-notifier
   terminal-notifier-guard
+  therubyracer
   thin
   uglifier
   user_agent_parser
