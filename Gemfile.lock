@@ -453,7 +453,7 @@ GEM
     uglifier (4.1.15)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.4.0)
-    user_agent_parser (2.4.1)
+    user_agent_parser (2.7.0)
     vcr (4.0.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
