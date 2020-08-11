@@ -4,7 +4,7 @@
 class Archiving
   # Archive all the emails for a particular date (in UTC)
   # TODO Check that we're not trying to archive today's email
-  def self.archive(date, noisy = true)
+  def self.archive(date, noisy: true)
     t0 = date.to_datetime
     t1 = t0.next_day
     deliveries = Delivery
@@ -135,7 +135,7 @@ class Archiving
     delivery
   end
 
-  def self.copy_to_s3(date, noisy = true)
+  def self.copy_to_s3(date, noisy: true)
     if (s3_bucket = ENV["S3_BUCKET"])
       if noisy
         puts "Copying #{archive_filename_for(date)} " \

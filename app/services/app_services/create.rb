@@ -6,6 +6,7 @@ module AppServices
       current_admin:, name:, open_tracking_enabled:, click_tracking_enabled:,
       custom_tracking_domain:, from_domain:, dkim_enabled:
     )
+      super()
       @current_admin = current_admin
       @attributes = {
         name: name,

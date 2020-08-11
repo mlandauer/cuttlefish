@@ -3,6 +3,7 @@
 module EmailServices
   class Send < ApplicationService
     def initialize(email:)
+      super()
       @email = email
     end
 

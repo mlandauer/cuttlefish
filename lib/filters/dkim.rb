@@ -7,6 +7,7 @@ module Filters
 
     def initialize(enabled:, dkim_dns:, cuttlefish_enabled:,
                    cuttlefish_dkim_dns:, sender_email:)
+      super()
       @enabled = enabled
       @dkim_dns = dkim_dns
       @cuttlefish_enabled = cuttlefish_enabled
@@ -15,9 +16,7 @@ module Filters
     end
 
     def filter_mail(mail)
-      unless in_correct_domain?(mail, dkim_dns.domain) && enabled
-        mail.sender = sender_email
-      end
+      mail.sender = sender_email unless in_correct_domain?(mail, dkim_dns.domain) && enabled
 
       mail = sign(mail, enabled, dkim_dns)
       sign(mail, cuttlefish_enabled, cuttlefish_dkim_dns)

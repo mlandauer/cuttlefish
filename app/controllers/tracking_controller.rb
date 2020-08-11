@@ -7,14 +7,11 @@ class TrackingController < ApplicationController
   # ApplicationController force_ssl.
 
   def open
-    unless HashId.valid?(params[:delivery_id], params[:hash])
-      raise ActiveRecord::RecordNotFound
-    end
+    raise ActiveRecord::RecordNotFound unless HashId.valid?(params[:delivery_id], params[:hash])
 
     delivery = Delivery.find(params[:delivery_id])
-    unless Rails.configuration.cuttlefish_read_only_mode
-      delivery.add_open_event(request)
-    end
+
+    delivery.add_open_event(request) unless Rails.configuration.cuttlefish_read_only_mode
     # TODO: Check that we are asking for a gif and only accept those for
     # the time being
     # This sends a 1x1 transparent gif
@@ -36,9 +33,7 @@ class TrackingController < ApplicationController
       # If there is no delivery_link this is probably an old email
       # which has been archived and the delivery_link record doesn't exist
       # anymore.
-      if delivery_link && !Rails.configuration.cuttlefish_read_only_mode
-        delivery_link.add_click_event(request)
-      end
+      delivery_link.add_click_event(request) if delivery_link && !Rails.configuration.cuttlefish_read_only_mode
       redirect_to params[:url]
     else
       raise ActiveRecord::RecordNotFound

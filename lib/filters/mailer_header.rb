@@ -5,6 +5,7 @@ module Filters
     attr_accessor :version
 
     def initialize(version:)
+      super()
       @version = version
     end
 

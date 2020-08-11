@@ -16,6 +16,7 @@ module AppServices
       id:,
       attributes:
     )
+      super()
       @current_admin = current_admin
       @id = id
       @attributes = attributes.select { |k, _v| VALID_ATTRIBUTES.include?(k) }

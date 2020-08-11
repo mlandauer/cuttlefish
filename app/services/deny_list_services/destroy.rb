@@ -3,6 +3,7 @@
 module DenyListServices
   class Destroy < ApplicationService
     def initialize(current_admin:, id:)
+      super()
       @current_admin = current_admin
       @id = id
     end

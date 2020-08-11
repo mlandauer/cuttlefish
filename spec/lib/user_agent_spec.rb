@@ -4,6 +4,7 @@ require "spec_helper"
 
 class UserAgentTest
   attr_accessor :user_agent
+
   include UserAgent
 
   def initialize(user_agent)

@@ -5,6 +5,6 @@ module AppsHelper
   # into several separate strings. Some DNS hosting services (e.g. DNS Made
   # Easy) expect strings to be formatted in this way.
   def quote_long_dns_txt_record(text)
-    text.scan(/.{1,255}/).map { |s| '"' + s + '"' }.join
+    text.scan(/.{1,255}/).map { |s| "\"#{s}\"" }.join
   end
 end

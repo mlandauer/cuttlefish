@@ -6,6 +6,7 @@ module AppServices
       current_admin:,
       id:
     )
+      super()
       @current_admin = current_admin
       @id = id
     end

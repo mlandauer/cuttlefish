@@ -39,7 +39,7 @@ module Api
   # This is for making a query to a graphql api as a client
   def self.query(query, variables:, current_admin:)
     # Convert variable names to camelcase for graphql
-    variables = Hash[variables.map { |k, v| [k.to_s.camelize(:lower), v] }]
+    variables = variables.transform_keys { |k| k.to_s.camelize(:lower) }
 
     context = if LOCAL_API
                 { current_admin: current_admin }

@@ -43,7 +43,7 @@ describe Archiving do
       end
 
       it "removes the temp archive file it creates" do
-        Archiving.archive("2014-06-04", false)
+        Archiving.archive("2014-06-04", noisy: false)
 
         expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be false
       end
@@ -61,7 +61,7 @@ describe Archiving do
       end
 
       it "does not delete the local copy" do
-        Archiving.archive("2014-06-04", false)
+        Archiving.archive("2014-06-04", noisy: false)
 
         expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be true
       end
@@ -181,7 +181,7 @@ describe Archiving do
       it "sends a copy to S3" do
         VCR.use_cassette("aws") do
           # TODO: Silence debugging output from this method
-          expect(Archiving.copy_to_s3("2014-06-04", false)).to be_instance_of(
+          expect(Archiving.copy_to_s3("2014-06-04", noisy: false)).to be_instance_of(
             Fog::Storage::AWS::File
           )
         end
@@ -197,7 +197,7 @@ describe Archiving do
 
       it "fails silently" do
         # TODO: Silence debugging output from this method
-        expect(Archiving.copy_to_s3("2014-06-04", false)).to eq nil
+        expect(Archiving.copy_to_s3("2014-06-04", noisy: false)).to eq nil
       end
     end
   end

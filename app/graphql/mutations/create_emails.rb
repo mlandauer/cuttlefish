@@ -21,7 +21,7 @@ module Mutations
 
     field :emails, [Types::Email], null: true
 
-    # rubocop:disable UncommunicativeMethodParamName
+    # rubocop:disable Naming/MethodParameterName
     def resolve(
       app_id:, from:, to:, cc: [], subject:, text_part: nil, html_part: nil
     )
@@ -39,6 +39,6 @@ module Mutations
         emails: create_email.result.deliveries
       }
     end
-    # rubocop:enable UncommunicativeMethodParamName
+    # rubocop:enable Naming/MethodParameterName
   end
 end

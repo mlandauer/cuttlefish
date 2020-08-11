@@ -6,12 +6,8 @@ module Filters
   class Mail < Filters::Base
     def filter_mail(mail)
       if mail.multipart?
-        if mail.html_part
-          mail.html_part.body = filter_html(mail.html_part.body.decoded)
-        end
-        if mail.text_part
-          mail.text_part.body = filter_text(mail.text_part.body.decoded)
-        end
+        mail.html_part.body = filter_html(mail.html_part.body.decoded) if mail.html_part
+        mail.text_part.body = filter_text(mail.text_part.body.decoded) if mail.text_part
       else
         mail.body = if mail.mime_type == "text/html"
                       filter_html(mail.body.decoded)

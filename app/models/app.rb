@@ -53,9 +53,7 @@ class App < ActiveRecord::Base
   end
 
   def dkim_private_key
-    if read_attribute(:dkim_private_key).nil?
-      update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem)
-    end
+    update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem) if read_attribute(:dkim_private_key).nil?
     OpenSSL::PKey::RSA.new(read_attribute(:dkim_private_key))
   end
 
@@ -85,7 +83,7 @@ class App < ActiveRecord::Base
     # Doing this to maintain compatibility with previous implementation
     # of this method
     if n.absolute?
-      n.to_s + "."
+      "#{n}."
     else
       n.to_s
     end
@@ -122,7 +120,7 @@ class App < ActiveRecord::Base
   def cname_domain
     # In DNS speak putting a "." after the domain makes it a full domain
     # name rather than just relative to the current higher level domain
-    Rails.configuration.cuttlefish_domain + "."
+    "#{Rails.configuration.cuttlefish_domain}."
   end
 
   def valid_dns_for_custom_tracking_domain
@@ -145,7 +143,8 @@ class App < ActiveRecord::Base
   end
 
   def set_smtp_username
+    encoded_name = name.downcase.tr(" ", "_")
     # By appending the id we can be confident that this name is globally unique
-    update_attributes(smtp_username: name.downcase.tr(" ", "_") + "_" + id.to_s)
+    update_attributes(smtp_username: "#{encoded_name}_#{id}")
   end
 end

@@ -7,6 +7,7 @@ module Filters
     attr_accessor :delivery_id, :enabled, :tracking_domain_info
 
     def initialize(delivery_id:, enabled:, tracking_domain_info:)
+      super()
       @delivery_id = delivery_id
       @enabled = enabled
       @tracking_domain_info = tracking_domain_info

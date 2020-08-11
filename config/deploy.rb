@@ -46,9 +46,9 @@ namespace :deploy do
   before "deploy:assets:precompile" do
     links = {
       "#{release_path}/config/database.yml" => "#{shared_path}/database.yml",
-      "#{release_path}/db/emails"           => "#{shared_path}/emails",
-      "#{release_path}/db/archive"          => "#{shared_path}/archive",
-      "#{release_path}/.env"                => "#{shared_path}/.env"
+      "#{release_path}/db/emails" => "#{shared_path}/emails",
+      "#{release_path}/db/archive" => "#{shared_path}/archive",
+      "#{release_path}/.env" => "#{shared_path}/.env"
     }
     # Copy across the example database configuration file if there isn't
     # already one

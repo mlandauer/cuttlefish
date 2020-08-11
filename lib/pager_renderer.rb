@@ -20,7 +20,7 @@ class PagerRenderer < WillPaginate::ActionView::LinkRenderer
     if page
       tag(:li, link(text, page), class: classname)
     else
-      tag(:li, tag(:a, text, href: "#"), class: classname + " disabled")
+      tag(:li, tag(:a, text, href: "#"), class: "#{classname} disabled")
     end
   end
 end

@@ -5,6 +5,7 @@ module Filters
     attr_reader :delivery
 
     def initialize(delivery:)
+      super()
       @delivery = delivery
     end
 

@@ -2,8 +2,9 @@
 
 module EmailServices
   class Create < ApplicationService
-    # rubocop:disable Naming/UncommunicativeMethodParamName
+    # rubocop:disable Naming/MethodParameterName
     def initialize(app_id:, from:, to:, cc:, subject:, text_part:, html_part:)
+      super()
       @app_id = app_id
       @from = from
       @to = to
@@ -12,7 +13,7 @@ module EmailServices
       @text_part = text_part
       @html_part = html_part
     end
-    # rubocop:enable Naming/UncommunicativeMethodParamName
+    # rubocop:enable Naming/MethodParameterName
 
     # TODO: Check for validation errors
     # TODO: Check that at least one of html_part and text_part are non-null

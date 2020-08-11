@@ -63,9 +63,11 @@ class PostfixLogLine < ActiveRecord::Base
 
   def self.match_main_content(line)
     # Assume the log file was written using syslog and parse accordingly
+    # rubocop:disable Style/StringConcatenation
     p = SyslogProtocol.parse("<13>" + line)
+    # rubocop:enable Style/StringConcatenation
     content_match =
-      p.content.match %r{^postfix\/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)}
+      p.content.match %r{^postfix/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)}
     if content_match.nil?
       puts "Skipping unrecognised line: #{line}"
       return nil
