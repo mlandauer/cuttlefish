@@ -4,6 +4,6 @@
 
 FactoryBot.define do
   factory :link do
-    url "http://foo.com"
+    url { "http://foo.com" }
   end
 end

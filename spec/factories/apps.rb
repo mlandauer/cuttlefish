@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :app do
     team
-    name "My App"
+    name { "My App" }
   end
 end
