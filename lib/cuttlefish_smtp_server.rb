@@ -165,6 +165,8 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     end
   end
 
+  IGNORE_DENY_LIST_HEADER = "X-Cuttlefish-Ignore-Deny-List"
+
   def receive_message
     current.received = true
     current.completed_at = Time.now
@@ -174,11 +176,11 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
     # Now check for special headers
     m = Mail.new(current.data)
-    h = m.header["X-Cuttlefish-Ignore-Deny-List"]
+    h = m.header[IGNORE_DENY_LIST_HEADER]
     ignore_deny_list = (!h.nil? && h.value == "true")
 
     # Remove header
-    m.header["X-Cuttlefish-Ignore-Deny-List"] = nil
+    m.header[IGNORE_DENY_LIST_HEADER] = nil
 
     email = Email.create!(
       to: current.recipients,
