@@ -175,7 +175,9 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     email = Email.create!(
       to: current.recipients,
       data: current.data,
-      app_id: current.app_id
+      app_id: current.app_id,
+      # TODO: Set this based on a special header we pass
+      ignore_deny_list: false
     )
 
     SendEmailWorker.perform_async(email.id)

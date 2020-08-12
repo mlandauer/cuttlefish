@@ -40,7 +40,9 @@ module EmailServices
       email = Email.create!(
         to: mail.to,
         data: mail.to_s,
-        app_id: app_id
+        app_id: app_id,
+        # TODO: Add the option to set this
+        ignore_deny_list: false
       )
 
       SendEmailWorker.perform_async(email.id)
