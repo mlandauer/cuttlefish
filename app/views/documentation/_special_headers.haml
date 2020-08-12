@@ -1,0 +1,29 @@
+%h3 Special Headers
+
+%p
+  By setting special headers in the email content you can make some special things happen.
+  There is currently only one setting.
+
+%h4 X-Cuttlefish-Ignore-Deny-List
+
+%p
+  If you set this to "true", the email will get sent even if the destination
+  is on the "deny list". Only use this in very exceptional circumstances where
+  you have a low volume of email going to an email address that you're very
+  confident should work and you absolutely don't want emails to not get sent.
+
+%p
+  One example of this is sending emails to a known and fixed email address of
+  a government agency. We *really* want those emails to arrive as much as
+  possible.
+
+%p An example of the header in use:
+
+:coderay
+  #!plain
+  From: foo@bar.com
+  To: wibble@wobble.com
+  X-Cuttlefish-Ignore-Deny-List: true
+  Subject: Hello
+
+  Hello!
