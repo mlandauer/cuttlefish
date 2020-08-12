@@ -3,7 +3,7 @@
 module EmailServices
   class Create < ApplicationService
     # rubocop:disable Naming/MethodParameterName
-    def initialize(app_id:, from:, to:, cc:, subject:, text_part:, html_part:)
+    def initialize(app_id:, from:, to:, cc:, subject:, text_part:, html_part:, ignore_deny_list:)
       super()
       @app_id = app_id
       @from = from
@@ -12,6 +12,7 @@ module EmailServices
       @subject = subject
       @text_part = text_part
       @html_part = html_part
+      @ignore_deny_list = ignore_deny_list
     end
     # rubocop:enable Naming/MethodParameterName
 
@@ -41,8 +42,7 @@ module EmailServices
         to: mail.to,
         data: mail.to_s,
         app_id: app_id,
-        # TODO: Add the option to set this
-        ignore_deny_list: false
+        ignore_deny_list: ignore_deny_list
       )
 
       SendEmailWorker.perform_async(email.id)
@@ -52,6 +52,6 @@ module EmailServices
 
     private
 
-    attr_reader :app_id, :from, :to, :cc, :subject, :text_part, :html_part
+    attr_reader :app_id, :from, :to, :cc, :subject, :text_part, :html_part, :ignore_deny_list
   end
 end
