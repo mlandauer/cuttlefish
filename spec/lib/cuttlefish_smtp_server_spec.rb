@@ -97,37 +97,69 @@ describe CuttlefishSmtpConnection do
     end
   end
   describe "#receive_message" do
-    it do
-      allow(EmailServices::Send).to receive(:call)
-      data = [
-        "MIME-Version: 1.0",
-        "Content-Type: text/plain; charset=\"utf-8\"",
-        "Content-Transfer-Encoding: 8bit",
-        "Subject: [WriteIT] Message: asdasd",
-        "From: Felipe <felipe@fiera-feroz.cl>, " \
-          "Matthew <matthew@fiera-feroz.cl>",
-        "To: felipe@fiera-feroz.cl",
-        "Date: Fri, 13 Mar 2015 14:42:20 -0000",
-        "Message-ID: <20150313144220.12848.46019@paro-taktsang>",
-        "",
-        "Contra toda autoridad!...excepto mi mamá!"
-      ].join("\r\n")
-      # Simulate the encoding that we would assume when the data is received
-      # over the wire so to speak
-      data.force_encoding("ASCII-8BIT")
-      connection.receive_sender("ciudadanoi@email.org")
-      connection.receive_recipient("Felipe <felipe@fiera-feroz.cl>")
-      connection.receive_recipient("Matthew <matthew@fiera-feroz.cl>")
-      connection.receive_plain_auth(app.smtp_username, app.smtp_password)
-      connection.current.data = data
-      Sidekiq::Testing.inline! do
-        connection.receive_message
+    context "message with UTF8 encoding" do
+      let(:data) do
+        data = [
+          "MIME-Version: 1.0",
+          "Content-Type: text/plain; charset=\"utf-8\"",
+          "Content-Transfer-Encoding: 8bit",
+          "Subject: [WriteIT] Message: asdasd",
+          "From: Felipe <felipe@fiera-feroz.cl>, " \
+            "Matthew <matthew@fiera-feroz.cl>",
+          "To: felipe@fiera-feroz.cl",
+          "Date: Fri, 13 Mar 2015 14:42:20 -0000",
+          "Message-ID: <20150313144220.12848.46019@paro-taktsang>",
+          "",
+          "Contra toda autoridad!...excepto mi mamá!"
+        ].join("\r\n")
+        # Simulate the encoding that we would assume when the data is received
+        # over the wire so to speak
+        data.force_encoding("ASCII-8BIT")
+        data
       end
-      expect(Email.count).to eq 1
-      mail = Email.first
-      expect(Mail.new(mail.data).decoded).to eq(
-        "Contra toda autoridad!...excepto mi mamá!"
-      )
+
+      it do
+        allow(EmailServices::Send).to receive(:call)
+        connection.receive_sender("ciudadanoi@email.org")
+        connection.receive_recipient("Felipe <felipe@fiera-feroz.cl>")
+        connection.receive_recipient("Matthew <matthew@fiera-feroz.cl>")
+        connection.receive_plain_auth(app.smtp_username, app.smtp_password)
+        connection.current.data = data
+        Sidekiq::Testing.inline! do
+          connection.receive_message
+        end
+        expect(Email.count).to eq 1
+        mail = Email.first
+        expect(Mail.new(mail.data).decoded).to eq(
+          "Contra toda autoridad!...excepto mi mamá!"
+        )
+        expect(mail.ignore_deny_list).to be false
+      end
+    end
+
+    context "message with special header" do
+      let(:data) do
+        [
+          "Subject: Hello",
+          "From: foo@bar.com",
+          "To: wibble@wobble.com",
+          "X-Cuttlefish-Ignore-Deny-List: true",
+          "",
+          "Hello!"
+        ].join("\r\n")
+      end
+
+      it do
+        connection.receive_recipient("<wibble@wobble.com>")
+        connection.receive_plain_auth(app.smtp_username, app.smtp_password)
+        connection.current.data = data
+        Sidekiq::Testing.inline! do
+          connection.receive_message
+        end
+        expect(Email.count).to eq 1
+        mail = Email.first
+        expect(mail.ignore_deny_list).to be true
+      end
     end
   end
 end
