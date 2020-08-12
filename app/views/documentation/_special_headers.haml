@@ -8,7 +8,11 @@
 
 %p
   If you set this to "true", the email will get sent even if the destination
-  is on the "deny list". Only use this in very exceptional circumstances where
+  address is on the "deny list". Note that if the email hard bounces the destination
+  address will still get added to the deny list.
+
+%p
+  Only use this in very exceptional circumstances where
   you have a low volume of email going to an email address that you're very
   confident should work and you absolutely don't want emails to not get sent.
 
