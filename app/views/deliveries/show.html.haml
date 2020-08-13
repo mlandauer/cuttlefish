@@ -2,6 +2,8 @@
   %h1= @delivery.subject
 
 %p
+  - if @delivery.ignore_deny_list
+    %span.label.label-warning Ignore Deny List
   %span{class: label_class(@delivery.status)}
     = status_name(@delivery.status)
   - if @delivery.opened?

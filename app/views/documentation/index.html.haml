@@ -21,6 +21,7 @@
       - @apps.each do |app|
         .tab-pane{id: "app-#{app.id}", class: ("active" if app == @active_app)}
           = render partial: "general", locals: {app: app}
+          = render partial: "special_headers", locals: {app: app}
           = render partial: "rails", locals: {app: app}
           = render partial: "php", locals: {app: app}
           = render partial: "django", locals: {app: app}
