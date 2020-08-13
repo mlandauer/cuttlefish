@@ -156,6 +156,7 @@ describe CuttlefishSmtpConnection do
       end
 
       it do
+        allow(EmailServices::Send).to receive(:call)
         connection.receive_recipient("<wibble@wobble.com>")
         connection.receive_plain_auth(app.smtp_username, app.smtp_password)
         connection.current.data = data
