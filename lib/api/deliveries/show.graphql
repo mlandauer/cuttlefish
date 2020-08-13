@@ -19,6 +19,7 @@ query($id: ID!) {
     }
     opened
     clicked
+    ignoreDenyList
     deliveryEvents {
       time
       dsn

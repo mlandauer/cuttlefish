@@ -13,7 +13,8 @@ describe EmailServices::Create do
       subject: "Test",
       text_part: "Hello. How are you?",
       html_part: "<p>Hello. How are you?</p>",
-      app_id: app.id
+      app_id: app.id,
+      ignore_deny_list: false
     )
   end
 
