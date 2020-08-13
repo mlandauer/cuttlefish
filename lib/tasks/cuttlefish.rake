@@ -23,9 +23,9 @@ namespace :cuttlefish do
   desc "Daily maintenance tasks to be run via cron job"
   task daily_tasks: %i[auto_archive remove_old_deny_listed_items]
 
-  desc "Archive all emails created more than 6 months ago"
+  desc "Archive all emails created more than 3 months ago"
   task auto_archive: :environment do
-    date_to_archive_until = 6.months.ago.to_date
+    date_to_archive_until = 3.months.ago.to_date
     date_of_oldest_email = Delivery.order(:created_at).first.created_at.to_date
 
     if date_of_oldest_email < date_to_archive_until
