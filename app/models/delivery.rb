@@ -12,6 +12,7 @@ class Delivery < ActiveRecord::Base
 
   delegate :from, :from_address, :from_domain, :text_part, :html_part, :data,
            :click_tracking_enabled?, :open_tracking_enabled?, :subject,
+           :ignore_deny_list,
            to: :email
 
   delegate :tracking_domain_info, to: :app
