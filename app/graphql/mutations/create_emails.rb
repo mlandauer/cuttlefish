@@ -19,14 +19,11 @@ module Mutations
     argument :text_part, String, required: false
     argument :html_part, String, required: false
 
-    argument :ignore_deny_list, Boolean, required: false
-
     field :emails, [Types::Email], null: true
 
     # rubocop:disable Naming/MethodParameterName
     def resolve(
-      app_id:, from:, to:, cc: [], subject:, text_part: nil, html_part: nil,
-      ignore_deny_list: false
+      app_id:, from:, to:, cc: [], subject:, text_part: nil, html_part: nil
     )
       create_email = EmailServices::Create.call(
         app_id: app_id,
@@ -35,8 +32,7 @@ module Mutations
         cc: cc,
         subject: subject,
         text_part: text_part,
-        html_part: html_part,
-        ignore_deny_list: ignore_deny_list
+        html_part: html_part
       )
       # TODO: Error checking
       {

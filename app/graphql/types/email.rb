@@ -38,9 +38,6 @@ module Types
     field :clicked, Boolean,
           null: false,
           description: "Whether this email was clicked"
-    field :ignore_deny_list, Boolean,
-          null: false,
-          description: "If true the delivery of this email ignores whether the destination address is in the deny list"
     field :delivery_events, [Types::DeliveryEvent],
           null: false,
           description: "A list of delivery events for this email"
@@ -71,10 +68,6 @@ module Types
 
     def clicked
       object.delivery_links.any?(&:clicked?)
-    end
-
-    def ignore_deny_list
-      object.ignore_deny_list
     end
 
     def delivery_events

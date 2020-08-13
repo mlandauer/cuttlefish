@@ -14,7 +14,10 @@ describe Filters::Master do
   end
 
   it do
-    mail2 = Filters::Master.new(delivery: create(:delivery)).filter_mail(mail)
+    app = App.create!(name: "Test")
+    email = Email.create!(app_id: app.id)
+    delivery = Delivery.create!(email: email, app: app)
+    mail2 = Filters::Master.new(delivery: delivery).filter_mail(mail)
     expect(Nokogiri::HTML(mail2.html_part.decoded).at("p").inner_text).to eq(
       "vašem"
     )

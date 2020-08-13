@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_12_050040) do
+ActiveRecord::Schema.define(version: 2018_10_11_045125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,7 +128,6 @@ ActiveRecord::Schema.define(version: 2020_08_12_050040) do
     t.string "data_hash", limit: 255
     t.integer "app_id", null: false
     t.string "subject", limit: 255
-    t.boolean "ignore_deny_list", null: false
     t.index ["app_id"], name: "index_emails_on_app_id"
     t.index ["created_at"], name: "index_emails_on_created_at"
     t.index ["from_address_id"], name: "index_emails_on_from_address_id"

@@ -165,8 +165,6 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     end
   end
 
-  IGNORE_DENY_LIST_HEADER = "X-Cuttlefish-Ignore-Deny-List"
-
   def receive_message
     current.received = true
     current.completed_at = Time.now
@@ -174,19 +172,10 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     # TODO: No need to capture current.sender, current.received,
     # current.completed_at because we're not passing it on
 
-    # Now check for special headers
-    m = Mail.new(current.data)
-    h = m.header[IGNORE_DENY_LIST_HEADER]
-    ignore_deny_list = (!h.nil? && h.value == "true")
-
-    # Remove header
-    m.header[IGNORE_DENY_LIST_HEADER] = nil
-
     email = Email.create!(
       to: current.recipients,
-      data: m.to_s,
-      app_id: current.app_id,
-      ignore_deny_list: ignore_deny_list
+      data: current.data,
+      app_id: current.app_id
     )
 
     SendEmailWorker.perform_async(email.id)
