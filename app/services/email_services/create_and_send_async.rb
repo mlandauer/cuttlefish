@@ -9,6 +9,10 @@ module EmailServices
       @ignore_deny_list = ignore_deny_list
     end
 
+    # Note that this service depends on having access to the same filesystem as
+    # the worker processes have access to. Currently, that's fine because we're
+    # running everything on a single machine but that assumption might not be
+    # true in the future
     def call
       email = Email.create!(
         to: to,
