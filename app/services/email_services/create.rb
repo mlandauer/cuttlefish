@@ -38,14 +38,13 @@ module EmailServices
         mail.html_part = part
       end
 
-      email = Email.create!(
+      email = EmailServices::CreateAndSendAsync.new(
         to: mail.to,
         data: mail.to_s,
         app_id: app_id,
         ignore_deny_list: ignore_deny_list
-      )
+      ).call
 
-      SendEmailWorker.perform_async(email.id)
       success!
       email
     end

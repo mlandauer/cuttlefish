@@ -182,14 +182,12 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     # Remove header
     m.header[IGNORE_DENY_LIST_HEADER] = nil
 
-    email = Email.create!(
+    EmailServices::CreateAndSendAsync.new(
       to: current.recipients,
       data: m.to_s,
       app_id: current.app_id,
       ignore_deny_list: ignore_deny_list
-    )
-
-    SendEmailWorker.perform_async(email.id)
+    ).call
 
     # Preserve the app_id as we are already authenticated
     @current = OpenStruct.new(app_id: current.app_id)
