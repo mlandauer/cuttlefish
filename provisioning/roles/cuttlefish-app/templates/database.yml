@@ -3,3 +3,5 @@ production:
   database: cuttlefish
   username: cuttlefish
   password: {{ db_password }}
+  # Because we're using sidekiq for the background queue
+  pool: 25
