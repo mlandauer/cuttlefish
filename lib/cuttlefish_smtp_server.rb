@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path File.join(File.dirname(__FILE__), "send_email_worker")
+require File.expand_path File.join(File.dirname(__FILE__), "create_and_send_email_worker")
 require File.expand_path File.join(File.dirname(__FILE__), "email_data_cache")
 require "ostruct"
 require "eventmachine"

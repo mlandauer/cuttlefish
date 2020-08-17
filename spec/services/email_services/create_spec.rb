@@ -19,7 +19,7 @@ describe EmailServices::Create do
   end
 
   it "should send a test email" do
-    expect_any_instance_of(SendEmailWorker).to receive(:perform)
+    expect_any_instance_of(EmailServices::CreateAndSend).to receive(:call)
     create_email
   end
 

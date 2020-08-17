@@ -15,14 +15,16 @@ module EmailServices
     # running everything on a single machine but that assumption might not be
     # true in the future
     def call
-      email = Email.create!(
-        to: to,
-        data: data,
-        app_id: app_id,
-        ignore_deny_list: ignore_deny_list
-      )
-
-      SendEmailWorker.new.perform(email.id)
+      email = ActiveRecord::Base.transaction do
+        email = Email.create!(
+          to: to,
+          data: data,
+          app_id: app_id,
+          ignore_deny_list: ignore_deny_list
+        )
+        EmailServices::Send.call(email: email)
+        email
+      end
 
       success!
       email
