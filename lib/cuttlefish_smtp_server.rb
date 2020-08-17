@@ -182,12 +182,22 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     # Remove header
     m.header[IGNORE_DENY_LIST_HEADER] = nil
 
-    EmailServices::CreateAndSendAsync.new(
-      to: current.recipients,
-      data: m.to_s,
-      app_id: current.app_id,
-      ignore_deny_list: ignore_deny_list
-    ).call
+    # Store content of email in a temporary file
+    # Note that this depends on having access to the same filesystem as
+    # the worker processes have access to. Currently, that's fine because we're
+    # running everything on a single machine but that assumption might not be
+    # true in the future
+    file = Tempfile.new("cuttlefish")
+    file.write(m.to_s)
+    file.close
+
+    # Note the worker will delete the temporary file when it's done
+    CreateAndSendEmailWorker.perform_async(
+      current.recipients,
+      file.path,
+      current.app_id,
+      ignore_deny_list
+    )
 
     # Preserve the app_id as we are already authenticated
     @current = OpenStruct.new(app_id: current.app_id)
