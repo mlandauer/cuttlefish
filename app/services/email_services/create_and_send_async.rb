@@ -15,12 +15,24 @@ module EmailServices
     # running everything on a single machine but that assumption might not be
     # true in the future
     def call
+      # Store content of email in a temporary file
+      file = Tempfile.new("email")
+      file.write(data)
+      file.close
+      data_path = file.path
+
+      # Read the data back in from the temporary file
+      data2 = File.open(data_path, &:read)
+
       email = Email.create!(
         to: to,
-        data: data,
+        data: data2,
         app_id: app_id,
         ignore_deny_list: ignore_deny_list
       )
+
+      # Delete the temporary file now that we don't need it anymore
+      File.delete(data_path)
 
       SendEmailWorker.perform_async(email.id)
 
