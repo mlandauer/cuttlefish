@@ -16,7 +16,7 @@ module EmailServices
     # true in the future
     def call
       # Store content of email in a temporary file
-      file = Tempfile.new("email")
+      file = Tempfile.new("cuttlefish")
       file.write(data)
       file.close
       data_path = file.path
