@@ -3,6 +3,7 @@
 module EmailServices
   class CreateAndSendAsync < ApplicationService
     def initialize(to:, data:, app_id:, ignore_deny_list:)
+      super()
       @to = to
       @data = data
       @app_id = app_id
@@ -21,9 +22,7 @@ module EmailServices
       data_path = file.path
 
       # Read the data back in from the temporary file
-      data2 = File.open(data_path) do |f|
-        f.read
-      end
+      data2 = File.open(data_path, &:read)
 
       email = Email.create!(
         to: to,
