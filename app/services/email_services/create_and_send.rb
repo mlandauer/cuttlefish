@@ -15,16 +15,17 @@ module EmailServices
     # running everything on a single machine but that assumption might not be
     # true in the future
     def call
-      email = ActiveRecord::Base.transaction do
-        email = Email.create!(
-          to: to,
-          data: data,
-          app_id: app_id,
-          ignore_deny_list: ignore_deny_list
-        )
-        EmailServices::Send.call(email: email)
-        email
-      end
+      # Store content of email in a temporary file
+      file = Tempfile.new("cuttlefish")
+      file.write(data)
+      file.close
+
+      email = EmailServices::CreateAndSendFromDataPath.new(
+        to: to,
+        data_path: file.path,
+        app_id: app_id,
+        ignore_deny_list: ignore_deny_list
+      ).call
 
       success!
       email
