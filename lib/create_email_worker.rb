@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # For Sidekiq
-class CreateAndSendEmailWorker
+class CreateEmailWorker
   include Sidekiq::Worker
 
   # Can't use keyword arguments in sidekiq

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path File.join(File.dirname(__FILE__), "create_and_send_email_worker")
+require File.expand_path File.join(File.dirname(__FILE__), "create_email_worker")
 require File.expand_path File.join(File.dirname(__FILE__), "email_data_cache")
 require "ostruct"
 require "eventmachine"
@@ -192,7 +192,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     file.close
 
     # Note the worker will delete the temporary file when it's done
-    CreateAndSendEmailWorker.perform_async(
+    CreateEmailWorker.perform_async(
       current.recipients,
       file.path,
       current.app_id,
