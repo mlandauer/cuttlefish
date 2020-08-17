@@ -38,9 +38,14 @@ module EmailServices
         mail.html_part = part
       end
 
-      email = EmailServices::CreateAndSend.new(
+      # Store content of email in a temporary file
+      file = Tempfile.new("cuttlefish")
+      file.write(mail.to_s)
+      file.close
+
+      email = EmailServices::CreateAndSendFromDataPath.new(
         to: mail.to,
-        data: mail.to_s,
+        data_path: file.path,
         app_id: app_id,
         ignore_deny_list: ignore_deny_list
       ).call
