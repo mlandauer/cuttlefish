@@ -38,7 +38,7 @@ module EmailServices
         mail.html_part = part
       end
 
-      email = EmailServices::CreateAndSendAsync.new(
+      email = EmailServices::CreateAndSend.new(
         to: mail.to,
         data: mail.to_s,
         app_id: app_id,

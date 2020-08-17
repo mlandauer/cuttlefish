@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module EmailServices
-  class CreateAndSendAsync < ApplicationService
+  class CreateAndSend < ApplicationService
     def initialize(to:, data:, app_id:, ignore_deny_list:)
       super()
       @to = to
@@ -22,9 +22,10 @@ module EmailServices
         ignore_deny_list: ignore_deny_list
       )
 
-      SendEmailWorker.perform_async(email.id)
+      SendEmailWorker.new.perform(email.id)
 
       success!
+      email
     end
 
     private
