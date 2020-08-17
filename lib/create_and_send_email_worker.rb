@@ -7,17 +7,11 @@ class CreateAndSendEmailWorker
   # Can't use keyword arguments in sidekiq
   # See https://github.com/mperham/sidekiq/issues/2372
   def perform(to, data_path, app_id, ignore_deny_list)
-    ActiveRecord::Base.transaction do
-      email = Email.create!(
-        to: to,
-        data: File.read(data_path),
-        app_id: app_id,
-        ignore_deny_list: ignore_deny_list
-      )
-      EmailServices::Send.call(email: email)
-    end
-
-    # Delete the temporary file now that we don't need it anymore
-    File.delete(data_path)
+    EmailServices::CreateAndSendFromDataPath.call(
+      to: to,
+      data_path: data_path,
+      app_id: app_id,
+      ignore_deny_list: ignore_deny_list
+    )
   end
 end
