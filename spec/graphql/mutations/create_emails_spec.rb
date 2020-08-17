@@ -32,6 +32,8 @@ describe Mutations::CreateEmails do
   let(:variables) { { id: app1.id } }
 
   it "should return a created email" do
+    # Stop this from actually sending anything
+    allow(EmailServices::Send).to receive(:call)
     expect(result["data"]["createEmails"]["emails"].length).to eq 1
   end
 

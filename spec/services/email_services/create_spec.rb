@@ -24,18 +24,22 @@ describe EmailServices::Create do
   end
 
   it "should create an email" do
+    allow(EmailServices::Send).to receive(:call)
     expect { create_email }.to change { Email.count }.by(1)
   end
 
   it "should return the service object" do
+    allow(EmailServices::Send).to receive(:call)
     expect(create_email).to be_a(EmailServices::Create)
   end
 
   it "should return an email" do
+    allow(EmailServices::Send).to receive(:call)
     expect(create_email.result).to be_an(Email)
   end
 
   it "should not be possible to write to the result" do
+    allow(EmailServices::Send).to receive(:call)
     expect { create_email.result = nil }.to raise_error(NoMethodError)
   end
 end
