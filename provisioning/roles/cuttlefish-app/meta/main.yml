@@ -126,7 +126,7 @@ dependencies:
     nrinfragent_config:
       license_key: "{{ new_relic_license_key }}"
   - {role: ANXS.postgresql, postgresql_ext_install_dev_headers: yes}
-  - role: rvm_io.ruby
+  - role: rvm.ruby
     rvm1_rubies: ['ruby-2.5.1']
     rvm1_rvm_check_for_updates: false
     rvm1_install_path: '/usr/local/lib/rvm'

@@ -22,7 +22,7 @@ coverage
 .vagrant
 
 provisioning/roles/newrelic.newrelic-infra
-provisioning/roles/rvm_io.ruby
+provisioning/roles/rvm.ruby
 provisioning/roles/geerlingguy.certbot
 provisioning/roles/DavidWittman.redis
 provisioning/roles/ANXS.postgresql
@@ -31,3 +31,6 @@ provisioning/roles/abtris.nginx-passenger
 postfix_log/supervisor/*.log
 postfix_log/maillog
 postfix_log/messages
+
+# Use ansible as a virtualenv if you want
+ansible
