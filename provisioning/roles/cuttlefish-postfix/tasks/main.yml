@@ -6,6 +6,7 @@
   command: "postconf -h smtp_tls_security_level"
   changed_when: False
   register: postfix_smtp_tls_security_level
+  check_mode: no
 
 - name: Enable postfix opportunistic TLS for encrypted outbound email
   command: postconf -e smtp_tls_security_level=may
