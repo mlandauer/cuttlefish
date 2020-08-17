@@ -19,22 +19,8 @@ module EmailServices
       file = Tempfile.new("cuttlefish")
       file.write(data)
       file.close
-      data_path = file.path
 
-      # Read the data back in from the temporary file
-      data2 = File.open(data_path, &:read)
-
-      email = Email.create!(
-        to: to,
-        data: data2,
-        app_id: app_id,
-        ignore_deny_list: ignore_deny_list
-      )
-
-      # Delete the temporary file now that we don't need it anymore
-      File.delete(data_path)
-
-      SendEmailWorker.perform_async(email.id)
+      CreateAndSendEmailWorker.perform_async(to, file.path, app_id, ignore_deny_list)
 
       success!
     end
