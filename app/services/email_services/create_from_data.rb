@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module EmailServices
-  class CreateAndSendFromDataPath < ApplicationService
+  class CreateFromData < ApplicationService
     def initialize(to:, data_path:, app_id:, ignore_deny_list:)
       super()
       @to = to

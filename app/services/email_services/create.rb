@@ -43,7 +43,7 @@ module EmailServices
       file.write(mail.to_s)
       file.close
 
-      email = EmailServices::CreateAndSendFromDataPath.new(
+      email = EmailServices::CreateFromData.new(
         to: mail.to,
         data_path: file.path,
         app_id: app_id,
