@@ -25,8 +25,8 @@ namespace :cuttlefish do
 
   desc "Archive all emails created more than 3 months ago"
   task auto_archive: :environment do
-    date_to_archive_until = 3.months.ago.to_date
-    date_of_oldest_email = Delivery.order(:created_at).first.created_at.to_date
+    date_to_archive_until = 3.months.ago.utc.to_date
+    date_of_oldest_email = Delivery.order(:created_at).first.created_at.utc.to_date
 
     if date_of_oldest_email < date_to_archive_until
       (date_of_oldest_email...date_to_archive_until).each do |date|
