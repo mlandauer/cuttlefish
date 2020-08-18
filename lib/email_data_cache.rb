@@ -69,8 +69,14 @@ class EmailDataCache
     no_to_remove = entries.count - max_no_emails_to_store_data
     return if no_to_remove <= 0
 
-    # Oldest first
-    to_remove = entries.sort_by { |f| EmailDataCache.safe_file_mtime f }[0...no_to_remove]
+    # Sort entries by modification time where already deleted (nil) and oldest come first
+    entries = entries.sort_by do |f|
+      m = EmailDataCache.safe_file_mtime(f)
+      # This cryptic trick for sorting with nils from
+      # https://stackoverflow.com/questions/4475991/sorting-an-array-based-on-an-attribute-that-may-be-nil-in-some-elements
+      [m ? 1 : 0, m]
+    end
+    to_remove = entries[0...no_to_remove]
     to_remove.each { |f| EmailDataCache.safe_file_delete f }
   end
 end
