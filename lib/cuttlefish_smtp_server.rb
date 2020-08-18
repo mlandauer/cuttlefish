@@ -187,7 +187,9 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     # the worker processes have access to. Currently, that's fine because we're
     # running everything on a single machine but that assumption might not be
     # true in the future
-    file = Tempfile.new("cuttlefish")
+    # Using Tempfile.create rather than Tempfile.new so that the tmp file is
+    # not automatically deleted through garbage collection
+    file = Tempfile.create("cuttlefish")
     file.write(m.to_s)
     file.close
 

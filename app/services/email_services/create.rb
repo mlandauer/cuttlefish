@@ -39,7 +39,9 @@ module EmailServices
       end
 
       # Store content of email in a temporary file
-      file = Tempfile.new("cuttlefish")
+      # Using Tempfile.create rather than Tempfile.new so that the tmp file is
+      # not automatically deleted through garbage collection
+      file = Tempfile.create("cuttlefish")
       file.write(mail.to_s)
       file.close
 
