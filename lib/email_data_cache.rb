@@ -33,6 +33,14 @@ class EmailDataCache
     nil
   end
 
+  # Won't throw an exception when filename doesn't exist
+  def self.safe_file_mtime(filename)
+    File.mtime filename
+  rescue Errno::ENOENT
+    # Do nothing and return nil if the file doesn't exist
+    nil
+  end
+
   private
 
   def data_filesystem_path(id)
@@ -62,7 +70,7 @@ class EmailDataCache
     return if no_to_remove <= 0
 
     # Oldest first
-    to_remove = entries.sort_by { |f| File.mtime f }[0...no_to_remove]
+    to_remove = entries.sort_by { |f| EmailDataCache.safe_file_mtime f }[0...no_to_remove]
     to_remove.each { |f| EmailDataCache.safe_file_delete f }
   end
 end
