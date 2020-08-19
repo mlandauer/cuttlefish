@@ -182,6 +182,20 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     # Remove header
     m.header[IGNORE_DENY_LIST_HEADER] = nil if m.header[IGNORE_DENY_LIST_HEADER]
 
+    # Check for metadata headers that start with "X-Cuttlefish-Metadata-"
+    meta_values = {}
+    names = []
+    m.header_fields.each do |field|
+      match = field.name.match(/^X-Cuttlefish-Metadata-(.*)$/)
+      if match
+        meta_values[match[1]] = field.value
+        names << field.name
+      end
+    end
+
+    # Remove headers
+    names.each { |name| m.header[name] = nil }
+
     # Store content of email in a temporary file
     # Note that this depends on having access to the same filesystem as
     # the worker processes have access to. Currently, that's fine because we're
@@ -198,7 +212,8 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
       current.recipients,
       file.path,
       current.app_id,
-      ignore_deny_list
+      ignore_deny_list,
+      meta_values
     )
 
     # Preserve the app_id as we are already authenticated

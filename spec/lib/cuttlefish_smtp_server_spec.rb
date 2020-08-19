@@ -154,6 +154,57 @@ describe CuttlefishSmtpConnection do
       end
     end
 
+    context "message with custom metadata headers" do
+      let(:data) do
+        [
+          "Date: Wed, 12 Aug 2020 06:25:22 +0000",
+          "From: foo@bar.com",
+          "To: wibble@wobble.com",
+          "X-Cuttlefish-Metadata-foo: bar",
+          "X-Cuttlefish-Metadata-wibble: wobble",
+          "Message-ID: <1.mail>",
+          "Subject: Hello",
+          "Mime-Version: 1.0",
+          "Content-Type: text/plain;",
+          " charset=UTF-8",
+          "Content-Transfer-Encoding: 7bit",
+          "",
+          "Hello!"
+        ].join("\r\n")
+      end
+
+      it do
+        allow(EmailServices::Send).to receive(:call)
+        connection.receive_recipient("<wibble@wobble.com>")
+        connection.receive_plain_auth(app.smtp_username, app.smtp_password)
+        connection.current.data = data
+        Sidekiq::Testing.inline! do
+          connection.receive_message
+        end
+        expect(Email.count).to eq 1
+        mail = Email.first
+        expect(mail.meta_values.count).to eq 2
+        expect(mail.meta_values[0].key).to eq "foo"
+        expect(mail.meta_values[0].value).to eq "bar"
+        expect(mail.meta_values[1].key).to eq "wibble"
+        expect(mail.meta_values[1].value).to eq "wobble"
+        # The header should have been removed
+        expect(mail.data).to eq [
+          "Date: Wed, 12 Aug 2020 06:25:22 +0000",
+          "From: foo@bar.com",
+          "To: wibble@wobble.com",
+          "Message-ID: <1.mail>",
+          "Subject: Hello",
+          "Mime-Version: 1.0",
+          "Content-Type: text/plain;",
+          " charset=UTF-8",
+          "Content-Transfer-Encoding: 7bit",
+          "",
+          "Hello!"
+        ].join("\r\n")
+      end
+    end
+
     context "message with special header" do
       let(:data) do
         [
