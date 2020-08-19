@@ -180,7 +180,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     ignore_deny_list = (!h.nil? && h.value == "true")
 
     # Remove header
-    m.header[IGNORE_DENY_LIST_HEADER] = nil
+    m.header[IGNORE_DENY_LIST_HEADER] = nil if m.header[IGNORE_DENY_LIST_HEADER]
 
     # Store content of email in a temporary file
     # Note that this depends on having access to the same filesystem as

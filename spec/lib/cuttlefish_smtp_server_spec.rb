@@ -130,6 +130,23 @@ describe CuttlefishSmtpConnection do
         end
         expect(Email.count).to eq 1
         mail = Email.first
+        # It shouldn't change the headers in any significant ways
+        # rubocop:disable Style/StringConcatenation
+        expect(mail.data).to eq [
+          "Date: Fri, 13 Mar 2015 14:42:20 +0000",
+          "From: Felipe <felipe@fiera-feroz.cl>, ",
+          " Matthew <matthew@fiera-feroz.cl>",
+          "To: felipe@fiera-feroz.cl",
+          "Message-ID: <20150313144220.12848.46019@paro-taktsang>",
+          "Subject: [WriteIT] Message: asdasd",
+          "Mime-Version: 1.0",
+          "Content-Type: text/plain;",
+          " charset=utf-8",
+          "Content-Transfer-Encoding: quoted-printable",
+          "",
+          "Contra toda autoridad!...excepto mi mam=C3=A1!="
+        ].join("\r\n") + "\n"
+        # rubocop:enable Style/StringConcatenation
         expect(Mail.new(mail.data).decoded).to eq(
           "Contra toda autoridad!...excepto mi mamá!"
         )
