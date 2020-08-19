@@ -20,6 +20,10 @@ query($id: ID!) {
     opened
     clicked
     ignoreDenyList
+    metaValues {
+      key
+      value
+    }
     deliveryEvents {
       time
       dsn
