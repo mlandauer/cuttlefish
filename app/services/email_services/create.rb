@@ -3,7 +3,8 @@
 module EmailServices
   class Create < ApplicationService
     # rubocop:disable Naming/MethodParameterName
-    def initialize(app_id:, from:, to:, cc:, subject:, text_part:, html_part:, ignore_deny_list:)
+    def initialize(app_id:, from:, to:, cc:, subject:, text_part:, html_part:,
+                   ignore_deny_list:, meta_values:)
       super()
       @app_id = app_id
       @from = from
@@ -13,6 +14,7 @@ module EmailServices
       @text_part = text_part
       @html_part = html_part
       @ignore_deny_list = ignore_deny_list
+      @meta_values = meta_values
     end
     # rubocop:enable Naming/MethodParameterName
 
@@ -50,8 +52,7 @@ module EmailServices
         data_path: file.path,
         app_id: app_id,
         ignore_deny_list: ignore_deny_list,
-        # TODO: Populate this
-        meta_values: {}
+        meta_values: meta_values
       ).call
 
       success!
@@ -60,6 +61,7 @@ module EmailServices
 
     private
 
-    attr_reader :app_id, :from, :to, :cc, :subject, :text_part, :html_part, :ignore_deny_list
+    attr_reader :app_id, :from, :to, :cc, :subject, :text_part, :html_part,
+                :ignore_deny_list, :meta_values
   end
 end
