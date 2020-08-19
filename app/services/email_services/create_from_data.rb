@@ -2,12 +2,13 @@
 
 module EmailServices
   class CreateFromData < ApplicationService
-    def initialize(to:, data_path:, app_id:, ignore_deny_list:)
+    def initialize(to:, data_path:, app_id:, ignore_deny_list:, meta_values:)
       super()
       @to = to
       @data_path = data_path
       @app_id = app_id
       @ignore_deny_list = ignore_deny_list
+      @meta_values = meta_values
     end
 
     # Note that this service depends on having access to the same filesystem as
@@ -26,12 +27,16 @@ module EmailServices
     end
 
     def create
-      Email.create!(
+      email = Email.create!(
         to: to,
         data: File.read(data_path),
         app_id: app_id,
         ignore_deny_list: ignore_deny_list
       )
+      meta_values.each do |key, value|
+        email.meta_values.create!(key: key, value: value)
+      end
+      email
     end
 
     def send(email)
@@ -45,6 +50,6 @@ module EmailServices
 
     private
 
-    attr_reader :to, :data_path, :app_id, :ignore_deny_list
+    attr_reader :to, :data_path, :app_id, :ignore_deny_list, :meta_values
   end
 end

@@ -13,7 +13,11 @@ describe EmailServices::CreateFromData do
       to: to,
       data_path: data_path,
       app_id: app.id,
-      ignore_deny_list: ignore_deny_list
+      ignore_deny_list: ignore_deny_list,
+      meta_values: {
+        foo: "bar",
+        bing: "bang"
+      }
     )
   end
 
@@ -35,6 +39,11 @@ describe EmailServices::CreateFromData do
     expect(email.data).to eq data
     expect(email.app).to eq app
     expect(email.ignore_deny_list).to eq ignore_deny_list
+    expect(email.meta_values.count).to eq 2
+    expect(email.meta_values[0].key).to eq "foo"
+    expect(email.meta_values[0].value).to eq "bar"
+    expect(email.meta_values[1].key).to eq "bing"
+    expect(email.meta_values[1].value).to eq "bang"
   end
 
   it "#send" do

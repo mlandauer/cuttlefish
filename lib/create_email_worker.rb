@@ -11,7 +11,9 @@ class CreateEmailWorker
       to: to,
       data_path: data_path,
       app_id: app_id,
-      ignore_deny_list: ignore_deny_list
+      ignore_deny_list: ignore_deny_list,
+      # TODO: Populate this
+      meta_values: {}
     )
   end
 end

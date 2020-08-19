@@ -49,7 +49,9 @@ module EmailServices
         to: mail.to,
         data_path: file.path,
         app_id: app_id,
-        ignore_deny_list: ignore_deny_list
+        ignore_deny_list: ignore_deny_list,
+        # TODO: Populate this
+        meta_values: {}
       ).call
 
       success!
