@@ -16,21 +16,31 @@ module EmailServices
     # true in the future
     def call
       email = ActiveRecord::Base.transaction do
-        email = Email.create!(
-          to: to,
-          data: File.read(data_path),
-          app_id: app_id,
-          ignore_deny_list: ignore_deny_list
-        )
-        EmailServices::Send.call(email: email)
+        email = create
+        send(email)
         email
       end
-
-      # Delete the temporary file now that we don't need it anymore
-      File.delete(data_path)
-
+      cleanup
       success!
       email
+    end
+
+    def create
+      Email.create!(
+        to: to,
+        data: File.read(data_path),
+        app_id: app_id,
+        ignore_deny_list: ignore_deny_list
+      )
+    end
+
+    def send(email)
+      EmailServices::Send.call(email: email)
+    end
+
+    def cleanup
+      # Delete the temporary file now that we don't need it anymore
+      File.delete(data_path)
     end
 
     private
