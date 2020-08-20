@@ -9,13 +9,23 @@ module EmailServices
       @app_id = app_id
     end
 
+    def call
+      new_data, ignore_deny_list, meta_values = parse_and_remove_headers
+
+      EmailServices::CreateFromData.call(
+        to: to,
+        data: new_data,
+        app_id: app_id,
+        ignore_deny_list: ignore_deny_list,
+        meta_values: meta_values
+      )
+
+      success!
+    end
+
     IGNORE_DENY_LIST_HEADER = "X-Cuttlefish-Ignore-Deny-List"
 
-    # Note that this service depends on having access to the same filesystem as
-    # the worker processes have access to. Currently, that's fine because we're
-    # running everything on a single machine but that assumption might not be
-    # true in the future
-    def call
+    def parse_and_remove_headers
       # Parse for special headers
       m = Mail.new(data)
       h = m.header[IGNORE_DENY_LIST_HEADER]
@@ -38,15 +48,7 @@ module EmailServices
       # Remove headers
       names.each { |name| m.header[name] = nil }
 
-      EmailServices::CreateFromData.call(
-        to: to,
-        data: m.to_s,
-        app_id: app_id,
-        ignore_deny_list: ignore_deny_list,
-        meta_values: meta_values
-      )
-
-      success!
+      [m.to_s, ignore_deny_list, meta_values]
     end
 
     private
