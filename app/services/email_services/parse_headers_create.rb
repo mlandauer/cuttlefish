@@ -10,14 +10,14 @@ module EmailServices
     end
 
     def call
-      new_data, ignore_deny_list, meta_values = parse_and_remove_special_headers
+      new_data, options = parse_and_remove_special_headers
 
       EmailServices::CreateFromData.call(
         to: to,
         data: new_data,
         app_id: app_id,
-        ignore_deny_list: ignore_deny_list,
-        meta_values: meta_values
+        ignore_deny_list: options[:ignore_deny_list],
+        meta_values: options[:meta_values]
       )
 
       success!
@@ -29,12 +29,11 @@ module EmailServices
     def parse_and_remove_special_headers
       mail = Mail.new(data)
       headers_to_remove = []
-      ignore_deny_list = false
-      meta_values = {}
+      options = { ignore_deny_list: false, meta_values: {} }
 
       h = mail.header[IGNORE_DENY_LIST_HEADER]
       if h
-        ignore_deny_list = (h.value == "true")
+        options[:ignore_deny_list] = (h.value == "true")
         headers_to_remove << IGNORE_DENY_LIST_HEADER
       end
 
@@ -42,7 +41,7 @@ module EmailServices
       mail.header_fields.each do |field|
         match = field.name.match(METADATA_HEADER_REGEX)
         if match
-          meta_values[match[1]] = field.value
+          options[:meta_values][match[1]] = field.value
           headers_to_remove << field.name
         end
       end
@@ -50,7 +49,7 @@ module EmailServices
       # Remove headers at the end
       headers_to_remove.each { |name| mail.header[name] = nil }
 
-      [mail.to_s, ignore_deny_list, meta_values]
+      [mail.to_s, options]
     end
 
     private

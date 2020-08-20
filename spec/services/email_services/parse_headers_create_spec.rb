@@ -24,9 +24,8 @@ describe EmailServices::ParseHeadersCreate do
     end
 
     it "should return the defaults for the options" do
-      _, ignore_deny_list, meta_values = service.parse_and_remove_special_headers
-      expect(ignore_deny_list).to be false
-      expect(meta_values).to eq({})
+      _, options = service.parse_and_remove_special_headers
+      expect(options).to eq(ignore_deny_list: false, meta_values: {})
     end
 
     it "should not change the headers" do
@@ -55,8 +54,8 @@ describe EmailServices::ParseHeadersCreate do
     end
 
     it "should return the metadata values" do
-      _, _, meta_values = service.parse_and_remove_special_headers
-      expect(meta_values).to eq("foo" => "bar", "wibble" => "wobble")
+      _, options = service.parse_and_remove_special_headers
+      expect(options[:meta_values]).to eq("foo" => "bar", "wibble" => "wobble")
     end
 
     it "should remove the the headers" do
@@ -96,8 +95,8 @@ describe EmailServices::ParseHeadersCreate do
     end
 
     it "should have the setting set" do
-      _, ignore_deny_list, = service.parse_and_remove_special_headers
-      expect(ignore_deny_list).to be true
+      _, options = service.parse_and_remove_special_headers
+      expect(options[:ignore_deny_list]).to be true
     end
 
     it "should remove the the header" do
