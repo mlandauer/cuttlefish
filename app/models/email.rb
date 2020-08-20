@@ -7,7 +7,7 @@ class Email < ActiveRecord::Base
   belongs_to :app
   has_many :open_events, through: :deliveries
   has_many :click_events, through: :deliveries
-  has_many :meta_values, dependent: :destroy
+  has_many :meta_values, -> { order :key }, dependent: :destroy
 
   after_create :update_cache
   before_save :update_message_id, :update_data_hash, :update_subject,
