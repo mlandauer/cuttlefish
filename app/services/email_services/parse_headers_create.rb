@@ -10,7 +10,7 @@ module EmailServices
     end
 
     def call
-      new_data, ignore_deny_list, meta_values = parse_and_remove_headers
+      new_data, ignore_deny_list, meta_values = parse_and_remove_special_headers
 
       EmailServices::CreateFromData.call(
         to: to,
@@ -26,30 +26,31 @@ module EmailServices
     IGNORE_DENY_LIST_HEADER = "X-Cuttlefish-Ignore-Deny-List"
     METADATA_HEADER_REGEX = /^X-Cuttlefish-Metadata-(.*)$/.freeze
 
-    def parse_and_remove_headers
-      # Parse for special headers
-      m = Mail.new(data)
-      h = m.header[IGNORE_DENY_LIST_HEADER]
-      ignore_deny_list = (!h.nil? && h.value == "true")
+    def parse_and_remove_special_headers
+      mail = Mail.new(data)
+      headers_to_remove = []
+      ignore_deny_list = false
+      meta_values = {}
 
-      # Remove header
-      m.header[IGNORE_DENY_LIST_HEADER] = nil if m.header[IGNORE_DENY_LIST_HEADER]
+      h = mail.header[IGNORE_DENY_LIST_HEADER]
+      if h
+        ignore_deny_list = (h.value == "true")
+        headers_to_remove << IGNORE_DENY_LIST_HEADER
+      end
 
       # Check for metadata headers
-      meta_values = {}
-      names = []
-      m.header_fields.each do |field|
+      mail.header_fields.each do |field|
         match = field.name.match(METADATA_HEADER_REGEX)
         if match
           meta_values[match[1]] = field.value
-          names << field.name
+          headers_to_remove << field.name
         end
       end
 
-      # Remove headers
-      names.each { |name| m.header[name] = nil }
+      # Remove headers at the end
+      headers_to_remove.each { |name| mail.header[name] = nil }
 
-      [m.to_s, ignore_deny_list, meta_values]
+      [mail.to_s, ignore_deny_list, meta_values]
     end
 
     private
