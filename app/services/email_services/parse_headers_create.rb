@@ -38,14 +38,9 @@ module EmailServices
       # Remove headers
       names.each { |name| m.header[name] = nil }
 
-      # Write out the new mail body (the one with our special headers removed)
-      file = Tempfile.create("cuttlefish")
-      file.write(m.to_s)
-      file.close
-
       EmailServices::CreateFromData.call(
         to: to,
-        data_path: file.path,
+        data: m.to_s,
         app_id: app_id,
         ignore_deny_list: ignore_deny_list,
         meta_values: meta_values

@@ -3,7 +3,6 @@
 require "spec_helper"
 
 describe EmailServices::CreateFromData do
-  let(:data_path) { "temp" }
   let(:to) { ["foo@foo.com"] }
   let(:data) { "Some email data" }
   let(:ignore_deny_list) { false }
@@ -11,7 +10,7 @@ describe EmailServices::CreateFromData do
   let(:service) do
     EmailServices::CreateFromData.new(
       to: to,
-      data_path: data_path,
+      data: data,
       app_id: app.id,
       ignore_deny_list: ignore_deny_list,
       meta_values: {
@@ -19,17 +18,6 @@ describe EmailServices::CreateFromData do
         bing: "bang"
       }
     )
-  end
-
-  before(:each) do
-    # Create a temporary file
-    File.open(data_path, "w") do |f|
-      f.write(data)
-    end
-  end
-
-  after(:each) do
-    File.delete(data_path) if File.exist?(data_path)
   end
 
   it "#create" do
@@ -50,10 +38,5 @@ describe EmailServices::CreateFromData do
     email = create(:email)
     expect(EmailServices::Send).to receive(:call).with(email: email)
     service.send(email)
-  end
-
-  it "#cleanup" do
-    service.cleanup
-    expect(File.exist?(data_path)).to be false
   end
 end

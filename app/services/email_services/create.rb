@@ -40,16 +40,9 @@ module EmailServices
         mail.html_part = part
       end
 
-      # Store content of email in a temporary file
-      # Using Tempfile.create rather than Tempfile.new so that the tmp file is
-      # not automatically deleted through garbage collection
-      file = Tempfile.create("cuttlefish")
-      file.write(mail.to_s)
-      file.close
-
       email = EmailServices::CreateFromData.new(
         to: mail.to,
-        data_path: file.path,
+        data: mail.to_s,
         app_id: app_id,
         ignore_deny_list: ignore_deny_list,
         meta_values: meta_values

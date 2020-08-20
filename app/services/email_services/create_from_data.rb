@@ -2,10 +2,10 @@
 
 module EmailServices
   class CreateFromData < ApplicationService
-    def initialize(to:, data_path:, app_id:, ignore_deny_list:, meta_values:)
+    def initialize(to:, data:, app_id:, ignore_deny_list:, meta_values:)
       super()
       @to = to
-      @data_path = data_path
+      @data = data
       @app_id = app_id
       @ignore_deny_list = ignore_deny_list
       @meta_values = meta_values
@@ -16,20 +16,19 @@ module EmailServices
     # running everything on a single machine but that assumption might not be
     # true in the future
     def call
-      email = ActiveRecord::Base.transaction do
+      ActiveRecord::Base.transaction do
         email = create
         send(email)
+
+        success!
         email
       end
-      cleanup
-      success!
-      email
     end
 
     def create
       email = Email.create!(
         to: to,
-        data: File.read(data_path),
+        data: data,
         app_id: app_id,
         ignore_deny_list: ignore_deny_list
       )
@@ -43,13 +42,8 @@ module EmailServices
       EmailServices::Send.call(email: email)
     end
 
-    def cleanup
-      # Delete the temporary file now that we don't need it anymore
-      File.delete(data_path)
-    end
-
     private
 
-    attr_reader :to, :data_path, :app_id, :ignore_deny_list, :meta_values
+    attr_reader :to, :data, :app_id, :ignore_deny_list, :meta_values
   end
 end
