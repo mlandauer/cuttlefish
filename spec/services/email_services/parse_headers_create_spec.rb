@@ -40,7 +40,8 @@ describe EmailServices::ParseHeadersCreate do
         "Date: Fri, 13 Mar 2015 14:42:20 +0000",
         "From: Foo <foo@foo.com>",
         "To: bar@bar.com",
-        "X-Cuttlefish-Metadata-foo: bar",
+        "X-Cuttlefish-Metadata-foo_foo: bar",
+        "X-Cuttlefish-Metadata-goo-goo: bar",
         "X-Cuttlefish-Metadata-wibble: wobble",
         "Message-ID: <1234@foo>",
         "Subject: Yes",
@@ -55,7 +56,8 @@ describe EmailServices::ParseHeadersCreate do
 
     it "should return the metadata values" do
       _, options = service.parse_and_remove_special_headers
-      expect(options[:meta_values]).to eq("foo" => "bar", "wibble" => "wobble")
+      # Make sure that underscores and dashes are preserved correctly
+      expect(options[:meta_values]).to eq("foo_foo" => "bar", "goo-goo" => "bar", "wibble" => "wobble")
     end
 
     it "should remove the the headers" do

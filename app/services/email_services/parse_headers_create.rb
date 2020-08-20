@@ -47,7 +47,7 @@ module EmailServices
       end
 
       # Remove headers at the end
-      headers_to_remove.each { |name| mail.header[name] = nil }
+      mail.header_fields.delete_if { |field| headers_to_remove.include?(field.name) }
 
       [mail.to_s, options]
     end
