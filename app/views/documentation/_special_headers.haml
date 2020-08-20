@@ -2,7 +2,6 @@
 
 %p
   By setting special headers in the email content you can make some special things happen.
-  There is currently only one setting.
 
 %h4 X-Cuttlefish-Ignore-Deny-List
 
@@ -28,6 +27,28 @@
   From: foo@bar.com
   To: wibble@wobble.com
   X-Cuttlefish-Ignore-Deny-List: true
+  Subject: Hello
+
+  Hello!
+
+%h4 X-Cuttlefish-Metadata
+
+%p
+  You can set custom metadata (consisting of key/value string pairs) which gets stored
+  with the email in cuttlefish and is displayed in the interface on the email
+  detail page. You can use this, for instance, to record the `user_id` in your system
+  connected to an email.
+
+%p
+  Convert each key/value pair to a header where the name of the header is prepended by
+  "X-Cuttlefish-Metadata-". For example:
+
+:coderay
+  #!plain
+  From: foo@bar.com
+  To: wibble@wobble.com
+  X-Cuttlefish-Metadata-user_id: 1234
+  X-Cuttlefish-Metadata-type: friendly
   Subject: Hello
 
   Hello!

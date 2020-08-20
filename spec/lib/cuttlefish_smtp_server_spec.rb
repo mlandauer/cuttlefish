@@ -136,51 +136,5 @@ describe CuttlefishSmtpConnection do
         expect(mail.ignore_deny_list).to be false
       end
     end
-
-    context "message with special header" do
-      let(:data) do
-        [
-          "Date: Wed, 12 Aug 2020 06:25:22 +0000",
-          "From: foo@bar.com",
-          "To: wibble@wobble.com",
-          "X-Cuttlefish-Ignore-Deny-List: true",
-          "Message-ID: <1.mail>",
-          "Subject: Hello",
-          "Mime-Version: 1.0",
-          "Content-Type: text/plain;",
-          " charset=UTF-8",
-          "Content-Transfer-Encoding: 7bit",
-          "",
-          "Hello!"
-        ].join("\r\n")
-      end
-
-      it do
-        allow(EmailServices::Send).to receive(:call)
-        connection.receive_recipient("<wibble@wobble.com>")
-        connection.receive_plain_auth(app.smtp_username, app.smtp_password)
-        connection.current.data = data
-        Sidekiq::Testing.inline! do
-          connection.receive_message
-        end
-        expect(Email.count).to eq 1
-        mail = Email.first
-        expect(mail.ignore_deny_list).to be true
-        # The header should have been removed
-        expect(mail.data).to eq [
-          "Date: Wed, 12 Aug 2020 06:25:22 +0000",
-          "From: foo@bar.com",
-          "To: wibble@wobble.com",
-          "Message-ID: <1.mail>",
-          "Subject: Hello",
-          "Mime-Version: 1.0",
-          "Content-Type: text/plain;",
-          " charset=UTF-8",
-          "Content-Transfer-Encoding: 7bit",
-          "",
-          "Hello!"
-        ].join("\r\n")
-      end
-    end
   end
 end

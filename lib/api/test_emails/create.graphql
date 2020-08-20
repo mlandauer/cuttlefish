@@ -1,5 +1,5 @@
-mutation ($appId: ID!, $from: String!, $to: [String!]!, $subject: String!, $textPart: String, $htmlPart: String) {
-  createEmails(appId: $appId, from: $from, to: $to, subject: $subject, textPart: $textPart, htmlPart: $htmlPart) {
+mutation ($appId: ID!, $from: String!, $to: [String!]!, $subject: String!, $textPart: String, $htmlPart: String, $metaValues: [KeyValueAttributes!]) {
+  createEmails(appId: $appId, from: $from, to: $to, subject: $subject, textPart: $textPart, htmlPart: $htmlPart, metaValues: $metaValues) {
     emails {
       id
     }

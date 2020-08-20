@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_12_050040) do
+ActiveRecord::Schema.define(version: 2020_08_18_194827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,14 @@ ActiveRecord::Schema.define(version: 2020_08_12_050040) do
     t.index ["url"], name: "index_links_on_url"
   end
 
+  create_table "meta_values", force: :cascade do |t|
+    t.bigint "email_id", null: false
+    t.string "key", null: false
+    t.string "value", null: false
+    t.index ["email_id", "key"], name: "index_meta_values_on_email_id_and_key", unique: true
+    t.index ["email_id"], name: "index_meta_values_on_email_id"
+  end
+
   create_table "open_events", force: :cascade do |t|
     t.integer "delivery_id"
     t.datetime "created_at"
@@ -177,5 +185,6 @@ ActiveRecord::Schema.define(version: 2020_08_12_050040) do
 
   add_foreign_key "emails", "addresses", column: "from_address_id", name: "emails_from_address_id_fk"
   add_foreign_key "emails", "apps", name: "emails_app_id_fk", on_delete: :cascade
+  add_foreign_key "meta_values", "emails"
   add_foreign_key "postfix_log_lines", "deliveries", name: "postfix_log_lines_delivery_id_fk", on_delete: :cascade
 end

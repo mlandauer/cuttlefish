@@ -79,6 +79,15 @@
           %i.fa.fa-plus-square
         .collapse{id: "clicked"}
           = render partial: "click_events", locals: {delivery: @delivery}
+  - unless @delivery.meta_values.empty?
+    %tr
+      %td.key
+        %strong
+          Metadata
+      %td
+        - @delivery.meta_values.each do |meta_value|
+          %div
+            = "#{meta_value.key}: #{meta_value.value}"
 
 %hr
 - unless @delivery.content?

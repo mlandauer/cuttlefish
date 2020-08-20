@@ -41,6 +41,9 @@ module Types
     field :ignore_deny_list, Boolean,
           null: false,
           description: "If true the delivery of this email ignores whether the destination address is in the deny list"
+    field :meta_values, [Types::KeyValue],
+          null: false,
+          description: "A list of meta data key/value pairs set by the user"
     field :delivery_events, [Types::DeliveryEvent],
           null: false,
           description: "A list of delivery events for this email"
@@ -75,6 +78,10 @@ module Types
 
     def ignore_deny_list
       object.ignore_deny_list
+    end
+
+    def meta_values
+      object.meta_values
     end
 
     def delivery_events

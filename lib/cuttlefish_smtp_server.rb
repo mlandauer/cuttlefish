@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path File.join(File.dirname(__FILE__), "create_email_worker")
+require File.expand_path File.join(File.dirname(__FILE__), "parse_headers_create_email_worker")
 require File.expand_path File.join(File.dirname(__FILE__), "email_data_cache")
 require "ostruct"
 require "eventmachine"
@@ -165,22 +165,12 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     end
   end
 
-  IGNORE_DENY_LIST_HEADER = "X-Cuttlefish-Ignore-Deny-List"
-
   def receive_message
     current.received = true
     current.completed_at = Time.now
 
     # TODO: No need to capture current.sender, current.received,
     # current.completed_at because we're not passing it on
-
-    # Now check for special headers
-    m = Mail.new(current.data)
-    h = m.header[IGNORE_DENY_LIST_HEADER]
-    ignore_deny_list = (!h.nil? && h.value == "true")
-
-    # Remove header
-    m.header[IGNORE_DENY_LIST_HEADER] = nil
 
     # Store content of email in a temporary file
     # Note that this depends on having access to the same filesystem as
@@ -189,16 +179,15 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
     # true in the future
     # Using Tempfile.create rather than Tempfile.new so that the tmp file is
     # not automatically deleted through garbage collection
-    file = Tempfile.create("cuttlefish")
-    file.write(m.to_s)
+    file = Tempfile.create("cuttlefish", encoding: "ascii-8bit")
+    file.write(current.data)
     file.close
 
     # Note the worker will delete the temporary file when it's done
-    CreateEmailWorker.perform_async(
+    ParseHeadersCreateEmailWorker.perform_async(
       current.recipients,
       file.path,
-      current.app_id,
-      ignore_deny_list
+      current.app_id
     )
 
     # Preserve the app_id as we are already authenticated
