@@ -4,47 +4,13 @@
 class ParseHeadersCreateEmailWorker
   include Sidekiq::Worker
 
-  IGNORE_DENY_LIST_HEADER = "X-Cuttlefish-Ignore-Deny-List"
-
   # Can't use keyword arguments in sidekiq
   # See https://github.com/mperham/sidekiq/issues/2372
   def perform(to, data_path, app_id)
-    # Read in temporary file and parse for special headers
-    m = Mail.new(File.read(data_path))
-    h = m.header[IGNORE_DENY_LIST_HEADER]
-    ignore_deny_list = (!h.nil? && h.value == "true")
-
-    # Remove header
-    m.header[IGNORE_DENY_LIST_HEADER] = nil if m.header[IGNORE_DENY_LIST_HEADER]
-
-    # Check for metadata headers that start with "X-Cuttlefish-Metadata-"
-    meta_values = {}
-    names = []
-    m.header_fields.each do |field|
-      match = field.name.match(/^X-Cuttlefish-Metadata-(.*)$/)
-      if match
-        meta_values[match[1]] = field.value
-        names << field.name
-      end
-    end
-
-    # Remove headers
-    names.each { |name| m.header[name] = nil }
-
-    # Write out the new mail body (the one with our special headers removed)
-    file = Tempfile.create("cuttlefish")
-    file.write(m.to_s)
-    file.close
-
-    EmailServices::CreateFromData.call(
+    EmailServices::ParseHeadersCreate.call(
       to: to,
-      data_path: file.path,
-      app_id: app_id,
-      ignore_deny_list: ignore_deny_list,
-      meta_values: meta_values
+      data_path: data_path,
+      app_id: app_id
     )
-
-    # Cleanup the temporary file that was passed to the worker
-    File.delete(data_path)
   end
 end
