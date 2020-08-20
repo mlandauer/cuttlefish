@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module DeliveriesHelper
-  def canonical_deliveries_path(app, status, search)
+  def canonical_deliveries_path(app, status, search, key)
     if app
-      app_deliveries_path(app, status: status, search: search)
+      app_deliveries_path(app, status: status, search: search, key: key)
     else
-      deliveries_path(status: status, search: search)
+      deliveries_path(status: status, search: search, key: key)
     end
   end
 

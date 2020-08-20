@@ -1,5 +1,5 @@
-query($appId: ID, $status: Status, $limit: Int, $offset: Int) {
-  emails(appId: $appId, status: $status, limit: $limit, offset: $offset) {
+query($appId: ID, $status: Status, $metaKey: String, $limit: Int, $offset: Int) {
+  emails(appId: $appId, status: $status, metaKey: $metaKey, limit: $limit, offset: $offset) {
     totalCount
     nodes {
       id
@@ -18,4 +18,5 @@ query($appId: ID, $status: Status, $limit: Int, $offset: Int) {
     id
     name
   }
+  metaKeys(appId: $appId)
 }

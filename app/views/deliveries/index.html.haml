@@ -15,7 +15,7 @@
   %ul.dropdown-menu
     %li= link_to "All Apps", deliveries_path
     - @apps.each do |app|
-      %li= link_to app.name, canonical_deliveries_path(app.id, @status, @search)
+      %li= link_to app.name, canonical_deliveries_path(app.id, @status, @search, @key)
 
 .btn-group
   %button.btn.dropdown-toggle(data-toggle="dropdown")
@@ -33,11 +33,23 @@
       Hard bounces
     %span.caret
   %ul.dropdown-menu
-    %li= link_to "All Statuses", canonical_deliveries_path((@app.id if @app), nil, @search)
-    %li= link_to "Held back", canonical_deliveries_path((@app.id if @app), "not_sent", @search)
-    %li= link_to "Sent", canonical_deliveries_path((@app.id if @app), "sent", @search)
-    %li= link_to "Delivered", canonical_deliveries_path((@app.id if @app), "delivered", @search)
-    %li= link_to "Soft bounces", canonical_deliveries_path((@app.id if @app), "soft_bounce", @search)
-    %li= link_to "Hard bounces", canonical_deliveries_path((@app.id if @app), "hard_bounce", @search)
+    %li= link_to "All Statuses", canonical_deliveries_path((@app.id if @app), nil, @search, @key)
+    %li= link_to "Held back", canonical_deliveries_path((@app.id if @app), "not_sent", @search, @key)
+    %li= link_to "Sent", canonical_deliveries_path((@app.id if @app), "sent", @search, @key)
+    %li= link_to "Delivered", canonical_deliveries_path((@app.id if @app), "delivered", @search, @key)
+    %li= link_to "Soft bounces", canonical_deliveries_path((@app.id if @app), "soft_bounce", @search, @key)
+    %li= link_to "Hard bounces", canonical_deliveries_path((@app.id if @app), "hard_bounce", @search, @key)
+
+.btn-group
+  %button.btn.dropdown-toggle(data-toggle="dropdown")
+    - if @key.nil?
+      All Metadata Keys
+    - else
+      = @key
+    %span.caret
+  %ul.dropdown-menu
+    %li= link_to "All Metadata Keys", canonical_deliveries_path((@app.id if @app), @status, @search, nil)
+    - @meta_keys.each do |key|
+      %li= link_to key, canonical_deliveries_path((@app.id if @app), @status, @search, key)
 
 = render :partial => "to", locals: {deliveries: @deliveries}
