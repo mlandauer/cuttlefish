@@ -30,6 +30,12 @@ module Types
       argument :to, String,
                required: false,
                description: "Filter results by Email to address"
+      argument :meta_key, String,
+               required: false,
+               description: "Filter results by Emails with given metadata key"
+      argument :meta_value, String,
+               required: false,
+               description: "Filter results by Emails with given metadata value"
       argument :limit, Int,
                required: false,
                description:
@@ -109,12 +115,15 @@ module Types
     # TODO: Switch over to more relay-like pagination
     def emails(
       app_id: nil, status: nil, since: nil, from: nil, to: nil,
+      meta_key: nil, meta_value: nil,
       limit: 10, offset: 0
     )
       emails = Pundit.policy_scope(context[:current_admin], Delivery)
       emails = emails.where(app_id: app_id) if app_id
       emails = emails.where(status: status) if status
       emails = emails.where("deliveries.created_at > ?", since) if since
+      emails = emails.joins(email: :meta_values).where(meta_values: { key: meta_key }) if meta_key
+      emails = emails.joins(email: :meta_values).where(meta_values: { value: meta_value }) if meta_value
       if from
         address = Address.find_or_initialize_by(text: from)
         emails = emails.from_address(address)
