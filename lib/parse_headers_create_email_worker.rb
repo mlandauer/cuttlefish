@@ -9,8 +9,10 @@ class ParseHeadersCreateEmailWorker
   def perform(to, data_path, app_id)
     EmailServices::ParseHeadersCreate.call(
       to: to,
-      data_path: data_path,
+      data: File.read(data_path),
       app_id: app_id
     )
+    # Cleanup the temporary file
+    File.delete(data_path)
   end
 end

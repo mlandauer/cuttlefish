@@ -2,10 +2,10 @@
 
 module EmailServices
   class ParseHeadersCreate < ApplicationService
-    def initialize(to:, data_path:, app_id:)
+    def initialize(to:, data:, app_id:)
       super()
       @to = to
-      @data_path = data_path
+      @data = data
       @app_id = app_id
     end
 
@@ -16,8 +16,8 @@ module EmailServices
     # running everything on a single machine but that assumption might not be
     # true in the future
     def call
-      # Read in temporary file and parse for special headers
-      m = Mail.new(File.read(data_path))
+      # Parse for special headers
+      m = Mail.new(data)
       h = m.header[IGNORE_DENY_LIST_HEADER]
       ignore_deny_list = (!h.nil? && h.value == "true")
 
@@ -51,14 +51,11 @@ module EmailServices
         meta_values: meta_values
       )
 
-      # Cleanup the temporary file that was passed to the worker
-      File.delete(data_path)
-
       success!
     end
 
     private
 
-    attr_reader :to, :data_path, :app_id
+    attr_reader :to, :data, :app_id
   end
 end
