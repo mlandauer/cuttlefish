@@ -24,6 +24,7 @@ module EmailServices
     end
 
     IGNORE_DENY_LIST_HEADER = "X-Cuttlefish-Ignore-Deny-List"
+    METADATA_HEADER_REGEX = /^X-Cuttlefish-Metadata-(.*)$/.freeze
 
     def parse_and_remove_headers
       # Parse for special headers
@@ -34,11 +35,11 @@ module EmailServices
       # Remove header
       m.header[IGNORE_DENY_LIST_HEADER] = nil if m.header[IGNORE_DENY_LIST_HEADER]
 
-      # Check for metadata headers that start with "X-Cuttlefish-Metadata-"
+      # Check for metadata headers
       meta_values = {}
       names = []
       m.header_fields.each do |field|
-        match = field.name.match(/^X-Cuttlefish-Metadata-(.*)$/)
+        match = field.name.match(METADATA_HEADER_REGEX)
         if match
           meta_values[match[1]] = field.value
           names << field.name
