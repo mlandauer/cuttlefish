@@ -87,7 +87,8 @@
       %td
         - @delivery.meta_values.each do |meta_value|
           %div
-            = "#{meta_value.key}: #{meta_value.value}"
+            = link_to meta_value.key, deliveries_path(key: meta_value.key)
+            = meta_value.value
 
 %hr
 - unless @delivery.content?
