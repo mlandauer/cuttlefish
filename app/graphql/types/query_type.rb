@@ -92,6 +92,13 @@ module Types
                description: "For pagination: sets offset"
     end
 
+    field :meta_keys, [String], null: false do
+      argument :app_id, ID,
+               required: false,
+               description: "Restrict results to those from this app"
+      description "List of all metadata keys used"
+    end
+
     field :viewer, Types::Admin, null: true do
       description "The currently authenticated admin"
     end
@@ -134,6 +141,13 @@ module Types
       end
       emails = emails.order("created_at DESC")
       { all: emails, limit: limit, offset: offset }
+    end
+
+    def meta_keys(app_id: nil)
+      meta_values = Pundit.policy_scope(context[:current_admin], MetaValue)
+
+      meta_values = meta_values.joins(:email).where(emails: { app_id: app_id }) if app_id
+      meta_values.distinct.pluck(:key)
     end
 
     # TODO: Generalise this to sensibly handling record not found exception
