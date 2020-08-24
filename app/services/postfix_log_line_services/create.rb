@@ -16,6 +16,7 @@ module PostfixLogLineServices
     end
 
     def create(line)
+      # TODO: Inline the business logic currently in the model into the service
       PostfixLogLine.create_from_line(line)
     end
 
