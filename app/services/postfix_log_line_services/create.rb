@@ -9,10 +9,14 @@ module PostfixLogLineServices
 
     def call
       PostfixLogLine.transaction do
-        log_line = PostfixLogLine.create_from_line(line)
+        log_line = create(line)
         # Check if an email needs to be deny listed
         add_to_deny_list(log_line.delivery) if log_line && log_line.status == "hard_bounce"
       end
+    end
+
+    def create(line)
+      PostfixLogLine.create_from_line(line)
     end
 
     def add_to_deny_list(delivery)
