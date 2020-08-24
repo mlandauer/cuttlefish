@@ -181,12 +181,12 @@ describe Archiving do
         "data_hash" => "aa126db79482378ce17b441347926570228f12ef",
         "created_at" => "2014-06-04T20:26:51.000+10:00",
         "updated_at" => "2014-06-04T20:26:55.000+10:00",
+        "ignore_deny_list" => false,
         "app" => {
           "id" => 2,
           "name" => "Planning Alerts",
           "custom_tracking_domain" => nil,
-          "from_domain" => "planningalerts.org.au",
-          "ignore_deny_list" => false
+          "from_domain" => "planningalerts.org.au"
         },
         "tracking" => {
           "open_tracked" => true,

@@ -17,12 +17,12 @@ json.email_id delivery.email.id
 json.data_hash delivery.email.data_hash
 json.created_at delivery.created_at
 json.updated_at delivery.updated_at
+json.ignore_deny_list delivery.email.ignore_deny_list
 json.app do
   json.id delivery.email.app.id
   json.name delivery.email.app.name
   json.custom_tracking_domain delivery.email.app.custom_tracking_domain
   json.from_domain delivery.email.app.from_domain
-  json.ignore_deny_list delivery.ignore_deny_list
 end
 json.tracking do
   json.open_tracked delivery.open_tracked

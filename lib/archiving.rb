@@ -106,7 +106,7 @@ class Archiving
         from_address_id: data[:from_address][:id],
         subject: data[:subject],
         app_id: data[:app][:id],
-        ignore_deny_list: data[:app][:ignore_deny_list]
+        ignore_deny_list: data[:ignore_deny_list]
       )
       # To ensure that the correct value of data_hash gets written we
       # don't want the callbacks to get called
