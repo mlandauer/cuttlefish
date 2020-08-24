@@ -52,4 +52,4 @@ json.tracking do
     json.extended_status postfix_log_line.extended_status
   end
 end
-json.meta_values Hash[delivery.meta_values.map { |a| [a.key, a.value] }]
+json.meta_values Hash[delivery.email.meta_values.map { |a| [a.key, a.value] }]

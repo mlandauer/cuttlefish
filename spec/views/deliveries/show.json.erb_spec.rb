@@ -29,7 +29,9 @@ describe "deliveries/show.json.erb", type: :view do
       app: app,
       data_hash: "aa126db79482378ce17b441347926570228f12ef",
       message_id: "538ef46757549_443e4bb0f901893332@kedumba.mail",
-      subject: "1 new planning application"
+      subject: "1 new planning application",
+      ignore_deny_list: false,
+      meta_values: {}
     )
     link1 = mock_model(
       Link,
@@ -112,6 +114,7 @@ describe "deliveries/show.json.erb", type: :view do
       data_hash: "aa126db79482378ce17b441347926570228f12ef",
       created_at: "2014-06-04T20:26:51.000+10:00",
       updated_at: "2014-06-04T20:26:55.000+10:00",
+      ignore_deny_list: false,
       app: {
         id: 2,
         name: "Planning Alerts",
@@ -162,7 +165,8 @@ describe "deliveries/show.json.erb", type: :view do
               "sent (250 2.0.0 OK 1401877617 bh2si4687161pbb.204 - gsmtp)"
           }
         ]
-      }
+      },
+      meta_values: {}
     )
   end
 end
