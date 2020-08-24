@@ -100,14 +100,17 @@ class Archiving
     App.create(data[:app]) if App.find(data[:app][:id]).nil?
 
     # Create email if necessary
-    if Email.find(data[:email_id]).nil?
-      Email.create(
+    if Email.find_by(id: data[:email_id]).nil?
+      email = Email.create(
         id: data[:email_id],
         from_address_id: data[:from_address][:id],
         subject: data[:subject],
-        data_hash: data[:data_hash],
-        app_id: data[:app][:id]
+        app_id: data[:app][:id],
+        ignore_deny_list: data[:app][:ignore_deny_list]
       )
+      # To ensure that the correct value of data_hash gets written we
+      # don't want the callbacks to get called
+      email.update_column(:data_hash, data[:data_hash])
     end
     delivery = Delivery.create(
       id: data[:id],

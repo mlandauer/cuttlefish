@@ -153,7 +153,7 @@ describe Archiving do
        "from a previously serialised Delivery" do
       s1 = Archiving.serialise(delivery)
 
-      delivery.destroy
+      email.destroy
       delivery = Archiving.deserialise(s1)
       s2 = Archiving.serialise(delivery)
 
@@ -183,7 +183,8 @@ describe Archiving do
           "id" => 2,
           "name" => "Planning Alerts",
           "custom_tracking_domain" => nil,
-          "from_domain" => "planningalerts.org.au"
+          "from_domain" => "planningalerts.org.au",
+          "ignore_deny_list" => false
         },
         "tracking" => {
           "open_tracked" => true,

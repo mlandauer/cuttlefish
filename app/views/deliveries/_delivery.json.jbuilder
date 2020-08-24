@@ -22,6 +22,7 @@ json.app do
   json.name delivery.email.app.name
   json.custom_tracking_domain delivery.email.app.custom_tracking_domain
   json.from_domain delivery.email.app.from_domain
+  json.ignore_deny_list delivery.ignore_deny_list
 end
 json.tracking do
   json.open_tracked delivery.open_tracked
