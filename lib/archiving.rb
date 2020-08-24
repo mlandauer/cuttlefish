@@ -135,6 +135,9 @@ class Archiving
     data[:tracking][:postfix_log_lines].each do |postfix_log_line_data|
       delivery.postfix_log_lines.create(postfix_log_line_data)
     end
+    (data[:meta_values] || {}).each do |key, value|
+      delivery.email.meta_values.create(key: key, value: value)
+    end
     delivery
   end
 

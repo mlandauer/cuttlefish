@@ -146,6 +146,8 @@ describe Archiving do
         extended_status:
           "sent (250 2.0.0 OK 1401877617 bh2si4687161pbb.204 - gsmtp)"
       )
+      create(:meta_value, email: email, key: "foo", value: "bar")
+      create(:meta_value, email: email, key: "wibble", value: "wobble")
     end
 
     it "produces the same results with a Delivery object " \
@@ -211,6 +213,10 @@ describe Archiving do
           ],
           "postfix_queue_id" => "38B72370AC41",
           "postfix_log_lines" => []
+        },
+        "meta_values" => {
+          "foo" => "bar",
+          "wibble" => "wobble"
         }
       }
       expect(JSON.parse(Archiving.serialise(delivery))).to eq expected
