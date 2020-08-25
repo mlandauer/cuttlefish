@@ -145,7 +145,9 @@ class App < ActiveRecord::Base
   end
 
   def set_smtp_password
-    self.smtp_password = generate_key
+    # Only set if it hasn't been set already
+    # This makes testing a little more straightforward
+    self.smtp_password = generate_key if smtp_password.nil?
   end
 
   def set_smtp_username
