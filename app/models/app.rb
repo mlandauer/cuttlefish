@@ -95,7 +95,7 @@ class App < ActiveRecord::Base
   def set_webhook_key
     # Only set a webhook key if it hasn't been set already.
     # This makes testing a little more straightforward
-    self.webhook_key = generate_webhook_key if webhook_key.nil?
+    self.webhook_key = generate_key if webhook_key.nil?
   end
 
   private
@@ -145,11 +145,7 @@ class App < ActiveRecord::Base
   end
 
   def set_smtp_password
-    self.smtp_password = generate_smtp_password
-  end
-
-  def generate_smtp_password
-    Digest::MD5.base64digest(rand.to_s + Time.now.to_s)[0...20]
+    self.smtp_password = generate_key
   end
 
   def set_smtp_username
@@ -162,7 +158,7 @@ class App < ActiveRecord::Base
     "#{encoded_name}_#{id}"
   end
 
-  def generate_webhook_key
+  def generate_key
     SecureRandom.base58(20)
   end
 end
