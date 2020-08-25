@@ -145,14 +145,21 @@ class App < ActiveRecord::Base
   end
 
   def set_smtp_password
-    self.smtp_password =
-      Digest::MD5.base64digest(rand.to_s + Time.now.to_s)[0...20]
+    self.smtp_password = generate_smtp_password
+  end
+
+  def generate_smtp_password
+    Digest::MD5.base64digest(rand.to_s + Time.now.to_s)[0...20]
   end
 
   def set_smtp_username
+    update_attributes(smtp_username: generate_smtp_username)
+  end
+
+  def generate_smtp_username
     encoded_name = name.downcase.tr(" ", "_")
     # By appending the id we can be confident that this name is globally unique
-    update_attributes(smtp_username: "#{encoded_name}_#{id}")
+    "#{encoded_name}_#{id}"
   end
 
   def generate_webhook_key
