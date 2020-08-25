@@ -70,6 +70,9 @@ gem "pundit"
 gem "user_agent_parser"
 gem "virtus"
 
+# For doing the webhooks to external sites
+gem "rest-client"
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
