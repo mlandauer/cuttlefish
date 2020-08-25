@@ -21,6 +21,7 @@ class App < ActiveRecord::Base
   validates :legacy_dkim_selector, inclusion: { in: [true, false] }
 
   before_create :set_smtp_password
+  before_create :set_webhook_key
   after_create :set_smtp_username
 
   def self.cuttlefish
@@ -91,6 +92,12 @@ class App < ActiveRecord::Base
     nil
   end
 
+  def set_webhook_key
+    # Only set a webhook key if it hasn't been set already.
+    # This makes testing a little more straightforward
+    self.webhook_key = generate_webhook_key if webhook_key.nil?
+  end
+
   private
 
   def validate_dkim_settings
@@ -146,5 +153,9 @@ class App < ActiveRecord::Base
     encoded_name = name.downcase.tr(" ", "_")
     # By appending the id we can be confident that this name is globally unique
     update_attributes(smtp_username: "#{encoded_name}_#{id}")
+  end
+
+  def generate_webhook_key
+    SecureRandom.base58(20)
   end
 end
