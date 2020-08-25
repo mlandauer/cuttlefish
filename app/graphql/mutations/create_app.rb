@@ -23,7 +23,8 @@ module Mutations
         click_tracking_enabled: click_tracking_enabled,
         custom_tracking_domain: attributes.custom_tracking_domain,
         from_domain: attributes.from_domain,
-        dkim_enabled: dkim_enabled
+        dkim_enabled: dkim_enabled,
+        webhook_url: attributes.webhook_url
       )
       if create_app.success?
         { app: create_app.result, errors: [] }

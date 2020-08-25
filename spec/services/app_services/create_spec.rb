@@ -13,7 +13,8 @@ describe AppServices::Create do
       click_tracking_enabled: false,
       custom_tracking_domain: nil,
       from_domain: nil,
-      dkim_enabled: false
+      dkim_enabled: false,
+      webhook_url: nil
     )
   end
 

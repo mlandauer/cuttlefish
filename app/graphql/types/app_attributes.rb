@@ -32,5 +32,10 @@ module Types
              description: "Whether DKIM is enabled for this app. Requires " \
                           "DNS changes for the domain in fromDomain to be " \
                           "made before it can be enabled."
+    argument :webhook_url,
+             String,
+             required: false,
+             description: "If set, a POST is sent to the url for any delivery event " \
+                          "associated with this app"
   end
 end

@@ -4,7 +4,7 @@ module AppServices
   class Create < ApplicationService
     def initialize(
       current_admin:, name:, open_tracking_enabled:, click_tracking_enabled:,
-      custom_tracking_domain:, from_domain:, dkim_enabled:
+      custom_tracking_domain:, from_domain:, dkim_enabled:, webhook_url:
     )
       super()
       @current_admin = current_admin
@@ -14,7 +14,8 @@ module AppServices
         click_tracking_enabled: click_tracking_enabled,
         custom_tracking_domain: custom_tracking_domain,
         from_domain: from_domain,
-        dkim_enabled: dkim_enabled
+        dkim_enabled: dkim_enabled,
+        webhook_url: webhook_url
       }
     end
 

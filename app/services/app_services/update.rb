@@ -9,6 +9,7 @@ module AppServices
       custom_tracking_domain
       from_domain
       dkim_enabled
+      webhook_url
     ].freeze
 
     def initialize(
