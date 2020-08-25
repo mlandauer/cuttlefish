@@ -247,4 +247,38 @@ describe App do
   #     ).to be_nil
   #   end
   # end
+
+  describe "#webhook_url" do
+    it "should validate if the url returns 200 code from POST" do
+      url = "https://www.planningalerts.org.au/deliveries"
+      key = "abc123"
+      # Expect a POST to be done succesfully
+      expect(RestClient).to receive(:post).with(
+        url,
+        { key: key, test_event: {} }.to_json,
+        { content_type: :json }
+      )
+      app = build(:app, webhook_url: url, webhook_key: key)
+      expect(app).to be_valid
+    end
+
+    it "should validate with nil and not try to do a POST" do
+      expect(RestClient).to_not receive(:post)
+      app = build(:app, webhook_url: nil)
+      expect(app).to be_valid
+    end
+
+    it "should not validate if the url returns a 404" do
+      VCR.use_cassette("webhook") do
+        app = build(
+          :app,
+          webhook_url: "https://www.planningalerts.org.au/deliveries"
+        )
+        expect(app).to_not be_valid
+        expect(app.errors[:webhook_url]).to eq(
+          ["returned 404 code when doing POST to https://www.planningalerts.org.au/deliveries"]
+        )
+      end
+    end
+  end
 end

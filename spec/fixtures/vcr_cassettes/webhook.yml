@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.planningalerts.org.au/deliveries
+    body:
+      encoding: UTF-8
+      string: '{"key":"T7rmrThuYw6vqJSVhrfz","test_event":{}}'
+    headers:
+      Accept:
+      - "*/*"
+      User-Agent:
+      - rest-client/2.1.0 (linux-gnu x86_64) ruby/2.5.1p57
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '46'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Content-Type:
+      - text/html; charset=UTF-8
+      Content-Length:
+      - '0'
+      Connection:
+      - keep-alive
+      Status:
+      - 404 Not Found
+      Vary:
+      - Origin
+      X-Request-Id:
+      - 8ff6d34e-3670-4e19-9f43-6b05669af44b
+      X-Runtime:
+      - '0.001405'
+      Date:
+      - Tue, 25 Aug 2020 07:37:34 GMT
+      X-Powered-By:
+      - Phusion Passenger 5.2.0
+      Server:
+      - nginx/1.12.2 + Phusion Passenger 5.2.0
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 25 Aug 2020 07:37:34 GMT
+recorded_with: VCR 4.0.0

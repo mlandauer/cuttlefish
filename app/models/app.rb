@@ -12,6 +12,7 @@ class App < ActiveRecord::Base
                    }
   validate :custom_tracking_domain_points_to_correct_place
   validate :validate_dkim_settings
+  validate :webhook_url_works
   # Validating booleans so that they can't have nil values.
   # See https://stackoverflow.com/questions/34759092/to-validate-or-not-to-validate-boolean-field
   validates :open_tracking_enabled, inclusion: { in: [true, false] }
@@ -21,7 +22,7 @@ class App < ActiveRecord::Base
   validates :legacy_dkim_selector, inclusion: { in: [true, false] }
 
   before_create :set_smtp_password
-  before_create :set_webhook_key
+  before_validation :set_webhook_key
   after_create :set_smtp_username
 
   def self.cuttlefish
@@ -141,6 +142,21 @@ class App < ActiveRecord::Base
     errors.add(
       :custom_tracking_domain,
       "doesn't have a CNAME record that points to #{cname_domain}"
+    )
+  end
+
+  def webhook_url_works
+    return if webhook_url.nil?
+
+    RestClient.post(
+      webhook_url,
+      { key: webhook_key, test_event: {} }.to_json,
+      { content_type: :json }
+    )
+  rescue RestClient::ExceptionWithResponse => e
+    errors.add(
+      :webhook_url,
+      "returned #{e.response.code} code when doing POST to #{webhook_url}"
     )
   end
 
