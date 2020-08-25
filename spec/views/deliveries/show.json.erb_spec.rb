@@ -96,6 +96,9 @@ describe "deliveries/show.json.erb", type: :view do
       postfix_log_lines: [postfix_log_line],
       postfix_queue_id: "38B72370AC41"
     )
+    create(:meta_value, email: email, key: "foo", value: "bar")
+    create(:meta_value, email: email, key: "wibble", value: "wobble")
+
     assign(:delivery, delivery)
     render
 
@@ -170,7 +173,10 @@ describe "deliveries/show.json.erb", type: :view do
           }
         ]
       },
-      meta_values: {}
+      meta_values: {
+        foo: "bar",
+        wibble: "wobble"
+      }
     )
   end
 end

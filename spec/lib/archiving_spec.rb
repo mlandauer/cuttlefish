@@ -162,65 +162,8 @@ describe Archiving do
       expect(s1).to eq s2
     end
 
-    it "produces the expected output" do
-      expected = {
-        "id" => 5,
-        "from_address" => {
-          "id" => 12,
-          "text" => "bounces@planningalerts.org.au"
-        },
-        "to_address" => {
-          "id" => 13,
-          "text" => "foo@gmail.com"
-        },
-        "subject" => nil,
-        "sent" => true,
-        "status" => "sent",
-        "message_id" => nil,
-        "email_id" => 1753541,
-        "data_hash" => "aa126db79482378ce17b441347926570228f12ef",
-        "created_at" => "2014-06-04T20:26:51.000+10:00",
-        "updated_at" => "2014-06-04T20:26:55.000+10:00",
-        "ignore_deny_list" => false,
-        "app" => {
-          "id" => 2,
-          "name" => "Planning Alerts",
-          "custom_tracking_domain" => nil,
-          "from_domain" => "planningalerts.org.au"
-        },
-        "tracking" => {
-          "open_tracked" => true,
-          "open_events" => [
-            {
-              "user_agent" => "Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.0.7) " \
-                          "Gecko/2009021910 Firefox/3.0.7 (via ggpht.com GoogleImageProxy)",
-              "referer" => nil,
-              "ip" => "2.3.4.5",
-              "created_at" => "2014-10-06T16:05:52.000+11:00"
-            }
-          ],
-          "links" => [
-            {
-              "id" => 123,
-              "url" => "http://www.planningalerts.org.au/alerts/abc1234/area",
-              "click_events" => []
-            },
-            {
-              "id" => 321,
-              "url" => "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe",
-              "click_events" => []
-            }
-          ],
-          "postfix_queue_id" => "38B72370AC41",
-          "postfix_log_lines" => []
-        },
-        "meta_values" => {
-          "foo" => "bar",
-          "wibble" => "wobble"
-        }
-      }
-      expect(JSON.parse(Archiving.serialise(delivery))).to eq expected
-    end
+    # For a test of the exact serialisation format see
+    # spec/views/deliveries/show.json.erb_spec.rb
   end
 
   describe ".copy_to_s3" do
