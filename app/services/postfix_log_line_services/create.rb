@@ -8,11 +8,20 @@ module PostfixLogLineServices
     end
 
     def call
-      PostfixLogLine.transaction do
+      log_line = PostfixLogLine.transaction do
         log_line = create(line)
         # Check if an email needs to be deny listed
         add_to_deny_list(log_line.delivery) if log_line && log_line.status == "hard_bounce"
+        log_line
       end
+      # Now send webhook if required
+      return if log_line.delivery.app.webhook_url.nil?
+
+      PostDeliveryEventWorker.perform_async(
+        log_line.delivery.app.webhook_url,
+        log_line.delivery.app.webhook_key,
+        log_line.id
+      )
     end
 
     def create(line)
