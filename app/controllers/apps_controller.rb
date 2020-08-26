@@ -22,7 +22,7 @@ class AppsController < ApplicationController
   def create
     # TODO: Actually no need for strong parameters here as form object
     # constrains the parameters that are allowed
-    result = api_query coerce_params(app_parameters, AppForm)
+    result = api_query attributes: coerced_app_params
     if result.data.create_app.app
       @app = result.data.create_app.app
       flash[:notice] = "App #{@app.name} successfully created"
@@ -58,7 +58,7 @@ class AppsController < ApplicationController
 
   def update
     result = api_query id: params[:id],
-                       attributes: coerce_params(app_parameters, AppForm)
+                       attributes: coerced_app_params
     if result.data.update_app.app
       @app = result.data.update_app.app
       flash[:notice] = "App #{@app.name} successfully updated"
@@ -108,10 +108,17 @@ class AppsController < ApplicationController
 
   private
 
+  def coerced_app_params
+    result = coerce_params(app_parameters, AppForm)
+    # Doing an extra bit of type conversion here
+    result["webhookUrl"] = nil if result["webhookUrl"].blank?
+    result
+  end
+
   def app_parameters
     params.require(:app).permit(
       :name, :url, :custom_tracking_domain, :open_tracking_enabled,
-      :click_tracking_enabled, :from_domain
+      :click_tracking_enabled, :from_domain, :webhook_url
     )
   end
 end

@@ -36,6 +36,10 @@ module Types
     field :custom_tracking_domain, String,
           null: true,
           description: "Optional domain used for open and click tracking"
+    field :webhook_url, String,
+          null: true,
+          description: "If set, a POST is sent to the url for any delivery event " \
+                       "associated with this app"
     field :permissions, Types::AppPermissions,
           null: false,
           description: "Permissions for current admin for accessing and " \
