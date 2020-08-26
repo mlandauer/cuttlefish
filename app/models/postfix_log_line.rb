@@ -53,8 +53,9 @@ class PostfixLogLine < ActiveRecord::Base
                        )
 
     if delivery
-      # Don't resave duplicates
-      PostfixLogLine.find_or_create_by(values.merge(delivery_id: delivery.id))
+      a = values.merge(delivery_id: delivery.id)
+      # Don't resave duplicates and return nil if it was a duplicate
+      PostfixLogLine.create!(a) if PostfixLogLine.find_by(a).nil?
     else
       puts "Skipping address #{to} from postfix queue id #{queue_id} - " \
            "it's not recognised: #{line}"
