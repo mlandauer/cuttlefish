@@ -148,10 +148,8 @@ class App < ActiveRecord::Base
   def webhook_url_works
     return if webhook_url.nil?
 
-    RestClient.post(
-      webhook_url,
-      { key: webhook_key, test_event: {} }.to_json,
-      { content_type: :json }
+    WebhookServices::PostTestEvent.call(
+      url: webhook_url, key: webhook_key
     )
   rescue RestClient::ExceptionWithResponse => e
     errors.add(

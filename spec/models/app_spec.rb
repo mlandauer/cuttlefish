@@ -252,18 +252,15 @@ describe App do
     it "should validate if the url returns 200 code from POST" do
       url = "https://www.planningalerts.org.au/deliveries"
       key = "abc123"
-      # Expect a POST to be done succesfully
-      expect(RestClient).to receive(:post).with(
-        url,
-        { key: key, test_event: {} }.to_json,
-        { content_type: :json }
+      expect(WebhookServices::PostTestEvent).to receive(:call).with(
+        url: url, key: key
       )
       app = build(:app, webhook_url: url, webhook_key: key)
       expect(app).to be_valid
     end
 
     it "should validate with nil and not try to do a POST" do
-      expect(RestClient).to_not receive(:post)
+      expect(WebhookServices::PostTestEvent).to_not receive(:call)
       app = build(:app, webhook_url: nil)
       expect(app).to be_valid
     end
@@ -282,7 +279,7 @@ describe App do
     end
 
     it "should not validate if the webhook can't connect" do
-      expect(RestClient).to receive(:post).and_raise(
+      expect(WebhookServices::PostTestEvent).to receive(:call).and_raise(
         SocketError.new("Failed to open TCP connection to foo:80 (getaddrinfo: Name or service not known)")
       )
       app = build(
