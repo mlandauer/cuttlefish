@@ -280,5 +280,20 @@ describe App do
         )
       end
     end
+
+    it "should not validate if the webhook can't connect" do
+      expect(RestClient).to receive(:post).and_raise(
+        SocketError.new("Failed to open TCP connection to foo:80 (getaddrinfo: Name or service not known)")
+      )
+      app = build(
+        :app,
+        webhook_url: "foo"
+      )
+      expect(app).to_not be_valid
+      expect(app.errors[:webhook_url]).to eq(
+        ["error when doing test POST to foo: " \
+         "Failed to open TCP connection to foo:80 (getaddrinfo: Name or service not known)"]
+      )
+    end
   end
 end

@@ -158,6 +158,11 @@ class App < ActiveRecord::Base
       :webhook_url,
       "returned #{e.response.code} code when doing POST to #{webhook_url}"
     )
+  rescue SocketError => e
+    errors.add(
+      :webhook_url,
+      "error when doing test POST to #{webhook_url}: #{e}"
+    )
   end
 
   def set_smtp_password
