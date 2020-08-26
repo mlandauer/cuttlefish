@@ -10,8 +10,10 @@ module PostfixLogLineServices
     def call
       log_line = PostfixLogLine.transaction do
         log_line = create(line)
+        return if log_line.nil?
+
         # Check if an email needs to be deny listed
-        add_to_deny_list(log_line.delivery) if log_line && log_line.status == "hard_bounce"
+        add_to_deny_list(log_line.delivery) if log_line.status == "hard_bounce"
         log_line
       end
       # Now send webhook if required
