@@ -1,0 +1,7 @@
+query($id: ID!) {
+  app(id: $id) {
+    id
+    webhookKey
+    webhookUrl
+  }
+}

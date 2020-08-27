@@ -1,0 +1,12 @@
+.page-header
+  %h1 Event Webhook
+  %p
+    Integrate your web application more closely with Cuttlefish by getting Cuttlefish
+    to send a callback to a endpoint of your choosing whenever an email for this
+    app is delivered.
+
+= semantic_form_for @app, as: :app, url: app_path(@app.id), method: :put, html: {class: "form-horizontal"} do |f|
+  = f.semantic_errors
+  = f.input :webhook_url, label: "Webhook URL", hint: "If set, a POST is sent to the url for any delivery event associated with this app. TODO: Document the json format", placeholder: "https://yourapp.com/events"
+  = f.actions do
+    = f.action :submit, label: "Update webhook"

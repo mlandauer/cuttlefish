@@ -5,6 +5,5 @@ query($id: ID!) {
     clickTrackingEnabled
     openTrackingEnabled
     customTrackingDomain
-    webhookUrl
   }
 }

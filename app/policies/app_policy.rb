@@ -19,6 +19,10 @@ class AppPolicy < ApplicationPolicy
     ) || update?
   end
 
+  def webhook?
+    dkim?
+  end
+
   # TODO: No reason for this to be seperate from dkim above
   def toggle_dkim?
     dkim?

@@ -2,7 +2,7 @@
 
 class AppsController < ApplicationController
   after_action :verify_authorized, except: %i[
-    index show new create destroy edit update dkim toggle_dkim upgrade_dkim
+    index show new create destroy edit update dkim webhook toggle_dkim upgrade_dkim
   ]
 
   def index
@@ -70,7 +70,11 @@ class AppsController < ApplicationController
     else
       @app = AppForm.new(app_parameters.merge(id: params[:id]))
       copy_graphql_errors(result.data.update_app, @app, ["attributes"])
-      render :edit
+      if app_parameters.key?(:webhook_url)
+        render :webhook
+      else
+        render :edit
+      end
     end
   end
 
@@ -78,6 +82,11 @@ class AppsController < ApplicationController
     result = api_query id: params[:id]
     @app = result.data.app
     @provider = params[:provider]
+  end
+
+  def webhook
+    result = api_query id: params[:id]
+    @app = result.data.app
   end
 
   def toggle_dkim
