@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "sidekiq/testing"
 
 describe PostfixLogLineServices::Create do
   context "soft bounce" do
@@ -13,7 +14,14 @@ describe PostfixLogLineServices::Create do
       "(in reply to RCPT TO command))"
     end
     let(:address) { create(:address, text: "foo@bar.com") }
-    let!(:delivery) { create(:delivery, postfix_queue_id: "39D9336AFA81", address: address) }
+    let(:app) do
+      app = create(:app, webhook_key: "abc123")
+      # We don't want validations to get called here
+      app.update_column(:webhook_url, "https://foo.com")
+      app
+    end
+    let(:email) { create(:email, app: app) }
+    let!(:delivery) { create(:delivery, email: email, postfix_queue_id: "39D9336AFA81", address: address) }
 
     it "should create a postfix log line record" do
       PostfixLogLineServices::Create.call(line)
@@ -31,6 +39,13 @@ describe PostfixLogLineServices::Create do
       PostfixLogLineServices::Create.call(line)
 
       expect(DenyList.count).to be_zero
+    end
+
+    it "should post to the webhook" do
+      Sidekiq::Testing.inline! do
+        expect(WebhookServices::PostDeliveryEvent).to receive(:call)
+        PostfixLogLineServices::Create.call(line)
+      end
     end
   end
 
@@ -68,6 +83,13 @@ describe PostfixLogLineServices::Create do
       expect(d.address).to eq address
       expect(d.caused_by_delivery).to eq delivery
       expect(d.team).to eq delivery.app.team
+    end
+
+    it "should not post the webhook because the url isn't set" do
+      Sidekiq::Testing.inline! do
+        expect(WebhookServices::PostDeliveryEvent).to_not receive(:call)
+        PostfixLogLineServices::Create.call(line)
+      end
     end
 
     context "address is already on the deny list" do

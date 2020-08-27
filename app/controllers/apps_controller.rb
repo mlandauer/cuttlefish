@@ -2,7 +2,7 @@
 
 class AppsController < ApplicationController
   after_action :verify_authorized, except: %i[
-    index show new create destroy edit update dkim toggle_dkim upgrade_dkim
+    index show new create destroy edit update dkim webhook toggle_dkim upgrade_dkim
   ]
 
   def index
@@ -22,7 +22,7 @@ class AppsController < ApplicationController
   def create
     # TODO: Actually no need for strong parameters here as form object
     # constrains the parameters that are allowed
-    result = api_query coerce_params(app_parameters, AppForm)
+    result = api_query attributes: coerced_app_params
     if result.data.create_app.app
       @app = result.data.create_app.app
       flash[:notice] = "App #{@app.name} successfully created"
@@ -58,7 +58,7 @@ class AppsController < ApplicationController
 
   def update
     result = api_query id: params[:id],
-                       attributes: coerce_params(app_parameters, AppForm)
+                       attributes: coerced_app_params
     if result.data.update_app.app
       @app = result.data.update_app.app
       flash[:notice] = "App #{@app.name} successfully updated"
@@ -70,7 +70,11 @@ class AppsController < ApplicationController
     else
       @app = AppForm.new(app_parameters.merge(id: params[:id]))
       copy_graphql_errors(result.data.update_app, @app, ["attributes"])
-      render :edit
+      if app_parameters.key?(:webhook_url)
+        render :webhook
+      else
+        render :edit
+      end
     end
   end
 
@@ -78,6 +82,11 @@ class AppsController < ApplicationController
     result = api_query id: params[:id]
     @app = result.data.app
     @provider = params[:provider]
+  end
+
+  def webhook
+    result = api_query id: params[:id]
+    @app = result.data.app
   end
 
   def toggle_dkim
@@ -108,10 +117,17 @@ class AppsController < ApplicationController
 
   private
 
+  def coerced_app_params
+    result = coerce_params(app_parameters, AppForm)
+    # Doing an extra bit of type conversion here
+    result["webhookUrl"] = nil if result["webhookUrl"].blank?
+    result
+  end
+
   def app_parameters
     params.require(:app).permit(
       :name, :url, :custom_tracking_domain, :open_tracking_enabled,
-      :click_tracking_enabled, :from_domain
+      :click_tracking_enabled, :from_domain, :webhook_url
     )
   end
 end

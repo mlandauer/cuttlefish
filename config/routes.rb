@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     resources :clients, only: :index, as: :clients, controller: "clients"
     member do
       get "dkim"
+      get "webhook"
       post "toggle_dkim"
       post "upgrade_dkim"
     end

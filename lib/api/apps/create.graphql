@@ -1,5 +1,5 @@
-mutation($name: String!, $clickTrackingEnabled: Boolean, $openTrackingEnabled: Boolean, $customTrackingDomain: String) {
-  createApp(attributes: {name: $name, clickTrackingEnabled: $clickTrackingEnabled, openTrackingEnabled: $openTrackingEnabled, customTrackingDomain: $customTrackingDomain}) {
+mutation($attributes: AppAttributes!) {
+  createApp(attributes: $attributes) {
     app {
       id
       name

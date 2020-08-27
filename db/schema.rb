@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_18_194827) do
+ActiveRecord::Schema.define(version: 2020_08_25_041009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(version: 2020_08_18_194827) do
     t.integer "team_id"
     t.boolean "cuttlefish", default: false, null: false
     t.boolean "legacy_dkim_selector", default: false, null: false
+    t.string "webhook_url"
+    t.string "webhook_key", null: false
     t.index ["team_id"], name: "index_apps_on_team_id"
   end
 

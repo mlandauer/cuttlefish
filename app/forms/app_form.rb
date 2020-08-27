@@ -10,4 +10,5 @@ class AppForm
   attribute :open_tracking_enabled, Boolean, default: true
   attribute :custom_tracking_domain, String
   attribute :from_domain, String
+  attribute :webhook_url, String
 end

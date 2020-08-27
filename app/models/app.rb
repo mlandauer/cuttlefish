@@ -12,6 +12,7 @@ class App < ActiveRecord::Base
                    }
   validate :custom_tracking_domain_points_to_correct_place
   validate :validate_dkim_settings
+  validate :webhook_url_works
   # Validating booleans so that they can't have nil values.
   # See https://stackoverflow.com/questions/34759092/to-validate-or-not-to-validate-boolean-field
   validates :open_tracking_enabled, inclusion: { in: [true, false] }
@@ -21,6 +22,7 @@ class App < ActiveRecord::Base
   validates :legacy_dkim_selector, inclusion: { in: [true, false] }
 
   before_create :set_smtp_password
+  before_validation :set_webhook_key
   after_create :set_smtp_username
 
   def self.cuttlefish
@@ -91,6 +93,12 @@ class App < ActiveRecord::Base
     nil
   end
 
+  def set_webhook_key
+    # Only set a webhook key if it hasn't been set already.
+    # This makes testing a little more straightforward
+    self.webhook_key = generate_key if webhook_key.nil?
+  end
+
   private
 
   def validate_dkim_settings
@@ -137,14 +145,41 @@ class App < ActiveRecord::Base
     )
   end
 
+  def webhook_url_works
+    return if webhook_url.nil?
+
+    WebhookServices::PostTestEvent.call(
+      url: webhook_url, key: webhook_key
+    )
+  rescue RestClient::ExceptionWithResponse => e
+    errors.add(
+      :webhook_url,
+      "returned #{e.response.code} code when doing POST to #{webhook_url}"
+    )
+  rescue SocketError => e
+    errors.add(
+      :webhook_url,
+      "error when doing test POST to #{webhook_url}: #{e}"
+    )
+  end
+
   def set_smtp_password
-    self.smtp_password =
-      Digest::MD5.base64digest(rand.to_s + Time.now.to_s)[0...20]
+    # Only set if it hasn't been set already
+    # This makes testing a little more straightforward
+    self.smtp_password = generate_key if smtp_password.nil?
   end
 
   def set_smtp_username
+    update_attributes(smtp_username: generate_smtp_username)
+  end
+
+  def generate_smtp_username
     encoded_name = name.downcase.tr(" ", "_")
     # By appending the id we can be confident that this name is globally unique
-    update_attributes(smtp_username: "#{encoded_name}_#{id}")
+    "#{encoded_name}_#{id}"
+  end
+
+  def generate_key
+    SecureRandom.base58(20)
   end
 end

@@ -247,4 +247,50 @@ describe App do
   #     ).to be_nil
   #   end
   # end
+
+  describe "#webhook_url" do
+    it "should validate if the url returns 200 code from POST" do
+      url = "https://www.planningalerts.org.au/deliveries"
+      key = "abc123"
+      expect(WebhookServices::PostTestEvent).to receive(:call).with(
+        url: url, key: key
+      )
+      app = build(:app, webhook_url: url, webhook_key: key)
+      expect(app).to be_valid
+    end
+
+    it "should validate with nil and not try to do a POST" do
+      expect(WebhookServices::PostTestEvent).to_not receive(:call)
+      app = build(:app, webhook_url: nil)
+      expect(app).to be_valid
+    end
+
+    it "should not validate if the url returns a 404" do
+      VCR.use_cassette("webhook") do
+        app = build(
+          :app,
+          webhook_url: "https://www.planningalerts.org.au/deliveries"
+        )
+        expect(app).to_not be_valid
+        expect(app.errors[:webhook_url]).to eq(
+          ["returned 404 code when doing POST to https://www.planningalerts.org.au/deliveries"]
+        )
+      end
+    end
+
+    it "should not validate if the webhook can't connect" do
+      expect(WebhookServices::PostTestEvent).to receive(:call).and_raise(
+        SocketError.new("Failed to open TCP connection to foo:80 (getaddrinfo: Name or service not known)")
+      )
+      app = build(
+        :app,
+        webhook_url: "foo"
+      )
+      expect(app).to_not be_valid
+      expect(app.errors[:webhook_url]).to eq(
+        ["error when doing test POST to foo: " \
+         "Failed to open TCP connection to foo:80 (getaddrinfo: Name or service not known)"]
+      )
+    end
+  end
 end
