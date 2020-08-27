@@ -5,8 +5,59 @@
     to send a callback to a endpoint of your choosing whenever an email for this
     app is delivered.
 
+%h2 Delivery Event
+%p
+  When an email for this app gets delivered or fails to get delivered a POST
+  is sent to the webhook URL with the following JSON body
+
+:coderay
+  #!json
+  {
+    "key": "#{@app.webhook_key}",
+    "delivery_event": {
+      "time": "2020-08-27T02:10:17.000Z",
+      "dsn": "2.0.0",
+      "status": "delivered",
+      "extended_status": "sent (250 Message accepted)",
+      "email": {
+        "from": "matthew@oaf.org.au",
+        "to": "joy@smart-unlimited.com",
+        "subject": "This is a test email from Cuttlefish",
+        "created_at": "2020-08-27T02:10:17.579Z",
+        "meta_values": {}
+      }
+    }
+  }
+
+%h2 Secret Key
+%p
+  A secret key (just for this webhook and app) is sent along with the test event.
+  This secret key should always be checked by the receiving end. This ensures
+  that a malicious third party can not easily pretend to be a webhook from Cuttlefish
+  and inject bad data into your system.
+
+%p
+  Secret key:
+  %code= @app.webhook_key
+
+%h2 Test Event
+%p
+  Once a webhook URL is entered, a test event is immediately sent as a POST
+  with the following JSON body.
+
+:coderay
+  #!json
+  {
+    "key": "#{@app.webhook_key}",
+    "test_event": {}
+  }
+
+%p This is used to validate the webhook URL
+
+%h2 Setting
+
 = semantic_form_for @app, as: :app, url: app_path(@app.id), method: :put, html: {class: "form-horizontal"} do |f|
   = f.semantic_errors
-  = f.input :webhook_url, label: "Webhook URL", hint: "If set, a POST is sent to the url for any delivery event associated with this app. TODO: Document the json format", placeholder: "https://yourapp.com/events", input_html: {class: "span6"}
+  = f.input :webhook_url, label: "Webhook URL", hint: "Leave empty if you don't need this", placeholder: "https://yourapp.com/events", input_html: {class: "span6"}
   = f.actions do
     = f.action :submit, label: "Update webhook"
