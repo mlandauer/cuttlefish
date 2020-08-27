@@ -40,6 +40,10 @@ module Types
           null: true,
           description: "If set, a POST is sent to the url for any delivery event " \
                        "associated with this app"
+    field :webhook_key, String,
+          null: false,
+          description: "A secret key that is passed with every webhook POST. " \
+                       "Used for authorization on the receiving end"
     field :permissions, Types::AppPermissions,
           null: false,
           description: "Permissions for current admin for accessing and " \
