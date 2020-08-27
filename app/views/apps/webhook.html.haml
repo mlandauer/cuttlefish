@@ -7,6 +7,6 @@
 
 = semantic_form_for @app, as: :app, url: app_path(@app.id), method: :put, html: {class: "form-horizontal"} do |f|
   = f.semantic_errors
-  = f.input :webhook_url, label: "Webhook URL", hint: "If set, a POST is sent to the url for any delivery event associated with this app. TODO: Document the json format", placeholder: "https://yourapp.com/events"
+  = f.input :webhook_url, label: "Webhook URL", hint: "If set, a POST is sent to the url for any delivery event associated with this app. TODO: Document the json format", placeholder: "https://yourapp.com/events", input_html: {class: "span6"}
   = f.actions do
     = f.action :submit, label: "Update webhook"
