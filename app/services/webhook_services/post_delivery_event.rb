@@ -13,6 +13,8 @@ module WebhookServices
       # For the time being just hardcode the serialisation format here
       meta_values = Hash[event.delivery.meta_values.map { |v| [v.key, v.value] }]
       email = {
+        id: event.delivery.id,
+        message_id: event.delivery.message_id,
         from: event.delivery.from,
         to: event.delivery.to,
         subject: event.delivery.subject,

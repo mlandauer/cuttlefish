@@ -14,11 +14,15 @@ describe WebhookServices::PostDeliveryEvent do
       from_address: from_address
     )
     # Do this shenanigans to workaround callbacks on model
-    email.update_column(:subject, "A lovely email")
+    email.update_columns(
+      subject: "A lovely email",
+      message_id: "ABC@DEF.foo.com"
+    )
     create(:meta_value, email: email, key: "foo", value: "bar")
     create(:meta_value, email: email, key: "wibble", value: "wobble")
     delivery = create(
       :delivery,
+      id: 123,
       email: email,
       address: to_address,
       created_at: Time.utc(2020, 1, 1, 10, 10, 10)
@@ -36,6 +40,8 @@ describe WebhookServices::PostDeliveryEvent do
       status: "delivered",
       extended_status: "sent (250 ok dirdel)",
       email: {
+        id: 123,
+        message_id: "ABC@DEF.foo.com",
         from: "foo@bar.com",
         to: "bing@bar.com",
         subject: "A lovely email",
