@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_25_041009) do
+ActiveRecord::Schema.define(version: 2020_09_01_065830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 2020_08_25_041009) do
     t.string "value", null: false
     t.index ["email_id", "key"], name: "index_meta_values_on_email_id_and_key", unique: true
     t.index ["email_id"], name: "index_meta_values_on_email_id"
+    t.index ["key"], name: "index_meta_values_on_key"
   end
 
   create_table "open_events", force: :cascade do |t|
