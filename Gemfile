@@ -85,11 +85,13 @@ gem "rest-client"
 # To use debugger
 # gem 'debugger'
 
+# We want to be able to use rack-mini-profiler in production
+gem "rack-mini-profiler"
+
 group :development do
   gem "capistrano", "~> 2"
   gem "faker", git: "https://github.com/stympy/faker.git", branch: "master"
   gem "graphiql-rails"
-  gem "rack-mini-profiler"
   gem "rubocop", require: false
   gem "rvm-capistrano", ">= 1.5.6", require: false
   gem "spring"

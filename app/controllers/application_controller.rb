@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_admin!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  # Turn on rack mini profiler for site admins
+  before_action do
+    Rack::MiniProfiler.authorize_request if current_admin&.site_admin?
+  end
+
   def after_sign_in_path_for(_resource)
     dash_path
   end
