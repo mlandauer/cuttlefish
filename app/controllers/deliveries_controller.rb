@@ -18,7 +18,6 @@ class DeliveriesController < ApplicationController
 
         @apps = result.data.apps
         @app = @apps.find { |a| a.id == params[:app_id] } if params[:app_id]
-        @meta_keys = result.data.meta_keys
       end
     end
   end

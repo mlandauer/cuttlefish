@@ -40,16 +40,12 @@
     %li= link_to "Soft bounces", canonical_deliveries_path((@app.id if @app), "soft_bounce", @search, @key)
     %li= link_to "Hard bounces", canonical_deliveries_path((@app.id if @app), "hard_bounce", @search, @key)
 
-.btn-group
-  %button.btn.dropdown-toggle(data-toggle="dropdown")
-    - if @key.nil?
-      All Metadata Keys
-    - else
-      = @key
-    %span.caret
-  %ul.dropdown-menu
-    %li= link_to "All Metadata Keys", canonical_deliveries_path((@app.id if @app), @status, @search, nil)
-    - @meta_keys.each do |key|
-      %li= link_to key, canonical_deliveries_path((@app.id if @app), @status, @search, key)
+
+- if @key
+  %span
+    Filtered by Metadata key:
+    = @key
+    = link_to canonical_deliveries_path((@app.id if @app), @status, @search, nil) do
+      %i.fa.fa-times-circle.fa-fw
 
 = render :partial => "to", locals: {deliveries: @deliveries}
