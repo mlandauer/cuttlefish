@@ -9,7 +9,7 @@ class ParseHeadersCreateEmailWorker
   def perform(to, data_path, app_id)
     EmailServices::ParseHeadersCreate.call(
       to: to,
-      data: File.read(data_path),
+      data: File.read(data_path, encoding: "ASCII-8BIT"),
       app_id: app_id
     )
     # Cleanup the temporary file
