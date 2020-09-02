@@ -10,8 +10,11 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# TODO: Make it so that we don't have to do all this to delete
+# everything while avoiding foreign key constraints from being violated
 Team.delete_all
 Admin.delete_all
+MetaValue.delete_all
 App.delete_all
 Email.delete_all
 Delivery.delete_all
