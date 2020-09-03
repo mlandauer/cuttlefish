@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_02_042840) do
+ActiveRecord::Schema.define(version: 2020_09_03_034601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,17 @@ ActiveRecord::Schema.define(version: 2020_09_02_042840) do
     t.index ["invited_by_id"], name: "index_admins_on_invited_by_id"
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
     t.index ["team_id"], name: "index_admins_on_team_id"
+  end
+
+  create_table "app_deny_lists", force: :cascade do |t|
+    t.bigint "address_id", null: false
+    t.bigint "caused_by_delivery_id", null: false
+    t.bigint "app_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_app_deny_lists_on_address_id"
+    t.index ["app_id"], name: "index_app_deny_lists_on_app_id"
+    t.index ["caused_by_delivery_id"], name: "index_app_deny_lists_on_caused_by_delivery_id"
   end
 
   create_table "apps", force: :cascade do |t|
@@ -185,6 +196,9 @@ ActiveRecord::Schema.define(version: 2020_09_02_042840) do
     t.datetime "updated_at"
   end
 
+  add_foreign_key "app_deny_lists", "addresses"
+  add_foreign_key "app_deny_lists", "apps"
+  add_foreign_key "app_deny_lists", "deliveries", column: "caused_by_delivery_id"
   add_foreign_key "emails", "addresses", column: "from_address_id", name: "emails_from_address_id_fk"
   add_foreign_key "emails", "apps", name: "emails_app_id_fk", on_delete: :cascade
   add_foreign_key "meta_values", "emails"
