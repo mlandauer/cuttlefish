@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   resources :apps do
     resources :emails, only: :index, as: :deliveries, controller: "deliveries"
     resources :clients, only: :index, as: :clients, controller: "clients"
+    resources :deny_lists, only: %i[index destroy], as: :deny_lists, controller: "deny_lists"
+
     member do
       get "dkim"
       get "webhook"

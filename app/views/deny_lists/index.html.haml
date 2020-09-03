@@ -3,7 +3,20 @@
   %p
     This list is auto-populated with any email addresses that bounce. Any further emails to addresses
     in this list will be "held back" and not sent.
+  %p
+    After one week addresses are automatically removed from this list
 
+.btn-group
+  %button.btn.dropdown-toggle(data-toggle="dropdown")
+    - if @app.nil?
+      Team list
+    - else
+      = @app.name
+    %span.caret
+  %ul.dropdown-menu
+    %li= link_to "Team list", deny_lists_path
+    - @apps.each do |app|
+      %li= link_to app.name, app_deny_lists_path(app.id)
 
 = paginated_section @deny_lists, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Address" do
   %p.count= page_entries_info @deny_lists, model: "deny listed email addresses"
@@ -28,4 +41,7 @@
                 = time_ago_in_words(deny_list.because_of_delivery_event.time)
                 ago
             %td
-              = button_to "Remove", deny_list_path(deny_list.id), method: :delete, class: "btn btn-danger"
+              - if @app
+                = button_to "Remove", app_deny_list_path(@app.id, deny_list.id), method: :delete, class: "btn btn-danger"
+              - else
+                = button_to "Remove", deny_list_path(deny_list.id), method: :delete, class: "btn btn-danger"

@@ -78,11 +78,11 @@ describe PostfixLogLineServices::Create do
     it "should add the address to the deny list" do
       PostfixLogLineServices::Create.call(line)
 
-      expect(DenyList.count).to eq 1
-      d = DenyList.first
+      expect(AppDenyList.count).to eq 1
+      d = AppDenyList.first
       expect(d.address).to eq address
       expect(d.caused_by_delivery).to eq delivery
-      expect(d.team).to eq delivery.app.team
+      expect(d.app).to eq delivery.app
     end
 
     it "should not post the webhook because the url isn't set" do

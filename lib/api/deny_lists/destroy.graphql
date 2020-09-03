@@ -1,5 +1,5 @@
-mutation($id: ID!) {
-  removeBlockedAddress(id: $id) {
+mutation($appId: ID, $id: ID!) {
+  removeBlockedAddress(appId: $appId, id: $id) {
     blockedAddress {
       address
     }
