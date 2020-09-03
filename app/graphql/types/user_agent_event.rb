@@ -13,9 +13,9 @@ module Types
     field :os, Types::FamilyAndVersion,
           null: true,
           description: "The operating system being used"
-    field :ip, String,
+    field :ip, Types::IP,
           null: true,
-          description: "The originating IP address"
+          description: "The originating IP address and other information"
 
     def user_agent
       {
@@ -29,6 +29,10 @@ module Types
         family: object.calculate_os_family,
         version: object.calculate_os_version
       }
+    end
+
+    def ip
+      { address: object.ip } if object.ip
     end
   end
 end
