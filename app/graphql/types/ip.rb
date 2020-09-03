@@ -21,6 +21,7 @@ module Types
           # ip address
           r = RestClient.get("http://ip-api.com/json/#{a}")
           result = JSON.parse(r.body)
+          result = nil if result["status"] != "success"
           loader.call(a, result)
         end
       end
