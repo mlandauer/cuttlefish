@@ -5,6 +5,7 @@
       %th Client
       %th OS
       %th IP
+      %th Country
   %tbody
     - delivery.open_events.each do |event|
       %tr
@@ -20,3 +21,4 @@
           - if event.os.version
             %span.muted (#{event.os.version})
         %td= event.ip.address
+        %td= event.ip.country
