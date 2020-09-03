@@ -30,7 +30,16 @@ query($id: ID!) {
       extendedStatus
     }
     openEvents {
-      ip
+      ip {
+        address
+        info {
+          country
+          regionName
+          city
+          isp
+          org
+        }
+      }
       userAgent {
         family
         version
@@ -43,7 +52,16 @@ query($id: ID!) {
     }
     clickEvents {
       url
-      ip
+      ip {
+        address
+        info {
+          country
+          regionName
+          city
+          isp
+          org
+        }
+      }
       userAgent {
         family
         version

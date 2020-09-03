@@ -5,6 +5,10 @@
       %th Client
       %th OS
       %th IP
+      %th Location
+      %th
+        %abbr{title: "Internet Service Provider"} ISP
+      %th Org
   %tbody
     - delivery.open_events.each do |event|
       %tr
@@ -19,4 +23,7 @@
           = event.os.family
           - if event.os.version
             %span.muted (#{event.os.version})
-        %td= event.ip
+        %td= event.ip.address
+        %td= "#{event.ip.info.city}, #{event.ip.info.region_name}, #{event.ip.info.country}"
+        %td= event.ip.info.isp
+        %td= event.ip.info.org
