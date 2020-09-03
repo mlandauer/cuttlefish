@@ -32,7 +32,13 @@ query($id: ID!) {
     openEvents {
       ip {
         address
-        country
+        info {
+          country
+          regionName
+          city
+          isp
+          org
+        }
       }
       userAgent {
         family
@@ -48,7 +54,13 @@ query($id: ID!) {
       url
       ip {
         address
-        country
+        info {
+          country
+          regionName
+          city
+          isp
+          org
+        }
       }
       userAgent {
         family

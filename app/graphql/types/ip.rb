@@ -3,12 +3,27 @@
 module Types
   class IP < GraphQL::Schema::Object
     field :address, String, null: false
-    field :country, String, null: true
+    field :info, Types::IPInfo, null: true
 
-    # Should return nil if we can't access the ip service
-    def country
+    def info
       r = query(object[:address])
-      r["country"] if r
+      return if r.nil?
+
+      # We're writing this out explicitly so we're not binding
+      # our parameter names directly to those returned by the
+      # service
+      {
+        country: r["country"],
+        country_code: r["countryCode"],
+        region: r["region"],
+        region_name: r["regionName"],
+        city: r["city"],
+        lat: r["lat"],
+        lng: r["lng"],
+        timezone: r["timezone"],
+        isp: r["isp"],
+        org: r["org"]
+      }
     end
 
     private
