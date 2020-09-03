@@ -207,8 +207,8 @@ delivery = email.deliveries.create!(address_id: address2.id, sent: true)
   delivery = email.deliveries.create!(address_id: to.id, sent: true)
 end
 
-# And add some bounced emails (caused by the first five emails)
-key_app.emails.limit(5).each do |e|
+# And add some bounced emails (caused by the first ten emails)
+key_app.emails.limit(10).each_with_index do |e, i|
   delivery = e.deliveries.first
   PostfixLogLine.create!(
     delivery_id: delivery.id,
@@ -221,9 +221,17 @@ key_app.emails.limit(5).each do |e|
     delay: "",
     delays: ""
   )
-  DenyList.create(
-    team_id: smart_team.id,
-    address: delivery.address,
-    caused_by_delivery: delivery
-  )
+  if i < 5
+    DenyList.create(
+      team_id: smart_team.id,
+      address: delivery.address,
+      caused_by_delivery: delivery
+    )
+  else
+    AppDenyList.create(
+      app_id: acting_app.id,
+      address: delivery.address,
+      caused_by_delivery: delivery
+    )
+  end
 end

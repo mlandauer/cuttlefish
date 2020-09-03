@@ -73,6 +73,9 @@ module Types
     end
 
     field :blocked_address, Types::BlockedAddress, null: true do
+      argument :app_id, ID,
+               required: false,
+               description: "Filter results by App"
       argument :address, String, required: true, description: "Email address"
       description "Find whether an email address is being blocked"
     end
@@ -83,6 +86,9 @@ module Types
       description "Auto-populated list of email addresses which bounced " \
                   "within the last week. Further emails to these addresses " \
                   "will be 'held back' and not sent"
+      argument :app_id, ID,
+               required: false,
+               description: "Filter results by App"
       argument :limit, Int,
                required: false,
                description:
@@ -175,17 +181,28 @@ module Types
       Pundit.policy_scope(context[:current_admin], ::Admin).order(:name)
     end
 
-    def blocked_address(address:)
+    def blocked_address(app_id:, address:)
       a = Address.find_by(text: address)
       return if a.nil?
 
-      Pundit.policy_scope(context[:current_admin], DenyList)
-            .where(address: a).first
+      if app_id
+        Pundit.policy_scope(context[:current_admin], AppDenyList)
+              .where(address: a, app_id: app_id).first
+      else
+        Pundit.policy_scope(context[:current_admin], DenyList)
+              .where(address: a).first
+      end
     end
 
-    def blocked_addresses(limit: 10, offset: 0)
-      b = Pundit.policy_scope(context[:current_admin], DenyList)
-                .order(created_at: :desc)
+    def blocked_addresses(app_id: nil, limit: 10, offset: 0)
+      b = if app_id
+        Pundit.policy_scope(context[:current_admin], AppDenyList)
+              .where(app_id: app_id)
+              .order(created_at: :desc)
+      else
+        Pundit.policy_scope(context[:current_admin], DenyList)
+              .order(created_at: :desc)
+      end
       { all: b, limit: limit, offset: offset }
     end
 
