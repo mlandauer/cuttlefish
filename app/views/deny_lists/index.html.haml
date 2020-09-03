@@ -3,6 +3,8 @@
   %p
     This list is auto-populated with any email addresses that bounce. Any further emails to addresses
     in this list will be "held back" and not sent.
+  %p
+    After one week addresses are automatically removed from this list
 
 
 = paginated_section @deny_lists, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Address" do
