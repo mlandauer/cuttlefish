@@ -32,22 +32,14 @@ module PostfixLogLineServices
     end
 
     def add_to_deny_list(delivery)
-      # It is possible for the team_id to be nil if it's a mail from the
-      # cuttlefish "app" that is causing a hard bounce. For the time being
-      # let's just ignore those mails and not try to add them to the deny
-      # list because if we do they will cause an error
-      # TODO: Fix this properly. What's here now is just a temporary
-      # workaround
-      return if delivery.app.team_id.nil?
-
       # We don't want to save duplicates
-      return if DenyList.find_by(
-        team_id: delivery.app.team_id,
+      return if AppDenyList.find_by(
+        app: delivery.app,
         address: delivery.address
       )
 
-      DenyList.create(
-        team_id: delivery.app.team_id,
+      AppDenyList.create(
+        app: delivery.app,
         address: delivery.address,
         caused_by_delivery: delivery
       )

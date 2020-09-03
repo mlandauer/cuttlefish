@@ -30,7 +30,9 @@ class Delivery < ActiveRecord::Base
     # If there is no team there is no deny list
     # In concrete terms the internal cuttlefish app doesn't have a deny
     # list and isn't part of a team
-    app.team.nil? || email.ignore_deny_list || address.deny_lists.find_by(team_id: app.team.id).nil?
+    on_deny_list = !address.deny_lists.find_by(team_id: app.team.id).nil? ||
+                   !AppDenyList.find_by(app: app, address: address).nil?
+    app.team.nil? || email.ignore_deny_list || !on_deny_list
   end
 
   def add_open_event(request)

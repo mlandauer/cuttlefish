@@ -43,6 +43,10 @@ namespace :cuttlefish do
     old_items = DenyList.where("updated_at < ?", 1.week.ago)
     puts "Removing #{old_items.count} items from the deny list..."
     old_items.destroy_all
+
+    old_items = AppDenyList.where("updated_at < ?", 1.week.ago)
+    puts "Removing #{old_items.count} items from the deny list..."
+    old_items.destroy_all
   end
 
   desc "Archive all emails from a particular date (e.g. 2014-05-01)"
