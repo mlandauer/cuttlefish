@@ -181,7 +181,9 @@ module Types
       Pundit.policy_scope(context[:current_admin], ::Admin).order(:name)
     end
 
-    def blocked_address(app_id:, address:)
+    # TODO: This is currently doing entirely the wrong thing.
+    # It should return a list of entries. There could be more than one.
+    def blocked_address(app_id: nil, address:)
       a = Address.find_by(text: address)
       return if a.nil?
 
