@@ -73,7 +73,7 @@ module Types
     end
 
     def clicked
-      object.delivery_links.any?(&:clicked?)
+      object.clicked_lazy?
     end
 
     def ignore_deny_list

@@ -76,6 +76,20 @@ class Delivery < ActiveRecord::Base
     delivery_links.any?(&:clicked?)
   end
 
+  def clicked_lazy?
+    BatchLoader.for(id).batch(default_value: false) do |ids, loader|
+      delivery_links_map = {}
+      DeliveryLink.where(delivery_id: ids).each do |d|
+        delivery_links_map[d.delivery_id] ||= []
+        delivery_links_map[d.delivery_id] << d
+      end
+      delivery_links_map.each do |id, delivery_links|
+        clicked = delivery_links.any?(&:clicked?)
+        loader.call(id, clicked)
+      end
+    end
+  end
+
   def app_name
     app.name
   end
