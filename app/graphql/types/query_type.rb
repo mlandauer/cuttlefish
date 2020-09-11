@@ -197,14 +197,9 @@ module Types
     end
 
     def blocked_addresses(app_id: nil, limit: 10, offset: 0)
-      b = if app_id
-        Pundit.policy_scope(context[:current_admin], AppDenyList)
-              .where(app_id: app_id)
-              .order(created_at: :desc)
-      else
-        Pundit.policy_scope(context[:current_admin], DenyList)
-              .order(created_at: :desc)
-      end
+      b = Pundit.policy_scope(context[:current_admin], AppDenyList)
+      b = b.where(app_id: app_id) if app_id
+      b = b.order(created_at: :desc)
       { all: b, limit: limit, offset: offset }
     end
 

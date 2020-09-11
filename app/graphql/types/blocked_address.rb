@@ -8,6 +8,9 @@ module Types
     field :address, String,
           null: false,
           description: "Email address"
+    field :app, Types::App,
+          null: false,
+          description: "The app that this address is blocked on"
     field :because_of_delivery_event, Types::DeliveryEvent,
           null: true,
           description: "The delivery attempt that bounced that caused this " \

@@ -4,6 +4,9 @@ query($appId: ID, $limit: Int, $offset: Int) {
     nodes {
       id
       address
+      app {
+        name
+      }
       becauseOfDeliveryEvent {
         extendedStatus
         time
