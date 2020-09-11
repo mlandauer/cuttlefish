@@ -29,8 +29,7 @@ class ApplicationController < ActionController::Base
       file_prefix = action_name
       variables = params1
     end
-    query_name = "#{controller_name}_#{file_prefix}".upcase
-    query = Api::Queries.const_get(query_name)
+    query = Api::Queries.get(controller_name, file_prefix)
 
     Api.query(
       query,

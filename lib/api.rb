@@ -34,6 +34,10 @@ module Api
       m = f.match %r{/([^/]*)/([^/]*).graphql}
       const_set("#{m[1]}_#{m[2]}".upcase, CLIENT.parse(File.read(f)))
     end
+
+    def self.get(controller_name, file_prefix)
+      const_get("#{controller_name}_#{file_prefix}".upcase)
+    end
   end
 
   # This is for making a query to a graphql api as a client
