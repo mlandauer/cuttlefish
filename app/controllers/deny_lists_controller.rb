@@ -15,7 +15,7 @@ class DenyListsController < ApplicationController
   end
 
   def destroy
-    result = api_query id: params[:id], app_id: params[:app_id]
+    result = api_query id: params[:id]
     blocked_address = result.data.remove_blocked_address.blocked_address
     if blocked_address
       flash[:notice] = "#{blocked_address.address} removed from deny list"

@@ -41,7 +41,4 @@
                 = time_ago_in_words(deny_list.because_of_delivery_event.time)
                 ago
             %td
-              - if @app
-                = button_to "Remove", app_deny_list_path(@app.id, deny_list.id), method: :delete, class: "btn btn-danger"
-              - else
-                = button_to "Remove", deny_list_path(deny_list.id), method: :delete, class: "btn btn-danger"
+              = button_to "Remove", deny_list_path(deny_list.id), method: :delete, class: "btn btn-danger"
