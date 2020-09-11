@@ -38,7 +38,7 @@ describe PostfixLogLineServices::Create do
     it "should not add anything to the deny list" do
       PostfixLogLineServices::Create.call(line)
 
-      expect(DenyList.count).to be_zero
+      expect(AppDenyList.count).to be_zero
     end
 
     it "should post to the webhook" do
@@ -93,10 +93,10 @@ describe PostfixLogLineServices::Create do
     end
 
     context "address is already on the deny list" do
-      before { create(:deny_list, address: address, team: delivery.app.team) }
+      before { create(:app_deny_list, address: address, app: delivery.app) }
 
       it "should not create another deny list" do
-        expect(DenyList.count).to eq 1
+        expect(AppDenyList.count).to eq 1
       end
     end
   end
@@ -121,10 +121,11 @@ describe PostfixLogLineServices::Create do
       expect(PostfixLogLine.count).to eq 1
     end
 
-    it "should not add the address to a deny list" do
+    it "should add the address to the cuttlefish app deny list" do
       PostfixLogLineServices::Create.call(line)
 
-      expect(DenyList.count).to eq 0
+      expect(AppDenyList.count).to eq 1
+      expect(AppDenyList.first.app).to eq App.cuttlefish
     end
   end
 end
