@@ -29,7 +29,7 @@ class AddressesController < ApplicationController
 
       @to = params[:id]
       @stats = result.data.emails.statistics
-      @deny_list = result.data.blocked_address
+      @deny_lists = result.data.blocked_addresses.nodes
 
       pager.replace(result.data.emails.nodes)
       pager.total_entries = result.data.emails.total_count

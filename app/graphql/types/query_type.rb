@@ -89,6 +89,9 @@ module Types
       argument :app_id, ID,
                required: false,
                description: "Filter results by App"
+      argument :address, String,
+               required: false,
+               description: "Filter results by email address"
       argument :limit, Int,
                required: false,
                description:
@@ -189,9 +192,13 @@ module Types
             .where(address: a, app_id: app_id).first
     end
 
-    def blocked_addresses(app_id: nil, limit: 10, offset: 0)
+    def blocked_addresses(app_id: nil, address: nil, limit: 10, offset: 0)
       b = Pundit.policy_scope(context[:current_admin], AppDenyList)
       b = b.where(app_id: app_id) if app_id
+      if address
+        a = Address.find_by(text: address)
+        b = b.where(address: a)
+      end
       b = b.order(created_at: :desc)
       { all: b, limit: limit, offset: offset }
     end

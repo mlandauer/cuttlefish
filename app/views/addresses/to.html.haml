@@ -3,21 +3,22 @@
     Emails sent to
     = @to
 
-- if @deny_list
+- unless @deny_lists.empty?
   %h2
     = @to
     is on the deny list
-  %p
-    - if @deny_list.because_of_delivery_event
-      Reason:
-      = link_to truncate(@deny_list.because_of_delivery_event.extended_status, length: 160), delivery_path(@deny_list.because_of_delivery_event.email.id)
-      = time_ago_in_words(@deny_list.because_of_delivery_event.time)
-      ago
-    - else
-      We don't know why this was deny listed. The delivery that caused it may have been archived.
+  - @deny_lists.each do |deny_list|
+    %p
+      - if deny_list.because_of_delivery_event
+        Reason:
+        = link_to truncate(deny_list.because_of_delivery_event.extended_status, length: 160), delivery_path(deny_list.because_of_delivery_event.email.id)
+        = time_ago_in_words(deny_list.because_of_delivery_event.time)
+        ago
+      - else
+        We don't know why this was deny listed. The delivery that caused it may have been archived.
 
-  - if @deny_list.permissions.destroy
-    = button_to "Remove from deny list", deny_list_path(@deny_list.id), method: :delete, class: "btn btn-danger"
+    - if deny_list.permissions.destroy
+      = button_to "Remove from deny list", deny_list_path(deny_list.id), method: :delete, class: "btn btn-danger"
 
 .row
   .span3

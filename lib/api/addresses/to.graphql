@@ -23,17 +23,19 @@ query ($to: String!, $limit: Int, $offset: Int) {
       clicked
     }
   }
-  blockedAddress(address: $to) {
-    id
-    becauseOfDeliveryEvent {
-      time
-      extendedStatus
-      email {
-        id
+  blockedAddresses(address: $to) {
+    nodes {
+      id
+      becauseOfDeliveryEvent {
+        time
+        extendedStatus
+        email {
+          id
+        }
       }
-    }
-    permissions {
-      destroy
+      permissions {
+        destroy
+      }      
     }
   }
 }
