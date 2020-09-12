@@ -5,7 +5,6 @@ class Address < ActiveRecord::Base
   has_many :deliveries
   has_many :postfix_log_lines, through: :deliveries
   has_many :emails_received, through: :deliveries, source: :email
-  has_many :deny_lists
 
   extend FriendlyId
   friendly_id :text

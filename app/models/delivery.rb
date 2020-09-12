@@ -27,12 +27,7 @@ class Delivery < ActiveRecord::Base
   # Should this email be sent to this address?
   # If not it's because the email has bounced
   def send?
-    # If there is no team there is no deny list
-    # In concrete terms the internal cuttlefish app doesn't have a deny
-    # list and isn't part of a team
-    on_deny_list = !address.deny_lists.find_by(team_id: app.team.id).nil? ||
-                   !AppDenyList.find_by(app: app, address: address).nil?
-    app.team.nil? || email.ignore_deny_list || !on_deny_list
+    email.ignore_deny_list || AppDenyList.find_by(app: app, address: address).nil?
   end
 
   def add_open_event(request)
