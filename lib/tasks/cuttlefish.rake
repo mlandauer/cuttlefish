@@ -40,10 +40,6 @@ namespace :cuttlefish do
   desc "Allow sending to addresses again that were deny listed " \
     "more than 1 week ago"
   task remove_old_deny_listed_items: :environment do
-    old_items = DenyList.where("updated_at < ?", 1.week.ago)
-    puts "Removing #{old_items.count} items from the deny list..."
-    old_items.destroy_all
-
     old_items = AppDenyList.where("updated_at < ?", 1.week.ago)
     puts "Removing #{old_items.count} items from the deny list..."
     old_items.destroy_all
