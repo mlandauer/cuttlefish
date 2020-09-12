@@ -24,15 +24,27 @@ module Api
     SCHEMA = GraphQL::Client.load_schema(HTTP)
     CLIENT = GraphQL::Client.new(schema: SCHEMA, execute: HTTP)
   end
+  CLIENT.allow_dynamic_queries = true if Rails.env.development?
 
   # Find all the graphql queries, parse them and populate constants
   # The graphql queries themselves are in lib/api
-  # TODO: Load them dynamically in development so we don't need to keep
-  # restarting the server
+  # In production loads all the queries into constants once while
+  # in development reads the files on every query so that we don't
+  # need to restart the server
   module Queries
-    Dir.glob("lib/api/**/*.graphql") do |f|
-      m = f.match %r{/([^/]*)/([^/]*).graphql}
-      const_set("#{m[1]}_#{m[2]}".upcase, CLIENT.parse(File.read(f)))
+    unless Rails.env.development?
+      Dir.glob("lib/api/**/*.graphql") do |f|
+        m = f.match %r{/([^/]*)/([^/]*).graphql}
+        const_set("#{m[1]}_#{m[2]}".upcase, CLIENT.parse(File.read(f)))
+      end
+    end
+
+    def self.get(controller_name, file_prefix)
+      if Rails.env.development?
+        CLIENT.parse(File.read("lib/api/#{controller_name}/#{file_prefix}.graphql"))
+      else
+        const_get("#{controller_name}_#{file_prefix}".upcase)
+      end
     end
   end
 

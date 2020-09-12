@@ -74,10 +74,10 @@ module Types
 
     field :blocked_address, Types::BlockedAddress, null: true do
       argument :app_id, ID,
-               required: false,
-               description: "Filter results by App"
+               required: true,
+               description: "App"
       argument :address, String, required: true, description: "Email address"
-      description "Find whether an email address is being blocked"
+      description "Find whether an email address is being blocked by a particular App"
     end
 
     # TODO: Switch over to more relay-like pagination
@@ -181,19 +181,12 @@ module Types
       Pundit.policy_scope(context[:current_admin], ::Admin).order(:name)
     end
 
-    # TODO: This is currently doing entirely the wrong thing.
-    # It should return a list of entries. There could be more than one.
-    def blocked_address(app_id: nil, address:)
+    def blocked_address(app_id:, address:)
       a = Address.find_by(text: address)
       return if a.nil?
 
-      if app_id
-        Pundit.policy_scope(context[:current_admin], AppDenyList)
-              .where(address: a, app_id: app_id).first
-      else
-        Pundit.policy_scope(context[:current_admin], DenyList)
-              .where(address: a).first
-      end
+      Pundit.policy_scope(context[:current_admin], AppDenyList)
+            .where(address: a, app_id: app_id).first
     end
 
     def blocked_addresses(app_id: nil, limit: 10, offset: 0)

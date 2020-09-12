@@ -32,7 +32,7 @@ module Types
     end
 
     def permissions
-      DenyListPolicy.new(context[:current_admin], object)
+      AppDenyListPolicy.new(context[:current_admin], object)
     end
   end
 end
