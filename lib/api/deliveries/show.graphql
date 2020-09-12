@@ -19,7 +19,7 @@ query($id: ID!) {
     }
     opened
     clicked
-    ignoreDenyList
+    ignoreBlockedAddresses
     metaValues {
       key
       value

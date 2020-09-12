@@ -38,9 +38,9 @@ module Types
     field :clicked, Boolean,
           null: false,
           description: "Whether this email was clicked"
-    field :ignore_deny_list, Boolean,
+    field :ignore_blocked_addresses, Boolean,
           null: false,
-          description: "If true the delivery of this email ignores whether the destination address is in the deny list"
+          description: "If true the delivery of this email ignores whether the destination address is in the list of blocked addresses"
     field :meta_values, [Types::KeyValue],
           null: false,
           description: "A list of meta data key/value pairs set by the user"
@@ -76,7 +76,7 @@ module Types
       object.clicked_lazy?
     end
 
-    def ignore_deny_list
+    def ignore_blocked_addresses
       object.ignore_deny_list
     end
 

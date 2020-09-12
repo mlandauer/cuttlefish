@@ -2,7 +2,7 @@
   %h1= @delivery.subject
 
 %p
-  - if @delivery.ignore_deny_list
+  - if @delivery.ignore_blocked_addresses
     %span.label.label-warning Ignore Deny List
   %span{class: label_class(@delivery.status)}
     = status_name(@delivery.status)
