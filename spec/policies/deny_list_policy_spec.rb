@@ -2,15 +2,15 @@
 
 require "spec_helper"
 
-describe AppDenyListPolicy do
-  subject { AppDenyListPolicy.new(user, deny_list) }
+describe DenyListPolicy do
+  subject { DenyListPolicy.new(user, deny_list) }
 
   let(:team_one) { create(:team) }
   let(:team_two) { create(:team) }
   let(:app_one) { create(:app, team: team_one) }
   let(:app_two) { create(:app, team: team_two) }
 
-  let(:deny_list) { create(:app_deny_list, app: app_one) }
+  let(:deny_list) { create(:deny_list, app: app_one) }
 
   context "normal user in team one" do
     let(:user) { create(:admin, team: team_one) }
@@ -24,7 +24,7 @@ describe AppDenyListPolicy do
     it "should be in scope" do
       deny_list
       expect(
-        AppDenyListPolicy::Scope.new(user, AppDenyList).resolve
+        DenyListPolicy::Scope.new(user, DenyList).resolve
       ).to include(deny_list)
     end
 
@@ -49,7 +49,7 @@ describe AppDenyListPolicy do
 
     it "should be in scope" do
       deny_list
-      expect(AppDenyListPolicy::Scope.new(user, AppDenyList).resolve).to be_empty
+      expect(DenyListPolicy::Scope.new(user, DenyList).resolve).to be_empty
     end
   end
 
@@ -64,7 +64,7 @@ describe AppDenyListPolicy do
     it "should not be in scope" do
       deny_list
       expect(
-        AppDenyListPolicy::Scope.new(user, AppDenyList).resolve
+        DenyListPolicy::Scope.new(user, DenyList).resolve
       ).to_not include(deny_list)
     end
   end

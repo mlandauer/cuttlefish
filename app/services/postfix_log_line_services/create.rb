@@ -33,12 +33,12 @@ module PostfixLogLineServices
 
     def add_to_deny_list(delivery)
       # We don't want to save duplicates
-      return if AppDenyList.find_by(
+      return if DenyList.find_by(
         app: delivery.app,
         address: delivery.address
       )
 
-      AppDenyList.create(
+      DenyList.create(
         app: delivery.app,
         address: delivery.address,
         caused_by_delivery: delivery

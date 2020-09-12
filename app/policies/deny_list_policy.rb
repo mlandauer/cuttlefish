@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AppDenyListPolicy < ApplicationPolicy
+class DenyListPolicy < ApplicationPolicy
   def destroy?
     app_ids = AppPolicy::Scope.new(user, App).resolve.pluck(:id)
     app_ids.include?(record.app_id) && !Rails.configuration.cuttlefish_read_only_mode

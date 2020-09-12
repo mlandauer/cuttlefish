@@ -9,7 +9,7 @@ module DenyListServices
     end
 
     def call
-      deny_list = AppDenyList.find(id)
+      deny_list = DenyList.find(id)
       Pundit.authorize(current_admin, deny_list, :destroy?)
       deny_list.destroy!
       success!

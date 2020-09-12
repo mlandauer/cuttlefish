@@ -27,7 +27,7 @@ class Delivery < ActiveRecord::Base
   # Should this email be sent to this address?
   # If not it's because the email has bounced
   def send?
-    email.ignore_deny_list || AppDenyList.find_by(app: app, address: address).nil?
+    email.ignore_deny_list || DenyList.find_by(app: app, address: address).nil?
   end
 
   def add_open_event(request)

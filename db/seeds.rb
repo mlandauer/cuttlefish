@@ -15,7 +15,7 @@
 Team.delete_all
 Admin.delete_all
 MetaValue.delete_all
-AppDenyList.delete_all
+DenyList.delete_all
 App.delete_all
 Email.delete_all
 Delivery.delete_all
@@ -222,7 +222,7 @@ key_app.emails.limit(5).each_with_index do |e, i|
     delay: "",
     delays: ""
   )
-  AppDenyList.create(
+  DenyList.create(
     app_id: acting_app.id,
     address: delivery.address,
     caused_by_delivery: delivery

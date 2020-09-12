@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AppDenyList < ActiveRecord::Base
+class DenyList < ActiveRecord::Base
   belongs_to :app
   belongs_to :address
   belongs_to :caused_by_delivery, class_name: "Delivery"

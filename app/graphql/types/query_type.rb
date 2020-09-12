@@ -188,12 +188,12 @@ module Types
       a = Address.find_by(text: address)
       return if a.nil?
 
-      Pundit.policy_scope(context[:current_admin], AppDenyList)
+      Pundit.policy_scope(context[:current_admin], DenyList)
             .where(address: a, app_id: app_id).first
     end
 
     def blocked_addresses(app_id: nil, address: nil, limit: 10, offset: 0)
-      b = Pundit.policy_scope(context[:current_admin], AppDenyList)
+      b = Pundit.policy_scope(context[:current_admin], DenyList)
       b = b.where(app_id: app_id) if app_id
       if address
         a = Address.find_by(text: address)
