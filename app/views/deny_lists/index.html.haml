@@ -26,13 +26,14 @@
         %tr
           %th Email address
           %th App
-          %th Reason deny listed
+          %th{colspan: 2} Reason deny listed
           %th When
       %tbody
         - @deny_lists.each do |deny_list|
           %tr
             %td= deny_list.address
             %td= deny_list.app.name
+            %td= deny_list.because_of_delivery_event.dsn
             %td= link_to truncate(deny_list.because_of_delivery_event.extended_status, length: 160), delivery_path(deny_list.because_of_delivery_event.email.id)
             %td
               = time_ago_in_words(deny_list.because_of_delivery_event.time)
