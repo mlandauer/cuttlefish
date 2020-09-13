@@ -118,9 +118,11 @@ ActiveRecord::Schema.define(version: 2020_09_13_003945) do
     t.bigint "app_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "caused_by_delivery_id"
     t.bigint "caused_by_postfix_log_line_id", null: false
     t.index ["address_id"], name: "index_deny_lists_on_address_id"
     t.index ["app_id"], name: "index_deny_lists_on_app_id"
+    t.index ["caused_by_delivery_id"], name: "index_deny_lists_on_caused_by_delivery_id"
     t.index ["caused_by_postfix_log_line_id"], name: "index_deny_lists_on_caused_by_postfix_log_line_id"
   end
 
@@ -189,6 +191,7 @@ ActiveRecord::Schema.define(version: 2020_09_13_003945) do
 
   add_foreign_key "deny_lists", "addresses"
   add_foreign_key "deny_lists", "apps"
+  add_foreign_key "deny_lists", "deliveries", column: "caused_by_delivery_id"
   add_foreign_key "deny_lists", "postfix_log_lines", column: "caused_by_postfix_log_line_id"
   add_foreign_key "emails", "addresses", column: "from_address_id", name: "emails_from_address_id_fk"
   add_foreign_key "emails", "apps", name: "emails_app_id_fk", on_delete: :cascade
