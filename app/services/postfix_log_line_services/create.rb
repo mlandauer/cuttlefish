@@ -13,7 +13,7 @@ module PostfixLogLineServices
         return if log_line.nil?
 
         # Check if an email needs to be deny listed
-        add_to_deny_list(log_line.delivery) if log_line.status == "hard_bounce"
+        add_to_deny_list(log_line) if log_line.status == "hard_bounce"
         log_line
       end
       # Now send webhook if required
@@ -31,17 +31,17 @@ module PostfixLogLineServices
       PostfixLogLine.create_from_line(line)
     end
 
-    def add_to_deny_list(delivery)
+    def add_to_deny_list(log_line)
       # We don't want to save duplicates
       return if DenyList.find_by(
-        app: delivery.app,
-        address: delivery.address
+        app: log_line.delivery.app,
+        address: log_line.delivery.address
       )
 
       DenyList.create(
-        app: delivery.app,
-        address: delivery.address,
-        caused_by_delivery: delivery
+        app: log_line.delivery.app,
+        address: log_line.delivery.address,
+        caused_by_postfix_log_line: log_line
       )
     end
 

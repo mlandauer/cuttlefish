@@ -209,9 +209,9 @@ delivery = email.deliveries.create!(address_id: address2.id, sent: true)
 end
 
 # And add some bounced emails (caused by the first five emails)
-key_app.emails.limit(5).each_with_index do |e, i|
+key_app.emails.limit(5).each do |e|
   delivery = e.deliveries.first
-  PostfixLogLine.create!(
+  log_line = PostfixLogLine.create!(
     delivery_id: delivery.id,
     time: DateTime.now,
     dsn: "5.1.1",
@@ -225,6 +225,6 @@ key_app.emails.limit(5).each_with_index do |e, i|
   DenyList.create(
     app_id: acting_app.id,
     address: delivery.address,
-    caused_by_delivery: delivery
+    caused_by_postfix_log_line: log_line
   )
 end

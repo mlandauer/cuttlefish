@@ -6,6 +6,6 @@ FactoryBot.define do
   factory :deny_list do
     app
     address
-    caused_by_delivery factory: :delivery
+    caused_by_postfix_log_line factory: :postfix_log_line
   end
 end

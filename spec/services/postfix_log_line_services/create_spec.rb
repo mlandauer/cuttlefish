@@ -81,7 +81,7 @@ describe PostfixLogLineServices::Create do
       expect(DenyList.count).to eq 1
       d = DenyList.first
       expect(d.address).to eq address
-      expect(d.caused_by_delivery).to eq delivery
+      expect(d.caused_by_postfix_log_line.delivery).to eq delivery
       expect(d.app).to eq delivery.app
     end
 
