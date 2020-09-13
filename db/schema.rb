@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_12_055441) do
+ActiveRecord::Schema.define(version: 2020_09_13_003945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,13 +115,13 @@ ActiveRecord::Schema.define(version: 2020_09_12_055441) do
 
   create_table "deny_lists", force: :cascade do |t|
     t.bigint "address_id", null: false
-    t.bigint "caused_by_delivery_id", null: false
     t.bigint "app_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "caused_by_postfix_log_line_id", null: false
     t.index ["address_id"], name: "index_deny_lists_on_address_id"
     t.index ["app_id"], name: "index_deny_lists_on_app_id"
-    t.index ["caused_by_delivery_id"], name: "index_deny_lists_on_caused_by_delivery_id"
+    t.index ["caused_by_postfix_log_line_id"], name: "index_deny_lists_on_caused_by_postfix_log_line_id"
   end
 
   create_table "emails", force: :cascade do |t|
@@ -189,7 +189,7 @@ ActiveRecord::Schema.define(version: 2020_09_12_055441) do
 
   add_foreign_key "deny_lists", "addresses"
   add_foreign_key "deny_lists", "apps"
-  add_foreign_key "deny_lists", "deliveries", column: "caused_by_delivery_id"
+  add_foreign_key "deny_lists", "postfix_log_lines", column: "caused_by_postfix_log_line_id"
   add_foreign_key "emails", "addresses", column: "from_address_id", name: "emails_from_address_id_fk"
   add_foreign_key "emails", "apps", name: "emails_app_id_fk", on_delete: :cascade
   add_foreign_key "meta_values", "emails"
