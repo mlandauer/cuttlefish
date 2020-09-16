@@ -19,7 +19,10 @@ module DSN
         }
       ]
     end
-    Hash[r]
+    r = Hash[r]
+    # Remove deprecated entry
+    r.delete("X.6.10")
+    r
   end
 
   def self.hard_bounce_data
