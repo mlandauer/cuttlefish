@@ -19,3 +19,6 @@
 
 - src: abtris.nginx-passenger
   version: da82e7312488747b1e06a4af242aa52ffacad60b
+
+- src: nickhammond.logrotate
+  version: v0.0.5

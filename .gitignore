@@ -27,6 +27,7 @@ provisioning/roles/geerlingguy.certbot
 provisioning/roles/DavidWittman.redis
 provisioning/roles/ANXS.postgresql
 provisioning/roles/abtris.nginx-passenger
+provisioning/roles/nickhammond.logrotate
 
 postfix_log/supervisor/*.log
 postfix_log/maillog
