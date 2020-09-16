@@ -1,5 +1,5 @@
-query($appId: ID, $limit: Int, $offset: Int) {
-  blockedAddresses(appId: $appId, limit: $limit, offset: $offset) {
+query($appId: ID, $dsn: String, $limit: Int, $offset: Int) {
+  blockedAddresses(appId: $appId, dsn: $dsn, limit: $limit, offset: $offset) {
     totalCount
     nodes {
       id

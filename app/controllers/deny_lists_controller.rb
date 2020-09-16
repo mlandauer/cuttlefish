@@ -6,7 +6,11 @@ class DenyListsController < ApplicationController
       params[:page] || 1,
       WillPaginate.per_page
     ) do |pager|
-      result = api_query limit: pager.per_page, offset: pager.offset, app_id: params[:app_id]
+      @dsn = params[:dsn]
+      result = api_query limit: pager.per_page,
+                         offset: pager.offset,
+                         app_id: params[:app_id],
+                         dsn: @dsn
       pager.replace(result.data.blocked_addresses.nodes)
       pager.total_entries = result.data.blocked_addresses.total_count
       @apps = result.data.apps

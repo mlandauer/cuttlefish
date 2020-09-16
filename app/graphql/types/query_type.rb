@@ -92,6 +92,9 @@ module Types
       argument :address, String,
                required: false,
                description: "Filter results by email address"
+      argument :dsn, String,
+               required: false,
+               description: "Filter results by type of delivery problem (of the form 5.x.x)"
       argument :limit, Int,
                required: false,
                description:
@@ -192,13 +195,14 @@ module Types
             .where(address: a, app_id: app_id).first
     end
 
-    def blocked_addresses(app_id: nil, address: nil, limit: 10, offset: 0)
+    def blocked_addresses(app_id: nil, address: nil, dsn: nil, limit: 10, offset: 0)
       b = Pundit.policy_scope(context[:current_admin], DenyList)
       b = b.where(app_id: app_id) if app_id
       if address
         a = Address.find_by(text: address)
         b = b.where(address: a)
       end
+      b = b.joins(:caused_by_postfix_log_line).where(postfix_log_lines: { dsn: dsn }) if dsn
       b = b.order(created_at: :desc)
       { all: b, limit: limit, offset: offset }
     end

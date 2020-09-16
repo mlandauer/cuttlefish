@@ -14,9 +14,25 @@
       = @app.name
     %span.caret
   %ul.dropdown-menu
-    %li= link_to "All Apps", deny_lists_path
+    %li= link_to "All Apps", canonical_deny_lists_path(app: nil, dsn: @dsn)
     - @apps.each do |app|
-      %li= link_to app.name, app_deny_lists_path(app.id)
+      %li= link_to app.name, canonical_deny_lists_path(app: app, dsn: @dsn)
+
+.btn-group
+  %button.btn.dropdown-toggle(data-toggle="dropdown")
+    - if @dsn.nil?
+      All DSNs
+    - else
+      = @dsn
+    %span.caret
+  %ul.dropdown-menu
+    %li= link_to "All DSNs", canonical_deny_lists_path(app: @app, dsn: nil)
+    - DSN.hard_bounce_codes_short_descriptions.each do |dsn, description|
+      %li
+        = link_to canonical_deny_lists_path(app: @app, dsn: dsn) do
+          = dsn
+          &mdash;
+          = description
 
 = paginated_section @deny_lists, renderer: PagerRenderer, previous_label: image_tag("pager/previous.png", size: "13x14"), next_label: image_tag("pager/next.png", size: "13x14"), text: "Address" do
   %p.count= page_entries_info @deny_lists, model: "deny listed email addresses"
