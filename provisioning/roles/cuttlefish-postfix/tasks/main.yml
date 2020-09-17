@@ -2,6 +2,12 @@
 - name: Install postfix
   apt: pkg=postfix
 
+- name: Configure postfix logs to go to their own directory
+  copy:
+    src: 50-default.conf
+    dest: /etc/rsyslog.d
+  notify: restart rsyslog
+
 - name: Check postfix opportunistic TLS
   command: "postconf -h smtp_tls_security_level"
   changed_when: False

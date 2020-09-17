@@ -4,3 +4,8 @@
   service:
     name: postfix
     state: restarted
+
+- name: restart rsyslog
+  service:
+    name: rsyslog
+    state: restarted
