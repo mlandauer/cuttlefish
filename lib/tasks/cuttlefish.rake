@@ -62,4 +62,28 @@ namespace :cuttlefish do
       Archiving.copy_to_s3(date)
     end
   end
+
+  # This is just a temporary task to export some semi-anonymised production
+  # delivery event data that can be used to develop a filter to categorise
+  # events into different types (e.g. incorrect email address, suspected spam,
+  # etc..)
+  task export_redacted_hard_bounce_delivery_events: :environment do
+    require "csv"
+
+    CSV.open("hard_bounce_delivery_events.csv", "w") do |csv|
+      csv << ["dsn", "extended status"]
+      PostfixLogLine.find_each do |log|
+        if log.dsn_class == 5
+          # We want to remove this address from the extended status
+          address = log.delivery.address.text
+          domain = address.split("@")[1]
+          redacted = log.extended_status
+                        .gsub(address, "foo@example.com")
+                        .gsub(domain, "example.com")
+
+          csv << [log.dsn, redacted]
+        end
+      end
+    end
+  end
 end
