@@ -19,3 +19,19 @@
   when: postfix_smtp_tls_security_level.stdout != "may"
   notify:
     - restart postfix
+
+- name: Check protocols used for sending emails
+  command: "postconf -h inet_protocols"
+  changed_when: False
+  register: postfix_inet_protocols
+  check_mode: no
+
+# See https://www.linode.com/community/questions/19723/changing-ipv6-address-to-new-64-subnet
+# This is a workaround for the problem where the /64 IPv6 block that we're using
+# is being currently used by spammers. We could ask Linode support for a new
+# (or potentially our own) /64 IPv6 block but this is a quick workaround
+- name: Only use IPv4 for sending emails
+  command: postconf -e inet_protocols=ipv4
+  when: postfix_inet_protocols.stdout != "ipv4"
+  notify:
+    - restart postfix
