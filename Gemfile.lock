@@ -242,6 +242,7 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (2.3.1)
+    jwt (2.2.2)
     less (2.6.0)
       commonjs (~> 0.2.7)
     less-rails (3.0.0)
@@ -533,6 +534,7 @@ DEPENDENCIES
   honeybadger
   jbuilder
   jquery-rails
+  jwt
   less-rails
   listen
   minitar

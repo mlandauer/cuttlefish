@@ -88,6 +88,9 @@ gem "rest-client"
 # We want to be able to use rack-mini-profiler in production
 gem "rack-mini-profiler"
 
+# For authorization with json web tokens
+gem "jwt"
+
 group :development do
   gem "capistrano", "~> 2"
   gem "faker", git: "https://github.com/stympy/faker.git", branch: "master"
