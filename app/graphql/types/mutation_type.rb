@@ -2,7 +2,9 @@
 
 module Types
   class MutationType < GraphQL::Schema::Object
-    # TODO: Provide descriptions for these mutations
+    field :login_admin,
+          mutation: Mutations::LoginAdmin,
+          description: "Login using a password returning a JSON web token"
 
     field :create_emails, mutation: Mutations::CreateEmails do
       description "Create and send emails"
