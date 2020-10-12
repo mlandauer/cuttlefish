@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
     Api.query(
       query,
       variables: variables,
-      current_admin: current_admin
+      jwt_token: session[:jwt_token]
     )
   end
 

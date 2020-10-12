@@ -49,14 +49,16 @@ module Api
   end
 
   # This is for making a query to a graphql api as a client
-  def self.query(query, variables:, current_admin:)
+  def self.query(query, variables:, jwt_token:)
     # Convert variable names to camelcase for graphql
     variables = variables.transform_keys { |k| k.to_s.camelize(:lower) }
 
-    context = if LOCAL_API
-                { current_admin: current_admin }
+    context = if LOCAL_API && jwt_token
+                # Lookup admin from the token
+                payload, _header = JWT.decode(jwt_token, ENV["JWT_SECRET"], true, { algorithm: "HS512" })
+                { current_admin: Admin.find(payload["admin_id"]) }
               else
-                { api_key: current_admin.api_key }
+                {}
               end
     result = CLIENT.query(
       query,
