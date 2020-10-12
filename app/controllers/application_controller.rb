@@ -29,6 +29,8 @@ class ApplicationController < ActionController::Base
       file_prefix = action_name
       variables = params1
     end
+    # TODO: Use controller_path instead of controller_name
+    # so that module name gets included
     query = Api::Queries.get(controller_name, file_prefix)
 
     Api.query(
