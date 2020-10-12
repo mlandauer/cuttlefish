@@ -1,5 +1,6 @@
 mutation($email: String!, $password: String!) {
   loginAdmin(email: $email, password: $password) {
+    token
     admin {
       id
     }

@@ -9,6 +9,9 @@ module Admins
       result = api_query email: params[:admin][:email],
                          password: params[:admin][:password]
       if result.data.login_admin.admin
+        # Store the returned token in the session
+        # TODO: Empty this when we logout
+        session[:jwt_token] = result.data.login_admin.token
         admin = Admin.find(result.data.login_admin.admin.id)
         set_flash_message!(:notice, :signed_in)
         sign_in :admin, admin
