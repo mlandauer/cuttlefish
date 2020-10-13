@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
 class TestEmailsController < ApplicationController
-  after_action :verify_authorized, except: :create
-
   # We're using the simple_format helper below. Ugly but quick by bringing it
   # into the controller
   include ActionView::Helpers::TextHelper
 
   def new
-    authorize :test_email
     @to = current_admin.email_with_name
     @subject = "This is a test email from Cuttlefish"
     @text = <<~TEXT
