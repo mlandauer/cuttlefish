@@ -6,12 +6,11 @@
     - @admins.each do |admin|
       = render "admin", admin: admin
 
-- if policy(:invitation).create?
-  %h2 Invite a new administrator
+%h2 Invite a new administrator
 
-  = form_for @admin, url: invitation_path(@admin), html: {method: :post} do |f|
-    .control-group
-      = f.label :email
-      = f.text_field :email, placeholder: "Email"
+= form_for @admin, url: invitation_path(@admin), html: {method: :post} do |f|
+  .control-group
+    = f.label :email
+    = f.text_field :email, placeholder: "Email"
 
-    = f.submit "Send an invitation", class: "btn btn-primary"
+  = f.submit "Send an invitation", class: "btn btn-primary"

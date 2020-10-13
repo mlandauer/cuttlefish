@@ -49,10 +49,9 @@
               = nav_menu_item_show_active reputation_path do
                 %i.fa.fa-heart.fa-fw
                 Reputation
-              - if policy(:test_email).new?
-                = nav_menu_item_show_active new_test_email_path do
-                  %i.fa.fa-arrow-right.fa-fw
-                  Test email
+              = nav_menu_item_show_active new_test_email_path do
+                %i.fa.fa-arrow-right.fa-fw
+                Test email
               %li.nav-header Settings
               = nav_menu_item_show_active apps_path do
                 %i.fa.fa-magic.fa-fw
@@ -62,10 +61,9 @@
                 Administrators
               - if current_admin.site_admin?
                 %li.nav-header Site Admin
-                - if policy(:team).index?
-                  = nav_menu_item_show_active teams_path do
-                    %i.fa.fa-users.fa-fw
-                    Teams
+                = nav_menu_item_show_active teams_path do
+                  %i.fa.fa-users.fa-fw
+                  Teams
                 = nav_menu_item_show_active sidekiq_web_path do
                   %i.fa.fa-info-circle.fa-fw
                   Background jobs
@@ -74,8 +72,7 @@
             %ul.nav.nav-list
               %li.nav-header
                 = admin_gravatar(current_admin)
-              - if policy(:registration).edit?
-                %li= link_to "Edit my details", edit_admin_registration_path
+              %li= link_to "Edit my details", edit_admin_registration_path
               %li= link_to 'Logout', destroy_admin_session_path, method: :delete
             %hr
           .span9

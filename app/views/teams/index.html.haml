@@ -19,12 +19,11 @@
     %ul
       %li= link_to @cuttlefish_app.name, app_path(@cuttlefish_app.id)
 
-- if policy(:team).invite?
-  %h2 Invite a new team
+%h2 Invite a new team
 
-  = form_for @admin, as: :admin, url: invite_teams_path(@admin), html: {method: :post} do |f|
-    .control-group
-      = f.label :email
-      = f.text_field :email, placeholder: "Email"
+= form_for @admin, as: :admin, url: invite_teams_path(@admin), html: {method: :post} do |f|
+  .control-group
+    = f.label :email
+    = f.text_field :email, placeholder: "Email"
 
-    = f.submit "Send an invitation", class: "btn btn-primary"
+  = f.submit "Send an invitation", class: "btn btn-primary"

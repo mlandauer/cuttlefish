@@ -6,9 +6,8 @@
   Each App has its own settings and its own smtp authentication settings to contact the
   Cuttlefish SMTP server.
 
-- if policy(:app).new?
-  %p
-    = link_to "New App", new_app_path, class: "btn btn-primary"
+%p
+  = link_to "New App", new_app_path, class: "btn btn-primary"
 
 %table.table
   %thead
