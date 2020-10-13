@@ -12,7 +12,11 @@ describe AppsController, type: :controller do
     let(:admin) do
       team.admins.create!(email: "matthew@foo.bar", password: "foobar")
     end
-    before(:each) { sign_in admin }
+    before(:each) do
+      # Make a JSON web token without an expiry
+      session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV["JWT_SECRET"], "HS512")
+      sign_in admin
+    end
 
     describe "#show" do
       let(:app) { create(:app, team: team) }

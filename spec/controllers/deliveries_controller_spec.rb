@@ -11,6 +11,8 @@ describe DeliveriesController, type: :controller do
     let(:team) { Team.create! }
     before :each do
       admin = team.admins.create!(email: "foo@bar.com", password: "guess this")
+      # Make a JSON web token without an expiry
+      session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV["JWT_SECRET"], "HS512")
       sign_in admin
     end
 
