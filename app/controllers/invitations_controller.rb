@@ -15,6 +15,8 @@ class InvitationsController < Devise::InvitationsController
 
   def create
     authorize :invitation
+    result = api_query
+    @data = result.data
     super
   end
 
