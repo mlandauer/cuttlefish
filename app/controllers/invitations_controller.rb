@@ -1,9 +1,17 @@
 # frozen_string_literal: true
 
 class InvitationsController < Devise::InvitationsController
-  after_action :verify_authorized, except: :edit
+  after_action :verify_authorized, except: %i[new edit]
 
   layout "login", only: %i[edit update]
+
+  # TODO: Remove this action (and associated route) as it's currently unused
+  # except when the create action fails
+  def new
+    result = api_query
+    @data = result.data
+    super
+  end
 
   def create
     authorize :invitation
