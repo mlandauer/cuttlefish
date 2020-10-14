@@ -26,6 +26,7 @@
           - if event.os.version
             %span.muted (#{event.os.version})
         %td= event.ip.address
-        %td= "#{event.ip.info.city}, #{event.ip.info.region_name}, #{event.ip.info.country}"
-        %td= event.ip.info.isp
-        %td= event.ip.info.org
+        - if event.ip.info
+          %td= "#{event.ip.info.city}, #{event.ip.info.region_name}, #{event.ip.info.country}"
+          %td= event.ip.info.isp
+          %td= event.ip.info.org
