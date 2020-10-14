@@ -6,7 +6,7 @@ class TestEmailsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
   def new
-    @to = current_admin.email_with_name
+    @to = helpers.email_with_name(current_admin)
     @subject = "This is a test email from Cuttlefish"
     @text = <<~TEXT
       Hello folks. Hopefully this should have worked and you should
