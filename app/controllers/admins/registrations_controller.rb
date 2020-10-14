@@ -2,13 +2,14 @@
 
 module Admins
   class RegistrationsController < Devise::RegistrationsController
-    after_action :verify_authorized
+    after_action :verify_authorized, except: :edit
 
     layout "login", except: %i[edit update]
     before_action :check_first_user, only: %i[new create]
 
     def edit
-      authorize :registration
+      result = api_query
+      @data = result.data
       super
     end
 
