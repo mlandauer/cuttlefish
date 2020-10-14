@@ -13,7 +13,8 @@ class DenyListsController < ApplicationController
                          dsn: @dsn
       pager.replace(result.data.blocked_addresses.nodes)
       pager.total_entries = result.data.blocked_addresses.total_count
-      @apps = result.data.apps
+      @data = result.data
+      @apps = @data.apps
       @app = @apps.find { |a| a.id == params[:app_id] } if params[:app_id]
     end
   end

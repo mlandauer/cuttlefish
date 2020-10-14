@@ -7,15 +7,19 @@ class AppsController < ApplicationController
 
   def index
     result = api_query
-    @apps = result.data.apps
+    @data = result.data
+    @apps = @data.apps
   end
 
   def show
     result = api_query id: params[:id]
-    @app = result.data.app
+    @data = result.data
+    @app = @data.app
   end
 
   def new
+    result = api_query
+    @data = result.data
     @app = AppForm.new
   end
 
@@ -30,6 +34,9 @@ class AppsController < ApplicationController
     else
       @app = AppForm.new(app_parameters)
       copy_graphql_errors(result.data.create_app, @app, ["attributes"])
+      # Not ideal that we're doing two graphql requests in the same controller action
+      result = api_query :new, {}
+      @data = result.data
       render :new
     end
   end
@@ -53,7 +60,8 @@ class AppsController < ApplicationController
 
   def edit
     result = api_query id: params[:id]
-    @app = result.data.app
+    @data = result.data
+    @app = @data.app
   end
 
   def update
@@ -70,6 +78,10 @@ class AppsController < ApplicationController
     else
       @app = AppForm.new(app_parameters.merge(id: params[:id]))
       copy_graphql_errors(result.data.update_app, @app, ["attributes"])
+      # Not ideal that we're doing two graphql requests in the same controller action
+      # TODO: Fix hacky thing that we're doing api_query :new to only get the viewer
+      result = api_query :new, {}
+      @data = result.data
       if app_parameters.key?(:webhook_url)
         render :webhook
       else
@@ -80,13 +92,15 @@ class AppsController < ApplicationController
 
   def dkim
     result = api_query id: params[:id]
-    @app = result.data.app
+    @data = result.data
+    @app = @data.app
     @provider = params[:provider]
   end
 
   def webhook
     result = api_query id: params[:id]
-    @app = result.data.app
+    @data = result.data
+    @app = @data.app
   end
 
   def toggle_dkim

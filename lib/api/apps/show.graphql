@@ -12,4 +12,8 @@ query($id: ID!) {
       dkim
     }
   }
+  viewer {
+    email
+    siteAdmin
+  }
 }

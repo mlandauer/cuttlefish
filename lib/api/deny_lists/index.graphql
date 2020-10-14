@@ -21,4 +21,8 @@ query($appId: ID, $dsn: String, $limit: Int, $offset: Int) {
     id
     name
   }
+  viewer {
+    email
+    siteAdmin
+  }
 }

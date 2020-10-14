@@ -13,4 +13,8 @@
     id
     name
   }
+  viewer {
+    email
+    siteAdmin
+  }
 }

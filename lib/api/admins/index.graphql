@@ -8,4 +8,8 @@
     invitationAcceptedAt
     currentAdmin
   }
+  viewer {
+    email
+    siteAdmin
+  }
 }

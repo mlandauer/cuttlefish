@@ -9,12 +9,12 @@ class AddressesController < ApplicationController
       result = api_query from: params[:id],
                          limit: pager.per_page,
                          offset: pager.offset
-
+      @data = result.data
       @from = params[:id]
-      @stats = result.data.emails.statistics
+      @stats = @data.emails.statistics
 
-      pager.replace(result.data.emails.nodes)
-      pager.total_entries = result.data.emails.total_count
+      pager.replace(@data.emails.nodes)
+      pager.total_entries = @data.emails.total_count
     end
   end
 
@@ -27,12 +27,13 @@ class AddressesController < ApplicationController
                          limit: pager.per_page,
                          offset: pager.offset
 
+      @data = result.data
       @to = params[:id]
-      @stats = result.data.emails.statistics
-      @deny_lists = result.data.blocked_addresses.nodes
+      @stats = @data.emails.statistics
+      @deny_lists = @data.blocked_addresses.nodes
 
-      pager.replace(result.data.emails.nodes)
-      pager.total_entries = result.data.emails.total_count
+      pager.replace(@data.emails.nodes)
+      pager.total_entries = @data.emails.total_count
     end
   end
 end

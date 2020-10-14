@@ -3,7 +3,8 @@
 class DocumentationController < ApplicationController
   def index
     result = api_query
-    @apps = result.data.apps
+    @data = result.data
+    @apps = @data.apps
     @active_app = @apps.first
   end
 end

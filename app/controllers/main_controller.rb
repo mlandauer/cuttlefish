@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class MainController < ApplicationController
-  def index; end
+  def index
+    result = api_query
+    @data = result.data
+  end
 
   def status_counts
     result = api_query since1: 1.day.ago.utc.iso8601,
@@ -13,11 +16,14 @@ class MainController < ApplicationController
   end
 
   def reputation
-    return unless request.xhr?
-
-    render partial: "reputation", locals: {
-      listings: DNSBL::Client.new.lookup(Reputation.local_ip),
-      ip: Reputation.local_ip
-    }
+    if request.xhr?
+      render partial: "reputation", locals: {
+        listings: DNSBL::Client.new.lookup(Reputation.local_ip),
+        ip: Reputation.local_ip
+      }
+    else
+      result = api_query
+      @data = result.data
+    end
   end
 end

@@ -4,4 +4,8 @@ query($id: ID!) {
     webhookKey
     webhookUrl
   }
+  viewer {
+    email
+    siteAdmin
+  }
 }

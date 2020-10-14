@@ -73,4 +73,8 @@ query($id: ID!) {
       createdAt
     }
   }
+  viewer {
+    email
+    siteAdmin
+  }
 }

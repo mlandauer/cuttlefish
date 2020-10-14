@@ -35,7 +35,11 @@ query ($to: String!, $limit: Int, $offset: Int) {
       }
       permissions {
         destroy
-      }      
+      }
     }
+  }
+  viewer {
+    email
+    siteAdmin
   }
 }

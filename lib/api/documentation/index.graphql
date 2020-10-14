@@ -9,4 +9,8 @@
       password
     }
   }
+  viewer {
+    email
+    siteAdmin
+  }
 }

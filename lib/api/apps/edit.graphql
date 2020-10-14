@@ -6,4 +6,8 @@ query($id: ID!) {
     openTrackingEnabled
     customTrackingDomain
   }
+  viewer {
+    email
+    siteAdmin
+  }
 }

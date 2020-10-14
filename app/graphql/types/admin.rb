@@ -25,9 +25,16 @@ module Types
     field :current_admin, Boolean,
           null: false,
           description: "Whether this is the current admin"
+    field :site_admin, Boolean,
+          null: false,
+          description: "Whether this admin can administer the whole site"
 
     def current_admin
       context[:current_admin] == object
+    end
+
+    def site_admin
+      context[:current_admin].site_admin?
     end
   end
 end

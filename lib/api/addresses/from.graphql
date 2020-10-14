@@ -23,4 +23,8 @@ query ($from: String!, $limit: Int, $offset: Int) {
       clicked
     }
   }
+  viewer {
+    email
+    siteAdmin
+  }
 }

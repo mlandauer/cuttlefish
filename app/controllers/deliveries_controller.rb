@@ -16,7 +16,8 @@ class DeliveriesController < ApplicationController
         pager.replace(result.data.emails.nodes)
         pager.total_entries = result.data.emails.total_count
 
-        @apps = result.data.apps
+        @data = result.data
+        @apps = @data.apps
         @app = @apps.find { |a| a.id == params[:app_id] } if params[:app_id]
       end
     end
@@ -24,7 +25,8 @@ class DeliveriesController < ApplicationController
 
   def show
     result = api_query id: params[:id]
-    @delivery = result.data.email
-    @configuration = result.data.configuration
+    @data = result.data
+    @delivery = @data.email
+    @configuration = @data.configuration
   end
 end

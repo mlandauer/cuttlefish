@@ -3,7 +3,8 @@
 class AdminsController < ApplicationController
   def index
     result = api_query
-    @admins = result.data.admins
+    @data = result.data
+    @admins = @data.admins
 
     @admin = Admin.new
   end

@@ -18,4 +18,8 @@ query($appId: ID, $status: Status, $metaKey: String, $limit: Int, $offset: Int) 
     id
     name
   }
+  viewer {
+    email
+    siteAdmin
+  }
 }
