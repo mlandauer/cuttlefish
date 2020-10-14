@@ -3,7 +3,7 @@
 
 = form_tag test_emails_path, class: "form-horizontal" do
   %fieldset
-    - if policy_scope(App).empty?
+    - if @data.apps.empty?
       %p
         Before you can send email via Cuttlefish you will need to #{link_to "create an App", new_app_path}. Each App has its
         own settings and usually relates to one application from which you're sending the emails.
@@ -11,7 +11,7 @@
       .control-group
         %label.control-label(for="app_id") App
         .controls
-          = select_tag :app_id, options_from_collection_for_select(policy_scope(App), "id", "name")
+          = select_tag :app_id, options_from_collection_for_select(@data.apps, "id", "name")
       .control-group
         %label.control-label(for="inputFrom") From
         .controls

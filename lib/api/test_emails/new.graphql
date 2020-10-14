@@ -1,4 +1,8 @@
 {
+  apps {
+    id
+    name
+  }
   viewer {
     name
     email
