@@ -6,6 +6,8 @@ class InvitationPolicy < ApplicationPolicy
   end
 
   def update?
-    create?
+    # We don't need to login to set the password and name for our own invitation
+    # We're also passed an invitation_token which says who we are
+    !Rails.configuration.cuttlefish_read_only_mode
   end
 end
