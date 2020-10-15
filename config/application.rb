@@ -88,5 +88,8 @@ module Cuttlefish
       ENV["CUTTLEFISH_BOUNCE_EMAIL"] || "bounces@cuttlefish.oaf.org.au"
     config.cuttlefish_sender_email =
       ENV["CUTTLEFISH_SENDER_EMAIL"] || "sender@cuttlefish.oaf.org.au"
+
+    # Clears the Batchloader cache between http requests
+    config.middleware.use BatchLoader::Middleware
   end
 end
