@@ -26,7 +26,7 @@ describe InternalMailer do
 
     it do
       expect(email.delivery_method.settings).to eq(
-        address: "localhost",
+        address: "smtp",
         port: 2525,
         user_name: App.cuttlefish.smtp_username,
         password: App.cuttlefish.smtp_password,
