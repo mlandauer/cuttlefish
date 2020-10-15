@@ -15,8 +15,6 @@ class InvitationsController < Devise::InvitationsController
 
   def create
     authorize :invitation
-    result = api_query
-    @data = result.data
 
     # Make the invited user part of the same team as the person doing the inviting
     self.resource = Admin.invite!(
@@ -26,9 +24,11 @@ class InvitationsController < Devise::InvitationsController
 
     if resource.errors.empty?
       set_flash_message :notice, :send_instructions, email: resource.email
-      respond_with resource, location: admins_path
+      redirect_to admins_url
     else
-      respond_with_navigational(resource) { render :new }
+      result = api_query
+      @data = result.data
+      render :new
     end
   end
 
