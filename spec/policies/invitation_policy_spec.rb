@@ -26,6 +26,7 @@ describe InvitationPolicy do
     let(:user) { nil }
 
     it { is_expected.not_to permit(:create) }
-    it { is_expected.not_to permit(:update) }
+    # Because this is for accepting an invitation which is unauthenticated
+    it { is_expected.to permit(:update) }
   end
 end
