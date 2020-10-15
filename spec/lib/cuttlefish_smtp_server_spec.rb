@@ -38,7 +38,7 @@ describe CuttlefishSmtpConnection do
 
   describe "#get_server_domain" do
     it do
-      expect(Rails.configuration).to receive(:cuttlefish_domain)
+      expect(Rails.configuration).to receive(:cuttlefish_smtp_host)
         .and_return("cuttlefish.io")
       expect(connection.get_server_domain).to eq "cuttlefish.io"
     end

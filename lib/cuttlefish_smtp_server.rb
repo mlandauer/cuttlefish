@@ -102,7 +102,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
   # rubocop:disable Naming/AccessorMethodName
   def get_server_domain
-    Rails.configuration.cuttlefish_domain
+    Rails.configuration.cuttlefish_smtp_host
   end
 
   def get_server_greeting

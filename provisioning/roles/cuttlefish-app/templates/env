@@ -7,6 +7,7 @@ NEW_RELIC_APP_NAME={{ new_relic_app_name }}
 HONEYBADGER_API_KEY={{ honeybadger_api_key }}
 CUTTLEFISH_HASH_SALT="{{ cuttlefish_hash_salt }}"
 POSTFIX_LOG_PATH=/var/log/mail/mail.log
+CUTTLEFISH_SMTP_HOST=cuttlefish.oaf.org.au
 CUTTLEFISH_DOMAIN=cuttlefish.oaf.org.au
 S3_BUCKET="{{ s3_bucket }}"
 AWS_ACCESS_KEY_ID="{{ aws_access_key_id }}"

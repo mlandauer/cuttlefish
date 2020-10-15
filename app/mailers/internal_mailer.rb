@@ -15,7 +15,7 @@ class InternalMailer < Devise::Mailer
      ActiveRecord::Base.connection.table_exists?(:apps) &&
      ActiveRecord::Base.connection.column_exists?(:apps, :cuttlefish)
     default delivery_method_options: {
-      address: Rails.configuration.cuttlefish_domain,
+      address: Rails.configuration.cuttlefish_smtp_host,
       port: Rails.configuration.cuttlefish_smtp_port,
       user_name: App.cuttlefish.smtp_username,
       password: App.cuttlefish.smtp_password,

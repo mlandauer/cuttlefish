@@ -17,7 +17,7 @@ module Types
           description: "The password to authenticate"
 
     def hostname
-      Rails.configuration.cuttlefish_domain
+      Rails.configuration.cuttlefish_smtp_host
     end
 
     def port
