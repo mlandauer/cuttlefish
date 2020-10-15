@@ -1,4 +1,13 @@
 {
+  admins {
+    id
+    name
+    email
+    displayName
+    invitationCreatedAt
+    invitationAcceptedAt
+    currentAdmin
+  }
   viewer {
     email
     siteAdmin

@@ -6,7 +6,6 @@ class InvitationsController < Devise::InvitationsController
   layout "login", only: %i[edit update]
 
   # TODO: Remove this action (and associated route) as it's currently unused
-  # except when the create action fails
   def new
     result = api_query
     @data = result.data
@@ -28,7 +27,8 @@ class InvitationsController < Devise::InvitationsController
     else
       result = api_query
       @data = result.data
-      render :new
+      @admins = @data.admins
+      render "admins/index"
     end
   end
 

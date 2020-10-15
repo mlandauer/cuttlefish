@@ -4,11 +4,12 @@
 %table.table
   %tbody
     - @admins.each do |admin|
-      = render "admin", admin: admin
+      = render "admins/admin", admin: admin
 
 %h2 Invite a new administrator
 
 = form_for @admin, url: invitation_path(@admin), html: {method: :post} do |f|
+  = render "devise/shared/error_messages", resource: @admin
   .control-group
     = f.label :email
     = f.text_field :email, placeholder: "Email"
