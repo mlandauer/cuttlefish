@@ -20,8 +20,8 @@ class InvitationsController < Devise::InvitationsController
 
     # Make the invited user part of the same team as the person doing the inviting
     self.resource = Admin.invite!(
-      invite_params.merge(team_id: current_inviter.team_id),
-      current_inviter
+      invite_params.merge(team_id: current_admin.team_id),
+      current_admin
     )
 
     if resource.errors.empty?
