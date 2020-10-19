@@ -37,7 +37,7 @@ class InvitationsController < Devise::InvitationsController
     authorize :invitation
 
     raw_invitation_token = params[:admin][:invitation_token]
-    self.resource = resource_class.accept_invitation!(
+    self.resource = Admin.accept_invitation!(
       invitation_token: params[:admin][:invitation_token],
       name: params[:admin][:name],
       password: params[:admin][:password]
@@ -50,11 +50,11 @@ class InvitationsController < Devise::InvitationsController
       if Devise.allow_insecure_sign_in_after_accept
         flash_message = resource.active_for_authentication? ? :updated : :updated_not_active
         set_flash_message :notice, flash_message if is_flashing_format?
-        sign_in(resource_name, resource)
+        sign_in(:admin, resource)
         respond_with resource, location: after_accept_path_for(resource)
       else
         set_flash_message :notice, :updated_not_active if is_flashing_format?
-        respond_with resource, location: new_session_path(resource_name)
+        respond_with resource, location: new_session_path(:admin)
       end
     else
       resource.invitation_token = raw_invitation_token
