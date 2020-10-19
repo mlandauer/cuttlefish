@@ -6,7 +6,7 @@ describe InternalMailer do
   describe "#invitation_instructions" do
     let(:admin1) { mock_model(Admin, display_name: "Matthew") }
     let(:admin) { mock_model(Admin, email: "foo@bar.com", invited_by: admin1) }
-    let(:email) { InternalMailer.invitation_instructions(admin, "abc123") }
+    let(:email) { InternalMailer.invitation_instructions(admin, "abc123", accept_url: "https://foo.com/bar") }
 
     it { expect(email.from).to eq ["contact@cuttlefish.oaf.org.au"] }
     it { expect(email.to).to eq ["foo@bar.com"] }
@@ -17,7 +17,7 @@ describe InternalMailer do
 
         <p>Accept the invitation through the link below.</p>
 
-        <p><a href="https://localhost/admins/invitation/accept?invitation_token=abc123">Accept invitation</a></p>
+        <p><a href="https://foo.com/bar?invitation_token=abc123">Accept invitation</a></p>
 
         <p>If you don't want to accept the invitation, please ignore this email.<br />
         Your account won't be created until you access the link above and set your password.</p>

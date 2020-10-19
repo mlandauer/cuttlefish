@@ -29,6 +29,7 @@ class InternalMailer < Devise::Mailer
   def invitation_instructions(record, token, opts = {})
     opts[:subject] =
       "#{record.invited_by.display_name} invites you to Cuttlefish"
+    @accept_url = opts[:accept_url]
     super
   end
 end

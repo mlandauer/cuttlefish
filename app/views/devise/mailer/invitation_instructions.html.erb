@@ -2,6 +2,6 @@
 
 <p>Accept the invitation through the link below.</p>
 
-<p><%= link_to t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token) %></p>
+<p><%= link_to t("devise.mailer.invitation_instructions.accept"), "#{@accept_url}?#{ {invitation_token: @token}.to_query }" %></p>
 
 <p><%= t("devise.mailer.invitation_instructions.ignore").html_safe %></p>
