@@ -17,7 +17,7 @@ class InvitationsController < Devise::InvitationsController
 
     # Make the invited user part of the same team as the person doing the inviting
     self.resource = Admin.invite!(
-      invite_params.merge(team_id: current_admin.team_id),
+      { email: params[:admin][:email], team_id: current_admin.team_id },
       current_admin,
       accept_url: accept_admin_invitation_url
     )

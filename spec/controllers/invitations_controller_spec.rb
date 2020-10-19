@@ -19,7 +19,7 @@ describe InvitationsController, type: :controller do
 
       it "should invite a user by their email and make them part of the team" do
         expect(Admin).to receive(:invite!).with(
-          { "email" => "matthew@foo.bar", "team_id" => team.id },
+          { email: "matthew@foo.bar", team_id: team.id },
           admin,
           accept_url: "https://test.host/admins/invitation/accept"
         ).and_call_original
