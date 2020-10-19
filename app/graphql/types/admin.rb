@@ -34,7 +34,7 @@ module Types
     end
 
     def site_admin
-      context[:current_admin].site_admin?
+      object.site_admin?
     end
   end
 end
