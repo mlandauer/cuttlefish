@@ -36,8 +36,12 @@ class InvitationsController < Devise::InvitationsController
   def update
     authorize :invitation
 
-    raw_invitation_token = update_resource_params[:invitation_token]
-    self.resource = accept_resource
+    raw_invitation_token = params[:admin][:invitation_token]
+    self.resource = resource_class.accept_invitation!(
+      invitation_token: params[:admin][:invitation_token],
+      name: params[:admin][:name],
+      password: params[:admin][:password]
+    )
     invitation_accepted = resource.errors.empty?
 
     yield resource if block_given?
@@ -56,15 +60,5 @@ class InvitationsController < Devise::InvitationsController
       resource.invitation_token = raw_invitation_token
       respond_with_navigational(resource) { render :edit }
     end
-  end
-
-  private
-
-  def accept_resource
-    resource_class.accept_invitation!(update_resource_params)
-  end
-
-  def update_resource_params
-    devise_parameter_sanitizer.sanitize(:accept_invitation)
   end
 end
