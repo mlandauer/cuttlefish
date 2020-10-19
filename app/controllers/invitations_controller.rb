@@ -25,7 +25,7 @@ class InvitationsController < Devise::InvitationsController
       set_flash_message :notice, :send_instructions, email: @admin.email
       redirect_to admins_url
     else
-      result = api_query
+      result = api_query :create_error, {}
       @data = result.data
       @admins = @data.admins
       render "admins/index"
