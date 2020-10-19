@@ -15,16 +15,16 @@ class InvitationsController < Devise::InvitationsController
   def create
     authorize :invitation
 
-    @admin = Admin.invite_to_team!(
-      email: params[:admin][:email],
-      inviting_admin: current_admin,
-      accept_url: accept_admin_invitation_url
-    )
+    result = api_query email: params[:admin][:email], accept_url: accept_admin_invitation_url
+    @data = result.data
 
-    if @admin.errors.empty?
-      set_flash_message :notice, :send_instructions, email: @admin.email
+    if @data.invite_admin_to_team.errors.empty?
+      set_flash_message :notice, :send_instructions, email: params[:admin][:email]
       redirect_to admins_url
     else
+      @admin = Admin.new(email: params[:admin][:email])
+      copy_graphql_errors(result.data.invite_admin_to_team, @admin, ["attributes"])
+
       result = api_query :create_error, {}
       @data = result.data
       @admins = @data.admins

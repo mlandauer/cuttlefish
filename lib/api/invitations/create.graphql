@@ -1,0 +1,9 @@
+mutation($email: String!, $acceptUrl: String!) {
+  inviteAdminToTeam(email: $email, acceptUrl: $acceptUrl) {
+    errors {
+      message
+      path
+      type
+    }
+  }
+}
