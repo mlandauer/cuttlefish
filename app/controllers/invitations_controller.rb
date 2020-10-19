@@ -16,14 +16,14 @@ class InvitationsController < Devise::InvitationsController
     authorize :invitation
 
     # Make the invited user part of the same team as the person doing the inviting
-    self.resource = Admin.invite!(
+    invited_admin = Admin.invite!(
       { email: params[:admin][:email], team_id: current_admin.team_id },
       current_admin,
       accept_url: accept_admin_invitation_url
     )
 
-    if resource.errors.empty?
-      set_flash_message :notice, :send_instructions, email: resource.email
+    if invited_admin.errors.empty?
+      set_flash_message :notice, :send_instructions, email: invited_admin.email
       redirect_to admins_url
     else
       result = api_query
