@@ -15,10 +15,9 @@ class InvitationsController < Devise::InvitationsController
   def create
     authorize :invitation
 
-    # Make the invited user part of the same team as the person doing the inviting
-    invited_admin = Admin.invite!(
-      { email: params[:admin][:email], team_id: current_admin.team_id },
-      current_admin,
+    invited_admin = Admin.invite_to_team!(
+      email: params[:admin][:email],
+      inviting_admin: current_admin,
       accept_url: accept_admin_invitation_url
     )
 

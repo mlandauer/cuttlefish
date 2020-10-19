@@ -22,4 +22,14 @@ class Admin < ActiveRecord::Base
       email
     end
   end
+
+  # Invite a new user to join the team of the inviting admin. It sends out
+  # an invitation email
+  def self.invite_to_team!(email:, inviting_admin:, accept_url:)
+    Admin.invite!(
+      { email: email, team_id: inviting_admin.team_id },
+      inviting_admin,
+      accept_url: accept_url
+    )
+  end
 end
