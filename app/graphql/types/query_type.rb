@@ -114,6 +114,8 @@ module Types
     end)
 
     def email(id:)
+      # When looking at the values of an email that's when won't be allowed if this
+      # is an email we don't have access to
       email = Delivery.find_by(id: id)
       if email.nil?
         raise GraphQL::ExecutionError.new(
@@ -148,8 +150,9 @@ module Types
       { all: emails, limit: limit, offset: offset }
     end
 
-    # TODO: Generalise this to sensibly handling record not found exception
     def app(id:)
+      # When looking at the values of an app that's when won't be allowed if this
+      # is an app we don't have access to
       app = ::App.find_by(id: id)
       if app.nil?
         raise GraphQL::ExecutionError.new(
@@ -176,9 +179,13 @@ module Types
     end
 
     def cuttlefish_app
+      # When looking at the values of an app that's when won't be allowed if this
+      # is an app we don't have access to
       ::App.cuttlefish
     end
 
+    # This is accessible by ANY logged in admin so it's important that
+    # nothing sensitive is exposed here
     def configuration
       Rails.configuration
     end
