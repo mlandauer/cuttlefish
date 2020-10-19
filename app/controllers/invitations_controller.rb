@@ -15,14 +15,14 @@ class InvitationsController < Devise::InvitationsController
   def create
     authorize :invitation
 
-    invited_admin = Admin.invite_to_team!(
+    @admin = Admin.invite_to_team!(
       email: params[:admin][:email],
       inviting_admin: current_admin,
       accept_url: accept_admin_invitation_url
     )
 
-    if invited_admin.errors.empty?
-      set_flash_message :notice, :send_instructions, email: invited_admin.email
+    if @admin.errors.empty?
+      set_flash_message :notice, :send_instructions, email: @admin.email
       redirect_to admins_url
     else
       result = api_query
