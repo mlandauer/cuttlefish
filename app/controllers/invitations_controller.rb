@@ -44,18 +44,23 @@ class InvitationsController < Devise::InvitationsController
   def update
     authorize :invitation
 
-    @admin = Admin.accept_invitation!(
-      invitation_token: params[:admin][:invitation_token],
+    result = api_query(
       name: params[:admin][:name],
-      password: params[:admin][:password]
+      password: params[:admin][:password],
+      token: params[:admin][:invitation_token]
     )
+    @data = result.data
 
-    if @admin.errors.empty?
+    if @data.accept_admin_invitation.errors.empty?
       set_flash_message :notice, :updated
-      sign_in(:admin, @admin)
+      sign_in(:admin, Admin.find(@data.accept_admin_invitation.admin.id))
       redirect_to dash_url
     else
-      @admin.invitation_token = params[:admin][:invitation_token]
+      @admin = AdminForm.new(
+        name: params[:admin][:name],
+        invitation_token: params[:admin][:invitation_token]
+      )
+      copy_graphql_errors(result.data.accept_admin_invitation, @admin, ["attributes"])
       render :edit
     end
   end

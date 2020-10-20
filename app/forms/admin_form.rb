@@ -5,6 +5,7 @@ class AdminForm
   include Virtus.model
 
   attribute :email, String
+  attribute :password, String
   attribute :name, String
   attribute :invitation_token, String
 end
