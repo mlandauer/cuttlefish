@@ -32,6 +32,14 @@ class InvitationsController < Devise::InvitationsController
     end
   end
 
+  # GET /resource/invitation/accept?invitation_token=abcdef
+  def edit
+    sign_out send("current_#{resource_name}") if send("#{resource_name}_signed_in?")
+    set_minimum_password_length
+    resource.invitation_token = params[:invitation_token]
+    render :edit
+  end
+
   # PUT /resource/invitation
   def update
     authorize :invitation
