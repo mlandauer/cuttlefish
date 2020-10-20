@@ -36,28 +36,18 @@ class InvitationsController < Devise::InvitationsController
   def update
     authorize :invitation
 
-    raw_invitation_token = params[:admin][:invitation_token]
     self.resource = Admin.accept_invitation!(
       invitation_token: params[:admin][:invitation_token],
       name: params[:admin][:name],
       password: params[:admin][:password]
     )
-    invitation_accepted = resource.errors.empty?
 
-    yield resource if block_given?
-
-    if invitation_accepted
-      if Devise.allow_insecure_sign_in_after_accept
-        flash_message = resource.active_for_authentication? ? :updated : :updated_not_active
-        set_flash_message :notice, flash_message if is_flashing_format?
-        sign_in(:admin, resource)
-        respond_with resource, location: after_accept_path_for(resource)
-      else
-        set_flash_message :notice, :updated_not_active if is_flashing_format?
-        respond_with resource, location: new_session_path(:admin)
-      end
+    if resource.errors.empty?
+      set_flash_message :notice, :updated
+      sign_in(:admin, resource)
+      redirect_to dash_url
     else
-      resource.invitation_token = raw_invitation_token
+      resource.invitation_token = params[:admin][:invitation_token]
       respond_with_navigational(resource) { render :edit }
     end
   end
