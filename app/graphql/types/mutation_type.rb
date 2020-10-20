@@ -18,6 +18,9 @@ module Types
     field :invite_admin_to_team,
           mutation: Mutations::InviteAdminToTeam,
           description: "Invite a new team member by email"
+    field :accept_admin_invitation,
+          mutation: Mutations::AcceptAdminInvitation,
+          description: "Accept an invitation to join, setting a password and name"
     field :remove_admin,
           mutation: Mutations::RemoveAdmin,
           description: "Remove an admin from your team"
