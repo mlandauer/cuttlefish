@@ -22,7 +22,7 @@ class InvitationsController < Devise::InvitationsController
       set_flash_message :notice, :send_instructions, email: params[:admin][:email]
       redirect_to admins_url
     else
-      @admin = Admin.new(email: params[:admin][:email])
+      @admin = AdminForm.new(email: params[:admin][:email])
       copy_graphql_errors(result.data.invite_admin_to_team, @admin, ["attributes"])
 
       result = api_query :create_error, {}
