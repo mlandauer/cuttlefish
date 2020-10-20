@@ -36,7 +36,7 @@ class InvitationsController < Devise::InvitationsController
   def edit
     sign_out current_admin if admin_signed_in?
     set_minimum_password_length
-    resource.invitation_token = params[:invitation_token]
+    @admin = AdminForm.new(invitation_token: params[:invitation_token])
     render :edit
   end
 
@@ -44,18 +44,18 @@ class InvitationsController < Devise::InvitationsController
   def update
     authorize :invitation
 
-    self.resource = Admin.accept_invitation!(
+    @admin = Admin.accept_invitation!(
       invitation_token: params[:admin][:invitation_token],
       name: params[:admin][:name],
       password: params[:admin][:password]
     )
 
-    if resource.errors.empty?
+    if @admin.errors.empty?
       set_flash_message :notice, :updated
-      sign_in(:admin, resource)
+      sign_in(:admin, @admin)
       redirect_to dash_url
     else
-      resource.invitation_token = params[:admin][:invitation_token]
+      @admin.invitation_token = params[:admin][:invitation_token]
       render :edit
     end
   end
