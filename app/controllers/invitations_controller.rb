@@ -34,7 +34,7 @@ class InvitationsController < Devise::InvitationsController
 
   # GET /resource/invitation/accept?invitation_token=abcdef
   def edit
-    sign_out send("current_#{resource_name}") if send("#{resource_name}_signed_in?")
+    sign_out current_admin if admin_signed_in?
     set_minimum_password_length
     resource.invitation_token = params[:invitation_token]
     render :edit
@@ -56,7 +56,7 @@ class InvitationsController < Devise::InvitationsController
       redirect_to dash_url
     else
       resource.invitation_token = params[:admin][:invitation_token]
-      respond_with_navigational(resource) { render :edit }
+      render :edit
     end
   end
 end
