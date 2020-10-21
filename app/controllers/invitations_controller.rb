@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class InvitationsController < Devise::InvitationsController
-  after_action :verify_authorized, except: %i[new edit]
-
   layout "login", only: %i[edit update]
 
   # TODO: Remove this action (and associated route) as it's currently unused
@@ -13,8 +11,6 @@ class InvitationsController < Devise::InvitationsController
   end
 
   def create
-    authorize :invitation
-
     result = api_query email: params[:admin][:email], accept_url: accept_admin_invitation_url
     @data = result.data
 
@@ -42,8 +38,6 @@ class InvitationsController < Devise::InvitationsController
 
   # PUT /resource/invitation
   def update
-    authorize :invitation
-
     result = api_query(
       name: params[:admin][:name],
       password: params[:admin][:password],
