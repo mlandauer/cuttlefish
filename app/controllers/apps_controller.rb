@@ -45,8 +45,7 @@ class AppsController < ApplicationController
     result = api_query id: params[:id]
 
     if result.data.remove_app.errors.empty?
-      @app = result.data.remove_app.app
-      flash[:notice] = "App #{@app.name} successfully removed"
+      flash[:notice] = "App successfully removed"
       redirect_to apps_path
     else
       # Convert errors to a single string using a form object
