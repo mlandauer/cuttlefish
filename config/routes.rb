@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     sessions: "admins/sessions",
     registrations: "admins/registrations",
     passwords: "admins/passwords",
+    # TODO: Remove the route for the new and delete action (which are unused)
     invitations: "invitations"
   }
 
