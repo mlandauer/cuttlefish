@@ -15,7 +15,7 @@ class InvitationsController < Devise::InvitationsController
     @data = result.data
 
     if @data.invite_admin_to_team.errors.empty?
-      set_flash_message :notice, :send_instructions, email: params[:admin][:email]
+      flash[:notice] = "An invitation email has been sent to #{params[:admin][:email]}."
       redirect_to admins_url
     else
       @admin = AdminForm.new(email: params[:admin][:email])
@@ -46,7 +46,7 @@ class InvitationsController < Devise::InvitationsController
     @data = result.data
 
     if @data.accept_admin_invitation.errors.empty?
-      set_flash_message :notice, :updated
+      flash[:notice] = "Your password was set successfully. You are now signed in."
       sign_in(:admin, Admin.find(@data.accept_admin_invitation.admin.id))
       redirect_to dash_url
     else
