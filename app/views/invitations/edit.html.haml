@@ -1,7 +1,7 @@
 %h3 Set your name and password
 
 = form_for @admin, as: :admin, url: admin_invitation_path, html: { method: :put } do |f|
-  = devise_error_messages!
+  = render "devise/shared/error_messages", resource: @admin
   = f.hidden_field :invitation_token
 
   .control-group

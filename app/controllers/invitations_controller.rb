@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class InvitationsController < Devise::InvitationsController
+class InvitationsController < ApplicationController
   layout "login", only: %i[edit update]
+  skip_before_action :authenticate_admin!, only: %i[edit update]
 
   # TODO: Remove this action (and associated route) as it's currently unused
   def new
@@ -31,7 +32,6 @@ class InvitationsController < Devise::InvitationsController
   # GET /resource/invitation/accept?invitation_token=abcdef
   def edit
     sign_out current_admin if admin_signed_in?
-    set_minimum_password_length
     @admin = AdminForm.new(invitation_token: params[:invitation_token])
     render :edit
   end
