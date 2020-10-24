@@ -9,13 +9,11 @@ Rails.application.routes.draw do
     passwords: "admins/passwords"
   }
 
-  # TODO: Remove the route for the new and delete action (which are unused)
   resource :invitation,
-           only: %i[new create update],
+           only: %i[create update],
            as: "admin_invitation",
            path: "/admins/invitation" do
     get :edit, path: "accept", as: :accept
-    get :destroy, path: "remove", as: :remove
   end
 
   require "sidekiq/web"
