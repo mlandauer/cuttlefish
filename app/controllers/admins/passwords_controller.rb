@@ -10,7 +10,7 @@ module Admins
 
     # GET /resource/password/new
     def new
-      self.resource = AdminForm.new
+      @admin = AdminForm.new
     end
 
     # POST /resource/password
