@@ -32,4 +32,9 @@ class InternalMailer < Devise::Mailer
     @accept_url = opts[:accept_url]
     super
   end
+
+  def reset_password_instructions(record, token, opts = {})
+    @reset_url = opts[:reset_url]
+    super
+  end
 end

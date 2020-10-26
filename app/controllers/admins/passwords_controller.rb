@@ -15,7 +15,10 @@ module Admins
 
     # POST /resource/password
     def create
-      self.resource = Admin.send_reset_password_instructions(email: params[:admin][:email])
+      self.resource = Admin.send_reset_password_instructions(
+        { email: params[:admin][:email] },
+        { reset_url: edit_admin_password_url }
+      )
 
       # We're being paranoid and not leaking any information in error messages
       resource.errors.clear

@@ -37,4 +37,21 @@ describe InternalMailer do
       )
     end
   end
+
+  describe "#reset_password_instructions" do
+    let(:admin) { mock_model(Admin) }
+    let(:email) { InternalMailer.reset_password_instructions(admin, "abc123", reset_url: "https://foo.com/bar") }
+    it do
+      expect(email.body.to_s).to eq <<~HTML
+        <p>Hello !</p>
+
+        <p>Someone has requested a link to change your password. You can do this through the link below.</p>
+
+        <p><a href="https://foo.com/bar?reset_password_token=abc123">Change my password</a></p>
+
+        <p>If you didn't request this, please ignore this email.</p>
+        <p>Your password won't change until you access the link above and create a new one.</p>
+      HTML
+    end
+  end
 end
