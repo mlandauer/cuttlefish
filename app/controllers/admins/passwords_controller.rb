@@ -24,9 +24,8 @@ module Admins
 
     # GET /resource/password/edit?reset_password_token=abcdef
     def edit
-      self.resource = Admin.new
-      set_minimum_password_length
-      resource.reset_password_token = params[:reset_password_token]
+      @admin = AdminForm.new
+      @admin.reset_password_token = params[:reset_password_token]
     end
 
     # PUT /resource/password
