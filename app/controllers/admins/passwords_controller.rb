@@ -15,13 +15,7 @@ module Admins
 
     # POST /resource/password
     def create
-      self.resource = Admin.send_reset_password_instructions(
-        { email: params[:admin][:email] },
-        { reset_url: edit_admin_password_url }
-      )
-
-      # We're being paranoid and not leaking any information in error messages
-      resource.errors.clear
+      api_query email: params[:admin][:email], reset_url: edit_admin_password_url
 
       flash[:notice] = "If your email address exists in our database, " \
                        "you will receive a password recovery link at your email address in a few minutes."

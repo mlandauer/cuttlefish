@@ -15,6 +15,9 @@ module Types
       end)
     end
 
+    field :send_reset_password_instructions,
+          mutation: Mutations::SendResetPasswordInstructions,
+          description: "Send instructions on how to reset your password by email"
     field :invite_admin_to_team,
           mutation: Mutations::InviteAdminToTeam,
           description: "Invite a new team member by email"

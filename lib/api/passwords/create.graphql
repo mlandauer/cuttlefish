@@ -1,0 +1,9 @@
+mutation($email: String!, $resetUrl: String!) {
+  sendResetPasswordInstructions(email: $email, resetUrl: $resetUrl) {
+    errors {
+      message
+      path
+      type
+    }
+  }
+}
