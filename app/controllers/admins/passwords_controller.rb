@@ -15,14 +15,14 @@ module Admins
 
     # POST /resource/password
     def create
-      self.resource = Admin.send_reset_password_instructions(resource_params)
-      yield resource if block_given?
+      self.resource = Admin.send_reset_password_instructions(email: params[:admin][:email])
 
-      if successfully_sent?(resource)
-        respond_with({}, location: after_sending_reset_password_instructions_path_for(:admin))
-      else
-        respond_with(resource)
-      end
+      # We're being paranoid and not leaking any information in error messages
+      resource.errors.clear
+
+      flash[:notice] = "If your email address exists in our database, " \
+                       "you will receive a password recovery link at your email address in a few minutes."
+      redirect_to new_session_url(:admin)
     end
 
     # GET /resource/password/edit?reset_password_token=abcdef
@@ -58,11 +58,6 @@ module Admins
 
     def after_resetting_password_path_for(resource)
       Devise.sign_in_after_reset_password ? after_sign_in_path_for(resource) : new_session_path(:admin)
-    end
-
-    # The path used after sending reset password instructions
-    def after_sending_reset_password_instructions_path_for(resource_name)
-      new_session_path(resource_name) if is_navigational_format?
     end
 
     # Check if a reset_password_token is provided in the request
