@@ -30,8 +30,10 @@ module Admins
 
     # PUT /resource/password
     def update
-      self.resource = Admin.reset_password_by_token(resource_params)
-      yield resource if block_given?
+      self.resource = Admin.reset_password_by_token(
+        reset_password_token: params[:admin][:reset_password_token],
+        password: params[:admin][:password]
+      )
 
       if resource.errors.empty?
         resource.unlock_access! if unlockable?(resource)
