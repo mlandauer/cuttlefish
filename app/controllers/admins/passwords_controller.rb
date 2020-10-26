@@ -36,7 +36,6 @@ module Admins
       )
 
       if resource.errors.empty?
-        resource.unlock_access! if unlockable?(resource)
         if Devise.sign_in_after_reset_password
           flash_message = resource.active_for_authentication? ? :updated : :updated_not_active
           set_flash_message!(:notice, flash_message)
@@ -64,14 +63,6 @@ module Admins
 
       set_flash_message(:alert, :no_token)
       redirect_to new_session_path(:admin)
-    end
-
-    # Check if proper Lockable module methods are present & unlock strategy
-    # allows to unlock resource on password reset
-    def unlockable?(resource)
-      resource.respond_to?(:unlock_access!) &&
-        resource.respond_to?(:unlock_strategy_enabled?) &&
-        resource.unlock_strategy_enabled?(:email)
     end
 
     def translation_scope
