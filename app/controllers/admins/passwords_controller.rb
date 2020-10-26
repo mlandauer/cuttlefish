@@ -36,11 +36,7 @@ module Admins
       )
 
       if @admin.errors.empty?
-        flash[:notice] = if @admin.active_for_authentication?
-                           "Your password has been changed successfully. You are now signed in."
-                         else
-                           "Your password has been changed successfully."
-                         end
+        flash[:notice] = "Your password has been changed successfully."
         sign_in(:admin, @admin)
         redirect_to dash_url
       else
