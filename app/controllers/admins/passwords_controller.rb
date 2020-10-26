@@ -24,22 +24,23 @@ module Admins
 
     # GET /resource/password/edit?reset_password_token=abcdef
     def edit
-      @admin = AdminForm.new
-      @admin.reset_password_token = params[:reset_password_token]
+      @admin = AdminForm.new(reset_password_token: params[:reset_password_token])
     end
 
     # PUT /resource/password
     def update
-      @admin = Admin.reset_password_by_token(
-        reset_password_token: params[:admin][:reset_password_token],
-        password: params[:admin][:password]
-      )
+      result = api_query token: params[:admin][:reset_password_token], password: params[:admin][:password]
+      @data = result.data
 
-      if @admin.errors.empty?
+      if @data.reset_password_by_token.errors.empty?
         flash[:notice] = "Your password has been changed successfully."
-        sign_in(:admin, @admin)
+
+        sign_in(:admin, Admin.find(@data.reset_password_by_token.admin.id))
         redirect_to dash_url
       else
+        @admin = AdminForm.new(reset_password_token: params[:admin][:reset_password_token])
+        copy_graphql_errors(@data.reset_password_by_token, @admin, ["attributes"])
+
         render :edit
       end
     end

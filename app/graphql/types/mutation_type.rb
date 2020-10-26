@@ -18,6 +18,9 @@ module Types
     field :send_reset_password_instructions,
           mutation: Mutations::SendResetPasswordInstructions,
           description: "Send instructions on how to reset your password by email"
+    field :reset_password_by_token,
+          mutation: Mutations::ResetPasswordByToken,
+          description: "Using token from email, reset your password"
     field :invite_admin_to_team,
           mutation: Mutations::InviteAdminToTeam,
           description: "Invite a new team member by email"

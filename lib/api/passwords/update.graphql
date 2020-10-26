@@ -1,0 +1,12 @@
+mutation($token: String!, $password: String!) {
+  resetPasswordByToken(token: $token, password: $password) {
+    admin {
+      id
+    }
+    errors {
+      message
+      path
+      type
+    }
+  }
+}
