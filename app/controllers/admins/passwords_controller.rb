@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module Admins
-  class PasswordsController < DeviseController
+  class PasswordsController < ApplicationController
     layout "login"
 
-    prepend_before_action :require_no_authentication
+    skip_before_action :authenticate_admin!
     # Render the #edit only if coming from a reset password email link
     append_before_action :assert_reset_token_passed, only: :edit
 

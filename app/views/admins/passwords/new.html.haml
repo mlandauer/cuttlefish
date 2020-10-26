@@ -1,5 +1,5 @@
 = form_for(@admin, as: :admin, url: admin_password_path, html: { method: :post }) do |f|
-  = devise_error_messages!
+  = render "devise/shared/error_messages", resource: @admin
 
   .control-group
     = f.label :email
