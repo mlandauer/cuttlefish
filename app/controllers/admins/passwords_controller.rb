@@ -10,16 +10,16 @@ module Admins
 
     # GET /resource/password/new
     def new
-      self.resource = resource_class.new
+      self.resource = Admin.new
     end
 
     # POST /resource/password
     def create
-      self.resource = resource_class.send_reset_password_instructions(resource_params)
+      self.resource = Admin.send_reset_password_instructions(resource_params)
       yield resource if block_given?
 
       if successfully_sent?(resource)
-        respond_with({}, location: after_sending_reset_password_instructions_path_for(resource_name))
+        respond_with({}, location: after_sending_reset_password_instructions_path_for(:admin))
       else
         respond_with(resource)
       end
@@ -27,14 +27,14 @@ module Admins
 
     # GET /resource/password/edit?reset_password_token=abcdef
     def edit
-      self.resource = resource_class.new
+      self.resource = Admin.new
       set_minimum_password_length
       resource.reset_password_token = params[:reset_password_token]
     end
 
     # PUT /resource/password
     def update
-      self.resource = resource_class.reset_password_by_token(resource_params)
+      self.resource = Admin.reset_password_by_token(resource_params)
       yield resource if block_given?
 
       if resource.errors.empty?
@@ -43,7 +43,7 @@ module Admins
           flash_message = resource.active_for_authentication? ? :updated : :updated_not_active
           set_flash_message!(:notice, flash_message)
           resource.after_database_authentication
-          sign_in(resource_name, resource)
+          sign_in(:admin, resource)
         else
           set_flash_message!(:notice, :updated_not_active)
         end
@@ -57,7 +57,7 @@ module Admins
     protected
 
     def after_resetting_password_path_for(resource)
-      Devise.sign_in_after_reset_password ? after_sign_in_path_for(resource) : new_session_path(resource_name)
+      Devise.sign_in_after_reset_password ? after_sign_in_path_for(resource) : new_session_path(:admin)
     end
 
     # The path used after sending reset password instructions
@@ -70,7 +70,7 @@ module Admins
       return unless params[:reset_password_token].blank?
 
       set_flash_message(:alert, :no_token)
-      redirect_to new_session_path(resource_name)
+      redirect_to new_session_path(:admin)
     end
 
     # Check if proper Lockable module methods are present & unlock strategy
