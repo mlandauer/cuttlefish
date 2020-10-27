@@ -3,10 +3,9 @@
 Rails.application.routes.draw do
   mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?
   post "/graphql", to: "graphql#execute"
-  devise_for :admins, skip: :invitations, controllers: {
+  devise_for :admins, skip: %i[invitations passwords], controllers: {
     sessions: "admins/sessions",
-    registrations: "admins/registrations",
-    passwords: "admins/passwords"
+    registrations: "admins/registrations"
   }
 
   resource :invitation,
@@ -15,6 +14,12 @@ Rails.application.routes.draw do
            path: "/admins/invitation" do
     get :edit, path: "accept", as: :accept
   end
+
+  resource :password,
+           only: %i[new create edit update],
+           as: "admin_password",
+           path: "/admins/password",
+           controller: "admins/passwords"
 
   require "sidekiq/web"
   authenticate :admin, ->(u) { u.site_admin? } do
