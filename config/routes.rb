@@ -21,15 +21,13 @@ Rails.application.routes.draw do
            controller: "admins/passwords"
 
   resource :registrations,
-           only: %i[new create edit update destroy],
+           only: %i[new create edit update],
            as: "admin_registration",
            path: "/admins",
            path_names: {
              new: "sign_up"
            },
-           controller: "admins/registrations" do
-             get :cancel
-           end
+           controller: "admins/registrations"
 
   require "sidekiq/web"
   authenticate :admin, ->(u) { u.site_admin? } do
