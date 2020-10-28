@@ -9,4 +9,5 @@ class AdminForm
   attribute :name, String
   attribute :invitation_token, String
   attribute :reset_password_token, String
+  attribute :current_password, String
 end

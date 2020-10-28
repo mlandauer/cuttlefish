@@ -1,0 +1,6 @@
+{
+  viewer {
+    email
+    siteAdmin
+  }
+}

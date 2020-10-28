@@ -1,6 +1,9 @@
-{
-  viewer {
-    email
-    siteAdmin
+mutation($email: String!, $name: String!, $password: String, $currentPassword: String!) {
+  updateAdmin(email: $email, name: $name, password: $password, currentPassword: $currentPassword) {
+    errors {
+      path
+      type
+      message
+    }
   }
 }

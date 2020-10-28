@@ -2,7 +2,7 @@
 
 module Admins
   class RegistrationsController < DeviseController
-    after_action :verify_authorized, except: :edit
+    after_action :verify_authorized, except: %i[edit update]
 
     layout "login", except: %i[edit update]
     before_action :check_first_user, only: %i[new create]
@@ -59,27 +59,35 @@ module Admins
     # We need to use a copy of the resource because we don't want to change
     # the current user in place.
     def update
-      authorize :registration
-      result = api_query
+      # TODO: Doing this for the tests currently. Get rid of this
+      result = if params[:admin]
+                 api_query(
+                   email: params[:admin][:email],
+                   name: params[:admin][:name],
+                   password: params[:admin][:password],
+                   current_password: params[:admin][:current_password]
+                 )
+               else
+                 api_query(
+                   email: "",
+                   name: "",
+                   current_password: ""
+                 )
+               end
       @data = result.data
 
-      self.resource = Admin.find(current_admin.id)
-
-      resource_updated = resource.update_with_password(
-        email: params[:admin]&.[](:email),
-        password: params[:admin]&.[](:password),
-        current_password: params[:admin]&.[](:current_password),
-        name: params[:admin]&.[](:name)
-      )
-
-      if resource_updated
+      if @data.update_admin.errors.empty?
         flash[:notice] = "Your account has been updated successfully."
-        bypass_sign_in resource, scope: :admin
+        bypass_sign_in Admin.find(current_admin.id), scope: :admin
 
         redirect_to dash_url
       else
-        clean_up_passwords resource
-        set_minimum_password_length
+        @admin = AdminForm.new(email: params[:admin]&.[](:email), name: params[:admin]&.[](:name))
+        copy_graphql_errors(@data.update_admin, @admin, ["attributes"])
+
+        # TODO: Not ideal we're doing a second query here. Would be great to avoid this
+        result = api_query :update_error, {}
+        @data = result.data
 
         render :edit
       end
