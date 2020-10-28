@@ -18,6 +18,11 @@ module Admins
       super
     end
 
+    def destroy
+      authorize :registration
+      super
+    end
+
     def new
       authorize :registration
       super
