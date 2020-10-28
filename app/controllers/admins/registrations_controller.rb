@@ -63,20 +63,25 @@ module Admins
       result = api_query
       @data = result.data
 
-      self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
-      prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+      self.resource = Admin.find(current_admin.id)
 
-      resource_updated = update_resource(resource, account_update_params)
-      yield resource if block_given?
+      resource_updated = resource.update_with_password(
+        email: params[:admin][:email],
+        password: params[:admin][:password],
+        current_password: params[:admin][:current_password],
+        name: params[:admin][:name]
+      )
+
       if resource_updated
-        set_flash_message_for_update(resource, prev_unconfirmed_email)
-        bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
+        flash[:notice] = "Your account has been updated successfully."
+        bypass_sign_in resource, scope: :admin
 
-        respond_with resource, location: after_update_path_for(resource)
+        redirect_to dash_url
       else
         clean_up_passwords resource
         set_minimum_password_length
-        respond_with resource
+
+        render :edit
       end
     end
 
@@ -92,18 +97,6 @@ module Admins
     end
 
     protected
-
-    def update_needs_confirmation?(resource, previous)
-      resource.respond_to?(:pending_reconfirmation?) &&
-        resource.pending_reconfirmation? &&
-        previous != resource.unconfirmed_email
-    end
-
-    # By default we want to require a password checks on update.
-    # You can overwrite this method in your own RegistrationsController.
-    def update_resource(resource, params)
-      resource.update_with_password(params)
-    end
 
     # Build a devise resource passing in the session. Useful to move
     # temporary session data to the newly created user.
@@ -132,12 +125,6 @@ module Admins
       context.respond_to?(:root_path) ? context.root_path : "/"
     end
 
-    # The default url to be used after updating a resource. You need to overwrite
-    # this method in your own RegistrationsController.
-    def after_update_path_for(resource)
-      sign_in_after_change_password? ? signed_in_root_path(resource) : new_session_path(resource_name)
-    end
-
     # Authenticates the current scope and gets the current resource from the session.
     def authenticate_scope!
       send(:"authenticate_#{resource_name}!", force: true)
@@ -153,25 +140,6 @@ module Admins
     end
 
     private
-
-    def set_flash_message_for_update(resource, prev_unconfirmed_email)
-      return unless is_flashing_format?
-
-      flash_key = if update_needs_confirmation?(resource, prev_unconfirmed_email)
-                    :update_needs_confirmation
-                  elsif sign_in_after_change_password?
-                    :updated
-                  else
-                    :updated_but_not_signed_in
-                  end
-      set_flash_message :notice, flash_key
-    end
-
-    def sign_in_after_change_password?
-      return true if account_update_params[:password].blank?
-
-      Devise.sign_in_after_change_password
-    end
 
     def check_first_user
       redirect_to new_admin_session_url if Admin.first
