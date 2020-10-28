@@ -14,6 +14,7 @@ module Mutations
       # the current user in place.
       # TODO: Properly handle case of client not being logged in.
       admin = Admin.find(context[:current_admin].id)
+      Pundit.authorize(admin, :registration, :update?)
       admin_updated = admin.update_with_password(
         email: email,
         name: name,
