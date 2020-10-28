@@ -66,10 +66,10 @@ module Admins
       self.resource = Admin.find(current_admin.id)
 
       resource_updated = resource.update_with_password(
-        email: params[:admin][:email],
-        password: params[:admin][:password],
-        current_password: params[:admin][:current_password],
-        name: params[:admin][:name]
+        email: params[:admin]&.[](:email),
+        password: params[:admin]&.[](:password),
+        current_password: params[:admin]&.[](:current_password),
+        name: params[:admin]&.[](:name)
       )
 
       if resource_updated
