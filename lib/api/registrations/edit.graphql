@@ -1,6 +1,7 @@
 {
   viewer {
     email
+    name
     siteAdmin
   }
 }

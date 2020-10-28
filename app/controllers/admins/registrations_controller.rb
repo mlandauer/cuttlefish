@@ -50,6 +50,8 @@ module Admins
       result = api_query
       @data = result.data
 
+      @admin = AdminForm.new(email: @data.viewer.email, name: @data.viewer.name)
+
       render :edit
     end
 

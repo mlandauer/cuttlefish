@@ -1,8 +1,8 @@
 .page-header
   %h1 Edit my details
 
-= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "form-horizontal" }) do |f|
-  = devise_error_messages!
+= form_for(@admin, as: :admin, url: admin_registration_path, html: { method: :put, class: "form-horizontal" }) do |f|
+  = render "devise/shared/error_messages", resource: @admin
 
   %fieldset
     .control-group
@@ -46,4 +46,4 @@
 
 %p
   Unhappy?
-  = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"
+  = button_to "Cancel my account", admin_registration_path, data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"
