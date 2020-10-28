@@ -15,6 +15,8 @@ module Admins
 
     def update
       authorize :registration
+      result = api_query
+      @data = result.data
       super
     end
 
