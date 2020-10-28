@@ -15,6 +15,9 @@ module Types
       end)
     end
 
+    field :update_admin,
+          mutation: Mutations::UpdateAdmin,
+          description: "Update account details of the logged in admin"
     field :send_reset_password_instructions,
           mutation: Mutations::SendResetPasswordInstructions,
           description: "Send instructions on how to reset your password by email"
