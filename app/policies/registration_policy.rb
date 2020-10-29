@@ -13,7 +13,8 @@ class RegistrationPolicy < ApplicationPolicy
     edit?
   end
 
+  # Only allowed to register if you are the first admin
   def create?
-    edit?
+    !Rails.configuration.cuttlefish_read_only_mode && Admin.first.nil?
   end
 end
