@@ -2,8 +2,6 @@
 
 module Admins
   class RegistrationsController < DeviseController
-    after_action :verify_authorized, except: %i[new create edit update]
-
     layout "login", except: %i[edit update]
 
     prepend_before_action :require_no_authentication, only: %i[new create]
@@ -90,9 +88,8 @@ module Admins
 
     # DELETE /resource
     def destroy
-      authorize :registration
+      api_query id: current_admin.id
 
-      current_admin.destroy
       sign_out
       flash[:notice] = "Bye! Your account has been successfully cancelled. We hope to see you again soon."
 
