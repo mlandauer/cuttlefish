@@ -1,5 +1,5 @@
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = devise_error_messages!
+= form_for(@admin, as: :admin, url: admin_registration_path) do |f|
+  = render "devise/shared/error_messages", resource: @admin
 
   %h2 You're special!
   %p

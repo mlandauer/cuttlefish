@@ -2,7 +2,7 @@
 
 module Admins
   class RegistrationsController < DeviseController
-    after_action :verify_authorized, except: %i[edit update]
+    after_action :verify_authorized, except: %i[new edit update]
 
     layout "login", except: %i[edit update]
     before_action :check_first_user, only: %i[new create]
@@ -13,11 +13,7 @@ module Admins
 
     # GET /resource/sign_up
     def new
-      authorize :registration
-
-      self.resource = Admin.new
-      yield resource if block_given?
-      respond_with resource
+      @admin = AdminForm.new
     end
 
     # POST /resource
