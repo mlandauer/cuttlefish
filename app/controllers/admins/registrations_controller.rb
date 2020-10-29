@@ -5,13 +5,14 @@ module Admins
     after_action :verify_authorized, except: %i[new create edit update]
 
     layout "login", except: %i[edit update]
-    before_action :check_first_user, only: %i[new create]
 
     prepend_before_action :require_no_authentication, only: %i[new create]
     prepend_before_action :set_minimum_password_length, only: %i[new edit]
 
     # GET /resource/sign_up
     def new
+      redirect_to new_admin_session_url if Admin.first
+
       @admin = AdminForm.new
     end
 
@@ -96,12 +97,6 @@ module Admins
       flash[:notice] = "Bye! Your account has been successfully cancelled. We hope to see you again soon."
 
       redirect_to root_url
-    end
-
-    private
-
-    def check_first_user
-      redirect_to new_admin_session_url if Admin.first
     end
   end
 end
