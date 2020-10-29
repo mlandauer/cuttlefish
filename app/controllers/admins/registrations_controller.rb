@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 module Admins
-  class RegistrationsController < DeviseController
+  class RegistrationsController < ApplicationController
     layout "login", except: %i[edit update]
 
-    prepend_before_action :require_no_authentication, only: %i[new create]
-    prepend_before_action :set_minimum_password_length, only: %i[new edit]
+    skip_before_action :authenticate_admin!, only: %i[new create]
 
     # GET /resource/sign_up
     def new
