@@ -15,7 +15,7 @@ module Admins
     def new
       authorize :registration
 
-      build_resource
+      self.resource = Admin.new
       yield resource if block_given?
       respond_with resource
     end
@@ -24,7 +24,7 @@ module Admins
     def create
       authorize :registration
 
-      build_resource(sign_up_params)
+      self.resource = Admin.new(sign_up_params)
 
       resource.save
       yield resource if block_given?
@@ -105,12 +105,6 @@ module Admins
     end
 
     protected
-
-    # Build a devise resource passing in the session. Useful to move
-    # temporary session data to the newly created user.
-    def build_resource(hash = {})
-      self.resource = resource_class.new_with_session(hash, session)
-    end
 
     # Signs in a user on sign up. You can overwrite this method in your own
     # RegistrationsController.
