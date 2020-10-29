@@ -23,9 +23,9 @@ module Admins
       # TODO: Put these in a transaction
       team = Team.create!
       @admin = Admin.new(
-        name: params[:admin][:name],
-        email: params[:admin][:email],
-        password: params[:admin][:password],
+        name: params[:admin]&.[](:name),
+        email: params[:admin]&.[](:email),
+        password: params[:admin]&.[](:password),
         team_id: team.id,
         site_admin: true
       )
