@@ -35,8 +35,7 @@ describe Admins::RegistrationsController, type: :controller do
     end
 
     it "should not allow an admin to register" do
-      post :create
-      expect(response).to_not be_successful
+      expect { post :create }.to raise_error(Pundit::NotAuthorizedError)
     end
 
     it "should allow an admin to update their account details" do

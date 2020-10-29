@@ -16,11 +16,18 @@ module Admins
 
     # POST /resource
     def create
-      result = api_query(
-        name: params[:admin]&.[](:name),
-        email: params[:admin]&.[](:email),
-        password: params[:admin]&.[](:password)
-      )
+      result = if params[:admin]
+                 api_query(
+                   name: params[:admin][:name],
+                   email: params[:admin][:email],
+                   password: params[:admin][:password]
+                 )
+               else
+                 api_query(
+                   email: "",
+                   password: ""
+                 )
+               end
       @data = result.data
 
       if @data.register_site_admin.errors.empty?
