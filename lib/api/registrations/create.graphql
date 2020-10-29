@@ -1,0 +1,12 @@
+mutation($name: String, $email: String!, $password: String!) {
+  registerSiteAdmin(name: $name, email: $email, password: $password) {
+    admin {
+      id
+    }
+    errors {
+      path
+      type
+      message
+    }
+  }
+}

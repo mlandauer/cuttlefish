@@ -2,7 +2,7 @@
 
 module Admins
   class RegistrationsController < DeviseController
-    after_action :verify_authorized, except: %i[new edit update]
+    after_action :verify_authorized, except: %i[new create edit update]
 
     layout "login", except: %i[edit update]
     before_action :check_first_user, only: %i[new create]
@@ -18,26 +18,23 @@ module Admins
 
     # POST /resource
     def create
-      authorize :registration
-
-      # TODO: Put these in a transaction
-      team = Team.create!
-      @admin = Admin.new(
+      result = api_query(
         name: params[:admin]&.[](:name),
         email: params[:admin]&.[](:email),
-        password: params[:admin]&.[](:password),
-        team_id: team.id,
-        site_admin: true
+        password: params[:admin]&.[](:password)
       )
-      @admin.save
+      @data = result.data
 
-      if @admin.persisted?
+      if @data.register_site_admin.errors.empty?
         flash[:notice] = "Welcome! You have signed up successfully."
-        sign_in(:admin, @admin)
+        sign_in(:admin, Admin.find(@data.register_site_admin.admin.id))
         redirect_to dash_url
       else
-        clean_up_passwords resource
-        set_minimum_password_length
+        @admin = AdminForm.new(
+          name: params[:admin]&.[](:name),
+          email: params[:admin]&.[](:email)
+        )
+        copy_graphql_errors(@data.register_site_admin, @admin, ["attributes"])
 
         render :new
       end
