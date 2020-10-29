@@ -8,7 +8,6 @@ module Admins
     before_action :check_first_user, only: %i[new create]
 
     prepend_before_action :require_no_authentication, only: %i[new create]
-    prepend_before_action :authenticate_scope!, only: %i[edit update destroy]
     prepend_before_action :set_minimum_password_length, only: %i[new edit]
 
     # GET /resource/sign_up
@@ -97,18 +96,6 @@ module Admins
       flash[:notice] = "Bye! Your account has been successfully cancelled. We hope to see you again soon."
 
       redirect_to root_url
-    end
-
-    protected
-
-    # Authenticates the current scope and gets the current resource from the session.
-    def authenticate_scope!
-      send(:"authenticate_#{resource_name}!", force: true)
-      self.resource = send(:"current_#{resource_name}")
-    end
-
-    def translation_scope
-      "devise.registrations"
     end
 
     private
