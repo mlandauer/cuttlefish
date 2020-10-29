@@ -15,6 +15,9 @@ module Types
       end)
     end
 
+    field :register_site_admin,
+          mutation: Mutations::RegisterSiteAdmin,
+          description: "Register the very first admin on the site"
     field :update_admin,
           mutation: Mutations::UpdateAdmin,
           description: "Update account details of the logged in admin"
