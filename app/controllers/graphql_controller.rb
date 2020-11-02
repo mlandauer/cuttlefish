@@ -33,8 +33,18 @@ class GraphqlController < ApplicationController
   # end
 
   def current_admin
-    @current_admin ||=
-      Admin.find_by(api_key: request.headers["HTTP_AUTHORIZATION"])
+    @current_admin ||= (Admin.find(admin_id_from_request_header) if admin_id_from_request_header)
+  end
+
+  def admin_id_from_request_header
+    # Expect header to be in the following form with the token being a
+    # json web token that has been signed by us
+    # Authorization: Bearer <token>
+    m = request.headers["HTTP_AUTHORIZATION"].match(/^Bearer (.*)/)
+    return if m.nil?
+
+    payload, _header = JWT.decode(m[1], ENV["JWT_SECRET"], true, { algorithm: "HS512" })
+    payload["admin_id"]
   end
 
   # Handle form data, JSON body, or a blank value
