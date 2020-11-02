@@ -5,11 +5,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  # Turn on rack mini profiler for site admins
-  before_action do
-    Rack::MiniProfiler.authorize_request if current_admin&.site_admin?
-  end
-
   # TODO: Also make sure we get redirected back to the original url
   rescue_from Pundit::NotAuthorizedError do |_exception|
     flash[:alert] = "You need to sign in or sign up before continuing."
