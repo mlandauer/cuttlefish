@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_action :configure_permitted_parameters, if: :devise_controller?
-
   # Turn on rack mini profiler for site admins
   before_action do
     Rack::MiniProfiler.authorize_request if current_admin&.site_admin?
@@ -16,10 +14,6 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError do |_exception|
     flash[:alert] = "You need to sign in or sign up before continuing."
     redirect_to new_admin_session_url
-  end
-
-  def after_sign_in_path_for(_resource)
-    dash_path
   end
 
   force_ssl if: proc { force_ssl? }
@@ -76,12 +70,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:accept_invitation, keys: [:name])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name])
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
-  end
 
   # Don't use SSL for the TrackingController and in development
   def force_ssl?
