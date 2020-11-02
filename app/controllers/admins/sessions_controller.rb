@@ -9,7 +9,7 @@ module Admins
 
     # GET /resource/sign_in
     def new
-      @admin = Admin.new(email: params[:admin]&.[](:email))
+      @admin = AdminForm.new(email: params[:admin]&.[](:email))
     end
 
     # POST /resource/sign_in
@@ -27,10 +27,7 @@ module Admins
         redirect_to dash_url
       else
         flash[:alert] = result.data.login_admin.errors.map(&:message).join(", ")
-        @admin = AdminForm.new(
-          email: params[:admin][:email],
-          password: params[:admin][:password]
-        )
+        @admin = AdminForm.new(email: params[:admin][:email])
         render :new
       end
     end
