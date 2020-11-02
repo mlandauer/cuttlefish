@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module Admins
-  class SessionsController < DeviseController
+  class SessionsController < ApplicationController
     layout "login"
     before_action :check_first_user, only: :new
 
-    prepend_before_action :require_no_authentication, only: %i[new create]
+    skip_before_action :authenticate_admin!, only: %i[new create]
 
     # GET /resource/sign_in
     def new
