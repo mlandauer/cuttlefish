@@ -4,7 +4,6 @@ module Admins
   class PasswordsController < ApplicationController
     layout "login"
 
-    skip_before_action :authenticate_admin!
     # Render the #edit only if coming from a reset password email link
     append_before_action :assert_reset_token_passed, only: :edit
 

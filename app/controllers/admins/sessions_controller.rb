@@ -5,8 +5,6 @@ module Admins
     layout "login"
     before_action :check_first_user, only: :new
 
-    skip_before_action :authenticate_admin!, only: %i[new create]
-
     # GET /resource/sign_in
     def new
       @admin = AdminForm.new(email: params[:admin]&.[](:email))

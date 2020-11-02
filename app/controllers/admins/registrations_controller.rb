@@ -4,8 +4,6 @@ module Admins
   class RegistrationsController < ApplicationController
     layout "login", except: %i[edit update]
 
-    skip_before_action :authenticate_admin!, only: %i[new create]
-
     # GET /resource/sign_up
     def new
       redirect_to new_admin_session_url if Admin.first

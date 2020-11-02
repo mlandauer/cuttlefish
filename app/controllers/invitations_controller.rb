@@ -2,7 +2,6 @@
 
 class InvitationsController < ApplicationController
   layout "login", only: %i[edit update]
-  skip_before_action :authenticate_admin!, only: %i[edit update]
 
   def create
     result = api_query email: params[:admin][:email], accept_url: accept_admin_invitation_url

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class TrackingController < ApplicationController
-  # We need this controller to be accessible by anyone without authentication
-  skip_before_action :authenticate_admin!
   # SSL redirection is also disabled for this controller. See
   # ApplicationController force_ssl.
 

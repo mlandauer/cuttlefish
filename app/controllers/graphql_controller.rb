@@ -2,7 +2,6 @@
 
 class GraphqlController < ApplicationController
   skip_before_action :verify_authenticity_token
-  skip_before_action :authenticate_admin!
   # before_action :authenticate_with_api_key!
 
   def execute
