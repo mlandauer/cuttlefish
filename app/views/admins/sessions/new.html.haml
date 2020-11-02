@@ -1,4 +1,4 @@
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+= form_for(@admin, as: :admin, url: admin_session_path) do |f|
   .control-group
     = f.label :email
     = f.email_field :email, class: "login-field", placeholder: "Enter your email"
