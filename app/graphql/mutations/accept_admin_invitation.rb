@@ -6,7 +6,7 @@ module Mutations
     argument :password, String, required: true
     argument :token, String, required: true
 
-    field :admin, Types::Admin, null: true
+    field :token, String, null: true
     field :errors, [Types::UserError], null: false
 
     def resolve(name:, password:, token:)
@@ -16,7 +16,12 @@ module Mutations
         name: name,
         password: password
       )
-      { admin: admin, errors: user_errors_from_form_errors(admin.errors, ["attributes"]) }
+      if admin.errors.empty?
+        token = JWT.encode({ admin_id: admin.id, exp: Time.now.to_i + 3600 }, ENV["JWT_SECRET"], "HS512")
+        { token: token, errors: [] }
+      else
+        { token: nil, errors: user_errors_from_form_errors(admin.errors, ["attributes"]) }
+      end
     end
   end
 end

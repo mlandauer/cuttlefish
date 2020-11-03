@@ -1,8 +1,6 @@
 mutation($name: String, $password: String!, $token: String!) {
   acceptAdminInvitation(name: $name, password: $password, token: $token) {
-    admin {
-      id
-    }
+    token
     errors {
       message
       path

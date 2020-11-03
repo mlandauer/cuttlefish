@@ -23,7 +23,8 @@ class InvitationsController < ApplicationController
 
   # GET /resource/invitation/accept?invitation_token=abcdef
   def edit
-    sign_out current_admin if admin_signed_in?
+    # Sign us out
+    session[:jwt_token] = nil
     @admin = AdminForm.new(invitation_token: params[:invitation_token])
     render :edit
   end
@@ -39,7 +40,7 @@ class InvitationsController < ApplicationController
 
     if @data.accept_admin_invitation.errors.empty?
       flash[:notice] = "Your password was set successfully. You are now signed in."
-      sign_in(:admin, Admin.find(@data.accept_admin_invitation.admin.id))
+      session[:jwt_token] = @data.accept_admin_invitation.token
       redirect_to dash_url
     else
       @admin = AdminForm.new(
