@@ -3,6 +3,14 @@
 require "simplecov"
 require "coveralls"
 
+module SignInTestHelpers
+  # This can be accessed from any rspec controller test
+  def sign_in(admin)
+    # We're not putting an expiry on this JSON web token, though we could
+    session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV["JWT_SECRET"], "HS512")
+  end
+end
+
 # Generate coverage locally in html as well as in coveralls.io
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
   [
@@ -95,4 +103,5 @@ RSpec.configure do |config|
   end
 
   config.include FactoryBot::Syntax::Methods
+  config.include SignInTestHelpers, type: :controller
 end

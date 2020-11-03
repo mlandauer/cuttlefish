@@ -3,12 +3,6 @@
 require "spec_helper"
 
 describe TestEmailsController, type: :controller do
-  # TODO: Extract this out
-  def sign_in(admin)
-    # We're not putting an expiry on this token, though we could
-    session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV["JWT_SECRET"], "HS512")
-  end
-
   before :each do
     request.env["HTTPS"] = "on"
   end

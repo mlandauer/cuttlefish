@@ -3,11 +3,6 @@
 require "spec_helper"
 
 describe Admins::RegistrationsController, type: :controller do
-  def sign_in(admin)
-    # Make a JSON web token without an expiry
-    session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV["JWT_SECRET"], "HS512")
-  end
-
   before :each do
     request.env["HTTPS"] = "on"
   end
