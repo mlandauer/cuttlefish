@@ -6,7 +6,7 @@ module Mutations
     argument :email, String, required: true
     argument :password, String, required: true
 
-    field :admin, Types::Admin, null: true
+    field :token, String, null: true
     field :errors, [Types::UserError], null: false
 
     def resolve(name: nil, email:, password:)
@@ -24,9 +24,10 @@ module Mutations
       admin.save
 
       if admin.persisted?
-        { admin: admin, errors: [] }
+        token = JWT.encode({ admin_id: admin.id, exp: Time.now.to_i + 3600 }, ENV["JWT_SECRET"], "HS512")
+        { token: token, errors: [] }
       else
-        { admin: nil, errors: user_errors_from_form_errors(admin.errors, ["attributes"]) }
+        { token: nil, errors: user_errors_from_form_errors(admin.errors, ["attributes"]) }
       end
     end
   end

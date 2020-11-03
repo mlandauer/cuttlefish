@@ -29,7 +29,8 @@ module Admins
 
       if @data.register_site_admin.errors.empty?
         flash[:notice] = "Welcome! You have signed up successfully."
-        sign_in(:admin, Admin.find(@data.register_site_admin.admin.id))
+        # Automatically log us in
+        session[:jwt_token] = @data.register_site_admin.token
         redirect_to dash_url
       else
         @admin = AdminForm.new(

@@ -1,8 +1,6 @@
 mutation($name: String, $email: String!, $password: String!) {
   registerSiteAdmin(name: $name, email: $email, password: $password) {
-    admin {
-      id
-    }
+    token
     errors {
       path
       type
