@@ -76,7 +76,6 @@ module Admins
 
       if @data.update_admin.errors.empty?
         flash[:notice] = "Your account has been updated successfully."
-        bypass_sign_in Admin.find(current_admin.id), scope: :admin
 
         redirect_to dash_url
       else
