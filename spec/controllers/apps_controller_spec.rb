@@ -3,6 +3,11 @@
 require "spec_helper"
 
 describe AppsController, type: :controller do
+  def sign_in(admin)
+    # Make a JSON web token without an expiry
+    session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV["JWT_SECRET"], "HS512")
+  end
+
   before :each do
     request.env["HTTPS"] = "on"
   end
@@ -13,8 +18,6 @@ describe AppsController, type: :controller do
       team.admins.create!(email: "matthew@foo.bar", password: "foobar")
     end
     before(:each) do
-      # Make a JSON web token without an expiry
-      session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV["JWT_SECRET"], "HS512")
       sign_in admin
     end
 
@@ -39,10 +42,9 @@ describe AppsController, type: :controller do
       context "app is in a different team" do
         let(:app) { create(:app) }
 
-        it "should raise an error" do
-          expect do
-            get :show, params: { id: app.id }
-          end.to raise_error(Pundit::NotAuthorizedError)
+        it "should redirect to the login page because it's not authenticated properly" do
+          get :show, params: { id: app.id }
+          expect(response).to redirect_to(new_admin_session_url)
         end
       end
     end
@@ -185,10 +187,9 @@ describe AppsController, type: :controller do
       context "app is in a different team" do
         let(:app) { create(:app, legacy_dkim_selector: true) }
 
-        it "should raise an error" do
-          expect do
-            post :upgrade_dkim, params: { id: app.id }
-          end.to raise_error(Pundit::NotAuthorizedError)
+        it "should redirect to the login page because it's not authenticated properly" do
+          post :upgrade_dkim, params: { id: app.id }
+          expect(response).to redirect_to(new_admin_session_url)
         end
       end
 

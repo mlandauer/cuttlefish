@@ -3,8 +3,12 @@
 require "spec_helper"
 
 describe Admins::RegistrationsController, type: :controller do
+  def sign_in(admin)
+    # Make a JSON web token without an expiry
+    session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV["JWT_SECRET"], "HS512")
+  end
+
   before :each do
-    request.env["devise.mapping"] = Devise.mappings[:admin]
     request.env["HTTPS"] = "on"
   end
 
@@ -35,7 +39,8 @@ describe Admins::RegistrationsController, type: :controller do
     end
 
     it "should not allow an admin to register" do
-      expect { post :create }.to raise_error(Pundit::NotAuthorizedError)
+      post :create
+      expect(response).to redirect_to(new_admin_session_url)
     end
 
     it "should allow an admin to update their account details" do

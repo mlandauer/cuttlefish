@@ -3,8 +3,12 @@
 require "spec_helper"
 
 describe InvitationsController, type: :controller do
+  def sign_in(admin)
+    # Make a JSON web token without an expiry
+    session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV["JWT_SECRET"], "HS512")
+  end
+
   before :each do
-    request.env["devise.mapping"] = Devise.mappings[:admin]
     request.env["HTTPS"] = "on"
   end
 
