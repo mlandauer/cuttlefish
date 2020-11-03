@@ -92,7 +92,9 @@ module Admins
 
     # DELETE /resource
     def destroy
-      api_query id: current_admin.id
+      # Get the current admin id from the session
+      payload, _header = JWT.decode(session[:jwt_token], nil, false)
+      api_query id: payload["admin_id"]
 
       sign_out
       flash[:notice] = "Bye! Your account has been successfully cancelled. We hope to see you again soon."
