@@ -7,6 +7,11 @@ class ApplicationController < ActionController::Base
 
   # TODO: Also make sure we get redirected back to the original url
   rescue_from Pundit::NotAuthorizedError do |_exception|
+    # TODO: In an ideal world we would differentiate between a person not
+    # being logged in at all and so not being able to access a resource and
+    # a person being logged but not having the permissions to access the
+    # specific resource. Then, we would only redirect if the user was not
+    # logged in. Otherwise we would just raise another error
     flash[:alert] = "You need to sign in or sign up before continuing."
     redirect_to new_admin_session_url
   end
