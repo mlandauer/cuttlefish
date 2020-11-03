@@ -8,5 +8,6 @@ mutation($token: String!, $password: String!) {
       path
       type
     }
+    token
   }
 }

@@ -34,7 +34,8 @@ module Admins
       if @data.reset_password_by_token.errors.empty?
         flash[:notice] = "Your password has been changed successfully."
 
-        sign_in(:admin, Admin.find(@data.reset_password_by_token.admin.id))
+        # Automatically log us in
+        session[:jwt_token] = @data.reset_password_by_token.token
         redirect_to dash_url
       else
         @admin = AdminForm.new(reset_password_token: params[:admin][:reset_password_token])
