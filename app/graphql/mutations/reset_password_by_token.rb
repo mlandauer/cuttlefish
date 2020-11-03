@@ -5,8 +5,7 @@ module Mutations
     argument :password, String, required: true
     argument :token, String, required: true
 
-    field :admin, Types::Admin, null: true
-    # Also returns a JSON web token so the user has the option to automatically
+    # Returns a JSON web token so the user has the option to automatically
     # log in after a password reset
     field :token, String, null: false
     field :errors, [Types::UserError], null: false
@@ -18,7 +17,7 @@ module Mutations
       )
       token = JWT.encode({ admin_id: admin.id, exp: Time.now.to_i + 3600 }, ENV["JWT_SECRET"], "HS512")
 
-      { admin: admin, token: token, errors: user_errors_from_form_errors(admin.errors, ["attributes"]) }
+      { token: token, errors: user_errors_from_form_errors(admin.errors, ["attributes"]) }
     end
   end
 end
