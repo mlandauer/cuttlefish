@@ -12,9 +12,7 @@ Rails.application.routes.draw do
            as: "admin_registration",
            path: "/admins",
            controller: "admins/registrations",
-           path_names: { new: "sign_up" } do
-    get :cancel
-  end
+           path_names: { new: "sign_up" }
 
   resource :invitation,
            only: %i[create update],
