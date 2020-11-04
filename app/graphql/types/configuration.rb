@@ -15,6 +15,9 @@ module Types
     field :fresh_install, Boolean,
           null: false,
           description: "Whether this is a completely new site installation and it has no current administrators"
+    field :ip_address, String,
+          null: false,
+          description: "Public IPv4 address of server sending email"
 
     def domain
       object.cuttlefish_domain
@@ -22,6 +25,10 @@ module Types
 
     def fresh_install
       ::Admin.first.nil?
+    end
+
+    def ip_address
+      Reputation.local_ip
     end
   end
 end
