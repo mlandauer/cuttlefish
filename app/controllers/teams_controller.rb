@@ -3,7 +3,7 @@
 class TeamsController < ApplicationController
   # TODO: Revert 68fa5c3b8896e8ac853650ebf24eb8793dc2911f as soon as we don't
   # need this here anymore
-  after_action :verify_authorized, except: :index
+  after_action :verify_authorized, except: %i[index invite]
 
   def index
     # TODO: Check for errors
@@ -15,14 +15,13 @@ class TeamsController < ApplicationController
   end
 
   def invite
-    authorize :team
-    team = Team.create!
-    # TODO: Add some error checking
-    Admin.invite!(
-      { email: params[:admin][:email], team_id: team.id },
-      current_admin,
+    result = api_query(
+      email: params[:admin][:email],
       accept_url: accept_admin_invitation_url
     )
+    @data = result.data
+
+    # TODO: Add some error checking
     flash[:notice] = "Invited #{params[:admin][:email]} to a new team"
     redirect_to teams_path
   end

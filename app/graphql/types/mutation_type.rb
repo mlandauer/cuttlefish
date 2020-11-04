@@ -32,6 +32,9 @@ module Types
     field :invite_admin_to_team,
           mutation: Mutations::InviteAdminToTeam,
           description: "Invite a new team member by email"
+    field :invite_team,
+          mutation: Mutations::InviteTeam,
+          description: "Create a new team and invite an admin to that"
     field :accept_admin_invitation,
           mutation: Mutations::AcceptAdminInvitation,
           description: "Accept an invitation to join, setting a password and name"
