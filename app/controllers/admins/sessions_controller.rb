@@ -16,11 +16,8 @@ module Admins
                          password: params[:admin][:password]
       if result.data.login_admin.admin
         # Store the returned token in the session
-        # TODO: Empty this when we logout
         session[:jwt_token] = result.data.login_admin.token
-        admin = Admin.find(result.data.login_admin.admin.id)
         flash[:notice] = "Signed in successfully."
-        sign_in :admin, admin
 
         redirect_to dash_url
       else
