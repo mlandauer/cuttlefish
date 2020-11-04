@@ -29,8 +29,8 @@ module Admins
 
     # DELETE /resource/sign_out
     def destroy
-      signed_out = sign_out
-      flash[:notice] = "Signed out successfully." if signed_out
+      session[:jwt_token] = nil
+      flash[:notice] = "Signed out successfully."
 
       redirect_to root_url
     end

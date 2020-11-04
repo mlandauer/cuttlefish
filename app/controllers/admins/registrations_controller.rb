@@ -96,7 +96,8 @@ module Admins
       payload, _header = JWT.decode(session[:jwt_token], nil, false)
       api_query id: payload["admin_id"]
 
-      sign_out
+      # And logout
+      session[:jwt_token] = nil
       flash[:notice] = "Bye! Your account has been successfully cancelled. We hope to see you again soon."
 
       redirect_to root_url
