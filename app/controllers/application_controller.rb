@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include Pundit
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -82,5 +83,9 @@ class ApplicationController < ActionController::Base
     controller_name != "tracking" &&
       !Rails.env.development? &&
       !Rails.configuration.disable_ssl
+  end
+
+  def pundit_user
+    current_admin
   end
 end
