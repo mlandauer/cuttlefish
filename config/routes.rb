@@ -3,9 +3,16 @@
 Rails.application.routes.draw do
   mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?
   post "/graphql", to: "graphql#execute"
-  devise_for :admins, skip: %i[invitations passwords registrations], controllers: {
-    sessions: "admins/sessions"
-  }
+
+  resource :session,
+           only: [],
+           as: "admin_session",
+           path: "/admins",
+           controller: "admins/sessions" do
+    get :new, path: "sign_in", as: "new"
+    post :create, path: "sign_in"
+    match :destroy, path: "sign_out", as: "destroy", via: :delete
+  end
 
   resource :registration,
            only: %i[new create edit update destroy],
