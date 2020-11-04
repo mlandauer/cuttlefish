@@ -22,6 +22,7 @@ module Types
     field :invitation_accepted_at, Types::DateTime,
           null: true,
           description: "When an invitation to this admin was accepted"
+    # TODO: Rename this to "current" to avoid confusion
     field :current_admin, Boolean,
           null: false,
           description: "Whether this is the current admin"
