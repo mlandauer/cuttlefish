@@ -15,3 +15,4 @@ AWS_SECRET_ACCESS_KEY="{{ aws_secret_access_key }}"
 CUTTLEFISH_DOMAIN_CERT_CHAIN_FILE=/srv/www/shared/fullchain.pem
 CUTTLEFISH_DOMAIN_PRIVATE_KEY_FILE=/srv/www/shared/privkey.pem
 NEW_RELIC_AGENT_ENABLED={{ new_relic_agent_enabled }}
+JWT_SECRET={{ jwt_secret }}
