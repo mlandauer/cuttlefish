@@ -16,8 +16,8 @@ class ApplicationController < ActionController::Base
     redirect_to new_admin_session_url
   end
 
-  rescue_from JWT::ExpiredSignature do |_exception|
-    flash[:alert] = "Your session has expired. You need to sign before continuing."
+  rescue_from JWT::DecodeError do |_exception|
+    flash[:alert] = "Your session has expired. You need to sign in before continuing."
     session[:jwt_token] = nil
     redirect_to new_admin_session_url
   end
