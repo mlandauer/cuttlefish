@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class AppsController < ApplicationController
-  after_action :verify_authorized, except: %i[
-    index show new create destroy edit update dkim webhook toggle_dkim upgrade_dkim
-  ]
-
   def index
     result = api_query
     @data = result.data
