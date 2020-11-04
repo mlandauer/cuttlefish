@@ -16,6 +16,12 @@ class ApplicationController < ActionController::Base
     redirect_to new_admin_session_url
   end
 
+  rescue_from JWT::ExpiredSignature do |_exception|
+    flash[:alert] = "Your session has expired. You need to sign before continuing."
+    session[:jwt_token] = nil
+    redirect_to new_admin_session_url
+  end
+
   force_ssl if: proc { force_ssl? }
 
   # Either use api_query id: 2 or api_query :other_name, id: 2
