@@ -3,10 +3,18 @@
 Rails.application.routes.draw do
   mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?
   post "/graphql", to: "graphql#execute"
-  devise_for :admins, skip: %i[invitations passwords], controllers: {
-    sessions: "admins/sessions",
-    registrations: "admins/registrations"
+  devise_for :admins, skip: %i[invitations passwords registrations], controllers: {
+    sessions: "admins/sessions"
   }
+
+  resource :registration,
+           only: %i[new create edit update destroy],
+           as: "admin_registration",
+           path: "/admins",
+           controller: "admins/registrations",
+           path_names: { new: "sign_up" } do
+    get :cancel
+  end
 
   resource :invitation,
            only: %i[create update],
