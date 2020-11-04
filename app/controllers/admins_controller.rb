@@ -6,7 +6,7 @@ class AdminsController < ApplicationController
     @data = result.data
     @admins = @data.admins
 
-    @admin = Admin.new
+    @admin = AdminForm.new
   end
 
   def destroy
