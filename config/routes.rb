@@ -34,10 +34,16 @@ Rails.application.routes.draw do
            path: "/admins/password",
            controller: "admins/passwords"
 
-  require "sidekiq/web"
-  authenticate :admin, ->(u) { u.site_admin? } do
-    mount Sidekiq::Web => "/sidekiq"
-  end
+  # TODO: the sidekiq ui should be part of the API part of Cuttlefish and not
+  # part of the admin interface
+  # We want to get rid of the use of sidekiq (by making the smtp server talk
+  # to cuttlefish via the graphql api) and there is no immediate super easy
+  # way to do authentication and check that the user is a site_admin.
+  # So, disabling it for the moment. Let's hope we don't need it in an emergency
+  # require "sidekiq/web"
+  # authenticate :admin, ->(u) { u.site_admin? } do
+  #   mount Sidekiq::Web => "/sidekiq"
+  # end
 
   resources :admins, only: %i[index destroy]
   resources :emails, only: %i[index show], as: :deliveries,
