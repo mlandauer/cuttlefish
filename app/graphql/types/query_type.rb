@@ -65,6 +65,8 @@ module Types
 
     field :configuration, Types::Configuration, null: false do
       description "Application configuration settings"
+      # We should be able to access this without being authenticated
+      guard ->(_obj, _args, _ctx) { true }
     end
 
     field :admins, [Types::Admin], null: false do

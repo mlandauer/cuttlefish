@@ -6,7 +6,10 @@ module Admins
 
     # GET /resource/sign_up
     def new
-      redirect_to new_admin_session_url if Admin.first
+      result = api_query
+      @data = result.data
+
+      redirect_to new_admin_session_url unless @data.configuration.fresh_install
 
       @admin = AdminForm.new
     end

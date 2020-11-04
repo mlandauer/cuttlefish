@@ -3,10 +3,13 @@
 module Admins
   class SessionsController < ApplicationController
     layout "login"
-    before_action :check_first_user, only: :new
 
     # GET /resource/sign_in
     def new
+      result = api_query
+      @data = result.data
+
+      redirect_to new_admin_registration_url if @data.configuration.fresh_install
       @admin = AdminForm.new(email: params[:admin]&.[](:email))
     end
 
@@ -33,13 +36,6 @@ module Admins
       flash[:notice] = "Signed out successfully."
 
       redirect_to root_url
-    end
-
-    private
-
-    def check_first_user
-      # TODO: Get this info from the API instead
-      redirect_to new_admin_registration_url if Admin.first.nil?
     end
   end
 end
