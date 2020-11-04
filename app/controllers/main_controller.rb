@@ -17,9 +17,12 @@ class MainController < ApplicationController
 
   def reputation
     if request.xhr?
+      result = api_query :partial, {}
+      @data = result.data
+
       render partial: "reputation", locals: {
-        listings: DNSBL::Client.new.lookup(Reputation.local_ip),
-        ip: Reputation.local_ip
+        listings: @data.dnsbl,
+        ip: @data.configuration.ip_address
       }
     else
       result = api_query

@@ -1,0 +1,9 @@
+{
+  dnsbl {
+    dnsbl
+    meaning
+  }
+  configuration {
+    ipAddress
+  }
+}
