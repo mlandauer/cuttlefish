@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class TeamsController < ApplicationController
-  # TODO: Revert 68fa5c3b8896e8ac853650ebf24eb8793dc2911f as soon as we don't
-  # need this here anymore
-  after_action :verify_authorized, except: %i[index invite]
-
   def index
     # TODO: Check for errors
     result = api_query
