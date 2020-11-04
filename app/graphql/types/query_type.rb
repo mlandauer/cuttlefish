@@ -106,6 +106,10 @@ module Types
                description: "For pagination: sets offset"
     end
 
+    field :dnsbl, [Types::DNSBL], null: false do
+      description "Queries DNS for whether this server is on any known deny lists"
+    end
+
     field :viewer, Types::Admin, null: true do
       description "The currently authenticated admin"
     end
@@ -214,6 +218,12 @@ module Types
       b = b.joins(:caused_by_postfix_log_line).where(postfix_log_lines: { dsn: dsn }) if dsn
       b = b.order(created_at: :desc)
       { all: b, limit: limit, offset: offset }
+    end
+
+    def dnsbl
+      # TODO: Check authorization. Currently we're allowing any logged in admin
+      # to access this
+      ::DNSBL::Client.new.lookup(Reputation.local_ip)
     end
 
     def viewer
