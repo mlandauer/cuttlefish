@@ -22,6 +22,8 @@ And without the hidden dangers of vendor lock in of commercial transactional ema
 * Statistics on emails sent, soft/hard bounced and held back
 * View the full email content for recently sent emails
 * Multiple applications can each have their own SMTP authentication
+* [GraphQL](https://graphql.org/) API where anything you can do in the admin UI can do with the API
+* Web callbacks on successful or failed deliveries of emails
 * Check your IP reputation with one click
 * Easy to install and get going quickly
 * Built in, super easy to set up, automatic DKIM signing
