@@ -17,7 +17,7 @@ module Api
   else
     HTTP = GraphQL::Client::HTTP.new("http://localhost:5400/graphql") do
       def headers(context)
-        { "Authorization": context[:api_key] }
+        { "Authorization": "Bearer #{context[:jwt_token]}" }
       end
     end
 
@@ -58,7 +58,7 @@ module Api
                 payload, _header = JWT.decode(jwt_token, ENV["JWT_SECRET"], true, { algorithm: "HS512" })
                 { current_admin: Admin.find(payload["admin_id"]) }
               else
-                {}
+                { jwt_token: jwt_token }
               end
     result = CLIENT.query(
       query,
