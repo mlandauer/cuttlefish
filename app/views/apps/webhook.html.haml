@@ -13,7 +13,7 @@
 :coderay
   #!json
   {
-    "key": "#{@app.webhook_key}",
+    "key": "#{@data.app.webhook_key}",
     "delivery_event": {
       "time": "2020-08-27T02:10:17.000Z",
       "dsn": "2.0.0",
@@ -40,7 +40,7 @@
 
 %p
   Secret key:
-  %code= @app.webhook_key
+  %code= @data.app.webhook_key
 
 %h2 Test Event
 %p
@@ -50,7 +50,7 @@
 :coderay
   #!json
   {
-    "key": "#{@app.webhook_key}",
+    "key": "#{@data.app.webhook_key}",
     "test_event": {}
   }
 

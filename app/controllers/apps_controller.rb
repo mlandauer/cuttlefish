@@ -73,13 +73,17 @@ class AppsController < ApplicationController
     else
       @app = AppForm.new(app_parameters.merge(id: params[:id]))
       copy_graphql_errors(result.data.update_app, @app, ["attributes"])
-      # Not ideal that we're doing two graphql requests in the same controller action
-      # TODO: Fix hacky thing that we're doing api_query :new to only get the viewer
-      result = api_query :new, {}
-      @data = result.data
+
       if app_parameters.key?(:webhook_url)
+        # Not ideal that we're doing two graphql requests in the same controller action
+        result = api_query :webhook, id: params[:id]
+        @data = result.data
         render :webhook
       else
+        # Not ideal that we're doing two graphql requests in the same controller action
+        # TODO: Fix hacky thing that we're doing api_query :new to only get the viewer
+        result = api_query :new, {}
+        @data = result.data
         render :edit
       end
     end
