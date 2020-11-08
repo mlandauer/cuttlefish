@@ -133,7 +133,7 @@ class AppsController < ApplicationController
   def coerced_app_params
     result = coerce_params(app_parameters, AppForm)
     # Doing an extra bit of type conversion here
-    result["webhookUrl"] = nil if result["webhookUrl"].blank?
+    result.delete("webhookUrl") if result["webhookUrl"].blank?
     result
   end
 
