@@ -2,7 +2,6 @@
 
 class GraphqlController < ApplicationController
   skip_before_action :verify_authenticity_token
-  # before_action :authenticate_with_api_key!
 
   def execute
     variables = ensure_hash(params[:variables])
@@ -27,10 +26,6 @@ class GraphqlController < ApplicationController
   # rubocop:enable Style/RescueStandardError
 
   private
-
-  # def authenticate_with_api_key!
-  #   render(plain: 'API key is not valid', status: 401) if current_admin.nil?
-  # end
 
   def current_admin
     @current_admin ||= (Admin.find(admin_id_from_request_header) if admin_id_from_request_header)
