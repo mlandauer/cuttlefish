@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_13_012801) do
+ActiveRecord::Schema.define(version: 2020_11_10_042853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 2020_09_13_012801) do
     t.integer "team_id", null: false
     t.string "name", limit: 255
     t.boolean "site_admin", default: false, null: false
-    t.string "api_key"
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["invitation_token"], name: "index_admins_on_invitation_token", unique: true
     t.index ["invited_by_id"], name: "index_admins_on_invited_by_id"
