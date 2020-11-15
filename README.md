@@ -97,6 +97,8 @@ parts but all of this is with the purpose of making it easier for the developer 
 
 These instructions are specifically for installing the server at https://cuttlefish.oaf.org.au.
 
+Currently the setup requires a relatively old version of Ansible (2.5.0) using Python 2.7.
+
 ### To install to a local test virtual machine
 
 1. Create a file `~/.cuttlefish_ansible_vault_pass.txt` which contains the password for encrypting the secret values used in the deploy. The encrypted variables are at `provisioning/roles/cuttlefish-app/vars/main.yml`.
