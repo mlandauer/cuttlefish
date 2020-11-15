@@ -47,10 +47,11 @@ Cuttlefish is in beta. It's been used in production by [OpenAustralia Foundation
 
 ## Dependencies
 Ruby 2.5.1, PostgresQL, Redis (2.4 or greater), Postfix
-(Postfix is optional for local development or just trying it out. Some things like the email deliverability just won't show anything)
 
 Also you need the following libraries:
 imagemagick, libmagickwand-dev, libmysqld-dev
+
+For development, however, the only dependencies are Docker and Docker compose.
 
 ## Development
 
