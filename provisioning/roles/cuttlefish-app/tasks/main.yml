@@ -72,6 +72,24 @@
     pkg: certbot
     update_cache: yes
 
+# We need this for the next step (which needs to happen before certbot runs
+# the first time)
+- name: Create hook certbot renewal hook directory
+  file:
+    path: /etc/letsencrypt/renewal-hooks/deploy
+    state: directory
+    mode: "0755"
+
+# Note that we're doing this before the certificate is generated because we want
+# the new certificate copied across immediately. But the slight hassle is we
+# need to ensure that the directory exists before we can run this (which otherwise
+# would have been created by certbot)
+- name: Install script for copying certs for cuttlefish daemon
+  template:
+    src: copy-cuttlefish-daemon-certs.sh
+    dest: /etc/letsencrypt/renewal-hooks/deploy/copy-cuttlefish-daemon-certs
+    mode: 755
+
 - name: Install certificate using certbot
   include_role:
     name: geerlingguy.certbot
@@ -87,13 +105,6 @@
           - cuttlefish.oaf.org.au
           - cuttlefish.io
 
-# Note that we're doing this after getting the certificate so the destination
-# directory already exists
-- name: Install script for copying certs for cuttlefish daemon
-  template:
-    src: copy-cuttlefish-daemon-certs.sh
-    dest: /etc/letsencrypt/renewal-hooks/deploy/copy-cuttlefish-daemon-certs
-    mode: 755
 
 - name: Daily archiving and deny list removal tasks
   cron:
