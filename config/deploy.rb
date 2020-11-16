@@ -69,26 +69,27 @@ namespace :foreman do
   task :export, roles: :app do
     run "cd #{current_path} && " \
         "sudo /usr/local/lib/rvm/wrappers/default/bundle exec " \
-        "foreman export upstart " \
-        "/etc/init " \
+        "foreman export systemd " \
+        "/etc/systemd/system " \
         "-a #{application} " \
         "-u #{user} " \
         "-l #{shared_path}/log " \
         "-f Procfile.production"
+    sudo "systemctl daemon-reload"
   end
 
   desc "Start the application services"
   task :start, roles: :app do
-    sudo "service #{application} start"
+    sudo "systemctl start #{application}.target"
   end
 
   desc "Stop the application services"
   task :stop, roles: :app do
-    sudo "service #{application} stop"
+    sudo "systemctl stop #{application}.target"
   end
 
   desc "Restart the application services"
   task :restart, roles: :app do
-    run "sudo service #{application} restart"
+    run "sudo systemctl restart #{application}.target"
   end
 end

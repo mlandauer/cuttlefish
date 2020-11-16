@@ -46,16 +46,19 @@
   notify: nginx restart
 
 - name: Allow deploy user to export foreman script
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/local/lib/rvm/wrappers/default/bundle exec foreman export upstart /etc/init -a cuttlefish -u deploy -l /srv/www/shared/log -f Procfile.production' validate='visudo -cf %s'"
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/local/lib/rvm/wrappers/default/bundle exec foreman export systemd /etc/systemd/system -a cuttlefish -u deploy -l /srv/www/shared/log -f Procfile.production' validate='visudo -cf %s'"
+
+- name: Allow deploy user to reload systemd daemon after changing config
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl daemon-reload' validate='visudo -cf %s'"
 
 - name: Allow deploy user to start cuttlefish service
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish start' validate='visudo -cf %s'"
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl start cuttlefish.target' validate='visudo -cf %s'"
 
 - name: Allow deploy user to stop cuttlefish service
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish stop' validate='visudo -cf %s'"
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl stop cuttlefish.target' validate='visudo -cf %s'"
 
 - name: Allow deploy user to restart cuttlefish service
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish restart' validate='visudo -cf %s'"
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl restart cuttlefish.target' validate='visudo -cf %s'"
 
 - name: Allow deploy to read some log files (different from admin group)
   user: name=deploy groups=adm append=yes
