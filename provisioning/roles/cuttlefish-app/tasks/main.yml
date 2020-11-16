@@ -63,39 +63,37 @@
 - name: Allow deploy to read some log files (different from admin group)
   user: name=deploy groups=adm append=yes
 
-# Certbot doesn't work properly (or at least the PPA doesn't support it) under
-# ubuntu trusty
-# TODO: Urgently upgrade so we can reinstate this
+- name: Add certbot PPA
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
 
-# - name: Add certbot PPA
-#   apt_repository:
-#     repo: 'ppa:certbot/certbot'
-#
-# - name: Install certbot using their PPA
-#   apt:
-#     pkg: certbot
-#     update_cache: yes
-#
-# - name: Install script for copying certs for cuttlefish daemon
-#   template:
-#     src: copy-cuttlefish-daemon-certs.sh
-#     dest: /etc/letsencrypt/renewal-hooks/deploy/copy-cuttlefish-daemon-certs
-#     mode: 755
-#
-# - name: Install certificate using certbot
-#   include_role:
-#     name: geerlingguy.certbot
-#   vars:
-#     certbot_auto_renew_user: root
-#     certbot_auto_renew_minute: 10
-#     certbot_auto_renew_hour: 7
-#     certbot_auto_renew_options: '--no-self-upgrade --pre-hook "service nginx stop" --post-hook "service nginx start"'
-#     certbot_create_if_missing: yes
-#     certbot_certs:
-#       - email: contact@oaf.org.au
-#         domains:
-#           - cuttlefish.oaf.org.au
-#           - cuttlefish.io
+- name: Install certbot using their PPA
+  apt:
+    pkg: certbot
+    update_cache: yes
+
+- name: Install certificate using certbot
+  include_role:
+    name: geerlingguy.certbot
+  vars:
+    certbot_auto_renew_user: root
+    certbot_auto_renew_minute: 10
+    certbot_auto_renew_hour: 7
+    certbot_auto_renew_options: '--no-self-upgrade --pre-hook "service nginx stop" --post-hook "service nginx start"'
+    certbot_create_if_missing: yes
+    certbot_certs:
+      - email: contact@oaf.org.au
+        domains:
+          - cuttlefish.oaf.org.au
+          - cuttlefish.io
+
+# Note that we're doing this after getting the certificate so the destination
+# directory already exists
+- name: Install script for copying certs for cuttlefish daemon
+  template:
+    src: copy-cuttlefish-daemon-certs.sh
+    dest: /etc/letsencrypt/renewal-hooks/deploy/copy-cuttlefish-daemon-certs
+    mode: 755
 
 - name: Daily archiving and deny list removal tasks
   cron:
