@@ -131,7 +131,7 @@ bundle exec cap --set-before local_deploy=true deploy:setup deploy:cold foreman:
 
 4. Select your new Linode in the dashboard
 
-5. Click "Deploy a Linux Distribution". Choose "Ubuntu 14.04 LTS" and choose a root password. Leave everything as default.
+5. Click "Deploy a Linux Distribution". Choose "Ubuntu 16.04 LTS" and choose a root password. Leave everything as default.
 
 6. Click "Boot" and wait for it to start up
 
