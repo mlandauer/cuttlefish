@@ -15,4 +15,4 @@ cp "$RENEWED_LINEAGE/privkey.pem" /srv/www/shared/
 chown deploy /srv/www/shared/fullchain.pem /srv/www/shared/privkey.pem
 chmod 400 /srv/www/shared/fullchain.pem /srv/www/shared/privkey.pem
 
-service cuttlefish-smtp restart >/dev/null
+systemctl restart cuttlefish-smtp.target > /dev/null
