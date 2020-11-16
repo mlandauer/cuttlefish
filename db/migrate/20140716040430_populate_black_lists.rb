@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PopulateBlackLists < ActiveRecord::Migration
+class PopulateBlackLists < ActiveRecord::Migration[4.2]
   def change
     Address.all.each do |address|
       # Duplicate logic in Address#status

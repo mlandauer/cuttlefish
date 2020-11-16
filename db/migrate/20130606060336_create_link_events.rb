@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateLinkEvents < ActiveRecord::Migration
+class CreateLinkEvents < ActiveRecord::Migration[4.2]
   def change
     create_table :link_events do |t|
       t.integer :delivery_link_id

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddStructuredDataInPostfixLogLines < ActiveRecord::Migration
+class AddStructuredDataInPostfixLogLines < ActiveRecord::Migration[4.2]
   def change
     add_column :postfix_log_lines, :to, :string
     add_column :postfix_log_lines, :relay, :string

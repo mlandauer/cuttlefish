@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RenameCuttlefishApp < ActiveRecord::Migration
+class RenameCuttlefishApp < ActiveRecord::Migration[4.2]
   def change
     # This doesn't work anymore because App.default will fail at this
     # stage in the migrations. Could fix this properly but there is no

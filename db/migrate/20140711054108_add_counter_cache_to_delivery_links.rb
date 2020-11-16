@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddCounterCacheToDeliveryLinks < ActiveRecord::Migration
+class AddCounterCacheToDeliveryLinks < ActiveRecord::Migration[4.2]
   def change
     add_column :delivery_links, :click_events_count, :integer, null: false, default: 0
     # reset cached counts for delivery_links with click_events only
