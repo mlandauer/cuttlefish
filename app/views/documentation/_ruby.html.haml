@@ -25,13 +25,13 @@
   # NB this is probably better done as an inline block using 
   # MESSAGE  = "<<END_MARKER" format
 
-  from_line = "\nFrom: From Name <# {FROM_ADDRESS}>"
-  to_line = "\nTo: # {DESTINATION_ADDRESS}"
+  from_line = "\nFrom: From Name <#{FROM_ADDRESS}>"
+  to_line = "\nTo: #{DESTINATION_ADDRESS}"
   mime_vers = "\nMIME-Version: 1.0"
   content_type = "\nContent-type: text/html"
   subject_line = "\nSubject: your subject line here"
   blank_line = "\n " # needed before body as end of header
-  body_text = "\n add some body text ... la la la"
+  body_text = "\n\n add some body text ... la la la"
 
   email_text = from_line + to_line + mime_vers +
    content_type + subject_line + blank_line + body_text
