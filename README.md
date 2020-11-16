@@ -49,7 +49,7 @@ Cuttlefish is in beta. It's been used in production by [OpenAustralia Foundation
 Ruby 2.5.1, PostgresQL, Redis (2.4 or greater), Postfix
 
 Also you need the following libraries:
-imagemagick, libmagickwand-dev, libmysqld-dev
+imagemagick, libmagickwand-dev, libpq-dev
 
 For development, however, the only dependencies are Docker and Docker compose.
 
