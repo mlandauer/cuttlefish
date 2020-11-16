@@ -127,7 +127,7 @@ bundle exec cap --set-before local_deploy=true deploy:setup deploy:cold foreman:
 
 2. [Add a new Linode](https://manager.linode.com/linodes/add)
 
-3. Select "Linode 2048" at location "Fremont, CA"
+3. Select "Linode 8GB" at location "Fremont, CA"
 
 4. Select your new Linode in the dashboard
 
