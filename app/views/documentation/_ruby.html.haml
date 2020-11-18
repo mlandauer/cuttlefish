@@ -12,7 +12,7 @@
   require 'net/smtp'
 
   # Send #{app.name} mails to Cuttlefish (see http://cuttlefish.io)
-  # NB you probably don't want your password exposed in a public git 
+  # NB you probably don't want your password exposed in a public git
   # repository
   EMAIL_HOST = '#{app.smtp_server.hostname}'
   EMAIL_PORT = #{app.smtp_server.port}
@@ -22,7 +22,7 @@
   FROM_ADDRESS = "from_address@domain.com"
   DESTINATION_ADDRESS = "dest_addr@domain.com"
 
-  # NB this is probably better done as an inline block using 
+  # NB this is probably better done as an inline block using
   # MESSAGE  = "<<END_MARKER" format
 
   from_line = "\nFrom: From Name <\#{FROM_ADDRESS}>"
@@ -39,7 +39,7 @@
   smtp = Net::SMTP.new( EMAIL_HOST, EMAIL_PORT )
 
   # This needs to be called on an existing object before start()
-  smtp.enable_starttls_auto 
+  smtp.enable_starttls_auto
 
   smtp.start(
     EMAIL_HOST,
@@ -53,7 +53,6 @@
     DESTINATION_ADDRESS
 
   # this can be omitted if the smtp.new() command is the start of
-  # an Net::SMTP.new( ... ) do |smtp| block as smtp object is 
+  # an Net::SMTP.new( ... ) do |smtp| block as smtp object is
   # closed automatically at the end of the block
   smtp.finish
-
