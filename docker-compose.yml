@@ -24,7 +24,10 @@ services:
     command: bundle exec guard --no-interactions
 
   db:
-    image: postgres:10.5
+    # Use same version of postgres as we're currently using elsewhere
+    image: postgres:11.8
+    environment:
+      - POSTGRES_PASSWORD=cuttlefish
     ports:
       - "5432"
 

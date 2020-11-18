@@ -2,6 +2,7 @@ development:
   adapter: postgresql
   database: cuttlefish_development
   username: postgres
+  password: cuttlefish
   host: db
 
 # Warning: The database defined as "test" will be erased and
@@ -11,4 +12,5 @@ test:
   adapter: postgresql
   database: cuttlefish_test
   username: postgres
+  password: cuttlefish
   host: db
