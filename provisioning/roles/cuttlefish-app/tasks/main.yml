@@ -48,7 +48,11 @@
   postgresql_db: name=cuttlefish
 
 - name: Create cuttlefish posgresql role
-  postgresql_user: db=cuttlefish name=cuttlefish password={{ db_password }}
+  postgresql_user:
+    db: cuttlefish
+    name: cuttlefish
+    password: "{{ db_password }}"
+    encrypted: yes
 
 - name: Create postgresql role for root so it can do backups
   postgresql_user:
