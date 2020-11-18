@@ -8,8 +8,6 @@ require "honeybadger/capistrano" unless fetch(:local_deploy, false)
 
 set :application, "cuttlefish"
 set :repository,  "https://github.com/mlandauer/cuttlefish.git"
-# TODO: Remove the line below once this branch is merged into master
-set :branch, "upgrade-to-xenial"
 set :rvm_ruby_string, :local
 set :rvm_type, :system
 # The default for rvm_path is /usr/local/rvm
