@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeviseInvitableAddToAdmins < ActiveRecord::Migration
+class DeviseInvitableAddToAdmins < ActiveRecord::Migration[4.2]
   def up
     change_table :admins do |t|
       t.string     :invitation_token, limit: 60

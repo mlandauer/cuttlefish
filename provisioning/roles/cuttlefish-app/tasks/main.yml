@@ -8,6 +8,12 @@
 - name: Ensure git is installed
   apt: pkg=git
 
+# Installing via bash so that rvm is used. Otherwise would install gems for default system ruby
+- name: Install bundler gem < 2.0
+  command: bash -lc "gem install bundler --version '<2.0'"
+  args:
+    creates: "/usr/local/lib/rvm/gems/ruby-2.5.1/gems/bundler-*"
+
 - name: Install package dependencies that allow gem native extensions to be built
   apt:
     pkg: "{{ item }}"
@@ -46,53 +52,65 @@
   notify: nginx restart
 
 - name: Allow deploy user to export foreman script
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/local/lib/rvm/wrappers/default/bundle exec foreman export upstart /etc/init -a cuttlefish -u deploy -l /srv/www/shared/log -f Procfile.production' validate='visudo -cf %s'"
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/local/lib/rvm/wrappers/default/bundle exec foreman export systemd /etc/systemd/system -a cuttlefish -u deploy -l /srv/www/shared/log -f Procfile.production' validate='visudo -cf %s'"
+
+- name: Allow deploy user to reload systemd daemon after changing config
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl daemon-reload' validate='visudo -cf %s'"
 
 - name: Allow deploy user to start cuttlefish service
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish start' validate='visudo -cf %s'"
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl start cuttlefish.target' validate='visudo -cf %s'"
 
 - name: Allow deploy user to stop cuttlefish service
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish stop' validate='visudo -cf %s'"
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl stop cuttlefish.target' validate='visudo -cf %s'"
 
 - name: Allow deploy user to restart cuttlefish service
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/sbin/service cuttlefish restart' validate='visudo -cf %s'"
+  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl restart cuttlefish.target' validate='visudo -cf %s'"
 
 - name: Allow deploy to read some log files (different from admin group)
   user: name=deploy groups=adm append=yes
 
-# Certbot doesn't work properly (or at least the PPA doesn't support it) under
-# ubuntu trusty
-# TODO: Urgently upgrade so we can reinstate this
+- name: Add certbot PPA
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
 
-# - name: Add certbot PPA
-#   apt_repository:
-#     repo: 'ppa:certbot/certbot'
-#
-# - name: Install certbot using their PPA
-#   apt:
-#     pkg: certbot
-#     update_cache: yes
-#
-# - name: Install script for copying certs for cuttlefish daemon
-#   template:
-#     src: copy-cuttlefish-daemon-certs.sh
-#     dest: /etc/letsencrypt/renewal-hooks/deploy/copy-cuttlefish-daemon-certs
-#     mode: 755
-#
-# - name: Install certificate using certbot
-#   include_role:
-#     name: geerlingguy.certbot
-#   vars:
-#     certbot_auto_renew_user: root
-#     certbot_auto_renew_minute: 10
-#     certbot_auto_renew_hour: 7
-#     certbot_auto_renew_options: '--no-self-upgrade --pre-hook "service nginx stop" --post-hook "service nginx start"'
-#     certbot_create_if_missing: yes
-#     certbot_certs:
-#       - email: contact@oaf.org.au
-#         domains:
-#           - cuttlefish.oaf.org.au
-#           - cuttlefish.io
+- name: Install certbot using their PPA
+  apt:
+    pkg: certbot
+    update_cache: yes
+
+# We need this for the next step (which needs to happen before certbot runs
+# the first time)
+- name: Create hook certbot renewal hook directory
+  file:
+    path: /etc/letsencrypt/renewal-hooks/deploy
+    state: directory
+    mode: "0755"
+
+# Note that we're doing this before the certificate is generated because we want
+# the new certificate copied across immediately. But the slight hassle is we
+# need to ensure that the directory exists before we can run this (which otherwise
+# would have been created by certbot)
+- name: Install script for copying certs for cuttlefish daemon
+  template:
+    src: copy-cuttlefish-daemon-certs.sh
+    dest: /etc/letsencrypt/renewal-hooks/deploy/copy-cuttlefish-daemon-certs
+    mode: 755
+
+- name: Install certificate using certbot
+  include_role:
+    name: geerlingguy.certbot
+  vars:
+    certbot_auto_renew_user: root
+    certbot_auto_renew_minute: 10
+    certbot_auto_renew_hour: 7
+    certbot_auto_renew_options: '--no-self-upgrade --pre-hook "service nginx stop" --post-hook "service nginx start"'
+    certbot_create_if_missing: yes
+    certbot_certs:
+      - email: contact@oaf.org.au
+        domains:
+          - cuttlefish.oaf.org.au
+          - cuttlefish.io
+
 
 - name: Daily archiving and deny list removal tasks
   cron:

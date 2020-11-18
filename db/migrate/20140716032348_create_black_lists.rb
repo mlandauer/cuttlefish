@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateBlackLists < ActiveRecord::Migration
+class CreateBlackLists < ActiveRecord::Migration[4.2]
   def change
     create_table :black_lists do |t|
       t.integer :address_id

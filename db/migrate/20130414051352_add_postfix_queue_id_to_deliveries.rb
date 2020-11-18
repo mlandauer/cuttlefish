@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddPostfixQueueIdToDeliveries < ActiveRecord::Migration
+class AddPostfixQueueIdToDeliveries < ActiveRecord::Migration[4.2]
   def change
     add_column :deliveries, :postfix_queue_id, :string
     add_index :deliveries, :postfix_queue_id

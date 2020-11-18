@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddDeliveryStatusToEmails < ActiveRecord::Migration
+class AddDeliveryStatusToEmails < ActiveRecord::Migration[4.2]
   def change
     add_column :emails, :delivery_status, :string
     Email.reset_column_information
