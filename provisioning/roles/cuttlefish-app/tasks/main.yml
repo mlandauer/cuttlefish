@@ -8,6 +8,12 @@
 - name: Ensure git is installed
   apt: pkg=git
 
+# Installing via bash so that rvm is used. Otherwise would install gems for default system ruby
+- name: Install bundler gem < 2.0
+  command: bash -lc "gem install bundler --version '<2.0'"
+  args:
+    creates: "/usr/local/lib/rvm/gems/ruby-2.5.1/gems/bundler-*"
+
 - name: Install package dependencies that allow gem native extensions to be built
   apt:
     pkg: "{{ item }}"
