@@ -23,7 +23,7 @@
 - name: Install nginx
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
   with_items:
    - nginx-extras
    - passenger
