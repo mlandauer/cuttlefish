@@ -22,11 +22,10 @@
 
 - name: Install nginx
   apt:
-    pkg: "{{ item }}"
+    pkg:
+      - nginx-extras
+      - passenger
     state: present
-  with_items:
-   - nginx-extras
-   - passenger
 
 - name: Ensure that deploy owns /srv/www
   file:
@@ -54,12 +53,11 @@
 
 - name: Install package dependencies that allow gem native extensions to be built
   apt:
-    pkg: "{{ item }}"
-  with_items:
-    - libmysqlclient-dev
-    - g++
-    # Required for encryption in eventmachine
-    - libssl-dev
+    pkg:
+      - libmysqlclient-dev
+      - g++
+      # Required for encryption in eventmachine
+      - libssl-dev
 
 - name: Ensure that .env exists
   template:

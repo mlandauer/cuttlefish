@@ -2,10 +2,9 @@
 # tasks file for backup
 - name: Install duplicity and mailutils
   apt:
-    pkg: "{{ item }}"
-  with_items:
-    - duplicity
-    - mailutils
+    pkg:
+      - duplicity
+      - mailutils
 
 - name: Ensure git is installed
   apt:
