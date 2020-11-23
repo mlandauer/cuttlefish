@@ -1,0 +1,6 @@
+# Install the correct version of ansible (best to do in a virtual
+# environment) with:
+# cd provisioning
+# pip install -r requirements.txt
+
+ansible==2.7.18

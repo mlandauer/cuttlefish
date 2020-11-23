@@ -1,12 +1,49 @@
 ---
+- name: Remove apache2
+  apt:
+    name: apache2
+    state: absent
+
+- name: Add key for passenger
+  apt_key:
+    url: http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xAC40B2F7
+    state: present
+
+- name: Apt via https
+  apt:
+    name: apt-transport-https
+    state: present
+
+- name: Apt add passenger to list
+  apt_repository:
+    repo: 'deb https://oss-binaries.phusionpassenger.com/apt/passenger {{ansible_distribution_release}} main'
+    state: present
+    update_cache: yes
+
+- name: Install nginx
+  apt:
+    pkg:
+      - nginx-extras
+      - passenger
+    state: present
+
 - name: Ensure that deploy owns /srv/www
-  file: owner=deploy group=deploy path=/srv/www state=directory
+  file:
+    owner: deploy
+    group: deploy
+    path: /srv/www
+    state: directory
 
 - name: Ensure that /srv/www/shared exists
-  file: path=/srv/www/shared owner=deploy group=deploy state=directory
+  file:
+    path: /srv/www/shared
+    owner: deploy
+    group: deploy
+    state: directory
 
 - name: Ensure git is installed
-  apt: pkg=git
+  apt:
+    pkg: git
 
 # Installing via bash so that rvm is used. Otherwise would install gems for default system ruby
 - name: Install bundler gem < 2.0
@@ -16,28 +53,39 @@
 
 - name: Install package dependencies that allow gem native extensions to be built
   apt:
-    pkg: "{{ item }}"
-  with_items:
-    - libmysqlclient-dev
-    - g++
-    # Required for encryption in eventmachine
-    - libssl-dev
+    pkg:
+      - libmysqlclient-dev
+      - g++
+      # Required for encryption in eventmachine
+      - libssl-dev
 
 - name: Ensure that .env exists
-  template: src=env dest=/srv/www/shared/.env owner=deploy group=deploy
+  template:
+    src: env
+    dest: /srv/www/shared/.env
+    owner: deploy
+    group: deploy
   notify: nginx restart
   # TODO: Should also restart the log daemon
 
 - name: Generate the overall nginx config
-  template: src=nginx.conf dest=/etc/nginx/nginx.conf
+  template:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
   notify: nginx reload
 
 - name: Generate the nginx config for the app
-  template: src=default dest=/etc/nginx/sites-available/ owner=root group=root mode=644
+  template:
+    src: default
+    dest: /etc/nginx/sites-available/
+    owner: root
+    group: root
+    mode: "644"
   notify: nginx reload
 
 - name: Create cuttlefish postgresql database
-  postgresql_db: name=cuttlefish
+  postgresql_db:
+    name: cuttlefish
 
 - name: Create cuttlefish posgresql role
   postgresql_user:
@@ -52,26 +100,53 @@
     role_attr_flags: SUPERUSER
 
 - name: Copy over database configuration for application
-  template: src=database.yml dest=/srv/www/shared/database.yml owner=deploy group=deploy
+  template:
+    src: database.yml
+    dest: /srv/www/shared/database.yml
+    owner: deploy
+    group: deploy
   notify: nginx restart
 
 - name: Allow deploy user to export foreman script
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /usr/local/lib/rvm/wrappers/default/bundle exec foreman export systemd /etc/systemd/system -a cuttlefish -u deploy -l /srv/www/shared/log -f Procfile.production' validate='visudo -cf %s'"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: 'deploy ALL=(ALL) NOPASSWD: /usr/local/lib/rvm/wrappers/default/bundle exec foreman export systemd /etc/systemd/system -a cuttlefish -u deploy -l /srv/www/shared/log -f Procfile.production'
+    validate: 'visudo -cf %s'
 
 - name: Allow deploy user to reload systemd daemon after changing config
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl daemon-reload' validate='visudo -cf %s'"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: 'deploy ALL=(ALL) NOPASSWD: /bin/systemctl daemon-reload'
+    validate: 'visudo -cf %s'
 
 - name: Allow deploy user to start cuttlefish service
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl start cuttlefish.target' validate='visudo -cf %s'"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: 'deploy ALL=(ALL) NOPASSWD: /bin/systemctl start cuttlefish.target'
+    validate: 'visudo -cf %s'
 
 - name: Allow deploy user to stop cuttlefish service
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl stop cuttlefish.target' validate='visudo -cf %s'"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: 'deploy ALL=(ALL) NOPASSWD: /bin/systemctl stop cuttlefish.target'
+    validate: 'visudo -cf %s'
 
 - name: Allow deploy user to restart cuttlefish service
-  lineinfile: "dest=/etc/sudoers state=present line='deploy ALL=(ALL) NOPASSWD: /bin/systemctl restart cuttlefish.target' validate='visudo -cf %s'"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: 'deploy ALL=(ALL) NOPASSWD: /bin/systemctl restart cuttlefish.target'
+    validate: 'visudo -cf %s'
 
 - name: Allow deploy to read some log files (different from admin group)
-  user: name=deploy groups=adm append=yes
+  user:
+    name: deploy
+    groups: adm
+    append: yes
 
 - name: Add certbot PPA
   apt_repository:
