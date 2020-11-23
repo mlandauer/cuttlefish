@@ -94,6 +94,8 @@
     db: cuttlefish
     name: cuttlefish
     password: "{{ db_password }}"
+    # This changes to yes when we upgrade postgresql
+    encrypted: no
 
 - name: Create postgresql role for root so it can do backups
   postgresql_user:

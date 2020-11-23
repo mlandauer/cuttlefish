@@ -12,9 +12,9 @@
   pre_tasks:
     - name: Verify Ansible meets version requirements.
       assert:
-        that: ansible_version.major == 2 and ansible_version.minor == 5
+        that: ansible_version.major == 2 and ansible_version.minor == 6
         msg: >
-          "This currently works with Ansible 2.5"
+          "This currently works with Ansible 2.6"
 
 - hosts: all
   become: true
