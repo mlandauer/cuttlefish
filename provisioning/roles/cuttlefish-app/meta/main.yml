@@ -125,13 +125,15 @@ dependencies:
   - role: newrelic.newrelic-infra
     nrinfragent_config:
       license_key: "{{ new_relic_license_key }}"
-  - {role: ANXS.postgresql, postgresql_ext_install_dev_headers: yes}
+  - role: ANXS.postgresql
+    postgresql_ext_install_dev_headers: yes
   - role: rvm.ruby
     rvm1_rubies: ['ruby-2.5.1']
     rvm1_rvm_check_for_updates: false
     rvm1_install_path: '/usr/local/lib/rvm'
     rvm1_user: 'root'
-  - {role: DavidWittman.redis, redis_bind: "127.0.0.1"}
+  - role: DavidWittman.redis
+    redis_bind: "127.0.0.1"
   - role: cuttlefish-backup
     backup_aws_access_key: "{{ encrypted_backup_aws_access_key }}"
     backup_secret_access_key: "{{ encrypted_backup_secret_access_key }}"
