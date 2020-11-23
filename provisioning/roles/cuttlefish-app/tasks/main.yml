@@ -8,14 +8,6 @@
 - name: Ensure git is installed
   apt: pkg=git
 
-- name: Install postgresql 13
-  apt:
-    pkg: "{{ item }}"
-  with_items:
-    - postgresql-13
-    - postgresql-client-13
-    - libpq-dev
-
 # Installing via bash so that rvm is used. Otherwise would install gems for default system ruby
 - name: Install bundler gem < 2.0
   command: bash -lc "gem install bundler --version '<2.0'"
