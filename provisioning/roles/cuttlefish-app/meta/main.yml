@@ -131,7 +131,6 @@ dependencies:
     rvm1_rvm_check_for_updates: false
     rvm1_install_path: '/usr/local/lib/rvm'
     rvm1_user: 'root'
-  - {role: abtris.nginx-passenger}
   - {role: DavidWittman.redis, redis_bind: "127.0.0.1"}
   - role: cuttlefish-backup
     backup_aws_access_key: "{{ encrypted_backup_aws_access_key }}"
