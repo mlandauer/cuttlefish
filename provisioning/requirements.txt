@@ -3,4 +3,4 @@
 # cd provisioning
 # pip install -r requirements.txt
 
-ansible==2.8.17
+ansible==2.10.0
