@@ -25,6 +25,7 @@ services:
 
   db:
     # Use same version of postgres as we're currently using elsewhere
+    # TODO: Upgrade to postgres 13 which we are now using in production
     image: postgres:11.8
     environment:
       - POSTGRES_PASSWORD=cuttlefish
