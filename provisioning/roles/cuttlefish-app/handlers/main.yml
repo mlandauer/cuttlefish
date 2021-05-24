@@ -5,3 +5,8 @@
 
 - name: nginx reload
   service: name=nginx state=reloaded
+
+- name: postgresql restart
+  service:
+    name: postgresql
+    state: restarted

@@ -14,8 +14,5 @@
 - src: DavidWittman.redis
   version: 1.2.0
 
-- src: ANXS.postgresql
-  version: v1.0.3
-
 - src: nickhammond.logrotate
   version: v0.0.5

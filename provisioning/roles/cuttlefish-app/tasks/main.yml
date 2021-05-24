@@ -45,6 +45,30 @@
   apt:
     pkg: git
 
+- name: Add postgresql apt repository
+  apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt xenial-pgdg main
+
+- name: Add postgresql apt signing key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+- name: Install postgresql 13
+  apt:
+    pkg:
+      - postgresql-13
+      - postgresql-client-13
+      - libpq-dev
+    update_cache: yes
+
+- name: Trust local database access
+  template:
+    src: pg_hba.conf
+    dest: /etc/postgresql/13/main/pg_hba.conf
+    owner: postgres
+    group: postgres
+  notify: postgresql restart
+
 # Installing via bash so that rvm is used. Otherwise would install gems for default system ruby
 - name: Install bundler gem < 2.0
   command: bash -lc "gem install bundler --version '<2.0'"
@@ -82,6 +106,10 @@
     group: root
     mode: "644"
   notify: nginx reload
+
+- name: Install python module requirement for ansible creating postgresql db
+  apt:
+    pkg: python-psycopg2
 
 - name: Create cuttlefish postgresql database
   postgresql_db:
