@@ -69,6 +69,13 @@
     group: postgres
   notify: postgresql restart
 
+# We want the restart to happen immediately so that postgresl will be available
+# for later tasks
+- name: Restart postgresql
+  service:
+    name: postgresql
+    state: restarted
+
 # Installing via bash so that rvm is used. Otherwise would install gems for default system ruby
 - name: Install bundler gem < 2.0
   command: bash -lc "gem install bundler --version '<2.0'"
