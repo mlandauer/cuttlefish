@@ -67,7 +67,6 @@
     dest: /etc/postgresql/13/main/pg_hba.conf
     owner: postgres
     group: postgres
-  notify: postgresql restart
 
 # We want the restart to happen immediately so that postgresl will be available
 # for later tasks
