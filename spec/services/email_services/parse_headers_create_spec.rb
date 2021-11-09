@@ -23,12 +23,12 @@ describe EmailServices::ParseHeadersCreate do
       ].join("\r\n")
     end
 
-    it "should return the defaults for the options" do
+    it "returns the defaults for the options" do
       _, options = service.parse_and_remove_special_headers
       expect(options).to eq(ignore_deny_list: false, meta_values: {})
     end
 
-    it "should not change the headers" do
+    it "does not change the headers" do
       new_data, = service.parse_and_remove_special_headers
       expect(new_data).to eq data
     end
@@ -54,13 +54,13 @@ describe EmailServices::ParseHeadersCreate do
       ].join("\r\n")
     end
 
-    it "should return the metadata values" do
+    it "returns the metadata values" do
       _, options = service.parse_and_remove_special_headers
       # Make sure that underscores and dashes are preserved correctly
       expect(options[:meta_values]).to eq("foo_foo" => "bar", "goo-goo" => "bar", "wibble" => "wobble")
     end
 
-    it "should remove the the headers" do
+    it "removes the the headers" do
       new_data, = service.parse_and_remove_special_headers
       expect(new_data).to eq [
         "Date: Fri, 13 Mar 2015 14:42:20 +0000",
@@ -96,12 +96,12 @@ describe EmailServices::ParseHeadersCreate do
       ].join("\r\n")
     end
 
-    it "should have the setting set" do
+    it "has the setting set" do
       _, options = service.parse_and_remove_special_headers
       expect(options[:ignore_deny_list]).to be true
     end
 
-    it "should remove the the header" do
+    it "removes the the header" do
       new_data, = service.parse_and_remove_special_headers
       expect(new_data).to eq [
         "Date: Fri, 13 Mar 2015 14:42:20 +0000",

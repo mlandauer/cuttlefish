@@ -15,7 +15,7 @@ describe TestEmailsController, type: :controller do
     end
 
     describe "#new" do
-      it "should give some default text" do
+      it "gives some default text" do
         get :new
         expect(assigns(:text)).to eq(
           <<~EMAIL
@@ -35,7 +35,7 @@ describe TestEmailsController, type: :controller do
       let(:email) { mock_model("Email", deliveries: []) }
       let(:create_email) { instance_double("Email::Create", result: email) }
 
-      it "should create an email" do
+      it "creates an email" do
         expect(EmailServices::Create).to receive(:call).and_return(create_email)
         post :create, params: {
           from: "contact@cuttlefish.io",
@@ -46,7 +46,7 @@ describe TestEmailsController, type: :controller do
         }
       end
 
-      it "should redirect to the list of recent emails" do
+      it "redirects to the list of recent emails" do
         allow(EmailServices::Create).to receive(:call).and_return(create_email)
         post :create, params: {
           from: "contact@cuttlefish.io",

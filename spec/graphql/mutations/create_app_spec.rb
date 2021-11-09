@@ -29,15 +29,15 @@ describe Mutations::CreateApp do
   let(:variables) { { name: name } }
   let(:current_admin) { create(:admin) }
 
-  it "should not return any errors" do
+  it "does not return any errors" do
     expect(result["errors"]).to be_nil
   end
 
-  it "should create an app" do
+  it "creates an app" do
     expect { result }.to change { App.count }.by(1)
   end
 
-  it "should return the created app" do
+  it "returns the created app" do
     expect(result["data"]["createApp"]).to eq(
       "app" => { "name" => name },
       "errors" => []
@@ -51,7 +51,7 @@ describe Mutations::CreateApp do
       expect(app_policy).to receive(:create?) { false }
     end
 
-    it "should return an error" do
+    it "returns an error" do
       expect(result).to eq(
         "data" => { "createApp" => nil },
         "errors" => [{
@@ -67,7 +67,7 @@ describe Mutations::CreateApp do
   context "invalid name" do
     let(:name) { "sd^&" }
 
-    it "should return a nil app and a validation error" do
+    it "returns a nil app and a validation error" do
       expect(result["data"]["createApp"]).to eq(
         "app" => nil,
         "errors" => [{

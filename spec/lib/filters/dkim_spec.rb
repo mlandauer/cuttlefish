@@ -71,7 +71,7 @@ describe Filters::Dkim do
           # salt). So, we're just going to test for the presence of the header
           expect(filter_mail.header["DKIM-Signature"]).to_not be_nil
         }
-        it "should not alter the body of the email in any way" do
+        it "does not alter the body of the email in any way" do
           # The dkim signing library puts a different line ending on the
           # body of the email than the Mail gem does. When Mail reparses
           # it ends up changing the body. Not quite sure who is right here

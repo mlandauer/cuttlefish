@@ -64,7 +64,7 @@ describe PostfixLogLine do
   end
 
   describe ".create_from_line" do
-    it "should have an empty log lines on the delivery to start with" do
+    it "has an empty log lines on the delivery to start with" do
       email = create(:email, to: "foo@bar.com")
       email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
       expect(email.deliveries.first.postfix_log_lines).to be_empty
@@ -87,7 +87,7 @@ describe PostfixLogLine do
         PostfixLogLine.create_from_line(line1)
       end
 
-      it "should extract and save relevant parts of the line" do
+      it "extracts and save relevant parts of the line" do
         expect(PostfixLogLine.count).to eq 1
         line = delivery.postfix_log_lines.first
         expect(line.relay).to eq "foo.bar.com[1.2.3.4]:25"
@@ -102,7 +102,7 @@ describe PostfixLogLine do
         expect(line.time).to eq Time.local(Time.now.year, 4, 5, 16, 41, 54)
       end
 
-      it "should attach it to the delivery" do
+      it "attaches it to the delivery" do
         expect(email.deliveries.first.postfix_log_lines.count).to eq 1
         line = email.deliveries.first.postfix_log_lines.first
         expect(line.relay).to eq "foo.bar.com[1.2.3.4]:25"
@@ -139,13 +139,13 @@ describe PostfixLogLine do
         PostfixLogLine.create_from_line(line4)
       end
 
-      it "should attach it to the delivery" do
+      it "attaches it to the delivery" do
         expect(delivery1.postfix_log_lines.count).to eq 1
         expect(delivery2.postfix_log_lines.count).to eq 1
       end
     end
 
-    it "should not reprocess duplicate lines" do
+    it "does not reprocess duplicate lines" do
       address = Address.create!(text: "foo@bar.com")
       email = create(:email, to_addresses: [address])
       delivery = Delivery.find_by(email: email, address: address)
@@ -156,7 +156,7 @@ describe PostfixLogLine do
       expect(delivery.postfix_log_lines.count).to eq 1
     end
 
-    it "should recognise timeouts" do
+    it "recognises timeouts" do
       address = create(:address, text: "foobar@optusnet.com.au")
       create(
         :delivery,
@@ -172,7 +172,7 @@ describe PostfixLogLine do
       expect(PostfixLogLine.count).to eq 1
     end
 
-    it "should not produce any log lines if the queue id is not recognised" do
+    it "does not produce any log lines if the queue id is not recognised" do
       expect(PostfixLogLine).to receive(:puts).with(
         "Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - " \
         "it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: " \
@@ -186,7 +186,7 @@ describe PostfixLogLine do
       expect(PostfixLogLine.count).to eq 0
     end
 
-    it "should show a message if the address isn't recognised in a log line" do
+    it "shows a message if the address isn't recognised in a log line" do
       expect(PostfixLogLine).to receive(:puts).with(
         "Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - " \
         "it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: " \
@@ -200,7 +200,7 @@ describe PostfixLogLine do
       PostfixLogLine.create_from_line(line1)
     end
 
-    it "should only log lines that are delivery attempts" do
+    it "only log lines that are delivery attempts" do
       PostfixLogLine.create_from_line(line2)
       expect(PostfixLogLine.count).to eq 0
     end
@@ -232,7 +232,7 @@ describe PostfixLogLine do
       let(:delivery1) { Delivery.find_by(email: email1, address: address) }
       let(:delivery2) { Delivery.find_by(email: email2, address: address) }
 
-      it "should use the latest email" do
+      it "uses the latest email" do
         delivery1
         delivery2
         PostfixLogLine.create_from_line(line1)
@@ -241,7 +241,7 @@ describe PostfixLogLine do
       end
     end
 
-    it "should log and skip unrecognised lines" do
+    it "logs and skip unrecognised lines" do
       expect(PostfixLogLine).to receive(:puts).with(
         "Skipping unrecognised line: Oct 25 17:36:47 vps331845 postfix[6084]" \
         ": Postfix is running with backwards-compatible default setting"
@@ -286,22 +286,22 @@ describe PostfixLogLine do
   end
 
   describe "#status" do
-    it "should see a dsn of 2.0.0 as delivered" do
+    it "sees a dsn of 2.0.0 as delivered" do
       expect(PostfixLogLine.new(dsn: "2.0.0").status).to eq "delivered"
     end
 
-    it "should see a dsn of 5.1.1 as not delivered" do
+    it "sees a dsn of 5.1.1 as not delivered" do
       expect(PostfixLogLine.new(dsn: "5.1.1").status).to eq "hard_bounce"
     end
 
-    it "should see a dsn of 4.4.1 as not delivered" do
+    it "sees a dsn of 4.4.1 as not delivered" do
       expect(PostfixLogLine.new(dsn: "4.4.1").status).to eq "soft_bounce"
     end
 
     # See https://github.com/mlandauer/cuttlefish/issues/49
     # 5.2.2 is mailbox full. It's a "permanent" failure that should be viewed
     # as a temporary one
-    it "should see a dsn of 5.2.2 as a soft bounce" do
+    it "sees a dsn of 5.2.2 as a soft bounce" do
       expect(PostfixLogLine.new(dsn: "5.2.2").status).to eq "soft_bounce"
     end
   end

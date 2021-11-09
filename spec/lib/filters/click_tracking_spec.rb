@@ -15,7 +15,7 @@ describe Filters::ClickTracking do
   end
 
   describe "#data" do
-    it "should replace html links with tracking links" do
+    it "replaces html links with tracking links" do
       mail = Mail.new do
         html_part do
           content_type "text/html; charset=UTF-8"
@@ -43,7 +43,7 @@ describe Filters::ClickTracking do
   end
 
   describe ".rewrite_url" do
-    it "should rewrite the first link" do
+    it "rewrites the first link" do
       expect(Link).to receive(:find_or_create_by)
         .with(url: "http://foo.com?a=2").and_return(mock_model(Link, id: 10))
       expect(DeliveryLink).to receive(:find_or_create_by)

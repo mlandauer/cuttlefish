@@ -23,7 +23,7 @@ describe PostfixLogLineServices::Create do
     let(:email) { create(:email, app: app) }
     let!(:delivery) { create(:delivery, email: email, postfix_queue_id: "39D9336AFA81", address: address) }
 
-    it "should create a postfix log line record" do
+    it "creates a postfix log line record" do
       PostfixLogLineServices::Create.call(line)
 
       expect(PostfixLogLine.count).to eq 1
@@ -37,13 +37,13 @@ describe PostfixLogLineServices::Create do
       expect(p.delivery).to eq delivery
     end
 
-    it "should not add anything to the deny list" do
+    it "does not add anything to the deny list" do
       PostfixLogLineServices::Create.call(line)
 
       expect(DenyList.count).to be_zero
     end
 
-    it "should post to the webhook" do
+    it "posts to the webhook" do
       Sidekiq::Testing.inline! do
         expect(WebhookServices::PostDeliveryEvent).to receive(:call)
         PostfixLogLineServices::Create.call(line)
@@ -64,7 +64,7 @@ describe PostfixLogLineServices::Create do
     let(:address) { create(:address, text: "anincorrectemailaddress@openaustralia.org") }
     let!(:delivery) { create(:delivery, postfix_queue_id: "39D9336AFA81", address: address) }
 
-    it "should create a postfix log line record" do
+    it "creates a postfix log line record" do
       PostfixLogLineServices::Create.call(line)
 
       expect(PostfixLogLine.count).to eq 1
@@ -79,7 +79,7 @@ describe PostfixLogLineServices::Create do
       expect(p.delivery).to eq delivery
     end
 
-    it "should add the address to the deny list" do
+    it "adds the address to the deny list" do
       PostfixLogLineServices::Create.call(line)
 
       expect(DenyList.count).to eq 1
@@ -89,7 +89,7 @@ describe PostfixLogLineServices::Create do
       expect(d.app).to eq delivery.app
     end
 
-    it "should not post the webhook because the url isn't set" do
+    it "does not post the webhook because the url isn't set" do
       Sidekiq::Testing.inline! do
         expect(WebhookServices::PostDeliveryEvent).to_not receive(:call)
         PostfixLogLineServices::Create.call(line)
@@ -99,7 +99,7 @@ describe PostfixLogLineServices::Create do
     context "address is already on the deny list" do
       before { create(:deny_list, address: address, app: delivery.app) }
 
-      it "should not create another deny list" do
+      it "does not create another deny list" do
         expect(DenyList.count).to eq 1
       end
     end
@@ -119,13 +119,13 @@ describe PostfixLogLineServices::Create do
     let(:email) { create(:email, app: App.cuttlefish) }
     let!(:delivery) { create(:delivery, email: email, postfix_queue_id: "39D9336AFA81", address: address) }
 
-    it "should create a postfix log line record" do
+    it "creates a postfix log line record" do
       PostfixLogLineServices::Create.call(line)
 
       expect(PostfixLogLine.count).to eq 1
     end
 
-    it "should add the address to the cuttlefish app deny list" do
+    it "adds the address to the cuttlefish app deny list" do
       PostfixLogLineServices::Create.call(line)
 
       expect(DenyList.count).to eq 1

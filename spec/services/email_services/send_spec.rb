@@ -12,13 +12,13 @@ describe EmailServices::Send do
   end
   let(:send) { EmailServices::Send.call(email: email) }
 
-  it "should open an smtp connection to postfix port 25" do
+  it "opens an smtp connection to postfix port 25" do
     expect(Net::SMTP).to receive(:start).with("postfix", 25)
 
     send
   end
 
-  it "should send an email with a return-path" do
+  it "sends an email with a return-path" do
     smtp = double
     expect_any_instance_of(Delivery).to receive(:return_path)
       .and_return("bounce-address@cuttlefish.io")
@@ -32,7 +32,7 @@ describe EmailServices::Send do
     send
   end
 
-  it "should send an email to foo@bar.com" do
+  it "sends an email to foo@bar.com" do
     smtp = double
     expect(smtp).to receive(:send_message).with(
       anything,
@@ -44,7 +44,7 @@ describe EmailServices::Send do
     send
   end
 
-  it "should use data to figure out what to send" do
+  it "uses data to figure out what to send" do
     smtp = double
     filtered_mail = Mail.new do
       body "My altered data"
@@ -61,8 +61,7 @@ describe EmailServices::Send do
     send
   end
 
-  it "should set the postfix queue id on the deliveries based on " \
-     "the response from the server" do
+  it "sets the postfix queue id on the deliveries based on the response from the server" do
     response = double(message: "250 2.0.0 Ok: queued as A123")
     smtp = double(send_message: response)
     allow(Net::SMTP).to receive(:start).and_yield(smtp)
@@ -72,7 +71,7 @@ describe EmailServices::Send do
     email.deliveries.each { |d| expect(d.postfix_queue_id).to eq "A123" }
   end
 
-  it "should ignore response from server that doesn't include a queue id" do
+  it "ignores response from server that doesn't include a queue id" do
     response = double(message: "250 250 Message accepted")
     smtp = double(send_message: response)
     allow(Net::SMTP).to receive(:start).and_yield(smtp)
@@ -87,7 +86,7 @@ describe EmailServices::Send do
       allow_any_instance_of(Delivery).to receive(:send?).and_return(false)
     end
 
-    it "should send no emails" do
+    it "sends no emails" do
       # TODO: Ideally it shouldn't open a connection to the smtp server
       smtp = double
       expect(smtp).to_not receive(:send_message)
@@ -103,17 +102,17 @@ describe EmailServices::Send do
       allow(Net::SMTP).to receive(:start).and_yield(smtp)
     end
 
-    it "should record to which destinations the email has been sent" do
+    it "records to which destinations the email has been sent" do
       expect(email.deliveries.first).to_not be_sent
     end
 
-    it "should record to which destinations the email has been sent" do
+    it "records to which destinations the email has been sent" do
       send
 
       expect(email.deliveries.first).to be_sent
     end
 
-    it "should record that the deliveries are being open tracked" do
+    it "records that the deliveries are being open tracked" do
       send
 
       expect(email.deliveries.first).to be_open_tracked
@@ -124,7 +123,7 @@ describe EmailServices::Send do
         email.app.update_attributes(open_tracking_enabled: false)
       end
 
-      it "should record that the deliveries are not being open tracked" do
+      it "records that the deliveries are not being open tracked" do
         send
 
         expect(email.deliveries.first).to_not be_open_tracked

@@ -13,7 +13,7 @@ describe Filters::AddOpenTracking do
   end
 
   describe "#url" do
-    it "should normally be an https url to the default domain" do
+    it "is normally an https url to the default domain" do
       expect(filter.url).to eq "https://localhost/o2/673/05c6b2136e9c1297c0264427a17aa3cf4ea40b3e.gif"
     end
 
@@ -22,7 +22,7 @@ describe Filters::AddOpenTracking do
         { protocol: "http", domain: "email.planningalerts.org.au" }
       end
 
-      it "should use a custom domain if it is set (and also not use ssl)" do
+      it "uses a custom domain if it is set (and also not use ssl)" do
         expect(filter.url).to eq "http://email.planningalerts.org.au/o2/673/05c6b2136e9c1297c0264427a17aa3cf4ea40b3e.gif"
       end
     end
@@ -39,7 +39,7 @@ describe Filters::AddOpenTracking do
         end
       end
 
-      it "should insert an image at the bottom of the html" do
+      it "inserts an image at the bottom of the html" do
         hash = "05c6b2136e9c1297c0264427a17aa3cf4ea40b3e"
         expect(filter.filter_mail(mail).parts.first.decoded).to eq(
           "<h1>This is HTML with “some” UTF-8</h1>" \
@@ -63,7 +63,7 @@ describe Filters::AddOpenTracking do
         end
       end
 
-      it "should do nothing to the content of the email" do
+      it "does nothing to the content of the email" do
         expect(filter.filter_mail(mail).to_s).to eq mail.encoded
       end
     end
@@ -75,7 +75,7 @@ describe Filters::AddOpenTracking do
         end
       end
 
-      it "should do nothing to the content of the email" do
+      it "does nothing to the content of the email" do
         expect(filter.filter_mail(mail).to_s).to eq mail.encoded
       end
     end
@@ -99,7 +99,7 @@ describe Filters::AddOpenTracking do
         Mail.new(body)
       end
 
-      it "should add an image" do
+      it "adds an image" do
         hash = "05c6b2136e9c1297c0264427a17aa3cf4ea40b3e"
         expect(filter.filter_mail(mail).body).to eq(
           "<p>Hello This an html email</p>\n" \
@@ -121,13 +121,13 @@ describe Filters::AddOpenTracking do
         end
       end
 
-      it "should do nothing to the text part of the email" do
+      it "does nothing to the text part of the email" do
         expect(filter.filter_mail(mail).text_part.decoded).to eq(
           "Some plain text"
         )
       end
 
-      it "should append an image to the html part of the email" do
+      it "appends an image to the html part of the email" do
         hash = "05c6b2136e9c1297c0264427a17aa3cf4ea40b3e"
         expect(filter.filter_mail(mail).html_part.decoded).to eq(
           "<table>I like css</table>" \

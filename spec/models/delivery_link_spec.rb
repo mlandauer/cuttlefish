@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe DeliveryLink do
   describe "#add_click_event" do
-    it "should log the link event with some info from the current request" do
+    it "logs the link event with some info from the current request" do
       request = double(
         "Request",
         env: { "HTTP_USER_AGENT" => "some user agent info" },

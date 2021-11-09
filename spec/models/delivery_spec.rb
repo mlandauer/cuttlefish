@@ -11,7 +11,7 @@ describe Delivery do
         delivery.update_attributes(sent: true)
       end
 
-      it "should be delivered if the status is sent" do
+      it "is delivered if the status is sent" do
         # TODO: Replace with factory_girl
         delivery.postfix_log_lines.create(
           dsn: "2.0.0",
@@ -24,7 +24,7 @@ describe Delivery do
         expect(delivery.status).to eq "delivered"
       end
 
-      it "should be soft_bounce if the status was deferred" do
+      it "is soft_bounce if the status was deferred" do
         # TODO: Replace with factory_girl
         delivery.postfix_log_lines.create(
           dsn: "4.3.0",
@@ -37,11 +37,11 @@ describe Delivery do
         expect(delivery.status).to eq "soft_bounce"
       end
 
-      it "should be sent if there is no log line" do
+      it "is sent if there is no log line" do
         expect(delivery.status).to eq "sent"
       end
 
-      it "should be delivered if most recent status was a succesful delivery" do
+      it "is delivered if most recent status was a succesful delivery" do
         # TODO: Replace with factory_girl
         delivery.postfix_log_lines.create(
           dsn: "4.3.0",
@@ -63,11 +63,11 @@ describe Delivery do
       end
     end
 
-    it "should be not_sent if the nothing's been sent yet" do
+    it "is not_sent if the nothing's been sent yet" do
       expect(delivery.status).to eq "not_sent"
     end
 
-    it "should have a return path" do
+    it "has a return path" do
       expect(delivery.return_path).to eq "bounces@cuttlefish.oaf.org.au"
     end
   end

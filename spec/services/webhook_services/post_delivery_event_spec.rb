@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe WebhookServices::PostDeliveryEvent do
-  it "should send a POST as json" do
+  it "sends a POST as json" do
     # Making all the values in factory explicit so that our
     # tests don't accidently become dependent on the implementation
     # of the factor

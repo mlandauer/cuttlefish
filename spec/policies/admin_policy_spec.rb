@@ -21,7 +21,7 @@ describe AdminPolicy do
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
 
-    it "should have an empty scope" do
+    it "has an empty scope" do
       admin
       expect(AdminPolicy::Scope.new(user, Admin).resolve).to be_empty
     end
@@ -38,7 +38,7 @@ describe AdminPolicy do
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
 
-    it "should be in scope" do
+    it "is in scope" do
       admin
       expect(AdminPolicy::Scope.new(user, Admin).resolve).to include(admin)
     end
@@ -69,7 +69,7 @@ describe AdminPolicy do
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
 
-    it "should not be in scope" do
+    it "is not in scope" do
       admin
       expect(AdminPolicy::Scope.new(user, Admin).resolve).to_not include(admin)
     end

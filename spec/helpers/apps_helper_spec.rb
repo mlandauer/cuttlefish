@@ -4,11 +4,11 @@ require "spec_helper"
 
 describe AppsHelper, type: :helper do
   describe ".quote_long_dns_txt_record" do
-    it "should just quote a short string" do
+    it "just quotes a short string" do
       expect(helper.quote_long_dns_txt_record("abc")).to eq '"abc"'
     end
 
-    it "should seperate strings longer than 255" do
+    it "seperates strings longer than 255" do
       expect(helper.quote_long_dns_txt_record(
                "12345678901234567890123456789012345678901234567890" \
                "12345678901234567890123456789012345678901234567890" \

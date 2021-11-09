@@ -80,12 +80,6 @@ RSpec/EmptyLineAfterHook:
 RSpec/ExampleLength:
   Max: 167
 
-# Offense count: 252
-# Cop supports --auto-correct.
-# Configuration parameters: CustomTransform, IgnoredWords.
-RSpec/ExampleWording:
-  Enabled: false
-
 # Offense count: 6
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

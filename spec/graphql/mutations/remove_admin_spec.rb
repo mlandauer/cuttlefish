@@ -26,13 +26,13 @@ describe Mutations::RemoveAdmin do
   let(:team_one) { create(:team) }
   let(:team_two) { create(:team) }
 
-  it "should remove an admin" do
+  it "removes an admin" do
     admin
     current_admin
     expect { result }.to change { Admin.count }.by(-1)
   end
 
-  it "should return the deleted admin" do
+  it "returns the deleted admin" do
     expect(result).to eq(
       "data" => {
         "removeAdmin" => {
@@ -47,7 +47,7 @@ describe Mutations::RemoveAdmin do
   context "trying to remove non-existent admin" do
     before(:each) { admin.destroy! }
 
-    it "should return nil for the result and an error" do
+    it "returns nil for the result and an error" do
       expect(result).to eq(
         "data" => { "removeAdmin" => nil },
         "errors" => [{
@@ -63,7 +63,7 @@ describe Mutations::RemoveAdmin do
   context "trying to remove an admin in another team" do
     let(:admin) { create(:admin, team: team_two) }
 
-    it "should return nil for the result and an error" do
+    it "returns nil for the result and an error" do
       expect(result.to_h).to eq(
         "data" => { "removeAdmin" => nil },
         "errors" => [{

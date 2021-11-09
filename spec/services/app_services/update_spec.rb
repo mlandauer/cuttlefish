@@ -22,28 +22,28 @@ describe AppServices::Update do
   end
   let(:name) { "An updated name" }
 
-  it "should update the app name" do
+  it "updates the app name" do
     update_app
     app.reload
     expect(app.name).to eq name
   end
 
-  it "should be successfull" do
+  it "is successfull" do
     expect(update_app).to be_success
   end
 
-  it "should return the updated app" do
+  it "returns the updated app" do
     expect(update_app.result.name).to eq name
   end
 
   context "an invalid name" do
     let(:name) { "" }
 
-    it "should not be successfull" do
+    it "is not successfull" do
       expect(update_app).to_not be_success
     end
 
-    it "should return the app" do
+    it "returns the app" do
       expect(update_app.result.name).to eq name
     end
   end
@@ -55,7 +55,7 @@ describe AppServices::Update do
       expect(app_policy).to receive(:update?) { false }
     end
 
-    it "should not be successfull" do
+    it "is not successfull" do
       expect { update_app }.to raise_error(Pundit::NotAuthorizedError)
     end
   end
@@ -63,7 +63,7 @@ describe AppServices::Update do
   context "app doesn't exist" do
     before(:each) { app.destroy! }
 
-    it "should not be successfull" do
+    it "is not successfull" do
       expect { update_app }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
@@ -71,11 +71,11 @@ describe AppServices::Update do
   context "just updating from domain" do
     let(:attributes) { { from_domain: "foo.com" } }
 
-    it "should be successfull" do
+    it "is successfull" do
       expect(update_app).to be_success
     end
 
-    it "should return the updated app" do
+    it "returns the updated app" do
       expect(update_app.result.from_domain).to eq "foo.com"
     end
   end

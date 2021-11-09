@@ -42,7 +42,7 @@ describe Mutations::UpdateApp do
   let(:app) { create(:app, team: team) }
   let(:team) { create(:team) }
 
-  it "should not return any errors and return the updated app" do
+  it "does not return any errors and return the updated app" do
     expect(result).to eq(
       "data" => {
         "updateApp" => {
@@ -56,7 +56,7 @@ describe Mutations::UpdateApp do
     )
   end
 
-  it "should update the name" do
+  it "updates the name" do
     result
     app.reload
     expect(app.name).to eq name
@@ -65,7 +65,7 @@ describe Mutations::UpdateApp do
   context "just updating the from domain" do
     let(:attributes) { { "fromDomain" => "foo.com" } }
 
-    it "should not return any errors and return the updated app" do
+    it "does not return any errors and return the updated app" do
       expect(result).to eq(
         "data" => {
           "updateApp" => {

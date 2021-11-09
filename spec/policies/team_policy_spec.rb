@@ -20,7 +20,7 @@ describe TeamPolicy do
     it { is_expected.not_to permit(:invite) }
     it { is_expected.not_to permit(:destroy) }
 
-    it "should have an empty scope" do
+    it "has an empty scope" do
       expect(TeamPolicy::Scope.new(user, Team).resolve).to be_empty
     end
   end
@@ -36,7 +36,7 @@ describe TeamPolicy do
     it { is_expected.not_to permit(:invite) }
     it { is_expected.not_to permit(:destroy) }
 
-    it "should have an empty scope" do
+    it "has an empty scope" do
       expect(TeamPolicy::Scope.new(user, Team).resolve).to be_empty
     end
   end
@@ -53,7 +53,7 @@ describe TeamPolicy do
     it { is_expected.not_to permit(:invite) }
     it { is_expected.not_to permit(:destroy) }
 
-    it "should have an empty scope" do
+    it "has an empty scope" do
       expect(TeamPolicy::Scope.new(user, Team).resolve).to be_empty
     end
   end
@@ -63,7 +63,7 @@ describe TeamPolicy do
     it { is_expected.to permit(:index) }
     it { is_expected.to permit(:invite) }
 
-    it "should have all teams in scope" do
+    it "has all teams in scope" do
       expect(
         TeamPolicy::Scope.new(user, Team).resolve
       ).to include(team_one, team_two)

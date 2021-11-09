@@ -22,7 +22,7 @@ describe AppPolicy do
     it { is_expected.not_to permit(:destroy) }
     it { is_expected.not_to permit(:dkim) }
     it { is_expected.not_to permit(:toggle_dkim) }
-    it "should have empty scope" do
+    it "has empty scope" do
       app
       expect(AppPolicy::Scope.new(user, App).resolve).to eq []
     end
@@ -38,7 +38,7 @@ describe AppPolicy do
     it { is_expected.to permit(:destroy) }
     it { is_expected.to permit(:dkim) }
     it { is_expected.to permit(:toggle_dkim) }
-    it "should be in scope" do
+    it "is in scope" do
       app
       expect(AppPolicy::Scope.new(user, App).resolve).to include(app)
     end
@@ -54,7 +54,7 @@ describe AppPolicy do
     it { is_expected.not_to permit(:destroy) }
     it { is_expected.not_to permit(:dkim) }
     it { is_expected.not_to permit(:toggle_dkim) }
-    it "should not be in scope" do
+    it "is not in scope" do
       app
       expect(AppPolicy::Scope.new(user, App).resolve).to_not include(app)
     end
@@ -74,7 +74,7 @@ describe AppPolicy do
     # in the apps list. However, you can still view individual ones (and the
     # emails contained within) if you really need to do by going to the team
     # list
-    it "should not be in scope" do
+    it "is not in scope" do
       app
       expect(AppPolicy::Scope.new(user, App).resolve).to_not include(app)
     end
@@ -89,7 +89,7 @@ describe AppPolicy do
       it { is_expected.not_to permit(:destroy) }
       it { is_expected.to permit(:dkim) }
       it { is_expected.to permit(:toggle_dkim) }
-      it "should not be in scope" do
+      it "is not in scope" do
         app
         expect(AppPolicy::Scope.new(user, App).resolve).to_not include(app)
       end

@@ -19,7 +19,7 @@ describe AppsController, type: :controller do
     describe "#show" do
       let(:app) { create(:app, team: team) }
 
-      it "should be able to show" do
+      it "is able to show" do
         get :show, params: { id: app.id }
         expect(response).to be_successful
       end
@@ -27,7 +27,7 @@ describe AppsController, type: :controller do
       context "app doesn't exist" do
         before(:each) { app.destroy }
 
-        it "should 404" do
+        it "404S" do
           expect do
             get :show, params: { id: app.id }
           end.to raise_error(ActiveRecord::RecordNotFound)
@@ -37,7 +37,7 @@ describe AppsController, type: :controller do
       context "app is in a different team" do
         let(:app) { create(:app) }
 
-        it "should redirect to the login page because it's not authenticated properly" do
+        it "redirects to the login page because it's not authenticated properly" do
           get :show, params: { id: app.id }
           expect(response).to redirect_to(new_admin_session_url)
         end
@@ -45,7 +45,7 @@ describe AppsController, type: :controller do
     end
 
     describe "POST create" do
-      it "should create an app that is part of the current user's team" do
+      it "creates an app that is part of the current user's team" do
         post :create, params: { app: {
           name: "My New App",
           open_tracking_enabled: "0",
@@ -57,7 +57,7 @@ describe AppsController, type: :controller do
         expect(response).to redirect_to app
       end
 
-      it "should have errors on the variable when there's a validation error" do
+      it "has errors on the variable when there's a validation error" do
         post :create, params: { app: {
           name: "",
           open_tracking_enabled: false,
@@ -81,14 +81,14 @@ describe AppsController, type: :controller do
     describe "#update" do
       let(:app) { create(:app, team: team) }
 
-      it "should be able to update just the open_tracking_enabled" do
+      it "is able to update just the open_tracking_enabled" do
         put :update, params: { id: app.id, app: { open_tracking_enabled: "0" } }
         expect(response).to redirect_to app_path(app)
         app.reload
         expect(app.open_tracking_enabled).to eq false
       end
 
-      it "should be able to update just the from domain" do
+      it "is able to update just the from domain" do
         put :update, params: { id: app.id, app: { from_domain: "foo.com" } }
         expect(response).to redirect_to dkim_app_path(app)
         app.reload
@@ -99,7 +99,7 @@ describe AppsController, type: :controller do
     describe "#toggle_dkim" do
       let(:app) { create(:app, team: team, from_domain: "foo.com") }
 
-      it "should show an error" do
+      it "shows an error" do
         post :toggle_dkim, params: { id: app.id }
         expect(flash[:alert]).to include(
           "From domain doesn't have a DNS record configured correctly"
@@ -113,13 +113,13 @@ describe AppsController, type: :controller do
           }
         end
 
-        it "should be able to enable DKIM" do
+        it "is able to enable DKIM" do
           post :toggle_dkim, params: { id: app.id }
           app.reload
           expect(app.dkim_enabled).to eq true
         end
 
-        it "should redirect to the app" do
+        it "redirects to the app" do
           post :toggle_dkim, params: { id: app.id }
           expect(response).to redirect_to app_url(app)
         end
@@ -133,13 +133,13 @@ describe AppsController, type: :controller do
           app.update_attributes!(dkim_enabled: true)
         end
 
-        it "should be able to disable DKIM" do
+        it "is able to disable DKIM" do
           post :toggle_dkim, params: { id: app.id }
           app.reload
           expect(app.dkim_enabled).to eq false
         end
 
-        it "should redirect to the app" do
+        it "redirects to the app" do
           post :toggle_dkim, params: { id: app.id }
           expect(response).to redirect_to app_url(app)
         end
@@ -150,7 +150,7 @@ describe AppsController, type: :controller do
       context "with a legacy dkim selector" do
         let(:app) { create(:app, team: team, legacy_dkim_selector: true) }
 
-        it "should upgrade the dkim selector" do
+        it "upgrades the dkim selector" do
           post :upgrade_dkim, params: { id: app.id }
           app.reload
           expect(app.legacy_dkim_selector).to eq false
@@ -172,7 +172,7 @@ describe AppsController, type: :controller do
       context "dkim selector already upgraded" do
         let(:app) { create(:app, team: team, legacy_dkim_selector: false) }
 
-        it "shouldn't change the selector" do
+        it "does not change the selector" do
           post :upgrade_dkim, params: { id: app.id }
           app.reload
           expect(app.legacy_dkim_selector).to eq false
@@ -182,7 +182,7 @@ describe AppsController, type: :controller do
       context "app is in a different team" do
         let(:app) { create(:app, legacy_dkim_selector: true) }
 
-        it "should redirect to the login page because it's not authenticated properly" do
+        it "redirects to the login page because it's not authenticated properly" do
           post :upgrade_dkim, params: { id: app.id }
           expect(response).to redirect_to(new_admin_session_url)
         end
@@ -192,7 +192,7 @@ describe AppsController, type: :controller do
         let(:app) { create(:app, team: team, legacy_dkim_selector: false) }
         before(:each) { app.destroy }
 
-        it "should raise an error" do
+        it "raises an error" do
           expect do
             post :upgrade_dkim, params: { id: app.id }
           end.to raise_error(ActiveRecord::RecordNotFound)

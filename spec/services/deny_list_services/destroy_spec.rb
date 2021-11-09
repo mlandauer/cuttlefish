@@ -13,19 +13,19 @@ describe DenyListServices::Destroy do
     )
   end
 
-  it "should remove a deny list entry" do
+  it "removes a deny list entry" do
     deny_list
     expect { destroy_deny_list }.to change { DenyList.count }.by(-1)
   end
 
-  it "should return the deleted entry" do
+  it "returns the deleted entry" do
     expect(destroy_deny_list.result).to eq deny_list
   end
 
   context "entry does not exist" do
     before(:each) { deny_list.destroy! }
 
-    it "should error" do
+    it "errors" do
       expect { destroy_deny_list }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
@@ -37,7 +37,7 @@ describe DenyListServices::Destroy do
       expect(deny_list_policy).to receive(:destroy?) { false }
     end
 
-    it "should error" do
+    it "errors" do
       expect { destroy_deny_list }.to raise_error(Pundit::NotAuthorizedError)
     end
   end

@@ -8,12 +8,12 @@ describe Admins::RegistrationsController, type: :controller do
   end
 
   context "This a new install of Cuttlefish with no users" do
-    it "should allow an admin to register" do
+    it "allows an admin to register" do
       get :new
       expect(response).to be_successful
     end
 
-    it "should allow an admin to register" do
+    it "allows an admin to register" do
       post :create
       expect(response).to be_successful
     end
@@ -28,23 +28,23 @@ describe Admins::RegistrationsController, type: :controller do
       admin
     end
 
-    it "should not allow an admin to register" do
+    it "does not allow an admin to register" do
       get :new
       expect(response).to_not be_successful
     end
 
-    it "should not allow an admin to register" do
+    it "does not allow an admin to register" do
       post :create
       expect(response).to redirect_to(new_admin_session_url)
     end
 
-    it "should allow an admin to update their account details" do
+    it "allows an admin to update their account details" do
       sign_in admin
       get :edit
       expect(response).to be_successful
     end
 
-    it "should allow an admin to update their account details" do
+    it "allows an admin to update their account details" do
       sign_in admin
       post :update
       expect(response).to be_successful

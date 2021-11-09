@@ -19,19 +19,19 @@ describe Email do
         )
       end
 
-      it "should set the message-id based on the email content" do
+      it "sets the message-id based on the email content" do
         expect(Email.first.message_id).to eq(
           "5161ba1c90b10_7837557029c754c8@kedumba.mail"
         )
       end
 
-      it "should set a hash of the full email content" do
+      it "sets a hash of the full email content" do
         expect(Email.first.data_hash).to eq(
           "d096b1b1dfbcabf6bd4ef4d4b0ad88f562eedee9"
         )
       end
 
-      it "should have the same hash as other email with identical content" do
+      it "has the same hash as other email with identical content" do
         first_email = Email.first
         email = create(
           :email,
@@ -42,7 +42,7 @@ describe Email do
         expect(email.data_hash).to eq first_email.data_hash
       end
 
-      it "should have a different hash to other email with different content" do
+      it "has a different hash to other email with different content" do
         first_email = Email.first
         email = create(
           :email,
@@ -53,18 +53,18 @@ describe Email do
         expect(email.data_hash).to_not eq first_email.data_hash
       end
 
-      it "should set the subject of the email based on the data" do
+      it "sets the subject of the email based on the data" do
         expect(Email.first.subject).to eq "This is a subject"
       end
 
-      it "should set the from address based on the content of the email" do
+      it "sets the from address based on the content of the email" do
         expect(Email.first.from).to eq "contact@openaustraliafoundation.org.au"
       end
     end
   end
 
   describe "#from" do
-    it "should return a string for the from email address" do
+    it "returns a string for the from email address" do
       email = create(
         :email,
         from_address: Address.create!(text: "matthew@foo.com")
@@ -72,14 +72,14 @@ describe Email do
       expect(email.from).to eq "matthew@foo.com"
     end
 
-    it "should allow the from_address to be set by a string" do
+    it "allows the from_address to be set by a string" do
       email = create(:email, from: "matthew@foo.com")
       expect(email.from).to eq "matthew@foo.com"
     end
   end
 
   describe "#from_address" do
-    it "should return an Address object" do
+    it "returns an Address object" do
       email = create(:email, from: "matthew@foo.org")
       a1 = Address.find_by_text("matthew@foo.org")
       expect(a1).to_not be_nil
@@ -88,7 +88,7 @@ describe Email do
   end
 
   describe "#to" do
-    it "should return an array for all the email addresses" do
+    it "returns an array for all the email addresses" do
       email = create(
         :email,
         to: ["mlandauer@foo.org", "matthew@bar.com"]
@@ -96,19 +96,19 @@ describe Email do
       expect(email.to).to eq ["mlandauer@foo.org", "matthew@bar.com"]
     end
 
-    it "should be able to give just a single recipient" do
+    it "is able to give just a single recipient" do
       email = Email.new(to: "mlandauer@foo.org")
       expect(email.to).to eq ["mlandauer@foo.org"]
     end
 
-    it "should set created_at for deliveries too" do
+    it "sets created_at for deliveries too" do
       email = create(:email, to: "mlandauer@foo.org")
       expect(email.deliveries.first.created_at).to_not be_nil
     end
   end
 
   describe "#to_addresses" do
-    it "should return an array of Address objects" do
+    it "returns an array of Address objects" do
       email = create(
         :email,
         to: ["mlandauer@foo.org", "matthew@bar.com"]
@@ -128,17 +128,17 @@ describe Email do
       end
       let(:email) { Email.find(10) }
 
-      it "should be able to read in the data again" do
+      it "is able to read in the data again" do
         expect(email.data).to eq "This is a main data section"
       end
 
-      it "should be able to read in the data again after being saved again" do
+      it "is able to read in the data again after being saved again" do
         email.save!
         expect(email.data).to eq "This is a main data section"
       end
     end
 
-    it "should only keep the full data of a certain number of emails around" do
+    it "only keeps the full data of a certain number of emails around" do
       allow(Rails.configuration).to receive(
         :max_no_emails_to_store
       ).and_return(2)

@@ -18,11 +18,11 @@ describe AppServices::Create do
     )
   end
 
-  it "should create an app" do
+  it "creates an app" do
     expect { create_app }.to change { App.count }.by(1)
   end
 
-  it "should return the created app" do
+  it "returns the created app" do
     app = create_app.result
     expect(app.name).to eq "An app"
     expect(app.open_tracking_enabled).to eq false
@@ -30,21 +30,21 @@ describe AppServices::Create do
     expect(app.custom_tracking_domain).to be_nil
   end
 
-  it "should create the app in the same team as the admin" do
+  it "creates the app in the same team as the admin" do
     expect(create_app.result.team).to eq current_admin.team
   end
 
-  it "should be successfull" do
+  it "is successfull" do
     expect(create_app).to be_success
   end
 
   context "name is blank" do
     let(:name) { "" }
-    it "should not be succesfull" do
+    it "is not succesfull" do
       expect(create_app).to_not be_success
     end
 
-    it "should return the unsaved app" do
+    it "returns the unsaved app" do
       expect(create_app.result).to_not be_persisted
     end
   end
@@ -56,7 +56,7 @@ describe AppServices::Create do
       expect(app_policy).to receive(:create?) { false }
     end
 
-    it "should not be successfull" do
+    it "is not successfull" do
       expect { create_app }.to raise_error(Pundit::NotAuthorizedError)
     end
   end

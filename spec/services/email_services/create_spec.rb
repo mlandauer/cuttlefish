@@ -19,27 +19,27 @@ describe EmailServices::Create do
     )
   end
 
-  it "should send a test email" do
+  it "sends a test email" do
     expect_any_instance_of(EmailServices::CreateFromData).to receive(:call)
     create_email
   end
 
-  it "should create an email" do
+  it "creates an email" do
     allow(EmailServices::Send).to receive(:call)
     expect { create_email }.to change { Email.count }.by(1)
   end
 
-  it "should return the service object" do
+  it "returns the service object" do
     allow(EmailServices::Send).to receive(:call)
     expect(create_email).to be_a(EmailServices::Create)
   end
 
-  it "should return an email" do
+  it "returns an email" do
     allow(EmailServices::Send).to receive(:call)
     expect(create_email.result).to be_an(Email)
   end
 
-  it "should not be possible to write to the result" do
+  it "is not possible to write to the result" do
     allow(EmailServices::Send).to receive(:call)
     expect { create_email.result = nil }.to raise_error(NoMethodError)
   end

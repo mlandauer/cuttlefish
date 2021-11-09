@@ -14,7 +14,7 @@ describe Admins::SessionsController, type: :controller do
         team.admins.create!(email: "foo@bar.com", password: "guess this")
       end
 
-      it "should redirect to https" do
+      it "redirects to https" do
         get :new
         expect(response).to redirect_to(action: :new, protocol: "https")
       end
@@ -27,7 +27,7 @@ describe Admins::SessionsController, type: :controller do
     end
 
     context "This is a fresh install and there are no admins registered" do
-      it "should redirect to the registration page" do
+      it "redirects to the registration page" do
         get :new
         expect(response).to redirect_to new_admin_registration_url
       end
@@ -39,7 +39,7 @@ describe Admins::SessionsController, type: :controller do
         team.admins.create!(email: "foo@bar.com", password: "guess this")
       end
 
-      it "should not redirect https" do
+      it "does not redirect https" do
         get :new
         expect(response).to be_successful
       end

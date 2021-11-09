@@ -19,37 +19,37 @@ describe Address do
     end
 
     describe "#emails_sent" do
-      it "should be able to find all the emails sent from this address" do
+      it "is able to find all the emails sent from this address" do
         expect(address1.emails_sent.order(:id)).to eq [@email1, @email2]
       end
 
-      it "should be able to find all the emails sent from this address" do
+      it "is able to find all the emails sent from this address" do
         expect(address2.emails_sent).to eq [@email3]
       end
     end
 
     describe "#emails_received" do
-      it "should be able to find all the emails received by this address" do
+      it "is able to find all the emails received by this address" do
         expect(address1.emails_received).to eq [@email1]
       end
 
-      it "should be able to find all the emails received by this address" do
+      it "is able to find all the emails received by this address" do
         expect(address2.emails_received).to eq [@email2, @email3]
       end
     end
 
     describe "#emails" do
-      it "should be able to find all emails that involved this email address" do
+      it "is able to find all emails that involved this email address" do
         expect(address1.emails).to match_array [@email1, @email2]
       end
 
-      it "should be able to find all emails that involved this email address" do
+      it "is able to find all emails that involved this email address" do
         expect(address2.emails).to match_array [@email2, @email3]
       end
     end
 
     describe "#status" do
-      it "should take the most recent delivery to this address as the status" do
+      it "takes the most recent delivery to this address as the status" do
         delivery2 = Delivery.find_by(email: @email2, address: address2)
         delivery3 = Delivery.find_by(email: @email3, address: address2)
         # TODO: Replace with factory_girl
@@ -72,7 +72,7 @@ describe Address do
         expect(address2.status).to eq "delivered"
       end
 
-      it "should take the most recent delivery to this address as the status" do
+      it "takes the most recent delivery to this address as the status" do
         delivery2 = Delivery.find_by(email: @email2, address: address2)
         delivery3 = Delivery.find_by(email: @email3, address: address2)
         # TODO: Replace with factory_girl
@@ -95,7 +95,7 @@ describe Address do
         expect(address2.status).to eq "soft_bounce"
       end
 
-      it "should be sent if there are no delivery attempts" do
+      it "is sent if there are no delivery attempts" do
         expect(address2.status).to eq "sent"
       end
     end

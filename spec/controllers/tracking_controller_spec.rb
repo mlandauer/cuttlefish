@@ -8,7 +8,7 @@ describe TrackingController, type: :controller do
       create(:delivery, id: 101)
     end
 
-    it "should be succesful when the correct hash is used" do
+    it "is succesful when the correct hash is used" do
       # Note that this request is being made via http (not https)
       get :open, params: {
         delivery_id: 101,
@@ -17,13 +17,13 @@ describe TrackingController, type: :controller do
       expect(response).to be_successful
     end
 
-    it "should 404 when hash isn't recognised" do
+    it "404S when hash isn't recognised" do
       expect do
         get :open, params: { delivery_id: 101, hash: "123" }
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it "should register the open event" do
+    it "registers the open event" do
       get :open, params: {
         delivery_id: 101,
         hash: "e4a8656f793ded530fb9d619af3c6c08a49ead7f"
@@ -37,7 +37,7 @@ describe TrackingController, type: :controller do
           .and_return(true)
       end
 
-      it "should be succesful when the correct hash is used" do
+      it "is succesful when the correct hash is used" do
         # Note that this request is being made via http (not https)
         get :open, params: {
           delivery_id: 101,
@@ -46,7 +46,7 @@ describe TrackingController, type: :controller do
         expect(response).to be_successful
       end
 
-      it "should not register the open event" do
+      it "does not register the open event" do
         get :open, params: {
           delivery_id: 101,
           hash: "e4a8656f793ded530fb9d619af3c6c08a49ead7f"
@@ -65,7 +65,7 @@ describe TrackingController, type: :controller do
 
     context "When the correct hash and id are used" do
       context "the delivery_link exists" do
-        it "should redirect" do
+        it "redirects" do
           get :click, params: {
             delivery_link_id: 204,
             url: "http://foo.com",
@@ -74,7 +74,7 @@ describe TrackingController, type: :controller do
           expect(response).to redirect_to("http://foo.com")
         end
 
-        it "should log the event" do
+        it "logs the event" do
           allow(HashId).to receive(:valid?).and_return(true)
           delivery_link = mock_model(DeliveryLink, url: "http://foo.com")
           expect(DeliveryLink).to receive(:find_by_id)
@@ -89,7 +89,7 @@ describe TrackingController, type: :controller do
       end
 
       context "the delivery_link doesn't exist and url provided" do
-        it "should redirect to to the given url" do
+        it "redirects to to the given url" do
           get :click, params: {
             delivery_link_id: 123,
             hash: HashId.hash("123-http://bar.com?foo=baz"),
@@ -100,7 +100,7 @@ describe TrackingController, type: :controller do
       end
 
       context "the url has been changed" do
-        it "should not redirect to the given url" do
+        it "does not redirect to the given url" do
           expect do
             get :click, params: {
               delivery_link_id: 123,
@@ -118,7 +118,7 @@ describe TrackingController, type: :controller do
           .and_return(true)
       end
 
-      it "should redirect" do
+      it "redirects" do
         get :click, params: {
           delivery_link_id: 204,
           hash: HashId.hash("204-http://foo.com"),
@@ -127,7 +127,7 @@ describe TrackingController, type: :controller do
         expect(response).to redirect_to("http://foo.com")
       end
 
-      it "should not log the event" do
+      it "does not log the event" do
         get :click, params: {
           delivery_link_id: 204,
           hash: HashId.hash("204-http://foo.com"),
@@ -137,7 +137,7 @@ describe TrackingController, type: :controller do
       end
     end
 
-    it "should 404 when the wrong id is used" do
+    it "404S when the wrong id is used" do
       expect do
         get :click, params: {
           delivery_link_id: 122,
@@ -146,7 +146,7 @@ describe TrackingController, type: :controller do
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it "should 4040 when the wrong hash is used" do
+    it "4040S when the wrong hash is used" do
       expect do
         get :click, params: { delivery_link_id: 204, hash: "123" }
       end.to raise_error(ActiveRecord::RecordNotFound)

@@ -12,7 +12,7 @@ describe DkimDns do
   end
 
   describe "#dkim_dns_value" do
-    it "should give me the dns record value" do
+    it "gives me the dns record value" do
       # Test certain invariants
       expect(dkim_dns.dkim_dns_value[0..8]).to eq "k=rsa; p="
       expect(dkim_dns.dkim_dns_value.count('"')).to eq 0
@@ -21,7 +21,7 @@ describe DkimDns do
   end
 
   describe "#dkim_domain" do
-    it "should return the fully qualified domain name" do
+    it "returns the fully qualified domain name" do
       expect(dkim_dns.dkim_domain).to eq "cuttlefish._domainkey.foo.com"
     end
   end

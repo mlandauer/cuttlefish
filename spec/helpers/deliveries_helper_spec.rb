@@ -14,7 +14,7 @@ require "spec_helper"
 # end
 describe DeliveriesHelper, type: :helper do
   describe "clean_html_email_for_display" do
-    it "should only show the body of the email and inline css" do
+    it "only shows the body of the email and inline css" do
       html = <<~HTML
         <html>
           <head>
@@ -39,7 +39,7 @@ describe DeliveriesHelper, type: :helper do
       expect(h).to eq expected_html.strip
     end
 
-    it "should preserve UTF-8 characters" do
+    it "preserves UTF-8 characters" do
       h = helper.clean_html_email_for_display("This is some “test UTF-8” stuff")
       expect(h).to eq "<div><p>This is some “test UTF-8” stuff</p></div>"
     end
