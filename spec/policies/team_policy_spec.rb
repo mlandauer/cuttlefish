@@ -70,7 +70,7 @@ describe TeamPolicy do
     end
 
     context "in read only mode" do
-      before :each do
+      before do
         allow(Rails.configuration).to receive(:cuttlefish_read_only_mode) {
           true
         }

@@ -6,7 +6,7 @@ describe Address do
   context "three emails" do
     let(:address1) { Address.create!(text: "matthew@foo.com") }
     let(:address2) { Address.create!(text: "peter@bar.com") }
-    before :each do
+    before do
       @email1 = create(
         :email, from_address: address1, to_addresses: [address1]
       )

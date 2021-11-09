@@ -48,7 +48,7 @@ describe Filters::AddOpenTracking do
       end
 
       context "app has disabled open tracking" do
-        before :each do
+        before do
           filter.enabled = false
         end
       end

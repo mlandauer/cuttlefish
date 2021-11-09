@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe InvitationsController, type: :controller do
-  before :each do
+  before do
     request.env["HTTPS"] = "on"
   end
 
@@ -14,7 +14,7 @@ describe InvitationsController, type: :controller do
 
   describe "#create" do
     context "signed in" do
-      before(:each) { sign_in admin }
+      before { sign_in admin }
 
       it "invites a user by their email and make them part of the team" do
         expect(Admin).to receive(:invite!).with(

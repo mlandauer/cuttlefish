@@ -14,7 +14,7 @@ describe "getting a bunch of screenshots", js: true do
     # exec("open #{path}")
   end
 
-  before :each do
+  before do
     ApplicationController.any_instance.stub(force_ssl?: false)
   end
 
@@ -28,7 +28,7 @@ describe "getting a bunch of screenshots", js: true do
   context "a user and an email" do
     let(:team) { Team.create! }
 
-    before :each do
+    before do
       team.admins.create!(
         email: "matthew@openaustralia.org", password: "caplin"
       )

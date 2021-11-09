@@ -50,7 +50,7 @@ describe AppServices::Update do
 
   context "the user doesn't have permission" do
     let(:app_policy) { double }
-    before :each do
+    before do
       expect(AppPolicy).to receive(:new) { app_policy }
       expect(app_policy).to receive(:update?) { false }
     end
@@ -61,7 +61,7 @@ describe AppServices::Update do
   end
 
   context "app doesn't exist" do
-    before(:each) { app.destroy! }
+    before { app.destroy! }
 
     it "is not successfull" do
       expect { update_app }.to raise_error(ActiveRecord::RecordNotFound)

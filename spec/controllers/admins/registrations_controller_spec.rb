@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe Admins::RegistrationsController, type: :controller do
-  before :each do
+  before do
     request.env["HTTPS"] = "on"
   end
 
@@ -24,7 +24,7 @@ describe Admins::RegistrationsController, type: :controller do
     let(:admin) do
       team.admins.create!(email: "foo@bar.com", password: "guess this")
     end
-    before :each do
+    before do
       admin
     end
 

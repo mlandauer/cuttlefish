@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe LandingController, type: :controller do
-  before :each do
+  before do
     request.env["HTTPS"] = "on"
   end
 
@@ -14,7 +14,7 @@ describe LandingController, type: :controller do
     end
 
     context "signed in" do
-      before :each do
+      before do
         team = Team.create!
         admin = team.admins.create!(
           email: "foo@bar.com",

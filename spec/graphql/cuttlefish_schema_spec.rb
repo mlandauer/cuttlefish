@@ -22,7 +22,7 @@ describe CuttlefishSchema do
   let(:delivery1) { create(:delivery, email: email1) }
   let(:delivery2) { create(:delivery, email: email2) }
 
-  before :each do
+  before do
     delivery1
     delivery2
   end
@@ -156,7 +156,7 @@ describe CuttlefishSchema do
 
   describe "teams" do
     let(:query_string) { "{ teams { admins { name } apps { name } } }" }
-    before(:each) do
+    before do
       team_one
       team_two
     end

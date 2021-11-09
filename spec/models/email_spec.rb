@@ -5,7 +5,7 @@ require "spec_helper"
 describe Email do
   describe "create!" do
     context "One email is created" do
-      before :each do
+      before do
         create(
           :email,
           to: "foo@bar.com",
@@ -123,7 +123,7 @@ describe Email do
 
   describe "#data" do
     context "one email" do
-      before :each do
+      before do
         create(:email, id: 10, data: "This is a main data section")
       end
       let(:email) { Email.find(10) }

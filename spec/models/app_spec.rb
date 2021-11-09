@@ -64,10 +64,10 @@ describe App do
     let(:app) { create(:app, id: 12) }
 
     context "dkim disabled" do
-      before(:each) { app.dkim_enabled = false }
+      before { app.dkim_enabled = false }
 
       context "a from domain specified" do
-        before(:each) { app.from_domain = "foo.com" }
+        before { app.from_domain = "foo.com" }
 
         it "is valid" do
           expect(app).to be_valid
@@ -76,7 +76,7 @@ describe App do
     end
 
     context "dkim enabled" do
-      before(:each) { app.dkim_enabled = true }
+      before { app.dkim_enabled = true }
 
       context "no from domain specified" do
         it "is not valid" do
@@ -92,10 +92,10 @@ describe App do
       end
 
       context "a from domain specified" do
-        before(:each) { app.from_domain = "foo.com" }
+        before { app.from_domain = "foo.com" }
 
         context "that has dns setup" do
-          before(:each) do
+          before do
             allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
               true
             }
@@ -107,7 +107,7 @@ describe App do
         end
 
         context "that has no dns setup" do
-          before(:each) do
+          before do
             allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
               false
             }
@@ -154,7 +154,7 @@ describe App do
     end
 
     context "in development environment" do
-      before(:each) do
+      before do
         allow(Rails).to receive_message_chain(:env, :development?) { true }
       end
 
@@ -205,7 +205,7 @@ describe App do
   end
 
   describe ".cuttlefish" do
-    before(:each) do
+    before do
       allow(Rails.configuration).to receive(:cuttlefish_domain)
         .and_return("cuttlefish.io")
     end

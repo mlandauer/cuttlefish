@@ -75,14 +75,14 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.before :each do
+  config.before do
     cache = EmailDataCache.new(
       Rails.env.to_s, Rails.configuration.max_no_emails_to_store
     )
     FileUtils.rm_rf cache.data_filesystem_directory
   end
 
-  config.after :each do
+  config.after do
     cache = EmailDataCache.new(
       Rails.env.to_s, Rails.configuration.max_no_emails_to_store
     )
@@ -94,11 +94,11 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:transaction)
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.clean
   end
 

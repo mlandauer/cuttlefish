@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe AppsController, type: :controller do
-  before :each do
+  before do
     request.env["HTTPS"] = "on"
   end
 
@@ -12,7 +12,7 @@ describe AppsController, type: :controller do
     let(:admin) do
       team.admins.create!(email: "matthew@foo.bar", password: "foobar")
     end
-    before(:each) do
+    before do
       sign_in admin
     end
 
@@ -25,7 +25,7 @@ describe AppsController, type: :controller do
       end
 
       context "app doesn't exist" do
-        before(:each) { app.destroy }
+        before { app.destroy }
 
         it "404S" do
           expect do
@@ -107,7 +107,7 @@ describe AppsController, type: :controller do
       end
 
       context "DNS for DKIM is correctly configured" do
-        before(:each) do
+        before do
           allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
             true
           }
@@ -126,7 +126,7 @@ describe AppsController, type: :controller do
       end
 
       context "DKIM is enabled" do
-        before :each do
+        before do
           allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
             true
           }
@@ -190,7 +190,7 @@ describe AppsController, type: :controller do
 
       context "app doesn't exist" do
         let(:app) { create(:app, team: team, legacy_dkim_selector: false) }
-        before(:each) { app.destroy }
+        before { app.destroy }
 
         it "raises an error" do
           expect do

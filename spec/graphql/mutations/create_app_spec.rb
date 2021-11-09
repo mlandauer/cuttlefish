@@ -46,7 +46,7 @@ describe Mutations::CreateApp do
 
   context "user does not have permission" do
     let(:app_policy) { double }
-    before :each do
+    before do
       expect(AppPolicy).to receive(:new) { app_policy }
       expect(app_policy).to receive(:create?) { false }
     end

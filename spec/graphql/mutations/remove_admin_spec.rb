@@ -45,7 +45,7 @@ describe Mutations::RemoveAdmin do
   end
 
   context "trying to remove non-existent admin" do
-    before(:each) { admin.destroy! }
+    before { admin.destroy! }
 
     it "returns nil for the result and an error" do
       expect(result).to eq(

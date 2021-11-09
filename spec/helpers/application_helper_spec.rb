@@ -61,7 +61,7 @@ describe ApplicationHelper, type: :helper do
     end
 
     context "/foo/bar is current page" do
-      before :each do
+      before do
         allow(helper).to receive(:current_page?).and_return(true)
       end
 

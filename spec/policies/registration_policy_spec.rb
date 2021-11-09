@@ -13,7 +13,7 @@ describe RegistrationPolicy do
     end
 
     context "one pre-existing user" do
-      before(:each) { create(:admin) }
+      before { create(:admin) }
 
       it { is_expected.not_to permit(:create) }
     end
@@ -28,7 +28,7 @@ describe RegistrationPolicy do
     it { is_expected.to permit(:destroy) }
 
     context "in read only mode" do
-      before :each do
+      before do
         allow(Rails.configuration).to receive(:cuttlefish_read_only_mode) {
           true
         }

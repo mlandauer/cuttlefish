@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe TrackingController, type: :controller do
   describe "#open" do
-    before :each do
+    before do
       create(:delivery, id: 101)
     end
 
@@ -32,7 +32,7 @@ describe TrackingController, type: :controller do
     end
 
     context "read only mode" do
-      before(:each) do
+      before do
         allow(Rails.configuration).to receive(:cuttlefish_read_only_mode)
           .and_return(true)
       end
@@ -57,7 +57,7 @@ describe TrackingController, type: :controller do
   end
 
   describe "#click" do
-    before :each do
+    before do
       @delivery_link = create(:delivery_link, id: 204)
       allow_any_instance_of(DeliveryLink).to receive(:url)
         .and_return("http://foo.com")
@@ -113,7 +113,7 @@ describe TrackingController, type: :controller do
     end
 
     context "read only mode" do
-      before(:each) do
+      before do
         allow(Rails.configuration).to receive(:cuttlefish_read_only_mode)
           .and_return(true)
       end

@@ -7,7 +7,7 @@ describe Delivery do
 
   describe "#status" do
     context "delivery is sent" do
-      before :each do
+      before do
         delivery.update_attributes(sent: true)
       end
 

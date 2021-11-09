@@ -34,7 +34,7 @@ describe AdminServices::Destroy do
   end
 
   context "admin doesn't exist" do
-    before(:each) { admin.destroy! }
+    before { admin.destroy! }
 
     it "raises an error" do
       expect { remove_admin }.to raise_error(ActiveRecord::RecordNotFound)

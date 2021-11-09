@@ -3,13 +3,13 @@
 require "spec_helper"
 
 describe DeliveriesController, type: :controller do
-  before :each do
+  before do
     request.env["HTTPS"] = "on"
   end
 
   context "signed in" do
     let(:team) { Team.create! }
-    before :each do
+    before do
       admin = team.admins.create!(email: "foo@bar.com", password: "guess this")
       sign_in admin
     end

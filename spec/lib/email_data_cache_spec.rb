@@ -34,7 +34,7 @@ describe EmailDataCache do
   end
 
   describe ".safe_file_delete" do
-    before :each do
+    before do
       @filename = File.join(cache.data_filesystem_directory, "foo")
       cache.create_data_filesystem_directory
     end

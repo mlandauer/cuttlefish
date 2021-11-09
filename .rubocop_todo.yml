@@ -119,13 +119,6 @@ RSpec/FilePath:
     - 'spec/helpers/admins_helper_spec.rb'
     - 'spec/lib/cuttlefish_smtp_server_spec.rb'
 
-# Offense count: 74
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, each, example
-RSpec/HookArgument:
-  Enabled: false
-
 # Offense count: 25
 # Configuration parameters: AssignmentOnly.
 RSpec/InstanceVariable:

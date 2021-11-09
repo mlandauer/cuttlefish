@@ -3,13 +3,13 @@
 require "spec_helper"
 
 describe Admins::SessionsController, type: :controller do
-  before :each do
+  before do
     request.env["devise.mapping"] = Devise.mappings[:admin]
   end
 
   context "request is over http" do
     context "There is one admin already registered" do
-      before :each do
+      before do
         team = Team.create!
         team.admins.create!(email: "foo@bar.com", password: "guess this")
       end
@@ -22,7 +22,7 @@ describe Admins::SessionsController, type: :controller do
   end
 
   context "request is over https" do
-    before :each do
+    before do
       request.env["HTTPS"] = "on"
     end
 
@@ -34,7 +34,7 @@ describe Admins::SessionsController, type: :controller do
     end
 
     context "There is one admin already registered" do
-      before :each do
+      before do
         team = Team.create!
         team.admins.create!(email: "foo@bar.com", password: "guess this")
       end

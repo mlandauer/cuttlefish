@@ -82,7 +82,7 @@ describe PostfixLogLine do
       end
       let(:delivery) { Delivery.find_by(email: email, address: address) }
 
-      before :each do
+      before do
         email
         PostfixLogLine.create_from_line(line1)
       end
@@ -133,7 +133,7 @@ describe PostfixLogLine do
       let(:delivery1) { Delivery.find_by(email: email, address: address1) }
       let(:delivery2) { Delivery.find_by(email: email, address: address2) }
 
-      before :each do
+      before do
         email
         PostfixLogLine.create_from_line(line1)
         PostfixLogLine.create_from_line(line4)

@@ -14,7 +14,7 @@ describe Filters::MailerHeader do
 
   describe "#data" do
     context "Version 1.2 of the app" do
-      before(:each) { filter.version = "1.2" }
+      before { filter.version = "1.2" }
 
       it "adds an X-Mailer header" do
         expect(filter.filter_mail(mail).header["X-Mailer"].to_s).to eq(

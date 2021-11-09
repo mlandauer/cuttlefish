@@ -82,7 +82,7 @@ describe EmailServices::Send do
   end
 
   context "deliveries is empty" do
-    before :each do
+    before do
       allow_any_instance_of(Delivery).to receive(:send?).and_return(false)
     end
 
@@ -97,7 +97,7 @@ describe EmailServices::Send do
   end
 
   context "don't actually send anything" do
-    before :each do
+    before do
       smtp = double(send_message: double(message: ""))
       allow(Net::SMTP).to receive(:start).and_yield(smtp)
     end
@@ -119,7 +119,7 @@ describe EmailServices::Send do
     end
 
     context "app has disabled open tracking" do
-      before(:each) do
+      before do
         email.app.update_attributes(open_tracking_enabled: false)
       end
 
