@@ -26,7 +26,7 @@ module Mutations
 
     # rubocop:disable Naming/MethodParameterName
     def resolve(
-      app_id:, from:, to:, cc: [], subject:, text_part: nil, html_part: nil,
+      app_id:, from:, to:, subject:, cc: [], text_part: nil, html_part: nil,
       ignore_blocked_addresses: false, meta_values: []
     )
       create_email = EmailServices::Create.call(

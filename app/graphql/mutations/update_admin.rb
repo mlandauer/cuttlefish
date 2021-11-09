@@ -9,7 +9,7 @@ module Mutations
 
     field :errors, [Types::UserError], null: false
 
-    def resolve(email:, name:, password: nil, current_password:)
+    def resolve(email:, name:, current_password:, password: nil)
       # We need to use a copy of the resource because we don't want to change
       # the current user in place.
       # TODO: Properly handle case of client not being logged in.
