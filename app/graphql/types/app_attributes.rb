@@ -20,7 +20,9 @@ module Types
     argument :custom_tracking_domain,
              String,
              required: false,
-             description: "Optional domain used for open and click tracking"
+             description: "Optional domain used for open and click tracking. " \
+                          "Requires DNS changes for the domain in customTrackingDomain " \
+                          "to be made before it can be enabled"
     argument :from_domain,
              String,
              required: false,
