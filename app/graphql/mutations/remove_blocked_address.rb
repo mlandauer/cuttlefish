@@ -12,7 +12,7 @@ module Mutations
           description: "Returns the blocked address it successfully removed. " \
                        "Returns null otherwise."
 
-    def resolve(id:, app_id: nil)
+    def resolve(id:)
       destroy_blocked_address = DenyListServices::Destroy.call(
         id: id, current_admin: context[:current_admin]
       )

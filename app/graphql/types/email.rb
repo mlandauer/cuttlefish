@@ -40,7 +40,8 @@ module Types
           description: "Whether this email was clicked"
     field :ignore_blocked_addresses, Boolean,
           null: false,
-          description: "If true the delivery of this email ignores whether the destination address is in the list of blocked addresses"
+          description: "If true the delivery of this email ignores whether the " \
+                       "destination address is in the list of blocked addresses"
     field :meta_values, [Types::KeyValue],
           null: false,
           description: "A list of meta data key/value pairs set by the user"
