@@ -59,9 +59,7 @@ module Types
       address.text
     end
 
-    def subject
-      email.subject
-    end
+    delegate :subject, to: :email
 
     def content
       return if object.data.nil?
@@ -81,9 +79,7 @@ module Types
       object.ignore_deny_list
     end
 
-    def meta_values
-      object.meta_values
-    end
+    delegate :meta_values, to: :object
 
     def delivery_events
       object.postfix_log_lines

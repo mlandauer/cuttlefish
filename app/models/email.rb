@@ -9,9 +9,9 @@ class Email < ActiveRecord::Base
   has_many :click_events, through: :deliveries
   has_many :meta_values, -> { order :key }, dependent: :destroy
 
-  after_create :update_cache
   before_save :update_message_id, :update_data_hash, :update_subject,
               :update_from
+  after_create :update_cache
 
   delegate :custom_tracking_domain, :tracking_domain, :custom_tracking_domain?,
            :open_tracking_enabled?, :click_tracking_enabled?,

@@ -17,10 +17,7 @@ class DkimDns
     "k=rsa; p=#{public_key_der_encoded}"
   end
 
-  def public_key
-    # We can generate the public key from the private key
-    private_key.public_key
-  end
+  delegate :public_key, to: :private_key
 
   def resolve_dkim_dns_value
     # Use our default nameserver

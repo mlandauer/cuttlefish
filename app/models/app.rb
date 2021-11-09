@@ -21,8 +21,8 @@ class App < ActiveRecord::Base
   validates :cuttlefish, inclusion: { in: [true, false] }
   validates :legacy_dkim_selector, inclusion: { in: [true, false] }
 
-  before_create :set_smtp_password
   before_validation :set_webhook_key
+  before_create :set_smtp_password
   after_create :set_smtp_username
 
   def self.cuttlefish
@@ -34,7 +34,7 @@ class App < ActiveRecord::Base
     if cuttlefish?
       Rails.configuration.cuttlefish_domain
     else
-      read_attribute(:from_domain)
+      self[:from_domain]
     end
   end
 
@@ -55,8 +55,8 @@ class App < ActiveRecord::Base
   end
 
   def dkim_private_key
-    update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem) if read_attribute(:dkim_private_key).nil?
-    OpenSSL::PKey::RSA.new(read_attribute(:dkim_private_key))
+    update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem) if self[:dkim_private_key].nil?
+    OpenSSL::PKey::RSA.new(self[:dkim_private_key])
   end
 
   def tracking_domain_info

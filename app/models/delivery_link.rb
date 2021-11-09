@@ -7,9 +7,7 @@ class DeliveryLink < ActiveRecord::Base
 
   delegate :to, :subject, :app_name, to: :delivery
 
-  def url
-    link.url
-  end
+  delegate :url, to: :link
 
   def add_click_event(request)
     click_events.create!(

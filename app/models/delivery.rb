@@ -74,7 +74,7 @@ class Delivery < ActiveRecord::Base
   def clicked_lazy?
     BatchLoader.for(id).batch(default_value: false) do |ids, loader|
       delivery_links_map = {}
-      DeliveryLink.where(delivery_id: ids).each do |d|
+      DeliveryLink.where(delivery_id: ids).find_each do |d|
         delivery_links_map[d.delivery_id] ||= []
         delivery_links_map[d.delivery_id] << d
       end
@@ -85,9 +85,7 @@ class Delivery < ActiveRecord::Base
     end
   end
 
-  def app_name
-    app.name
-  end
+  delegate :name, to: :app, prefix: true
 
   # A value between 0 and 1. The fraction of deliveries with open tracking
   # for which the delivery was opened. Returns nil when there are no

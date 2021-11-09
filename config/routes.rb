@@ -12,7 +12,7 @@ Rails.application.routes.draw do
            controller: "admins/sessions" do
     get :new, path: "sign_in", as: "new"
     post :create, path: "sign_in"
-    match :destroy, path: "sign_out", as: "destroy", via: :delete
+    delete :destroy, path: "sign_out", as: "destroy"
   end
 
   resource :registration,
