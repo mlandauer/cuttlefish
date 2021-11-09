@@ -18,7 +18,7 @@ describe Filters::Dkim do
     end
   end
   let(:filter) do
-    Filters::Dkim.new(
+    described_class.new(
       enabled: false,
       dkim_dns: DkimDns.new(
         domain: "foo.com",

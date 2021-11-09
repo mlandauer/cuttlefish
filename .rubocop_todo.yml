@@ -22,13 +22,6 @@ RSpec/AnyInstance:
 RSpec/ContextWording:
   Enabled: false
 
-# Offense count: 107
-# Cop supports --auto-correct.
-# Configuration parameters: SkipBlocks, EnforcedStyle.
-# SupportedStyles: described_class, explicit
-RSpec/DescribedClass:
-  Enabled: false
-
 # Offense count: 1
 RSpec/EmptyExampleGroup:
   Exclude:

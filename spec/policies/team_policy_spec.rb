@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe TeamPolicy do
-  subject { TeamPolicy.new(user, team_one) }
+  subject { described_class.new(user, team_one) }
 
   let(:team_one) { create(:team) }
   let(:team_two) { create(:team) }

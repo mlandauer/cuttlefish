@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe DenyListPolicy do
-  subject { DenyListPolicy.new(user, deny_list) }
+  subject { described_class.new(user, deny_list) }
 
   let(:team_one) { create(:team) }
   let(:team_two) { create(:team) }

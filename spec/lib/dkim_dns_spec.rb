@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe DkimDns do
   let(:dkim_dns) do
-    DkimDns.new(
+    described_class.new(
       private_key: OpenSSL::PKey::RSA.new(2048),
       domain: "foo.com",
       selector: "cuttlefish"

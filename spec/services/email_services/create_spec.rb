@@ -6,7 +6,7 @@ describe EmailServices::Create do
   # let(:app) { team.apps.create!(name: "Test") }
   let(:app) { create(:app) }
   let(:create_email) do
-    EmailServices::Create.call(
+    described_class.call(
       from: "contact@cuttlefish.io",
       to: "matthew@openaustralia.org",
       cc: nil,
@@ -31,7 +31,7 @@ describe EmailServices::Create do
 
   it "returns the service object" do
     allow(EmailServices::Send).to receive(:call)
-    expect(create_email).to be_a(EmailServices::Create)
+    expect(create_email).to be_a(described_class)
   end
 
   it "returns an email" do

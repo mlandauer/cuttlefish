@@ -10,7 +10,7 @@ describe EmailServices::Send do
       data: "from: contact@foo.com\nto: foo@bar.com\n\nMy original data"
     )
   end
-  let(:send) { EmailServices::Send.call(email: email) }
+  let(:send) { described_class.call(email: email) }
 
   it "opens an smtp connection to postfix port 25" do
     expect(Net::SMTP).to receive(:start).with("postfix", 25)

@@ -14,7 +14,7 @@ describe Filters::Master do
   end
 
   it do
-    mail2 = Filters::Master.new(delivery: create(:delivery)).filter_mail(mail)
+    mail2 = described_class.new(delivery: create(:delivery)).filter_mail(mail)
     expect(Nokogiri::HTML(mail2.html_part.decoded).at("p").inner_text).to eq(
       "vašem"
     )

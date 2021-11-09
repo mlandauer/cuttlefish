@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe TestEmailPolicy do
-  subject { TestEmailPolicy.new(user, nil) }
+  subject { described_class.new(user, nil) }
 
   context "normal user" do
     let(:user) { create(:admin) }

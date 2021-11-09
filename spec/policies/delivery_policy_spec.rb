@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe DeliveryPolicy do
-  subject { DeliveryPolicy.new(user, delivery) }
+  subject { described_class.new(user, delivery) }
 
   let(:team_one) { create(:team) }
   let(:team_two) { create(:team) }

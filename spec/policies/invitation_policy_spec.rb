@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe InvitationPolicy do
-  subject { InvitationPolicy.new(user, nil) }
+  subject { described_class.new(user, nil) }
 
   context "normal user" do
     let(:user) { create(:admin) }

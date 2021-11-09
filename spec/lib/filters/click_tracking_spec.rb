@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe Filters::ClickTracking do
   let(:filter) do
-    Filters::ClickTracking.new(
+    described_class.new(
       delivery_id: 673,
       enabled: true,
       tracking_domain_info: {

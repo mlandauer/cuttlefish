@@ -10,7 +10,7 @@ describe Filters::MailerHeader do
       end
     end
   end
-  let(:filter) { Filters::MailerHeader.new(version: APP_VERSION) }
+  let(:filter) { described_class.new(version: APP_VERSION) }
 
   describe "#data" do
     context "Version 1.2 of the app" do

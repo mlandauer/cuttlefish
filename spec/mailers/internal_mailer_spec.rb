@@ -6,7 +6,7 @@ describe InternalMailer do
   describe "#invitation_instructions" do
     let(:admin1) { mock_model(Admin, display_name: "Matthew") }
     let(:admin) { mock_model(Admin, email: "foo@bar.com", invited_by: admin1) }
-    let(:email) { InternalMailer.invitation_instructions(admin, "abc123", accept_url: "https://foo.com/bar") }
+    let(:email) { described_class.invitation_instructions(admin, "abc123", accept_url: "https://foo.com/bar") }
 
     it { expect(email.from).to eq ["contact@cuttlefish.oaf.org.au"] }
     it { expect(email.to).to eq ["foo@bar.com"] }
@@ -41,7 +41,7 @@ describe InternalMailer do
 
   describe "#reset_password_instructions" do
     let(:admin) { mock_model(Admin) }
-    let(:email) { InternalMailer.reset_password_instructions(admin, "abc123", reset_url: "https://foo.com/bar") }
+    let(:email) { described_class.reset_password_instructions(admin, "abc123", reset_url: "https://foo.com/bar") }
 
     it do
       expect(email.body.to_s).to eq <<~HTML

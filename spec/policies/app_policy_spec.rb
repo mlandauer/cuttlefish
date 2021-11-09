@@ -5,7 +5,7 @@ require "spec_helper"
 describe AppPolicy do
   # TODO: Test effect of read only mode
 
-  subject { AppPolicy.new(user, app) }
+  subject { described_class.new(user, app) }
 
   let(:team_one) { create(:team) }
   let(:team_two) { create(:team) }

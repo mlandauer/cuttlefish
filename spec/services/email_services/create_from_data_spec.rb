@@ -8,7 +8,7 @@ describe EmailServices::CreateFromData do
   let(:ignore_deny_list) { false }
   let(:app) { create(:app) }
   let(:service) do
-    EmailServices::CreateFromData.new(
+    described_class.new(
       to: to,
       data: data,
       app_id: app.id,

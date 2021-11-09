@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe EmailDataCache do
-  let(:cache) { EmailDataCache.new(Rails.env, 1000) }
+  let(:cache) { described_class.new(Rails.env, 1000) }
 
   describe ".set" do
     it "persists the main part of the email in the filesystem" do
@@ -41,12 +41,12 @@ describe EmailDataCache do
 
     it "deletes a file" do
       FileUtils.touch(@filename)
-      EmailDataCache.safe_file_delete(@filename)
+      described_class.safe_file_delete(@filename)
       expect(File.exist?(@filename)).to be_falsy
     end
 
     it "does not throw an error when the file doesn't exist" do
-      EmailDataCache.safe_file_delete(@filename)
+      described_class.safe_file_delete(@filename)
     end
   end
 end

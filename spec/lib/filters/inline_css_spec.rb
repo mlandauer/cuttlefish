@@ -7,7 +7,7 @@ describe Filters::InlineCss do
     let(:html) { "<p>This is HTML with “some” UTF-8</p>" }
 
     it "#filter_html" do
-      expect(Filters::InlineCss.new.filter_html(html)).to eq <<~HTML
+      expect(described_class.new.filter_html(html)).to eq <<~HTML
         <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
         <html><body><p>This is HTML with “some” UTF-8</p></body></html>
       HTML
@@ -21,7 +21,7 @@ describe Filters::InlineCss do
     end
 
     it "#filter_html" do
-      expect(Filters::InlineCss.new.filter_html(html)).to eq <<~HTML
+      expect(described_class.new.filter_html(html)).to eq <<~HTML
         <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
         <html>
         <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>

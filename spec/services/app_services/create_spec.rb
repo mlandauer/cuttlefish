@@ -6,7 +6,7 @@ describe AppServices::Create do
   let(:current_admin) { create(:admin) }
   let(:name) { "An app" }
   let(:create_app) do
-    AppServices::Create.call(
+    described_class.call(
       current_admin: current_admin,
       name: name,
       open_tracking_enabled: false,

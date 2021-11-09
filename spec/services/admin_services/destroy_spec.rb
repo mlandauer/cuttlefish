@@ -8,7 +8,7 @@ describe AdminServices::Destroy do
   let(:admin) { create(:admin, team: team_one) }
   let(:current_admin) { create(:admin, team: team_one) }
   let(:remove_admin) do
-    AdminServices::Destroy.call(current_admin: current_admin, id: admin.id)
+    described_class.call(current_admin: current_admin, id: admin.id)
   end
 
   it "removes an admin" do

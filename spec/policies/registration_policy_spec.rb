@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe RegistrationPolicy do
-  subject { RegistrationPolicy.new(user, nil) }
+  subject { described_class.new(user, nil) }
 
   context "not logged in" do
     let(:user) { nil }

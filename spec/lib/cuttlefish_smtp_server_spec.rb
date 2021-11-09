@@ -7,7 +7,7 @@ require File.expand_path File.join(
 require "sidekiq/testing"
 
 describe CuttlefishSmtpConnection do
-  let(:connection) { CuttlefishSmtpConnection.new("") }
+  let(:connection) { described_class.new("") }
   let(:app) { App.create!(name: "test") }
 
   describe "#receive_plain_auth" do
@@ -82,7 +82,7 @@ describe CuttlefishSmtpConnection do
   end
 
   describe ".default_parameters" do
-    let(:defaults) { CuttlefishSmtpConnection.default_parameters }
+    let(:defaults) { described_class.default_parameters }
 
     it { expect(defaults[:auth]).to eq :required }
     it { expect(defaults[:starttls]).to eq :required }

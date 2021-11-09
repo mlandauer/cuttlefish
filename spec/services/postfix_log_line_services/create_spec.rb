@@ -24,7 +24,7 @@ describe PostfixLogLineServices::Create do
     let!(:delivery) { create(:delivery, email: email, postfix_queue_id: "39D9336AFA81", address: address) }
 
     it "creates a postfix log line record" do
-      PostfixLogLineServices::Create.call(line)
+      described_class.call(line)
 
       expect(PostfixLogLine.count).to eq 1
       p = PostfixLogLine.first
@@ -38,7 +38,7 @@ describe PostfixLogLineServices::Create do
     end
 
     it "does not add anything to the deny list" do
-      PostfixLogLineServices::Create.call(line)
+      described_class.call(line)
 
       expect(DenyList.count).to be_zero
     end
@@ -46,7 +46,7 @@ describe PostfixLogLineServices::Create do
     it "posts to the webhook" do
       Sidekiq::Testing.inline! do
         expect(WebhookServices::PostDeliveryEvent).to receive(:call)
-        PostfixLogLineServices::Create.call(line)
+        described_class.call(line)
       end
     end
   end
@@ -65,7 +65,7 @@ describe PostfixLogLineServices::Create do
     let!(:delivery) { create(:delivery, postfix_queue_id: "39D9336AFA81", address: address) }
 
     it "creates a postfix log line record" do
-      PostfixLogLineServices::Create.call(line)
+      described_class.call(line)
 
       expect(PostfixLogLine.count).to eq 1
       p = PostfixLogLine.first
@@ -80,7 +80,7 @@ describe PostfixLogLineServices::Create do
     end
 
     it "adds the address to the deny list" do
-      PostfixLogLineServices::Create.call(line)
+      described_class.call(line)
 
       expect(DenyList.count).to eq 1
       d = DenyList.first
@@ -92,7 +92,7 @@ describe PostfixLogLineServices::Create do
     it "does not post the webhook because the url isn't set" do
       Sidekiq::Testing.inline! do
         expect(WebhookServices::PostDeliveryEvent).not_to receive(:call)
-        PostfixLogLineServices::Create.call(line)
+        described_class.call(line)
       end
     end
 
@@ -120,13 +120,13 @@ describe PostfixLogLineServices::Create do
     let!(:delivery) { create(:delivery, email: email, postfix_queue_id: "39D9336AFA81", address: address) }
 
     it "creates a postfix log line record" do
-      PostfixLogLineServices::Create.call(line)
+      described_class.call(line)
 
       expect(PostfixLogLine.count).to eq 1
     end
 
     it "adds the address to the cuttlefish app deny list" do
-      PostfixLogLineServices::Create.call(line)
+      described_class.call(line)
 
       expect(DenyList.count).to eq 1
       expect(DenyList.first.app).to eq App.cuttlefish

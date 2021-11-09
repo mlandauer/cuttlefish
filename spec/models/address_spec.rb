@@ -4,8 +4,8 @@ require "spec_helper"
 
 describe Address do
   context "three emails" do
-    let(:address1) { Address.create!(text: "matthew@foo.com") }
-    let(:address2) { Address.create!(text: "peter@bar.com") }
+    let(:address1) { described_class.create!(text: "matthew@foo.com") }
+    let(:address2) { described_class.create!(text: "peter@bar.com") }
 
     before do
       @email1 = create(

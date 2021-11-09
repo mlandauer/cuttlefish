@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe EmailServices::ParseHeadersCreate do
   let(:app) { create(:app) }
-  let(:service) { EmailServices::ParseHeadersCreate.new(to: "bar@bar.com", data: data, app_id: app.id) }
+  let(:service) { described_class.new(to: "bar@bar.com", data: data, app_id: app.id) }
 
   context "An email with no special headers" do
     let(:data) do

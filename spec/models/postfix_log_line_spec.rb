@@ -36,8 +36,8 @@ describe PostfixLogLine do
     let(:l) do
       email = create(:email, to: "foo@bar.com")
       email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
-      PostfixLogLine.create_from_line(line1)
-      PostfixLogLine.first
+      described_class.create_from_line(line1)
+      described_class.first
     end
 
     describe ".relay" do
@@ -88,11 +88,11 @@ describe PostfixLogLine do
 
       before do
         email
-        PostfixLogLine.create_from_line(line1)
+        described_class.create_from_line(line1)
       end
 
       it "extracts and save relevant parts of the line" do
-        expect(PostfixLogLine.count).to eq 1
+        expect(described_class.count).to eq 1
         line = delivery.postfix_log_lines.first
         expect(line.relay).to eq "foo.bar.com[1.2.3.4]:25"
         expect(line.delay).to eq "92780"
@@ -139,8 +139,8 @@ describe PostfixLogLine do
 
       before do
         email
-        PostfixLogLine.create_from_line(line1)
-        PostfixLogLine.create_from_line(line4)
+        described_class.create_from_line(line1)
+        described_class.create_from_line(line4)
       end
 
       it "attaches it to the delivery" do
@@ -155,8 +155,8 @@ describe PostfixLogLine do
       delivery = Delivery.find_by(email: email, address: address)
       delivery.update_attribute(:postfix_queue_id, "39D9336AFA81")
 
-      PostfixLogLine.create_from_line(line1)
-      PostfixLogLine.create_from_line(line1)
+      described_class.create_from_line(line1)
+      described_class.create_from_line(line1)
       expect(delivery.postfix_log_lines.count).to eq 1
     end
 
@@ -172,12 +172,12 @@ describe PostfixLogLine do
              "delays=304/31/0/0, dsn=4.4.1, status=deferred " \
              "(delivery temporarily suspended: connect to " \
              "extmail.optusnet.com.au[211.29.133.14]:25: Connection timed out)"
-      PostfixLogLine.create_from_line(line)
-      expect(PostfixLogLine.count).to eq 1
+      described_class.create_from_line(line)
+      expect(described_class.count).to eq 1
     end
 
     it "does not produce any log lines if the queue id is not recognised" do
-      expect(PostfixLogLine).to receive(:puts).with(
+      expect(described_class).to receive(:puts).with(
         "Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - " \
         "it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: " \
         "39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, " \
@@ -186,12 +186,12 @@ describe PostfixLogLine do
         "<bounces@planningalerts.org.au>: Temporary lookup failure " \
         "(in reply to RCPT TO command))"
       )
-      PostfixLogLine.create_from_line(line1)
-      expect(PostfixLogLine.count).to eq 0
+      described_class.create_from_line(line1)
+      expect(described_class.count).to eq 0
     end
 
     it "shows a message if the address isn't recognised in a log line" do
-      expect(PostfixLogLine).to receive(:puts).with(
+      expect(described_class).to receive(:puts).with(
         "Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - " \
         "it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: " \
         "39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, " \
@@ -201,12 +201,12 @@ describe PostfixLogLine do
         "(in reply to RCPT TO command))"
       )
       create(:email)
-      PostfixLogLine.create_from_line(line1)
+      described_class.create_from_line(line1)
     end
 
     it "only log lines that are delivery attempts" do
-      PostfixLogLine.create_from_line(line2)
-      expect(PostfixLogLine.count).to eq 0
+      described_class.create_from_line(line2)
+      expect(described_class.count).to eq 0
     end
 
     context "two emails with the same queue id" do
@@ -239,26 +239,26 @@ describe PostfixLogLine do
       it "uses the latest email" do
         delivery1
         delivery2
-        PostfixLogLine.create_from_line(line1)
+        described_class.create_from_line(line1)
         expect(delivery1.postfix_log_lines).to be_empty
         expect(delivery2.postfix_log_lines.count).to eq 1
       end
     end
 
     it "logs and skip unrecognised lines" do
-      expect(PostfixLogLine).to receive(:puts).with(
+      expect(described_class).to receive(:puts).with(
         "Skipping unrecognised line: Oct 25 17:36:47 vps331845 postfix[6084]" \
         ": Postfix is running with backwards-compatible default setting"
       )
       create(:email)
-      result = PostfixLogLine.create_from_line(line5)
+      result = described_class.create_from_line(line5)
       expect(result).to be_nil
     end
   end
 
   describe ".match_main_content" do
     it {
-      expect(PostfixLogLine.match_main_content(line1)).to eq(
+      expect(described_class.match_main_content(line1)).to eq(
         time: Time.local(Time.now.year, 4, 5, 16, 41, 54),
         program: "smtp",
         queue_id: "39D9336AFA81",
@@ -275,7 +275,7 @@ describe PostfixLogLine do
     }
 
     it {
-      expect(PostfixLogLine.match_main_content(line2)).to eq(
+      expect(described_class.match_main_content(line2)).to eq(
         time: Time.local(Time.now.year, 4, 5, 18, 41, 58),
         program: "qmgr",
         queue_id: "E69DB36D4A2B"
@@ -283,7 +283,7 @@ describe PostfixLogLine do
     }
 
     it {
-      expect(PostfixLogLine.match_main_content(line3)).to eq(
+      expect(described_class.match_main_content(line3)).to eq(
         time: Time.local(Time.now.year, 4, 5, 17, 11, 7),
         program: "smtpd",
         queue_id: nil
@@ -293,22 +293,22 @@ describe PostfixLogLine do
 
   describe "#status" do
     it "sees a dsn of 2.0.0 as delivered" do
-      expect(PostfixLogLine.new(dsn: "2.0.0").status).to eq "delivered"
+      expect(described_class.new(dsn: "2.0.0").status).to eq "delivered"
     end
 
     it "sees a dsn of 5.1.1 as not delivered" do
-      expect(PostfixLogLine.new(dsn: "5.1.1").status).to eq "hard_bounce"
+      expect(described_class.new(dsn: "5.1.1").status).to eq "hard_bounce"
     end
 
     it "sees a dsn of 4.4.1 as not delivered" do
-      expect(PostfixLogLine.new(dsn: "4.4.1").status).to eq "soft_bounce"
+      expect(described_class.new(dsn: "4.4.1").status).to eq "soft_bounce"
     end
 
     # See https://github.com/mlandauer/cuttlefish/issues/49
     # 5.2.2 is mailbox full. It's a "permanent" failure that should be viewed
     # as a temporary one
     it "sees a dsn of 5.2.2 as a soft bounce" do
-      expect(PostfixLogLine.new(dsn: "5.2.2").status).to eq "soft_bounce"
+      expect(described_class.new(dsn: "5.2.2").status).to eq "soft_bounce"
     end
   end
 end

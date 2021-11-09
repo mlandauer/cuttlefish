@@ -38,12 +38,12 @@ describe Archiving do
     context "when uploading to S3 succeeds" do
       before do
         # Mock the success response from .copy_to_s3
-        allow(Archiving).to receive(:copy_to_s3)
+        allow(described_class).to receive(:copy_to_s3)
           .with("2014-06-04").and_return(true)
       end
 
       it "removes the temp archive file it creates" do
-        Archiving.archive("2014-06-04", noisy: false)
+        described_class.archive("2014-06-04", noisy: false)
 
         expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be false
       end
@@ -51,7 +51,7 @@ describe Archiving do
 
     context "when uploading to S3 doesn't happen" do
       before do
-        allow(Archiving).to receive(:copy_to_s3)
+        allow(described_class).to receive(:copy_to_s3)
           .with("2014-06-04").and_return(nil)
       end
 
@@ -61,7 +61,7 @@ describe Archiving do
       end
 
       it "does not delete the local copy" do
-        Archiving.archive("2014-06-04", noisy: false)
+        described_class.archive("2014-06-04", noisy: false)
 
         expect(File.exist?("db/archive/2014-06-04.tar.gz")).to be true
       end
@@ -70,12 +70,12 @@ describe Archiving do
 
   describe ".unarchive" do
     before do
-      allow(Archiving).to receive(:archive_directory)
+      allow(described_class).to receive(:archive_directory)
         .and_return("spec/fixtures/archive")
     end
 
     it "reloads deliveries into the database" do
-      Archiving.unarchive("2014-06-04")
+      described_class.unarchive("2014-06-04")
 
       expect(Delivery.count).to eq 1
     end
@@ -153,11 +153,11 @@ describe Archiving do
     it "produces the same results with a Delivery object " \
        "created directly as one created with .deserialise " \
        "from a previously serialised Delivery" do
-      s1 = Archiving.serialise(delivery)
+      s1 = described_class.serialise(delivery)
 
       email.destroy
-      delivery = Archiving.deserialise(s1)
-      s2 = Archiving.serialise(delivery)
+      delivery = described_class.deserialise(s1)
+      s2 = described_class.serialise(delivery)
 
       expect(s1).to eq s2
     end
@@ -186,7 +186,7 @@ describe Archiving do
       it "sends a copy to S3" do
         VCR.use_cassette("aws") do
           # TODO: Silence debugging output from this method
-          expect(Archiving.copy_to_s3("2014-06-04", noisy: false)).to be_instance_of(
+          expect(described_class.copy_to_s3("2014-06-04", noisy: false)).to be_instance_of(
             Fog::Storage::AWS::File
           )
         end
@@ -202,7 +202,7 @@ describe Archiving do
 
       it "fails silently" do
         # TODO: Silence debugging output from this method
-        expect(Archiving.copy_to_s3("2014-06-04", noisy: false)).to eq nil
+        expect(described_class.copy_to_s3("2014-06-04", noisy: false)).to eq nil
       end
     end
   end

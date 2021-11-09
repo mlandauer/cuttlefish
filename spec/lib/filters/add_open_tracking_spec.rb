@@ -5,7 +5,7 @@ require "spec_helper"
 describe Filters::AddOpenTracking do
   let(:tracking_domain_info) { { protocol: "https", domain: "localhost" } }
   let(:filter) do
-    Filters::AddOpenTracking.new(
+    described_class.new(
       delivery_id: 673,
       enabled: true,
       tracking_domain_info: tracking_domain_info

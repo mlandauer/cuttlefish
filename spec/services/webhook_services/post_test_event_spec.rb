@@ -9,7 +9,7 @@ describe WebhookServices::PostTestEvent do
       { key: "abc123", test_event: {} }.to_json,
       { content_type: :json }
     )
-    WebhookServices::PostTestEvent.call(
+    described_class.call(
       url: "https://foo.com",
       key: "abc123"
     )

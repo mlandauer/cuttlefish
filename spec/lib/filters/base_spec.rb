@@ -8,7 +8,7 @@ describe Filters::Base do
       body "Some content"
     end
   end
-  let(:filter) { Filters::Base.new }
+  let(:filter) { described_class.new }
 
   describe "#filter" do
     it { expect(filter.filter_mail(mail)).to eq mail }

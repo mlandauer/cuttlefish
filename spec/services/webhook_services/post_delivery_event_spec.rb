@@ -57,7 +57,7 @@ describe WebhookServices::PostDeliveryEvent do
       { key: "abc123", delivery_event: expected_event }.to_json,
       { content_type: :json }
     )
-    WebhookServices::PostDeliveryEvent.call(
+    described_class.call(
       url: "https://foo.com",
       key: "abc123",
       event: event

@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe AdminPolicy do
-  subject { AdminPolicy.new(user, admin) }
+  subject { described_class.new(user, admin) }
 
   let(:team_one) { create(:team) }
   let(:team_two) { create(:team) }

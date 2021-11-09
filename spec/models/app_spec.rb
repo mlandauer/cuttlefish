@@ -41,21 +41,21 @@ describe App do
   describe "#custom_tracking_domain" do
     it "looks up the cname of the custom domain and check it points to the cuttlefish server" do
       app = build(:app, custom_tracking_domain: "email.myapp.com")
-      expect(App).to receive(:lookup_dns_cname_record)
+      expect(described_class).to receive(:lookup_dns_cname_record)
         .with("email.myapp.com").and_return("localhost.")
       expect(app).to be_valid
     end
 
     it "looks up the cname of the custom domain and check it points to the cuttlefish server" do
       app = build(:app, custom_tracking_domain: "email.foo.com")
-      expect(App).to receive(:lookup_dns_cname_record)
+      expect(described_class).to receive(:lookup_dns_cname_record)
         .with("email.foo.com").and_return("foo.com.")
       expect(app).not_to be_valid
     end
 
     it "does not look up the cname if the custom domain hasn't been set" do
       app = build(:app)
-      expect(App).not_to receive(:lookup_dns_cname_record)
+      expect(described_class).not_to receive(:lookup_dns_cname_record)
       expect(app).to be_valid
     end
   end
@@ -207,14 +207,14 @@ describe App do
         .and_return("cuttlefish.io")
     end
 
-    let(:app) { App.cuttlefish }
+    let(:app) { described_class.cuttlefish }
 
     it { expect(app.name).to eq "Cuttlefish" }
     it { expect(app.from_domain).to eq "cuttlefish.io" }
     it { expect(app.team).to be_nil }
 
     it "returns the same instance when request twice" do
-      expect(app.id).to eq App.cuttlefish.id
+      expect(app.id).to eq described_class.cuttlefish.id
     end
   end
 

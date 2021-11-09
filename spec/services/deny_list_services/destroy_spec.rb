@@ -8,7 +8,7 @@ describe DenyListServices::Destroy do
   let(:current_admin) { create(:admin, team: team) }
   let(:deny_list) { create(:deny_list, app: app) }
   let(:destroy_deny_list) do
-    DenyListServices::Destroy.call(
+    described_class.call(
       current_admin: current_admin, id: deny_list.id
     )
   end

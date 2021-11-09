@@ -4,7 +4,7 @@ describe CuttlefishSchema do
   let(:context) { { current_admin: admin } }
   let(:variables) { {} }
   let(:result) do
-    CuttlefishSchema.execute(
+    described_class.execute(
       query_string,
       context: context,
       variables: variables

@@ -5,7 +5,7 @@ describe AppServices::Update do
   let(:current_admin) { create(:admin, team: team) }
   let(:team) { create(:team) }
   let(:update_app) do
-    AppServices::Update.call(
+    described_class.call(
       current_admin: current_admin,
       id: app.id,
       attributes: attributes

@@ -20,19 +20,19 @@ describe Email do
       end
 
       it "sets the message-id based on the email content" do
-        expect(Email.first.message_id).to eq(
+        expect(described_class.first.message_id).to eq(
           "5161ba1c90b10_7837557029c754c8@kedumba.mail"
         )
       end
 
       it "sets a hash of the full email content" do
-        expect(Email.first.data_hash).to eq(
+        expect(described_class.first.data_hash).to eq(
           "d096b1b1dfbcabf6bd4ef4d4b0ad88f562eedee9"
         )
       end
 
       it "has the same hash as other email with identical content" do
-        first_email = Email.first
+        first_email = described_class.first
         email = create(
           :email,
           from: "geoff@foo.com",
@@ -43,7 +43,7 @@ describe Email do
       end
 
       it "has a different hash to other email with different content" do
-        first_email = Email.first
+        first_email = described_class.first
         email = create(
           :email,
           from: "geoff@foo.com",
@@ -54,11 +54,11 @@ describe Email do
       end
 
       it "sets the subject of the email based on the data" do
-        expect(Email.first.subject).to eq "This is a subject"
+        expect(described_class.first.subject).to eq "This is a subject"
       end
 
       it "sets the from address based on the content of the email" do
-        expect(Email.first.from).to eq "contact@openaustraliafoundation.org.au"
+        expect(described_class.first.from).to eq "contact@openaustraliafoundation.org.au"
       end
     end
   end
@@ -97,7 +97,7 @@ describe Email do
     end
 
     it "is able to give just a single recipient" do
-      email = Email.new(to: "mlandauer@foo.org")
+      email = described_class.new(to: "mlandauer@foo.org")
       expect(email.to).to eq ["mlandauer@foo.org"]
     end
 
@@ -127,7 +127,7 @@ describe Email do
         create(:email, id: 10, data: "This is a main data section")
       end
 
-      let(:email) { Email.find(10) }
+      let(:email) { described_class.find(10) }
 
       it "is able to read in the data again" do
         expect(email.data).to eq "This is a main data section"
@@ -147,7 +147,7 @@ describe Email do
       create_list(:email, 4, data: "This is a main section", app_id: app.id)
       expect(
         Dir.glob(
-          File.join(Email.first.email_cache.data_filesystem_directory, "*")
+          File.join(described_class.first.email_cache.data_filesystem_directory, "*")
         ).count
       ).to eq 2
     end
@@ -167,7 +167,7 @@ describe Email do
       end
     end
     let(:email) do
-      Email.new(data: mail.encoded)
+      described_class.new(data: mail.encoded)
     end
 
     describe "#html_part" do
@@ -187,7 +187,7 @@ describe Email do
       end
     end
     let(:email) do
-      Email.new(data: mail.encoded)
+      described_class.new(data: mail.encoded)
     end
 
     describe "#html_part" do
@@ -211,7 +211,7 @@ describe Email do
     end
 
     let(:email) do
-      Email.new(data: data)
+      described_class.new(data: data)
     end
 
     describe "#text_part" do
@@ -227,7 +227,7 @@ describe Email do
       end
     end
     let(:email) do
-      Email.new(data: mail.encoded)
+      described_class.new(data: mail.encoded)
     end
 
     describe "#html_part" do
@@ -260,7 +260,7 @@ describe Email do
       mail
     end
     let(:email) do
-      Email.new(data: mail.encoded)
+      described_class.new(data: mail.encoded)
     end
 
     describe "#html_part" do
