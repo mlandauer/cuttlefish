@@ -47,7 +47,7 @@ that it was indeed sent by you."
 Similar to 1, people don't need to know everything at once. Give them help and Documentation
 at the point where they're trying to do the new thing. Make that as specific as possible.
 
-Essentially this implies that the documentation for Cuttlefish shouldn't be seperate
+Essentially this implies that the documentation for Cuttlefish shouldn't be separate
 document but rather be spread out and integrated throughout the application itself.
 
 Example: The section in the Cuttlefish "How to send email with Cuttlefish" takes you to
