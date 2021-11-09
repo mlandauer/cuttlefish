@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PostfixLogLine < ActiveRecord::Base
+class PostfixLogLine < ApplicationRecord
   belongs_to :delivery, inverse_of: :postfix_log_lines
 
   after_save :update_status!

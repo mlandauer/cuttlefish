@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class MetaValue < ActiveRecord::Base
+class MetaValue < ApplicationRecord
   belongs_to :email
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class OpenEvent < ActiveRecord::Base
+class OpenEvent < ApplicationRecord
   belongs_to :delivery, counter_cache: true
   include UserAgent
 

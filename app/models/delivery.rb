@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Delivery < ActiveRecord::Base
+class Delivery < ApplicationRecord
   belongs_to :email
   belongs_to :address
   has_many :postfix_log_lines, -> { order "time DESC" }, inverse_of: :delivery

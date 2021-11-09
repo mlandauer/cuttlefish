@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeliveryLink < ActiveRecord::Base
+class DeliveryLink < ApplicationRecord
   belongs_to :link
   belongs_to :delivery
   has_many :click_events, dependent: :destroy

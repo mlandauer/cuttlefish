@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Email < ActiveRecord::Base
+class Email < ApplicationRecord
   belongs_to :from_address, class_name: "Address"
   has_many :deliveries, dependent: :destroy
   has_many :to_addresses, through: :deliveries, source: :address

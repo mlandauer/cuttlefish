@@ -159,24 +159,6 @@ Rails/ActiveRecordAliases:
     - 'spec/models/delivery_spec.rb'
     - 'spec/services/email_services/send_spec.rb'
 
-# Offense count: 13
-# Cop supports --auto-correct.
-Rails/ApplicationRecord:
-  Exclude:
-    - 'app/models/address.rb'
-    - 'app/models/admin.rb'
-    - 'app/models/app.rb'
-    - 'app/models/click_event.rb'
-    - 'app/models/delivery.rb'
-    - 'app/models/delivery_link.rb'
-    - 'app/models/deny_list.rb'
-    - 'app/models/email.rb'
-    - 'app/models/link.rb'
-    - 'app/models/meta_value.rb'
-    - 'app/models/open_event.rb'
-    - 'app/models/postfix_log_line.rb'
-    - 'app/models/team.rb'
-
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: Whitelist, AllowedMethods, AllowedReceivers.

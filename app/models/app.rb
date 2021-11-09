@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class App < ActiveRecord::Base
+class App < ApplicationRecord
   has_many :emails
   has_many :deliveries
   belongs_to :team

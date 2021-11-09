@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Address < ActiveRecord::Base
+class Address < ApplicationRecord
   has_many :emails_sent, class_name: "Email", foreign_key: "from_address_id"
   has_many :deliveries
   has_many :postfix_log_lines, through: :deliveries
