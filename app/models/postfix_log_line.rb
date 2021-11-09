@@ -16,7 +16,7 @@ class PostfixLogLine < ActiveRecord::Base
     if dsn_class == 2
       "delivered"
     # Mailbox full should be treated as a temporary problem
-    elsif dsn_class == 4 || dns == "5.2.2"
+    elsif dsn_class == 4 || dsn == "5.2.2"
       "soft_bounce"
     elsif dsn_class == 5
       "hard_bounce"
