@@ -40,7 +40,6 @@ Cuttlefish is in beta. It's been used in production by [OpenAustralia Foundation
 
 ## Things on the cards
 
-* Web callbacks on successful delivery, hard bounces, open and click events
 * "out of office" and bounce reply filtering
 * Incoming email
 
