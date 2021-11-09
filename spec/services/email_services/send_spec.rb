@@ -89,7 +89,7 @@ describe EmailServices::Send do
     it "sends no emails" do
       # TODO: Ideally it shouldn't open a connection to the smtp server
       smtp = double
-      expect(smtp).to_not receive(:send_message)
+      expect(smtp).not_to receive(:send_message)
       allow(Net::SMTP).to receive(:start).and_yield(smtp)
 
       send
@@ -103,7 +103,7 @@ describe EmailServices::Send do
     end
 
     it "records to which destinations the email has been sent" do
-      expect(email.deliveries.first).to_not be_sent
+      expect(email.deliveries.first).not_to be_sent
     end
 
     it "records to which destinations the email has been sent" do
@@ -126,7 +126,7 @@ describe EmailServices::Send do
       it "records that the deliveries are not being open tracked" do
         send
 
-        expect(email.deliveries.first).to_not be_open_tracked
+        expect(email.deliveries.first).not_to be_open_tracked
       end
     end
   end

@@ -9,6 +9,7 @@ describe DeliveriesController, type: :controller do
 
   context "signed in" do
     let(:team) { Team.create! }
+
     before do
       admin = team.admins.create!(email: "foo@bar.com", password: "guess this")
       sign_in admin

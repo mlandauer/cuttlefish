@@ -29,10 +29,9 @@ describe RegistrationPolicy do
 
     context "in read only mode" do
       before do
-        allow(Rails.configuration).to receive(:cuttlefish_read_only_mode) {
-          true
-        }
+        allow(Rails.configuration).to receive(:cuttlefish_read_only_mode).and_return(true)
       end
+
       it { is_expected.not_to permit(:create) }
       it { is_expected.not_to permit(:update) }
       it { is_expected.not_to permit(:edit) }

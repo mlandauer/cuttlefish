@@ -14,6 +14,7 @@ describe DenyListPolicy do
 
   context "normal user in team one" do
     let(:user) { create(:admin, team: team_one) }
+
     it { is_expected.not_to permit(:create) }
     it { is_expected.not_to permit(:new) }
     it { is_expected.not_to permit(:update)  }
@@ -21,6 +22,7 @@ describe DenyListPolicy do
 
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:destroy) }
+
     it "is in scope" do
       deny_list
       expect(
@@ -30,16 +32,16 @@ describe DenyListPolicy do
 
     context "in read only mode" do
       before do
-        allow(Rails.configuration).to receive(:cuttlefish_read_only_mode) {
-          true
-        }
+        allow(Rails.configuration).to receive(:cuttlefish_read_only_mode).and_return(true)
       end
+
       it { is_expected.not_to permit(:destroy) }
     end
   end
 
   context "unauthenticated user" do
     let(:user) { nil }
+
     it { is_expected.not_to permit(:create) }
     it { is_expected.not_to permit(:new) }
     it { is_expected.not_to permit(:update)  }
@@ -55,17 +57,19 @@ describe DenyListPolicy do
 
   context "normal user in team two" do
     let(:user) { create(:admin, team: team_two) }
+
     it { is_expected.not_to permit(:create) }
     it { is_expected.not_to permit(:new) }
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:show) }
     it { is_expected.not_to permit(:destroy) }
+
     it "is not in scope" do
       deny_list
       expect(
         DenyListPolicy::Scope.new(user, DenyList).resolve
-      ).to_not include(deny_list)
+      ).not_to include(deny_list)
     end
   end
 end

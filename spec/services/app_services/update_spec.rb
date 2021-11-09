@@ -40,7 +40,7 @@ describe AppServices::Update do
     let(:name) { "" }
 
     it "is not successfull" do
-      expect(update_app).to_not be_success
+      expect(update_app).not_to be_success
     end
 
     it "returns the app" do
@@ -50,9 +50,10 @@ describe AppServices::Update do
 
   context "the user doesn't have permission" do
     let(:app_policy) { double }
+
     before do
       expect(AppPolicy).to receive(:new) { app_policy }
-      expect(app_policy).to receive(:update?) { false }
+      expect(app_policy).to receive(:update?).and_return(false)
     end
 
     it "is not successfull" do

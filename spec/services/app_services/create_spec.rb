@@ -40,20 +40,22 @@ describe AppServices::Create do
 
   context "name is blank" do
     let(:name) { "" }
+
     it "is not succesfull" do
-      expect(create_app).to_not be_success
+      expect(create_app).not_to be_success
     end
 
     it "returns the unsaved app" do
-      expect(create_app.result).to_not be_persisted
+      expect(create_app.result).not_to be_persisted
     end
   end
 
   context "user does not have permission" do
     let(:app_policy) { double }
+
     before do
       expect(AppPolicy).to receive(:new) { app_policy }
-      expect(app_policy).to receive(:create?) { false }
+      expect(app_policy).to receive(:create?).and_return(false)
     end
 
     it "is not successfull" do

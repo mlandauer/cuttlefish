@@ -16,11 +16,13 @@ describe CuttlefishSmtpConnection do
         connection.receive_plain_auth("foo", "bar")
       ).to eq false
     }
+
     it {
       expect(
         connection.receive_plain_auth(app.smtp_username, "bar")
       ).to eq false
     }
+
     it {
       expect(
         connection.receive_plain_auth(app.smtp_username, app.smtp_password)
@@ -81,8 +83,10 @@ describe CuttlefishSmtpConnection do
 
   describe ".default_parameters" do
     let(:defaults) { CuttlefishSmtpConnection.default_parameters }
+
     it { expect(defaults[:auth]).to eq :required }
     it { expect(defaults[:starttls]).to eq :required }
+
     it do
       expect(Rails.configuration).to receive(
         :cuttlefish_domain_cert_chain_file
@@ -96,6 +100,7 @@ describe CuttlefishSmtpConnection do
       )
     end
   end
+
   describe "#receive_message" do
     context "message with UTF8 encoding" do
       let(:data) do

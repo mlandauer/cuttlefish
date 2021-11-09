@@ -9,7 +9,7 @@ describe App do
     end
 
     it "creates a password that is different every time" do
-      expect(create(:app).smtp_password).to_not eq(
+      expect(create(:app).smtp_password).not_to eq(
         create(:app).smtp_password
       )
     end
@@ -21,7 +21,7 @@ describe App do
     end
 
     it "does not allow other characters" do
-      expect(build(:app, name: "*")).to_not be_valid
+      expect(build(:app, name: "*")).not_to be_valid
     end
   end
 
@@ -50,12 +50,12 @@ describe App do
       app = build(:app, custom_tracking_domain: "email.foo.com")
       expect(App).to receive(:lookup_dns_cname_record)
         .with("email.foo.com").and_return("foo.com.")
-      expect(app).to_not be_valid
+      expect(app).not_to be_valid
     end
 
     it "does not look up the cname if the custom domain hasn't been set" do
       app = build(:app)
-      expect(App).to_not receive(:lookup_dns_cname_record)
+      expect(App).not_to receive(:lookup_dns_cname_record)
       expect(app).to be_valid
     end
   end
@@ -80,7 +80,7 @@ describe App do
 
       context "no from domain specified" do
         it "is not valid" do
-          expect(app).to_not be_valid
+          expect(app).not_to be_valid
         end
 
         it "has a sensible error message" do
@@ -96,9 +96,7 @@ describe App do
 
         context "that has dns setup" do
           before do
-            allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
-              true
-            }
+            allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?).and_return(true)
           end
 
           it "is valid" do
@@ -108,13 +106,11 @@ describe App do
 
         context "that has no dns setup" do
           before do
-            allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?) {
-              false
-            }
+            allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?).and_return(false)
           end
 
           it "is not valid" do
-            expect(app).to_not be_valid
+            expect(app).not_to be_valid
           end
 
           it "has an error message" do
@@ -178,7 +174,7 @@ describe App do
     it "is different for different apps" do
       app1 = create(:app)
       app2 = create(:app)
-      expect(app1.dkim_private_key).to_not eq app2.dkim_private_key
+      expect(app1.dkim_private_key).not_to eq app2.dkim_private_key
     end
 
     it "is saved in the database" do
@@ -198,6 +194,7 @@ describe App do
 
     context "legacy dkim selector" do
       let(:app) { create(:app, legacy_dkim_selector: true) }
+
       it "justs be cuttlefish" do
         expect(app.dkim_selector).to eq "cuttlefish"
       end
@@ -209,6 +206,7 @@ describe App do
       allow(Rails.configuration).to receive(:cuttlefish_domain)
         .and_return("cuttlefish.io")
     end
+
     let(:app) { App.cuttlefish }
 
     it { expect(app.name).to eq "Cuttlefish" }
@@ -223,7 +221,7 @@ describe App do
   describe "#open_tracking_enabled" do
     it "does not validate with nil value" do
       app = build(:app, open_tracking_enabled: nil)
-      expect(app).to_not be_valid
+      expect(app).not_to be_valid
     end
   end
 
@@ -258,7 +256,7 @@ describe App do
     end
 
     it "validates with nil and not try to do a POST" do
-      expect(WebhookServices::PostTestEvent).to_not receive(:call)
+      expect(WebhookServices::PostTestEvent).not_to receive(:call)
       app = build(:app, webhook_url: nil)
       expect(app).to be_valid
     end
@@ -269,7 +267,7 @@ describe App do
           :app,
           webhook_url: "https://www.planningalerts.org.au/deliveries"
         )
-        expect(app).to_not be_valid
+        expect(app).not_to be_valid
         expect(app.errors[:webhook_url]).to eq(
           ["returned 404 code when doing POST to https://www.planningalerts.org.au/deliveries"]
         )
@@ -284,7 +282,7 @@ describe App do
         :app,
         webhook_url: "foo"
       )
-      expect(app).to_not be_valid
+      expect(app).not_to be_valid
       expect(app.errors[:webhook_url]).to eq(
         ["error when doing test POST to foo: " \
          "Failed to open TCP connection to foo:80 (getaddrinfo: Name or service not known)"]

@@ -20,6 +20,7 @@ describe UserAgent do
         "AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257"
       )
     end
+
     it { expect(u.calculate_ua_family).to eq "Mobile Safari" }
     it { expect(u.calculate_ua_version).to eq "7.1.2" }
     it { expect(u.calculate_os_family).to eq "iOS" }
@@ -33,6 +34,7 @@ describe UserAgent do
         "(via ggpht.com GoogleImageProxy)"
       )
     end
+
     it { expect(u.calculate_ua_family).to eq "Gmail" }
     # Not quite sure what to do with these values below
     it { expect(u.calculate_ua_version).to be_nil }

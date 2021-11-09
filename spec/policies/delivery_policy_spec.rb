@@ -14,12 +14,14 @@ describe DeliveryPolicy do
 
   context "normal user in team one" do
     let(:user) { create(:admin, team: team_one) }
+
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:new) }
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
+
     it "is included in the scope" do
       delivery
       expect(
@@ -37,6 +39,7 @@ describe DeliveryPolicy do
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
+
     it "is included in the scope" do
       delivery
       expect(DeliveryPolicy::Scope.new(user, Delivery.all).resolve).to be_empty
@@ -45,28 +48,32 @@ describe DeliveryPolicy do
 
   context "normal user in team two" do
     let(:user) { create(:admin, team: team_two) }
+
     it { is_expected.not_to permit(:show) }
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:new) }
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
+
     it "is not included in the scope" do
       delivery
       expect(
         DeliveryPolicy::Scope.new(user, Delivery.all).resolve
-      ).to_not include(delivery)
+      ).not_to include(delivery)
     end
   end
 
   context "super admin in team two" do
     let(:user) { create(:admin, team: team_two, site_admin: true) }
+
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:new) }
     it { is_expected.not_to permit(:update)  }
     it { is_expected.not_to permit(:edit)    }
     it { is_expected.not_to permit(:destroy) }
+
     it "is included in the scope" do
       delivery
       expect(

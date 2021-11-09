@@ -43,15 +43,19 @@ describe PostfixLogLine do
     describe ".relay" do
       it { expect(l.relay).to eq "foo.bar.com[1.2.3.4]:25" }
     end
+
     describe ".delay" do
       it { expect(l.delay).to eq "92780" }
     end
+
     describe ".delays" do
       it { expect(l.delays).to eq "92777/0.03/1.6/0.91" }
     end
+
     describe ".dsn" do
       it { expect(l.dsn).to eq "4.3.0" }
     end
+
     describe ".extended_status" do
       it {
         expect(l.extended_status).to eq(
@@ -269,6 +273,7 @@ describe PostfixLogLine do
           "(in reply to RCPT TO command))"
       )
     }
+
     it {
       expect(PostfixLogLine.match_main_content(line2)).to eq(
         time: Time.local(Time.now.year, 4, 5, 18, 41, 58),
@@ -276,6 +281,7 @@ describe PostfixLogLine do
         queue_id: "E69DB36D4A2B"
       )
     }
+
     it {
       expect(PostfixLogLine.match_main_content(line3)).to eq(
         time: Time.local(Time.now.year, 4, 5, 17, 11, 7),

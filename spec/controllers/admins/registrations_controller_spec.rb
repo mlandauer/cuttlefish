@@ -24,13 +24,14 @@ describe Admins::RegistrationsController, type: :controller do
     let(:admin) do
       team.admins.create!(email: "foo@bar.com", password: "guess this")
     end
+
     before do
       admin
     end
 
     it "does not allow an admin to register" do
       get :new
-      expect(response).to_not be_successful
+      expect(response).not_to be_successful
     end
 
     it "does not allow an admin to register" do

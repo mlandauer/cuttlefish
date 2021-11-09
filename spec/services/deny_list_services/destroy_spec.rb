@@ -32,9 +32,10 @@ describe DenyListServices::Destroy do
 
   context "does not have permission" do
     let(:deny_list_policy) { double }
+
     before do
       expect(DenyListPolicy).to receive(:new) { deny_list_policy }
-      expect(deny_list_policy).to receive(:destroy?) { false }
+      expect(deny_list_policy).to receive(:destroy?).and_return(false)
     end
 
     it "errors" do

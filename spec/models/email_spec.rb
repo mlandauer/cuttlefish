@@ -50,7 +50,7 @@ describe Email do
           to: "people@bar.com",
           data: "Something else"
         )
-        expect(email.data_hash).to_not eq first_email.data_hash
+        expect(email.data_hash).not_to eq first_email.data_hash
       end
 
       it "sets the subject of the email based on the data" do
@@ -82,7 +82,7 @@ describe Email do
     it "returns an Address object" do
       email = create(:email, from: "matthew@foo.org")
       a1 = Address.find_by_text("matthew@foo.org")
-      expect(a1).to_not be_nil
+      expect(a1).not_to be_nil
       expect(email.from_address).to eq a1
     end
   end
@@ -103,7 +103,7 @@ describe Email do
 
     it "sets created_at for deliveries too" do
       email = create(:email, to: "mlandauer@foo.org")
-      expect(email.deliveries.first.created_at).to_not be_nil
+      expect(email.deliveries.first.created_at).not_to be_nil
     end
   end
 
@@ -115,8 +115,8 @@ describe Email do
       )
       a1 = Address.find_by_text("mlandauer@foo.org")
       a2 = Address.find_by_text("matthew@bar.com")
-      expect(a1).to_not be_nil
-      expect(a2).to_not be_nil
+      expect(a1).not_to be_nil
+      expect(a2).not_to be_nil
       expect(email.to_addresses).to eq [a1, a2]
     end
   end
@@ -126,6 +126,7 @@ describe Email do
       before do
         create(:email, id: 10, data: "This is a main data section")
       end
+
       let(:email) { Email.find(10) }
 
       it "is able to read in the data again" do
@@ -143,11 +144,7 @@ describe Email do
         :max_no_emails_to_store
       ).and_return(2)
       app = create(:app)
-      4.times do
-        create(
-          :email, data: "This is a main section", app_id: app.id
-        )
-      end
+      create_list(:email, 4, data: "This is a main section", app_id: app.id)
       expect(
         Dir.glob(
           File.join(Email.first.email_cache.data_filesystem_directory, "*")

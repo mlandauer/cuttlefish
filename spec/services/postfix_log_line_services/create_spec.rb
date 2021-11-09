@@ -91,7 +91,7 @@ describe PostfixLogLineServices::Create do
 
     it "does not post the webhook because the url isn't set" do
       Sidekiq::Testing.inline! do
-        expect(WebhookServices::PostDeliveryEvent).to_not receive(:call)
+        expect(WebhookServices::PostDeliveryEvent).not_to receive(:call)
         PostfixLogLineServices::Create.call(line)
       end
     end

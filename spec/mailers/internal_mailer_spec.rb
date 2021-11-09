@@ -11,6 +11,7 @@ describe InternalMailer do
     it { expect(email.from).to eq ["contact@cuttlefish.oaf.org.au"] }
     it { expect(email.to).to eq ["foo@bar.com"] }
     it { expect(email.subject).to eq "Matthew invites you to Cuttlefish" }
+
     it do
       expect(email.body.to_s).to eq <<~HTML
         <p>Matthew invites you to Cuttlefish - an easy to use transactional email server with a lovely user interface</p>
@@ -41,6 +42,7 @@ describe InternalMailer do
   describe "#reset_password_instructions" do
     let(:admin) { mock_model(Admin) }
     let(:email) { InternalMailer.reset_password_instructions(admin, "abc123", reset_url: "https://foo.com/bar") }
+
     it do
       expect(email.body.to_s).to eq <<~HTML
         <p>Hello !</p>

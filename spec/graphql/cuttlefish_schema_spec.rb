@@ -156,6 +156,7 @@ describe CuttlefishSchema do
 
   describe "teams" do
     let(:query_string) { "{ teams { admins { name } apps { name } } }" }
+
     before do
       team_one
       team_two

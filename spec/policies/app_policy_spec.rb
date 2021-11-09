@@ -14,6 +14,7 @@ describe AppPolicy do
 
   context "not authenticated" do
     let(:user) { nil }
+
     it { is_expected.not_to permit(:show) }
     it { is_expected.not_to permit(:create) }
     it { is_expected.not_to permit(:new) }
@@ -22,6 +23,7 @@ describe AppPolicy do
     it { is_expected.not_to permit(:destroy) }
     it { is_expected.not_to permit(:dkim) }
     it { is_expected.not_to permit(:toggle_dkim) }
+
     it "has empty scope" do
       app
       expect(AppPolicy::Scope.new(user, App).resolve).to eq []
@@ -30,6 +32,7 @@ describe AppPolicy do
 
   context "normal user in team one" do
     let(:user) { create(:admin, team: team_one) }
+
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:new) }
@@ -38,6 +41,7 @@ describe AppPolicy do
     it { is_expected.to permit(:destroy) }
     it { is_expected.to permit(:dkim) }
     it { is_expected.to permit(:toggle_dkim) }
+
     it "is in scope" do
       app
       expect(AppPolicy::Scope.new(user, App).resolve).to include(app)
@@ -46,6 +50,7 @@ describe AppPolicy do
 
   context "normal user in team two" do
     let(:user) { create(:admin, team: team_two) }
+
     it { is_expected.not_to permit(:show) }
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:new) }
@@ -54,14 +59,16 @@ describe AppPolicy do
     it { is_expected.not_to permit(:destroy) }
     it { is_expected.not_to permit(:dkim) }
     it { is_expected.not_to permit(:toggle_dkim) }
+
     it "is not in scope" do
       app
-      expect(AppPolicy::Scope.new(user, App).resolve).to_not include(app)
+      expect(AppPolicy::Scope.new(user, App).resolve).not_to include(app)
     end
   end
 
   context "super admin in team two" do
     let(:user) { create(:admin, team: team_two, site_admin: true) }
+
     it { is_expected.to permit(:show) }
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:new) }
@@ -74,13 +81,15 @@ describe AppPolicy do
     # in the apps list. However, you can still view individual ones (and the
     # emails contained within) if you really need to do by going to the team
     # list
+
     it "is not in scope" do
       app
-      expect(AppPolicy::Scope.new(user, App).resolve).to_not include(app)
+      expect(AppPolicy::Scope.new(user, App).resolve).not_to include(app)
     end
 
     context "cuttlefish app" do
       let(:app) { App.cuttlefish }
+
       it { is_expected.to permit(:show) }
       it { is_expected.to permit(:create) }
       it { is_expected.to permit(:new) }
@@ -89,9 +98,10 @@ describe AppPolicy do
       it { is_expected.not_to permit(:destroy) }
       it { is_expected.to permit(:dkim) }
       it { is_expected.to permit(:toggle_dkim) }
+
       it "is not in scope" do
         app
-        expect(AppPolicy::Scope.new(user, App).resolve).to_not include(app)
+        expect(AppPolicy::Scope.new(user, App).resolve).not_to include(app)
       end
     end
   end
