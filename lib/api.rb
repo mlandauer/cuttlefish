@@ -17,7 +17,7 @@ module Api
   else
     HTTP = GraphQL::Client::HTTP.new("http://localhost:5400/graphql") do
       def headers(context)
-        { "Authorization": "Bearer #{context[:jwt_token]}" }
+        { Authorization: "Bearer #{context[:jwt_token]}" }
       end
     end
 

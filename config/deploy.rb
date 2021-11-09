@@ -35,9 +35,11 @@ before "foreman:restart", "foreman:export"
 
 namespace :deploy do
   # rubocop:disable Style/BlockDelimiters
+  # rubocop:disable Lint/EmptyBlock
   task :start do; end
   task :stop do; end
   # rubocop:enable Style/BlockDelimiters
+  # rubocop:enable Lint/EmptyBlock
   task :restart, roles: :app, except: { no_release: true } do
     run "touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end

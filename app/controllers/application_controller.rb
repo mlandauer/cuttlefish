@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
     t = params.to_h.map do |k, _v|
       [k.to_s.camelize(:lower), form.attributes[k.to_sym]]
     end
-    Hash[t]
+    t.to_h
   end
 
   private

@@ -117,7 +117,7 @@ PostfixLogLine.create!(
 
 delivery.open_events.create!(
   user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) " \
-    "AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E302",
+              "AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E302",
   ip: "1.1.1.1"
 )
 
@@ -127,7 +127,7 @@ delivery_link = delivery.delivery_links.create!(link_id: link.id)
 
 delivery_link.click_events.create!(
   user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) " \
-    "AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E302",
+              "AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E302",
   ip: "1.1.1.1"
 )
 
@@ -216,7 +216,7 @@ key_app.emails.limit(5).each do |e|
     time: DateTime.now,
     dsn: "5.1.1",
     extended_status: "bounced (host said: 550 5.1.1 recipient rejected. " \
-      "Recipient does not exist. IB603a (in reply to RCPT TO command))",
+                     "Recipient does not exist. IB603a (in reply to RCPT TO command))",
     # We don't show the values below in the UI
     relay: "",
     delay: "",

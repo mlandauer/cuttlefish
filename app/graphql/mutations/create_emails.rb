@@ -38,7 +38,7 @@ module Mutations
         text_part: text_part,
         html_part: html_part,
         ignore_deny_list: ignore_blocked_addresses,
-        meta_values: Hash[meta_values.map { |m| [m.key, m.value] }]
+        meta_values: meta_values.map { |m| [m.key, m.value] }.to_h
       )
       # TODO: Error checking
       {
