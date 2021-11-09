@@ -104,8 +104,7 @@ describe CuttlefishSmtpConnection do
           "Content-Type: text/plain; charset=\"utf-8\"",
           "Content-Transfer-Encoding: 8bit",
           "Subject: [WriteIT] Message: asdasd",
-          "From: Felipe <felipe@fiera-feroz.cl>, " \
-            "Matthew <matthew@fiera-feroz.cl>",
+          "From: Felipe <felipe@fiera-feroz.cl>, Matthew <matthew@fiera-feroz.cl>",
           "To: felipe@fiera-feroz.cl",
           "Date: Fri, 13 Mar 2015 14:42:20 -0000",
           "Message-ID: <20150313144220.12848.46019@paro-taktsang>",

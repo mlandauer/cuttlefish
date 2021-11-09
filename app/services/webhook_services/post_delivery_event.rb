@@ -11,7 +11,7 @@ module WebhookServices
 
     def call
       # For the time being just hardcode the serialisation format here
-      meta_values = Hash[event.delivery.meta_values.map { |v| [v.key, v.value] }]
+      meta_values = event.delivery.meta_values.map { |v| [v.key, v.value] }.to_h
       email = {
         id: event.delivery.id,
         message_id: event.delivery.message_id,

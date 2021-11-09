@@ -9,11 +9,7 @@ class Admin < ActiveRecord::Base
   belongs_to :team
 
   def display_name
-    if name.present?
-      name
-    else
-      email
-    end
+    name.presence || email
   end
 
   # Invite a new user to join the team of the inviting admin. It sends out

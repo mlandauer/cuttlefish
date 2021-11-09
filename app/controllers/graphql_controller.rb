@@ -78,6 +78,6 @@ class GraphqlController < ApplicationController
       error: { message: error.message, backtrace: error.backtrace },
       data: {}
     }
-    render json: json, status: 500
+    render json: json, status: :internal_server_error
   end
 end

@@ -7,11 +7,11 @@ describe PostfixLogLineServices::Create do
   context "soft bounce" do
     let(:line) do
       "Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: " \
-      "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, " \
-      "delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred " \
-      "(host foo.bar.com[1.2.3.4] said: 451 4.3.0 " \
-      "<bounces@planningalerts.org.au>: Temporary lookup failure " \
-      "(in reply to RCPT TO command))"
+        "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, " \
+        "delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred " \
+        "(host foo.bar.com[1.2.3.4] said: 451 4.3.0 " \
+        "<bounces@planningalerts.org.au>: Temporary lookup failure " \
+        "(in reply to RCPT TO command))"
     end
     let(:address) { create(:address, text: "foo@bar.com") }
     let(:app) do
@@ -30,8 +30,10 @@ describe PostfixLogLineServices::Create do
       p = PostfixLogLine.first
       expect(p.time).to eq Time.new(Time.now.year, 4, 5, 16, 41, 54)
       expect(p.dsn).to eq "4.3.0"
-      expect(p.extended_status).to eq "deferred (host foo.bar.com[1.2.3.4] said: " \
+      expect(p.extended_status).to eq(
+        "deferred (host foo.bar.com[1.2.3.4] said: " \
         "451 4.3.0 <bounces@planningalerts.org.au>: Temporary lookup failure (in reply to RCPT TO command))"
+      )
       expect(p.delivery).to eq delivery
     end
 
@@ -52,12 +54,12 @@ describe PostfixLogLineServices::Create do
   context "hard bounce" do
     let(:line) do
       "Apr  5 14:21:51 kedumba postfix/smtp[2500]: 39D9336AFA81: " \
-      "to=<anincorrectemailaddress@openaustralia.org>, " \
-      "relay=aspmx.l.google.com[173.194.79.27]:25, delay=1, " \
-      "delays=0.08/0/0.58/0.34, dsn=5.1.1, status=bounced " \
-      "(host aspmx.l.google.com[173.194.79.27] said: 550-5.1.1 " \
-      "The email account that you tried to reach does not exist. " \
-      "zb4si15321910pbb.132 - gsmtp (in reply to RCPT TO command))"
+        "to=<anincorrectemailaddress@openaustralia.org>, " \
+        "relay=aspmx.l.google.com[173.194.79.27]:25, delay=1, " \
+        "delays=0.08/0/0.58/0.34, dsn=5.1.1, status=bounced " \
+        "(host aspmx.l.google.com[173.194.79.27] said: 550-5.1.1 " \
+        "The email account that you tried to reach does not exist. " \
+        "zb4si15321910pbb.132 - gsmtp (in reply to RCPT TO command))"
     end
     let(:address) { create(:address, text: "anincorrectemailaddress@openaustralia.org") }
     let!(:delivery) { create(:delivery, postfix_queue_id: "39D9336AFA81", address: address) }
@@ -69,9 +71,11 @@ describe PostfixLogLineServices::Create do
       p = PostfixLogLine.first
       expect(p.time).to eq Time.new(Time.now.year, 4, 5, 14, 21, 51)
       expect(p.dsn).to eq "5.1.1"
-      expect(p.extended_status).to eq "bounced (host aspmx.l.google.com[173.194.79.27] said: " \
+      expect(p.extended_status).to eq(
+        "bounced (host aspmx.l.google.com[173.194.79.27] said: " \
         "550-5.1.1 The email account that you tried to reach does not exist. " \
         "zb4si15321910pbb.132 - gsmtp (in reply to RCPT TO command))"
+      )
       expect(p.delivery).to eq delivery
     end
 
@@ -104,12 +108,12 @@ describe PostfixLogLineServices::Create do
   context "hard bounce for a cuttlefish email" do
     let(:line) do
       "Apr  5 14:21:51 kedumba postfix/smtp[2500]: 39D9336AFA81: " \
-      "to=<anincorrectemailaddress@openaustralia.org>, " \
-      "relay=aspmx.l.google.com[173.194.79.27]:25, delay=1, " \
-      "delays=0.08/0/0.58/0.34, dsn=5.1.1, status=bounced " \
-      "(host aspmx.l.google.com[173.194.79.27] said: 550-5.1.1 " \
-      "The email account that you tried to reach does not exist. " \
-      "zb4si15321910pbb.132 - gsmtp (in reply to RCPT TO command))"
+        "to=<anincorrectemailaddress@openaustralia.org>, " \
+        "relay=aspmx.l.google.com[173.194.79.27]:25, delay=1, " \
+        "delays=0.08/0/0.58/0.34, dsn=5.1.1, status=bounced " \
+        "(host aspmx.l.google.com[173.194.79.27] said: 550-5.1.1 " \
+        "The email account that you tried to reach does not exist. " \
+        "zb4si15321910pbb.132 - gsmtp (in reply to RCPT TO command))"
     end
     let(:address) { create(:address, text: "anincorrectemailaddress@openaustralia.org") }
     let(:email) { create(:email, app: App.cuttlefish) }

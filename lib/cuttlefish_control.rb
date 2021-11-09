@@ -47,8 +47,7 @@ module CuttlefishControl
       # Sleep forever
       sleep
     else
-      puts "Sucking up log entries" \
-        " in #{Rails.configuration.postfix_log_path}..."
+      puts "Sucking up log entries in #{Rails.configuration.postfix_log_path}..."
       CuttlefishLogDaemon.start(Rails.configuration.postfix_log_path)
     end
   end

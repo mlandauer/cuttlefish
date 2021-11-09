@@ -33,7 +33,10 @@ describe "getting a bunch of screenshots", js: true do
         email: "matthew@openaustralia.org", password: "caplin"
       )
       mail = Mail.new do
+        # Gosh rubocop getting this check really wrong
+        # rubocop:disable RSpec/VariableName
         subject "Hello!"
+        # rubocop:enable RSpec/VariableName
         text_part do
           body "This can be anything because it isn't actually " \
                "seen in the screenshot"

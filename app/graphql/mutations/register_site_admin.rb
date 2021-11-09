@@ -9,7 +9,7 @@ module Mutations
     field :token, String, null: true
     field :errors, [Types::UserError], null: false
 
-    def resolve(name: nil, email:, password:)
+    def resolve(email:, password:, name: nil)
       Pundit.authorize(context[:current_admin], :registration, :create?)
 
       # TODO: Put these in a transaction

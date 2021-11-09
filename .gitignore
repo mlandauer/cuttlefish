@@ -34,6 +34,5 @@ postfix_log/supervisor/*.log
 postfix_log/maillog
 postfix_log/messages
 
-# Use ansible as a virtualenv if you want
-ansible-2.5
-ansible-2.6
+# Use .ansible directory as a virtualenv if you want
+.ansible

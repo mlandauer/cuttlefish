@@ -5,7 +5,5 @@ class ClickEvent < ActiveRecord::Base
   delegate :link, to: :delivery_link
   include UserAgent
 
-  def url
-    link.url
-  end
+  delegate :url, to: :link
 end

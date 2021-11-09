@@ -18,7 +18,7 @@ group :assets do
   gem "bootstrap-sass", "~> 2.0"
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem "therubyracer", platforms: :ruby
+  gem "mini_racer", platforms: :ruby
 
   gem "less-rails"
   gem "uglifier"
@@ -96,6 +96,8 @@ group :development do
   gem "faker", git: "https://github.com/stympy/faker.git", branch: "master"
   gem "graphiql-rails"
   gem "rubocop", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-rspec", require: false
   gem "rvm-capistrano", ">= 1.5.6", require: false
   gem "spring"
   gem "spring-commands-rspec"

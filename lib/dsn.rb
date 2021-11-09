@@ -19,7 +19,7 @@ module DSN
         }
       ]
     end
-    r = Hash[r]
+    r = r.to_h
     # Remove deprecated entry
     r.delete("X.6.10")
     r

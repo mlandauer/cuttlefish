@@ -63,14 +63,10 @@ class Archiving
       deliveries.find_each(&:destroy)
 
       if copy_to_s3(date)
-        if noisy
-          puts "Removing local file #{archive_filename_for(date)} " \
-            "copied to S3..."
-        end
+        puts "Removing local file #{archive_filename_for(date)} copied to S3..." if noisy
         File.delete(archive_file_path_for(date))
       elsif noisy
-        puts "Keeping file #{archive_filename_for(date)} " \
-          "as it wasn't copied to S3"
+        puts "Keeping file #{archive_filename_for(date)} as it wasn't copied to S3"
       end
     end
   end
@@ -143,10 +139,7 @@ class Archiving
 
   def self.copy_to_s3(date, noisy: true)
     if (s3_bucket = ENV["S3_BUCKET"])
-      if noisy
-        puts "Copying #{archive_filename_for(date)} " \
-          "to S3 bucket #{s3_bucket}..."
-      end
+      puts "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..." if noisy
 
       s3_connection = Fog::Storage.new(fog_storage_details)
       directory = s3_connection.directories.get(s3_bucket)
@@ -155,8 +148,7 @@ class Archiving
         body: File.open(archive_file_path_for(date))
       )
     elsif noisy
-      puts "Skipped upload of #{archive_filename_for(date)} " \
-        "because S3 access not configured"
+      puts "Skipped upload of #{archive_filename_for(date)} because S3 access not configured"
     end
   end
 

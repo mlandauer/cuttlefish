@@ -17,7 +17,7 @@ describe Filters::InlineCss do
   context "html email with style block" do
     let(:html) do
       "<head><style>p { font-size: 20px; }</style></head>" \
-      "<body><p>This is HTML with “some” UTF-8</p></body>"
+        "<body><p>This is HTML with “some” UTF-8</p></body>"
     end
 
     it "#filter_html" do

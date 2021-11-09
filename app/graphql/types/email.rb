@@ -40,7 +40,8 @@ module Types
           description: "Whether this email was clicked"
     field :ignore_blocked_addresses, Boolean,
           null: false,
-          description: "If true the delivery of this email ignores whether the destination address is in the list of blocked addresses"
+          description: "If true the delivery of this email ignores whether the " \
+                       "destination address is in the list of blocked addresses"
     field :meta_values, [Types::KeyValue],
           null: false,
           description: "A list of meta data key/value pairs set by the user"
@@ -58,9 +59,7 @@ module Types
       address.text
     end
 
-    def subject
-      email.subject
-    end
+    delegate :subject, to: :email
 
     def content
       return if object.data.nil?
@@ -80,9 +79,7 @@ module Types
       object.ignore_deny_list
     end
 
-    def meta_values
-      object.meta_values
-    end
+    delegate :meta_values, to: :object
 
     def delivery_events
       object.postfix_log_lines

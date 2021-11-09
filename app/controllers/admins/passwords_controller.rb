@@ -49,7 +49,7 @@ module Admins
 
     # Check if a reset_password_token is provided in the request
     def assert_reset_token_passed
-      return unless params[:reset_password_token].blank?
+      return if params[:reset_password_token].present?
 
       flash[:notice] = "You can't access this page without coming from a password reset email. " \
                        "If you do come from a password reset email, please make sure you used the full URL provided."

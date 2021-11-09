@@ -15,5 +15,10 @@ before_script:
   # We don't want to seed the database for tests
   - bundle exec rake db:create
   - bundle exec rake db:schema:load
+
+script:
+  - bundle exec rake
+  - bundle exec rubocop
+
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

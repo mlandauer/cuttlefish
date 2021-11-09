@@ -15,10 +15,8 @@ class PostfixLogLine < ActiveRecord::Base
   def status
     if dsn_class == 2
       "delivered"
-    elsif dsn_class == 4
-      "soft_bounce"
     # Mailbox full should be treated as a temporary problem
-    elsif dsn == "5.2.2"
+    elsif dsn_class == 4 || dsn == "5.2.2"
       "soft_bounce"
     elsif dsn_class == 5
       "hard_bounce"

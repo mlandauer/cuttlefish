@@ -2,10 +2,6 @@
 
 module Filters
   class InlineCss < Filters::Mail
-    def initialize
-      super()
-    end
-
     def filter_html(input)
       premailer = Premailer.new(
         input,

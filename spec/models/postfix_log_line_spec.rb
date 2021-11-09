@@ -5,31 +5,31 @@ require "spec_helper"
 describe PostfixLogLine do
   let(:line1) do
     "Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: " \
-    "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, " \
-    "delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred " \
-    "(host foo.bar.com[1.2.3.4] said: 451 4.3.0 " \
-    "<bounces@planningalerts.org.au>: Temporary lookup failure " \
-    "(in reply to RCPT TO command))"
+      "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, " \
+      "delays=92777/0.03/1.6/0.91, dsn=4.3.0, status=deferred " \
+      "(host foo.bar.com[1.2.3.4] said: 451 4.3.0 " \
+      "<bounces@planningalerts.org.au>: Temporary lookup failure " \
+      "(in reply to RCPT TO command))"
   end
   let(:line2) do
     "Apr  5 18:41:58 kedumba postfix/qmgr[2638]: E69DB36D4A2B: removed"
   end
   let(:line3) do
     "Apr  5 17:11:07 kedumba postfix/smtpd[7453]: " \
-    "connect from unknown[111.142.251.143]"
+      "connect from unknown[111.142.251.143]"
   end
   let(:line4) do
     "Apr  5 14:21:51 kedumba postfix/smtp[2500]: 39D9336AFA81: " \
-    "to=<anincorrectemailaddress@openaustralia.org>, " \
-    "relay=aspmx.l.google.com[173.194.79.27]:25, delay=1, " \
-    "delays=0.08/0/0.58/0.34, dsn=5.1.1, status=bounced " \
-    "(host aspmx.l.google.com[173.194.79.27] said: 550-5.1.1 " \
-    "The email account that you tried to reach does not exist. " \
-    "zb4si15321910pbb.132 - gsmtp (in reply to RCPT TO command))"
+      "to=<anincorrectemailaddress@openaustralia.org>, " \
+      "relay=aspmx.l.google.com[173.194.79.27]:25, delay=1, " \
+      "delays=0.08/0/0.58/0.34, dsn=5.1.1, status=bounced " \
+      "(host aspmx.l.google.com[173.194.79.27] said: 550-5.1.1 " \
+      "The email account that you tried to reach does not exist. " \
+      "zb4si15321910pbb.132 - gsmtp (in reply to RCPT TO command))"
   end
   let(:line5) do
     "Oct 25 17:36:47 vps331845 postfix[6084]: " \
-    "Postfix is running with backwards-compatible default setting"
+      "Postfix is running with backwards-compatible default setting"
   end
 
   context "one log line" do
@@ -164,10 +164,10 @@ describe PostfixLogLine do
         address: address
       )
       line = "Dec 21 07:41:10 localhost postfix/error[29539]: 773A9CBBC: " \
-        "to=<foobar@optusnet.com.au>, relay=none, delay=334, " \
-        "delays=304/31/0/0, dsn=4.4.1, status=deferred " \
-        "(delivery temporarily suspended: connect to " \
-        "extmail.optusnet.com.au[211.29.133.14]:25: Connection timed out)"
+             "to=<foobar@optusnet.com.au>, relay=none, delay=334, " \
+             "delays=304/31/0/0, dsn=4.4.1, status=deferred " \
+             "(delivery temporarily suspended: connect to " \
+             "extmail.optusnet.com.au[211.29.133.14]:25: Connection timed out)"
       PostfixLogLine.create_from_line(line)
       expect(PostfixLogLine.count).to eq 1
     end
