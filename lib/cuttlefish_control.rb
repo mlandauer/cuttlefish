@@ -4,8 +4,14 @@ require File.expand_path File.join(
   File.dirname(__FILE__), "cuttlefish_smtp_server"
 )
 
-module CuttlefishControl
-  def self.smtp_start
+class CuttlefishControl
+  attr_reader :logger
+
+  def initialize(logger)
+    @logger = logger
+  end
+
+  def smtp_start
     environment = ENV["RAILS_ENV"] || "development"
     # We are accepting connections from the outside world
     host = "0.0.0.0"
@@ -15,8 +21,8 @@ module CuttlefishControl
     $stdout.sync = true
 
     if read_only_mode?
-      puts "I'm in read-only mode and so not listening for emails via SMTP."
-      puts how_to_disable_read_only_mode
+      logger.info "I'm in read-only mode and so not listening for emails via SMTP."
+      logger.info how_to_disable_read_only_mode
       # Sleep forever
       sleep
     else
@@ -30,33 +36,34 @@ module CuttlefishControl
       EM.run do
         CuttlefishSmtpServer.new.start(host, port)
 
-        puts "My eight arms and two tentacles are quivering in anticipation."
-        puts "I'm listening for emails via SMTP on #{host} port #{port}"
-        puts "I'm in the #{environment} environment"
+        logger.info "My eight arms and two tentacles are quivering in anticipation."
+        logger.info "I'm listening for emails via SMTP on #{host} port #{port}"
+        logger.info "I'm in the #{environment} environment"
       end
     end
   end
 
-  def self.log_start
+  def log_start
     # For the benefit of foreman
+    # TODO: Move this to where the logger is being setup
     $stdout.sync = true
 
     if read_only_mode?
-      puts "I'm in read-only mode and so not sucking up log entries."
-      puts how_to_disable_read_only_mode
+      logger.info "I'm in read-only mode and so not sucking up log entries."
+      logger.info how_to_disable_read_only_mode
       # Sleep forever
       sleep
     else
-      puts "Sucking up log entries in #{Rails.configuration.postfix_log_path}..."
+      logger.info "Sucking up log entries in #{Rails.configuration.postfix_log_path}..."
       CuttlefishLogDaemon.start(Rails.configuration.postfix_log_path)
     end
   end
 
-  def self.read_only_mode?
+  def read_only_mode?
     Rails.configuration.cuttlefish_read_only_mode
   end
 
-  def self.how_to_disable_read_only_mode
+  def how_to_disable_read_only_mode
     "To disable unset the environment variable CUTTLEFISH_READ_ONLY_MODE " \
       "and restart."
   end
