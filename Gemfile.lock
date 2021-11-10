@@ -251,7 +251,7 @@ GEM
       less (~> 2.6.0)
       sprockets (> 2, < 4)
       tilt
-    libv8-node (15.14.0.1)
+    libv8 (3.16.14.19)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -273,8 +273,6 @@ GEM
       rake
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    mini_racer (0.4.0)
-      libv8-node (~> 15.14.0.0)
     minitar (0.6.1)
     minitest (5.14.2)
     multi_json (1.13.1)
@@ -353,6 +351,7 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     redis (4.0.1)
+    ref (2.0.0)
     regexp_parser (2.1.1)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -463,6 +462,9 @@ GEM
       tins (~> 1.0)
     terminal-notifier (2.0.0)
     terminal-notifier-guard (1.6.4)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
+      ref
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -543,7 +545,6 @@ DEPENDENCIES
   jwt
   less-rails
   listen
-  mini_racer
   minitar
   newrelic_rpm
   nokogiri
@@ -574,6 +575,7 @@ DEPENDENCIES
   syslog_protocol
   terminal-notifier
   terminal-notifier-guard
+  therubyracer
   thin
   uglifier
   user_agent_parser

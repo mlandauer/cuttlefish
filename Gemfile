@@ -18,7 +18,7 @@ group :assets do
   gem "bootstrap-sass", "~> 2.0"
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem "mini_racer", platforms: :ruby
+  gem "therubyracer", platforms: :ruby
 
   gem "less-rails"
   gem "uglifier"
