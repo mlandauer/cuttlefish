@@ -30,7 +30,7 @@ describe PostfixLogLineServices::Create do
 
       expect(PostfixLogLine.count).to eq 1
       p = PostfixLogLine.first
-      expect(p.time).to eq Time.new(Time.now.year, 4, 5, 16, 41, 54)
+      expect(p.time).to eq Time.new(Time.zone.now.year, 4, 5, 16, 41, 54, 0)
       expect(p.dsn).to eq "4.3.0"
       expect(p.extended_status).to eq(
         "deferred (host foo.bar.com[1.2.3.4] said: " \
@@ -71,7 +71,7 @@ describe PostfixLogLineServices::Create do
 
       expect(PostfixLogLine.count).to eq 1
       p = PostfixLogLine.first
-      expect(p.time).to eq Time.new(Time.now.year, 4, 5, 14, 21, 51)
+      expect(p.time).to eq Time.new(Time.zone.now.year, 4, 5, 14, 21, 51, 0)
       expect(p.dsn).to eq "5.1.1"
       expect(p.extended_status).to eq(
         "bounced (host aspmx.l.google.com[173.194.79.27] said: " \

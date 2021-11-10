@@ -104,7 +104,7 @@ describe PostfixLogLine do
           "<bounces@planningalerts.org.au>: Temporary lookup failure " \
           "(in reply to RCPT TO command))"
         )
-        expect(line.time).to eq Time.local(Time.now.year, 4, 5, 16, 41, 54)
+        expect(line.time).to eq Time.new(Time.zone.now.year, 4, 5, 16, 41, 54, 0)
       end
 
       it "attaches it to the delivery" do
@@ -119,7 +119,7 @@ describe PostfixLogLine do
           "<bounces@planningalerts.org.au>: Temporary lookup failure " \
           "(in reply to RCPT TO command))"
         )
-        expect(line.time).to eq Time.local(Time.now.year, 4, 5, 16, 41, 54)
+        expect(line.time).to eq Time.new(Time.zone.now.year, 4, 5, 16, 41, 54, 0)
       end
     end
 
@@ -260,7 +260,7 @@ describe PostfixLogLine do
   describe ".match_main_content" do
     it {
       expect(described_class.match_main_content(line1, logger)).to eq(
-        time: Time.local(Time.now.year, 4, 5, 16, 41, 54),
+        time: Time.new(Time.zone.now.year, 4, 5, 16, 41, 54, 0),
         program: "smtp",
         queue_id: "39D9336AFA81",
         to: "foo@bar.com",
@@ -277,7 +277,7 @@ describe PostfixLogLine do
 
     it {
       expect(described_class.match_main_content(line2, logger)).to eq(
-        time: Time.local(Time.now.year, 4, 5, 18, 41, 58),
+        time: Time.new(Time.zone.now.year, 4, 5, 18, 41, 58, 0),
         program: "qmgr",
         queue_id: "E69DB36D4A2B"
       )
@@ -285,7 +285,7 @@ describe PostfixLogLine do
 
     it {
       expect(described_class.match_main_content(line3, logger)).to eq(
-        time: Time.local(Time.now.year, 4, 5, 17, 11, 7),
+        time: Time.new(Time.zone.now.year, 4, 5, 17, 11, 7, 0),
         program: "smtpd",
         queue_id: nil
       )

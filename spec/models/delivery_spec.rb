@@ -15,7 +15,7 @@ describe Delivery do
         # TODO: Replace with factory_girl
         delivery.postfix_log_lines.create(
           dsn: "2.0.0",
-          time: Time.now,
+          time: Time.zone.now,
           relay: "",
           delay: "",
           delays: "",
@@ -28,7 +28,7 @@ describe Delivery do
         # TODO: Replace with factory_girl
         delivery.postfix_log_lines.create(
           dsn: "4.3.0",
-          time: Time.now,
+          time: Time.zone.now,
           relay: "",
           delay: "",
           delays: "",
