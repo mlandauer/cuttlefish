@@ -81,7 +81,7 @@ describe Email do
   describe "#from_address" do
     it "returns an Address object" do
       email = create(:email, from: "matthew@foo.org")
-      a1 = Address.find_by_text("matthew@foo.org")
+      a1 = Address.find_by(text: "matthew@foo.org")
       expect(a1).not_to be_nil
       expect(email.from_address).to eq a1
     end
@@ -113,8 +113,8 @@ describe Email do
         :email,
         to: ["mlandauer@foo.org", "matthew@bar.com"]
       )
-      a1 = Address.find_by_text("mlandauer@foo.org")
-      a2 = Address.find_by_text("matthew@bar.com")
+      a1 = Address.find_by(text: "mlandauer@foo.org")
+      a2 = Address.find_by(text: "matthew@bar.com")
       expect(a1).not_to be_nil
       expect(a2).not_to be_nil
       expect(email.to_addresses).to eq [a1, a2]

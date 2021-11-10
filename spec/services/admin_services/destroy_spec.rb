@@ -14,7 +14,7 @@ describe AdminServices::Destroy do
   it "removes an admin" do
     admin
     current_admin
-    expect { remove_admin }.to change { Admin.count }.by(-1)
+    expect { remove_admin }.to change(Admin, :count).by(-1)
   end
 
   it "returns the removed admin as the result" do

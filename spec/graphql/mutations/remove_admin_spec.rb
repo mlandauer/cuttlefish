@@ -29,7 +29,7 @@ describe Mutations::RemoveAdmin do
   it "removes an admin" do
     admin
     current_admin
-    expect { result }.to change { Admin.count }.by(-1)
+    expect { result }.to change(Admin, :count).by(-1)
   end
 
   it "returns the deleted admin" do

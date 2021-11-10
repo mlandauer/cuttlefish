@@ -77,8 +77,8 @@ describe TrackingController, type: :controller do
         it "logs the event" do
           allow(HashId).to receive(:valid?).and_return(true)
           delivery_link = mock_model(DeliveryLink, url: "http://foo.com")
-          expect(DeliveryLink).to receive(:find_by_id)
-            .with("204").and_return(delivery_link)
+          expect(DeliveryLink).to receive(:find_by)
+            .with(id: "204").and_return(delivery_link)
           expect(delivery_link).to receive(:add_click_event)
           get :click, params: {
             delivery_link_id: 204,

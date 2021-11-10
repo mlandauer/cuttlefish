@@ -19,7 +19,7 @@ describe AppServices::Create do
   end
 
   it "creates an app" do
-    expect { create_app }.to change { App.count }.by(1)
+    expect { create_app }.to change(App, :count).by(1)
   end
 
   it "returns the created app" do

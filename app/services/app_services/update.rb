@@ -26,7 +26,7 @@ module AppServices
     def call
       app = App.find(id)
       Pundit.authorize(current_admin, app, :update?)
-      if app.update_attributes(attributes)
+      if app.update(attributes)
         success!
       else
         fail!

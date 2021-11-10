@@ -55,7 +55,7 @@ class App < ApplicationRecord
   end
 
   def dkim_private_key
-    update_attributes(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem) if self[:dkim_private_key].nil?
+    update(dkim_private_key: OpenSSL::PKey::RSA.new(2048).to_pem) if self[:dkim_private_key].nil?
     OpenSSL::PKey::RSA.new(self[:dkim_private_key])
   end
 
@@ -170,7 +170,7 @@ class App < ApplicationRecord
   end
 
   def set_smtp_username
-    update_attributes(smtp_username: generate_smtp_username)
+    update(smtp_username: generate_smtp_username)
   end
 
   def generate_smtp_username

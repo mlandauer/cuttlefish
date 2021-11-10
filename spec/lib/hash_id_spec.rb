@@ -10,20 +10,20 @@ describe HashId do
   describe ".valid?" do
     it {
       expect(
-        described_class.valid?("15", "29a6fc331a2dc6ebe86a055b91dfb19f6537f6c4")
-      ).to be_truthy
+        described_class
+      ).to be_valid("15", "29a6fc331a2dc6ebe86a055b91dfb19f6537f6c4")
     }
 
     it {
       expect(
-        described_class.valid?("15", "this hash is wrong")
-      ).to be_falsy
+        described_class
+      ).not_to be_valid("15", "this hash is wrong")
     }
 
     it {
       expect(
-        described_class.valid?("14", "29a6fc331a2dc6ebe86a055b91dfb19f6537f6c4")
-      ).to be_falsy
+        described_class
+      ).not_to be_valid("14", "29a6fc331a2dc6ebe86a055b91dfb19f6537f6c4")
     }
   end
 end

@@ -15,7 +15,7 @@ describe DenyListServices::Destroy do
 
   it "removes a deny list entry" do
     deny_list
-    expect { destroy_deny_list }.to change { DenyList.count }.by(-1)
+    expect { destroy_deny_list }.to change(DenyList, :count).by(-1)
   end
 
   it "returns the deleted entry" do

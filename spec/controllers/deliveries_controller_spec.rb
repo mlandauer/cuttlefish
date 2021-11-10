@@ -19,7 +19,7 @@ describe DeliveriesController, type: :controller do
       it "assigns all deliveries as @deliveries" do
         delivery = create(:delivery)
         # Make the email app part of this team
-        delivery.email.app.update_attributes(team_id: team.id)
+        delivery.email.app.update(team_id: team.id)
         get :index, params: {}
         expect(assigns(:deliveries).count).to eq 1
         expect(assigns(:deliveries).first.to).to eq delivery.to
@@ -34,7 +34,7 @@ describe DeliveriesController, type: :controller do
       it "assigns the requested delivery as @delivery" do
         delivery = create(:delivery)
         # Make the email app part of this team
-        delivery.email.app.update_attributes(team_id: team.id)
+        delivery.email.app.update(team_id: team.id)
         get :show, params: { id: delivery.to_param }
         expect(assigns(:delivery).to).to eq delivery.to
         expect(assigns(:delivery).created_at).to eq(

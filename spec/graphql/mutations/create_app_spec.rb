@@ -34,7 +34,7 @@ describe Mutations::CreateApp do
   end
 
   it "creates an app" do
-    expect { result }.to change { App.count }.by(1)
+    expect { result }.to change(App, :count).by(1)
   end
 
   it "returns the created app" do

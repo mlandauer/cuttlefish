@@ -14,7 +14,7 @@ module AppServices
     def call
       app = App.find(id)
       Pundit.authorize(current_admin, app, :upgrade_dkim?)
-      app.update_attributes!(legacy_dkim_selector: false)
+      app.update!(legacy_dkim_selector: false)
       success!
       app
     end

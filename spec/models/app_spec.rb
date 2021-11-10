@@ -33,7 +33,7 @@ describe App do
 
     it "does not change the smtp_username if the name is updated" do
       app = create(:app, name: "Planning Alerts", id: 15)
-      app.update_attributes(name: "Another description")
+      app.update(name: "Another description")
       expect(app.smtp_username).to eq "planning_alerts_15"
     end
   end

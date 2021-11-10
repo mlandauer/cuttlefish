@@ -26,7 +26,7 @@ describe EmailServices::Create do
 
   it "creates an email" do
     allow(EmailServices::Send).to receive(:call)
-    expect { create_email }.to change { Email.count }.by(1)
+    expect { create_email }.to change(Email, :count).by(1)
   end
 
   it "returns the service object" do

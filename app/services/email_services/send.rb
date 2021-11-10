@@ -27,7 +27,7 @@ module EmailServices
           delivery.return_path,
           [delivery.to]
         )
-        delivery.update_attributes(
+        delivery.update(
           open_tracked: delivery.open_tracking_enabled?,
           postfix_queue_id:
             extract_postfix_queue_id_from_smtp_message(response.message),

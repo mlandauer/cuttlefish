@@ -27,7 +27,7 @@ class TrackingController < ApplicationController
       "#{params[:delivery_link_id]}-#{params[:url]}",
       params[:hash]
     )
-      delivery_link = DeliveryLink.find_by_id(params[:delivery_link_id])
+      delivery_link = DeliveryLink.find_by(id: params[:delivery_link_id])
       # If there is no delivery_link this is probably an old email
       # which has been archived and the delivery_link record doesn't exist
       # anymore.

@@ -127,7 +127,7 @@ describe AppsController, type: :controller do
       context "DKIM is enabled" do
         before do
           allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?).and_return(true)
-          app.update_attributes!(dkim_enabled: true)
+          app.update!(dkim_enabled: true)
         end
 
         it "is able to disable DKIM" do

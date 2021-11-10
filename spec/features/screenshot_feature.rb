@@ -83,7 +83,7 @@ describe "getting a bunch of screenshots", js: true do
         data: mail.encoded
       )
       @delivery = @email.deliveries.first
-      @delivery.update_attributes(sent: true, open_tracked: true)
+      @delivery.update(sent: true, open_tracked: true)
       create(
         :postfix_log_line,
         delivery: @delivery,

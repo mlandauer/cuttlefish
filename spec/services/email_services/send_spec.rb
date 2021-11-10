@@ -120,7 +120,7 @@ describe EmailServices::Send do
 
     context "app has disabled open tracking" do
       before do
-        email.app.update_attributes(open_tracking_enabled: false)
+        email.app.update(open_tracking_enabled: false)
       end
 
       it "records that the deliveries are not being open tracked" do

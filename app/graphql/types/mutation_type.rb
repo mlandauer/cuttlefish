@@ -9,7 +9,7 @@ module Types
     field :create_emails, mutation: Mutations::CreateEmails do
       description "Create and send emails"
       guard(lambda do |_object, args, context|
-        app = ::App.find_by_id(args["appId"])
+        app = ::App.find_by(id: args["appId"])
         !context[:current_admin].nil? &&
           app &&
           AppPolicy.new(context[:current_admin], app).show? &&

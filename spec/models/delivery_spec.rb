@@ -8,7 +8,7 @@ describe Delivery do
   describe "#status" do
     context "delivery is sent" do
       before do
-        delivery.update_attributes(sent: true)
+        delivery.update(sent: true)
       end
 
       it "is delivered if the status is sent" do

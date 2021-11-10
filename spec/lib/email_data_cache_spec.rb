@@ -42,7 +42,7 @@ describe EmailDataCache do
     it "deletes a file" do
       FileUtils.touch(@filename)
       described_class.safe_file_delete(@filename)
-      expect(File.exist?(@filename)).to be_falsy
+      expect(File).not_to exist(@filename)
     end
 
     it "does not throw an error when the file doesn't exist" do
