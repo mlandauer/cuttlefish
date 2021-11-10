@@ -34,7 +34,7 @@ class CuttlefishControl
       ActiveRecord::Base.establish_connection(activerecord_config[environment])
 
       EM.run do
-        CuttlefishSmtpServer.new.start(host, port)
+        CuttlefishSmtpServer.new(logger).start(host, port)
 
         logger.info "My eight arms and two tentacles are quivering in anticipation."
         logger.info "I'm listening for emails via SMTP on #{host} port #{port}"

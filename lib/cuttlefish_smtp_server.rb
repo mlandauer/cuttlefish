@@ -23,18 +23,20 @@ require File.expand_path File.join(
 
 class CuttlefishSmtpServer
   attr_accessor :connections
+  attr_reader :logger
 
-  def initialize
+  def initialize(logger)
     @connections = []
+    @logger = logger
   end
 
   def start(host = "localhost", port = 1025)
     trap("TERM") do
-      puts "Received SIGTERM"
+      logger.info "Received SIGTERM"
       stop
     end
     trap("INT") do
-      puts "Received SIGINT"
+      logger.info "Received SIGINT"
       stop!
     end
     @server = EM.start_server host,
@@ -47,7 +49,7 @@ class CuttlefishSmtpServer
 
   # Gracefull shutdown
   def stop
-    puts "Stopping server gracefully..."
+    logger.info "Stopping server gracefully..."
     EM.stop_server @server
 
     return if wait_for_connections_and_stop
@@ -67,7 +69,7 @@ class CuttlefishSmtpServer
 
   # Forceful shutdown
   def stop!
-    puts "Stopping server quickly..."
+    logger.info "Stopping server quickly..."
     if @server
       EM.stop_server @server
       @server = nil
