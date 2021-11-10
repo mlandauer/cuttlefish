@@ -172,7 +172,9 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
   def receive_message
     current.received = true
+    # rubocop:disable Rails/TimeZone
     current.completed_at = Time.now
+    # rubocop:enable Rails/TimeZone
 
     # TODO: No need to capture current.sender, current.received,
     # current.completed_at because we're not passing it on
