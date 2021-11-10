@@ -205,18 +205,6 @@ Rails/InverseOf:
     - 'app/models/delivery.rb'
     - 'app/models/email.rb'
 
-# Offense count: 22
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: app/**/*.rb, config/**/*.rb, db/**/*.rb, lib/**/*.rb
-Rails/Output:
-  Exclude:
-    - 'app/models/postfix_log_line.rb'
-    - 'lib/archiving.rb'
-    - 'lib/cuttlefish_control.rb'
-    - 'lib/cuttlefish_log_daemon.rb'
-    - 'lib/cuttlefish_smtp_server.rb'
-
 # Offense count: 5
 Rails/OutputSafety:
   Exclude:

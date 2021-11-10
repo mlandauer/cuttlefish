@@ -3,6 +3,7 @@
 require "spec_helper"
 
 describe PostfixLogLine do
+  let(:logger) { Logger.new($stdout) }
   let(:line1) do
     "Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: " \
       "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, " \
@@ -36,7 +37,7 @@ describe PostfixLogLine do
     let(:l) do
       email = create(:email, to: "foo@bar.com")
       email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
-      described_class.create_from_line(line1)
+      described_class.create_from_line(line1, logger)
       described_class.first
     end
 
@@ -88,7 +89,7 @@ describe PostfixLogLine do
 
       before do
         email
-        described_class.create_from_line(line1)
+        described_class.create_from_line(line1, logger)
       end
 
       it "extracts and save relevant parts of the line" do
@@ -139,8 +140,8 @@ describe PostfixLogLine do
 
       before do
         email
-        described_class.create_from_line(line1)
-        described_class.create_from_line(line4)
+        described_class.create_from_line(line1, logger)
+        described_class.create_from_line(line4, logger)
       end
 
       it "attaches it to the delivery" do
@@ -155,8 +156,8 @@ describe PostfixLogLine do
       delivery = Delivery.find_by(email: email, address: address)
       delivery.update_attribute(:postfix_queue_id, "39D9336AFA81")
 
-      described_class.create_from_line(line1)
-      described_class.create_from_line(line1)
+      described_class.create_from_line(line1, logger)
+      described_class.create_from_line(line1, logger)
       expect(delivery.postfix_log_lines.count).to eq 1
     end
 
@@ -172,12 +173,12 @@ describe PostfixLogLine do
              "delays=304/31/0/0, dsn=4.4.1, status=deferred " \
              "(delivery temporarily suspended: connect to " \
              "extmail.optusnet.com.au[211.29.133.14]:25: Connection timed out)"
-      described_class.create_from_line(line)
+      described_class.create_from_line(line, logger)
       expect(described_class.count).to eq 1
     end
 
     it "does not produce any log lines if the queue id is not recognised" do
-      expect(described_class).to receive(:puts).with(
+      expect(logger).to receive(:info).with(
         "Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - " \
         "it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: " \
         "39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, " \
@@ -186,12 +187,12 @@ describe PostfixLogLine do
         "<bounces@planningalerts.org.au>: Temporary lookup failure " \
         "(in reply to RCPT TO command))"
       )
-      described_class.create_from_line(line1)
+      described_class.create_from_line(line1, logger)
       expect(described_class.count).to eq 0
     end
 
     it "shows a message if the address isn't recognised in a log line" do
-      expect(described_class).to receive(:puts).with(
+      expect(logger).to receive(:info).with(
         "Skipping address foo@bar.com from postfix queue id 39D9336AFA81 - " \
         "it's not recognised: Apr  5 16:41:54 kedumba postfix/smtp[18733]: " \
         "39D9336AFA81: to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, " \
@@ -201,11 +202,11 @@ describe PostfixLogLine do
         "(in reply to RCPT TO command))"
       )
       create(:email)
-      described_class.create_from_line(line1)
+      described_class.create_from_line(line1, logger)
     end
 
     it "only log lines that are delivery attempts" do
-      described_class.create_from_line(line2)
+      described_class.create_from_line(line2, logger)
       expect(described_class.count).to eq 0
     end
 
@@ -239,26 +240,26 @@ describe PostfixLogLine do
       it "uses the latest email" do
         delivery1
         delivery2
-        described_class.create_from_line(line1)
+        described_class.create_from_line(line1, logger)
         expect(delivery1.postfix_log_lines).to be_empty
         expect(delivery2.postfix_log_lines.count).to eq 1
       end
     end
 
     it "logs and skip unrecognised lines" do
-      expect(described_class).to receive(:puts).with(
+      expect(logger).to receive(:info).with(
         "Skipping unrecognised line: Oct 25 17:36:47 vps331845 postfix[6084]" \
         ": Postfix is running with backwards-compatible default setting"
       )
       create(:email)
-      result = described_class.create_from_line(line5)
+      result = described_class.create_from_line(line5, logger)
       expect(result).to be_nil
     end
   end
 
   describe ".match_main_content" do
     it {
-      expect(described_class.match_main_content(line1)).to eq(
+      expect(described_class.match_main_content(line1, logger)).to eq(
         time: Time.local(Time.now.year, 4, 5, 16, 41, 54),
         program: "smtp",
         queue_id: "39D9336AFA81",
@@ -275,7 +276,7 @@ describe PostfixLogLine do
     }
 
     it {
-      expect(described_class.match_main_content(line2)).to eq(
+      expect(described_class.match_main_content(line2, logger)).to eq(
         time: Time.local(Time.now.year, 4, 5, 18, 41, 58),
         program: "qmgr",
         queue_id: "E69DB36D4A2B"
@@ -283,7 +284,7 @@ describe PostfixLogLine do
     }
 
     it {
-      expect(described_class.match_main_content(line3)).to eq(
+      expect(described_class.match_main_content(line3, logger)).to eq(
         time: Time.local(Time.now.year, 4, 5, 17, 11, 7),
         program: "smtpd",
         queue_id: nil

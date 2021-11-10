@@ -30,8 +30,9 @@ class PostfixLogLine < ApplicationRecord
     delivery.save!
   end
 
-  def self.create_from_line(line)
-    values = match_main_content(line)
+  # TODO: We don't want to be using logger here
+  def self.create_from_line(line, logger)
+    values = match_main_content(line, logger)
     return if values.nil?
 
     program = values.delete(:program)
@@ -55,12 +56,14 @@ class PostfixLogLine < ApplicationRecord
       # Don't resave duplicates and return nil if it was a duplicate
       PostfixLogLine.create!(a) if PostfixLogLine.find_by(a).nil?
     else
-      puts "Skipping address #{to} from postfix queue id #{queue_id} - " \
-           "it's not recognised: #{line}"
+      logger.info "Skipping address #{to} from postfix queue id #{queue_id} - " \
+                  "it's not recognised: #{line}"
+      nil
     end
   end
 
-  def self.match_main_content(line)
+  # TODO: We don't want to be using logger here
+  def self.match_main_content(line, logger)
     # Assume the log file was written using syslog and parse accordingly
     # rubocop:disable Style/StringConcatenation
     p = SyslogProtocol.parse("<13>" + line)
@@ -68,7 +71,7 @@ class PostfixLogLine < ApplicationRecord
     content_match =
       p.content.match %r{^postfix/(\w+)\[(\d+)\]: (([0-9A-F]+): )?(.*)}
     if content_match.nil?
-      puts "Skipping unrecognised line: #{line}"
+      logger.info "Skipping unrecognised line: #{line}"
       return nil
     end
 

@@ -2,14 +2,15 @@
 
 module PostfixLogLineServices
   class Create < ApplicationService
-    def initialize(line)
+    def initialize(line, logger)
       super()
       @line = line
+      @logger = logger
     end
 
     def call
       log_line = PostfixLogLine.transaction do
-        log_line = create(line)
+        log_line = create(line, logger)
         return if log_line.nil?
 
         # Check if an email needs to be deny listed
@@ -26,9 +27,9 @@ module PostfixLogLineServices
       )
     end
 
-    def create(line)
+    def create(line, logger)
       # TODO: Inline the business logic currently in the model into the service
-      PostfixLogLine.create_from_line(line)
+      PostfixLogLine.create_from_line(line, logger)
     end
 
     def add_to_deny_list(log_line)
@@ -47,6 +48,6 @@ module PostfixLogLineServices
 
     private
 
-    attr_reader :line
+    attr_reader :line, :logger
   end
 end

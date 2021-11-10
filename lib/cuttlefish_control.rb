@@ -55,7 +55,7 @@ class CuttlefishControl
       sleep
     else
       logger.info "Sucking up log entries in #{Rails.configuration.postfix_log_path}..."
-      CuttlefishLogDaemon.start(Rails.configuration.postfix_log_path)
+      CuttlefishLogDaemon.start(Rails.configuration.postfix_log_path, logger)
     end
   end
 
