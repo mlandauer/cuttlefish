@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe Archiving do
-  subject(:archiver) { described_class.new }
+  subject(:archiver) { described_class.new(Logger.new($stdout)) }
 
   let!(:app) do
     create(:team).apps.create!(

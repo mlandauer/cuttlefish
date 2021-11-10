@@ -25,15 +25,16 @@ namespace :cuttlefish do
 
   desc "Archive all emails created more than 3 months ago"
   task auto_archive: :environment do
+    logger = Logger.new($stdout)
     date_to_archive_until = 3.months.ago.utc.to_date
     date_of_oldest_email = Delivery.order(:created_at).first.created_at.utc.to_date
 
     if date_of_oldest_email < date_to_archive_until
       (date_of_oldest_email...date_to_archive_until).each do |date|
-        Archiving.new.archive(date)
+        Archiving.new(logger).archive(date)
       end
     else
-      puts "No emails created before #{date_to_archive_until} to archive"
+      logger.info "No emails created before #{date_to_archive_until} to archive"
     end
   end
 
@@ -48,7 +49,7 @@ namespace :cuttlefish do
   task :archive, %i[date1 date2] => :environment do |_t, args|
     args.with_defaults(date2: args.date1)
     (Date.parse(args.date1)..Date.parse(args.date2)).each do |date|
-      Archiving.new.archive(date)
+      Archiving.new(Logger.new($stdout)).archive(date)
     end
   end
 
@@ -58,7 +59,7 @@ namespace :cuttlefish do
 
     args.with_defaults(date2: args.date1)
     (Date.parse(args.date1)..Date.parse(args.date2)).each do |date|
-      Archiving.new.copy_to_s3(date)
+      Archiving.new(Logger.new($stdout)).copy_to_s3(date)
     end
   end
 

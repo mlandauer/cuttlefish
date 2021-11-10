@@ -2,6 +2,12 @@
 
 # Archive (and restore) emails in the database
 class Archiving
+  attr_reader :logger
+
+  def initialize(logger)
+    @logger = logger
+  end
+
   # Archive all the emails for a particular date (in UTC)
   # TODO Check that we're not trying to archive today's email
   def archive(date, noisy: true)
@@ -18,11 +24,11 @@ class Archiving
                    email: %i[from_address app]
                  )
     if deliveries.empty?
-      puts "Nothing to archive for #{date}" if noisy
+      logger.info "Nothing to archive for #{date}" if noisy
     else
       FileUtils.mkdir_p(archive_directory)
 
-      puts "Archiving #{date}..." if noisy
+      logger.info "Archiving #{date}..." if noisy
       # TODO: bzip2 gives better compression but I had trouble with the
       # Ruby gem for it
       Zlib::GzipWriter.open(archive_file_path_for(date)) do |gzip|
@@ -59,14 +65,14 @@ class Archiving
         end
       end
 
-      puts "Removing archived data from database for #{date}..." if noisy
+      logger.info "Removing archived data from database for #{date}..." if noisy
       deliveries.find_each(&:destroy)
 
       if copy_to_s3(date)
-        puts "Removing local file #{archive_filename_for(date)} copied to S3..." if noisy
+        logger.info "Removing local file #{archive_filename_for(date)} copied to S3..." if noisy
         File.delete(archive_file_path_for(date))
       elsif noisy
-        puts "Keeping file #{archive_filename_for(date)} as it wasn't copied to S3"
+        logger.info "Keeping file #{archive_filename_for(date)} as it wasn't copied to S3"
       end
     end
   end
@@ -139,7 +145,7 @@ class Archiving
 
   def copy_to_s3(date, noisy: true)
     if (s3_bucket = ENV["S3_BUCKET"])
-      puts "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..." if noisy
+      logger.info "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..." if noisy
 
       s3_connection = Fog::Storage.new(fog_storage_details)
       directory = s3_connection.directories.get(s3_bucket)
@@ -148,7 +154,7 @@ class Archiving
         body: File.open(archive_file_path_for(date))
       )
     elsif noisy
-      puts "Skipped upload of #{archive_filename_for(date)} because S3 access not configured"
+      logger.info "Skipped upload of #{archive_filename_for(date)} because S3 access not configured"
     end
   end
 
