@@ -2,7 +2,7 @@
 
 class PagerRenderer < WillPaginate::ActionView::LinkRenderer
   def to_html
-    tag.ul(previous_page + next_page, class: "pager")
+    tag(:ul, previous_page + next_page, class: "pager")
   end
 
   def previous_page
@@ -16,7 +16,7 @@ class PagerRenderer < WillPaginate::ActionView::LinkRenderer
   end
 
   def previous_or_next_page(page, text, classname)
-    text += tag.span(@options[:text]).html_safe if classname == "previous"
+    text += tag(:span, @options[:text]).html_safe if classname == "previous"
     if page
       tag(:li, link(text, page), class: classname)
     else
