@@ -40,8 +40,9 @@ describe Archiving do
     context "when uploading to S3 succeeds" do
       before do
         # Mock the success response from .copy_to_s3
-        allow(archiver).to receive(:copy_to_s3)
-          .with("2014-06-04").and_return(true)
+        # rubocop:disable RSpec/SubjectStub
+        allow(archiver).to receive(:copy_to_s3).with("2014-06-04").and_return(true)
+        # rubocop:enable RSpec/SubjectStub
       end
 
       it "removes the temp archive file it creates" do
@@ -53,8 +54,9 @@ describe Archiving do
 
     context "when uploading to S3 doesn't happen" do
       before do
-        allow(archiver).to receive(:copy_to_s3)
-          .with("2014-06-04").and_return(nil)
+        # rubocop:disable RSpec/SubjectStub
+        allow(archiver).to receive(:copy_to_s3).with("2014-06-04").and_return(nil)
+        # rubocop:enable RSpec/SubjectStub
       end
 
       after do
@@ -72,8 +74,9 @@ describe Archiving do
 
   describe ".unarchive" do
     before do
-      allow(archiver).to receive(:archive_directory)
-        .and_return("spec/fixtures/archive")
+      # rubocop:disable RSpec/SubjectStub
+      allow(archiver).to receive(:archive_directory).and_return("spec/fixtures/archive")
+      # rubocop:enable RSpec/SubjectStub
     end
 
     it "reloads deliveries into the database" do
