@@ -4,7 +4,7 @@
 class Archiving
   # Archive all the emails for a particular date (in UTC)
   # TODO Check that we're not trying to archive today's email
-  def self.archive(date, noisy: true)
+  def archive(date, noisy: true)
     t0 = date.to_datetime
     t1 = t0.next_day
     deliveries = Delivery
@@ -71,7 +71,7 @@ class Archiving
     end
   end
 
-  def self.unarchive(date)
+  def unarchive(date)
     Zlib::GzipReader.open(archive_file_path_for(date)) do |gzip|
       Archive::Tar::Minitar::Reader.open(gzip) do |reader|
         reader.each do |entry|
@@ -82,14 +82,14 @@ class Archiving
     end
   end
 
-  def self.serialise(delivery)
+  def serialise(delivery)
     ActionController::Base.new.render_to_string(
       partial: "deliveries/delivery.json.jbuilder",
       locals: { delivery: delivery }
     )
   end
 
-  def self.deserialise(text)
+  def deserialise(text)
     data = JSON.parse(text, symbolize_names: true)
     # puts "Reloading delivery #{data[:id]}..."
     # Create app if necessary
@@ -137,7 +137,7 @@ class Archiving
     delivery
   end
 
-  def self.copy_to_s3(date, noisy: true)
+  def copy_to_s3(date, noisy: true)
     if (s3_bucket = ENV["S3_BUCKET"])
       puts "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..." if noisy
 
@@ -152,19 +152,19 @@ class Archiving
     end
   end
 
-  def self.archive_directory
+  def archive_directory
     "db/archive"
   end
 
-  def self.archive_filename_for(date)
+  def archive_filename_for(date)
     "#{date}.tar.gz"
   end
 
-  def self.archive_file_path_for(date)
+  def archive_file_path_for(date)
     "#{archive_directory}/#{archive_filename_for(date)}"
   end
 
-  def self.fog_storage_details
+  def fog_storage_details
     details = {
       provider: "AWS",
       aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],

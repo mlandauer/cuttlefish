@@ -30,7 +30,7 @@ namespace :cuttlefish do
 
     if date_of_oldest_email < date_to_archive_until
       (date_of_oldest_email...date_to_archive_until).each do |date|
-        Archiving.archive(date)
+        Archiving.new.archive(date)
       end
     else
       puts "No emails created before #{date_to_archive_until} to archive"
@@ -48,7 +48,7 @@ namespace :cuttlefish do
   task :archive, %i[date1 date2] => :environment do |_t, args|
     args.with_defaults(date2: args.date1)
     (Date.parse(args.date1)..Date.parse(args.date2)).each do |date|
-      Archiving.archive(date)
+      Archiving.new.archive(date)
     end
   end
 
@@ -58,7 +58,7 @@ namespace :cuttlefish do
 
     args.with_defaults(date2: args.date1)
     (Date.parse(args.date1)..Date.parse(args.date2)).each do |date|
-      Archiving.copy_to_s3(date)
+      Archiving.new.copy_to_s3(date)
     end
   end
 
