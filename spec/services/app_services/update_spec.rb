@@ -36,7 +36,7 @@ describe AppServices::Update do
     expect(update_app.result.name).to eq name
   end
 
-  context "an invalid name" do
+  context "with an invalid name" do
     let(:name) { "" }
 
     it "is not successfull" do
@@ -48,7 +48,7 @@ describe AppServices::Update do
     end
   end
 
-  context "the user doesn't have permission" do
+  context "when the user doesn't have permission" do
     let(:app_policy) { double }
 
     before do
@@ -61,7 +61,7 @@ describe AppServices::Update do
     end
   end
 
-  context "app doesn't exist" do
+  context "when app doesn't exist" do
     before { app.destroy! }
 
     it "is not successfull" do
@@ -69,7 +69,7 @@ describe AppServices::Update do
     end
   end
 
-  context "just updating from domain" do
+  context "when just updating from domain" do
     let(:attributes) { { from_domain: "foo.com" } }
 
     it "is successfull" do

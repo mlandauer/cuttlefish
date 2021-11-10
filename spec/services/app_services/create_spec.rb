@@ -38,7 +38,7 @@ describe AppServices::Create do
     expect(create_app).to be_success
   end
 
-  context "name is blank" do
+  context "when name is blank" do
     let(:name) { "" }
 
     it "is not succesfull" do
@@ -50,7 +50,7 @@ describe AppServices::Create do
     end
   end
 
-  context "user does not have permission" do
+  context "when user does not have permission" do
     let(:app_policy) { double }
 
     before do

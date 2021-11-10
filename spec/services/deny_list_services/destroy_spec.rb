@@ -22,7 +22,7 @@ describe DenyListServices::Destroy do
     expect(destroy_deny_list.result).to eq deny_list
   end
 
-  context "entry does not exist" do
+  context "when entry does not exist" do
     before { deny_list.destroy! }
 
     it "errors" do
@@ -30,7 +30,7 @@ describe DenyListServices::Destroy do
     end
   end
 
-  context "does not have permission" do
+  context "when does not have permission" do
     let(:deny_list_policy) { double }
 
     before do

@@ -6,7 +6,7 @@ describe Delivery do
   let(:delivery) { create(:delivery) }
 
   describe "#status" do
-    context "delivery is sent" do
+    context "when delivery is sent" do
       before do
         delivery.update(sent: true)
       end

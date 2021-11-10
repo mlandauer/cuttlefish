@@ -7,7 +7,7 @@ describe Admins::RegistrationsController, type: :controller do
     request.env["HTTPS"] = "on"
   end
 
-  context "This a new install of Cuttlefish with no users" do
+  context "when this a new install of Cuttlefish with no users" do
     it "allows an admin to register" do
       get :new
       expect(response).to be_successful
@@ -19,7 +19,7 @@ describe Admins::RegistrationsController, type: :controller do
     end
   end
 
-  context "There is already one admin registered" do
+  context "when there is already one admin registered" do
     let(:team) { Team.create! }
     let(:admin) do
       team.admins.create!(email: "foo@bar.com", password: "guess this")

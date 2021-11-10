@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe Email do
   describe "create!" do
-    context "One email is created" do
+    context "when one email is created" do
       before do
         create(
           :email,
@@ -122,7 +122,7 @@ describe Email do
   end
 
   describe "#data" do
-    context "one email" do
+    context "with one email" do
       before do
         create(:email, id: 10, data: "This is a main data section")
       end
@@ -153,7 +153,7 @@ describe Email do
     end
   end
 
-  context "an email with a text part and an html part" do
+  context "when an email with a text part and an html part" do
     let(:mail) do
       Mail.new do
         text_part do
@@ -180,7 +180,7 @@ describe Email do
     end
   end
 
-  context "an email which just consistents of a single text part" do
+  context "when an email which just consistents of a single text part" do
     let(:mail) do
       Mail.new do
         body "This is plain text"
@@ -199,7 +199,7 @@ describe Email do
     end
   end
 
-  context "another email which is just a single text part" do
+  context "when another email which is just a single text part" do
     let(:data) do
       <<~DATA
         To: web-administrators@openaustralia.org
@@ -219,7 +219,7 @@ describe Email do
     end
   end
 
-  context "an email which just consistents of a single html part" do
+  context "when an email which just consistents of a single html part" do
     let(:mail) do
       Mail.new do
         content_type "text/html; charset=UTF-8"
@@ -239,7 +239,7 @@ describe Email do
     end
   end
 
-  context "an email which consistents of a part that is itself multipart" do
+  context "when an email which consistents of a part that is itself multipart" do
     let(:html_part) do
       Mail::Part.new do
         content_type  "text/html; charset=UTF-8"

@@ -18,14 +18,14 @@ describe "getting a bunch of screenshots", js: true do
     ApplicationController.any_instance.stub(force_ssl?: false)
   end
 
-  context "no users" do
+  context "when no users" do
     it "sign up page" do
       visit new_admin_registration_path
       screenshot("app/assets/images/screenshots/1.png")
     end
   end
 
-  context "a user and an email" do
+  context "with a user and an email" do
     let(:team) { Team.create! }
 
     before do

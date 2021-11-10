@@ -10,7 +10,7 @@ describe AdminPolicy do
 
   let(:admin) { create(:admin, team: team_one) }
 
-  context "not authenticated" do
+  context "when not authenticated" do
     let(:user) { nil }
 
     it { is_expected.not_to permit(:show) }
@@ -27,7 +27,7 @@ describe AdminPolicy do
     end
   end
 
-  context "normal user in team one" do
+  context "with normal user in team one" do
     let(:user) { create(:admin, team: team_one) }
 
     it { is_expected.to permit(:show) }
@@ -44,7 +44,7 @@ describe AdminPolicy do
       expect(AdminPolicy::Scope.new(user, Admin).resolve).to include(admin)
     end
 
-    context "in read only mode" do
+    context "when in read only mode" do
       before do
         allow(Rails.configuration).to receive(:cuttlefish_read_only_mode).and_return(true)
       end
@@ -52,14 +52,14 @@ describe AdminPolicy do
       it { is_expected.not_to permit(:destroy) }
     end
 
-    context "user and admin are the same" do
+    context "when user and admin are the same" do
       let(:user) { admin }
 
       it { is_expected.to permit(:destroy) }
     end
   end
 
-  context "normal user in team two" do
+  context "when normal user in team two" do
     let(:user) { create(:admin, team: team_two) }
 
     it { is_expected.to permit(:index) }

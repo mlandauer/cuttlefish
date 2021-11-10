@@ -7,7 +7,7 @@ describe TestEmailsController, type: :controller do
     request.env["HTTPS"] = "on"
   end
 
-  context "signed in" do
+  context "when signed in" do
     let(:team) { Team.create! }
 
     before do

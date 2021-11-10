@@ -13,7 +13,7 @@ describe Filters::MailerHeader do
   let(:filter) { described_class.new(version: APP_VERSION) }
 
   describe "#data" do
-    context "Version 1.2 of the app" do
+    context "when version 1.2 of the app" do
       before { filter.version = "1.2" }
 
       it "adds an X-Mailer header" do

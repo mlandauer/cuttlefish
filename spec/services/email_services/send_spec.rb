@@ -81,7 +81,7 @@ describe EmailServices::Send do
     email.deliveries.each { |d| expect(d.postfix_queue_id).to be_nil }
   end
 
-  context "deliveries is empty" do
+  context "when deliveries is empty" do
     before do
       allow_any_instance_of(Delivery).to receive(:send?).and_return(false)
     end
@@ -96,7 +96,7 @@ describe EmailServices::Send do
     end
   end
 
-  context "don't actually send anything" do
+  context "when don't actually send anything" do
     before do
       smtp = double(send_message: double(message: ""))
       allow(Net::SMTP).to receive(:start).and_yield(smtp)
@@ -118,7 +118,7 @@ describe EmailServices::Send do
       expect(email.deliveries.first).to be_open_tracked
     end
 
-    context "app has disabled open tracking" do
+    context "when app has disabled open tracking" do
       before do
         email.app.update(open_tracking_enabled: false)
       end

@@ -60,7 +60,7 @@ describe ApplicationHelper, type: :helper do
       expect(h).to eq('<li><a href="/foo/bar">Test email</a></li>')
     end
 
-    context "/foo/bar is current page" do
+    context "when /foo/bar is current page" do
       before do
         allow(helper).to receive(:current_page?).and_return(true)
       end

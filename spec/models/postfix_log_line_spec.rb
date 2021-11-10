@@ -33,7 +33,7 @@ describe PostfixLogLine do
       "Postfix is running with backwards-compatible default setting"
   end
 
-  context "one log line" do
+  context "with one log line" do
     let(:l) do
       email = create(:email, to: "foo@bar.com")
       email.deliveries.first.update_attribute(:postfix_queue_id, "39D9336AFA81")
@@ -75,7 +75,7 @@ describe PostfixLogLine do
       expect(email.deliveries.first.postfix_log_lines).to be_empty
     end
 
-    context "one log line" do
+    context "with one log line" do
       let(:address) { Address.create!(text: "foo@bar.com") }
       let(:email) do
         email = create(:email, to_addresses: [address])
@@ -123,7 +123,7 @@ describe PostfixLogLine do
       end
     end
 
-    context "two log lines going to different destinations" do
+    context "with two log lines going to different destinations" do
       let(:address1) { Address.create!(text: "foo@bar.com") }
       let(:address2) do
         Address.create!(text: "anincorrectemailaddress@openaustralia.org")
@@ -210,7 +210,7 @@ describe PostfixLogLine do
       expect(described_class.count).to eq 0
     end
 
-    context "two emails with the same queue id" do
+    context "with two emails with the same queue id" do
       let(:address) { Address.create!(text: "foo@bar.com") }
       let(:email1) do
         email = create(

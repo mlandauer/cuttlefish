@@ -8,7 +8,7 @@ describe TeamPolicy do
   let(:team_one) { create(:team) }
   let(:team_two) { create(:team) }
 
-  context "normal user in team one" do
+  context "when normal user in team one" do
     let(:user) { create(:admin, team: team_one) }
 
     it { is_expected.to permit(:show) }
@@ -26,7 +26,7 @@ describe TeamPolicy do
     end
   end
 
-  context "unauthenticated user" do
+  context "when unauthenticated user" do
     let(:user) { nil }
 
     it { is_expected.not_to permit(:show) }
@@ -43,7 +43,7 @@ describe TeamPolicy do
     end
   end
 
-  context "normal user in team two" do
+  context "when normal user in team two" do
     let(:user) { create(:admin, team: team_two) }
 
     it { is_expected.not_to permit(:show) }
@@ -61,7 +61,7 @@ describe TeamPolicy do
     end
   end
 
-  context "super admin in team two" do
+  context "when super admin in team two" do
     let(:user) { create(:admin, team: team_two, site_admin: true) }
 
     it { is_expected.to permit(:index) }
@@ -73,7 +73,7 @@ describe TeamPolicy do
       ).to include(team_one, team_two)
     end
 
-    context "in read only mode" do
+    context "when in read only mode" do
       before do
         allow(Rails.configuration).to receive(:cuttlefish_read_only_mode).and_return(true)
       end

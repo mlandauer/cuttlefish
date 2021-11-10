@@ -61,7 +61,7 @@ describe CuttlefishSchema do
       end
     end
 
-    context "query for non existing email" do
+    context "with query for non existing email" do
       let(:variables) { { id: (delivery2.id + 1) } }
 
       it "returns nil and error" do
@@ -117,7 +117,7 @@ describe CuttlefishSchema do
       end
     end
 
-    context "result for one app" do
+    context "when result for one app" do
       let(:variables) { { "appId" => app1.id } }
 
       it "returns just one email" do
@@ -129,7 +129,7 @@ describe CuttlefishSchema do
       end
     end
 
-    context "page size of 1" do
+    context "with page size of 1" do
       let(:variables) { { limit: 1 } }
 
       it "returns just one email" do
@@ -140,7 +140,7 @@ describe CuttlefishSchema do
         expect(result["errors"]).to be_nil
       end
 
-      context "offset of 1" do
+      context "with offset of 1" do
         let(:variables) { { limit: 1, offset: 1 } }
 
         it "returns just one email" do
@@ -172,7 +172,7 @@ describe CuttlefishSchema do
       )
     end
 
-    context "admin is a site admin" do
+    context "when admin is a site admin" do
       let(:admin) do
         create(
           :admin,

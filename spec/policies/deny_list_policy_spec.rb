@@ -12,7 +12,7 @@ describe DenyListPolicy do
 
   let(:deny_list) { create(:deny_list, app: app_one) }
 
-  context "normal user in team one" do
+  context "with normal user in team one" do
     let(:user) { create(:admin, team: team_one) }
 
     it { is_expected.not_to permit(:create) }
@@ -30,7 +30,7 @@ describe DenyListPolicy do
       ).to include(deny_list)
     end
 
-    context "in read only mode" do
+    context "when in read only mode" do
       before do
         allow(Rails.configuration).to receive(:cuttlefish_read_only_mode).and_return(true)
       end
@@ -39,7 +39,7 @@ describe DenyListPolicy do
     end
   end
 
-  context "unauthenticated user" do
+  context "with unauthenticated user" do
     let(:user) { nil }
 
     it { is_expected.not_to permit(:create) }
@@ -55,7 +55,7 @@ describe DenyListPolicy do
     end
   end
 
-  context "normal user in team two" do
+  context "with normal user in team two" do
     let(:user) { create(:admin, team: team_two) }
 
     it { is_expected.not_to permit(:create) }

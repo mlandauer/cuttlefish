@@ -63,10 +63,10 @@ describe App do
   describe "dkim validation" do
     let(:app) { create(:app, id: 12) }
 
-    context "dkim disabled" do
+    context "when dkim disabled" do
       before { app.dkim_enabled = false }
 
-      context "a from domain specified" do
+      context "with a from domain specified" do
         before { app.from_domain = "foo.com" }
 
         it "is valid" do
@@ -75,10 +75,10 @@ describe App do
       end
     end
 
-    context "dkim enabled" do
+    context "when dkim enabled" do
       before { app.dkim_enabled = true }
 
-      context "no from domain specified" do
+      context "with no from domain specified" do
         it "is not valid" do
           expect(app).not_to be_valid
         end
@@ -91,10 +91,10 @@ describe App do
         end
       end
 
-      context "a from domain specified" do
+      context "with a from domain specified" do
         before { app.from_domain = "foo.com" }
 
-        context "that has dns setup" do
+        context "when that has dns setup" do
           before do
             allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?).and_return(true)
           end
@@ -104,7 +104,7 @@ describe App do
           end
         end
 
-        context "that has no dns setup" do
+        context "when that has no dns setup" do
           before do
             allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?).and_return(false)
           end
@@ -149,7 +149,7 @@ describe App do
       end
     end
 
-    context "in development environment" do
+    context "when in development environment" do
       before do
         allow(Rails).to receive_message_chain(:env, :development?) { true }
       end
@@ -192,7 +192,7 @@ describe App do
       expect(app.dkim_selector).to eq "book_store_15.cuttlefish"
     end
 
-    context "legacy dkim selector" do
+    context "with legacy dkim selector" do
       let(:app) { create(:app, legacy_dkim_selector: true) }
 
       it "justs be cuttlefish" do

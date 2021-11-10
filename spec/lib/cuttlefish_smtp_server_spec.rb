@@ -102,7 +102,7 @@ describe CuttlefishSmtpConnection do
   end
 
   describe "#receive_message" do
-    context "message with UTF8 encoding" do
+    context "with message with UTF8 encoding" do
       let(:data) do
         data = [
           "MIME-Version: 1.0",

@@ -44,7 +44,7 @@ describe Mutations::CreateApp do
     )
   end
 
-  context "user does not have permission" do
+  context "when user does not have permission" do
     let(:app_policy) { double }
 
     before do
@@ -65,7 +65,7 @@ describe Mutations::CreateApp do
     end
   end
 
-  context "invalid name" do
+  context "with invalid name" do
     let(:name) { "sd^&" }
 
     it "returns a nil app and a validation error" do

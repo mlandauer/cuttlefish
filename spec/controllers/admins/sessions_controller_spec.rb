@@ -7,8 +7,8 @@ describe Admins::SessionsController, type: :controller do
     request.env["devise.mapping"] = Devise.mappings[:admin]
   end
 
-  context "request is over http" do
-    context "There is one admin already registered" do
+  context "when request is over http" do
+    context "when there is one admin already registered" do
       before do
         team = Team.create!
         team.admins.create!(email: "foo@bar.com", password: "guess this")
@@ -21,19 +21,19 @@ describe Admins::SessionsController, type: :controller do
     end
   end
 
-  context "request is over https" do
+  context "when request is over https" do
     before do
       request.env["HTTPS"] = "on"
     end
 
-    context "This is a fresh install and there are no admins registered" do
+    context "when this is a fresh install and there are no admins registered" do
       it "redirects to the registration page" do
         get :new
         expect(response).to redirect_to new_admin_registration_url
       end
     end
 
-    context "There is one admin already registered" do
+    context "when there is one admin already registered" do
       before do
         team = Team.create!
         team.admins.create!(email: "foo@bar.com", password: "guess this")

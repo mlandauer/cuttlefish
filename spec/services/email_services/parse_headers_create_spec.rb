@@ -6,7 +6,7 @@ describe EmailServices::ParseHeadersCreate do
   let(:app) { create(:app) }
   let(:service) { described_class.new(to: "bar@bar.com", data: data, app_id: app.id) }
 
-  context "An email with no special headers" do
+  context "with an email with no special headers" do
     let(:data) do
       [
         "Date: Fri, 13 Mar 2015 14:42:20 +0000",
@@ -34,7 +34,7 @@ describe EmailServices::ParseHeadersCreate do
     end
   end
 
-  context "An email with custom metadata headers" do
+  context "with an email with custom metadata headers" do
     let(:data) do
       [
         "Date: Fri, 13 Mar 2015 14:42:20 +0000",
@@ -78,7 +78,7 @@ describe EmailServices::ParseHeadersCreate do
     end
   end
 
-  context "An email with the ignore deny list header" do
+  context "with an email with the ignore deny list header" do
     let(:data) do
       [
         "Date: Fri, 13 Mar 2015 14:42:20 +0000",

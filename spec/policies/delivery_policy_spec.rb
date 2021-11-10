@@ -12,7 +12,7 @@ describe DeliveryPolicy do
   let(:email) { create(:email, app: app) }
   let(:delivery) { create(:delivery, email: email) }
 
-  context "normal user in team one" do
+  context "with normal user in team one" do
     let(:user) { create(:admin, team: team_one) }
 
     it { is_expected.to permit(:show) }
@@ -30,7 +30,7 @@ describe DeliveryPolicy do
     end
   end
 
-  context "unauthenticated user" do
+  context "when unauthenticated user" do
     let(:user) { nil }
 
     it { is_expected.not_to permit(:show) }
@@ -46,7 +46,7 @@ describe DeliveryPolicy do
     end
   end
 
-  context "normal user in team two" do
+  context "with normal user in team two" do
     let(:user) { create(:admin, team: team_two) }
 
     it { is_expected.not_to permit(:show) }
@@ -64,7 +64,7 @@ describe DeliveryPolicy do
     end
   end
 
-  context "super admin in team two" do
+  context "with super admin in team two" do
     let(:user) { create(:admin, team: team_two, site_admin: true) }
 
     it { is_expected.to permit(:show) }

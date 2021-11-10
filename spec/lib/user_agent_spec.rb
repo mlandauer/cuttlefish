@@ -13,7 +13,7 @@ class UserAgentTest
 end
 
 describe UserAgent do
-  context "Mobile Safari / iOS" do
+  context "when Mobile Safari / iOS" do
     let(:u) do
       UserAgentTest.new(
         "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) " \
@@ -27,7 +27,7 @@ describe UserAgent do
     it { expect(u.calculate_os_version).to eq "7.1.2" }
   end
 
-  context "Google image proxy for Gmail" do
+  context "when Google image proxy for Gmail" do
     let(:u) do
       UserAgentTest.new(
         "Mozilla/5.0 (Windows NT 5.1; rv:11.0) Gecko Firefox/11.0 " \

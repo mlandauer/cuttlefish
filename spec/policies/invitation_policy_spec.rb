@@ -5,13 +5,13 @@ require "spec_helper"
 describe InvitationPolicy do
   subject { described_class.new(user, nil) }
 
-  context "normal user" do
+  context "when normal user" do
     let(:user) { create(:admin) }
 
     it { is_expected.to permit(:create) }
     it { is_expected.to permit(:update) }
 
-    context "in read only mode" do
+    context "when in read only mode" do
       before do
         allow(Rails.configuration).to receive(:cuttlefish_read_only_mode).and_return(true)
       end
@@ -21,7 +21,7 @@ describe InvitationPolicy do
     end
   end
 
-  context "unauthenticated user" do
+  context "when unauthenticated user" do
     let(:user) { nil }
 
     it { is_expected.not_to permit(:create) }

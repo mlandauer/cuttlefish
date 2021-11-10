@@ -7,7 +7,7 @@ describe AppsController, type: :controller do
     request.env["HTTPS"] = "on"
   end
 
-  context "signed in" do
+  context "when signed in" do
     let(:team) { Team.create! }
     let(:admin) do
       team.admins.create!(email: "matthew@foo.bar", password: "foobar")
@@ -25,7 +25,7 @@ describe AppsController, type: :controller do
         expect(response).to be_successful
       end
 
-      context "app doesn't exist" do
+      context "when app doesn't exist" do
         before { app.destroy }
 
         it "404S" do
@@ -35,7 +35,7 @@ describe AppsController, type: :controller do
         end
       end
 
-      context "app is in a different team" do
+      context "when app is in a different team" do
         let(:app) { create(:app) }
 
         it "redirects to the login page because it's not authenticated properly" do
@@ -107,7 +107,7 @@ describe AppsController, type: :controller do
         )
       end
 
-      context "DNS for DKIM is correctly configured" do
+      context "when DNS for DKIM is correctly configured" do
         before do
           allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?).and_return(true)
         end
@@ -124,7 +124,7 @@ describe AppsController, type: :controller do
         end
       end
 
-      context "DKIM is enabled" do
+      context "when DKIM is enabled" do
         before do
           allow_any_instance_of(DkimDns).to receive(:dkim_dns_configured?).and_return(true)
           app.update!(dkim_enabled: true)
@@ -166,7 +166,7 @@ describe AppsController, type: :controller do
         end
       end
 
-      context "dkim selector already upgraded" do
+      context "when dkim selector already upgraded" do
         let(:app) { create(:app, team: team, legacy_dkim_selector: false) }
 
         it "does not change the selector" do
@@ -176,7 +176,7 @@ describe AppsController, type: :controller do
         end
       end
 
-      context "app is in a different team" do
+      context "when app is in a different team" do
         let(:app) { create(:app, legacy_dkim_selector: true) }
 
         it "redirects to the login page because it's not authenticated properly" do
@@ -185,7 +185,7 @@ describe AppsController, type: :controller do
         end
       end
 
-      context "app doesn't exist" do
+      context "when app doesn't exist" do
         let(:app) { create(:app, team: team, legacy_dkim_selector: false) }
 
         before { app.destroy }

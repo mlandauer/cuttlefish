@@ -37,24 +37,24 @@ describe Filters::Dkim do
   let(:filter_mail) { filter.filter_mail(mail) }
 
   describe "#data" do
-    context "dkim is disabled" do
-      context "cuttlefish dkim is disabled" do
+    context "when dkim is disabled" do
+      context "when cuttlefish dkim is disabled" do
         it { expect(filter_mail.header["DKIM-Signature"]).to be_nil }
         it { expect(filter_mail.sender).to eq "sender@cuttlefish.oaf.org.au" }
       end
 
-      context "cuttlefish dkim is enabled" do
+      context "when cuttlefish dkim is enabled" do
         before { filter.cuttlefish_enabled = true }
 
         # This should in practise always be the case (because the domain of
         # the sender email should be the same as the cuttlefish domain)
-        context "sender email is in cuttlefish domain" do
+        context "when sender email is in cuttlefish domain" do
           it { expect(filter_mail.header["DKIM-Signature"]).not_to be_nil }
           it { expect(filter_mail.sender).to eq "sender@cuttlefish.oaf.org.au" }
         end
 
         # Note that this shouldn't happen in practise (see above)
-        context "sender email is not in the cuttlefish domain" do
+        context "when sender email is not in the cuttlefish domain" do
           before { filter.cuttlefish_dkim_dns.domain = "oaf.org.au" }
 
           it { expect(filter_mail.header["DKIM-Signature"]).to be_nil }
@@ -63,10 +63,10 @@ describe Filters::Dkim do
       end
     end
 
-    context "dkim is enabled" do
+    context "when dkim is enabled" do
       before { filter.enabled = true }
 
-      context "email from dkim domain" do
+      context "when email from dkim domain" do
         it {
           # Signature is different every time (because of I assume a random
           # salt). So, we're just going to test for the presence of the header
@@ -86,20 +86,20 @@ describe Filters::Dkim do
         it { expect(filter_mail.sender).to be_nil }
       end
 
-      context "email from a different domain" do
+      context "when email from a different domain" do
         before { mail.from = "Contact <contact@bar.com>" }
 
         it { expect(filter_mail.header["DKIM-Signature"]).to be_nil }
         it { expect(filter_mail.sender).to eq "sender@cuttlefish.oaf.org.au" }
 
-        context "and sender is in correct domain" do
+        context "when sender is in correct domain" do
           before { mail.sender = "Contact <contact@foo.com>" }
 
           it { expect(filter_mail.header["DKIM-Signature"]).not_to be_nil }
           it { expect(filter_mail.sender).to eq "contact@foo.com" }
         end
 
-        context "and sender is in wrong domain" do
+        context "when sender is in wrong domain" do
           before { mail.sender = "Contact <contact@bibble.com>" }
 
           it { expect(filter_mail.header["DKIM-Signature"]).to be_nil }

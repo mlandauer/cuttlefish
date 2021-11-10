@@ -17,7 +17,7 @@ describe Filters::AddOpenTracking do
       expect(filter.url).to eq "https://localhost/o2/673/05c6b2136e9c1297c0264427a17aa3cf4ea40b3e.gif"
     end
 
-    context "using a different domain over http" do
+    context "when using a different domain over http" do
       let(:tracking_domain_info) do
         { protocol: "http", domain: "email.planningalerts.org.au" }
       end
@@ -29,7 +29,7 @@ describe Filters::AddOpenTracking do
   end
 
   describe "#data" do
-    context "An html email with no text part" do
+    context "with an html email with no text part" do
       let(:mail) do
         Mail.new do
           html_part do
@@ -47,14 +47,14 @@ describe Filters::AddOpenTracking do
         )
       end
 
-      context "app has disabled open tracking" do
+      context "when app has disabled open tracking" do
         before do
           filter.enabled = false
         end
       end
     end
 
-    context "a text email with no html part" do
+    context "with a text email with no html part" do
       let(:mail) do
         Mail.new do
           text_part do
@@ -68,7 +68,7 @@ describe Filters::AddOpenTracking do
       end
     end
 
-    context "a text email with a single part" do
+    context "with a text email with a single part" do
       let(:mail) do
         Mail.new do
           body "Some plain text"
@@ -80,7 +80,7 @@ describe Filters::AddOpenTracking do
       end
     end
 
-    context "an html email with one part" do
+    context "with an html email with one part" do
       let(:body) do
         <<~EMAIL
           From: They Vote For You <contact@theyvoteforyou.org.au>
@@ -108,7 +108,7 @@ describe Filters::AddOpenTracking do
       end
     end
 
-    context "an email with a text part and an html part" do
+    context "with an email with a text part and an html part" do
       let(:mail) do
         Mail.new do
           text_part do

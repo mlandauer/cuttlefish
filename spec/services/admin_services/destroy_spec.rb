@@ -25,7 +25,7 @@ describe AdminServices::Destroy do
     expect(remove_admin.success?).to be true
   end
 
-  context "admin is in another team" do
+  context "when admin is in another team" do
     let(:admin) { create(:admin, team: team_two) }
 
     it "raises an error" do
@@ -33,7 +33,7 @@ describe AdminServices::Destroy do
     end
   end
 
-  context "admin doesn't exist" do
+  context "when admin doesn't exist" do
     before { admin.destroy! }
 
     it "raises an error" do

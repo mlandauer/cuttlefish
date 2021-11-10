@@ -31,7 +31,7 @@ describe TrackingController, type: :controller do
       expect(Delivery.find(101).open_events.count).to eq 1
     end
 
-    context "read only mode" do
+    context "when read only mode" do
       before do
         allow(Rails.configuration).to receive(:cuttlefish_read_only_mode)
           .and_return(true)
@@ -63,8 +63,8 @@ describe TrackingController, type: :controller do
         .and_return("http://foo.com")
     end
 
-    context "When the correct hash and id are used" do
-      context "the delivery_link exists" do
+    context "when the correct hash and id are used" do
+      context "when the delivery_link exists" do
         it "redirects" do
           get :click, params: {
             delivery_link_id: 204,
@@ -88,7 +88,7 @@ describe TrackingController, type: :controller do
         end
       end
 
-      context "the delivery_link doesn't exist and url provided" do
+      context "when the delivery_link doesn't exist and url provided" do
         it "redirects to to the given url" do
           get :click, params: {
             delivery_link_id: 123,
@@ -99,7 +99,7 @@ describe TrackingController, type: :controller do
         end
       end
 
-      context "the url has been changed" do
+      context "when the url has been changed" do
         it "does not redirect to the given url" do
           expect do
             get :click, params: {
@@ -112,7 +112,7 @@ describe TrackingController, type: :controller do
       end
     end
 
-    context "read only mode" do
+    context "when read only mode" do
       before do
         allow(Rails.configuration).to receive(:cuttlefish_read_only_mode)
           .and_return(true)

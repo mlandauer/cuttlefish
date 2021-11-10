@@ -44,7 +44,7 @@ describe Mutations::RemoveAdmin do
     )
   end
 
-  context "trying to remove non-existent admin" do
+  context "when trying to remove non-existent admin" do
     before { admin.destroy! }
 
     it "returns nil for the result and an error" do
@@ -60,7 +60,7 @@ describe Mutations::RemoveAdmin do
     end
   end
 
-  context "trying to remove an admin in another team" do
+  context "when trying to remove an admin in another team" do
     let(:admin) { create(:admin, team: team_two) }
 
     it "returns nil for the result and an error" do

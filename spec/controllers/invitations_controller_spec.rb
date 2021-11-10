@@ -13,7 +13,7 @@ describe InvitationsController, type: :controller do
   end
 
   describe "#create" do
-    context "signed in" do
+    context "when signed in" do
       before { sign_in admin }
 
       it "invites a user by their email and make them part of the team" do

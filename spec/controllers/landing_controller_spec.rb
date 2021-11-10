@@ -13,7 +13,7 @@ describe LandingController, type: :controller do
       expect(response.status).to eq(200)
     end
 
-    context "signed in" do
+    context "when signed in" do
       before do
         team = Team.create!
         admin = team.admins.create!(

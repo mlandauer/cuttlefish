@@ -62,7 +62,7 @@ describe Mutations::UpdateApp do
     expect(app.name).to eq name
   end
 
-  context "just updating the from domain" do
+  context "when just updating the from domain" do
     let(:attributes) { { "fromDomain" => "foo.com" } }
 
     it "does not return any errors and return the updated app" do

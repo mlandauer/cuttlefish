@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe Address do
-  context "three emails" do
+  context "with three emails" do
     let(:address1) { described_class.create!(text: "matthew@foo.com") }
     let(:address2) { described_class.create!(text: "peter@bar.com") }
 

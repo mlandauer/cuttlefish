@@ -64,7 +64,7 @@ describe Mutations::CreateEmails do
     end
   end
 
-  context "non-existent app" do
+  context "with non-existent app" do
     let(:variables) { { id: (app2.id + 1) } }
 
     it "returns nil and error" do

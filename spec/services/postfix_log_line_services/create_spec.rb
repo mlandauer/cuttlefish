@@ -6,7 +6,7 @@ require "sidekiq/testing"
 describe PostfixLogLineServices::Create do
   let(:logger) { Logger.new($stdout) }
 
-  context "soft bounce" do
+  context "with soft bounce" do
     let(:line) do
       "Apr  5 16:41:54 kedumba postfix/smtp[18733]: 39D9336AFA81: " \
         "to=<foo@bar.com>, relay=foo.bar.com[1.2.3.4]:25, delay=92780, " \
@@ -53,7 +53,7 @@ describe PostfixLogLineServices::Create do
     end
   end
 
-  context "hard bounce" do
+  context "with hard bounce" do
     let(:line) do
       "Apr  5 14:21:51 kedumba postfix/smtp[2500]: 39D9336AFA81: " \
         "to=<anincorrectemailaddress@openaustralia.org>, " \
@@ -98,7 +98,7 @@ describe PostfixLogLineServices::Create do
       end
     end
 
-    context "address is already on the deny list" do
+    context "when address is already on the deny list" do
       before { create(:deny_list, address: address, app: delivery.app) }
 
       it "does not create another deny list" do
@@ -107,7 +107,7 @@ describe PostfixLogLineServices::Create do
     end
   end
 
-  context "hard bounce for a cuttlefish email" do
+  context "with hard bounce for a cuttlefish email" do
     let(:line) do
       "Apr  5 14:21:51 kedumba postfix/smtp[2500]: 39D9336AFA81: " \
         "to=<anincorrectemailaddress@openaustralia.org>, " \

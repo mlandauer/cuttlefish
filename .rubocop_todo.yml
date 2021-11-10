@@ -16,12 +16,6 @@ RSpec/AnyInstance:
     - 'spec/services/email_services/create_spec.rb'
     - 'spec/services/email_services/send_spec.rb'
 
-# Offense count: 138
-# Configuration parameters: Prefixes.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Enabled: false
-
 # Offense count: 1
 RSpec/EmptyExampleGroup:
   Exclude:

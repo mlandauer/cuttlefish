@@ -12,7 +12,7 @@ describe AppPolicy do
 
   let(:app) { create(:app, team: team_one) }
 
-  context "not authenticated" do
+  context "when not authenticated" do
     let(:user) { nil }
 
     it { is_expected.not_to permit(:show) }
@@ -30,7 +30,7 @@ describe AppPolicy do
     end
   end
 
-  context "normal user in team one" do
+  context "when normal user in team one" do
     let(:user) { create(:admin, team: team_one) }
 
     it { is_expected.to permit(:show) }
@@ -48,7 +48,7 @@ describe AppPolicy do
     end
   end
 
-  context "normal user in team two" do
+  context "when normal user in team two" do
     let(:user) { create(:admin, team: team_two) }
 
     it { is_expected.not_to permit(:show) }
@@ -66,7 +66,7 @@ describe AppPolicy do
     end
   end
 
-  context "super admin in team two" do
+  context "with super admin in team two" do
     let(:user) { create(:admin, team: team_two, site_admin: true) }
 
     it { is_expected.to permit(:show) }
@@ -87,7 +87,7 @@ describe AppPolicy do
       expect(AppPolicy::Scope.new(user, App).resolve).not_to include(app)
     end
 
-    context "cuttlefish app" do
+    context "when cuttlefish app" do
       let(:app) { App.cuttlefish }
 
       it { is_expected.to permit(:show) }
