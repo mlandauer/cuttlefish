@@ -172,7 +172,7 @@ class CuttlefishSmtpConnection < EM::P::SmtpServer
 
   def receive_message
     current.received = true
-    current.completed_at = Time.zone.now
+    current.completed_at = Time.now
 
     # TODO: No need to capture current.sender, current.received,
     # current.completed_at because we're not passing it on
