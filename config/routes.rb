@@ -79,6 +79,8 @@ Rails.application.routes.draw do
 
   resources :clients, only: :index
 
+  get ".well-known/acme-challenge/:token", to: "acme_challenges#show"
+
   root to: "landing#index"
 
   get "dash" => "main#index"

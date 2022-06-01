@@ -118,5 +118,9 @@ namespace :cuttlefish do
     authorization = order.authorizations.first
     challenge = authorization.http
     p challenge
+
+    # Store the challenge in the database so that the web application
+    # can respond correctly
+    AcmeChallenge.create!(token: challenge.token, content: challenge.file_content)
   end
 end
