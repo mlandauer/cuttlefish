@@ -91,6 +91,9 @@ gem "rack-mini-profiler"
 # For authorization with json web tokens
 gem "jwt"
 
+# For generating ssl certificates for custom tracking domains
+gem "acme-client"
+
 group :development do
   gem "capistrano", "~> 2"
   gem "faker", git: "https://github.com/stympy/faker.git", branch: "master"

@@ -27,6 +27,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    acme-client (2.0.10)
+      faraday (>= 1.0, < 3.0.0)
+      faraday-retry (~> 1.0)
     actioncable (5.2.4.4)
       actionpack (= 5.2.4.4)
       nio4r (~> 2.0)
@@ -148,6 +151,29 @@ GEM
     factory_bot_rails (6.1.0)
       factory_bot (~> 6.1.0)
       railties (>= 5.0.0)
+    faraday (1.10.0)
+      faraday-em_http (~> 1.0)
+      faraday-em_synchrony (~> 1.0)
+      faraday-excon (~> 1.1)
+      faraday-httpclient (~> 1.0)
+      faraday-multipart (~> 1.0)
+      faraday-net_http (~> 1.0)
+      faraday-net_http_persistent (~> 1.0)
+      faraday-patron (~> 1.0)
+      faraday-rack (~> 1.0)
+      faraday-retry (~> 1.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-em_http (1.0.0)
+    faraday-em_synchrony (1.0.0)
+    faraday-excon (1.1.0)
+    faraday-httpclient (1.0.1)
+    faraday-multipart (1.0.3)
+      multipart-post (>= 1.2, < 3)
+    faraday-net_http (1.0.1)
+    faraday-net_http_persistent (1.2.0)
+    faraday-patron (1.0.0)
+    faraday-rack (1.0.0)
+    faraday-retry (1.0.3)
     ffi (1.9.25)
     file-tail (1.2.0)
       tins (~> 1.0)
@@ -276,6 +302,7 @@ GEM
     minitar (0.6.1)
     minitest (5.14.2)
     multi_json (1.13.1)
+    multipart-post (2.1.1)
     mustermann (1.0.2)
     nenv (0.3.0)
     net-scp (1.2.1)
@@ -406,6 +433,7 @@ GEM
     rubocop-rspec (2.6.0)
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
+    ruby2_keywords (0.0.5)
     ruby_dep (1.5.0)
     ruby_gntp (0.3.4)
     ruby_parser (3.11.0)
@@ -505,6 +533,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acme-client
   batch-loader
   bootstrap-sass (~> 2.0)
   capistrano (~> 2)
