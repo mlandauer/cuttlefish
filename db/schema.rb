@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_10_042853) do
+ActiveRecord::Schema.define(version: 2022_06_01_230818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "acme_challenges", force: :cascade do |t|
+    t.string "token"
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_acme_challenges_on_token", unique: true
+  end
 
   create_table "addresses", force: :cascade do |t|
     t.string "text", limit: 255

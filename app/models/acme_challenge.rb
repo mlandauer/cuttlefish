@@ -1,0 +1,2 @@
+class AcmeChallenge < ApplicationRecord
+end
