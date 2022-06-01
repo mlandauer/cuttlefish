@@ -86,4 +86,37 @@ namespace :cuttlefish do
       end
     end
   end
+
+  # Little "proof of concept" of generating an SSL certificate
+  task create_ssl_certificate: :environment do
+    require "openssl"
+
+    filename = "/etc/ssl/private/letsencrypt.key"
+    private_key = OpenSSL::PKey::RSA.new(
+      File.exist?(filename) ? File.read(filename) : 4096
+    )
+
+    # Using Let's Encrypt staging server for the time being
+    # TODO: Switch to production server
+    client = Acme::Client.new(
+      private_key: private_key,
+      directory: "https://acme-staging-v02.api.letsencrypt.org/directory"
+    )
+
+    unless File.exist?(filename)
+      # Create an account
+      client.new_account(
+        # TODO: Make the email address configurable
+        contact: "mailto:contact@oaf.org.au",
+        terms_of_service_agreed: true
+      )
+      # Save the private key. Intentionally only doing this once the Let's Encrypt account has been created
+      File.write(filename, private_key.export)
+    end
+
+    order = client.new_order(identifiers: ["f553-2403-5806-d1d-0-eabd-d4ca-101c-d367.ngrok.io"])
+    authorization = order.authorizations.first
+    challenge = authorization.http
+    p challenge
+  end
 end
