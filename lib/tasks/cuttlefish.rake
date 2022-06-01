@@ -117,10 +117,22 @@ namespace :cuttlefish do
     order = client.new_order(identifiers: ["f553-2403-5806-d1d-0-eabd-d4ca-101c-d367.ngrok.io"])
     authorization = order.authorizations.first
     challenge = authorization.http
-    p challenge
 
     # Store the challenge in the database so that the web application
-    # can respond correctly
-    AcmeChallenge.create!(token: challenge.token, content: challenge.file_content)
+    # can respond correctly. We also need to handle the situation where we already have the
+    # token in the database
+    AcmeChallenge.find_or_create_by!(token: challenge.token).update!(content: challenge.file_content)
+
+    # TODO: Clear out old challenges after a little while
+    # Now actually ask let's encrypt to the validation
+    challenge.request_validation
+
+    # Now let's wait for the validation to finish
+    while challenge.status == "pending"
+      sleep(2)
+      challenge.reload
+    end
+
+    puts challenge.status
   end
 end
