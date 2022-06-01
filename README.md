@@ -79,6 +79,8 @@ When its stops spitting output to the console point your web browser at
 
 http://localhost:3000
 
+If you've used the `db:seed` task to populate the development database you can now log in using the email "joy@smart-unlimited.com" with the password "password".
+
 For development all mail sent out by Cuttlefish will actually go to mailcatcher.
 To see the mailcatcher mail:
 
