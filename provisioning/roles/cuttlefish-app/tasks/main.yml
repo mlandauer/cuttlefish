@@ -195,6 +195,20 @@
     line: 'deploy ALL=(ALL) NOPASSWD: /bin/systemctl restart cuttlefish.target'
     validate: 'visudo -cf %s'
 
+- name: Allow deploy user to check the nginx configuration
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: 'deploy ALL=(ALL) NOPASSWD: /usr/sbin/service nginx configtest'
+    validate: 'visudo -cf %s'
+
+- name: Allow deploy user to reload the nginx configuration
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: 'deploy ALL=(ALL) NOPASSWD: /usr/sbin/service nginx reload'
+    validate: 'visudo -cf %s'
+
 - name: Allow deploy to read some log files (different from admin group)
   user:
     name: deploy
