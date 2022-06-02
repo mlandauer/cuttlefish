@@ -47,10 +47,10 @@ class Certificate
       sleep(2)
       challenge.reload
     end
-    raise "Challenge failed: #{challenge.status}" unless challenge.status == "valid"
-
     # Clean up the challenge
     AcmeChallenge.find_by!(token: challenge.token).destroy
+
+    raise "Challenge failed: #{challenge.status}" unless challenge.status == "valid"
 
     # Now we generate the private key for the certificate and store it away
     # in a place where nginx will ultimately access it
