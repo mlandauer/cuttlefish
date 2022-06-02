@@ -37,8 +37,7 @@ class Certificate
       sleep(2)
       challenge.reload
     end
-
-    # TODO: Double check that the challenge did actually succeed here
+    raise "Challenge failed: #{challenge.status}" unless challenge.status == "valid"
 
     # Now we generate the private key for the certificate and store it away
     # in a place where nginx will ultimately access it
