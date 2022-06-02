@@ -88,8 +88,12 @@ namespace :cuttlefish do
   end
 
   # Little "proof of concept" of generating an SSL certificate
-  task create_ssl_certificate: :environment do
+  desc "Create SSL certificate (proof of concept)"
+  task :create_ssl_certificate, [:domain] => :environment do |_t, args|
     require "openssl"
+
+    domain = args[:domain]
+    puts "Generating certificate for #{domain}..."
 
     directory = "/etc/cuttlefish-ssl/keys"
     filename = File.join(directory, "key.pem")
@@ -114,7 +118,6 @@ namespace :cuttlefish do
       File.write(filename, private_key.export)
     end
 
-    domain = "f553-2403-5806-d1d-0-eabd-d4ca-101c-d367.ngrok.io"
     order = client.new_order(identifiers: [domain])
     authorization = order.authorizations.first
     challenge = authorization.http
