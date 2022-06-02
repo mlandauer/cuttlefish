@@ -91,16 +91,15 @@ namespace :cuttlefish do
   task create_ssl_certificate: :environment do
     require "openssl"
 
-    filename = "/etc/ssl/private/letsencrypt.key"
+    directory = "/etc/cuttlefish-ssl/keys"
+    filename = File.join(directory, "key.pem")
     private_key = OpenSSL::PKey::RSA.new(
       File.exist?(filename) ? File.read(filename) : 4096
     )
 
-    # Using Let's Encrypt staging server for the time being
-    # TODO: Switch to production server
     client = Acme::Client.new(
       private_key: private_key,
-      directory: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      directory: "https://acme-v02.api.letsencrypt.org/directory"
     )
 
     unless File.exist?(filename)
@@ -111,6 +110,7 @@ namespace :cuttlefish do
         terms_of_service_agreed: true
       )
       # Save the private key. Intentionally only doing this once the Let's Encrypt account has been created
+      FileUtils.mkdir_p(directory)
       File.write(filename, private_key.export)
     end
 
