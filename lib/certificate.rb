@@ -2,11 +2,13 @@
 
 class Certificate
   ACME_SERVER_KEY_FILENAME = "/etc/cuttlefish-ssl/keys/key.pem"
+  LETSENCRYPT_PRODUCTION = "https://acme-v02.api.letsencrypt.org/directory"
+  LETSENCRYPT_STAGING = "https://acme-staging-v02.api.letsencrypt.org/directory"
 
   def self.generate(domain)
     client = Acme::Client.new(
       private_key: acme_server_key,
-      directory: "https://acme-v02.api.letsencrypt.org/directory"
+      directory: LETSENCRYPT_PRODUCTION
     )
 
     # Create an account. If we already have an account connected to that private key
