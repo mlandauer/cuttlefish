@@ -56,23 +56,32 @@ class Certificate
       order.reload
     end
 
-    # We'll put everything under /etc/cuttlefish-ssl in a naming convention
-    # that is similar to what let's encrypt uses
-    certificate_private_key_filename = "/etc/cuttlefish-ssl/live/#{domain}/privkey.pem"
-    certificate_filename = "/etc/cuttlefish-ssl/live/#{domain}/fullchain.pem"
-
     # The private key is owned by "deploy" rather than root which is less than
     # ideal. The only way to get around this would be for the csr request to
     # let's encrypt being done by a separate process
-    create_directory_and_write(certificate_private_key_filename, certificate_private_key.export)
-    create_directory_and_write(certificate_filename, order.certificate)
+    create_directory_and_write(cert_private_key_filename(domain), certificate_private_key.export)
+    create_directory_and_write(cert_filename(domain), order.certificate)
 
     # TODO: Skip the certificate generation if it's already valid and isn't about to expire
     # Now create the nginx configuration for that domain
-    nginx_filename = File.join("/etc/cuttlefish-ssl/nginx-sites", domain)
-
-    create_directory_and_write(nginx_filename, nginx_config(domain))
+    create_directory_and_write(nginx_filename(domain), nginx_config(domain))
     # TODO: Check that nginx config is all good and reload nginx
+  end
+
+  # We'll put everything under /etc/cuttlefish-ssl in a naming convention
+  # that is similar to what let's encrypt uses
+  def self.cert_private_key_filename(domain)
+    "/etc/cuttlefish-ssl/live/#{domain}/privkey.pem"
+  end
+
+  # We'll put everything under /etc/cuttlefish-ssl in a naming convention
+  # that is similar to what let's encrypt uses
+  def self.cert_filename(domain)
+    "/etc/cuttlefish-ssl/live/#{domain}/fullchain.pem"
+  end
+
+  def self.nginx_filename(domain)
+    "/etc/cuttlefish-ssl/nginx-sites/#{domain}"
   end
 
   def self.nginx_config(domain)
