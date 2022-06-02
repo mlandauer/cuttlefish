@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class Certificate
+  ACME_SERVER_KEY_FILENAME = "/etc/cuttlefish-ssl/keys/key.pem"
+
   def self.generate(domain)
-    filename = "/etc/cuttlefish-ssl/keys/key.pem"
     private_key = OpenSSL::PKey::RSA.new(
-      File.exist?(filename) ? File.read(filename) : 4096
+      File.exist?(ACME_SERVER_KEY_FILENAME) ? File.read(ACME_SERVER_KEY_FILENAME) : 4096
     )
 
     client = Acme::Client.new(
@@ -12,7 +13,7 @@ class Certificate
       directory: "https://acme-v02.api.letsencrypt.org/directory"
     )
 
-    unless File.exist?(filename)
+    unless File.exist?(ACME_SERVER_KEY_FILENAME)
       # Create an account
       client.new_account(
         # TODO: Make the email address configurable
@@ -20,7 +21,7 @@ class Certificate
         terms_of_service_agreed: true
       )
       # Save the private key. Intentionally only doing this once the Let's Encrypt account has been created
-      create_directory_and_write(filename, private_key.export)
+      create_directory_and_write(ACME_SERVER_KEY_FILENAME, private_key.export)
     end
 
     order = client.new_order(identifiers: [domain])
