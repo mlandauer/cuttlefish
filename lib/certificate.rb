@@ -8,11 +8,17 @@ class Certificate
   # If a certificate is going to expire in less than 28 days we'll try to renew it
   DAYS_TO_EXPIRY_CUTOFF = 28
 
-  def self.generate(domain)
+  attr_reader :domain
+
+  def initialize(domain)
+    @domain = domain
+  end
+
+  def generate
     # First let's just check if there's already a certificate. If so only generate a new
     # one if it's close to expiry
-    if File.exist?(cert_filename(domain))
-      cert = OpenSSL::X509::Certificate.new(File.read(cert_filename(domain)))
+    if File.exist?(cert_filename)
+      cert = OpenSSL::X509::Certificate.new(File.read(cert_filename))
       days_to_expiry = (cert.not_after - Time.zone.now) / (60 * 60 * 24)
       return if days_to_expiry >= DAYS_TO_EXPIRY_CUTOFF
     end
@@ -70,31 +76,31 @@ class Certificate
     # The private key is owned by "deploy" rather than root which is less than
     # ideal. The only way to get around this would be for the csr request to
     # let's encrypt being done by a separate process
-    create_directory_and_write(cert_private_key_filename(domain), certificate_private_key.export)
-    create_directory_and_write(cert_filename(domain), order.certificate)
+    create_directory_and_write(cert_private_key_filename, certificate_private_key.export)
+    create_directory_and_write(cert_filename, order.certificate)
 
     # Now create the nginx configuration for that domain
-    create_directory_and_write(nginx_filename(domain), nginx_config(domain))
+    create_directory_and_write(nginx_filename, nginx_config)
     # TODO: Check that nginx config is all good and reload nginx
   end
 
   # We'll put everything under /etc/cuttlefish-ssl in a naming convention
   # that is similar to what let's encrypt uses
-  def self.cert_private_key_filename(domain)
+  def cert_private_key_filename
     File.join(ROOT_DIRECTORY, "live", domain, "privkey.pem")
   end
 
   # We'll put everything under /etc/cuttlefish-ssl in a naming convention
   # that is similar to what let's encrypt uses
-  def self.cert_filename(domain)
+  def cert_filename
     File.join(ROOT_DIRECTORY, "live", domain, "fullchain.pem")
   end
 
-  def self.nginx_filename(domain)
+  def nginx_filename
     File.join(ROOT_DIRECTORY, "nginx-sites", domain)
   end
 
-  def self.nginx_config(domain)
+  def nginx_config
     contents = +""
     contents << "server {\n"
     contents << "  listen 443 ssl http2;\n"
@@ -111,7 +117,7 @@ class Certificate
     contents
   end
 
-  def self.acme_server_key
+  def acme_server_key
     if File.exist?(ACME_SERVER_KEY_FILENAME)
       OpenSSL::PKey::RSA.new(File.read(ACME_SERVER_KEY_FILENAME))
     else
@@ -121,7 +127,7 @@ class Certificate
     end
   end
 
-  def self.create_directory_and_write(filename, content)
+  def create_directory_and_write(filename, content)
     FileUtils.mkdir_p(File.dirname(filename))
     File.write(filename, content)
   end

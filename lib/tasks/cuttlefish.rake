@@ -92,6 +92,6 @@ namespace :cuttlefish do
   task :create_ssl_certificate, [:domain] => :environment do |_t, args|
     domain = args[:domain]
     puts "Generating certificate for #{domain}..."
-    Certificate.generate(domain)
+    Certificate.new(domain).generate
   end
 end
