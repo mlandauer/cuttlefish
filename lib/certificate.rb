@@ -4,25 +4,18 @@ class Certificate
   ACME_SERVER_KEY_FILENAME = "/etc/cuttlefish-ssl/keys/key.pem"
 
   def self.generate(domain)
-    private_key = OpenSSL::PKey::RSA.new(
-      File.exist?(ACME_SERVER_KEY_FILENAME) ? File.read(ACME_SERVER_KEY_FILENAME) : 4096
-    )
-
     client = Acme::Client.new(
-      private_key: private_key,
+      private_key: acme_server_key,
       directory: "https://acme-v02.api.letsencrypt.org/directory"
     )
 
-    unless File.exist?(ACME_SERVER_KEY_FILENAME)
-      # Create an account
-      client.new_account(
-        # TODO: Make the email address configurable
-        contact: "mailto:contact@oaf.org.au",
-        terms_of_service_agreed: true
-      )
-      # Save the private key. Intentionally only doing this once the Let's Encrypt account has been created
-      create_directory_and_write(ACME_SERVER_KEY_FILENAME, private_key.export)
-    end
+    # Create an account. If we already have an account connected to that private key
+    # it won't actually create a new one. So we can safely always call it.
+    client.new_account(
+      # TODO: Make the email address configurable
+      contact: "mailto:contact@oaf.org.au",
+      terms_of_service_agreed: true
+    )
 
     order = client.new_order(identifiers: [domain])
     authorization = order.authorizations.first
@@ -92,6 +85,16 @@ class Certificate
     create_directory_and_write(nginx_filename, contents)
 
     # TODO: Check that nginx config is all good and reload nginx
+  end
+
+  def self.acme_server_key
+    if File.exist?(ACME_SERVER_KEY_FILENAME)
+      OpenSSL::PKey::RSA.new(File.read(ACME_SERVER_KEY_FILENAME))
+    else
+      private_key = OpenSSL::PKey::RSA.new(4096)
+      create_directory_and_write(ACME_SERVER_KEY_FILENAME, private_key.export)
+      private_key
+    end
   end
 
   def self.create_directory_and_write(filename, content)
