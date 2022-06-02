@@ -28,7 +28,6 @@ class Certificate
     # token in the database
     AcmeChallenge.find_or_create_by!(token: challenge.token).update!(content: challenge.file_content)
 
-    # TODO: Clear out old challenges after a little while
     # Now actually ask let's encrypt to the validation
     challenge.request_validation
 
@@ -38,6 +37,9 @@ class Certificate
       challenge.reload
     end
     raise "Challenge failed: #{challenge.status}" unless challenge.status == "valid"
+
+    # Clean up the challenge
+    AcmeChallenge.find_by!(token: challenge.token).destroy
 
     # Now we generate the private key for the certificate and store it away
     # in a place where nginx will ultimately access it
