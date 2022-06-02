@@ -103,6 +103,20 @@
   notify: nginx restart
   # TODO: Should also restart the log daemon
 
+- name: Directory to hold configs for ssl on tracking links
+  file:
+    path: /etc/cuttlefish-ssl
+    owner: deploy
+    group: deploy
+    state: directory
+
+- name: Directory to hold nginx configs for ssl on tracking links
+  file:
+    path: /etc/cuttlefish-ssl/nginx-sites
+    owner: deploy
+    group: deploy
+    state: directory
+
 - name: Generate the overall nginx config
   template:
     src: nginx.conf
