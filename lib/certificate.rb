@@ -100,6 +100,7 @@ class Certificate
     File.join(ROOT_DIRECTORY, "nginx-sites", domain)
   end
 
+  # TODO: Improve SSL setup - check with ssllabs.com
   def nginx_config
     contents = +""
     contents << "server {\n"
@@ -111,8 +112,8 @@ class Certificate
     contents << "  passenger_ruby /usr/local/lib/rvm/wrappers/default/ruby;\n"
     contents << "\n"
     contents << "  ssl on;\n"
-    contents << "  ssl_certificate /etc/cuttlefish-ssl/live/#{domain}/fullchain.pem;\n"
-    contents << "  ssl_certificate_key /etc/cuttlefish-ssl/live/#{domain}/privkey.pem;\n"
+    contents << "  ssl_certificate #{cert_filename};\n"
+    contents << "  ssl_certificate_key #{cert_private_key_filename};\n"
     contents << "}\n"
     contents
   end
