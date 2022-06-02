@@ -70,6 +70,11 @@ class Certificate
     # Now create the nginx configuration for that domain
     nginx_filename = File.join("/etc/cuttlefish-ssl/nginx-sites", domain)
 
+    create_directory_and_write(nginx_filename, nginx_config(domain))
+    # TODO: Check that nginx config is all good and reload nginx
+  end
+
+  def self.nginx_config(domain)
     contents = +""
     contents << "server {\n"
     contents << "  listen 443 ssl http2;\n"
@@ -83,10 +88,7 @@ class Certificate
     contents << "  ssl_certificate /etc/cuttlefish-ssl/live/#{domain}/fullchain.pem;\n"
     contents << "  ssl_certificate_key /etc/cuttlefish-ssl/live/#{domain}/privkey.pem;\n"
     contents << "}\n"
-
-    create_directory_and_write(nginx_filename, contents)
-
-    # TODO: Check that nginx config is all good and reload nginx
+    contents
   end
 
   def self.acme_server_key
