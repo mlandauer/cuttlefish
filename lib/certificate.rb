@@ -75,7 +75,7 @@ class Certificate
     # Now create the nginx configuration for that domain
     nginx_filename = File.join("/etc/cuttlefish-ssl/nginx-sites", domain)
 
-    contents = ""
+    contents = +""
     contents << "server {\n"
     contents << "  listen 443 ssl http2;\n"
     contents << "  server_name #{domain};\n"
