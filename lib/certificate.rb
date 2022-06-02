@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class Certificate
-  ACME_SERVER_KEY_FILENAME = "/etc/cuttlefish-ssl/keys/key.pem"
+  ROOT_DIRECTORY = "/etc/cuttlefish-ssl"
+  ACME_SERVER_KEY_FILENAME = File.join(ROOT_DIRECTORY, "keys", "key.pem")
   LETSENCRYPT_PRODUCTION = "https://acme-v02.api.letsencrypt.org/directory"
   LETSENCRYPT_STAGING = "https://acme-staging-v02.api.letsencrypt.org/directory"
 
   def self.generate(domain)
     client = Acme::Client.new(
       private_key: acme_server_key,
-      directory: LETSENCRYPT_PRODUCTION
+      directory: LETSENCRYPT_STAGING
     )
 
     # Create an account. If we already have an account connected to that private key
@@ -71,17 +72,17 @@ class Certificate
   # We'll put everything under /etc/cuttlefish-ssl in a naming convention
   # that is similar to what let's encrypt uses
   def self.cert_private_key_filename(domain)
-    "/etc/cuttlefish-ssl/live/#{domain}/privkey.pem"
+    File.join(ROOT_DIRECTORY, "live", domain, "privkey.pem")
   end
 
   # We'll put everything under /etc/cuttlefish-ssl in a naming convention
   # that is similar to what let's encrypt uses
   def self.cert_filename(domain)
-    "/etc/cuttlefish-ssl/live/#{domain}/fullchain.pem"
+    File.join(ROOT_DIRECTORY, "live", domain, "fullchain.pem")
   end
 
   def self.nginx_filename(domain)
-    "/etc/cuttlefish-ssl/nginx-sites/#{domain}"
+    File.join(ROOT_DIRECTORY, "nginx-sites", domain)
   end
 
   def self.nginx_config(domain)
