@@ -5,8 +5,18 @@ class Certificate
   ACME_SERVER_KEY_FILENAME = File.join(ROOT_DIRECTORY, "keys", "key.pem")
   LETSENCRYPT_PRODUCTION = "https://acme-v02.api.letsencrypt.org/directory"
   LETSENCRYPT_STAGING = "https://acme-staging-v02.api.letsencrypt.org/directory"
+  # If a certificate is going to expire in less than 28 days we'll try to renew it
+  DAYS_TO_EXPIRY_CUTOFF = 28
 
   def self.generate(domain)
+    # First let's just check if there's already a certificate. If so only generate a new
+    # one if it's close to expiry
+    if File.exist?(cert_filename(domain))
+      cert = OpenSSL::X509::Certificate.new(File.read(cert_filename(domain)))
+      days_to_expiry = (cert.not_after - Time.zone.now) / (60 * 60 * 24)
+      return if days_to_expiry >= DAYS_TO_EXPIRY_CUTOFF
+    end
+
     client = Acme::Client.new(
       private_key: acme_server_key,
       directory: LETSENCRYPT_STAGING
@@ -63,7 +73,6 @@ class Certificate
     create_directory_and_write(cert_private_key_filename(domain), certificate_private_key.export)
     create_directory_and_write(cert_filename(domain), order.certificate)
 
-    # TODO: Skip the certificate generation if it's already valid and isn't about to expire
     # Now create the nginx configuration for that domain
     create_directory_and_write(nginx_filename(domain), nginx_config(domain))
     # TODO: Check that nginx config is all good and reload nginx
