@@ -15,13 +15,7 @@ class Certificate
   end
 
   def generate
-    # First let's just check if there's already a certificate. If so only generate a new
-    # one if it's close to expiry
-    if File.exist?(cert_filename)
-      cert = OpenSSL::X509::Certificate.new(File.read(cert_filename))
-      days_to_expiry = (cert.not_after - Time.zone.now) / (60 * 60 * 24)
-      return if days_to_expiry >= DAYS_TO_EXPIRY_CUTOFF
-    end
+    return unless new_cert_required?
 
     client = Acme::Client.new(
       private_key: acme_server_key,
@@ -82,6 +76,16 @@ class Certificate
     # Now create the nginx configuration for that domain
     create_directory_and_write(nginx_filename, nginx_config)
     # TODO: Check that nginx config is all good and reload nginx
+  end
+
+  def new_cert_required?
+    # First let's just check if there's already a certificate. If so only generate a new
+    # one if it's close to expiry
+    return true unless File.exist?(cert_filename)
+
+    cert = OpenSSL::X509::Certificate.new(File.read(cert_filename))
+    days_to_expiry = (cert.not_after - Time.zone.now) / (60 * 60 * 24)
+    days_to_expiry < DAYS_TO_EXPIRY_CUTOFF
   end
 
   # We'll put everything under /etc/cuttlefish-ssl in a naming convention
