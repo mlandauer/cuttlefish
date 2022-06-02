@@ -2,8 +2,7 @@
 
 class Certificate
   def self.generate(domain)
-    directory = "/etc/cuttlefish-ssl/keys"
-    filename = File.join(directory, "key.pem")
+    filename = "/etc/cuttlefish-ssl/keys/key.pem"
     private_key = OpenSSL::PKey::RSA.new(
       File.exist?(filename) ? File.read(filename) : 4096
     )
@@ -21,8 +20,7 @@ class Certificate
         terms_of_service_agreed: true
       )
       # Save the private key. Intentionally only doing this once the Let's Encrypt account has been created
-      FileUtils.mkdir_p(directory)
-      File.write(filename, private_key.export)
+      create_directory_and_write(filename, private_key.export)
     end
 
     order = client.new_order(identifiers: [domain])
@@ -63,39 +61,40 @@ class Certificate
 
     # We'll put everything under /etc/cuttlefish-ssl in a naming convention
     # that is similar to what let's encrypt uses
-    directory = "/etc/cuttlefish-ssl/live/#{domain}"
-    certificate_private_key_filename = File.join(directory, "privkey.pem")
-    certificate_filename = File.join(directory, "fullchain.pem")
+    certificate_private_key_filename = "/etc/cuttlefish-ssl/live/#{domain}/privkey.pem"
+    certificate_filename = "/etc/cuttlefish-ssl/live/#{domain}/fullchain.pem"
 
     # The private key is owned by "deploy" rather than root which is less than
     # ideal. The only way to get around this would be for the csr request to
     # let's encrypt being done by a separate process
-
-    FileUtils.mkdir_p(directory)
-    File.write(certificate_private_key_filename, certificate_private_key.export)
-    File.write(certificate_filename, order.certificate)
+    create_directory_and_write(certificate_private_key_filename, certificate_private_key.export)
+    create_directory_and_write(certificate_filename, order.certificate)
 
     # TODO: Skip the certificate generation if it's already valid and isn't about to expire
     # Now create the nginx configuration for that domain
-    directory = "/etc/cuttlefish-ssl/nginx-sites"
-    FileUtils.mkdir_p(directory)
-    nginx_filename = File.join(directory, domain)
+    nginx_filename = File.join("/etc/cuttlefish-ssl/nginx-sites", domain)
 
-    File.open(nginx_filename, "w") do |f|
-      f << "server {\n"
-      f << "  listen 443 ssl http2;\n"
-      f << "  server_name #{domain};\n"
-      f << "\n"
-      f << "  root /srv/www/current/public;\n"
-      f << "  passenger_enabled on;\n"
-      f << "  passenger_ruby /usr/local/lib/rvm/wrappers/default/ruby;\n"
-      f << "\n"
-      f << "  ssl on;\n"
-      f << "  ssl_certificate /etc/cuttlefish-ssl/live/#{domain}/fullchain.pem;\n"
-      f << "  ssl_certificate_key /etc/cuttlefish-ssl/live/#{domain}/privkey.pem;\n"
-      f << "}\n"
-    end
+    contents = ""
+    contents << "server {\n"
+    contents << "  listen 443 ssl http2;\n"
+    contents << "  server_name #{domain};\n"
+    contents << "\n"
+    contents << "  root /srv/www/current/public;\n"
+    contents << "  passenger_enabled on;\n"
+    contents << "  passenger_ruby /usr/local/lib/rvm/wrappers/default/ruby;\n"
+    contents << "\n"
+    contents << "  ssl on;\n"
+    contents << "  ssl_certificate /etc/cuttlefish-ssl/live/#{domain}/fullchain.pem;\n"
+    contents << "  ssl_certificate_key /etc/cuttlefish-ssl/live/#{domain}/privkey.pem;\n"
+    contents << "}\n"
+
+    create_directory_and_write(nginx_filename, contents)
 
     # TODO: Check that nginx config is all good and reload nginx
+  end
+
+  def self.create_directory_and_write(filename, content)
+    FileUtils.mkdir_p(File.dirname(filename))
+    File.write(filename, content)
   end
 end
