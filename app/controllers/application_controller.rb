@@ -80,6 +80,7 @@ class ApplicationController < ActionController::Base
   # Don't use SSL for the TrackingController and in development
   def force_ssl?
     controller_name != "tracking" &&
+      controller_name != "acme_challenges" &&
       !Rails.env.development? &&
       !Rails.configuration.disable_ssl
   end

@@ -137,6 +137,8 @@ namespace :cuttlefish do
       challenge.reload
     end
 
+    # TODO: Double check that the challenge did actually succeed here
+
     # Now we generate the private key for the certificate and store it away
     # in a place where nginx will ultimately access it
     certificate_private_key = OpenSSL::PKey::RSA.new(4096)
