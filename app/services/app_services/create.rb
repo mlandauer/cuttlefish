@@ -23,6 +23,7 @@ module AppServices
       app = App.new(@attributes.merge(team: current_admin.team))
       Pundit.authorize(current_admin, app, :create?)
       if app.save
+        # TODO: kick off the generation of a certificate in the background here
         success!
       else
         fail!

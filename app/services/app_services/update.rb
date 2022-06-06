@@ -26,6 +26,13 @@ module AppServices
     def call
       app = App.find(id)
       Pundit.authorize(current_admin, app, :update?)
+      # If we're changing the custom tracking domain then reset the related ssl setting
+      # TODO: We probably also want to delete the old certificate, private key and nginx config on disk and reload nginx
+      if attributes.key?(:custom_tracking_domain) && attributes[:custom_tracking_domain] != app.custom_tracking_domain
+        attributes[:custom_tracking_domain_ssl_enabled] = false
+      end
+
+      # TODO: If we're updating the custom_tracking_domain then also start generation of certificate
       if app.update(attributes)
         success!
       else

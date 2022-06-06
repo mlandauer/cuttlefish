@@ -80,4 +80,25 @@ describe AppServices::Update do
       expect(update_app.result.from_domain).to eq "foo.com"
     end
   end
+
+  context "when updating the custom tracking domain when the DNS for the domain is correctly setup" do
+    let(:attributes) { { custom_tracking_domain: "foo.com" } }
+
+    before do
+      expect(App).to receive(:lookup_dns_cname_record).with("foo.com").and_return(App.cname_domain)
+      app.update!(custom_tracking_domain_ssl_enabled: true)
+    end
+
+    it "is successfull" do
+      expect(update_app).to be_success
+    end
+
+    it "returns the updated app" do
+      expect(update_app.result.custom_tracking_domain).to eq "foo.com"
+    end
+
+    it "resets the custom_tracking_domain_ssl_enabled" do
+      expect(update_app.result.custom_tracking_domain_ssl_enabled).to be false
+    end
+  end
 end
