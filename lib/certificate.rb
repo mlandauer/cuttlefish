@@ -76,7 +76,13 @@ class Certificate
     # Now create the nginx configuration for that domain
     create_directory_and_write(nginx_filename, nginx_config)
 
-    raise "Couldn't reload nginx for some reason" unless reload_nginx
+    # If everything worked then just return
+    return if reload_nginx
+
+    # If reloading fails for some reason clear away the nginx config, the cert and private key
+    # so that there isn't a partially succesful run lying around which could cause confusion
+    FileUtils.rm_f([cert_private_key_filename, cert_filename, nginx_filename])
+    raise "Couldn't reload nginx for some reason"
   end
 
   # Returns true if successful
