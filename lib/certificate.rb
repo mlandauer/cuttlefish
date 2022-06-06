@@ -19,7 +19,7 @@ class Certificate
 
     client = Acme::Client.new(
       private_key: acme_server_key,
-      directory: LETSENCRYPT_STAGING
+      directory: LETSENCRYPT_PRODUCTION
     )
 
     # Create an account. If we already have an account connected to that private key
