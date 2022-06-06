@@ -19,12 +19,16 @@ module AppServices
 
       # This will raise an exception if it fails for some reason
       Certificate.new(app.custom_tracking_domain).generate
+
+      # TEMPORARILY SKIPPING actually switching SSL on
+      success!
+
       # So if we get here that means it worked
-      if app.update(custom_tracking_domain_ssl_enabled: true)
-        success!
-      else
-        fail!
-      end
+      # if app.update(custom_tracking_domain_ssl_enabled: true)
+      #   success!
+      # else
+      #   fail!
+      # end
     end
 
     private
