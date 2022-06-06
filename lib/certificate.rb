@@ -98,6 +98,7 @@ class Certificate
   def reload_nginx
     # In our case the deploy user is allowed to do this particular command without
     # having to enter a password
+    # TODO: It's possible for there to be a race condition here between two seperate processed doing the reloading
     result = system("sudo service nginx configtest")
     return result unless result
 
