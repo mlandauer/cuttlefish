@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# Generates a certificate for a given domain. Handles all the business with
+# Let's Encrypt, including handling the http challenge and updates our nginx
+# config to serve the new domain.
+# If a domain has already been setup and it's called again it will renew the
+# certificate (but only if it's about to expire). So, this could for instance
+# be safely called once per day on each certificate to handle automated renewals
+#
+# It doesn't know anything about cuttlefish more broadly
 class Certificate
   ROOT_DIRECTORY = "/etc/cuttlefish-ssl"
   ACME_SERVER_KEY_FILENAME = File.join(ROOT_DIRECTORY, "keys", "key.pem")
