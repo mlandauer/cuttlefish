@@ -37,7 +37,8 @@ class Certificate
     # Store the challenge in the database so that the web application
     # can respond correctly. We also need to handle the situation where we already have the
     # token in the database
-    AcmeChallenge.find_or_create_by!(token: challenge.token).update!(content: challenge.file_content)
+    record = AcmeChallenge.find_or_create_by!(token: challenge.token)
+    record.update!(content: challenge.file_content)
 
     # Now actually ask let's encrypt to the validation
     challenge.request_validation
@@ -47,8 +48,8 @@ class Certificate
       sleep(2)
       challenge.reload
     end
-    # Clean up the challenge
-    AcmeChallenge.find_by!(token: challenge.token).destroy
+    # Clean up the challenge in the database
+    record.destroy
 
     raise "Challenge failed: #{challenge.status}" unless challenge.status == "valid"
 
