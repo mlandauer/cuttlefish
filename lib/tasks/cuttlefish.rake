@@ -21,7 +21,7 @@ namespace :cuttlefish do
   end
 
   desc "Daily maintenance tasks to be run via cron job"
-  task daily_tasks: %i[auto_archive remove_old_deny_listed_items]
+  task daily_tasks: %i[generate_ssl_certificates auto_archive remove_old_deny_listed_items]
 
   desc "Archive all emails created more than 3 months ago"
   task auto_archive: :environment do
@@ -87,11 +87,13 @@ namespace :cuttlefish do
     end
   end
 
-  # Little "proof of concept" of generating an SSL certificate
-  desc "Create SSL certificate (proof of concept)"
-  task :create_ssl_certificate, [:domain] => :environment do |_t, args|
-    domain = args[:domain]
-    puts "Generating certificate for #{domain}..."
-    Certificate.new(domain).generate
+  desc "Generate (and renew) SSL certificates for all apps with custom tracking domains"
+  task generate_ssl_certificates: :environment do
+    App.find_each do |app|
+      if app.custom_tracking_domain.present?
+        puts "Generating (or renewing) certificate for #{app.custom_tracking_domain}..."
+        AppServices::SetupCustomTrackingDomainSSL.call(app: app)
+      end
+    end
   end
 end
