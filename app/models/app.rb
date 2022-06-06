@@ -63,10 +63,11 @@ class App < ApplicationRecord
     if Rails.env.development?
       { protocol: "http", domain: "localhost:3000" }
     elsif custom_tracking_domain?
-      # We can't use https with a custom tracking domain because otherwise
-      # we would need an SSL certificate installed for every custom domain used
-      # and that's going to be way too much hassle for users
-      { protocol: "http", domain: custom_tracking_domain }
+      if custom_tracking_domain_ssl_enabled
+        { protocol: "https", domain: custom_tracking_domain }
+      else
+        { protocol: "http", domain: custom_tracking_domain }
+      end
     else
       { protocol: "https", domain: Rails.configuration.cuttlefish_domain }
     end

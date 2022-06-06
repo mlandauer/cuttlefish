@@ -147,6 +147,17 @@ describe App do
           domain: "foo.com"
         )
       end
+
+      context "when ssl is enabled" do
+        before { app.custom_tracking_domain_ssl_enabled = true }
+
+        it "returns the custom tracking domain and use https" do
+          expect(app.tracking_domain_info).to eq(
+            protocol: "https",
+            domain: "foo.com"
+          )
+        end
+      end
     end
 
     context "when in development environment" do
