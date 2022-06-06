@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
 module AppServices
-  # For an app with id "id" and a valid custom_tracking_domain set generate an SSL certificate, setup our web server
+  # For an app with a valid custom_tracking_domain set generate an SSL certificate, setup our web server
   # use it and let the rest of the application to know to use it too
   class SetupCustomTrackingDomainSSL < ApplicationService
-    def initialize(id:)
+    def initialize(app:)
       super()
-      @id = id
+      @app = app
     end
 
     def call
-      app = App.find(id)
       # Double check that we actually do have a custom tracking domain setup
       if app.custom_tracking_domain.blank?
         fail!
@@ -33,6 +32,6 @@ module AppServices
 
     private
 
-    attr_reader :id
+    attr_reader :app
   end
 end
