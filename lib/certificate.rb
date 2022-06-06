@@ -75,7 +75,18 @@ class Certificate
 
     # Now create the nginx configuration for that domain
     create_directory_and_write(nginx_filename, nginx_config)
-    # TODO: Check that nginx config is all good and reload nginx
+
+    raise "Couldn't reload nginx for some reason" unless reload_nginx
+  end
+
+  # Returns true if successful
+  def reload_nginx
+    # In our case the deploy user is allowed to do this particular command without
+    # having to enter a password
+    result = system("sudo service nginx configtest")
+    return result unless result
+
+    system("sudo service nginx reload")
   end
 
   def new_cert_required?
