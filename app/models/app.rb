@@ -100,6 +100,12 @@ class App < ApplicationRecord
     self.webhook_key = generate_key if webhook_key.nil?
   end
 
+  def self.cname_domain
+    # In DNS speak putting a "." after the domain makes it a full domain
+    # name rather than just relative to the current higher level domain
+    "#{Rails.configuration.cuttlefish_domain}."
+  end
+
   private
 
   def validate_dkim_settings
@@ -126,14 +132,8 @@ class App < ApplicationRecord
     end
   end
 
-  def cname_domain
-    # In DNS speak putting a "." after the domain makes it a full domain
-    # name rather than just relative to the current higher level domain
-    "#{Rails.configuration.cuttlefish_domain}."
-  end
-
   def valid_dns_for_custom_tracking_domain
-    App.lookup_dns_cname_record(custom_tracking_domain) == cname_domain
+    App.lookup_dns_cname_record(custom_tracking_domain) == App.cname_domain
   end
 
   def custom_tracking_domain_points_to_correct_place
@@ -142,7 +142,7 @@ class App < ApplicationRecord
 
     errors.add(
       :custom_tracking_domain,
-      "doesn't have a CNAME record that points to #{cname_domain}"
+      "doesn't have a CNAME record that points to #{App.cname_domain}"
     )
   end
 
