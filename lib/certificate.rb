@@ -115,20 +115,28 @@ class Certificate
     days_to_expiry < DAYS_TO_EXPIRY_CUTOFF
   end
 
+  def self.live_directory
+    File.join(ROOT_DIRECTORY, "live")
+  end
+
+  def self.nginx_directory
+    File.join(ROOT_DIRECTORY, "nginx-sites")
+  end
+
   # We'll put everything under /etc/cuttlefish-ssl in a naming convention
   # that is similar to what let's encrypt uses
   def cert_private_key_filename
-    File.join(ROOT_DIRECTORY, "live", domain, "privkey.pem")
+    File.join(Certificate.live_directory, domain, "privkey.pem")
   end
 
   # We'll put everything under /etc/cuttlefish-ssl in a naming convention
   # that is similar to what let's encrypt uses
   def cert_filename
-    File.join(ROOT_DIRECTORY, "live", domain, "fullchain.pem")
+    File.join(Certificate.live_directory, domain, "fullchain.pem")
   end
 
   def nginx_filename
-    File.join(ROOT_DIRECTORY, "nginx-sites", domain)
+    File.join(Certificate.nginx_directory, domain)
   end
 
   # TODO: Improve SSL setup - check with ssllabs.com
