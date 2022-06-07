@@ -89,11 +89,19 @@ namespace :cuttlefish do
 
   desc "Generate (and renew) SSL certificates for all apps with custom tracking domains"
   task generate_ssl_certificates: :environment do
-    App.find_each do |app|
-      if app.custom_tracking_domain.present?
-        puts "Generating (or renewing) certificate for #{app.custom_tracking_domain}..."
-        AppServices::SetupCustomTrackingDomainSSL.call(app: app)
-      end
+    apps = App.select { |app| app.custom_tracking_domain.present? }
+    domains_to_generate = apps.map(&:custom_tracking_domain)
+    domains_on_disk = Certificate.all_domains
+    domains_to_delete = domains_on_disk - domains_to_generate
+
+    # First we remove any nginx configs or certificates which are no longer needed
+    domains_to_delete.each do |domain|
+      puts "Removing certificate that is no longer needed for #{domain}..."
+      Certificate.new(domain).remove
+    end
+    apps.each do |app|
+      puts "Generating (or renewing) certificate for #{app.custom_tracking_domain}..."
+      AppServices::SetupCustomTrackingDomainSSL.call(app: app)
     end
   end
 end

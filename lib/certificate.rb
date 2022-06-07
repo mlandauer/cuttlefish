@@ -29,6 +29,12 @@ class Certificate
     (domains_live + domains_nginx).uniq
   end
 
+  # Remove certificate, private key and nginx config for this domain. Also reload nginx config
+  def remove
+    FileUtils.rm_rf([live_directory_domain, nginx_filename])
+    reload_nginx
+  end
+
   def generate
     return unless new_cert_required?
 
