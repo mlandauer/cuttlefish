@@ -22,6 +22,13 @@ class Certificate
     @domain = domain
   end
 
+  # Returns the domains for all certificates that are currently on disk
+  def self.all_domains
+    domains_live = Dir[File.join(live_directory, "*")].map { |f| File.basename(f) }
+    domains_nginx = Dir[File.join(nginx_directory, "*")].map { |f| File.basename(f) }
+    (domains_live + domains_nginx).uniq
+  end
+
   def generate
     return unless new_cert_required?
 
