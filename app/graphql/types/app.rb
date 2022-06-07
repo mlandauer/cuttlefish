@@ -36,6 +36,10 @@ module Types
     field :custom_tracking_domain, String,
           null: true,
           description: "Optional domain used for open and click tracking"
+    field :custom_tracking_domain_ssl_enabled, Boolean,
+          null: false,
+          description: "Whether https is enabled (yet) on the open and click tracking " \
+                       "when using a custom tracking domain"
     field :webhook_url, String,
           null: true,
           description: "If set, a POST is sent to the url for any delivery event " \

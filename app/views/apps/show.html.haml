@@ -39,3 +39,11 @@
   app is delivered.
 
 %p= link_to "Setting and documentation for webhook", webhook_app_path(@app.id)
+
+- if @app.custom_tracking_domain.present? && !@app.custom_tracking_domain_ssl_enabled
+  .alert.alert-info
+    %h3 Custom domain open and click tracking is temporarily using "http"
+    %p
+      An SSL certificate is being generated for your custom tracking domain right now.
+      It may take a few minutes for this to come through. In the meantime the open
+      and click tracking urls will start with "http".
