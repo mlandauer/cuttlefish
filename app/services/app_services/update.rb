@@ -32,8 +32,8 @@ module AppServices
         attributes[:custom_tracking_domain_ssl_enabled] = false
       end
 
-      # TODO: If we're updating the custom_tracking_domain then also start generation of certificate
       if app.update(attributes)
+        SetupCustomTrackingDomainSSLWorker.perform_async(app.id) if app.custom_tracking_domain.present?
         success!
       else
         fail!

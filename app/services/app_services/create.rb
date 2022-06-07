@@ -23,7 +23,7 @@ module AppServices
       app = App.new(@attributes.merge(team: current_admin.team))
       Pundit.authorize(current_admin, app, :create?)
       if app.save
-        # TODO: kick off the generation of a certificate in the background here
+        SetupCustomTrackingDomainSSLWorker.perform_async(app.id) if app.custom_tracking_domain.present?
         success!
       else
         fail!
