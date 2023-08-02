@@ -138,19 +138,30 @@
 
 - name: Create cuttlefish postgresql database
   postgresql_db:
+    login_host: "{{ db_host }}"
+    login_user: "{{ db_root_username }}"
+    login_password: "{{ db_root_password }}"
     name: cuttlefish
 
 - name: Create cuttlefish posgresql role
   postgresql_user:
+    login_host: "{{ db_host }}"
+    login_user: "{{ db_root_username }}"
+    login_password: "{{ db_root_password }}"
     db: cuttlefish
     name: cuttlefish
     password: "{{ db_password }}"
     encrypted: yes
 
-- name: Create postgresql role for root so it can do backups
-  postgresql_user:
-    name: root
-    role_attr_flags: SUPERUSER
+- name: Give cuttlefish role access to the database
+  postgresql_privs:
+    login_host: "{{ db_host }}"
+    login_user: "{{ db_root_username }}"
+    login_password: "{{ db_root_password }}"
+    db: cuttlefish
+    roles: cuttlefish
+    privs: ALL
+    type: database
 
 - name: Copy over database configuration for application
   template:
