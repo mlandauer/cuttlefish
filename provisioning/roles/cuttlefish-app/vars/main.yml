@@ -102,7 +102,8 @@ jwt_secret: !vault |
           31353761373563633231643438366563663036643930643432373735626265623533363533623738
           3831646563633465640a616137323831613262366137613633336439636665613532336637333339
           39653239646632396430386465613264616436333434303562646462333930656465
-# db_root_username and db_root_password are outputs of running terraform on oaf/infrastructure
+# db_host, db_root_username and db_root_password are outputs of running terraform on oaf/infrastructure
+db_host: lin-25602-9498-pgsql-primary-private.servers.linodedb.net
 db_root_username: linpostgres
 db_root_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
