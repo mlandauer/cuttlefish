@@ -263,5 +263,5 @@
     name: daily old email archiving
     job:  "cd /srv/www/current && /usr/local/lib/rvm/bin/rvm . do bundle exec rake cuttlefish:daily_tasks RAILS_ENV=production"
     user: deploy
-    minute: 0
-    hour: 12
+    minute: "0"
+    hour: "12"
