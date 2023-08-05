@@ -56,7 +56,7 @@
 
 - name: Add postgresql apt repository
   apt_repository:
-    repo: deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main
+    repo: deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main
 
 - name: Install postgresql 13
   apt:
@@ -139,7 +139,7 @@
 
 - name: Install python module requirement for ansible creating postgresql db
   apt:
-    pkg: python-psycopg2
+    pkg: python3-psycopg2
 
 - name: Create cuttlefish postgresql database
   postgresql_db:
