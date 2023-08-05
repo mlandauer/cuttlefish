@@ -4,6 +4,12 @@
     name: apache2
     state: absent
 
+- name: Install nginx
+  apt:
+    pkg:
+      - nginx
+    state: present
+
 - name: Add key for passenger
   apt_key:
     url: http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xAC40B2F7
@@ -20,11 +26,10 @@
     state: present
     update_cache: yes
 
-- name: Install nginx
+- name: Install passenger
   apt:
     pkg:
-      - nginx-extras
-      - passenger
+      - libnginx-mod-http-passenger
     state: present
 
 - name: Ensure that deploy owns /srv/www
