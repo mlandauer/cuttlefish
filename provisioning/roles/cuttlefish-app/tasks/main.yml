@@ -220,11 +220,7 @@
     groups: adm
     append: yes
 
-- name: Add certbot PPA
-  apt_repository:
-    repo: 'ppa:certbot/certbot'
-
-- name: Install certbot using their PPA
+- name: Install certbot
   apt:
     pkg: certbot
     update_cache: yes
