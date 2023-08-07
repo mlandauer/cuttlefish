@@ -126,7 +126,8 @@ dependencies:
     nrinfragent_config:
       license_key: "{{ new_relic_license_key }}"
   - role: rvm.ruby
-    rvm1_rubies: ['ruby-2.5.1']
+    # The last ruby listed will be set as the default ruby
+    rvm1_rubies: ['ruby-2.7.8', 'ruby-2.5.1']
     rvm1_rvm_check_for_updates: false
     rvm1_install_path: '/usr/local/lib/rvm'
     rvm1_user: 'root'
