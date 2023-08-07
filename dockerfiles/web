@@ -4,11 +4,17 @@ FROM ruby:2.7.8
 RUN mkdir -p /app
 WORKDIR /app
 
-COPY Gemfile Gemfile.lock ./
-RUN gem install bundler && bundle install --jobs 20 --retry 5
+# Run everything as a non-root "deploy" user
+RUN groupadd --gid 1000 deploy \
+    && useradd --uid 1000 --gid 1000 -m deploy
 
 RUN apt-get update && apt-get install -y \
   build-essential \
   nodejs
+
+USER deploy
+
+COPY Gemfile Gemfile.lock ./
+RUN gem install bundler && bundle install --jobs 20 --retry 5
 
 CMD ["/bin/sh", "-c", "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"]

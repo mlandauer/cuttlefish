@@ -31,6 +31,8 @@ services:
       - POSTGRES_PASSWORD=cuttlefish
     ports:
       - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   smtp:
     build:
@@ -92,3 +94,6 @@ services:
       - ./postfix_log:/var/log:cached
     links:
       - db
+
+volumes:
+  postgres_data:
