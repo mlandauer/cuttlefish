@@ -44,7 +44,7 @@ Cuttlefish is in beta. It's been used in production by [OpenAustralia Foundation
 * Incoming email
 
 ## Dependencies
-Ruby 2.5.1, PostgresQL, Redis (2.4 or greater), Postfix
+Ruby, PostgresQL, Redis (2.4 or greater), Postfix
 
 Also you need the following libraries:
 imagemagick, libmagickwand-dev, libpq-dev

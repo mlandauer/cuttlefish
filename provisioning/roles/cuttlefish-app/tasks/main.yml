@@ -89,7 +89,7 @@
 - name: Install bundler gem < 2.0
   command: bash -lc "gem install bundler --version '<2.0'"
   args:
-    creates: "/usr/local/lib/rvm/gems/ruby-2.5.1/gems/bundler-*"
+    creates: "/usr/local/lib/rvm/gems/ruby-2.7.8/gems/bundler-*"
 
 - name: Install package dependencies that allow gem native extensions to be built
   apt:
