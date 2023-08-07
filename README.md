@@ -58,18 +58,18 @@ moving parts is now very straightforward by using [Docker](https://www.docker.co
 
 To start with:
 ```
-docker-compose run web bundle exec rake db:create db:schema:load
+docker compose run web bundle exec rake db:create db:schema:load
 ```
 
 Now add some example seed data. This will also create a site admin with email "joy@smart-unlimited.com" and password "password". You'll need these details later to sign in. Skip this step if you don't want seed data.
 
 ```
-docker-compose run web bundle exec rake db:seed
+docker compose run web bundle exec rake db:seed
 ```
 
 Then
 ```
-docker-compose up
+docker compose up
 ```
 
 Those steps will take a little while as they download images and build
@@ -88,7 +88,7 @@ http://localhost:1080
 
 To run the tests (do that from another window):
 ```
-docker-compose exec web rake
+docker compose exec web rake
 ```
 
 ## To install:
