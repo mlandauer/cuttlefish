@@ -291,9 +291,9 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (0.9.2)
-    mime-types (3.1)
+    mime-types (3.5.0)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2016.0521)
+    mime-types-data (3.2023.0218.1)
     mimemagic (0.3.10)
       nokogiri (~> 1)
       rake
@@ -616,4 +616,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   2.3.26
+   2.4.18
