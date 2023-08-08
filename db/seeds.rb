@@ -197,7 +197,7 @@ delivery = email.deliveries.create!(address_id: address2.id, sent: true)
   from = Address.find_or_create_by(text: Faker::Internet.email)
   to = Address.find_or_create_by(text: Faker::Internet.email)
   subject = Faker::Book.title
-  body = Faker::TheITCrowd.quote
+  body = Faker::TvShows::TheITCrowd.quote
 
   email = key_app.emails.create!(
     from_address_id: from.id,
