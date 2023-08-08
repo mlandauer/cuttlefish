@@ -55,7 +55,9 @@ gem "graphql-client"
 gem "graphql-errors"
 gem "graphql-guard"
 gem "gravatar_image_tag"
-gem "haml-rails"
+# haml-coderay seems to only work with version 1 of haml-rails.
+gem "haml-rails", "~> 1.0"
+gem "haml-coderay"
 gem "honeybadger"
 gem "syslog_protocol"
 gem "will_paginate"
@@ -63,7 +65,6 @@ gem "will_paginate"
 gem "formtastic-bootstrap",
     git: "https://github.com/mjbellantoni/formtastic-bootstrap.git",
     ref: "f86eaef93bea0a06879b3977d7554864964a623f"
-gem "haml-coderay"
 gem "minitar"
 gem "newrelic_rpm"
 gem "nokogiri"
