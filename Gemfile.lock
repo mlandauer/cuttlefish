@@ -265,11 +265,10 @@ GEM
     jwt (2.2.2)
     less (2.6.0)
       commonjs (~> 0.2.7)
-    less-rails (2.8.0)
-      actionpack (>= 4.0)
+    less-rails (4.0.0)
+      actionpack (>= 4)
       less (~> 2.6.0)
-      sprockets (> 2, < 4)
-      tilt
+      sprockets (>= 2)
     libv8 (3.16.14.19)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -582,7 +581,7 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   jwt
-  less-rails (= 2.8.0)
+  less-rails (= 4.0.0)
   listen
   minitar
   newrelic_rpm

@@ -25,7 +25,7 @@ group :assets do
   gem "therubyracer", platforms: :ruby
 
   # Problem with compiling assets in production otherwise
-  gem "less-rails", "2.8.0"
+  gem "less-rails", "4.0.0"
   gem "uglifier"
 end
 
