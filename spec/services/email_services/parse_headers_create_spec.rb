@@ -19,7 +19,7 @@ describe EmailServices::ParseHeadersCreate do
         " charset=utf-8",
         "Content-Transfer-Encoding: quoted-printable",
         "",
-        "Hello=\n"
+        "Hello=\r\n"
       ].join("\r\n")
     end
 
@@ -50,7 +50,7 @@ describe EmailServices::ParseHeadersCreate do
         " charset=utf-8",
         "Content-Transfer-Encoding: quoted-printable",
         "",
-        "Hello=\n"
+        "Hello=\r\n"
       ].join("\r\n")
     end
 
@@ -73,7 +73,7 @@ describe EmailServices::ParseHeadersCreate do
         " charset=utf-8",
         "Content-Transfer-Encoding: quoted-printable",
         "",
-        "Hello=\n"
+        "Hello=\r\n"
       ].join("\r\n")
     end
   end
@@ -92,7 +92,7 @@ describe EmailServices::ParseHeadersCreate do
         " charset=utf-8",
         "Content-Transfer-Encoding: quoted-printable",
         "",
-        "Hello=\n"
+        "Hello=\r\n"
       ].join("\r\n")
     end
 
@@ -114,7 +114,7 @@ describe EmailServices::ParseHeadersCreate do
         " charset=utf-8",
         "Content-Transfer-Encoding: quoted-printable",
         "",
-        "Hello=\n"
+        "Hello=\r\n"
       ].join("\r\n")
     end
   end
