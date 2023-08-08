@@ -12,7 +12,8 @@ gem "pg"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem "sass-rails"
+  # Locking sass-rails for the time being to avoid having to upgrade sprockets from 3->4
+  gem "sass-rails", "~> 5.0"
   # Don't upgrade to Bootstrap 3. It's already responsive, for example, so
   # there's a bunch of things we need to do for the upgrade
   gem "bootstrap-sass", "~> 2.0"
