@@ -18,6 +18,10 @@ group :assets do
   gem "bootstrap-sass", "~> 2.0"
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  # IMPORTANT NOTE - as a short term workaround we have installed nodejs on the cuttlefish server
+  # to be the js runtime. This is because we're still using capistrano 2 which is now not working
+  # well with the newer bundler version which means that it can't find therubyracer. Ugh
+  # TODO: Upgrade capistrano 2 -> 3
   gem "therubyracer", platforms: :ruby
 
   gem "less-rails"
