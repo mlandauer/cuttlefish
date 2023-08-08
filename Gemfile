@@ -29,7 +29,9 @@ gem "jquery-rails"
 gem "jbuilder"
 
 gem "eventmachine"
-gem "sidekiq"
+# We're using a very old version of redis currently which forces us stay at version 5 of sidekiq
+# TODO: Update redis
+gem "sidekiq", "~> 5.1"
 gem "sinatra", require: nil
 
 gem "batch-loader"
