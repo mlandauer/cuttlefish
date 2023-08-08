@@ -18,7 +18,7 @@ class EmailDataCache
   end
 
   def data_filesystem_directory
-    File.join("db", "emails", scope)
+    Rails.root.join("db", "emails", scope)
   end
 
   def create_data_filesystem_directory
