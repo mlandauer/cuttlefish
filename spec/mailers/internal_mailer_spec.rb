@@ -20,8 +20,7 @@ describe InternalMailer do
 
         <p><a href="https://foo.com/bar?invitation_token=abc123">Accept invitation</a></p>
 
-        <p>If you don't want to accept the invitation, please ignore this email.<br />
-        Your account won't be created until you access the link above and set your password.</p>
+        <p>If you don't want to accept the invitation, please ignore this email. Your account won't be created until you access the link above and set your password.</p>
       HTML
     end
 
