@@ -22,7 +22,7 @@ module EmailServices
         Rails.configuration.postfix_smtp_host,
         Rails.configuration.postfix_smtp_port
       )
-      smtp.disable_ssl
+      smtp.disable_starttls
       smtp.start do |smtp|
         response = smtp.send_message(
           Filters::Master.new(delivery: delivery).filter(delivery.data),
