@@ -48,7 +48,9 @@ gem "fog-aws"
 gem "font-awesome-rails"
 gem "friendly_id"
 gem "google-analytics-rails"
-gem "graphql"
+# Looks like it's a bit of a pain to upgrade graphql. So just locking
+# the version for the time being
+gem "graphql", "~> 1.8.5"
 gem "graphql-client"
 gem "graphql-errors"
 gem "graphql-guard"
