@@ -13,7 +13,10 @@ describe EmailServices::Send do
   let(:send) { described_class.call(email: email) }
 
   it "opens an smtp connection to postfix port 25" do
-    expect(Net::SMTP).to receive(:start).with("postfix", 25)
+    smtp = double
+    expect(Net::SMTP).to receive(:new).with("postfix", 25).and_return(smtp)
+    allow(smtp).to receive(:disable_starttls)
+    allow(smtp).to receive(:start)
 
     send
   end
@@ -27,7 +30,9 @@ describe EmailServices::Send do
       "bounce-address@cuttlefish.io",
       anything
     ).and_return(double(message: ""))
-    expect(Net::SMTP).to receive(:start).and_yield(smtp)
+    expect(Net::SMTP).to receive(:new).and_return(smtp)
+    expect(smtp).to receive(:disable_starttls)
+    expect(smtp).to receive(:start).and_yield(smtp)
 
     send
   end
@@ -39,7 +44,9 @@ describe EmailServices::Send do
       anything,
       ["foo@bar.com"]
     ).and_return(double(message: ""))
-    expect(Net::SMTP).to receive(:start).and_yield(smtp)
+    expect(Net::SMTP).to receive(:new).and_return(smtp)
+    expect(smtp).to receive(:disable_starttls)
+    expect(smtp).to receive(:start).and_yield(smtp)
 
     send
   end
@@ -56,7 +63,9 @@ describe EmailServices::Send do
       anything,
       anything
     ).and_return(double(message: ""))
-    expect(Net::SMTP).to receive(:start).and_yield(smtp)
+    expect(Net::SMTP).to receive(:new).and_return(smtp)
+    expect(smtp).to receive(:disable_starttls)
+    expect(smtp).to receive(:start).and_yield(smtp)
 
     send
   end
@@ -64,7 +73,9 @@ describe EmailServices::Send do
   it "sets the postfix queue id on the deliveries based on the response from the server" do
     response = double(message: "250 2.0.0 Ok: queued as A123")
     smtp = double(send_message: response)
-    allow(Net::SMTP).to receive(:start).and_yield(smtp)
+    expect(Net::SMTP).to receive(:new).and_return(smtp)
+    expect(smtp).to receive(:disable_starttls)
+    expect(smtp).to receive(:start).and_yield(smtp)
 
     send
 
@@ -74,7 +85,9 @@ describe EmailServices::Send do
   it "ignores response from server that doesn't include a queue id" do
     response = double(message: "250 250 Message accepted")
     smtp = double(send_message: response)
-    allow(Net::SMTP).to receive(:start).and_yield(smtp)
+    expect(Net::SMTP).to receive(:new).and_return(smtp)
+    expect(smtp).to receive(:disable_starttls)
+    expect(smtp).to receive(:start).and_yield(smtp)
 
     send
 
