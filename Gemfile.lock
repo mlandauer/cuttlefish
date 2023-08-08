@@ -212,7 +212,6 @@ GEM
     graphql-guard (1.2.0)
       graphql (>= 1.6.0, < 2)
     gravatar_image_tag (1.2.0)
-    grease (0.3.1)
     guard (2.14.2)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -266,9 +265,8 @@ GEM
     jwt (2.2.2)
     less (2.6.0)
       commonjs (~> 0.2.7)
-    less-rails (3.0.0)
+    less-rails (2.8.0)
       actionpack (>= 4.0)
-      grease
       less (~> 2.6.0)
       sprockets (> 2, < 4)
       tilt
@@ -584,7 +582,7 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   jwt
-  less-rails
+  less-rails (= 2.8.0)
   listen
   minitar
   newrelic_rpm

@@ -24,7 +24,8 @@ group :assets do
   # TODO: Upgrade capistrano 2 -> 3
   gem "therubyracer", platforms: :ruby
 
-  gem "less-rails"
+  # Problem with compiling assets in production otherwise
+  gem "less-rails", "2.8.0"
   gem "uglifier"
 end
 
