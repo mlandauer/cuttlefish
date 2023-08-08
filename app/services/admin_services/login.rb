@@ -27,7 +27,7 @@ module AdminServices
 
     # Keeping the claims to an absolute minimum for the time being
     def jwt_payload(admin)
-      { admin_id: admin.id, exp: exp }
+      { admin_id: admin.id, exp: exp, site_admin: admin.site_admin }
     end
 
     def jwt_secret
