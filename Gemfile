@@ -58,6 +58,7 @@ gem "friendly_id"
 gem "google-analytics-rails"
 # Looks like it's a bit of a pain to upgrade graphql. So just locking
 # the version for the time being
+# TODO: Upgrade to at least 1.11.7 so we can upgrade ruby to 3.0
 gem "graphql", "~> 1.8.5"
 # And the same for graphql-client though I'm guessing that should be easier to upgrade than graphql
 gem "graphql-client", "~> 0.13.0"
