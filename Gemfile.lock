@@ -558,7 +558,7 @@ DEPENDENCIES
   google-analytics-rails
   graphiql-rails
   graphql (~> 1.8.5)
-  graphql-client
+  graphql-client (~> 0.13.0)
   graphql-errors
   graphql-guard
   gravatar_image_tag
