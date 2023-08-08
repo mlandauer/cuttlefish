@@ -18,10 +18,12 @@ module EmailServices
       return unless delivery.send?
 
       # TODO: Replace use of Net::SMTP with deliver! as part of mail gem
-      Net::SMTP.start(
+      smtp = Net::SMTP.new(
         Rails.configuration.postfix_smtp_host,
         Rails.configuration.postfix_smtp_port
-      ) do |smtp|
+      )
+      smtp.disable_ssl
+      smtp.start do |smtp|
         response = smtp.send_message(
           Filters::Master.new(delivery: delivery).filter(delivery.data),
           delivery.return_path,
