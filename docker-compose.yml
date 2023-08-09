@@ -13,16 +13,6 @@ services:
       - redis
       - smtp
 
-  guard:
-    build:
-      context: .
-      dockerfile: dockerfiles/web
-    volumes:
-      - .:/app:cached
-    links:
-      - db
-    command: bundle exec guard --no-interactions
-
   db:
     # Use same version of postgres as we're currently using elsewhere
     # TODO: Upgrade to postgres 13 which we are now using in production
