@@ -114,7 +114,7 @@ class Archiving
       # don't want the callbacks to get called
       email.update_column(:data_hash, data[:data_hash])
     end
-    delivery = Delivery.create(
+    delivery = Delivery.create!(
       id: data[:id],
       address_id: data[:to_address][:id],
       sent: data[:sent],
@@ -129,7 +129,7 @@ class Archiving
       delivery.open_events.create(open_event_data)
     end
     data[:tracking][:links].each do |link_data|
-      delivery_link = delivery.delivery_links.create(link_id: link_data[:id])
+      delivery_link = delivery.delivery_links.create!(link_id: link_data[:id])
       link_data[:click_events].each do |click_event_data|
         delivery_link.click_events.create(click_event_data)
       end

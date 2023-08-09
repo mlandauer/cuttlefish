@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Email < ApplicationRecord
-  belongs_to :from_address, class_name: "Address"
+  # TODO: IMPORTANT Remove optional: true
+  belongs_to :from_address, class_name: "Address", optional: true
   has_many :deliveries, dependent: :destroy
   has_many :to_addresses, through: :deliveries, source: :address
   belongs_to :app

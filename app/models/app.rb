@@ -3,7 +3,8 @@
 class App < ApplicationRecord
   has_many :emails
   has_many :deliveries
-  belongs_to :team
+  # TODO: IMPORTANT Remove optional: true
+  belongs_to :team, optional: true
 
   validates :name, presence: true,
                    format: {
