@@ -53,7 +53,7 @@ describe Mutations::CreateApp do
     end
 
     it "returns an error" do
-      expect(result).to eq(
+      expect(result.to_h).to eq(
         "data" => { "createApp" => nil },
         "errors" => [{
           "message" => "Not authorized to access Mutation.createApp",

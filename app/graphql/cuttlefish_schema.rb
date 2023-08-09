@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class CuttlefishSchema < GraphQL::Schema
+  use GraphQL::Execution::Interpreter
+  use GraphQL::Analysis::AST
+  use GraphQL::Execution::Errors
+
   mutation(Types::MutationType)
   query(Types::QueryType)
 
@@ -13,20 +17,18 @@ class CuttlefishSchema < GraphQL::Schema
     end
   )
   use BatchLoader::GraphQL
-end
 
-GraphQL::Errors.configure(CuttlefishSchema) do
+  rescue_from Pundit::NotAuthorizedError do |_e, _object, _arguments, context, field|
+    GraphQL::ExecutionError.new(
+      "Not authorized to access #{field.owner.graphql_name}.#{field.name}",
+      extensions: { "type" => "NOT_AUTHORIZED" }
+    )
+  end
+
   rescue_from ActiveRecord::RecordNotFound do |_exception|
     GraphQL::ExecutionError.new(
       "We couldn't find what you were looking for",
       extensions: { "type" => "NOT_FOUND" }
-    )
-  end
-
-  rescue_from Pundit::NotAuthorizedError do |_e, _object, _arguments, context|
-    GraphQL::ExecutionError.new(
-      "Not authorized to access #{context.parent_type}.#{context.field.name}",
-      extensions: { "type" => "NOT_AUTHORIZED" }
     )
   end
 end

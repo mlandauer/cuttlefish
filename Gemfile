@@ -62,7 +62,6 @@ gem "google-analytics-rails"
 gem "graphql", "~> 1.11.0"
 # And the same for graphql-client though I'm guessing that should be easier to upgrade than graphql
 gem "graphql-client", "~> 0.16.0"
-gem "graphql-errors"
 gem "graphql-guard"
 gem "gravatar_image_tag"
 # haml-coderay seems to only work with version 1 of haml-rails.
