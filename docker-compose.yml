@@ -27,7 +27,8 @@ services:
   smtp:
     build:
       context: .
-      dockerfile: dockerfiles/smtp
+      dockerfile: dockerfiles/web
+    command: bundle exec rake cuttlefish:smtp
     volumes:
       - .:/app:cached
       # This needs to share the directory containing email content between
@@ -42,7 +43,8 @@ services:
   worker:
     build:
       context: .
-      dockerfile: dockerfiles/worker
+      dockerfile: dockerfiles/web
+    command: bundle exec sidekiq
     volumes:
       - .:/app:cached
       # This needs to share the directory containing email content between
@@ -78,7 +80,8 @@ services:
   log:
     build:
       context: .
-      dockerfile: dockerfiles/log
+      dockerfile: dockerfiles/web
+    command: bundle exec rake cuttlefish:log
     volumes:
       - .:/app:cached
       - ./postfix_log:/var/log:cached
