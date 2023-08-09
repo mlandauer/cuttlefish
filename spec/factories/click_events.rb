@@ -4,7 +4,7 @@
 
 FactoryBot.define do
   factory :click_event do
-    delivery_link_id { 1 }
+    delivery_link
     user_agent { "MyText" }
     referer { "MyText" }
     ip { "MyString" }
