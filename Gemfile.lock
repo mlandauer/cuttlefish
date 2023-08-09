@@ -188,7 +188,7 @@ GEM
     graphiql-rails (1.9.0)
       railties
       sprockets-rails
-    graphql (1.10.14)
+    graphql (1.11.10)
     graphql-client (0.16.0)
       activesupport (>= 3.0)
       graphql (~> 1.8)
@@ -564,7 +564,7 @@ DEPENDENCIES
   friendly_id
   google-analytics-rails
   graphiql-rails
-  graphql (~> 1.10.0)
+  graphql (~> 1.11.0)
   graphql-client (~> 0.16.0)
   graphql-errors
   graphql-guard
