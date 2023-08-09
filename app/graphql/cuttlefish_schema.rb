@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class CuttlefishSchema < GraphQL::Schema
-  use GraphQL::Execution::Interpreter
-  use GraphQL::Analysis::AST
-  use GraphQL::Execution::Errors
-
   mutation(Types::MutationType)
   query(Types::QueryType)
 
