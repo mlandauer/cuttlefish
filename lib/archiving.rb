@@ -129,7 +129,16 @@ class Archiving
       delivery.open_events.create(open_event_data)
     end
     data[:tracking][:links].each do |link_data|
-      delivery_link = delivery.delivery_links.create!(link_id: link_data[:id])
+      # Archiving doesn't destroy links so we could naively just assume they will be there when we unarchive.
+      # However we're going to try to be slightly more clever and make sure that the right link data is set
+      # and if it isn't in the database for some reason then we will recreate it
+      link = Link.find_by(id: link_data[:id])
+      if link
+        raise "Data for link with id #{link.id} does not match that in archive" unless link.url == link_data[:url]
+      else
+        link = Link.create!(id: link_data[:id], url: link_data[:url])
+      end
+      delivery_link = delivery.delivery_links.create!(link: link)
       link_data[:click_events].each do |click_event_data|
         delivery_link.click_events.create(click_event_data)
       end

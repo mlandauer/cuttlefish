@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class DeliveryLink < ApplicationRecord
-  # TODO: IMPORTANT Remove optional: true
-  belongs_to :link, optional: true
+  belongs_to :link
   belongs_to :delivery
   has_many :click_events, dependent: :destroy
 
