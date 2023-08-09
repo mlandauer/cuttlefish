@@ -8,7 +8,7 @@ require "sidekiq/testing"
 
 describe CuttlefishSmtpConnection do
   let(:connection) { described_class.new("") }
-  let(:app) { App.create!(name: "test") }
+  let(:app) { create(:app) }
 
   describe "#receive_plain_auth" do
     it {
