@@ -35,8 +35,8 @@
       %strong
         Created
     %td
-      = time_ago_in_words(Time.zone.parse(@delivery.created_at))
-      ago (#{Time.zone.parse(@delivery.created_at).to_formatted_s(:long)  })
+      = time_ago_in_words(@delivery.created_at)
+      ago (#{@delivery.created_at.to_formatted_s(:long)  })
   - if @delivery.status == "delivered" || @delivery.status == "soft_bounce" || @delivery.status == "hard_bounce"
     %tr
       %td.key
