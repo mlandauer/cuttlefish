@@ -14,7 +14,7 @@ class CuttlefishSchema < GraphQL::Schema
   )
   use BatchLoader::GraphQL
 
-  rescue_from Pundit::NotAuthorizedError do |_e, _object, _arguments, context, field|
+  rescue_from Pundit::NotAuthorizedError do |_e, _object, _arguments, _context, field|
     GraphQL::ExecutionError.new(
       "Not authorized to access #{field.owner.graphql_name}.#{field.name}",
       extensions: { "type" => "NOT_AUTHORIZED" }

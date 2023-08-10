@@ -2,7 +2,6 @@
 
 module EmailServices
   class Create < ApplicationService
-    # rubocop:disable Naming/MethodParameterName
     def initialize(app_id:, from:, to:, cc:, subject:, text_part:, html_part:,
                    ignore_deny_list:, meta_values:)
       super()
@@ -16,7 +15,6 @@ module EmailServices
       @ignore_deny_list = ignore_deny_list
       @meta_values = meta_values
     end
-    # rubocop:enable Naming/MethodParameterName
 
     # TODO: Check for validation errors
     # TODO: Check that at least one of html_part and text_part are non-null

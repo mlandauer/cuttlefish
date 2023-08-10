@@ -120,7 +120,9 @@ class Archiving
     # is correct and if it doesn't exist in the database at all we're going to recreate it
     address = Address.find_by(id: data[:to_address][:id])
     if address
-      raise "Data for address with id #{address.id} does not match that in archive" unless address.text == data[:to_address][:text]
+      unless address.text == data[:to_address][:text]
+        raise "Data for address with id #{address.id} does not match that in archive"
+      end
     else
       address = Address.create!(id: data[:to_address][:id], text: data[:to_address][:text])
     end

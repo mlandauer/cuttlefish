@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe EmailServices::CreateFromData do
-  let(:from) { "bar@bar.com"}
+  let(:from) { "bar@bar.com" }
   let(:to) { ["foo@foo.com"] }
   let(:data) { "From: #{from}\nSome email data" }
   let(:ignore_deny_list) { false }

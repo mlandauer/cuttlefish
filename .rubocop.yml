@@ -59,7 +59,7 @@ Metrics/ParameterLists:
 Metrics/PerceivedComplexity:
   Enabled: false
 
-Gemspec/DateAssignment: # new in 1.10
+Gemspec/DeprecatedAttributeAssignment:
   Enabled: true
 Layout/LineEndStringConcatenationIndentation: # new in 1.18
   Enabled: true

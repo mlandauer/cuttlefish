@@ -9,8 +9,8 @@ class Email < ApplicationRecord
   has_many :click_events, through: :deliveries
   has_many :meta_values, -> { order :key }, dependent: :destroy
 
-  before_save :update_message_id, :update_data_hash, :update_subject
   before_validation :update_from
+  before_save :update_message_id, :update_data_hash, :update_subject
   after_create :update_cache
 
   delegate :custom_tracking_domain, :tracking_domain, :custom_tracking_domain?,

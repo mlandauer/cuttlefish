@@ -6,6 +6,7 @@ describe Email do
   describe "create!" do
     context "when one email is created" do
       let(:app) { create(:app) }
+
       before do
         create(
           :email,

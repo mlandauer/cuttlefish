@@ -17,8 +17,8 @@ class Delivery < ApplicationRecord
 
   delegate :tracking_domain_info, to: :app
 
-  before_save :update_my_status!
   before_validation :update_app_id!
+  before_save :update_my_status!
 
   scope :from_address,
         ->(address) { joins(:email).where(emails: { from_address: address }) }

@@ -37,11 +37,9 @@ Rails.application.routes.draw do
 
   class SiteAdminConstraint
     def matches?(request)
-      begin
-        JWT.decode(request.session[:jwt_token], ENV["JWT_SECRET"], true, { algorithm: "HS512" }).first["site_admin"]
-      rescue JWT::DecodeError
-        false
-      end
+      JWT.decode(request.session[:jwt_token], ENV["JWT_SECRET"], true, { algorithm: "HS512" }).first["site_admin"]
+    rescue JWT::DecodeError
+      false
     end
   end
 
