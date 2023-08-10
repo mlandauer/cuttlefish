@@ -3,8 +3,9 @@
 require "spec_helper"
 
 describe EmailServices::CreateFromData do
+  let(:from) { "bar@bar.com"}
   let(:to) { ["foo@foo.com"] }
-  let(:data) { "Some email data" }
+  let(:data) { "From: #{from}\nSome email data" }
   let(:ignore_deny_list) { false }
   let(:app) { create(:app) }
   let(:service) do
@@ -23,6 +24,7 @@ describe EmailServices::CreateFromData do
   it "#create" do
     email = service.create
     expect(email).to be_persisted
+    expect(email.from).to eq from
     expect(email.to).to eq to
     expect(email.data).to eq data
     expect(email.app).to eq app
