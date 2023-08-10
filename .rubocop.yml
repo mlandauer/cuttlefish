@@ -3,6 +3,8 @@ inherit_from: .rubocop_todo.yml
 require:
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-capybara
+  - rubocop-factory_bot
 
 AllCops:
   Exclude:
@@ -18,7 +20,7 @@ AllCops:
 
 # This is giving just plain wrong results. So, disabling
 # It might be that we're on a rspec version that's too old, maybe?
-Rspec/Rails/InferredSpecType:
+RSpec/Rails/InferredSpecType:
   Enabled: false
 
 # We prefer double quotes here and it we're making liberal use of multi-line
@@ -422,8 +424,6 @@ RSpec/SortMetadata: # new in 2.14
 RSpec/VerifiedDoubleReference: # new in 2.10.0
   Enabled: true
 RSpec/Rails/HaveHttpStatus: # new in 2.12
-  Enabled: true
-RSpec/Rails/InferredSpecType: # new in 2.14
   Enabled: true
 RSpec/Rails/MinitestAssertions: # new in 2.17
   Enabled: true

@@ -126,12 +126,6 @@ RSpec/Rails/HaveHttpStatus:
   Exclude:
     - 'spec/controllers/landing_controller_spec.rb'
 
-# Offense count: 16
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: Inferences.
-RSpec/Rails/InferredSpecType:
-  Enabled: false
-
 # Offense count: 18
 RSpec/RepeatedDescription:
   Exclude:
