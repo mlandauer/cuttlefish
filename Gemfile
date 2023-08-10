@@ -111,6 +111,7 @@ group :development do
   gem "faker"
   gem "graphiql-rails"
   gem "rubocop", require: false
+  gem "rubocop-graphql", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
   gem "rvm-capistrano", ">= 1.5.6", require: false

@@ -428,6 +428,8 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.23.1)
       rubocop (~> 1.33)
+    rubocop-graphql (1.1.1)
+      rubocop (>= 0.87, < 2)
     rubocop-rails (2.20.2)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
@@ -595,6 +597,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-rails
   rubocop
+  rubocop-graphql
   rubocop-rails
   rubocop-rspec
   ruby_gntp
