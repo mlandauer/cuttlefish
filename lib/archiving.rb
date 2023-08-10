@@ -114,9 +114,19 @@ class Archiving
       # don't want the callbacks to get called
       email.update_column(:data_hash, data[:data_hash])
     end
+    # When archiving the addresses are not deleted so we assume that the address is already
+    # there when unarchiving.
+    # However, we're going to be slightly more clever and check that the text value of the address
+    # is correct and if it doesn't exist in the database at all we're going to recreate it
+    address = Address.find_by(id: data[:to_address][:id])
+    if address
+      raise "Data for address with id #{address.id} does not match that in archive" unless address.text == data[:to_address][:text]
+    else
+      address = Address.create!(id: data[:to_address][:id], text: data[:to_address][:text])
+    end
     delivery = Delivery.create!(
       id: data[:id],
-      address_id: data[:to_address][:id],
+      address: address,
       sent: data[:sent],
       status: data[:status],
       created_at: data[:created_at],
