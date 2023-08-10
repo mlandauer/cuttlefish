@@ -23,8 +23,8 @@ module EmailServices
         Rails.configuration.postfix_smtp_port
       )
       smtp.disable_starttls
-      smtp.start do |smtp|
-        response = smtp.send_message(
+      smtp.start do |s|
+        response = s.send_message(
           Filters::Master.new(delivery: delivery).filter(delivery.data),
           delivery.return_path,
           [delivery.to]
