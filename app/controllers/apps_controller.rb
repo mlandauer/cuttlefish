@@ -19,6 +19,12 @@ class AppsController < ApplicationController
     @app = AppForm.new
   end
 
+  def edit
+    result = api_query id: params[:id]
+    @data = result.data
+    @app = @data.app
+  end
+
   def create
     # TODO: Actually no need for strong parameters here as form object
     # constrains the parameters that are allowed
@@ -35,28 +41,6 @@ class AppsController < ApplicationController
       @data = result.data
       render :new
     end
-  end
-
-  def destroy
-    result = api_query id: params[:id]
-
-    if result.data.remove_app.errors.empty?
-      flash[:notice] = "App successfully removed"
-      redirect_to apps_path
-    else
-      # Convert errors to a single string using a form object
-      app = AppForm.new
-      copy_graphql_errors(result.data.remove_app, app, ["attributes"])
-
-      flash[:alert] = app.errors.full_messages.join(", ")
-      redirect_to edit_app_path(params[:id])
-    end
-  end
-
-  def edit
-    result = api_query id: params[:id]
-    @data = result.data
-    @app = @data.app
   end
 
   def update
@@ -86,6 +70,22 @@ class AppsController < ApplicationController
         @data = result.data
         render :edit
       end
+    end
+  end
+
+  def destroy
+    result = api_query id: params[:id]
+
+    if result.data.remove_app.errors.empty?
+      flash[:notice] = "App successfully removed"
+      redirect_to apps_path
+    else
+      # Convert errors to a single string using a form object
+      app = AppForm.new
+      copy_graphql_errors(result.data.remove_app, app, ["attributes"])
+
+      flash[:alert] = app.errors.full_messages.join(", ")
+      redirect_to edit_app_path(params[:id])
     end
   end
 

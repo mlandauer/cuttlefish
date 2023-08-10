@@ -230,18 +230,6 @@ RSpec/VerifiedDoubles:
     - 'spec/models/delivery_link_spec.rb'
     - 'spec/services/email_services/send_spec.rb'
 
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: ExpectedOrder, Include.
-# ExpectedOrder: index, show, new, edit, create, update, destroy
-# Include: app/controllers/**/*.rb
-Rails/ActionOrder:
-  Exclude:
-    - 'app/controllers/admins/passwords_controller.rb'
-    - 'app/controllers/admins/registrations_controller.rb'
-    - 'app/controllers/apps_controller.rb'
-    - 'app/controllers/invitations_controller.rb'
-
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
 Rails/ContentTag:

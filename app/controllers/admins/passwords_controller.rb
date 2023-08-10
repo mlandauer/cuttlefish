@@ -12,6 +12,11 @@ module Admins
       @admin = AdminForm.new
     end
 
+    # GET /resource/password/edit?reset_password_token=abcdef
+    def edit
+      @admin = AdminForm.new(reset_password_token: params[:reset_password_token])
+    end
+
     # POST /resource/password
     def create
       api_query email: params[:admin][:email], reset_url: edit_admin_password_url
@@ -19,11 +24,6 @@ module Admins
       flash[:notice] = "If your email address exists in our database, " \
                        "you will receive a password recovery link at your email address in a few minutes."
       redirect_to new_session_url(:admin)
-    end
-
-    # GET /resource/password/edit?reset_password_token=abcdef
-    def edit
-      @admin = AdminForm.new(reset_password_token: params[:reset_password_token])
     end
 
     # PUT /resource/password

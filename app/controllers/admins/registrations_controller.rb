@@ -14,6 +14,16 @@ module Admins
       @admin = AdminForm.new
     end
 
+    # GET /resource/edit
+    def edit
+      result = api_query
+      @data = result.data
+
+      @admin = AdminForm.new(email: @data.viewer.email, name: @data.viewer.name)
+
+      render :edit
+    end
+
     # POST /resource
     def create
       result = if params[:admin]
@@ -44,16 +54,6 @@ module Admins
 
         render :new
       end
-    end
-
-    # GET /resource/edit
-    def edit
-      result = api_query
-      @data = result.data
-
-      @admin = AdminForm.new(email: @data.viewer.email, name: @data.viewer.name)
-
-      render :edit
     end
 
     # PUT /resource

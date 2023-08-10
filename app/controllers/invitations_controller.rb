@@ -3,6 +3,14 @@
 class InvitationsController < ApplicationController
   layout "login", only: %i[edit update]
 
+  # GET /resource/invitation/accept?invitation_token=abcdef
+  def edit
+    # Sign us out
+    session[:jwt_token] = nil
+    @admin = AdminForm.new(invitation_token: params[:invitation_token])
+    render :edit
+  end
+
   def create
     result = api_query email: params[:admin][:email], accept_url: accept_admin_invitation_url
     @data = result.data
@@ -19,14 +27,6 @@ class InvitationsController < ApplicationController
       @admins = @data.admins
       render "admins/index"
     end
-  end
-
-  # GET /resource/invitation/accept?invitation_token=abcdef
-  def edit
-    # Sign us out
-    session[:jwt_token] = nil
-    @admin = AdminForm.new(invitation_token: params[:invitation_token])
-    render :edit
   end
 
   # PUT /resource/invitation
