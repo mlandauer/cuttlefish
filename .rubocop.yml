@@ -16,6 +16,11 @@ AllCops:
       - 'bin/*'
       - 'Vagrantfile'
 
+# This is giving just plain wrong results. So, disabling
+# It might be that we're on a rspec version that's too old, maybe?
+Rspec/Rails/InferredSpecType:
+  Enabled: false
+
 # We prefer double quotes here and it we're making liberal use of multi-line
 # strings so it makes sense to enforce those to be consistent oo
 Style/StringLiterals:
