@@ -31,7 +31,7 @@ module AdminServices
     end
 
     def jwt_secret
-      ENV["JWT_SECRET"]
+      ENV.fetch("JWT_SECRET", nil)
     end
 
     private

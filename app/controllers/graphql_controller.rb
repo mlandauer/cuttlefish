@@ -48,7 +48,7 @@ class GraphqlController < ApplicationController
     jwt_token = jwt_token_from_request_header
     return if jwt_token.nil?
 
-    payload, _header = JWT.decode(jwt_token, ENV["JWT_SECRET"], true, { algorithm: "HS512" })
+    payload, _header = JWT.decode(jwt_token, ENV.fetch("JWT_SECRET", nil), true, { algorithm: "HS512" })
     payload["admin_id"]
   end
 

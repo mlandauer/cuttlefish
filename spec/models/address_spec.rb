@@ -41,11 +41,11 @@ describe Address do
 
     describe "#emails" do
       it "is able to find all emails that involved this email address" do
-        expect(address1.emails).to match_array [@email1, @email2]
+        expect(address1.emails).to contain_exactly(@email1, @email2)
       end
 
       it "is able to find all emails that involved this email address" do
-        expect(address2.emails).to match_array [@email2, @email3]
+        expect(address2.emails).to contain_exactly(@email2, @email3)
       end
     end
 

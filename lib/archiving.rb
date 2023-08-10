@@ -165,7 +165,7 @@ class Archiving
   end
 
   def copy_to_s3(date, noisy: true)
-    if (s3_bucket = ENV["S3_BUCKET"])
+    if (s3_bucket = ENV.fetch("S3_BUCKET", nil))
       logger.info "Copying #{archive_filename_for(date)} to S3 bucket #{s3_bucket}..." if noisy
 
       s3_connection = Fog::Storage.new(fog_storage_details)
@@ -194,8 +194,8 @@ class Archiving
   def fog_storage_details
     details = {
       provider: "AWS",
-      aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
-      aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
+      aws_access_key_id: ENV.fetch("AWS_ACCESS_KEY_ID", nil),
+      aws_secret_access_key: ENV.fetch("AWS_SECRET_ACCESS_KEY", nil)
     }
 
     details[:region] = ENV["AWS_REGION"] if ENV["AWS_REGION"]

@@ -55,7 +55,7 @@ module Api
 
     context = if LOCAL_API && jwt_token
                 # Lookup admin from the token
-                payload, _header = JWT.decode(jwt_token, ENV["JWT_SECRET"], true, { algorithm: "HS512" })
+                payload, _header = JWT.decode(jwt_token, ENV.fetch("JWT_SECRET", nil), true, { algorithm: "HS512" })
                 { current_admin: Admin.find(payload["admin_id"]) }
               else
                 { jwt_token: jwt_token }

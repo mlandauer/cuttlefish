@@ -15,7 +15,7 @@ module Mutations
         reset_password_token: token,
         password: password
       )
-      token = JWT.encode({ admin_id: admin.id, exp: Time.now.to_i + 3600 }, ENV["JWT_SECRET"], "HS512")
+      token = JWT.encode({ admin_id: admin.id, exp: Time.now.to_i + 3600 }, ENV.fetch("JWT_SECRET", nil), "HS512")
 
       { token: token, errors: user_errors_from_form_errors(admin.errors, ["attributes"]) }
     end

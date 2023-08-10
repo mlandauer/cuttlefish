@@ -57,9 +57,7 @@ class EmailDataCache
 
     # Save the data part of the email to the filesystem
     create_data_filesystem_directory
-    File.open(data_filesystem_path(id), "wb") do |f|
-      f.write(data)
-    end
+    File.binwrite(data_filesystem_path(id), data)
   end
 
   def cleanup_filesystem_data_store

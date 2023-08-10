@@ -25,7 +25,7 @@ describe TestEmailsController, type: :controller do
 
             Love,
             The Awesome Cuttlefish
-            <a href=\"http://cuttlefish.io\">http://cuttlefish.io</a>
+            <a href="http://cuttlefish.io">http://cuttlefish.io</a>
           EMAIL
         )
       end

@@ -7,7 +7,7 @@ module SignInTestHelpers
   # This can be accessed from any rspec controller test
   def sign_in(admin)
     # We're not putting an expiry on this JSON web token, though we could
-    session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV["JWT_SECRET"], "HS512")
+    session[:jwt_token] = JWT.encode({ admin_id: admin.id }, ENV.fetch("JWT_SECRET", nil), "HS512")
   end
 end
 
