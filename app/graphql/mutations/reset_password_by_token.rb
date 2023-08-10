@@ -7,8 +7,8 @@ module Mutations
 
     # Returns a JSON web token so the user has the option to automatically
     # log in after a password reset
-    field :token, String, null: false
     field :errors, [Types::UserError], null: false
+    field :token, String, null: false
 
     def resolve(password:, token:)
       admin = Admin.reset_password_by_token(

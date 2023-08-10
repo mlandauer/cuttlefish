@@ -5,23 +5,19 @@ module Types
   # is available without authenticating
   class Configuration < GraphQL::Schema::Object
     description "Application configuration settings"
-    field :max_no_emails_to_store, Int,
-          null: false,
-          description:
-            "The maximum number of emails for which the full content is stored"
     field :domain, String,
           null: false,
-          description: "The domain that this cuttlefish server is running on"
+          description: "The domain that this cuttlefish server is running on", method: :cuttlefish_domain
     field :fresh_install, Boolean,
           null: false,
           description: "Whether this is a completely new site installation and it has no current administrators"
     field :ip_address, String,
           null: false,
           description: "Public IPv4 address of server sending email"
-
-    def domain
-      object.cuttlefish_domain
-    end
+    field :max_no_emails_to_store, Int,
+          null: false,
+          description:
+            "The maximum number of emails for which the full content is stored"
 
     def fresh_install
       ::Admin.first.nil?

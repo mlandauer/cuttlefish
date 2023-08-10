@@ -2,8 +2,8 @@
 
 module Mutations
   class UpdateApp < Mutations::Base
-    argument :id, ID, required: true
     argument :attributes, Types::AppAttributes, required: true
+    argument :id, ID, required: true
 
     field :app, Types::App, null: true
     field :errors, [Types::UserError], null: false

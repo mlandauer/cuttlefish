@@ -18,31 +18,31 @@ module Types
       argument :app_id, ID,
                required: false,
                description: "Filter results by App"
-      argument :status, Types::Status,
-               required: false,
-               description: "Filter results by Email status"
-      argument :since, Types::DateTime,
-               required: false,
-               description: "Filter result to emails created since time"
       argument :from, String,
                required: false,
                description: "Filter results by Email from address"
-      argument :to, String,
+      argument :limit, Int,
                required: false,
-               description: "Filter results by Email to address"
+               description:
+                "For pagination: sets maximum number of items returned"
       argument :meta_key, String,
                required: false,
                description: "Filter results by Emails with given metadata key"
       argument :meta_value, String,
                required: false,
                description: "Filter results by Emails with given metadata value"
-      argument :limit, Int,
-               required: false,
-               description:
-                "For pagination: sets maximum number of items returned"
       argument :offset, Int,
                required: false,
                description: "For pagination: sets offset"
+      argument :since, Types::DateTime,
+               required: false,
+               description: "Filter result to emails created since time"
+      argument :status, Types::Status,
+               required: false,
+               description: "Filter results by Email status"
+      argument :to, String,
+               required: false,
+               description: "Filter results by Email to address"
     end
 
     field :app, Types::App, null: true do
@@ -75,10 +75,10 @@ module Types
     end
 
     field :blocked_address, Types::BlockedAddress, null: true do
+      argument :address, String, required: true, description: "Email address"
       argument :app_id, ID,
                required: true,
                description: "App"
-      argument :address, String, required: true, description: "Email address"
       description "Find whether an email address is being blocked by a particular App"
     end
 
@@ -88,12 +88,12 @@ module Types
       description "Auto-populated list of email addresses which bounced " \
                   "within the last week. Further emails to these addresses " \
                   "will be 'held back' and not sent"
-      argument :app_id, ID,
-               required: false,
-               description: "Filter results by App"
       argument :address, String,
                required: false,
                description: "Filter results by email address"
+      argument :app_id, ID,
+               required: false,
+               description: "Filter results by App"
       argument :dsn, String,
                required: false,
                description: "Filter results by type of delivery problem (of the form 5.x.x)"

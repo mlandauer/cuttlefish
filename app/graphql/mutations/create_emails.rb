@@ -16,8 +16,8 @@ module Mutations
     argument :subject, String, required: true
 
     # TODO: Wrap this up in a content type
-    argument :text_part, String, required: false
     argument :html_part, String, required: false
+    argument :text_part, String, required: false
 
     argument :ignore_blocked_addresses, Boolean, required: false
     argument :meta_values, [Types::KeyValueAttributes], required: false

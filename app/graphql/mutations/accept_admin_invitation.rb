@@ -6,8 +6,8 @@ module Mutations
     argument :password, String, required: true
     argument :token, String, required: true
 
-    field :token, String, null: true
     field :errors, [Types::UserError], null: false
+    field :token, String, null: true
 
     def resolve(name:, password:, token:)
       Pundit.authorize(context[:current_admin], :invitation, :update?)

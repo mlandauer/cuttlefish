@@ -5,9 +5,9 @@ module Mutations
     argument :email, String, required: true
     argument :password, String, required: true
 
-    field :token, String, null: true
     field :admin, Types::Admin, null: true
     field :errors, [Types::UserError], null: false
+    field :token, String, null: true
 
     def resolve(email:, password:)
       login_admin = AdminServices::Login.call(email: email, password: password)

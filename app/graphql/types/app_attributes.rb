@@ -3,15 +3,6 @@
 module Types
   class AppAttributes < GraphQL::Schema::InputObject
     description "Attributes for creating or updating an app"
-    argument :name,
-             String,
-             required: false,
-             description: "The name of the app"
-    argument :open_tracking_enabled,
-             Boolean,
-             required: false,
-             description: "Whether tracking of email opens is enabled for " \
-                          "this app. Defaults to true."
     argument :click_tracking_enabled,
              Boolean,
              required: false,
@@ -23,17 +14,26 @@ module Types
              description: "Optional domain used for open and click tracking. " \
                           "Requires DNS changes for the domain in customTrackingDomain " \
                           "to be made before it can be enabled"
-    argument :from_domain,
-             String,
-             required: false,
-             description: "Domain that email in this domain is from. " \
-                          "Required for DKIM."
     argument :dkim_enabled,
              Boolean,
              required: false,
              description: "Whether DKIM is enabled for this app. Requires " \
                           "DNS changes for the domain in fromDomain to be " \
                           "made before it can be enabled."
+    argument :from_domain,
+             String,
+             required: false,
+             description: "Domain that email in this domain is from. " \
+                          "Required for DKIM."
+    argument :name,
+             String,
+             required: false,
+             description: "The name of the app"
+    argument :open_tracking_enabled,
+             Boolean,
+             required: false,
+             description: "Whether tracking of email opens is enabled for " \
+                          "this app. Defaults to true."
     argument :webhook_url,
              String,
              required: false,

@@ -17,44 +17,44 @@ module Types
       end)
     end
 
-    field :register_site_admin,
-          mutation: Mutations::RegisterSiteAdmin,
-          description: "Register the very first admin on the site"
-    field :update_admin,
-          mutation: Mutations::UpdateAdmin,
-          description: "Update account details of the logged in admin"
-    field :send_reset_password_instructions,
-          mutation: Mutations::SendResetPasswordInstructions,
-          description: "Send instructions on how to reset your password by email"
-    field :reset_password_by_token,
-          mutation: Mutations::ResetPasswordByToken,
-          description: "Using token from email, reset your password"
+    field :accept_admin_invitation,
+          mutation: Mutations::AcceptAdminInvitation,
+          description: "Accept an invitation to join, setting a password and name"
+    field :create_app,
+          mutation: Mutations::CreateApp,
+          description: "Create an app"
     field :invite_admin_to_team,
           mutation: Mutations::InviteAdminToTeam,
           description: "Invite a new team member by email"
     field :invite_team,
           mutation: Mutations::InviteTeam,
           description: "Create a new team and invite an admin to that"
-    field :accept_admin_invitation,
-          mutation: Mutations::AcceptAdminInvitation,
-          description: "Accept an invitation to join, setting a password and name"
+    field :register_site_admin,
+          mutation: Mutations::RegisterSiteAdmin,
+          description: "Register the very first admin on the site"
     field :remove_admin,
           mutation: Mutations::RemoveAdmin,
           description: "Remove an admin from your team"
+    field :remove_app,
+          mutation: Mutations::RemoveApp,
+          description: "Remove an app"
     field :remove_blocked_address,
           mutation: Mutations::RemoveBlockedAddress,
           description:
             "Remove a blocked email address so that email will get delivered " \
             "to that address again"
-    field :create_app,
-          mutation: Mutations::CreateApp,
-          description: "Create an app"
+    field :reset_password_by_token,
+          mutation: Mutations::ResetPasswordByToken,
+          description: "Using token from email, reset your password"
+    field :send_reset_password_instructions,
+          mutation: Mutations::SendResetPasswordInstructions,
+          description: "Send instructions on how to reset your password by email"
+    field :update_admin,
+          mutation: Mutations::UpdateAdmin,
+          description: "Update account details of the logged in admin"
     field :update_app,
           mutation: Mutations::UpdateApp,
           description: "Update an app"
-    field :remove_app,
-          mutation: Mutations::RemoveApp,
-          description: "Remove an app"
     field :upgrade_app_dkim,
           mutation: Mutations::UpgradeAppDkim,
           description: "For a particular app upgrade the dkim selector"

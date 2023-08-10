@@ -2,8 +2,8 @@
 
 module Mutations
   class InviteAdminToTeam < Mutations::Base
-    argument :email, String, required: true
     argument :accept_url, String, required: true
+    argument :email, String, required: true
 
     field :admin, Types::Admin, null: true
     field :errors, [Types::UserError], null: false

@@ -2,10 +2,10 @@
 
 module Mutations
   class UpdateAdmin < Mutations::Base
+    argument :current_password, String, required: true
     argument :email, String, required: true
     argument :name, String, required: true
     argument :password, String, required: false
-    argument :current_password, String, required: true
 
     field :errors, [Types::UserError], null: false
 

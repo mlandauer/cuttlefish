@@ -2,12 +2,12 @@
 
 module Mutations
   class RegisterSiteAdmin < Mutations::Base
-    argument :name, String, required: false
     argument :email, String, required: true
+    argument :name, String, required: false
     argument :password, String, required: true
 
-    field :token, String, null: true
     field :errors, [Types::UserError], null: false
+    field :token, String, null: true
 
     def resolve(email:, password:, name: nil)
       Pundit.authorize(context[:current_admin], :registration, :create?)

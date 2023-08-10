@@ -6,15 +6,15 @@ module Types
     field :hostname, String,
           null: false,
           description: "The hostname"
+    field :password, String,
+          null: false,
+          description: "The password to authenticate", method: :smtp_password
     field :port, Int,
           null: false,
           description: "The port"
     field :username, String,
           null: false,
-          description: "The username to authenticate"
-    field :password, String,
-          null: false,
-          description: "The password to authenticate"
+          description: "The username to authenticate", method: :smtp_username
 
     def hostname
       Rails.configuration.cuttlefish_smtp_host
@@ -22,14 +22,6 @@ module Types
 
     def port
       Rails.configuration.cuttlefish_smtp_port
-    end
-
-    def username
-      object.smtp_username
-    end
-
-    def password
-      object.smtp_password
     end
   end
 end
