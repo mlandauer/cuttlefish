@@ -5,9 +5,11 @@ require "spec_helper"
 describe Email do
   describe "create!" do
     context "when one email is created" do
+      let(:app) { create(:app) }
       before do
         create(
           :email,
+          app: app,
           to: "foo@bar.com",
           data:
             "From: contact@openaustraliafoundation.org.au\n" \

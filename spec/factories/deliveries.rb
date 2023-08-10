@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :delivery do
+    app
     email
     address
   end

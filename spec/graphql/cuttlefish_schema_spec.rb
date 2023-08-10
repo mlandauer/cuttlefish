@@ -19,8 +19,8 @@ describe CuttlefishSchema do
   let(:app2) { create(:app, team: team_one, name: "App A") }
   let(:email1) { create(:email, app: app1) }
   let(:email2) { create(:email, app: app2) }
-  let(:delivery1) { create(:delivery, email: email1) }
-  let(:delivery2) { create(:delivery, email: email2) }
+  let(:delivery1) { create(:delivery, email: email1, app: app1) }
+  let(:delivery2) { create(:delivery, email: email2, app: app2) }
 
   before do
     delivery1
