@@ -6,7 +6,7 @@ module Mutations
       user_errors = []
       # Convert Rails model errors into GraphQL-ready error hashes
       # rubocop:disable Style/HashEachMethods
-      errors.keys.each do |attribute|
+      errors.attribute_names.each do |attribute|
         m = errors.messages[attribute]
         d = errors.details[attribute]
         m.zip(d).each do |message, detail|
