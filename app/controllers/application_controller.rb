@@ -81,7 +81,6 @@ class ApplicationController < ActionController::Base
   def force_ssl?
     controller_name != "tracking" &&
       controller_name != "acme_challenges" &&
-      !Rails.env.development? &&
-      !Rails.configuration.disable_ssl
+      !Rails.env.development?
   end
 end
