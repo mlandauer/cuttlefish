@@ -14,3 +14,11 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  # Doing these for the benefit of zeitwerk
+  inflect.acronym "IP"
+  inflect.acronym "DNSBL"
+  inflect.acronym "SSL"
+  inflect.acronym "DSN"
+end
