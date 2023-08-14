@@ -90,7 +90,7 @@ class Archiving
 
   def serialise(delivery)
     ActionController::Base.new.render_to_string(
-      partial: "deliveries/delivery.json.jbuilder",
+      partial: "deliveries/delivery",
       locals: { delivery: delivery }
     )
   end
