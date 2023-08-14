@@ -8,7 +8,7 @@
     .control-group
       = f.label :gravatar, class: "control-label"
       .controls
-        = gravatar_image_tag(@admin.email, gravatar: {size: 35, secure: true, default: :identicon}, class: "img-circle")
+        = admin_gravatar(@admin)
         %span.help-inline
           = link_to "Change your gravatar", "http://gravatar.com/"
 
