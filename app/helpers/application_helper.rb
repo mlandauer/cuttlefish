@@ -47,10 +47,6 @@ module ApplicationHelper
   end
 
   def admin_gravatar(admin)
-    gravatar_image_tag(
-      admin.email,
-      gravatar: { size: 35, secure: true, default: :identicon },
-      class: "img-circle"
-    )
+    image_tag("https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(admin.email.downcase)}?default=identicon&secure=true&size=35", class: "img-circle", alt: "Gravatar", width: 35, height: 35)
   end
 end

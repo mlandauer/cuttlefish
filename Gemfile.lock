@@ -208,7 +208,6 @@ GEM
       graphql (~> 1.8)
     graphql-guard (2.0.0)
       graphql (>= 1.10.0, < 2)
-    gravatar_image_tag (1.2.0)
     guard (2.18.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -581,7 +580,6 @@ DEPENDENCIES
   graphql (~> 1.12.0)
   graphql-client (~> 0.16.0)
   graphql-guard
-  gravatar_image_tag
   guard
   guard-rspec
   haml-coderay
