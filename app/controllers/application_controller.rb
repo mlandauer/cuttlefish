@@ -22,8 +22,6 @@ class ApplicationController < ActionController::Base
     redirect_to new_admin_session_url
   end
 
-  force_ssl if: proc { force_ssl? }
-
   # Either use api_query id: 2 or api_query :other_name, id: 2
   def api_query(params1 = {}, params2 = nil)
     if params2
@@ -73,14 +71,5 @@ class ApplicationController < ActionController::Base
       [k.to_s.camelize(:lower), form.attributes[k.to_sym]]
     end
     t.to_h
-  end
-
-  private
-
-  # Don't use SSL for the TrackingController and in development
-  def force_ssl?
-    controller_name != "tracking" &&
-      controller_name != "acme_challenges" &&
-      !Rails.env.development?
   end
 end

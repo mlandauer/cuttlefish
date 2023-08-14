@@ -14,10 +14,6 @@ describe "getting a bunch of screenshots", js: true do
     # exec("open #{path}")
   end
 
-  before do
-    ApplicationController.any_instance.stub(force_ssl?: false)
-  end
-
   context "when no users" do
     it "sign up page" do
       visit new_admin_registration_path

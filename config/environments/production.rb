@@ -44,7 +44,18 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
+  config.ssl_options = {
+    redirect: { exclude: -> request {
+      # For some reason matching on request.controller_class doesn't work so exactly following the documentation
+      # and matching on the path instead
+      request.path =~ /^\/o2\// || 
+      request.path =~ /^\/l2\// ||
+      request.path =~ /^\/\.well-known\/acme-challenge\//
+    } },
+    # Initially we're disabling HSTS in case we break something
+    hsts: false
+  }
 
   # Set to :debug to see everything in the log.
   config.log_level = :info

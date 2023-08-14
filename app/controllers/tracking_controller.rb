@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class TrackingController < ApplicationController
-  # SSL redirection is also disabled for this controller. See
-  # ApplicationController force_ssl.
+  # SSL redirection is also disabled for this controller. See config.ssl_options in production.rb
 
   def open
     raise ActiveRecord::RecordNotFound unless HashId.valid?(params[:delivery_id], params[:hash])
