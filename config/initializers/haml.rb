@@ -15,23 +15,21 @@
 # @see Haml::Filters::CodeRay_raw
 # @see http://rubydoc.info/gems/haml/Haml/Filters
 # @see http://rubydoc.info/gems/coderay/CodeRay/Scanners
-module Haml::Filters::CodeRay
-  include Haml::Filters::Base
-
+class Haml::Filters::CodeRay < Haml::Filters::Base
   ENCODER = :div
   ENCODER_OPTIONS = {}
 
   # Encoder (_default_: {ENCODER}).
   #
   # @see http://rubydoc.info/gems/coderay/CodeRay/Encoders
-  attr_accessor :encoder
+  cattr_accessor :encoder
 
   self.encoder ||= ENCODER
 
   # Encoder options (_default_: {ENCODER_OPTIONS}).
   #
   # @see http://rubydoc.info/gems/coderay/CodeRay/Encoders
-  attr_accessor :encoder_options
+  cattr_accessor :encoder_options
 
   self.encoder_options ||= ENCODER_OPTIONS
 
@@ -50,7 +48,13 @@ module Haml::Filters::CodeRay
   def render(text)
     ::CodeRay.scan(*prepare(text)).send(encoder, encoder_options)
   end
+
+  def compile(node)
+    [:dynamic, ::Haml::Util.unescape_interpolation(render(node.value[:text]))]
+  end
 end
+
+Haml::Filters.registered[:coderay] ||= Haml::Filters::CodeRay
 
 Haml::Filters::CodeRay.encoder         = :div
 Haml::Filters::CodeRay.encoder_options = { css: :class }

@@ -13,9 +13,9 @@
   # Send #{app.name} mails to Cuttlefish (see http://cuttlefish.io)
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address => "#{app.smtp_server.hostname}",
+    :address => '#{app.smtp_server.hostname}',
     :port => #{app.smtp_server.port},
-    :user_name => "#{app.smtp_server.username}",
-    :password => "#{app.smtp_server.password}",
+    :user_name => '#{app.smtp_server.username}',
+    :password => '#{app.smtp_server.password}',
     :authentication => :plain
    }
