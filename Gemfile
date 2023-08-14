@@ -64,7 +64,7 @@ gem "graphql", "~> 1.12.0"
 gem "graphql-client", "~> 0.16.0"
 gem "graphql-guard"
 # haml-coderay seems to only work with version 1 of haml-rails.
-gem "haml-coderay"
+gem "coderay"
 gem "haml-rails", "~> 1.0"
 gem "honeybadger"
 gem "syslog_protocol"

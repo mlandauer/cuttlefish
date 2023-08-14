@@ -225,9 +225,6 @@ GEM
     haml (5.2.2)
       temple (>= 0.8.0)
       tilt
-    haml-coderay (0.2.0)
-      coderay
-      haml
     haml-rails (1.0.0)
       actionpack (>= 4.0.1)
       activesupport (>= 4.0.1)
@@ -557,6 +554,7 @@ DEPENDENCIES
   capistrano (~> 2)
   capybara
   climate_control
+  coderay
   coveralls
   database_cleaner
   devise
@@ -582,7 +580,6 @@ DEPENDENCIES
   graphql-guard
   guard
   guard-rspec
-  haml-coderay
   haml-rails (~> 1.0)
   honeybadger
   jbuilder
