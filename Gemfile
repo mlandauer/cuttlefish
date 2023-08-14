@@ -41,6 +41,7 @@ gem "sidekiq", "~> 5.1"
 gem "sinatra", require: nil
 
 gem "batch-loader"
+gem "coderay"
 gem "devise"
 gem "devise_invitable"
 gem "dkim"
@@ -63,7 +64,6 @@ gem "graphql", "~> 1.12.0"
 # And the same for graphql-client though I'm guessing that should be easier to upgrade than graphql
 gem "graphql-client", "~> 0.16.0"
 gem "graphql-guard"
-gem "coderay"
 gem "haml-rails"
 gem "honeybadger"
 gem "syslog_protocol"
