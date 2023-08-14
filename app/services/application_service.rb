@@ -4,8 +4,8 @@ class ApplicationService
   attr_reader :result
 
   # Give services a slightly more concise way of being called
-  def self.call(*params)
-    object = new(*params)
+  def self.call(*args, **kwargs)
+    object = new(*args, **kwargs)
     object.instance_eval { @result = call }
     object
   end
