@@ -26,10 +26,8 @@ class CuttlefishControl
       # Sleep forever
       sleep
     else
-      activerecord_config = YAML.safe_load(
-        File.read(
-          File.join(File.dirname(__FILE__), "..", "config", "database.yml")
-        )
+      activerecord_config = YAML.safe_load_file(
+        File.join(File.dirname(__FILE__), "..", "config", "database.yml")
       )
       ActiveRecord::Base.establish_connection(activerecord_config[environment])
 

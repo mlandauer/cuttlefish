@@ -24,7 +24,7 @@ module EmailServices
     end
 
     IGNORE_DENY_LIST_HEADER = "X-Cuttlefish-Ignore-Deny-List"
-    METADATA_HEADER_REGEX = /^X-Cuttlefish-Metadata-(.*)$/.freeze
+    METADATA_HEADER_REGEX = /^X-Cuttlefish-Metadata-(.*)$/
 
     def parse_and_remove_special_headers
       mail = Mail.new(data)
