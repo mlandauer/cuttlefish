@@ -12,16 +12,21 @@ describe Archiving do
       from_domain: "planningalerts.org.au"
     )
   end
+
+  let(:from_address) do
+    create(
+      :address,
+      id: 12,
+      text: "bounces@planningalerts.org.au"
+    )
+  end
+
   let!(:email) do
     create(
       :email,
       app: app,
       id: 1753541,
-      from_address: create(
-        :address,
-        id: 12,
-        text: "bounces@planningalerts.org.au"
-      ),
+      from_address: from_address,
       data_hash: "aa126db79482378ce17b441347926570228f12ef",
       message_id: "538ef46757549_443e4bb0f901893332@kedumba.mail",
       subject: "1 new planning application"
@@ -96,18 +101,32 @@ describe Archiving do
         created_at: "2014-06-04T20:33:53.000+10:00"
       )
     end
+    let(:to_address) do
+      create(:address, id: 13, text: "foo@gmail.com")
+    end
     let(:delivery) do
       create(
         :delivery,
         id: 5,
         email: email,
-        address: create(:address, id: 13, text: "foo@gmail.com"),
+        address: to_address,
         created_at: "2014-06-04T20:26:51.000+10:00",
         updated_at: "2014-06-04T20:26:55.000+10:00",
         sent: true,
         status: "delivered",
         open_tracked: true,
         postfix_queue_id: "38B72370AC41"
+      )
+    end
+    let(:delivery_link) do
+      create(
+        :delivery_link,
+        delivery: delivery,
+        link: create(
+          :link,
+          id: 321,
+          url: "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe"
+        )
       )
     end
 
@@ -131,15 +150,7 @@ describe Archiving do
           url: "http://www.planningalerts.org.au/alerts/abc1234/area"
         )
       )
-      create(
-        :delivery_link,
-        delivery: delivery,
-        link: create(
-          :link,
-          id: 321,
-          url: "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe"
-        )
-      )
+      delivery_link
       create(
         :postfix_log_line,
         delivery: delivery,
@@ -167,8 +178,104 @@ describe Archiving do
       expect(s1).to eq s2
     end
 
-    # For a test of the exact serialisation format see
-    # spec/views/deliveries/show.json.erb_spec.rb
+    it "produces a known result" do
+      email.update_columns(
+        subject: "1 new planning application",
+        message_id: "538ef46757549_443e4bb0f901893332@kedumba.mail"
+      )
+
+      create(
+        :click_event,
+        delivery_link: delivery_link,
+        user_agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) " \
+                    "Gecko/20100101 Firefox/24.0",
+        ip: "1.2.3.4",
+        referer: nil,
+        created_at: "2014-06-04T20:33:53.000+10:00"
+      )
+  
+      delivery.update_column(:status, "delivered")
+      delivery.reload
+  
+      s = archiver.serialise(delivery)
+  
+      expect(JSON.parse(s, symbolize_names: true)).to eq(
+        id: 5,
+        from_address: {
+          id: 12,
+          text: "bounces@planningalerts.org.au"
+        },
+        to_address: {
+          id: 13,
+          text: "foo@gmail.com"
+        },
+        subject: "1 new planning application",
+        sent: true,
+        status: "delivered",
+        message_id: "538ef46757549_443e4bb0f901893332@kedumba.mail",
+        email_id: 1753541,
+        data_hash: "aa126db79482378ce17b441347926570228f12ef",
+        created_at: "2014-06-04T20:26:51.000+10:00",
+        updated_at: "2014-06-04T20:26:55.000+10:00",
+        ignore_deny_list: false,
+        app: {
+          id: 2,
+          name: "Planning Alerts",
+          # custom_tracking_domain: "email.planningalerts.org.au",
+          custom_tracking_domain: nil,
+          from_domain: "planningalerts.org.au"
+        },
+        tracking: {
+          open_tracked: true,
+          open_events: [
+            {
+              user_agent:
+                "Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.0.7) " \
+                "Gecko/2009021910 Firefox/3.0.7 (via ggpht.com GoogleImageProxy)",
+              referer: nil,
+              ip: "2.3.4.5",
+              created_at: "2014-10-06T16:05:52.000+11:00"
+            }
+          ],
+          links: [
+            {
+              id: 123,
+              url: "http://www.planningalerts.org.au/alerts/abc1234/area",
+              click_events: []
+            },
+            {
+              id: 321,
+              url: "http://www.planningalerts.org.au/alerts/abc1234/unsubscribe",
+              click_events: [
+                {
+                  user_agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) " \
+                              "Gecko/20100101 Firefox/24.0",
+                  referer: nil,
+                  ip: "1.2.3.4",
+                  created_at: "2014-06-04T20:33:53.000+10:00"
+                }
+              ]
+            }
+          ],
+          postfix_queue_id: "38B72370AC41",
+          postfix_log_lines: [
+            {
+              time: "2014-06-04T20:26:53.000+10:00",
+              relay: "gmail-smtp-in.l.google.com[173.194.79.26]:25",
+              delay: "1.7",
+              delays: "0.05/0/0.58/1",
+              dsn: "2.0.0",
+              extended_status:
+                "sent (250 2.0.0 OK 1401877617 bh2si4687161pbb.204 - gsmtp)"
+            }
+          ]
+        },
+        meta_values: {
+          foo: "bar",
+          wibble: "wobble"
+        }
+      )
+    end
   end
 
   describe ".copy_to_s3" do
