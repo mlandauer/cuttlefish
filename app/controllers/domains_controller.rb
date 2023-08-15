@@ -8,10 +8,12 @@ class DomainsController < ApplicationController
     hard_bounce_counts = @data.emails.statistics.hard_bounce_count_by_to_domain.map{|c| [c.name, c.count]}.to_h
     delivered_counts = @data.emails.statistics.delivered_count_by_to_domain.map{|c| [c.name, c.count]}.to_h
     @domains = hard_bounce_counts.map do |domain, hard_bounces|
+      deliveries = (delivered_counts[domain] || 0)
       {
         domain: domain,
         hard_bounces: hard_bounces,
-        deliveries: (delivered_counts[domain] || 0)
+        deliveries: deliveries,
+        bounce_rate: hard_bounces.to_f / (hard_bounces + deliveries)
       }
     end
   end

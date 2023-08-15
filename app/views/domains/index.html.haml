@@ -14,9 +14,11 @@
       %th Domain
       %th Number of hard bounces
       %th Number of deliveries
+      %th Bounce rate
   %tbody
     - @domains.each do |d|
       %tr
         %td= d[:domain]
         %td= d[:hard_bounces]
         %td= d[:deliveries]
+        %td= "%0.0f%%" % (100.0 * d[:bounce_rate])
