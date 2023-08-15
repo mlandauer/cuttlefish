@@ -9,9 +9,15 @@ module Types
     field :delivered_count, Int,
           null: false,
           description: "Number of emails delivered"
+    field :delivered_count_by_to_domain, [Types::Count],
+          null: false,
+          description: "Number of emails delivered grouped by destination domain"
     field :hard_bounce_count, Int,
           null: false,
           description: "Number of emails that hard bounced"
+    field :hard_bounce_count_by_to_domain, [Types::Count],
+          null: false,
+          description: "Number of emails that hard bounced grouped by destination domain"
     field :not_sent_count, Int,
           null: false,
           description: "Number of emails not sent because of the deny list"
@@ -64,6 +70,18 @@ module Types
 
     def user_agent_family_counts
       c = object.joins(:open_events).group(:ua_family)
+                .order("count_all desc").count
+      c.map { |name, count| { name: name, count: count } }
+    end
+
+    def hard_bounce_count_by_to_domain
+      c = object.where(status: "hard_bounce").joins(:address).group("split_part(text, '@', 2)")
+                .order("count_all desc").count
+      c.map { |name, count| { name: name, count: count } }
+    end
+
+    def delivered_count_by_to_domain
+      c = object.where(status: "delivered").joins(:address).group("split_part(text, '@', 2)")
                 .order("count_all desc").count
       c.map { |name, count| { name: name, count: count } }
     end
