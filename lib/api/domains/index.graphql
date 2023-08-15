@@ -1,5 +1,5 @@
-query {
-  emails {
+query ($since: DateTime!) {
+  emails(since: $since) {
     statistics {
       hardBounceCountByToDomain {
         count
