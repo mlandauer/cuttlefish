@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class App < ApplicationRecord
-  has_many :emails
-  has_many :deliveries
+  has_many :emails, dependent: :destroy
+  has_many :deliveries, dependent: :destroy
   belongs_to :team
 
   validates :name, presence: true,

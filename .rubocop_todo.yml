@@ -237,17 +237,6 @@ Rails/Exit:
   Exclude:
     - 'lib/cuttlefish_smtp_server.rb'
 
-# Offense count: 8
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/HasManyOrHasOneDependent:
-  Exclude:
-    - 'app/models/address.rb'
-    - 'app/models/app.rb'
-    - 'app/models/delivery.rb'
-    - 'app/models/link.rb'
-    - 'app/models/team.rb'
-
 # Offense count: 13
 Rails/I18nLocaleTexts:
   Exclude:

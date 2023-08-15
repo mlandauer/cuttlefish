@@ -3,7 +3,7 @@
 class Delivery < ApplicationRecord
   belongs_to :email
   belongs_to :address
-  has_many :postfix_log_lines, -> { order "time DESC" }, inverse_of: :delivery
+  has_many :postfix_log_lines, -> { order "time DESC" }, dependent: :destroy, inverse_of: :delivery
   has_many :open_events, -> { order "created_at" }, dependent: :destroy, inverse_of: :delivery
   has_many :delivery_links, dependent: :destroy
   has_many :links, through: :delivery_links

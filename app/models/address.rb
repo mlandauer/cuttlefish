@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class Address < ApplicationRecord
-  has_many :emails_sent, class_name: "Email", foreign_key: "from_address_id", inverse_of: :from_address
-  has_many :deliveries
+  has_many :emails_sent, class_name: "Email",
+                         foreign_key: "from_address_id",
+                         inverse_of: :from_address,
+                         dependent: :restrict_with_exception
+  has_many :deliveries, dependent: :restrict_with_exception
   has_many :postfix_log_lines, through: :deliveries
   has_many :emails_received, through: :deliveries, source: :email
 
