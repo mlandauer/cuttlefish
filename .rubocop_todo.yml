@@ -261,15 +261,6 @@ Rails/I18nLocaleTexts:
     - 'app/controllers/test_emails_controller.rb'
     - 'app/models/app.rb'
 
-# Offense count: 3
-# Configuration parameters: IgnoreScopes, Include.
-# Include: app/models/**/*.rb
-Rails/InverseOf:
-  Exclude:
-    - 'app/models/address.rb'
-    - 'app/models/delivery.rb'
-    - 'app/models/email.rb'
-
 # Offense count: 5
 Rails/OutputSafety:
   Exclude:

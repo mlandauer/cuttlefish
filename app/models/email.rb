@@ -7,7 +7,7 @@ class Email < ApplicationRecord
   belongs_to :app
   has_many :open_events, through: :deliveries
   has_many :click_events, through: :deliveries
-  has_many :meta_values, -> { order :key }, dependent: :destroy
+  has_many :meta_values, -> { order :key }, dependent: :destroy, inverse_of: :email
 
   before_validation :update_from
   before_save :update_message_id, :update_data_hash, :update_subject
