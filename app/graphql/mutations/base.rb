@@ -5,7 +5,6 @@ module Mutations
     def user_errors_from_form_errors(errors, root_path)
       user_errors = []
       # Convert Rails model errors into GraphQL-ready error hashes
-      # rubocop:disable Style/HashEachMethods
       errors.attribute_names.each do |attribute|
         m = errors.messages[attribute]
         d = errors.details[attribute]
@@ -20,7 +19,6 @@ module Mutations
           }
         end
       end
-      # rubocop:enable Style/HashEachMethods
       user_errors
     end
   end

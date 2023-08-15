@@ -196,9 +196,9 @@ describe Archiving do
         referer: nil,
         created_at: "2014-06-04T20:33:53.000+10:00"
       )
-  
+
       s = archiver.serialise(delivery)
-  
+
       expect(JSON.parse(s, symbolize_names: true)).to eq(
         id: 5,
         from_address: {

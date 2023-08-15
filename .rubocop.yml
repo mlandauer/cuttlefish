@@ -10,6 +10,7 @@ require:
 AllCops:
   Exclude:
       - 'config/**/*'
+      - config.ru
       - 'vendor/**/*'
       - '.git/**/*'
       # Really not fussed too much about the quality of the migrations code
