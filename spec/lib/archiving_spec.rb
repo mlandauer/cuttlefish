@@ -162,6 +162,9 @@ describe Archiving do
         extended_status:
           "sent (250 2.0.0 OK 1401877617 bh2si4687161pbb.204 - gsmtp)"
       )
+      # The above will also update the status of the delivery. So, updated_at will change
+      # So just for the tests we'll reset that here to its initial value
+      delivery.update_columns(updated_at: "2014-06-04T20:26:55.000+10:00")
       create(:meta_value, email: email, key: "foo", value: "bar")
       create(:meta_value, email: email, key: "wibble", value: "wobble")
     end
@@ -193,9 +196,6 @@ describe Archiving do
         referer: nil,
         created_at: "2014-06-04T20:33:53.000+10:00"
       )
-  
-      delivery.update_column(:status, "delivered")
-      delivery.reload
   
       s = archiver.serialise(delivery)
   
