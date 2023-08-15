@@ -6,15 +6,17 @@
     Domains that have a high (or higher than usual) bounce rate might be blocking email.
 
   %p
-    Here we show the top domains that have hard bounced in the last 7 days
+    Here we show the domains that have hard bounced in the last 7 days
 
 %table.table
   %thead
     %tr
       %th Domain
       %th Number of hard bounces
+      %th Number of deliveries
   %tbody
-    - @data.emails.statistics.hard_bounce_count_by_to_domain.each do |bounce_count|
+    - @domains.each do |d|
       %tr
-        %td= bounce_count.name
-        %td= bounce_count.count
+        %td= d[:domain]
+        %td= d[:hard_bounces]
+        %td= d[:deliveries]
