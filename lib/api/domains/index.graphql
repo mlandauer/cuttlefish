@@ -1,0 +1,18 @@
+query ($since: DateTime!) {
+  emails(since: $since) {
+    statistics {
+      hardBounceCountByToDomain {
+        count
+        name
+      }
+      deliveredCountByToDomain {
+        count
+        name
+      }
+    }
+  }
+  viewer {
+    email
+    siteAdmin
+  }
+}

@@ -78,6 +78,7 @@ Rails.application.routes.draw do
   end
 
   resources :clients, only: :index
+  resources :domains, only: :index
 
   get ".well-known/acme-challenge/:token", to: "acme_challenges#show"
 
