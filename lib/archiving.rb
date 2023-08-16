@@ -55,9 +55,9 @@ class Archiving
               content = serialise(delivery)
               writer.add_file_simple(
                 "#{date}/#{delivery.id}.json",
-                size: content.length,
+                data: content,
                 mode: 0o600
-              ) { |f| f.write content }
+              )
             end
             # Doing one increment per app rather than per delivery
             app.increment!(:archived_deliveries_count, app_deliveries.count)
