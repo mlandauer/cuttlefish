@@ -39,6 +39,42 @@ describe DeliveriesHelper, type: :helper do
       expect(h).to eq expected_html.strip
     end
 
+    it "assumes html4 without a doctype" do
+      html = <<~HTML
+        <a href="#">
+          <table></table>
+        </a>
+      HTML
+      expected_html = <<~HTML
+        <div>
+        <a href="#">
+          </a><table></table>
+
+        </div>
+      HTML
+
+      h = helper.clean_html_email_for_display(html)
+      expect(h).to eq expected_html.strip
+    end
+
+    it "doesn't mangle html5 with a doctype" do
+      html = <<~HTML
+        <!DOCTYPE html>
+        <a href="#">
+          <table></table>
+        </a>
+      HTML
+      expected_html = <<~HTML
+        <div><a href="#">
+          <table></table>
+        </a>
+        </div>
+      HTML
+
+      h = helper.clean_html_email_for_display(html)
+      expect(h).to eq expected_html.strip
+    end
+
     it "preserves UTF-8 characters" do
       h = helper.clean_html_email_for_display("This is some “test UTF-8” stuff")
       expect(h).to eq "<div><p>This is some “test UTF-8” stuff</p></div>"

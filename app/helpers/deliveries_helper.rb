@@ -12,13 +12,24 @@ module DeliveriesHelper
   def clean_html_email_for_display(html)
     # Inline css so that email styling doesn't interfere with the cuttlefish ui
     # and only show the body of the html
-    doc = Nokogiri::HTML(
-      Premailer.new(
-        html,
-        with_html_string: true,
-        input_encoding: html.encoding.to_s
-      ).to_inline_css
-    )
+    doc = if html[0..14] == "<!DOCTYPE html>"
+      Nokogiri::HTML5(
+        Premailer.new(
+          html,
+          with_html_string: true,
+          input_encoding: html.encoding.to_s,
+          adapter: :nokogumbo
+        ).to_inline_css
+      )
+    else
+      Nokogiri::HTML(
+        Premailer.new(
+          html,
+          with_html_string: true,
+          input_encoding: html.encoding.to_s
+        ).to_inline_css
+      )
+    end
     doc.search("style").remove
     body = doc.at("body")
     body.name = "div"
