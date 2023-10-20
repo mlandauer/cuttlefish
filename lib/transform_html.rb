@@ -20,6 +20,15 @@ class TransformHtml
     html[0..14] == "<!DOCTYPE html>"
   end
 
+  def inline_css
+    Premailer.new(
+      html,
+      with_html_string: true,
+      input_encoding: html.encoding.to_s,
+      adapter: (html5? ? :nokogumbo : :nokogiri)
+    ).to_inline_css
+  end
+
   def inline_css_remove_style_blocks_and_replace_body_with_div
     doc = if html[0..14] == "<!DOCTYPE html>"
       Nokogiri::HTML5(
