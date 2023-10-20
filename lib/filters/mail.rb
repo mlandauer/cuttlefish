@@ -18,6 +18,11 @@ module Filters
       mail
     end
 
+    # Little helper method
+    def html5?(input)
+      input[0..14] == "<!DOCTYPE html>"
+    end
+
     # Override the following two methods in inherited class
     # Whatever you do don't change the encoding of the string because it will
     # break things

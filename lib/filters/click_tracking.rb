@@ -39,12 +39,5 @@ module Filters
         input
       end
     end
-
-    private
-
-    def html5?(input)
-      input[0..14] == "<!DOCTYPE html>"
-    end
-
   end
 end
