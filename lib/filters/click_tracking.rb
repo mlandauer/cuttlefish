@@ -30,11 +30,7 @@ module Filters
 
     def filter_html(input)
       if enabled
-        doc = html5?(input) ? Nokogiri::HTML5(input) : Nokogiri::HTML(input)
-        doc.search("a[href]").each do |a|
-          a["href"] = rewrite_url(a["href"])
-        end
-        doc.to_s
+        TransformHtml.new(input).rewrite_links { |url| rewrite_url(url) }
       else
         input
       end

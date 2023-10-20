@@ -7,6 +7,19 @@ class TransformHtml
     @html = html
   end
 
+  # Pass block with function that returns new url given current url
+  def rewrite_links
+    doc = html5? ? Nokogiri::HTML5(html) : Nokogiri::HTML(html)
+    doc.search("a[href]").each do |a|
+      a["href"] = yield(a["href"])
+    end
+    doc.to_s
+  end
+
+  def html5?
+    html[0..14] == "<!DOCTYPE html>"
+  end
+
   def inline_css_remove_style_blocks_and_replace_body_with_div
     doc = if html[0..14] == "<!DOCTYPE html>"
       Nokogiri::HTML5(
