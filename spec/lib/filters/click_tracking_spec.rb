@@ -40,6 +40,35 @@ describe Filters::ClickTracking do
         </body></html>
       HTML
     end
+
+    it "outputs valid html4" do
+      mail = Mail.new do
+        html_part do
+          content_type "text/html; charset=UTF-8"
+          # This is not valid html4
+          body "<a href='#'><table></table></a>"
+        end
+      end
+      expect(filter).to receive(:rewrite_url).with("#").and_return("#")
+      expect(filter.filter_mail(mail).html_part.decoded).to eq <<~HTML
+        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+        <html><body>
+        <a href="#"></a><table></table>
+        </body></html>
+      HTML
+    end
+  end
+
+  it "recognises and outputs valid html5" do
+    mail = Mail.new do
+      html_part do
+        content_type "text/html; charset=UTF-8"
+        # This is valid html5
+        body "<!DOCTYPE html><a href='#'><table></table></a>"
+      end
+    end
+    expect(filter).to receive(:rewrite_url).with("#").and_return("#")
+    expect(filter.filter_mail(mail).html_part.decoded).to eq '<!DOCTYPE html><html><head></head><body><a href="#"><table></table></a></body></html>'
   end
 
   describe ".rewrite_url" do
