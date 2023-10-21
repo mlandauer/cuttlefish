@@ -9,7 +9,7 @@ class TransformHtml
 
   # Pass block with function that returns new url given current url
   def rewrite_links
-    doc = html5? ? Nokogiri::HTML5(html) : Nokogiri::HTML(html)
+    doc = TransformHtml.nokogiri(html)
     doc.search("a[href]").each do |a|
       a["href"] = yield(a["href"])
     end
@@ -30,10 +30,15 @@ class TransformHtml
   end
 
   def inline_css_remove_style_blocks_and_replace_body_with_div
-    doc = html5? ? Nokogiri::HTML5(inline_css) : Nokogiri::HTML(inline_css)
+    doc = TransformHtml.nokogiri(inline_css)
     doc.search("style").remove
     body = doc.at("body")
     body.name = "div"
     body.to_s.html_safe
+  end
+
+  # Use an html5 or html4 parser based on the doctype
+  def self.nokogiri(text)
+    TransformHtml.new(text).html5? ? Nokogiri::HTML5(text) : Nokogiri::HTML(text)
   end
 end
