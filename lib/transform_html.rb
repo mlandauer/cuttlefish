@@ -30,24 +30,7 @@ class TransformHtml
   end
 
   def inline_css_remove_style_blocks_and_replace_body_with_div
-    doc = if html[0..14] == "<!DOCTYPE html>"
-      Nokogiri::HTML5(
-        Premailer.new(
-          html,
-          with_html_string: true,
-          input_encoding: html.encoding.to_s,
-          adapter: :nokogumbo
-        ).to_inline_css
-      )
-    else
-      Nokogiri::HTML(
-        Premailer.new(
-          html,
-          with_html_string: true,
-          input_encoding: html.encoding.to_s
-        ).to_inline_css
-      )
-    end
+    doc = html5? ? Nokogiri::HTML5(inline_css) : Nokogiri::HTML(inline_css)
     doc.search("style").remove
     body = doc.at("body")
     body.name = "div"
