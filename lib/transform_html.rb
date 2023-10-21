@@ -30,7 +30,11 @@ class TransformHtml
   end
 
   def inline_css_remove_style_blocks_and_replace_body_with_div
-    doc = TransformHtml.new(inline_css).nokogiri
+    TransformHtml.new(inline_css).remove_style_blocks_and_replace_body_with_div
+  end
+
+  def remove_style_blocks_and_replace_body_with_div
+    doc = nokogiri
     doc.search("style").remove
     body = doc.at("body")
     body.name = "div"
