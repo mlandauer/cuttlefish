@@ -24,7 +24,7 @@ module Filters
         enabled: delivery.click_tracking_enabled?,
         tracking_domain_info: delivery.tracking_domain_info
       )
-      filter3 = Filters::InlineCss.new
+      filter3 = Filters::InlineCss.new(enabled: !delivery.disable_css_inlining)
       filter4 = Filters::MailerHeader.new(version: APP_VERSION)
       filter5 = Filters::Dkim.new(
         enabled: delivery.app.dkim_enabled,

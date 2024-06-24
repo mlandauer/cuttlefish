@@ -12,7 +12,7 @@ class Delivery < ApplicationRecord
 
   delegate :from, :from_address, :from_domain, :text_part, :html_part, :data,
            :click_tracking_enabled?, :open_tracking_enabled?, :subject,
-           :ignore_deny_list, :meta_values, :message_id,
+           :ignore_deny_list, :disable_css_inlining, :meta_values, :message_id,
            to: :email
 
   delegate :tracking_domain_info, to: :app
