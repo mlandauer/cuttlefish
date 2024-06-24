@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
 
 USER deploy
 
-COPY Gemfile Gemfile.lock ./
+COPY --chown=deploy:deploy  Gemfile Gemfile.lock ./
 RUN gem install bundler && bundle install --jobs 20 --retry 5
 
 CMD ["/bin/sh", "-c", "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"]
