@@ -2,12 +2,13 @@
 
 module EmailServices
   class CreateFromData < ApplicationService
-    def initialize(to:, data:, app_id:, ignore_deny_list:, meta_values:)
+    def initialize(to:, data:, app_id:, ignore_deny_list:, disable_css_inlining:, meta_values:)
       super()
       @to = to
       @data = data
       @app_id = app_id
       @ignore_deny_list = ignore_deny_list
+      @disable_css_inlining = disable_css_inlining
       @meta_values = meta_values
     end
 
@@ -44,6 +45,6 @@ module EmailServices
 
     private
 
-    attr_reader :to, :data, :app_id, :ignore_deny_list, :meta_values
+    attr_reader :to, :data, :app_id, :ignore_deny_list, :disable_css_inlining, :meta_values
   end
 end

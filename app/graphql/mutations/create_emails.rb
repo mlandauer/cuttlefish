@@ -20,13 +20,14 @@ module Mutations
     argument :text_part, String, required: false
 
     argument :ignore_blocked_addresses, Boolean, required: false
+    argument :disable_css_inlining, Boolean, required: false
     argument :meta_values, [Types::KeyValueAttributes], required: false
 
     field :emails, [Types::Email], null: true
 
     def resolve(
       app_id:, from:, to:, subject:, cc: [], text_part: nil, html_part: nil,
-      ignore_blocked_addresses: false, meta_values: []
+      ignore_blocked_addresses: false, disable_css_inlining: false, meta_values: []
     )
       create_email = EmailServices::Create.call(
         app_id: app_id,
@@ -37,6 +38,7 @@ module Mutations
         text_part: text_part,
         html_part: html_part,
         ignore_deny_list: ignore_blocked_addresses,
+        disable_css_inlining: disable_css_inlining,
         meta_values: meta_values.map { |m| [m.key, m.value] }.to_h
       )
       # TODO: Error checking

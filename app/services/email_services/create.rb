@@ -3,7 +3,7 @@
 module EmailServices
   class Create < ApplicationService
     def initialize(app_id:, from:, to:, cc:, subject:, text_part:, html_part:,
-                   ignore_deny_list:, meta_values:)
+                   ignore_deny_list:, disable_css_inlining:, meta_values:)
       super()
       @app_id = app_id
       @from = from
@@ -13,6 +13,7 @@ module EmailServices
       @text_part = text_part
       @html_part = html_part
       @ignore_deny_list = ignore_deny_list
+      @disable_css_inlining = disable_css_inlining
       @meta_values = meta_values
     end
 
@@ -43,6 +44,7 @@ module EmailServices
         data: mail.to_s,
         app_id: app_id,
         ignore_deny_list: ignore_deny_list,
+        disable_css_inlining: disable_css_inlining,
         meta_values: meta_values
       ).call
 
@@ -53,6 +55,6 @@ module EmailServices
     private
 
     attr_reader :app_id, :from, :to, :cc, :subject, :text_part, :html_part,
-                :ignore_deny_list, :meta_values
+                :ignore_deny_list, :disable_css_inlining, :meta_values
   end
 end

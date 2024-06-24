@@ -7,6 +7,7 @@ describe EmailServices::CreateFromData do
   let(:to) { ["foo@foo.com"] }
   let(:data) { "From: #{from}\nSome email data" }
   let(:ignore_deny_list) { false }
+  let(:disable_css_inlining) { false }
   let(:app) { create(:app) }
   let(:service) do
     described_class.new(
@@ -14,6 +15,7 @@ describe EmailServices::CreateFromData do
       data: data,
       app_id: app.id,
       ignore_deny_list: ignore_deny_list,
+      disable_css_inlining: disable_css_inlining,
       meta_values: {
         foo: "bar",
         bing: "bang"

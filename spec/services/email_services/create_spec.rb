@@ -15,6 +15,7 @@ describe EmailServices::Create do
       html_part: "<p>Hello. How are you?</p>",
       app_id: app.id,
       ignore_deny_list: false,
+      disable_css_inlining: false,
       meta_values: {}
     )
   end

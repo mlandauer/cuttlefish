@@ -17,6 +17,7 @@ module EmailServices
         data: new_data,
         app_id: app_id,
         ignore_deny_list: options[:ignore_deny_list],
+        disable_css_inlining: options[:disable_css_inlining],
         meta_values: options[:meta_values]
       )
 
