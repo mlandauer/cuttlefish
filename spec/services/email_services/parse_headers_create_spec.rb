@@ -25,7 +25,7 @@ describe EmailServices::ParseHeadersCreate do
 
     it "returns the defaults for the options" do
       _, options = service.parse_and_remove_special_headers
-      expect(options).to eq(ignore_deny_list: false, meta_values: {})
+      expect(options).to eq(ignore_deny_list: false, disable_css_inlining: false, meta_values: {})
     end
 
     it "does not change the headers" do
@@ -99,6 +99,47 @@ describe EmailServices::ParseHeadersCreate do
     it "has the setting set" do
       _, options = service.parse_and_remove_special_headers
       expect(options[:ignore_deny_list]).to be true
+    end
+
+    it "removes the the header" do
+      new_data, = service.parse_and_remove_special_headers
+      expect(new_data).to eq [
+        "Date: Fri, 13 Mar 2015 14:42:20 +0000",
+        "From: Foo <foo@foo.com>",
+        "To: bar@bar.com",
+        "Message-ID: <1234@foo>",
+        "Subject: Yes",
+        "Mime-Version: 1.0",
+        "Content-Type: text/plain;",
+        " charset=utf-8",
+        "Content-Transfer-Encoding: quoted-printable",
+        "",
+        "Hello=\r\n"
+      ].join("\r\n")
+    end
+  end
+
+  context "with an email with the disable css inlining header" do
+    let(:data) do
+      [
+        "Date: Fri, 13 Mar 2015 14:42:20 +0000",
+        "From: Foo <foo@foo.com>",
+        "To: bar@bar.com",
+        "Message-ID: <1234@foo>",
+        "Subject: Yes",
+        "X-Cuttlefish-Disable-Css-Inlining: true",
+        "Mime-Version: 1.0",
+        "Content-Type: text/plain;",
+        " charset=utf-8",
+        "Content-Transfer-Encoding: quoted-printable",
+        "",
+        "Hello=\r\n"
+      ].join("\r\n")
+    end
+
+    it "has the setting set" do
+      _, options = service.parse_and_remove_special_headers
+      expect(options[:disable_css_inlining]).to be true
     end
 
     it "removes the the header" do

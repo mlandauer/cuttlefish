@@ -24,17 +24,24 @@ module EmailServices
     end
 
     IGNORE_DENY_LIST_HEADER = "X-Cuttlefish-Ignore-Deny-List"
+    DISABLE_CSS_INLINING_HEADER = "X-Cuttlefish-Disable-Css-Inlining"
     METADATA_HEADER_REGEX = /^X-Cuttlefish-Metadata-(.*)$/
 
     def parse_and_remove_special_headers
       mail = Mail.new(data)
       headers_to_remove = []
-      options = { ignore_deny_list: false, meta_values: {} }
+      options = { ignore_deny_list: false, disable_css_inlining: false, meta_values: {} }
 
       h = mail.header[IGNORE_DENY_LIST_HEADER]
       if h
         options[:ignore_deny_list] = (h.value == "true")
         headers_to_remove << IGNORE_DENY_LIST_HEADER
+      end
+
+      h = mail.header[DISABLE_CSS_INLINING_HEADER]
+      if h
+        options[:disable_css_inlining] = (h.value == "true")
+        headers_to_remove << DISABLE_CSS_INLINING_HEADER
       end
 
       # Check for metadata headers
