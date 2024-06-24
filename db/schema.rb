@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_24_092819) do
+ActiveRecord::Schema.define(version: 2024_06_24_093627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(version: 2024_06_24_092819) do
     t.integer "app_id", null: false
     t.string "subject", limit: 255
     t.boolean "ignore_deny_list", null: false
-    t.boolean "disable_css_inlining", default: false, null: false
+    t.boolean "disable_css_inlining", null: false
     t.index ["app_id"], name: "index_emails_on_app_id"
     t.index ["created_at"], name: "index_emails_on_created_at"
     t.index ["from_address_id"], name: "index_emails_on_from_address_id"

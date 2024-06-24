@@ -215,6 +215,7 @@ describe Archiving do
         message_id: "538ef46757549_443e4bb0f901893332@kedumba.mail",
         email_id: 1753541,
         data_hash: "aa126db79482378ce17b441347926570228f12ef",
+        disable_css_inlining: false,
         created_at: "2014-06-04T20:26:51.000+10:00",
         updated_at: "2014-06-04T20:26:55.000+10:00",
         ignore_deny_list: false,

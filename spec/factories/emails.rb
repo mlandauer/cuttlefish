@@ -7,5 +7,6 @@ FactoryBot.define do
     from_address factory: :address
     app
     ignore_deny_list { false }
+    disable_css_inlining { false }
   end
 end

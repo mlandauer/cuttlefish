@@ -18,6 +18,7 @@ json.data_hash delivery.email.data_hash
 json.created_at delivery.created_at
 json.updated_at delivery.updated_at
 json.ignore_deny_list delivery.email.ignore_deny_list
+json.disable_css_inlining delivery.email.disable_css_inlining
 json.app do
   json.id delivery.email.app.id
   json.name delivery.email.app.name

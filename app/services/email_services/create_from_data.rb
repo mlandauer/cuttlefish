@@ -31,7 +31,8 @@ module EmailServices
         to: to,
         data: data,
         app_id: app_id,
-        ignore_deny_list: ignore_deny_list
+        ignore_deny_list: ignore_deny_list,
+        disable_css_inlining: disable_css_inlining
       )
       meta_values.each do |key, value|
         email.meta_values.create!(key: key, value: value)
