@@ -114,12 +114,14 @@
   .tab-content
     - if @delivery.content.html && @delivery.content.text
       %div.tab-pane.active#html
-        .well= clean_html_email_for_display(@delivery.content.html)
+        .well
+          %iframe{src: html_delivery_path(@delivery.id)}
       %div.tab-pane#text
         %pre= @delivery.content.text
     - elsif @delivery.content.html
       %div.tab-pane.active#html
-        .well= clean_html_email_for_display(@delivery.content.html)
+        .well
+          %iframe{src: html_delivery_path(@delivery.id)}
     - else
       %div.tab-pane.active#text
         %pre= @delivery.content.text

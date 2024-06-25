@@ -3,6 +3,7 @@ query($id: ID!) {
     maxNoEmailsToStore
   }
   email(id: $id) {
+    id
     from
     to
     subject
