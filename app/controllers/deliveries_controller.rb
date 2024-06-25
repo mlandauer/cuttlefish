@@ -29,4 +29,11 @@ class DeliveriesController < ApplicationController
     @delivery = @data.email
     @configuration = @data.configuration
   end
+
+  def html
+    result = api_query id: params[:id]
+    @data = result.data
+    @html = @data.email.content.html
+    render html: @html.html_safe, layout: false
+  end
 end

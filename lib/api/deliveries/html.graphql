@@ -1,0 +1,11 @@
+query($id: ID!) {
+  email(id: $id) {
+    content {
+      html
+    }
+  }
+  viewer {
+    email
+    siteAdmin
+  }
+}

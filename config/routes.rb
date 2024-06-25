@@ -48,7 +48,11 @@ Rails.application.routes.draw do
 
   resources :admins, only: %i[index destroy]
   resources :emails, only: %i[index show], as: :deliveries,
-                     controller: "deliveries"
+                     controller: "deliveries" do
+    member do
+      get "html"
+    end
+  end
   # Allow "." in the id's by using the constraint
   resources :addresses, only: [], constraints: { id: %r{[^/]+} } do
     member do
