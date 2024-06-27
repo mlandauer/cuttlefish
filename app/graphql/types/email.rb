@@ -64,7 +64,7 @@ module Types
     def content
       return if object.data.nil?
 
-      { text: object.text_part, html: object.html_part, source: object.data }
+      { text: object.text_part, html: object.html_part_images_inlined, source: object.data }
     end
 
     delegate :meta_values, to: :object

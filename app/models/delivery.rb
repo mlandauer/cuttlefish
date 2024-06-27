@@ -10,7 +10,7 @@ class Delivery < ApplicationRecord
   has_many :click_events, -> { order "created_at" }, through: :delivery_links
   belongs_to :app
 
-  delegate :from, :from_address, :from_domain, :text_part, :html_part, :data,
+  delegate :from, :from_address, :from_domain, :text_part, :html_part, :html_part_images_inlined, :data,
            :click_tracking_enabled?, :open_tracking_enabled?, :subject,
            :ignore_deny_list, :disable_css_inlining, :meta_values, :message_id,
            to: :email

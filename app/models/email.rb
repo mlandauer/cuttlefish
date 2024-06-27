@@ -73,6 +73,19 @@ class Email < ApplicationRecord
     part("text/html")
   end
 
+  def html_part_images_inlined
+    # TODO: Use transform_html filter so that we better handle html5/html4
+    doc = Nokogiri::HTML(html_part)
+    doc.search("img").each do |img|
+      if img["src"][0..3] == "cid:"
+        a = mail.attachments.find { |a| a.url == img["src"] }
+        # Construct the data url
+        img["src"] = "data:#{a.mime_type};base64,#{Base64.encode64(a.body.decoded)}" if a 
+      end
+    end
+    doc.to_s
+  end
+
   # First part with a particular mime type
   # If a part is itself multipart then recurse down
   def part(mime_type, section = nil)

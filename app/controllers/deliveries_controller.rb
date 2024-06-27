@@ -33,7 +33,6 @@ class DeliveriesController < ApplicationController
   def html
     result = api_query id: params[:id]
     @data = result.data
-    # TODO: Inline images
     @html = @data.email.content.html
     render html: @html.html_safe, layout: false
   end
