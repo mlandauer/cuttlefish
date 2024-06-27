@@ -3,7 +3,7 @@
 class App < ApplicationRecord
   has_many :emails, dependent: :destroy
   has_many :deliveries, dependent: :destroy
-  belongs_to :team
+  belongs_to :team, optional: true
 
   validates :name, presence: true,
                    format: {
@@ -27,7 +27,7 @@ class App < ApplicationRecord
 
   def self.cuttlefish
     App.find_by(cuttlefish: true) ||
-      App.create(cuttlefish: true, name: "Cuttlefish")
+      App.create!(cuttlefish: true, name: "Cuttlefish")
   end
 
   def from_domain
