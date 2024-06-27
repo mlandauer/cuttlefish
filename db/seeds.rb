@@ -20,6 +20,10 @@ App.delete_all
 Email.delete_all
 Delivery.delete_all
 
+# Also need to delete the data cache because we're potentially recreating
+# emails with the same id but might have different content
+FileUtils.rm_r("db/emails")
+
 # Came up with some names using https://www.name-generator.org.uk just in
 # case anyone thinks these names resemble real people or businesses.
 # As they say "Any resemblance to actual persons, living or dead,
@@ -191,6 +195,24 @@ email = acting_app.emails.create!(
     I'm sending another email here.
 
   EMAIL
+)
+
+delivery = email.deliveries.create!(address_id: address2.id, sent: true)
+
+# This is used to generate an example email with an inline image
+m = Mail.new do
+  from address1.text
+  to address2.text
+  subject "Inline image test"
+end
+m.attachments.inline['cuttlefish.png'] = File.read("app/assets/images/cuttlefish_80x48.png")
+m.html_part = "<p>There should be an image below.</p><img src=\"#{m.attachments['cuttlefish.png'].url}\">"
+
+email = acting_app.emails.create!(
+  from_address_id: address1.id,
+  ignore_deny_list: false,
+  disable_css_inlining: false,
+  data: m.encoded
 )
 
 delivery = email.deliveries.create!(address_id: address2.id, sent: true)
