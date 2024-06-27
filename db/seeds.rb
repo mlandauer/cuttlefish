@@ -62,6 +62,7 @@ address2 = Address.create!(text: "foo@example.com")
 email = acting_app.emails.create!(
   from_address_id: address1.id,
   ignore_deny_list: true,
+  disable_css_inlining: false,
   data: <<~EMAIL
     From: foo@bar.com
     To: foo@example.com
@@ -134,6 +135,7 @@ delivery_link.click_events.create!(
 email = office_app.emails.create!(
   from_address_id: address1.id,
   ignore_deny_list: false,
+  disable_css_inlining: false,
   data: <<~EMAIL
     From: foo@bar.com
     To: foo@example.com
@@ -175,6 +177,7 @@ delivery = email.deliveries.create!(address_id: address2.id, sent: true)
 email = acting_app.emails.create!(
   from_address_id: address1.id,
   ignore_deny_list: false,
+  disable_css_inlining: false,
   data: <<~EMAIL
     From: foo@bar.com
     To: foo@example.com
@@ -202,6 +205,7 @@ delivery = email.deliveries.create!(address_id: address2.id, sent: true)
   email = key_app.emails.create!(
     from_address_id: from.id,
     ignore_deny_list: false,
+    disable_css_inlining: false,
     data: "To: #{to.text}\nSubject: #{subject}\n\n#{body}\n"
   )
 
