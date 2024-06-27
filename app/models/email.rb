@@ -74,8 +74,9 @@ class Email < ApplicationRecord
   end
 
   def html_part_images_inlined
-    # TODO: Use transform_html filter so that we better handle html5/html4
-    doc = Nokogiri::HTML(html_part)
+    # TODO: Find a better home for this bit of code
+    t = TransformHtml.new(html_part)
+    doc = t.nokogiri
     doc.search("img").each do |img|
       if img["src"][0..3] == "cid:"
         a = mail.attachments.find { |a| a.url == img["src"] }
